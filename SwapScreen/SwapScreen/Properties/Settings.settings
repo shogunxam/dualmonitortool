@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SwapScreen.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="HotKeyValue" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">131195</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
