@@ -128,4 +128,8 @@ This is free software, and you are welcome to redistribute it under certain cond
   <data name="MyTitle" xml:space="preserve">
     <value>Swap Screen</value>
   </data>
+  <data name="RegisterFail" xml:space="preserve">
+    <value>The registration of this hot key has failed.
+Try another hot key combination.</value>
+  </data>
 </root>

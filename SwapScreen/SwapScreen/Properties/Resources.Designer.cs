@@ -87,5 +87,15 @@ namespace SwapScreen.Properties {
                 return ResourceManager.GetString("MyTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The registration of this hot key has failed.
+        ///Try another hot key combination..
+        /// </summary>
+        internal static string RegisterFail {
+            get {
+                return ResourceManager.GetString("RegisterFail", resourceCulture);
+            }
+        }
     }
 }

@@ -1,3 +1,22 @@
+#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2009  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +27,12 @@ using System.Windows.Forms;
 
 namespace SwapScreen
 {
+	/// <summary>
+	/// Main form of application.
+	/// This is used to show the options dialog,
+	/// handle the context menu
+	/// and also contains the hot key and associated handling.
+	/// </summary>
 	public partial class OptionsForm : Form
 	{
 		private bool shutDown = false;
@@ -17,6 +42,9 @@ namespace SwapScreen
 
 		private HotKey swapScreenHotKey;
 
+		/// <summary>
+		/// Initialises the form, hot key and the context menu.
+		/// </summary>
 		public OptionsForm()
 		{
 			InitializeComponent();
@@ -33,15 +61,15 @@ namespace SwapScreen
 			defaultKeyCombo.FromPropertyValue(Properties.Settings.Default.HotKeyValue);
 
 			swapScreenHotKey = new HotKey(defaultKeyCombo, this, ID_HOTKEY_SWAPSCREEN);
-			keyComboPanel.KeyCombo = defaultKeyCombo;
-			swapScreenHotKey.RegisterHotKey();
+			//keyComboPanel.KeyCombo = defaultKeyCombo;
+			swapScreenHotKey.RegisterHotKey(defaultKeyCombo);
 
 			swapScreenHotKey.HotKeyPressed += new HotKey.HotKeyHandler(ScreenHelper.MoveActiveWindow);
 		}
 
 		private void TermHotKey()
 		{
-			swapScreenHotKey.CleanUp();
+			swapScreenHotKey.Dispose();
 		}
 
 		private void InitContextMenu()
@@ -71,12 +99,14 @@ namespace SwapScreen
 		private void buttonOk_Click(object sender, EventArgs e)
 		{
 			// update the hotkey
-			keyComboPanel.SaveKeyCombo();
-
-			swapScreenHotKey.HotKeyCombo = keyComboPanel.KeyCombo;
+			if (!swapScreenHotKey.RegisterHotKey(keyComboPanel.KeyCombo))
+			{
+				MessageBox.Show(Properties.Resources.RegisterFail, Program.MyTitle);
+				return;
+			}
 
 			// save it to the config file
-			Properties.Settings.Default.HotKeyValue = swapScreenHotKey.HotKeyCombo.ToPropertyValue();
+			Properties.Settings.Default.HotKeyValue = keyComboPanel.KeyCombo.ToPropertyValue();
 			Properties.Settings.Default.Save();
 			// and hide ourself
 			this.Visible = false;
@@ -132,13 +162,15 @@ namespace SwapScreen
 			else
 			{
 				// refresh the display from the HotKey in use
-				keyComboPanel.ShowKeyCombo();
+				// (the user may have changed the hotkey in the panel,
+				//  but then cancelled this dialog)
+				keyComboPanel.KeyCombo = swapScreenHotKey.HotKeyCombo;
 				this.Visible = true;
 			}
 		}
 
 		#region menu event handlers
-		void toolStripMenuItemShowDesktop_Click(object sender, EventArgs e)
+		private void toolStripMenuItemShowDesktop_Click(object sender, EventArgs e)
 		{
 			ToolStripMenuItem menuItem = sender as ToolStripMenuItem;
 			if (menuItem != null)

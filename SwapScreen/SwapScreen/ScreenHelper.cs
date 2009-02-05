@@ -1,3 +1,22 @@
+#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2009  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,11 +25,19 @@ using System.Text;
 
 namespace SwapScreen
 {
+	/// <summary>
+	/// Utility class to help in handling multiple screens.
+	/// </summary>
 	static class ScreenHelper
 	{
+		/// <summary>
+		/// Attempts to minimize all visible application windows on
+		/// the given screen.
+		/// </summary>
+		/// <param name="screenIndex">Zero based index of screen to show.</param>
 		public static void ShowDestktop(int screenIndex)
 		{
-			if (screenIndex >= Screen.AllScreens.Length)
+			if (screenIndex < 0 || screenIndex >= Screen.AllScreens.Length)
 			{
 				return;
 			}
@@ -34,7 +61,9 @@ namespace SwapScreen
 			}
 		}
 
-		// rotates screens right
+		/// <summary>
+		/// Each visible application window is moved to the next screen.
+		/// </summary>
 		public static void SwapScreens()
 		{
 			List<IntPtr> hWndList = GetVisibleApplicationWindows();
@@ -46,6 +75,11 @@ namespace SwapScreen
 			}
 		}
 
+		/// <summary>
+		/// Gets a list of all windows that we think should be allowed
+		/// to be moved between screens.
+		/// </summary>
+		/// <returns>List of HWND's belonging to application windows.</returns>
 		public static List<IntPtr> GetVisibleApplicationWindows()
 		{
 			List<IntPtr> hWndList = new List<IntPtr>();
@@ -115,6 +149,11 @@ namespace SwapScreen
 			return boundingRect;
 		}
 
+		/// <summary>
+		/// Converts a Win32 RECT to a Rectangle.
+		/// </summary>
+		/// <param name="rect">Win 32 RECT</param>
+		/// <returns>.NET Rectangle</returns>
 		public static Rectangle RectToRectangle(ref Win32.RECT rect)
 		{
 			Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
@@ -123,6 +162,9 @@ namespace SwapScreen
 		}
 
 		#region Individual Window movement
+		/// <summary>
+		/// Moves the active window to the next screen.
+		/// </summary>
 		public static void MoveActiveWindow()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
@@ -132,6 +174,11 @@ namespace SwapScreen
 			}
 		}
 
+		/// <summary>
+		/// Moves the window corresponding to the specified HWND
+		/// to the next screen.
+		/// </summary>
+		/// <param name="hWnd">HWND of window to move.</param>
 		public static void MoveWindowToNext(IntPtr hWnd)
 		{
 			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
@@ -165,6 +212,12 @@ namespace SwapScreen
 			}
 		}
 
+		/// <summary>
+		/// Converts the co-ordinates for a rectangle on one screen
+		/// to the smae place on the next screen.
+		/// </summary>
+		/// <param name="curRect"></param>
+		/// <returns></returns>
 		private static Rectangle TransfromRectToNextScreen(ref Rectangle curRect)
 		{
 			Rectangle nextRec = new Rectangle();
