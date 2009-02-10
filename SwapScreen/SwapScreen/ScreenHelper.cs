@@ -224,15 +224,7 @@ namespace SwapScreen
 			nextRec = curRect;
 
 			Screen curScreen = Screen.FromRectangle(curRect);
-			int curScreenIndex = -1;
-			for (int i = 0; i < Screen.AllScreens.Length; i++)
-			{
-				if (curScreen.DeviceName == Screen.AllScreens[i].DeviceName)
-				{
-					curScreenIndex = i;
-					break;
-				}
-			}
+			int curScreenIndex = FindScreenIndex(curScreen);
 			if (curScreenIndex >= 0)
 			{
 				int nextScreenIndex = (curScreenIndex + 1) % Screen.AllScreens.Length;
@@ -247,6 +239,33 @@ namespace SwapScreen
 
 			return nextRec;
 		}
+
+		/// <summary>
+		/// Finds the index within Screen.AllScreens[] that the passed screen is .
+		/// </summary>
+		/// <param name="screen">The screen whoose index we are trying to find</param>
+		/// <returns>Zero based screen index, or -1 if screen not found</returns>
+		private static int FindScreenIndex(Screen screen)
+		{
+			int screenIndex = -1;
+			for (int i = 0; i < Screen.AllScreens.Length; i++)
+			{
+				// We cannnot compare the screen objects as Screen.FromRectangle()
+				// creates a new instance of the screen, rather than returning the
+				// one in the AllScreens array.
+				// Also comparing the DeviceName does not always seem to work,
+				// as have seen corrupt names (on XP SP3 with Catalyst 9.1).
+				// So we just compare the Bounds rectangle.
+				if (screen.Bounds == Screen.AllScreens[i].Bounds)
+				{
+					screenIndex = i;
+					break;
+				}
+			}
+
+			return screenIndex;
+		}
+
 		#endregion
 
 		#region Debugging helpers
