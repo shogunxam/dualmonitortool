@@ -73,9 +73,8 @@ namespace SwapScreen
 		/// <param name="hotKeyCombo">Initial hot key combination to use</param>
 		/// <param name="form">Window to receive hot key as required by Win32 API</param>
 		/// <param name="id">An ID for the hot key as required by the Win32 API</param>
-		public HotKey(KeyCombo hotKeyCombo, Form form, int id)
+		public HotKey(Form form, int id)
 		{
-			//this.hotKeyCombo = hotKeyCombo;
 			this.form = form;
 			this.id = id;
 
@@ -118,6 +117,10 @@ namespace SwapScreen
 			if (form == null)
 			{
 				throw new ApplicationException("HotKey must be associated with a form before registering");
+			}
+			if (form.Handle == IntPtr.Zero)
+			{
+				throw new ApplicationException("HotKey must be associated with a window before registering");
 			}
 
 			if (isRegistered)

@@ -60,8 +60,7 @@ namespace SwapScreen
 			KeyCombo defaultKeyCombo = new KeyCombo();
 			defaultKeyCombo.FromPropertyValue(Properties.Settings.Default.HotKeyValue);
 
-			swapScreenHotKey = new HotKey(defaultKeyCombo, this, ID_HOTKEY_SWAPSCREEN);
-			//keyComboPanel.KeyCombo = defaultKeyCombo;
+			swapScreenHotKey = new HotKey(this, ID_HOTKEY_SWAPSCREEN);
 			swapScreenHotKey.RegisterHotKey(defaultKeyCombo);
 
 			swapScreenHotKey.HotKeyPressed += new HotKey.HotKeyHandler(ScreenHelper.MoveActiveWindow);
@@ -121,7 +120,8 @@ namespace SwapScreen
 
 		private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (shutDown)
+			// don't shutdown if the form is just being closed 
+			if (shutDown || e.CloseReason != CloseReason.UserClosing)
 			{
 				TermHotKey();
 			}

@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SwapScreen</RootNamespace>
     <AssemblyName>SwapScreen</AssemblyName>
+    <ApplicationIcon>SwapScreen.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -103,6 +104,9 @@
     <Compile Include="ScreenHelper.cs" />
     <Compile Include="SystemMenuHelper.cs" />
     <Compile Include="Win32.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SwapScreen.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
