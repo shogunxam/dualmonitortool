@@ -1,0 +1,104 @@
+<html>
+<head>
+<meta name="description" content="Project page for Dual Monitor Tools." />
+<meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, multi, display" />
+<link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
+<title>Dual Monitor Tools - Swap Screen page</title>
+</head>
+
+<body>
+	
+<!-- header start -->
+<table width="100%" cellpadding=0 cellspacing=0 class="Heading">
+	<tr class="Heading">
+		<td colspan="4"><img width="100%" height="1" src="Images/bluedot.png" /></td>
+	</tr>
+	<tr class="Heading">
+		<td width="130"></td>
+		<td align="center"><img src="Images/DualMonitorTools.png" alt="Dual Monitor Tools"></td>
+		<td align="right" width="130">
+			<a href="http://sourceforge.net">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" border="1" alt="SourceForge.net Logo"/>
+			</a>
+		</td>
+		<td width="5"></td>
+	</tr>
+</table>
+
+<table width="100%" cellpadding=0 cellspacing=0 class="Heading">
+	<tr class="Heading">
+		<td colspan="3"><img width="100%" height="2" src="Images/bar.png" /></td>
+	</tr>
+	<tr class="Heading">
+		<td width="30%"></td>
+		<td colspan="1" align="center" width="40%">
+			<table cellpadding=0 cellspacing=0 class="Heading">
+				<tr>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+					<td>&nbsp;<a href="index.html">Home</a>&nbsp;</td>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+					<td>&nbsp;<a href="history.html">History</a>&nbsp;</td>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+					<td>&nbsp;<a href="download.html">Download</a>&nbsp;</td>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+					<td>&nbsp;Swap Screen&nbsp;</td>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+					<td>&nbsp;<a href="development.html">Development</a>&nbsp;</td>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+				</tr>
+			</table>
+		</td>
+		<td colspan="1" width="30%" align="right"><p class="LastUpdated">last updated 22 Feb 2009&nbsp;</p></td>
+	</tr>
+	<tr class="Heading">
+		<td colspan="3"><img width="100%" height="1" src="Images/bluedot.png" /></td>
+	</tr>
+</table>
+<!-- header end -->
+
+<p class="SubHeading">Swap Screen</p>
+
+<p>Swap Screen allows you to move the active application window to the next screen by the use of a user defined hotkey.</p>
+<p>There are also options to minimise all application windows on a single screen and to move all application windows to the next screen.</p>
+
+<p class="SubHeading">Usage</p>
+
+<p>When SwapScreen.exe is run it will put itself into the notification area of the taskbar.</p>
+<p>Double clicking on the SwapScreen icon in the notification area will allow you to specify the hotkey
+you want to use to move the active window to the next screen. The default value is Control+F12.</p>
+
+<p>Pressing the hotkey when you are in an application should move that application to the next screen. 
+If the window is currently maximised, then it will also be maximised when it is moved to the next screen.<p>
+
+<p>Right clicking on the SwapScreen icon in notification area will bring up its context menu where you
+will find options to minimise all windows on individual monitors, and to move all application windows
+to the next monitor.
+
+<p>If you want SwapScreen to start automatically when your computer boots,
+then the easiest method is to paste a shortcut to it into the StartUp folder
+on the Windows Start menu.<p>
+
+<p class="SubHeading">Application windows</p>
+
+<p>SwapScreen attempts to detect those windows which it would not make sense to move and ignores them.</p>
+
+<p>The following windows will not be moved or minimised by SwapScreen:
+<ul>
+	<li>Any window that is does not have the WS_VISIBLE attribute set.</li>
+	<li>Any window that has been deliberately positioned offscreen.</li>
+	<li>Any window with the WS_EX_TOOLWINDOW style.</li>
+</ul>
+</p>
+<p>If the SwapScreen hotkey is used when running a full screen application, normally  a game,
+then with some games the image on the primary screen is copied to the next screen, but the game
+continues on the primary screen.  
+One possible use of this would be to copy say a map or instructions onto the other screen.</p>
+
+<p>However this does not work with all games.  In some cases you may find that you have to press the hotkey again 
+to restore normal operation of the game, and in others it can mess the current game up so use with caution.</p> 
+
+
+</body>
+</html>
+ 	  	 
+

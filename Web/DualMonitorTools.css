@@ -1,0 +1,38 @@
+table.Heading
+{
+	border: none;
+	margin: 0;
+}
+
+tr.Heading
+{
+	background-color: #DCDCFA;
+}
+
+td.HeadingLeft
+{
+	width: 30%;
+}
+
+td.HeadingCenter
+{
+	width: 40%;
+}
+
+td.HeadingRight
+{
+	width: 30%;
+}
+
+p.SubHeading
+{
+	color: #3333BB;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+p.LastUpdated
+{
+	color: #3333BB;
+	font-size: 8pt;
+}
