@@ -42,6 +42,7 @@ namespace SwapScreen
 			this.keyComboPanel = new SwapScreen.KeyComboPanel();
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
+			this.visitSwapScreenWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStrip.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -62,19 +63,20 @@ namespace SwapScreen
             this.toolStripSeparator1,
             this.toolStripMenuItemOptions,
             this.toolStripMenuItemAbout,
+            this.visitSwapScreenWebsiteToolStripMenuItem,
             this.toolStripMenuItemExit});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(174, 104);
+			this.contextMenuStrip.Size = new System.Drawing.Size(211, 126);
 			// 
 			// toolStripSeparator2
 			// 
 			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(170, 6);
+			this.toolStripSeparator2.Size = new System.Drawing.Size(207, 6);
 			// 
 			// swapScreensToolStripMenuItem
 			// 
 			this.swapScreensToolStripMenuItem.Name = "swapScreensToolStripMenuItem";
-			this.swapScreensToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+			this.swapScreensToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
 			this.swapScreensToolStripMenuItem.Text = "Swap Screens";
 			this.swapScreensToolStripMenuItem.ToolTipText = "Move all windows to their next screen";
 			this.swapScreensToolStripMenuItem.Click += new System.EventHandler(this.swapScreensToolStripMenuItem_Click);
@@ -82,13 +84,13 @@ namespace SwapScreen
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(170, 6);
+			this.toolStripSeparator1.Size = new System.Drawing.Size(207, 6);
 			// 
 			// toolStripMenuItemOptions
 			// 
 			this.toolStripMenuItemOptions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
 			this.toolStripMenuItemOptions.Name = "toolStripMenuItemOptions";
-			this.toolStripMenuItemOptions.Size = new System.Drawing.Size(173, 22);
+			this.toolStripMenuItemOptions.Size = new System.Drawing.Size(210, 22);
 			this.toolStripMenuItemOptions.Text = "Options...";
 			this.toolStripMenuItemOptions.ToolTipText = "Configure hotkey to move the active window to the next screen";
 			this.toolStripMenuItemOptions.Click += new System.EventHandler(this.toolStripMenuItemOptions_Click);
@@ -96,14 +98,14 @@ namespace SwapScreen
 			// toolStripMenuItemAbout
 			// 
 			this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-			this.toolStripMenuItemAbout.Size = new System.Drawing.Size(173, 22);
+			this.toolStripMenuItemAbout.Size = new System.Drawing.Size(210, 22);
 			this.toolStripMenuItemAbout.Text = "About SwapScreen";
 			this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
 			// 
 			// toolStripMenuItemExit
 			// 
 			this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
-			this.toolStripMenuItemExit.Size = new System.Drawing.Size(173, 22);
+			this.toolStripMenuItemExit.Size = new System.Drawing.Size(210, 22);
 			this.toolStripMenuItemExit.Text = "Exit";
 			this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
 			// 
@@ -144,6 +146,13 @@ namespace SwapScreen
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
+			// visitSwapScreenWebsiteToolStripMenuItem
+			// 
+			this.visitSwapScreenWebsiteToolStripMenuItem.Name = "visitSwapScreenWebsiteToolStripMenuItem";
+			this.visitSwapScreenWebsiteToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+			this.visitSwapScreenWebsiteToolStripMenuItem.Text = "Visit Swap Screen Website";
+			this.visitSwapScreenWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitSwapScreenWebsiteToolStripMenuItem_Click);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -156,7 +165,6 @@ namespace SwapScreen
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
-			this.ShowInTaskbar = false;
 			this.Text = "Options for SwapScreen";
 			this.Shown += new System.EventHandler(this.OptionsForm_Shown);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
@@ -180,6 +188,7 @@ namespace SwapScreen
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem swapScreensToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripMenuItem visitSwapScreenWebsiteToolStripMenuItem;
 	}
 }
 
