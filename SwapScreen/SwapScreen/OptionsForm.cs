@@ -198,6 +198,18 @@ namespace SwapScreen
 			dlg.ShowDialog();
 		}
 
+		private void visitSwapScreenWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/swapscreen.html");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
 		private void toolStripMenuItemExit_Click(object sender, EventArgs e)
 		{
 			shutDown = true;
