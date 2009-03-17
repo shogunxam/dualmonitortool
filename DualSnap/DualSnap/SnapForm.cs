@@ -286,7 +286,7 @@ namespace DualSnap
 		{
 			try
 			{
-				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/dualswap.html");
+				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/dualsnap.html");
 			}
 			catch (Exception ex)
 			{
