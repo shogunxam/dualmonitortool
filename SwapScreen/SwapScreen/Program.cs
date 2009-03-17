@@ -36,10 +36,22 @@ namespace SwapScreen
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
+			CheckIfNeedSettingsUpgrade();
+
 			OptionsForm form = new OptionsForm();
 			Application.Run();
 		}
 
+		// If this is a new version of the program,
+		// import settings from previous version
+		private static void CheckIfNeedSettingsUpgrade()
+		{
+			if (Properties.Settings.Default.NeedSettingsUpgrade)
+			{
+				Properties.Settings.Default.Upgrade();
+				Properties.Settings.Default.NeedSettingsUpgrade = false;
+			}
+		}
 
 		/// <summary>
 		/// Returns the name that we are known as.
