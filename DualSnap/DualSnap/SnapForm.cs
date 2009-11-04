@@ -176,20 +176,15 @@ namespace DualSnap
 		// We dynamically build the Snaps menu here using snapHistory
 		private void snapsToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
 		{
-			// TODO: This needs further work to get scrolling working
-
 			// first clear any existing menu
 			snapsToolStripMenuItem.DropDownItems.Clear();
 
-			//snapsToolStripMenuItem.DropDown.LayoutStyle = ToolStripLayoutStyle.Flow;
-			//snapsToolStripMenuItem.DropDown.AutoSize = true;
-			//snapsToolStripMenuItem.DropDown.Width = 128;
-			//snapsToolStripMenuItem.DropDown.Height = 400;
+			ToolStripDropDown dropDown = snapsToolStripMenuItem.DropDown;
+			dropDown.Items.Clear();
 
-			snapsToolStripMenuItem.DropDown = new ToolStripDropDown();
-			//snapsToolStripMenuItem.DropDown.AutoSize = false;
-			snapsToolStripMenuItem.DropDown.AutoSize = true;
-			//snapsToolStripMenuItem.DropDown.Height = 0;
+			// we'll calculate the size of the drop down ourself
+			dropDown.AutoSize = false;
+			dropDown.Height = 0;
 
 			// now add each item from the history
 			foreach (Snap snap in snapHistory)
@@ -198,12 +193,9 @@ namespace DualSnap
 				snapMenuItem.ToolTipText = Resources.SnapMenuItemTooltip;
 				// insert items at begining, so topmost displayed item is latest snap
 				//snapsToolStripMenuItem.DropDownItems.Add(snapMenuItem);
-				snapsToolStripMenuItem.DropDownItems.Insert(0, snapMenuItem);
-				snapsToolStripMenuItem.DropDown.Width = snapMenuItem.Width;
-				//if (snapsToolStripMenuItem.DropDown.Height + snapMenuItem.Height < 800)
-				//{
-					//snapsToolStripMenuItem.DropDown.Height += snapMenuItem.Height;
-				//}
+				dropDown.Items.Insert(0, snapMenuItem);
+				dropDown.Width = snapMenuItem.Width;	// All items are same width
+				dropDown.Height += snapMenuItem.Height;
 				snapMenuItem.Click += new EventHandler(snapMenuItem_Click);
 			}
 		}
