@@ -184,7 +184,11 @@ namespace DualSnap
 
 			// we'll calculate the size of the drop down ourself
 			dropDown.AutoSize = false;
-			dropDown.Height = 0;
+			// TODO: we need a minimum height for the border?
+			// If this is zero, and there is one item in the menu,
+			// then .NET will display a down arrow which if clicked
+			// will result in an exception.
+			dropDown.Height = 4;	// TODO: 
 
 			// now add each item from the history
 			foreach (Snap snap in snapHistory)
