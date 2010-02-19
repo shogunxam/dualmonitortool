@@ -57,7 +57,7 @@ namespace DualSnap
 		private List<Snap> snaps = new List<Snap>();
 
 		/// <summary>
-		/// Constructs teh SnapHistory
+		/// Constructs the SnapHistory
 		/// </summary>
 		/// <param name="maxSnaps">Maximum number of snaps to remember</param>
 		public SnapHistory(int maxSnaps)
