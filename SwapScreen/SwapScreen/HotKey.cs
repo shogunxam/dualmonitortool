@@ -68,7 +68,7 @@ namespace SwapScreen
 
 		/// <summary>
 		/// Constructor that initialises the hotkey.
-		/// The hot key will not actually be registered RegisterHotKey() is called.
+		/// The hot key will not actually be registered until RegisterHotKey() is called.
 		/// </summary>
 		/// <param name="hotKeyCombo">Initial hot key combination to use</param>
 		/// <param name="form">Window to receive hot key as required by Win32 API</param>
