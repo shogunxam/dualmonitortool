@@ -37,12 +37,12 @@ namespace SwapScreen
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
+			this.visitSwapScreenWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.keyComboPanel = new SwapScreen.KeyComboPanel();
 			this.buttonOk = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
-			this.visitSwapScreenWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStrip.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
@@ -102,6 +102,13 @@ namespace SwapScreen
 			this.toolStripMenuItemAbout.Text = "About SwapScreen";
 			this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
 			// 
+			// visitSwapScreenWebsiteToolStripMenuItem
+			// 
+			this.visitSwapScreenWebsiteToolStripMenuItem.Name = "visitSwapScreenWebsiteToolStripMenuItem";
+			this.visitSwapScreenWebsiteToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+			this.visitSwapScreenWebsiteToolStripMenuItem.Text = "Visit Swap Screen Website";
+			this.visitSwapScreenWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitSwapScreenWebsiteToolStripMenuItem_Click);
+			// 
 			// toolStripMenuItemExit
 			// 
 			this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
@@ -146,13 +153,6 @@ namespace SwapScreen
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
 			// 
-			// visitSwapScreenWebsiteToolStripMenuItem
-			// 
-			this.visitSwapScreenWebsiteToolStripMenuItem.Name = "visitSwapScreenWebsiteToolStripMenuItem";
-			this.visitSwapScreenWebsiteToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-			this.visitSwapScreenWebsiteToolStripMenuItem.Text = "Visit Swap Screen Website";
-			this.visitSwapScreenWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitSwapScreenWebsiteToolStripMenuItem_Click);
-			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -161,6 +161,7 @@ namespace SwapScreen
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOk);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
