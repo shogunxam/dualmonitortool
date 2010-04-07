@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009  Gerald Evans
+// Copyright (C) 2009-2010  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -62,6 +62,25 @@ namespace SwapScreen
 		}
 
 		/// <summary>
+		///  Minimise all but the active window
+		/// </summary>
+		public static void MinimiseAllButActive()
+		{
+			IntPtr hWndActive = Win32.GetForegroundWindow();
+			List<IntPtr> hWndList = GetVisibleApplicationWindows();
+
+			// for each visible application window...
+			foreach (IntPtr hWnd in hWndList)
+			{
+				if (hWnd != hWndActive)
+				{
+					// not the active window, so lets minimise it
+					MinimiseWindow(hWnd);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Each visible application window is moved to the next screen.
 		/// </summary>
 		public static void SwapScreens()
@@ -71,7 +90,7 @@ namespace SwapScreen
 			// for each visible application window...
 			foreach (IntPtr hWnd in hWndList)
 			{
-				MoveWindowToNext(hWnd);
+				MoveWindowToNext(hWnd, 1);
 			}
 		}
 
@@ -161,6 +180,57 @@ namespace SwapScreen
 			return rectangle;
 		}
 
+		#region Individual Window manipulation
+		/// <summary>
+		/// Minimise the active window
+		/// </summary>
+		public static void MinimiseActive()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				MinimiseWindow(hWnd);
+			}
+		}
+
+		/// <summary>
+		/// Minimise the specified window
+		/// </summary>
+		/// <param name="hWnd">HWND of window to minimise</param>
+		public static void MinimiseWindow(IntPtr hWnd)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			windowPlacement.showCmd = Win32.SW_SHOWMINIMIZED;
+			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+		}
+
+		/// <summary>
+		/// Maximise the active window
+		/// </summary>
+		public static void MaximiseActive()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				MaximiseWindow(hWnd);
+			}
+		}
+
+		/// <summary>
+		/// Maximise the specified window
+		/// </summary>
+		/// <param name="hWnd">HWND of window to maximise</param>
+		public static void MaximiseWindow(IntPtr hWnd)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			windowPlacement.showCmd = Win32.SW_SHOWMAXIMIZED;
+			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+		}
+		#endregion
+
+
 		#region Individual Window movement
 		/// <summary>
 		/// Moves the active window to the next screen.
@@ -170,7 +240,19 @@ namespace SwapScreen
 			IntPtr hWnd = Win32.GetForegroundWindow();
 			if (hWnd != null)
 			{
-				MoveWindowToNext(hWnd);
+				MoveWindowToNext(hWnd, +1);
+			}
+		}
+
+		/// <summary>
+		/// Moves the active window to the previous screen.
+		/// </summary>
+		public static void MoveActiveToPrevMon()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				MoveWindowToNext(hWnd, -1);
 			}
 		}
 
@@ -179,7 +261,8 @@ namespace SwapScreen
 		/// to the next screen.
 		/// </summary>
 		/// <param name="hWnd">HWND of window to move.</param>
-		public static void MoveWindowToNext(IntPtr hWnd)
+		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
+		public static void MoveWindowToNext(IntPtr hWnd, int deltaScreenIndex)
 		{
 			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
 			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
@@ -187,10 +270,11 @@ namespace SwapScreen
 										   windowPlacement.rcNormalPosition.top,
 										   windowPlacement.rcNormalPosition.right - windowPlacement.rcNormalPosition.left,
 										   windowPlacement.rcNormalPosition.bottom - windowPlacement.rcNormalPosition.top);
-			Rectangle newRect = TransfromRectToNextScreen(ref curRect);
+			Rectangle newRect = TransfromRectToOtherScreen(ref curRect, deltaScreenIndex);
 			uint oldShowCmd = windowPlacement.showCmd;
 			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
 			{
+				// need to restore window before moving it
 				windowPlacement.showCmd = Win32.SW_RESTORE;
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 				windowPlacement.showCmd = Win32.SW_SHOW;
@@ -199,11 +283,13 @@ namespace SwapScreen
 				windowPlacement.rcNormalPosition.right = newRect.Right;
 				windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				// now minimise/maximise it
 				windowPlacement.showCmd = oldShowCmd;
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 			else
 			{
+				// normal window - not minimised or maximised
 				windowPlacement.rcNormalPosition.left = newRect.Left;
 				windowPlacement.rcNormalPosition.top = newRect.Top;
 				windowPlacement.rcNormalPosition.right = newRect.Right;
@@ -214,34 +300,39 @@ namespace SwapScreen
 
 		/// <summary>
 		/// Converts the co-ordinates for a rectangle on one screen
-		/// to the smae place on the next screen.
+		/// to the same place on another screen.
 		/// </summary>
-		/// <param name="curRect"></param>
+		/// <param name="curRect">Rectangle to be moved</param>
+		/// <param name="deltaScreenIndex">+1 for next screen -1 for previous screen</param>
 		/// <returns></returns>
-		private static Rectangle TransfromRectToNextScreen(ref Rectangle curRect)
+		private static Rectangle TransfromRectToOtherScreen(ref Rectangle curRect, int deltaScreenIndex)
 		{
-			Rectangle nextRec = new Rectangle();
-			nextRec = curRect;
+			Rectangle otherRect = new Rectangle();
+			otherRect = curRect;
 
 			Screen curScreen = Screen.FromRectangle(curRect);
 			int curScreenIndex = FindScreenIndex(curScreen);
 			if (curScreenIndex >= 0)
 			{
-				int nextScreenIndex = (curScreenIndex + 1) % Screen.AllScreens.Length;
-				if (nextScreenIndex != curScreenIndex)
+				int otherScreenIndex = (curScreenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
+				if (otherScreenIndex < 0)
 				{
-					// keep TLHC in next screen same as current screen (relative to the working araea
-					Screen nextScreen = Screen.AllScreens[nextScreenIndex];
-					nextRec.Offset(nextScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
-								   nextScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
+					otherScreenIndex += Screen.AllScreens.Length;
+				}
+				if (otherScreenIndex != curScreenIndex)
+				{
+					// keep TLHC in next screen same as current screen (relative to the working araea)
+					Screen otherScreen = Screen.AllScreens[otherScreenIndex];
+					otherRect.Offset(otherScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
+									 otherScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
 				}
 			}
 
-			return nextRec;
+			return otherRect;
 		}
 
 		/// <summary>
-		/// Finds the index within Screen.AllScreens[] that the passed screen is .
+		/// Finds the index within Screen.AllScreens[] that the passed screen is on.
 		/// </summary>
 		/// <param name="screen">The screen whoose index we are trying to find</param>
 		/// <returns>Zero based screen index, or -1 if screen not found</returns>
@@ -265,7 +356,6 @@ namespace SwapScreen
 
 			return screenIndex;
 		}
-
 		#endregion
 
 		#region Debugging helpers
