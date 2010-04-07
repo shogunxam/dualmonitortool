@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009  Gerald Evans
+// Copyright (C) 2009-2010  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -101,6 +101,20 @@ namespace SwapScreen
 
 				return modifier;
 			}
+		}
+
+		/// <summary>
+		/// Ctor to to specify a key combo that can be used as a hotkey
+		/// </summary>
+		/// <param name="keyCode">Vitual key code</param>
+		/// <param name="win32Modifier">Alt/Ctrl/Shift/Win modifier as used by Win32</param>
+		public KeyCombo(Keys keyCode, uint win32Modifier)
+		{
+			KeyCode = keyCode;
+			AltMod = (win32Modifier & Win32.MOD_ALT) != 0;
+			ControlMod = (win32Modifier & Win32.MOD_CONTROL) != 0;
+			ShiftMod = (win32Modifier & Win32.MOD_SHIFT) != 0;
+			WinMod = (win32Modifier & Win32.MOD_WIN) != 0;
 		}
 
 		/// <summary>
