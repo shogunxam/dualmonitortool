@@ -210,7 +210,8 @@ namespace SwapScreen
 			comboKey.EndUpdate();
 		}
 
-		private static string KeyCodeToName(Keys keyCode)
+		//private static string KeyCodeToName(Keys keyCode)
+		public static string KeyCodeToName(Keys keyCode)
 		{
 			string keyName = "?";
 			foreach (VirtualKey virtualKey in virtualKeys)

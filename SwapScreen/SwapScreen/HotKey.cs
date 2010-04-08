@@ -45,19 +45,10 @@ namespace SwapScreen
 		private KeyCombo hotKeyCombo;
 		/// <summary>
 		/// The KeyCombo that we will be using as the hotkey.
-		/// This can be changed dynamically, even when it is registered.
 		/// </summary>
 		public KeyCombo HotKeyCombo
 		{
 			get { return hotKeyCombo; }
-			//set
-			//{
-			//    hotKeyCombo = value;
-			//    if (isRegistered)
-			//    {
-			//        RegisterHotKey();
-			//    }
-			//}
 		}
 	
 		private Form form;
@@ -111,7 +102,7 @@ namespace SwapScreen
 		/// <summary>
 		/// Registers the hot key with Windows.
 		/// </summary>
-		/// <returns>true if the hot key was registered successfully</returns>
+		/// <returns>true if the hot key was accepted</returns>
 		public bool RegisterHotKey(KeyCombo keyCombo)
 		{
 			if (form == null)
@@ -128,14 +119,26 @@ namespace SwapScreen
 				UnRegisterHotKey();
 			}
 
-			isRegistered = Win32.RegisterHotKey(form.Handle, id,
-												keyCombo.Win32Modifier,
-												keyCombo.Win32KeyCode);
-			if (isRegistered)
+			if (keyCombo.Enabled)
 			{
-				hotKeyCombo = keyCombo;
+				isRegistered = Win32.RegisterHotKey(form.Handle, id,
+													keyCombo.Win32Modifier,
+													keyCombo.Win32KeyCode);
+				if (isRegistered)
+				{
+					hotKeyCombo = keyCombo;
+				}
+				return isRegistered;
 			}
-			return isRegistered;
+			else
+			{
+				// as the key asked to be disabled
+				// isRegistered will be false,
+				// bu we return true as the we have done what we were asked to do
+				isRegistered = false;
+				hotKeyCombo = keyCombo;
+				return true;
+			}
 		}
 
 		/// <summary>

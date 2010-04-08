@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,88 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutMenuItem" xml:space="preserve">
-    <value>About Swap Screen...</value>
-    <comment>Text for the about menu item</comment>
-  </data>
-  <data name="License" xml:space="preserve">
-    <value>This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
-  </data>
-  <data name="MaximiseDescription" xml:space="preserve">
-    <value>Maximise the active window</value>
-  </data>
-  <data name="MaximiseWin7" xml:space="preserve">
-    <value>Win+&lt;Up&gt;</value>
-  </data>
-  <data name="MinimiseAllButDescription" xml:space="preserve">
-    <value>Minimise all but the active window</value>
-  </data>
-  <data name="MinimiseAllButWin7" xml:space="preserve">
-    <value>Win+&lt;Home&gt;</value>
-  </data>
-  <data name="MinimiseDescription" xml:space="preserve">
-    <value>Minimise the active window</value>
-  </data>
-  <data name="MinimiseWin7" xml:space="preserve">
-    <value>Win+&lt;Down&gt;</value>
-  </data>
-  <data name="MyTitle" xml:space="preserve">
-    <value>Swap Screen</value>
-  </data>
-  <data name="NextScreenDescription" xml:space="preserve">
-    <value>Move active window to next screen</value>
-  </data>
-  <data name="NextScreenWin7" xml:space="preserve">
-    <value>Win+Shift+&lt;Right&gt;</value>
-  </data>
-  <data name="NoKey" xml:space="preserve">
-    <value>You need to select a key from the drop down box</value>
-  </data>
-  <data name="NotWin7" xml:space="preserve">
-    <value>For future combatibility with Windows 7 you may want to use {0} for this function, as this is what Windows 7 uses.</value>
-  </data>
-  <data name="PrevScreenDescription" xml:space="preserve">
-    <value>Move active window to previous screen</value>
-  </data>
-  <data name="PrevScreenWin7" xml:space="preserve">
-    <value>Win+Shift+&lt;Left&gt;</value>
-  </data>
-  <data name="RegisterFail" xml:space="preserve">
-    <value>The registration of this hotkey has failed.
-Try another hot key combination.</value>
-  </data>
-  <data name="RotateNextDescription" xml:space="preserve">
-    <value>Rotate screens forward</value>
-  </data>
-  <data name="RotateNextWin7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="RotatePrevDescription" xml:space="preserve">
-    <value>Rotate screens backwards</value>
-  </data>
-  <data name="RotatePrevWin7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShowDesktop1Description" xml:space="preserve">
-    <value>Show desktop 1</value>
-  </data>
-  <data name="ShowDesktop1Win7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShowDesktop2Description" xml:space="preserve">
-    <value>Show desktop 2</value>
-  </data>
-  <data name="ShowDesktop2Win7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SupersizeDescription" xml:space="preserve">
-    <value>Fill all screens with avtive window</value>
-  </data>
-  <data name="SupersizeWin7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Win7" xml:space="preserve">
-    <value>This functionality is already provided by Windows 7 using {0}, so there is no need to enable this unless you want SwapScreen to handle it using a different hotkey.</value>
-  </data>
 </root>

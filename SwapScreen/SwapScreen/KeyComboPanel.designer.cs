@@ -38,6 +38,7 @@ namespace SwapScreen
 			// 
 			// comboKey
 			// 
+			this.comboKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboKey.FormattingEnabled = true;
 			this.comboKey.Location = new System.Drawing.Point(119, 35);
 			this.comboKey.Name = "comboKey";

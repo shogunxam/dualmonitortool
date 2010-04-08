@@ -30,12 +30,22 @@ namespace SwapScreen
 	/// </summary>
 	static class ScreenHelper
 	{
+		public static void ShowDesktop1()
+		{
+			ShowDesktop(0);
+		}
+
+		public static void ShowDesktop2()
+		{
+			ShowDesktop(1);
+		}
+
 		/// <summary>
 		/// Attempts to minimize all visible application windows on
 		/// the given screen.
 		/// </summary>
 		/// <param name="screenIndex">Zero based index of screen to show.</param>
-		public static void ShowDestktop(int screenIndex)
+		public static void ShowDesktop(int screenIndex)
 		{
 			if (screenIndex < 0 || screenIndex >= Screen.AllScreens.Length)
 			{
@@ -83,14 +93,27 @@ namespace SwapScreen
 		/// <summary>
 		/// Each visible application window is moved to the next screen.
 		/// </summary>
-		public static void SwapScreens()
+		public static void RotateScreensNext()
+		{
+			RotateScreens(+1);
+		}
+
+		/// <summary>
+		/// Each visible application window is moved to the previous screen.
+		/// </summary>
+		public static void RotateScreensPrev()
+		{
+			RotateScreens(-1);
+		}
+
+		private static void RotateScreens(int delta)
 		{
 			List<IntPtr> hWndList = GetVisibleApplicationWindows();
 
 			// for each visible application window...
 			foreach (IntPtr hWnd in hWndList)
 			{
-				MoveWindowToNext(hWnd, 1);
+				MoveWindowToNext(hWnd, delta);
 			}
 		}
 
@@ -228,6 +251,30 @@ namespace SwapScreen
 			windowPlacement.showCmd = Win32.SW_SHOWMAXIMIZED;
 			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
+
+		public static void SupersizeActive()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				SupersizeWindow(hWnd);
+			}
+		}
+
+		public static void SupersizeWindow(IntPtr hWnd)
+		{
+			// TODO
+
+			//Rectangle rect = Screen.WorkingArea();
+
+			//Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			//Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			//windowPlacement.rcNormalPosition = rect;
+			//windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+			//Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+
+
+		}
 		#endregion
 
 
@@ -235,7 +282,7 @@ namespace SwapScreen
 		/// <summary>
 		/// Moves the active window to the next screen.
 		/// </summary>
-		public static void MoveActiveWindow()
+		public static void MoveActiveToNextScreen()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
 			if (hWnd != null)
@@ -247,7 +294,7 @@ namespace SwapScreen
 		/// <summary>
 		/// Moves the active window to the previous screen.
 		/// </summary>
-		public static void MoveActiveToPrevMon()
+		public static void MoveActiveToPrevScreen()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
 			if (hWnd != null)

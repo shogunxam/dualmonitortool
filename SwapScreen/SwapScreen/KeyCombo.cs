@@ -207,5 +207,54 @@ namespace SwapScreen
 		{
 			comboValue = config;
 		}
+
+		public override string ToString()
+		{
+			string ret;
+
+			if (Enabled)
+			{
+				ret = "";
+				if (WinMod)
+				{
+					ret += "Win";
+				}
+				if (ControlMod)
+				{
+					if (ret.Length > 0)
+					{
+						ret += "+";
+					}
+					ret += "Ctrl";
+				}
+				if (ShiftMod)
+				{
+					if (ret.Length > 0)
+					{
+						ret += "+";
+					}
+					ret += "Shift";
+				}
+				if (AltMod)
+				{
+					if (ret.Length > 0)
+					{
+						ret += "+";
+					}
+					ret += "Alt";
+				}
+				if (ret.Length > 0)
+				{
+					ret += "+";
+				}
+				ret += KeyComboPanel.KeyCodeToName(KeyCode);
+			}
+			else
+			{
+				ret = "--DISABLED--";
+			}
+
+			return ret;
+		}
 	}
 }

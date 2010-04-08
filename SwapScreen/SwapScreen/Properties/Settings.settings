@@ -8,5 +8,32 @@
     <Setting Name="NeedSettingsUpgrade" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="PrevScreenHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="MinimiseHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="MinimiseAllButHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="MaximiseHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="SupersizeHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="RotateNextHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="ShowDesktop1HotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="ShowDesktop2HotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
+    <Setting Name="RotatePrevHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">32768</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
