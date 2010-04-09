@@ -117,92 +117,6 @@ namespace SwapScreen
 			}
 		}
 
-		/// <summary>
-		/// Gets a list of all windows that we think should be allowed
-		/// to be moved between screens.
-		/// </summary>
-		/// <returns>List of HWND's belonging to application windows.</returns>
-		public static List<IntPtr> GetVisibleApplicationWindows()
-		{
-			List<IntPtr> hWndList = new List<IntPtr>();
-			IntPtr hWndShell = Win32.GetShellWindow();
-			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
-
-			// use anonymous method to simplify access to the windows list
-			Win32.EnumWindowsProc windowVisiter = delegate(IntPtr hWnd, uint lParam)
-			{
-				if (hWnd == hWndShell)
-				{
-					// ignore the shell (Program Manager) window
-				}
-				else if (!Win32.IsWindowVisible(hWnd))
-				{
-					// ignore any windows without WS_VISIBLE
-				}
-				else
-				{
-					Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-					Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-					Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
-					if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
-					{
-						// window has been deliberately positioned offscreen, so leave alone
-					}
-					else
-					{
-						int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
-						if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
-						{
-							// This is a tool window - leave alone
-						}
-						else
-						{
-							// we should be able to move this window without any ill effect
-							hWndList.Add(hWnd);
-						}
-					}
-				}
-				return true;
-			};
-			Win32.EnumWindows(windowVisiter, 0);
-
-			return hWndList;
-		}
-
-		/// <summary>
-		/// Get the bounding rectangle that covers all screens
-		/// </summary>
-		/// <returns></returns>
-		public static Rectangle GetVitrualDesktopRect()
-		{
-			Rectangle boundingRect = new Rectangle();
-			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
-			{
-				if (screenIndex == 0)
-				{
-					boundingRect = Screen.AllScreens[screenIndex].Bounds;
-				}
-				else
-				{
-					boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].Bounds);
-				}
-			}
-
-			return boundingRect;
-		}
-
-		/// <summary>
-		/// Converts a Win32 RECT to a Rectangle.
-		/// </summary>
-		/// <param name="rect">Win 32 RECT</param>
-		/// <returns>.NET Rectangle</returns>
-		public static Rectangle RectToRectangle(ref Win32.RECT rect)
-		{
-			Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
-
-			return rectangle;
-		}
-
 		#region Individual Window manipulation
 		/// <summary>
 		/// Minimise the active window
@@ -263,15 +177,13 @@ namespace SwapScreen
 
 		public static void SupersizeWindow(IntPtr hWnd)
 		{
-			// TODO
+			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
 
-			//Rectangle rect = Screen.WorkingArea();
-
-			//Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			//Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			//windowPlacement.rcNormalPosition = rect;
-			//windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
-			//Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			windowPlacement.rcNormalPosition = RectangleToRect(ref vitrualDesktopRect);
+			windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 
 
 		}
@@ -302,47 +214,105 @@ namespace SwapScreen
 				MoveWindowToNext(hWnd, -1);
 			}
 		}
+		#endregion
+
+		#region Private Helpers
+		/// <summary>
+		/// Converts a Win32 RECT to a Rectangle.
+		/// </summary>
+		/// <param name="rect">Win 32 RECT</param>
+		/// <returns>.NET Rectangle</returns>
+		private static Rectangle RectToRectangle(ref Win32.RECT rect)
+		{
+			Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
+
+			return rectangle;
+		}
 
 		/// <summary>
-		/// Moves the window corresponding to the specified HWND
-		/// to the next screen.
+		/// Converts a Rectangle to a Win32 RECT
 		/// </summary>
-		/// <param name="hWnd">HWND of window to move.</param>
-		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
-		public static void MoveWindowToNext(IntPtr hWnd, int deltaScreenIndex)
+		/// <param name="rectangle">.NET Rectabgle</param>
+		/// <returns>Win32 RECT</returns>
+		private static Win32.RECT RectangleToRect(ref Rectangle rectangle)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			Rectangle curRect = new Rectangle(windowPlacement.rcNormalPosition.left,
-										   windowPlacement.rcNormalPosition.top,
-										   windowPlacement.rcNormalPosition.right - windowPlacement.rcNormalPosition.left,
-										   windowPlacement.rcNormalPosition.bottom - windowPlacement.rcNormalPosition.top);
-			Rectangle newRect = TransfromRectToOtherScreen(ref curRect, deltaScreenIndex);
-			uint oldShowCmd = windowPlacement.showCmd;
-			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			Win32.RECT rect = new Win32.RECT(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+
+			return rect;
+		}
+
+		/// <summary>
+		/// Gets a list of all windows that we think should be allowed
+		/// to be moved between screens.
+		/// </summary>
+		/// <returns>List of HWND's belonging to application windows.</returns>
+		private static List<IntPtr> GetVisibleApplicationWindows()
+		{
+			List<IntPtr> hWndList = new List<IntPtr>();
+			IntPtr hWndShell = Win32.GetShellWindow();
+			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+
+			// use anonymous method to simplify access to the windows list
+			Win32.EnumWindowsProc windowVisiter = delegate(IntPtr hWnd, uint lParam)
 			{
-				// need to restore window before moving it
-				windowPlacement.showCmd = Win32.SW_RESTORE;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
-				windowPlacement.showCmd = Win32.SW_SHOW;
-				windowPlacement.rcNormalPosition.left = newRect.Left;
-				windowPlacement.rcNormalPosition.top = newRect.Top;
-				windowPlacement.rcNormalPosition.right = newRect.Right;
-				windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
-				// now minimise/maximise it
-				windowPlacement.showCmd = oldShowCmd;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
-			}
-			else
+				if (hWnd == hWndShell)
+				{
+					// ignore the shell (Program Manager) window
+				}
+				else if (!Win32.IsWindowVisible(hWnd))
+				{
+					// ignore any windows without WS_VISIBLE
+				}
+				else
+				{
+					Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+					Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+					Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
+					if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
+					{
+						// window has been deliberately positioned offscreen, so leave alone
+					}
+					else
+					{
+						int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
+						if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
+						{
+							// This is a tool window - leave alone
+						}
+						else
+						{
+							// we should be able to move this window without any ill effect
+							hWndList.Add(hWnd);
+						}
+					}
+				}
+				return true;
+			};
+			Win32.EnumWindows(windowVisiter, 0);
+
+			return hWndList;
+		}
+
+		/// <summary>
+		/// Get the bounding rectangle that covers all screens
+		/// </summary>
+		/// <returns></returns>
+		private static Rectangle GetVitrualDesktopRect()
+		{
+			Rectangle boundingRect = new Rectangle();
+			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
 			{
-				// normal window - not minimised or maximised
-				windowPlacement.rcNormalPosition.left = newRect.Left;
-				windowPlacement.rcNormalPosition.top = newRect.Top;
-				windowPlacement.rcNormalPosition.right = newRect.Right;
-				windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				if (screenIndex == 0)
+				{
+					boundingRect = Screen.AllScreens[screenIndex].Bounds;
+				}
+				else
+				{
+					boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].Bounds);
+				}
 			}
+
+			return boundingRect;
 		}
 
 		/// <summary>
@@ -403,6 +373,52 @@ namespace SwapScreen
 
 			return screenIndex;
 		}
+
+		/// <summary>
+		/// Moves the window corresponding to the specified HWND
+		/// to the next screen.
+		/// </summary>
+		/// <param name="hWnd">HWND of window to move.</param>
+		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
+		private static void MoveWindowToNext(IntPtr hWnd, int deltaScreenIndex)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			//Rectangle curRect = new Rectangle(windowPlacement.rcNormalPosition.left,
+			//                               windowPlacement.rcNormalPosition.top,
+			//                               windowPlacement.rcNormalPosition.right - windowPlacement.rcNormalPosition.left,
+			//                               windowPlacement.rcNormalPosition.bottom - windowPlacement.rcNormalPosition.top);
+			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
+			Rectangle newRect = TransfromRectToOtherScreen(ref curRect, deltaScreenIndex);
+			uint oldShowCmd = windowPlacement.showCmd;
+			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			{
+				// need to restore window before moving it
+				windowPlacement.showCmd = Win32.SW_RESTORE;
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				windowPlacement.showCmd = Win32.SW_SHOW;
+				//windowPlacement.rcNormalPosition.left = newRect.Left;
+				//windowPlacement.rcNormalPosition.top = newRect.Top;
+				//windowPlacement.rcNormalPosition.right = newRect.Right;
+				//windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
+				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				// now minimise/maximise it
+				windowPlacement.showCmd = oldShowCmd;
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
+			else
+			{
+				// normal window - not minimised or maximised
+				//windowPlacement.rcNormalPosition.left = newRect.Left;
+				//windowPlacement.rcNormalPosition.top = newRect.Top;
+				//windowPlacement.rcNormalPosition.right = newRect.Right;
+				//windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
+				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
+		}
+
 		#endregion
 
 		#region Debugging helpers
