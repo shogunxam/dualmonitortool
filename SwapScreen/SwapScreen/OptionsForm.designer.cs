@@ -336,7 +336,7 @@ namespace SwapScreen
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(224, 13);
 			this.label12.TabIndex = 19;
-			this.label12.Text = "Fill all screens with active window";
+			this.label12.Text = "Supersize active window";
 			// 
 			// buttonMaximise
 			// 

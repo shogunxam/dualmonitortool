@@ -279,7 +279,7 @@ namespace SwapScreen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fill all screens with avtive window.
+        ///   Looks up a localized string similar to Supersize the avtive window.
         /// </summary>
         internal static string SupersizeDescription {
             get {

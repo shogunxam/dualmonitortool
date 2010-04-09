@@ -193,7 +193,7 @@ Try another hot key combination.</value>
     <value />
   </data>
   <data name="SupersizeDescription" xml:space="preserve">
-    <value>Fill all screens with avtive window</value>
+    <value>Supersize the avtive window</value>
   </data>
   <data name="SupersizeWin7" xml:space="preserve">
     <value />
