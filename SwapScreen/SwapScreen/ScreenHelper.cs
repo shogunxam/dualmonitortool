@@ -155,15 +155,30 @@ namespace SwapScreen
 		}
 
 		/// <summary>
-		/// Maximise the specified window
+		/// Maximise the specified window, or restore it if it's already maximised
 		/// </summary>
 		/// <param name="hWnd">HWND of window to maximise</param>
 		public static void MaximiseWindow(IntPtr hWnd)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			windowPlacement.showCmd = Win32.SW_SHOWMAXIMIZED;
-			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			// only allow the window to be maximised if it has a maximise box
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			if ((style & Win32.WS_MAXIMIZEBOX) != 0)
+			{
+				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				// check if the window is already maximised
+				if ((style & Win32.WS_MAXIMIZE) == 0)
+				{
+					// not maximised - so maximise
+					windowPlacement.showCmd = Win32.SW_SHOWMAXIMIZED;
+				}
+				else
+				{
+					// already maximised, so restore
+					windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+				}
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
 		}
 
 		public static void SupersizeActive()
@@ -175,17 +190,39 @@ namespace SwapScreen
 			}
 		}
 
+		private static IntPtr lastSupersizeHwnd = (IntPtr)0;
+		private static Rectangle lastSupersizeRect = new Rectangle();
+
 		public static void SupersizeWindow(IntPtr hWnd)
 		{
-			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+			// only supersize the window if it has a sizing border,
+			// otherwise the user would not be able to restore its size
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			if ((style & Win32.WS_THICKFRAME) != 0)
+			{
+				Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			windowPlacement.rcNormalPosition = RectangleToRect(ref vitrualDesktopRect);
-			windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
-			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				if (hWnd == lastSupersizeHwnd && curRect == vitrualDesktopRect)
+				{
+					// this window has already been supersized, 
+					// so we need to return it to its previous (restored) size
+					windowPlacement.rcNormalPosition = RectangleToRect(ref lastSupersizeRect);
+				}
+				else
+				{
+					// supersize the window
+					windowPlacement.rcNormalPosition = RectangleToRect(ref vitrualDesktopRect);
 
-
+					// and remember it, so we can undo it
+					lastSupersizeHwnd = hWnd;
+					lastSupersizeRect = curRect;
+				}
+				windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
 		}
 		#endregion
 
