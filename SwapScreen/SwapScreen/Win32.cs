@@ -48,7 +48,13 @@ namespace SwapScreen
 		public const int MF_SEPARATOR = 0x00000800;
 
 		// Indexes for GetWindowLong()
+		public const int GWL_STYLE = -16;
 		public const int GWL_EXSTYLE = -20;
+
+		// Flags for GetWindowLong( , GWL_STYLE)
+		public const int WS_MAXIMIZEBOX = 0x00010000;
+		public const int WS_THICKFRAME = 0x00040000;
+		public const int WS_MAXIMIZE = 0x01000000;
 
 		// Flags for GetWindowLong( , GWL_EXSTYLE)
 		public const int WS_EX_TOPMOST = 0x00000008;
