@@ -175,7 +175,8 @@ namespace SwapScreen
 		// screenIndex is 0 based
 		private void AddShowDesktopMenuItem(int screenIndex)
 		{
-			string menuText = string.Format("Show desktop {0}", screenIndex + 1);
+			string showDesktopFormat = Properties.Resources.ShowDesktopMenuItem;
+			string menuText = string.Format(showDesktopFormat, screenIndex + 1);
 			ToolStripItem menuItem = new ToolStripMenuItem(menuText, null);
 			menuItem.Tag = screenIndex;
 			menuItem.Click += new EventHandler(toolStripMenuItemShowDesktop_Click);
@@ -279,7 +280,7 @@ namespace SwapScreen
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, Program.MyTitle);
 			}
 		}
 

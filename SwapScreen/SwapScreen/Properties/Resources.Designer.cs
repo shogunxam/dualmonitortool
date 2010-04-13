@@ -207,7 +207,7 @@ namespace SwapScreen.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rotate screens forward.
+        ///   Looks up a localized string similar to Rotate screens forwards.
         /// </summary>
         internal static string RotateNextDescription {
             get {
@@ -275,6 +275,15 @@ namespace SwapScreen.Properties {
         internal static string ShowDesktop2Win7 {
             get {
                 return ResourceManager.GetString("ShowDesktop2Win7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show desktop {0}.
+        /// </summary>
+        internal static string ShowDesktopMenuItem {
+            get {
+                return ResourceManager.GetString("ShowDesktopMenuItem", resourceCulture);
             }
         }
         

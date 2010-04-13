@@ -105,7 +105,7 @@ namespace SwapScreen
 			// 
 			this.swapScreensToolStripMenuItem.Name = "swapScreensToolStripMenuItem";
 			this.swapScreensToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-			this.swapScreensToolStripMenuItem.Text = "Swap Screens";
+			this.swapScreensToolStripMenuItem.Text = "Rotate screens forwards";
 			this.swapScreensToolStripMenuItem.ToolTipText = "Move all windows to their next screen";
 			this.swapScreensToolStripMenuItem.Click += new System.EventHandler(this.swapScreensToolStripMenuItem_Click);
 			// 
@@ -309,7 +309,7 @@ namespace SwapScreen
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(224, 13);
 			this.label14.TabIndex = 22;
-			this.label14.Text = "Rotate screens forward";
+			this.label14.Text = "Rotate screens forwards";
 			// 
 			// buttonSuperSize
 			// 
