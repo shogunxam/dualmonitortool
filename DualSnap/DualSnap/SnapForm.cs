@@ -241,7 +241,7 @@ namespace DualSnap
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show(Program.MyTitle, ex.Message);
+						MessageBox.Show(ex.Message, Program.MyTitle);
 					}
 				}
 			}
@@ -286,7 +286,7 @@ namespace DualSnap
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, Program.MyTitle);
 			}
 		}
 
