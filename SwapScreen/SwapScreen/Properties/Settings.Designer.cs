@@ -49,7 +49,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint PrevScreenHotKey {
             get {
                 return ((uint)(this["PrevScreenHotKey"]));
@@ -61,7 +61,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint MinimiseHotKey {
             get {
                 return ((uint)(this["MinimiseHotKey"]));
@@ -73,7 +73,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint MinimiseAllButHotKey {
             get {
                 return ((uint)(this["MinimiseAllButHotKey"]));
@@ -85,7 +85,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint MaximiseHotKey {
             get {
                 return ((uint)(this["MaximiseHotKey"]));
@@ -97,7 +97,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint SupersizeHotKey {
             get {
                 return ((uint)(this["SupersizeHotKey"]));
@@ -109,7 +109,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint RotateNextHotKey {
             get {
                 return ((uint)(this["RotateNextHotKey"]));
@@ -121,7 +121,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint ShowDesktop1HotKey {
             get {
                 return ((uint)(this["ShowDesktop1HotKey"]));
@@ -133,7 +133,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint ShowDesktop2HotKey {
             get {
                 return ((uint)(this["ShowDesktop2HotKey"]));
@@ -145,7 +145,7 @@ namespace SwapScreen.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("32768")]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint RotatePrevHotKey {
             get {
                 return ((uint)(this["RotatePrevHotKey"]));

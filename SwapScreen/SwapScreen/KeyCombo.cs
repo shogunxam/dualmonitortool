@@ -34,21 +34,21 @@ namespace SwapScreen
 	{
 		// The value of the KeyCombo is held in an uint,
 		// where the least 16 bits are used to hold the key code,
-		// the bitmask 0x0100 indicates if Alt is pressed,
-		// 0x0200 indicates if Control is pressed,
-		// 0x0400 indicates if Shift is pressed,
-		// 0x0800 indicates if Win is pressed,
+		// the bitmask 0x00010000 indicates if Alt is pressed,
+		// 0x00020000 indicates if Control is pressed,
+		// 0x00040000 indicates if Shift is pressed,
+		// 0x00080000 indicates if Win is pressed,
 		// and we have a flag at 0x8000 which if set indicates that 
 		// the KeyCombo is disabled
-		private const uint FLAG_ALT = 0x0100;		// Win32.MOD_ALT << 16
-		private const uint FLAG_CONTROL = 0x0200;	// Win32.MOD_CONTROL << 16
-		private const uint FLAG_SHIFT = 0x0400;		// Win32.MOD_SHIFT << 16
-		private const uint FLAG_WIN = 0x0800;		// Win32.MOD_WIN << 16
+		private const uint FLAG_ALT = 0x00010000;		// Win32.MOD_ALT << 16
+		private const uint FLAG_CONTROL = 0x00020000;	// Win32.MOD_CONTROL << 16
+		private const uint FLAG_SHIFT = 0x00040000;		// Win32.MOD_SHIFT << 16
+		private const uint FLAG_WIN = 0x00080000;		// Win32.MOD_WIN << 16
 
-		// Note we set the bit to indicate disbaled (rather than enabled)
+		// Note we set the bit to indicate disabled (rather than enabled)
 		// to maintain backward compatibility with previous versions of this
 		// program which didn't have the disable ability
-		private const uint FLAG_DISABLED = 0x8000;
+		private const uint FLAG_DISABLED = 0x01000000;
 
 
 		private uint comboValue;
@@ -70,9 +70,8 @@ namespace SwapScreen
 		/// </summary>
 		public Keys KeyCode
 		{
-			//get { return (Keys)(comboValue & 0xFFFF); }
-			get { return (Keys)(comboValue & 0x00FF); }
-			set { comboValue = (comboValue & 0xFF00) | ((uint)value & 0x00FF); }
+			get { return (Keys)(comboValue & 0xFFFF); }
+			set { comboValue = (comboValue & 0xFFFF0000) | ((uint)value & 0xFFFF); }
 		}
 
 		/// <summary>
@@ -172,22 +171,6 @@ namespace SwapScreen
 				return modifier;
 			}
 		}
-
-		///// <summary>
-		///// Ctor to to specify a key combo that can be used as a hotkey
-		///// </summary>
-		///// <param name="keyCode">Vitual key code</param>
-		///// <param name="win32Modifier">Alt/Ctrl/Shift/Win modifier as used by Win32</param>
-		//public KeyCombo(bool enabled, Keys keyCode, uint win32Modifier)
-		//{
-		//    comboValue = 0;
-		//    Enabled = enabled;
-		//    KeyCode = keyCode;
-		//    AltMod = (win32Modifier & Win32.MOD_ALT) != 0;
-		//    ControlMod = (win32Modifier & Win32.MOD_CONTROL) != 0;
-		//    ShiftMod = (win32Modifier & Win32.MOD_SHIFT) != 0;
-		//    WinMod = (win32Modifier & Win32.MOD_WIN) != 0;
-		//}
 
 		/// <summary>
 		/// Converts the state of the KeyCombo to a single uint
