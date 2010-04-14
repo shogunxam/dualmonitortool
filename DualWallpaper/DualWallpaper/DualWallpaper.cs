@@ -314,7 +314,7 @@ namespace DualWallpaper
 
 		private void buttonSetWallpaper_Click(object sender, EventArgs e)
 		{
-			string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+			string dir = Program.MyAppDataDir;
 			string path = Path.Combine(dir, "DualWallpaper.bmp");
 			wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
 
