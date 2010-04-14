@@ -89,7 +89,8 @@ namespace DualSnap
 		{
 			Rectangle r = Screen.PrimaryScreen.Bounds;
 
-			Bitmap primaryScreenImage = new Bitmap(r.Width, r.Height);
+			//Bitmap primaryScreenImage = new Bitmap(r.Width, r.Height);
+			Bitmap primaryScreenImage = new Bitmap(r.Width, r.Height, GetPixelFormat());
 			using (Graphics g = Graphics.FromImage(primaryScreenImage))
 			{
 				g.CopyFromScreen(r.Location, new Point(0, 0), r.Size, CopyPixelOperation.SourceCopy);
@@ -102,6 +103,25 @@ namespace DualSnap
 			if (Properties.Settings.Default.AutoShowSnap)
 			{
 				ShowLastSnap();
+			}
+		}
+
+		private PixelFormat GetPixelFormat()
+		{
+			switch (Screen.PrimaryScreen.BitsPerPixel)
+			{
+				case 8:
+				case 16:
+					return PixelFormat.Format16bppRgb555;
+
+				case 24:
+					return PixelFormat.Format24bppRgb;
+
+				case 32:
+					return PixelFormat.Format32bppRgb;
+
+				default:
+					return PixelFormat.Format32bppRgb;
 			}
 		}
 
