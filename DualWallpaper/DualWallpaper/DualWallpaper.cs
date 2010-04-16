@@ -113,7 +113,7 @@ namespace DualWallpaper
 			{
 				wallpaper.Dispose();
 			}
-			wallpaper = controller.CreateImage();
+			wallpaper = controller.CreateWallpaperImage();
 		}
 
 		private void UpdatePreview()

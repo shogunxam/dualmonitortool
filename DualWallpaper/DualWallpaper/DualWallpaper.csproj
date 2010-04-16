@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DualWallpaper</RootNamespace>
     <AssemblyName>DualWallpaper</AssemblyName>
+    <ApplicationIcon>DualWallpaper.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,6 +84,9 @@
     <Compile Include="StretchType.cs" />
     <Compile Include="SystemMenuHelper.cs" />
     <Compile Include="Win32.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DualWallpaper.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

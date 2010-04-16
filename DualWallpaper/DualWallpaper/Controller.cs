@@ -26,16 +26,15 @@ using System.Windows.Forms;
 
 namespace DualWallpaper
 {
+	/// <summary>
+	/// The top-level non-gui logic is in here
+	/// </summary>
 	class Controller
 	{
-		//public enum Fit
-		//{
-		//    StretchToFit,	// stretches both X and Y to type exactly
-		//    OverStretch,	// stretch maintaining aspect ratio, clipping if needed
-		//    UnderStretch	// stretch maintaining aspect ratio, adding bars if needed
-		//};
-
 		private List<ScreenMapping> allScreens = new List<ScreenMapping>();
+		/// <summary>
+		/// List of all of the screens available
+		/// </summary>
 		public List<ScreenMapping> AllScreens
 		{
 			get { return allScreens; }
@@ -44,17 +43,26 @@ namespace DualWallpaper
 		private List<ScreenMapping> activeScreens = new List<ScreenMapping>();
 
 		private Rectangle desktopRect;
+		/// <summary>
+		/// The rectangle that covers all of the screens
+		/// </summary>
 		public Rectangle DesktopRect
 		{
 			get { return desktopRect; }
 		}
 	
-
+		/// <summary>
+		/// ctor
+		/// </summary>
 		public Controller()
 		{
 			Init();
 		}
 
+		/// <summary>
+		/// Sets which screens are currently active
+		/// </summary>
+		/// <param name="screenIndexes">List of zero based screen indexes</param>
 		public void SetActiveScreens(List<int> screenIndexes)
 		{
 			activeScreens.Clear();
@@ -65,13 +73,23 @@ namespace DualWallpaper
 			}
 		}
 
+		/// <summary>
+		/// Adds the specified image to cover all active screens
+		/// </summary>
+		/// <param name="image">The image to add</param>
+		/// <param name="fit">What to do if the image size and rectangle covering all the
+		/// active screens have different aspect ratios.</param>
 		public void AddImage(Image image, Stretch.Fit fit)
 		{
 			Debug.Assert(activeScreens.Count > 0);
 			GenerateMappings(image, fit);
 		}
 
-		public Image CreateImage()
+		/// <summary>
+		/// Creates the image to use as the wallpaper
+		/// </summary>
+		/// <returns>Image containing the wallpaper</returns>
+		public Image CreateWallpaperImage()
 		{
 			Bitmap image = new Bitmap(desktopRect.Width, desktopRect.Height);
 
@@ -94,6 +112,11 @@ namespace DualWallpaper
 			return image;
 		}
 
+		/// <summary>
+		/// Moves the image on the active screens
+		/// </summary>
+		/// <param name="deltaX">Number of pixels to move the wallpaper image to the right by</param>
+		/// <param name="deltaY">Number of pixels to move the wallpaper image down by</param>
 		public void MoveActiveScreens(int deltaX, int deltaY)
 		{
 			foreach (ScreenMapping screenMapping in activeScreens)
@@ -127,6 +150,15 @@ namespace DualWallpaper
 			}
 		}
 
+		/// <summary>
+		/// Given the co-ords of a rectangle in different spaces,
+		/// using the same mapping calculates the co-ords of a second rectangle
+		/// in the second space.
+		/// </summary>
+		/// <param name="src1">First rectangle in first space</param>
+		/// <param name="dest1">First rectangle in second space</param>
+		/// <param name="src2">Second rectangle in first space</param>
+		/// <returns>Second rectangle in second space</returns>
 		public static Rectangle CalcDestRect(Rectangle src1, Rectangle dest1, Rectangle src2)
 		{
 			// TODO: use CalcDestPoint
@@ -140,6 +172,15 @@ namespace DualWallpaper
 			return dest2;
 		}
 
+		/// <summary>
+		/// Given the co-ords of a point in different spaces,
+		/// using the same mapping calculates the co-ords of a second point
+		/// in the second space.
+		/// </summary>
+		/// <param name="src1">First point in firts space</param>
+		/// <param name="dest1">First point in second space</param>
+		/// <param name="src2">Second point in first space</param>
+		/// <returns>Second point in second space</returns>
 		public static Point CalcDestPoint(Rectangle src1, Rectangle dest1, Point src2)
 		{
 			int x = ScaleDest(src1.Left, src1.Right, dest1.Left, dest1.Right, src2.X);
@@ -150,6 +191,7 @@ namespace DualWallpaper
 
 		private static int ScaleDest(int s1, int s2, int d1, int d2, int s3)
 		{
+			// TODO: use Scaler
 			int srcDelta = s2 - s1;
 
 			// + destDelta / 2 to minimise rounding errors
@@ -185,6 +227,15 @@ namespace DualWallpaper
 			return virtualDestRect;
 		}
 
+		/// <summary>
+		/// Determines the destination rectangle to use to maintain the source aspect ratio
+		/// and to fill the destination as much as possible without clipping.
+		/// This may result in the need to add bars top and bottom, or left and right
+		/// to keep the aspect ratio constant.
+		/// </summary>
+		/// <param name="sourceSize">Size of source image</param>
+		/// <param name="destRect">Area we have available to display the image in</param>
+		/// <returns>rectangle for the under stretched image</returns>
 		public static Rectangle UnderStretch(Size sourceSize, Rectangle destRect)
 		{
 			Rectangle rect;
@@ -222,6 +273,13 @@ namespace DualWallpaper
 			return rect;
 		}
 
+		/// <summary>
+		/// Determines the destination rectangle to use to maintain the source aspect ratio
+		/// and to fill the destination entirley, but keeping the clipping to a minimum.
+		/// </summary>
+		/// <param name="sourceSize">Size of source image</param>
+		/// <param name="destRect">Area we have available to display the image in</param>
+		/// <returns>rectangle for the over stretched image</returns>
 		public static Rectangle OverStretch(Size sourceSize, Rectangle destRect)
 		{
 			Rectangle rect;

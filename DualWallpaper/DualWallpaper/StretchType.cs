@@ -23,28 +23,55 @@ using System.Text;
 
 namespace DualWallpaper
 {
+	/// <summary>
+	/// Specifies the stretch type to maintain aspect ratio
+	/// </summary>
 	class Stretch
 	{
+		/// <summary>
+		/// Enum specifying how to fit an image where the aspect ratio 
+		/// of the source and destionation may be different
+		/// </summary>
 		public enum Fit
 		{
-			StretchToFit,	// stretches both X and Y to type exactly
-			OverStretch,	// stretch maintaining aspect ratio, clipping if needed
-			UnderStretch	// stretch maintaining aspect ratio, adding bars if needed
+			/// <summary>
+			/// stretch both X and Y to fit exactly, 
+			/// which may resut in the aspect ratio changing
+			/// </summary>
+			StretchToFit,
+			/// <summary>
+			/// stretch maintaining aspect ratio, clipping if needed
+			/// </summary>
+			OverStretch,
+			/// <summary>
+			/// stretch maintaining aspect ratio, adding bars if needed
+			/// </summary>
+			UnderStretch
 		};
 
 		private Fit type;
-
+		/// <summary>
+		/// The type of fit
+		/// </summary>
 		public Fit Type
 		{
 			get { return type; }
 			set { type = value; }
 		}
 
+		/// <summary>
+		/// ctor 
+		/// </summary>
+		/// <param name="type">initial stretch type</param>
 		public Stretch(Fit type)
 		{
 			this.type = type;
 		}
 
+		/// <summary>
+		/// Converts the stretch type to a displayable string
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			string ret;

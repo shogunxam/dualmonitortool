@@ -23,17 +23,29 @@ using System.Text;
 
 namespace DualWallpaper
 {
+	/// <summary>
+	/// Class to assist in scaling values between 2 co-ordinate spaces.
+	/// This works in a single dimension, so you will need 2 instances for x and y.
+	/// </summary>
 	class Scaler
 	{
 		private int s1;
 		private int s2;
 		private int d1;
 		private int d2;
-		// positive offset image shifted to the srcRight (or down)
+		// positive offset image shifted to the right (or down)
 		// so need to add offset when calculating dest
 		// and subtract when calculating src
 		private int offset;
 
+		/// <summary>
+		/// Ctor takes 2 1D co-rdinates in one space
+		/// that map to the given co-ordinates in the other space
+		/// </summary>
+		/// <param name="s1">First co-ord in first space</param>
+		/// <param name="s2">Second co-ord in first space</param>
+		/// <param name="d1">What s1 maps to in the second space</param>
+		/// <param name="d2">What s2 maps to in the second space</param>
 		public Scaler(int s1, int s2, int d1, int d2)
 		{
 			this.s1 = s1;
@@ -43,11 +55,20 @@ namespace DualWallpaper
 			this.offset = 0;
 		}
 
+		/// <summary>
+		/// Specifies an extra displacement to apply to the co-ords in the second space
+		/// </summary>
+		/// <param name="displacement">Extra amount to displace the second space co-ords by</param>
 		public void Displace(int displacement)
 		{
 			offset += displacement;
 		}
 
+		/// <summary>
+		/// Given a co-ord in first space, returns corresponding co-ord in second space.
+		/// </summary>
+		/// <param name="s3">co-ord in first space</param>
+		/// <returns>corresponding co-ord in second space</returns>
 		public int DestFromSrc(int s3)
 		{
 			int srcDelta = s2 - s1;
@@ -59,6 +80,11 @@ namespace DualWallpaper
 			return d3;
 		}
 
+		/// <summary>
+		/// Given a co-ord in second space, returns corresponding co-ord in first space.
+		/// </summary>
+		/// <param name="d3">co-ord in second space</param>
+		/// <returns>corresponding co-ord in first space</returns>
 		public int SrcFromDest(int d3)
 		{
 			int destDelta = d2 - d1;
@@ -70,6 +96,5 @@ namespace DualWallpaper
 
 			return s3;
 		}
-
 	}
 }

@@ -25,9 +25,16 @@ using System.Windows.Forms;
 
 namespace DualWallpaper
 {
+	/// <summary>
+	/// Provides a mapping between a rectangle within a source image and a rectangle on a single screen.
+	/// By adjusting this mapping it is possible to show different parts of the source image.
+	/// </summary>
 	class ScreenMapping
 	{
 		private Image sourceImage;
+		/// <summary>
+		/// The source image that we want to display
+		/// </summary>
 		public Image SourceImage
 		{
 			get { return sourceImage; }
@@ -35,6 +42,9 @@ namespace DualWallpaper
 		}
 
 		private Rectangle sourceRect;
+		/// <summary>
+		/// The rectangle within the source image that we will be displaying
+		/// </summary>
 		public Rectangle SourceRect
 		{
 			get { return sourceRect; }
@@ -42,6 +52,9 @@ namespace DualWallpaper
 		}
 
 		private Rectangle destRect;
+		/// <summary>
+		/// The rectangle on the desktop that will display the SourceRect region of the source image
+		/// </summary>
 		public Rectangle DestRect
 		{
 			get { return destRect; }
@@ -49,6 +62,9 @@ namespace DualWallpaper
 		}
 
 		private Rectangle screenRect;
+		/// <summary>
+		/// The bounding rectangle for the screen
+		/// </summary>
 		public Rectangle ScreenRect
 		{
 			get { return screenRect; }
@@ -56,6 +72,9 @@ namespace DualWallpaper
 		}
 
 		private bool primary;
+		/// <summary>
+		/// Indicates if this is the primary monitor
+		/// </summary>
 		public bool Primary
 		{
 			get { return primary; }
@@ -65,7 +84,11 @@ namespace DualWallpaper
 		private Scaler scaleX = null;
 		private Scaler scaleY = null;
 	
-
+		/// <summary>
+		/// Constructs an empty screen mapping for a particular screen
+		/// </summary>
+		/// <param name="screenRect">Bounding rectangle of the screen</param>
+		/// <param name="primary">Indicates if this is the primary monitor</param>
 		public ScreenMapping(Rectangle screenRect, bool primary)
 		{
 			this.sourceImage = null;
@@ -75,6 +98,12 @@ namespace DualWallpaper
 			this.primary = primary;
 		}
 
+		/// <summary>
+		/// Generates an initial mapping which would display the whole of the image 
+		/// on the specified virtual rectangle.
+		/// </summary>
+		/// <param name="image">Image to display</param>
+		/// <param name="virtualDestRect">The rectangle that the whole of the image maps to</param>
 		public void GenerateMapping(Image image, Rectangle virtualDestRect)
 		{
 			this.sourceImage = image;
@@ -91,6 +120,10 @@ namespace DualWallpaper
 			CalcSourceRect();
 		}
 
+		/// <summary>
+		/// Displace the image on the screen by the specified number of pixels on the X axis
+		/// </summary>
+		/// <param name="delta">Displacement, a positive value means move the image to the right</param>
 		public void DisplaceX(int delta)
 		{
 			if (scaleX != null)
@@ -125,6 +158,10 @@ namespace DualWallpaper
 			return new Rectangle(rect.Left, rect1.Top, rect.Width, rect1.Height);
 		}
 
+		/// <summary>
+		/// Displace the image on the screen by the specified number of pixels on the Y axis
+		/// </summary>
+		/// <param name="delta">Displacement, a positive value means move the image down</param>
 		public void DisplaceY(int delta)
 		{
 			if (scaleY != null)
