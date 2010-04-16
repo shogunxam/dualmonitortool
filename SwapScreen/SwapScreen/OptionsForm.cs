@@ -233,14 +233,8 @@ namespace SwapScreen
 
 		private void ShowOptions()
 		{
-			if (Visible)
-			{
-				this.Focus();
-			}
-			else
-			{
-				this.Visible = true;
-			}
+			this.Visible = true;
+			this.Activate();
 		}
 
 		#region menu event handlers
