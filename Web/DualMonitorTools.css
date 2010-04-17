@@ -31,6 +31,13 @@ p.SubHeading
 	font-weight: bold;
 }
 
+p.SubHeading2
+{
+	color: #3333BB;
+	font-size: 12pt;
+	font-weight: bold;
+}
+
 p.LastUpdated
 {
 	color: #3333BB;

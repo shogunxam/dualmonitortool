@@ -27,11 +27,10 @@
 
 <table width="100%" cellpadding=0 cellspacing=0 class="Heading">
 	<tr class="Heading">
-		<td colspan="3"><img width="100%" height="2" src="Images/bar.png" /></td>
+		<td><img width="100%" height="2" src="Images/bar.png" /></td>
 	</tr>
 	<tr class="Heading">
-		<td width="30%"></td>
-		<td colspan="1" align="center" width="40%">
+		<td align="center">
 			<table cellpadding=0 cellspacing=0 class="Heading">
 				<tr>
 					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
@@ -43,6 +42,8 @@
 					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
 					<td>&nbsp;Swap Screen&nbsp;</td>
 					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
+					<td>&nbsp;<a href="dualwallpaper.html">Dual Wallpaper</a>&nbsp;</td>
+					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
 					<td>&nbsp;<a href="dualsnap.html">Dual Snap</a>&nbsp;</td>
 					<td><img width="2" height="100%" src="Images/vbar.png" /></td>
 					<td>&nbsp;<a href="development.html">Development</a>&nbsp;</td>
@@ -50,31 +51,82 @@
 				</tr>
 			</table>
 		</td>
-		<td colspan="1" width="30%" align="right"><p class="LastUpdated">last updated 9 Apr 2010&nbsp;</p></td>
 	</tr>
 	<tr class="Heading">
-		<td colspan="3"><img width="100%" height="1" src="Images/bluedot.png" /></td>
+		<td><img width="100%" height="1" src="Images/bluedot.png" /></td>
 	</tr>
 </table>
+
+<table width="100%" cellpadding=0 cellspacing=0>
+	<tr>
+		<td align="right"><p class="LastUpdated">last updated 16 Apr 2010&nbsp;</p></td>
+	</tr>
+<table>
 <!-- header end -->
 
 <p class="SubHeading">Swap Screen</p>
 
-<p>Swap Screen allows you to move the active application window to the next screen by the use of a user defined hotkey.</p>
-<p>There are also options to minimise all application windows on a single screen and to move all application windows to the next screen.</p>
+<p>Swap Screen supports 10 hotkeys to simplify the process of handling windows in a multiple monitor setup.</p>
+<p>This includes features such as moving the current window to the next screen and minimising all windows on a single screen only.</p>
 
 <p class="SubHeading">Usage</p>
 
 <p>When SwapScreen.exe is run it will put itself into the notification area of the taskbar.</p>
-<p>Double clicking on the SwapScreen icon in the notification area will allow you to specify the hotkey
-you want to use to move the active window to the next screen. The default value is Control+F12.</p>
-
-<p>Pressing the hotkey when you are in an application should move that application to the next screen. 
-If the window is currently maximised, then it will also be maximised when it is moved to the next screen.<p>
+<p>Double clicking on the SwapScreen icon in the notification area will bring up the following screen 
+which allows you to specify which hotkeys to use for the various possible tasks.<p>
+<img src="Images/SwapScreen.png" />
+<p>By default only the <a href="#NextScreen">Move active window to next screen</a> hotkey is enabled, but by clicking on the 
+appropriate 'Change...' button, you can enable the other hotkeys and choose a suitable key combination for the hotkey.</p>
+<p>Certain key combinations can not be used as hotkeys.  If you try to use one of these, 
+then you will be told that this is the case and will be able to change the key combination.</p>
 
 <p>Right clicking on the SwapScreen icon in notification area will bring up its context menu where you
 will find options to minimise all windows on individual monitors, and to move all application windows
 to the next monitor.
+
+<a name="NextScreen"><p class="SubHeading2">Move active window to next screen</p></a>
+<p>This moves the active window onto the next screen, even if it is currently maximised.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+Shift+&lt;Right&gt; hotkey.  If you are happy with this, then you can disable Swap Screen's hotkey for this. However you may find this combination is quite cumbersome in which case you can define your own simpler hotkey.</p>
+
+<a name="PrevScreen"><p class="SubHeading2">Move active window to previous screen</p></a>
+<p>This performs the opposite of <a href="#NextScreen">Move active window to next screen</a>.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+Shift+&lt;Left&gt; hotkey.</p>
+
+<a name="Minimise"><p class="SubHeading2">Minimise active window</p></a>
+<p>If the active window can be minimised, then it is minimised.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+&lt;Down&gt; hotkey.</p>
+
+<a name="MinimiseAllBut"><p class="SubHeading2">Minimise all but active window</p></a>
+<p>This will attempt to minimise all windows apart from the active window.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+&lt;Home&gt; hotkey.</p>
+
+<a name="Maximise"><p class="SubHeading2">Maximise active window</p></a>
+<p>If the active window can be maximised, then it is maximised.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+&lt;Up&gt; hotkey.</p>
+
+<a name="Supersize"><p class="SubHeading2">Supersize active window</p></a>
+<p>If the active window can be resized, then it is made large enough to cover all screens.<br />
+This may mean that part(s) of the window may not be visible if your screens have different resolutions, 
+or if you have a fixed taskbar displayed.</p>
+
+<a name="RotateNext"><p class="SubHeading2">Rotate screens forwards</p></a>
+<p>This will attempt to move every application window onto the next screen from where it is currently displayed.</p>
+
+<a name="RotatePrev"><p class="SubHeading2">Rotate screens backwards</p></a>
+<p>This does the reverse of <a href"#RotateNext">Rotate screens forwards</a>.</p>
+
+<a name="ShowDesktop1"><p class="SubHeading2">Show Desktop 1</p></a>
+<p>This will attempt to minimise all application windows on the first screen.</p>
+
+<a name="ShowDesktop1"><p class="SubHeading2">Show Desktop 2</p></a>
+<p>This will attempt to minimise all application windows on the second screen.</p>
+
+<p class="SubHeading">Startup when Windows starts</p>
 
 <p>If you want SwapScreen to start automatically when your computer boots,
 then the easiest method is to paste a shortcut to it into the StartUp folder
