@@ -27,7 +27,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
-using Microsoft.Win32;
+//using Microsoft.Win32;
 
 namespace DualWallpaper
 {
@@ -42,6 +42,8 @@ namespace DualWallpaper
 		// that we will use to display a preview of the wallpaper
 		private Rectangle previewRect;
 
+		// This is the current wallpaper laid out the same way that
+		// the screens are laid out
 		private Image wallpaper = null;
 
 		public DualWallpaper()
@@ -131,6 +133,10 @@ namespace DualWallpaper
 			}
 
 			// display preview
+			if (picPreview.Image != null)
+			{
+				picPreview.Image.Dispose();
+			}
 			picPreview.Image = preview;
 		}
 
@@ -167,11 +173,10 @@ namespace DualWallpaper
 				borderPen2 = Pens.Yellow;
 				textBrush = Brushes.Yellow;
 			}
+			// leave outermost pixels of image visible
 			previewScreen.Inflate(-1, -1);
 			g.DrawRectangle(borderPen1, previewScreen);
 			previewScreen.Inflate(-1, -1);
-//			g.DrawRectangle(Pens.Black, previewScreen);
-//			previewScreen.Inflate(-1, -1);
 			g.DrawRectangle(borderPen2, previewScreen);
 
 			// display the screen name centered in the screen
@@ -303,7 +308,9 @@ namespace DualWallpaper
 			{
 				try
 				{
-					wallpaper.Save(dlg.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+					//wallpaper.Save(dlg.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+					WindowsWallpaper windowsWallpaper = new WindowsWallpaper(wallpaper, controller.DesktopRect);
+					windowsWallpaper.SaveWallpaper(dlg.FileName);
 				}
 				catch (Exception ex)
 				{
@@ -314,19 +321,8 @@ namespace DualWallpaper
 
 		private void buttonSetWallpaper_Click(object sender, EventArgs e)
 		{
-			string dir = Program.MyAppDataDir;
-			string path = Path.Combine(dir, "DualWallpaper.bmp");
-			wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
-
-			// make sure image is tiled
-			using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
-			{
-				key.SetValue("TileWallpaper", "1");
-				key.SetValue("WallpaperStyle", "0");
-			}
-
-			// now set the wallpaper
-			Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
+			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(wallpaper, controller.DesktopRect);
+			windowsWallpaper.SetWallpaper();
 
 		}
 

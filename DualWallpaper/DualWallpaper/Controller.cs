@@ -87,6 +87,7 @@ namespace DualWallpaper
 
 		/// <summary>
 		/// Creates the image to use as the wallpaper
+		/// Note this image is laid out the same way as the monitors are laid out.
 		/// </summary>
 		/// <returns>Image containing the wallpaper</returns>
 		public Image CreateWallpaperImage()
@@ -101,8 +102,14 @@ namespace DualWallpaper
 				{
 					if (screenMapping.SourceImage != null)
 					{
+						// the image starts at (0,0)
+						// but screen co-ords do not necessarily start at (0,0)
+						// so determine destination rectangle based on (0,0)
+						Rectangle destRect = screenMapping.DestRect;
+						Point offset = new Point(-desktopRect.Left, -desktopRect.Top);
+						destRect.Offset(offset);
 						g.DrawImage(screenMapping.SourceImage,
-									screenMapping.DestRect,
+									destRect,
 									screenMapping.SourceRect,
 									GraphicsUnit.Pixel);
 					}

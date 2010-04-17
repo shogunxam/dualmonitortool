@@ -84,6 +84,7 @@
     <Compile Include="StretchType.cs" />
     <Compile Include="SystemMenuHelper.cs" />
     <Compile Include="Win32.cs" />
+    <Compile Include="WindowsWallpaper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DualWallpaper.ico" />
