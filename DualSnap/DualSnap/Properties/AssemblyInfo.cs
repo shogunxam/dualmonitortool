@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GNE")]
 [assembly: AssemblyProduct("DualSnap")]
-[assembly: AssemblyCopyright("Copyright © 2009 Gerald Evans")]
+[assembly: AssemblyCopyright("Copyright © 2010 Gerald Evans")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
