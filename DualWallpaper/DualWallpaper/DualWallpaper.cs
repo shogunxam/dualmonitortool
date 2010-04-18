@@ -142,14 +142,14 @@ namespace DualWallpaper
 
 		private void DisplayMonitors(Graphics g, Size previewSize)
 		{
-			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			for (int screenIndex = 0; screenIndex < controller.AllScreens.Count; screenIndex++)
 			{
 				string screenName = string.Format("{0}", screenIndex + 1);
-				if (Screen.AllScreens[screenIndex].Primary)
+				if (controller.AllScreens[screenIndex].Primary)
 				{
 					screenName += "P";
 				}
-				DisplayMonitor(g, previewSize, Screen.AllScreens[screenIndex].Bounds, screenIndex, screenName);
+				DisplayMonitor(g, previewSize, controller.AllScreens[screenIndex].ScreenRect, screenIndex, screenName);
 			}
 		}
 
