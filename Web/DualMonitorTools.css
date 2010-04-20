@@ -24,6 +24,34 @@ td.HeadingRight
 	width: 30%;
 }
 
+a.Heading, .CurPage
+{
+	color: #3333BB;
+	background-color: #DCDCFA;
+	text-decoration: none;
+	text-align: center;
+	display:block;
+	width:120px;
+	height:25px;
+	float:left;
+	border-top:1px solid #3333BB;
+	border-left:1px solid #3333BB;
+	border-right:1px solid #3333BB;
+	line-height:25px;
+	overflow:hidden;
+	font-weight:bold;
+}
+
+a.Heading:hover
+{
+	background-color: #FFFFFF;
+}
+
+a.Heading:active, .CurPage
+{
+	background-color: #FFFFFF;
+}
+
 p.SubHeading
 {
 	color: #3333BB;
