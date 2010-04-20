@@ -132,5 +132,14 @@ namespace DualWallpaper.Properties {
                 return ResourceManager.GetString("UnderStretch", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit Dual Wallpaper website.
+        /// </summary>
+        internal static string WebsiteMenuItem {
+            get {
+                return ResourceManager.GetString("WebsiteMenuItem", resourceCulture);
+            }
+        }
     }
 }

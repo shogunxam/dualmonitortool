@@ -142,4 +142,7 @@ This is free software, and you are welcome to redistribute it under certain cond
   <data name="UnderStretch" xml:space="preserve">
     <value>Under stretch and add bars to maintain aspect ratio</value>
   </data>
+  <data name="WebsiteMenuItem" xml:space="preserve">
+    <value>Visit Dual Wallpaper website</value>
+  </data>
 </root>

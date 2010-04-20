@@ -33,7 +33,9 @@ namespace DualWallpaper
 {
 	public partial class DualWallpaper : Form
 	{
+		// IDs for menu items added to system menu
 		private const int IDM_ABOUTBOX = 0x100;
+		private const int IDM_VISITWEBSITE = 0x101;
 
 		private Controller controller = new Controller();
 		private List<int> selectedScreens = new List<int>();
@@ -392,6 +394,7 @@ namespace DualWallpaper
 		{
 			SystemMenuHelper.AppendSeparator(this);
 			SystemMenuHelper.Append(this, IDM_ABOUTBOX, Properties.Resources.AboutMenuItem);
+			SystemMenuHelper.Append(this, IDM_VISITWEBSITE, Properties.Resources.WebsiteMenuItem);
 		}
 
 		protected override void WndProc(ref Message m)
@@ -403,9 +406,25 @@ namespace DualWallpaper
 					AboutForm dlg = new AboutForm();
 					dlg.ShowDialog();
 				}
+				else if (m.WParam.ToInt32() == IDM_VISITWEBSITE)
+				{
+					VisitDualWallpaperWebsite();
+				}
 			}
 
 			base.WndProc(ref m);
+		}
+
+		private void VisitDualWallpaperWebsite()
+		{
+			try
+			{
+				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/dualwallpaper.html");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 	}
