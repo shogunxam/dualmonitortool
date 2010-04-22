@@ -29,14 +29,18 @@ namespace DualWallpaper
 	/// </summary>
 	class Scaler
 	{
+		// 2 co-ords from first space
 		private int s1;
 		private int s2;
+		// corresponding 2 co-ords from second space
 		private int d1;
 		private int d2;
 		// positive offset image shifted to the right (or down)
 		// so need to add offset when calculating dest
 		// and subtract when calculating src
 		private int offset;
+
+		private double zoom;
 
 		/// <summary>
 		/// Ctor takes 2 1D co-rdinates in one space
@@ -53,6 +57,7 @@ namespace DualWallpaper
 			this.d1 = d1;
 			this.d2 = d2;
 			this.offset = 0;
+			this.zoom = 1.0;
 		}
 
 		/// <summary>
@@ -61,7 +66,46 @@ namespace DualWallpaper
 		/// <param name="displacement">Extra amount to displace the second space co-ords by</param>
 		public void Displace(int displacement)
 		{
-			offset += displacement;
+			//offset += displacement;
+			d1 += displacement;
+			d2 += displacement;
+		}
+
+		public void Zoom(int center, double factor)
+		{
+			// update the total zoom, but limit to 10X in or out
+			double newZoom = zoom * factor;
+			if (newZoom < 0.1)
+			{
+				newZoom = 0.1;
+			}
+			else if (newZoom > 10.0)
+			{
+				newZoom = 10.0;
+			}
+
+			if (newZoom != zoom)
+			{
+				double realFactor = newZoom / zoom;
+
+				int range = (d2 - d1) / 2;
+				int newRange = Convert.ToInt32(Math.Round(range * realFactor));
+				if (newRange > 0)
+				{
+					int delta = newRange - range;
+
+					// need to offset image so that we zoom around center
+					int offset = (center - (d1 + d2) / 2) * delta / range;
+					d1 -= offset;
+					d2 -= offset;
+
+					// now zoom in/out
+					d1 -= delta;
+					d2 += delta;
+				}
+				zoom = newZoom;
+			}
+
 		}
 
 		/// <summary>
@@ -75,7 +119,7 @@ namespace DualWallpaper
 
 			// + destDelta / 2 to minimise rounding errors
 			int d3 = d1 + ((s3 - s1) * (d2 - d1) + srcDelta / 2) / srcDelta;
-			d3 += offset;
+			//d3 += offset;
 
 			return d3;
 		}
@@ -89,7 +133,7 @@ namespace DualWallpaper
 		{
 			int destDelta = d2 - d1;
 
-			d3 -= offset;
+			//d3 -= offset;
 
 			// + destDelta / 2 to minimise rounding errors
 			int s3 = s1 + ((d3 - d1) * (s2 - s1) + destDelta / 2) / destDelta;

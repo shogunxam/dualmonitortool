@@ -382,8 +382,47 @@ namespace DualWallpaper
 
 			return factor;
 		}
-
 		#endregion
+
+		#region image zooming
+		private void buttonZoomIn_Click(object sender, EventArgs e)
+		{
+			Zoom(GetZoomFactor());
+		}
+
+		private void buttonZoomOut_Click(object sender, EventArgs e)
+		{
+			Zoom(1.0 / GetZoomFactor());
+
+		}
+
+		private void Zoom(double factor)
+		{
+			controller.ZoomActiveScreens(factor);
+			CreateWallpaper();
+			UpdatePreview();
+		}
+
+		private double GetZoomFactor()
+		{
+			double factor = 1.0;
+			if (radioButtonZoom1.Checked)
+			{
+				factor = 1.01;
+			}
+			else if (radioButtonZoom5.Checked)
+			{
+				factor = 1.05;
+			}
+			else if (radioButtonZoom20.Checked)
+			{
+				factor = 1.2;
+			}
+
+			return factor;
+		}
+		#endregion
+
 
 		private void moveImage_CheckedChanged(object sender, EventArgs e)
 		{

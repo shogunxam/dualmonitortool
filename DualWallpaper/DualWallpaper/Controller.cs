@@ -139,6 +139,21 @@ namespace DualWallpaper
 			}
 		}
 
+		public void ZoomActiveScreens(double factor)
+		{
+			// determine center of zoom
+			Debug.Assert(activeScreens.Count > 0);
+			Rectangle boundingRect = GetBoundingRect(activeScreens);
+			Point center = new Point(boundingRect.Left + boundingRect.Width / 2,
+			                         boundingRect.Top + boundingRect.Height / 2);
+			
+			// now zoom each of the active screens around this point
+			foreach (ScreenMapping screenMapping in activeScreens)
+			{
+				screenMapping.Zoom(center, factor);
+			}
+		}
+
 		private void GenerateMappings(Image image, Stretch.Fit fit)
 		{
 			Debug.Assert(activeScreens.Count > 0);

@@ -52,10 +52,17 @@ namespace DualWallpaper
 			this.radioButtonMove100 = new System.Windows.Forms.RadioButton();
 			this.radioButtonMove10 = new System.Windows.Forms.RadioButton();
 			this.radioButtonMove1 = new System.Windows.Forms.RadioButton();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.radioButtonZoom1 = new System.Windows.Forms.RadioButton();
+			this.radioButtonZoom5 = new System.Windows.Forms.RadioButton();
+			this.radioButtonZoom20 = new System.Windows.Forms.RadioButton();
+			this.buttonZoomIn = new System.Windows.Forms.Button();
+			this.buttonZoomOut = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.picSource)).BeginInit();
 			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// picPreview
@@ -294,11 +301,80 @@ namespace DualWallpaper
 			this.radioButtonMove1.UseVisualStyleBackColor = true;
 			this.radioButtonMove1.CheckedChanged += new System.EventHandler(this.moveImage_CheckedChanged);
 			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.buttonZoomOut);
+			this.groupBox3.Controls.Add(this.buttonZoomIn);
+			this.groupBox3.Controls.Add(this.radioButtonZoom20);
+			this.groupBox3.Controls.Add(this.radioButtonZoom5);
+			this.groupBox3.Controls.Add(this.radioButtonZoom1);
+			this.groupBox3.Location = new System.Drawing.Point(386, 409);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(201, 126);
+			this.groupBox3.TabIndex = 7;
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = "Zoom Image";
+			// 
+			// radioButtonZoom1
+			// 
+			this.radioButtonZoom1.AutoSize = true;
+			this.radioButtonZoom1.Location = new System.Drawing.Point(6, 18);
+			this.radioButtonZoom1.Name = "radioButtonZoom1";
+			this.radioButtonZoom1.Size = new System.Drawing.Size(39, 17);
+			this.radioButtonZoom1.TabIndex = 0;
+			this.radioButtonZoom1.TabStop = true;
+			this.radioButtonZoom1.Text = "1%";
+			this.radioButtonZoom1.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonZoom5
+			// 
+			this.radioButtonZoom5.AutoSize = true;
+			this.radioButtonZoom5.Location = new System.Drawing.Point(6, 41);
+			this.radioButtonZoom5.Name = "radioButtonZoom5";
+			this.radioButtonZoom5.Size = new System.Drawing.Size(39, 17);
+			this.radioButtonZoom5.TabIndex = 1;
+			this.radioButtonZoom5.TabStop = true;
+			this.radioButtonZoom5.Text = "5%";
+			this.radioButtonZoom5.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonZoom20
+			// 
+			this.radioButtonZoom20.AutoSize = true;
+			this.radioButtonZoom20.Checked = true;
+			this.radioButtonZoom20.Location = new System.Drawing.Point(6, 64);
+			this.radioButtonZoom20.Name = "radioButtonZoom20";
+			this.radioButtonZoom20.Size = new System.Drawing.Size(45, 17);
+			this.radioButtonZoom20.TabIndex = 2;
+			this.radioButtonZoom20.TabStop = true;
+			this.radioButtonZoom20.Text = "20%";
+			this.radioButtonZoom20.UseVisualStyleBackColor = true;
+			// 
+			// buttonZoomIn
+			// 
+			this.buttonZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("buttonZoomIn.Image")));
+			this.buttonZoomIn.Location = new System.Drawing.Point(133, 10);
+			this.buttonZoomIn.Name = "buttonZoomIn";
+			this.buttonZoomIn.Size = new System.Drawing.Size(32, 32);
+			this.buttonZoomIn.TabIndex = 3;
+			this.buttonZoomIn.UseVisualStyleBackColor = true;
+			this.buttonZoomIn.Click += new System.EventHandler(this.buttonZoomIn_Click);
+			// 
+			// buttonZoomOut
+			// 
+			this.buttonZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("buttonZoomOut.Image")));
+			this.buttonZoomOut.Location = new System.Drawing.Point(133, 74);
+			this.buttonZoomOut.Name = "buttonZoomOut";
+			this.buttonZoomOut.Size = new System.Drawing.Size(32, 32);
+			this.buttonZoomOut.TabIndex = 4;
+			this.buttonZoomOut.UseVisualStyleBackColor = true;
+			this.buttonZoomOut.Click += new System.EventHandler(this.buttonZoomOut_Click);
+			// 
 			// DualWallpaper
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 587);
+			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonSetWallpaper);
 			this.Controls.Add(this.buttonSave);
@@ -320,6 +396,8 @@ namespace DualWallpaper
 			((System.ComponentModel.ISupportInitialize)(this.picSource)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -350,6 +428,12 @@ namespace DualWallpaper
 		private System.Windows.Forms.Button buttonMoveLeft;
 		private System.Windows.Forms.Button buttonMoveDown;
 		private System.Windows.Forms.Button buttonMoveRight;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.Button buttonZoomOut;
+		private System.Windows.Forms.Button buttonZoomIn;
+		private System.Windows.Forms.RadioButton radioButtonZoom20;
+		private System.Windows.Forms.RadioButton radioButtonZoom5;
+		private System.Windows.Forms.RadioButton radioButtonZoom1;
 	}
 }
 
