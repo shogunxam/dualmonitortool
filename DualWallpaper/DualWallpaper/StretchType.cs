@@ -46,7 +46,12 @@ namespace DualWallpaper
 			/// <summary>
 			/// stretch maintaining aspect ratio, adding bars if needed
 			/// </summary>
-			UnderStretch
+			UnderStretch,
+			/// <summary>
+			/// center the image with each pixel on the dispaly corresponding to a pixel in the image,
+			/// soit isn't stretched or shrunk
+			/// </summary>
+			Center
 		};
 
 		private Fit type;
@@ -88,6 +93,10 @@ namespace DualWallpaper
 
 				case Fit.UnderStretch:
 					ret = Properties.Resources.UnderStretch;
+					break;
+
+				case Fit.Center:
+					ret = Properties.Resources.Center;
 					break;
 
 				default:

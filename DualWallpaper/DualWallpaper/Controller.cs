@@ -228,6 +228,10 @@ namespace DualWallpaper
 
 			switch (fit)
 			{
+				case Stretch.Fit.Center:
+					virtualDestRect = Center(image.Size, boundingRect);
+					break;
+
 				case Stretch.Fit.StretchToFit:
 					virtualDestRect = boundingRect;
 					break;
@@ -248,6 +252,22 @@ namespace DualWallpaper
 
 			return virtualDestRect;
 		}
+
+		public static Rectangle Center(Size sourceSize, Rectangle destRect)
+		{
+			Rectangle rect;
+
+			// center of image gets mapped to center of destination
+			// so work out the movement involved in doing this
+			// remember image is at (0, 0)
+			int xShift = destRect.Left + destRect.Width / 2 - sourceSize.Width / 2;
+			int yShift = destRect.Top + destRect.Height / 2 - sourceSize.Height / 2;
+
+			rect = new Rectangle(xShift, yShift, sourceSize.Width, sourceSize.Height);
+
+			return rect;
+		}
+
 
 		/// <summary>
 		/// Determines the destination rectangle to use to maintain the source aspect ratio

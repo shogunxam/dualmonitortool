@@ -70,6 +70,15 @@ namespace DualWallpaper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center image and do not stretch.
+        /// </summary>
+        internal static string Center {
+            get {
+                return ResourceManager.GetString("Center", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This program comes with ABSOLUTELY NO WARRANTY.
         ///This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details..
         /// </summary>

@@ -63,10 +63,11 @@ namespace DualWallpaper
 
 		private void FillFitCombo()
 		{
+			comboBoxFit.Items.Add(new Stretch(Stretch.Fit.Center));
 			comboBoxFit.Items.Add(new Stretch(Stretch.Fit.StretchToFit));
 			comboBoxFit.Items.Add(new Stretch(Stretch.Fit.OverStretch));
 			comboBoxFit.Items.Add(new Stretch(Stretch.Fit.UnderStretch));
-			comboBoxFit.SelectedIndex = 1;	// select OverStretch by default
+			comboBoxFit.SelectedIndex = 0;	// select Center by default
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)

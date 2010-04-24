@@ -120,6 +120,9 @@
   <data name="AboutMenuItem" xml:space="preserve">
     <value>About Dual Wallpaper...</value>
   </data>
+  <data name="Center" xml:space="preserve">
+    <value>Center image and do not stretch</value>
+  </data>
   <data name="License" xml:space="preserve">
     <value>This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
