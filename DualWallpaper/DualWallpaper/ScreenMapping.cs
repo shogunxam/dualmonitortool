@@ -131,31 +131,8 @@ namespace DualWallpaper
 				scaleX.Displace(delta);
 
 				// now need to recalculate sourceRect and destRect
-
-				// we start with the screen rect and work out the dest rect for that with the new displacement
-				int srcLeft = scaleX.SrcFromDest(screenRect.Left);
-				int srcRight = scaleX.SrcFromDest(screenRect.Right);
-
-				Rectangle newSrcRect = new Rectangle(srcLeft, sourceRect.Top, srcRight - srcLeft, sourceRect.Height);
-				// clip to make sure it is within the image
-				//sourceRect = Rectangle.Intersect(newSrcRect, ImageRect);
-				sourceRect = IntersectX(newSrcRect, ImageRect);
-
-				// now translate this back to the dest rect
-				int destLeft = scaleX.DestFromSrc(sourceRect.Left);
-				int destRight = scaleX.DestFromSrc(sourceRect.Right);
-
-				Rectangle newDestRect = new Rectangle(destLeft, destRect.Top, destRight - destLeft, destRect.Height);
-				destRect = newDestRect;
+				RecalcSrcAndDest();
 			}
-		}
-
-		private Rectangle IntersectX(Rectangle rect1, Rectangle rect2)
-		{
-			// intersects the 2 rectangles in the x direction 
-			// but leave the y co-ords of rect1
-			Rectangle rect = Rectangle.Intersect(rect1, rect2);
-			return new Rectangle(rect.Left, rect1.Top, rect.Width, rect1.Height);
 		}
 
 		/// <summary>
@@ -169,66 +146,65 @@ namespace DualWallpaper
 				scaleY.Displace(delta);
 
 				// now need to recalculate sourceRect and destRect
-
-				// we start with the screen rect and work out the dest rect for that with the new displacement
-				int srcTop = scaleY.SrcFromDest(screenRect.Top);
-				int srcBottom = scaleY.SrcFromDest(screenRect.Bottom);
-
-				Rectangle newSrcRect = new Rectangle(sourceRect.Left, srcTop, sourceRect.Width, srcBottom - srcTop);
-				// clip to make sure it is within the image
-				//sourceRect = Rectangle.Intersect(newSrcRect, ImageRect);
-				sourceRect = IntersectY(newSrcRect, ImageRect);
-
-				// now translate this back to the dest rect
-				int destTop = scaleY.DestFromSrc(sourceRect.Top);
-				int destBottom = scaleY.DestFromSrc(sourceRect.Bottom);
-
-				Rectangle newDestRect = new Rectangle(destRect.Left, destTop, destRect.Width, destBottom - destTop);
-				destRect = newDestRect;
+				RecalcSrcAndDest();
 			}
-		}
-
-		private Rectangle IntersectY(Rectangle rect1, Rectangle rect2)
-		{
-			// intersects the 2 rectangles in the y direction 
-			// but leave the x co-ords of rect1
-			Rectangle rect = Rectangle.Intersect(rect1, rect2);
-			return new Rectangle(rect1.Left, rect.Top, rect1.Width, rect.Height);
 		}
 
 		public void Zoom(Point center, double factor)
 		{
-			// adjust the scaling
-			scaleX.Zoom(center.X, factor);
-			scaleY.Zoom(center.Y, factor);
+			if (scaleX != null && scaleY != null)
+			{
+				// adjust the scaling
+				scaleX.Zoom(center.X, factor);
+				scaleY.Zoom(center.Y, factor);
 
-			// now update the mapping based on the new scaling
-			RecalcSrcAndDest();
+				// now update the mapping based on the new scaling
+				RecalcSrcAndDest();
+			}
 		}
 
 		private void RecalcSrcAndDest()
 		{
-			// we start with the screen rect and work out the dest rect for that with the new displacement
-			int srcLeft = scaleX.SrcFromDest(screenRect.Left);
-			int srcRight = scaleX.SrcFromDest(screenRect.Right);
-			int srcTop = scaleY.SrcFromDest(screenRect.Top);
-			int srcBottom = scaleY.SrcFromDest(screenRect.Bottom);
+			// we start with the destination which is the screen rect
+			int destLeft = screenRect.Left;
+			int destRight = screenRect.Right;
+			int destTop = screenRect.Top;
+			int destBottom = screenRect.Bottom;
 
-			Rectangle newSrcRect = new Rectangle(srcLeft, srcTop, srcRight - srcLeft, srcBottom - srcTop);
-			// clip to make sure it is within the image
-			//sourceRect = Rectangle.Intersect(newSrcRect, ImageRect);
-			sourceRect = IntersectX(newSrcRect, ImageRect);
+			// we now determine what src rect is required to fill the dest rect
+			int srcLeft = scaleX.SrcFromDest(destLeft);
+			int srcRight = scaleX.SrcFromDest(destRight);
+			int srcTop = scaleY.SrcFromDest(destTop);
+			int srcBottom = scaleY.SrcFromDest(destBottom);
 
-			// now translate this back to the dest rect
-			int destLeft = scaleX.DestFromSrc(sourceRect.Left);
-			int destRight = scaleX.DestFromSrc(sourceRect.Right);
-			int destTop = scaleY.DestFromSrc(sourceRect.Top);
-			int destBottom = scaleY.DestFromSrc(sourceRect.Bottom);
+			// we now need to clip the src rect to make sure it is within the image
+			// if any of the src image edges are clipped, then we must make sure we
+			// also adjust the corresponding dest edge
+			if (srcLeft < 0)
+			{
+				srcLeft = 0;
+				destLeft = scaleX.DestFromSrc(srcLeft);
+			}
+			if (srcRight > ImageRect.Width)
+			{
+				srcRight = ImageRect.Width;
+				destRight = scaleX.DestFromSrc(srcRight);
+			}
+			if (srcTop < 0)
+			{
+				srcTop = 0;
+				destTop = scaleY.DestFromSrc(srcTop);
+			}
+			if (srcBottom > ImageRect.Width)
+			{
+				srcBottom = ImageRect.Height;
+				destBottom = scaleY.DestFromSrc(srcBottom);
+			}
 
-			Rectangle newDestRect = new Rectangle(destLeft, destTop, destRight - destLeft, destBottom - destTop);
-			destRect = newDestRect;
+			// Note: this is ok if width or height <= 0
+			sourceRect = new Rectangle(srcLeft, srcTop, srcRight - srcLeft, srcBottom - srcTop);
+			destRect = new Rectangle(destLeft, destTop, destRight - destLeft, destBottom - destTop);
 		}
-
 
 		private void GenerateScalers(Rectangle imageRect, Rectangle virtualDestRect)
 		{
