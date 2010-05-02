@@ -71,6 +71,7 @@ namespace SwapScreen
 			this.label3 = new System.Windows.Forms.Label();
 			this.labelNextScreen = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.checkBoxAutoStart = new System.Windows.Forms.CheckBox();
 			this.contextMenuStrip.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -146,7 +147,7 @@ namespace SwapScreen
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(222, 283);
+			this.buttonCancel.Location = new System.Drawing.Point(208, 315);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 3;
@@ -463,11 +464,23 @@ namespace SwapScreen
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Move active window to next screen";
 			// 
+			// checkBoxAutoStart
+			// 
+			this.checkBoxAutoStart.AutoSize = true;
+			this.checkBoxAutoStart.Location = new System.Drawing.Point(12, 283);
+			this.checkBoxAutoStart.Name = "checkBoxAutoStart";
+			this.checkBoxAutoStart.Size = new System.Drawing.Size(152, 17);
+			this.checkBoxAutoStart.TabIndex = 6;
+			this.checkBoxAutoStart.Text = "Start when Windows starts";
+			this.checkBoxAutoStart.UseVisualStyleBackColor = true;
+			this.checkBoxAutoStart.CheckedChanged += new System.EventHandler(this.checkBoxAutoStart_CheckedChanged);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(513, 325);
+			this.ClientSize = new System.Drawing.Size(513, 348);
+			this.Controls.Add(this.checkBoxAutoStart);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonCancel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -481,6 +494,7 @@ namespace SwapScreen
 			this.contextMenuStrip.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -527,6 +541,7 @@ namespace SwapScreen
 		private System.Windows.Forms.Button buttonMinimise;
 		private System.Windows.Forms.Label labelMinimise;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.CheckBox checkBoxAutoStart;
 	}
 }
 

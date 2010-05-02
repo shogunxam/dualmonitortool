@@ -37,6 +37,8 @@ namespace SwapScreen
 	{
 		private bool shutDown = false;
 
+		private const string autoStartKeyName = "GNE_SwapScreen";
+
 		private const int IDM_ABOUTBOX = 0x100;
 		private const int ID_HOTKEY_NEXTSCREEN = 0x101;
 		private const int ID_HOTKEY_PREVSCREEN = 0x102;
@@ -71,6 +73,7 @@ namespace SwapScreen
 
 			InitHotKeys();
 			InitContextMenu();
+			UpdateAutoStartCheckBox();
 		}
 
 		private void InitHotKeys()
@@ -443,5 +446,27 @@ namespace SwapScreen
 
 			return isWin7;
 		}
+
+		#region AutoStart
+		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
+		{
+			if (this.checkBoxAutoStart.Checked)
+			{
+				AutoStart.SetAutoStart(autoStartKeyName);
+			}
+			else
+			{
+				AutoStart.UnsetAutoStart(autoStartKeyName);
+			}
+
+			// refresh checkbox in case set/unset AutoStart failed
+			UpdateAutoStartCheckBox();
+
+		}
+		private void UpdateAutoStartCheckBox()
+		{
+			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
+		}
+		#endregion
 	}
 }

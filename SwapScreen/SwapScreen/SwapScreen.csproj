@@ -43,6 +43,7 @@
     <Compile Include="AboutForm.designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AutoStart.cs" />
     <Compile Include="HotKey.cs" />
     <Compile Include="HotKeyForm.cs">
       <SubType>Form</SubType>
