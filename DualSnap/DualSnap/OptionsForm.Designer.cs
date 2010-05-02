@@ -29,12 +29,13 @@ namespace DualSnap
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.keyComboPanel = new DualSnap.KeyComboPanel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.numericUpDown = new System.Windows.Forms.NumericUpDown();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
-			this.keyComboPanel = new DualSnap.KeyComboPanel();
 			this.checkBoxShowSnap = new System.Windows.Forms.CheckBox();
+			this.checkBoxAutoStart = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).BeginInit();
 			this.SuspendLayout();
@@ -48,6 +49,13 @@ namespace DualSnap
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Hot Key to take snap";
+			// 
+			// keyComboPanel
+			// 
+			this.keyComboPanel.Location = new System.Drawing.Point(7, 20);
+			this.keyComboPanel.Name = "keyComboPanel";
+			this.keyComboPanel.Size = new System.Drawing.Size(238, 102);
+			this.keyComboPanel.TabIndex = 0;
 			// 
 			// label1
 			// 
@@ -78,7 +86,7 @@ namespace DualSnap
 			// button1
 			// 
 			this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.button1.Location = new System.Drawing.Point(20, 226);
+			this.button1.Location = new System.Drawing.Point(20, 245);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 3;
@@ -88,19 +96,12 @@ namespace DualSnap
 			// button2
 			// 
 			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button2.Location = new System.Drawing.Point(183, 226);
+			this.button2.Location = new System.Drawing.Point(183, 245);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
 			this.button2.TabIndex = 4;
 			this.button2.Text = "Cancel";
 			this.button2.UseVisualStyleBackColor = true;
-			// 
-			// keyComboPanel
-			// 
-			this.keyComboPanel.Location = new System.Drawing.Point(7, 20);
-			this.keyComboPanel.Name = "keyComboPanel";
-			this.keyComboPanel.Size = new System.Drawing.Size(238, 102);
-			this.keyComboPanel.TabIndex = 0;
 			// 
 			// checkBoxShowSnap
 			// 
@@ -112,17 +113,30 @@ namespace DualSnap
 			this.checkBoxShowSnap.Text = "Show snap on second screen when taken";
 			this.checkBoxShowSnap.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxAutoStart
+			// 
+			this.checkBoxAutoStart.AutoSize = true;
+			this.checkBoxAutoStart.Location = new System.Drawing.Point(20, 217);
+			this.checkBoxAutoStart.Name = "checkBoxAutoStart";
+			this.checkBoxAutoStart.Size = new System.Drawing.Size(152, 17);
+			this.checkBoxAutoStart.TabIndex = 6;
+			this.checkBoxAutoStart.Text = "Start when Windows starts";
+			this.checkBoxAutoStart.UseVisualStyleBackColor = true;
+			this.checkBoxAutoStart.CheckedChanged += new System.EventHandler(this.checkBoxAutoStart_CheckedChanged);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(285, 260);
+			this.ClientSize = new System.Drawing.Size(285, 283);
+			this.Controls.Add(this.checkBoxAutoStart);
 			this.Controls.Add(this.checkBoxShowSnap);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.numericUpDown);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.groupBox1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
@@ -143,5 +157,6 @@ namespace DualSnap
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.CheckBox checkBoxShowSnap;
+		private System.Windows.Forms.CheckBox checkBoxAutoStart;
 	}
 }
