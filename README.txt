@@ -4,11 +4,13 @@ Dual Monitor Tools
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.
 
-Currently the only tools available are SwapScreen, DualWallpaper and DualSnap.
+Currently the tools available are SwapScreen, DualWallpaper, DisMon and DualSnap.
 
 Dual Monitor Tools is free and has been released under the GPLv3 license.
 
-Release 1.2
+For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
+
+Release 1.3
 -----------
 
 
@@ -16,6 +18,8 @@ The release consists of the following files:
 
 SwapScreen.exe      The swap screen tool
 DualWallpaper.exe	The wallpaper setting tool
+DisMon.exe			Disables secondary monitors on XP and Vista.
+DisMon7.exe			Disables secondary monitors on Windows 7.
 DualSnap.exe		The screen capture tool
 CHANGES.txt			List of changes
 COPYING.txt         GPLv3 license
@@ -47,10 +51,6 @@ users of XP and Vista can also use these.
 Further hotkeys allow all windows on a particular monitor to be minimised
 and to rotate the contents of the monitors.
 
-If you want SwapScreen to start automatically when your computer boots,
-then the easiest method is to paste a shortcut into the StartUp folder
-on the Windows Start menu.
-
 DualWallpaper
 -------------
 
@@ -65,6 +65,17 @@ with another image displayed on the third monitor.
 It also correctly sets the wallpaper when your primary monitor is not
 your leftmost or topmost monitor.
 
+DisMon & DisMon7
+----------------
+
+This allows another application to be run, but any secondary monitors
+are disabled before this other application is run, and these disabled
+monitors are re-enabled after the application has finished running.
+The application to run is specified as the first parameter to DisMon.
+Any further parameters are passed onto the application.
+Remember to enclose any paths or parameters within double quotes if
+they contain spaces.
+
 DualSnap
 --------
 
@@ -76,10 +87,6 @@ secondary screen.
 It remembers previous screen captures (up to a configurable number)
 and these may be reviewed later on and either copied to the clipboard
 or saved as a PNG file.
-
-If you want DualSnap to start automatically when your computer boots,
-then the easiest method is to paste a shortcut into the StartUp folder
-on the Windows Start menu.
 
 
 Uninstall
