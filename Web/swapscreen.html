@@ -1,5 +1,8 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="description" content="Project page for Dual Monitor Tools." />
 <meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, multi, display" />
 <link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
@@ -8,41 +11,35 @@
 
 <body>
 	
-<!-- header start -->
-<table width="100%" cellpadding=0 cellspacing=0 class="Heading">
-	<tr class="Heading">
-		<td colspan="4"><img width="100%" height="1" src="Images/bluedot.png" /></td>
-	</tr>
-	<tr class="Heading">
-		<td width="130"></td>
-		<td align="center"><img src="Images/DualMonitorTools.png" alt="Dual Monitor Tools"></td>
-		<td align="right" width="130">
-			<a href="http://sourceforge.net/projects/dualmonitortool">
-				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" border="1" alt="SourceForge.net Logo"/>
-			</a>
-		</td>
-		<td width="5"></td>
-	</tr>
-	<tr class="Heading">
-		<td align="center" colspan="4">
-			<a href="index.html" class="Heading">Home</a>
-			<a href="history.html" class="Heading">History</a>
-			<a href="download.html" class="Heading">Download</a>
+	<div id="page">
+
+		<div id="inner">
+
+		<div id="header">
+			<img src="Images/DualMonitorTools.png" alt="Dual Monitor Tools" />
+		</div>
+
+		<div id="navigation">
+			<span class="MenuHdr"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
 			<span class="CurPage">Swap Screen</span>
-			<a href="dualwallpaper.html" class="Heading">Dual Wallpaper</a>
-			<a href="dismon.html" class="Heading">MisMon</a>
-			<a href="dualsnap.html" class="Heading">Dual Snap</a>
-			<a href="development.html" class="Heading">Development</a>
-		</td>
-	</tr>
-	<tr class="Heading">
-		<td colspan="4"><img width="100%" height="1" src="Images/bluedot.png" /></td>
-	</tr>
-	<tr>
-		<td colspan="4" align="right"><p class="LastUpdated">last updated 20 Apr 2010&nbsp;</p></td>
-	</tr>
-</table>
-<!-- header end -->
+			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
+			<a href="dismon.html" class="MenuItem">DisMon</a>
+			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
 
 <p class="SubHeading">Swap Screen</p>
 
@@ -108,11 +105,13 @@ or if you have a fixed taskbar displayed.</p>
 <a name="ShowDesktop1"><p class="SubHeading2">Show Desktop 2</p></a>
 <p>This will attempt to minimise all application windows on the second screen.</p>
 
-<p class="SubHeading">Startup when Windows starts</p>
+<p class="SubHeading">Start when Windows starts</p>
 
 <p>If you want SwapScreen to start automatically when your computer boots,
-then the easiest method is to paste a shortcut to its executable into the StartUp folder
-on the Windows Start menu.<p>
+then just check the 'Start when Windows starts' option.</p>
+<p>Note: if you have used an older version of Swap Screen and have added a shortcut
+to its executable into the StartUp folder, then you will want to remove this shortcut
+or two copies of the program would be started.<p>
 
 <p class="SubHeading">Application windows</p>
 
@@ -125,14 +124,19 @@ on the Windows Start menu.<p>
 	<li>Any window with the WS_EX_TOOLWINDOW style.</li>
 </ul>
 </p>
-<p>If the SwapScreen hotkey is used when running a full screen application, normally  a game,
+<p>If the SwapScreen hotkey is used when running a full screen application, normally a game,
 then with some games the image on the primary screen is copied to the next screen, but the game
 continues on the primary screen.  However this does not work with all games.  
 In some cases you may find that you have to press the hotkey again 
 to restore normal operation of the game, and in others it can mess the current game up so use with caution.</p> 
 
 
+</div>
+
+</div>
+	<div id="footer">
+		last updated 3 May 2010
+	</div>
+</div>
 </body>
 </html>
- 	  	 
-

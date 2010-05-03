@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="Project page for Dual Monitor Tools." />
+<meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, multi, display" />
+<link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
+<title>Dual Monitor Tools - DisMon page</title>
+</head>
+
+<body>
+	
+	<div id="page">
+
+		<div id="inner">
+
+		<div id="header">
+			<img src="Images/DualMonitorTools.png" alt="Dual Monitor Tools" />
+		</div>
+
+		<div id="navigation">
+			<span class="MenuHdr"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
+			<a href="swapscreen.html" class="MenuItem">Swap Screen</a>
+			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
+			<span class="CurPage">DisMon</span>
+			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
+
+<p class="SubHeading">DisMon &amp; DisMon7</p>
+
+<p>DisMon and DisMon7 allow secondary monitors to be disabled when running another application.</p>
+<p>This can be useful for example when running some games where when you
+move the mouse to the edge of the screen, the mouse moves to the other screen rather than scrolling the view.</p>
+<p>DisMon is for use on Windows XP and Vista.  It will not work on Windows 7.</p>
+<p>DisMon7 is for use on Windows7.  It will not work on Windows XP or Vista.</p>
+<p>The usage of DisMon and DisMon7 is the same, except that if you run DisMon without any parameters,
+then you are presented with a GUI that allows you to manually disable and re-enable the secondary monitors.
+If you use Windows 7, then this functionality is already provided by the &lt;Win&gt;+P hotkey.</p>
+
+<p class="SubHeading">Usage</p>
+
+<p>This section applies to both DisMon and DisMon7.  If you are using Windows 7, then you need to use 
+DisMon7, so just substitute DisMon7 for DisMon in the following.</p>
+
+<p>When DisMon.exe is run, it will take its first parameter as the name of an application to run.
+Any further parameters will be automatically passed to this application being run.</p>
+
+<p>Before starting the application, it will disable any active secondary monitors.  
+When the application has finished running, it will re-enable all of the secondary monitors that it disabled.</p>
+
+<p>Probably the easiest way to do this is to setup a shortcut to the application you want to run, 
+then edit the shortcut and in the 'Target' insert the full executable path to DisMon.</p>
+
+<p>For example, if DisMon is located in <b>C:\tools</b> and the application that you want to run 
+with the secondary monitors disabled is <b>C:\Supreme Commander\SupremeCommander.exe</b>
+then you would set the target to:
+<pre>
+C:\tools\DisMon.exe "C:\Supreme Commander\SupremeCommander.exe"
+</pre>
+
+<p>Remember that any paths or arguments that contain spaces need to be enclosed within double quotes as in
+the above example.</p>
+<p>Now whenever you run this shortcut, it will run the application with the secondary monitors disabled.<p>
+
+
+<p class="SubHeading">DisMon GUI</p>
+
+<p>This only applies to DisMon and not DisMon7.</p>
+<p>When you launch DisMon with no parameters it will show the following window:</p>
+<img src="Images/DisMon.png" />
+<p>This allows you to manually disable the secondary monitors. 
+These monitors can then be re-enabled either by pressing the re-enable button or by closing DisMon.</p>
+
+<p class="SubHeading">Further Work</p>
+
+<p>DisMon and DisMon7 are still in the early stages of development.  
+If there is any particular feature you want added, then then please use the
+<a href="http://sourceforge.net/projects/dualmonitortool/forums/forum/914325">Dual Monitor Tools Open Discussion forum</a>
+to leave your sugestion.</p>
+
+
+</div>
+
+</div>
+	<div id="footer">
+		last updated 3 May 2010
+	</div>
+</div>
+</body>
+</html>

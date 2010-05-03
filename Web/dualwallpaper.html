@@ -1,5 +1,8 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="description" content="Project page for Dual Monitor Tools." />
 <meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, wallpaper, multi, display" />
 <link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
@@ -8,41 +11,35 @@
 
 <body>
 	
-<!-- header start -->
-<table width="100%" cellpadding=0 cellspacing=0 class="Heading">
-	<tr class="Heading">
-		<td colspan="4"><img width="100%" height="1" src="Images/bluedot.png" /></td>
-	</tr>
-	<tr class="Heading">
-		<td width="130"></td>
-		<td align="center"><img src="Images/DualMonitorTools.png" alt="Dual Monitor Tools"></td>
-		<td align="right" width="130">
-			<a href="http://sourceforge.net/projects/dualmonitortool">
-				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" border="1" alt="SourceForge.net Logo"/>
-			</a>
-		</td>
-		<td width="5"></td>
-	</tr>
-	<tr class="Heading">
-		<td align="center" colspan="4">
-			<a href="index.html" class="Heading">Home</a>
-			<a href="history.html" class="Heading">History</a>
-			<a href="download.html" class="Heading">Download</a>
-			<a href="swapscreen.html" class="Heading">Swap Screen</a>
+	<div id="page">
+
+		<div id="inner">
+
+		<div id="header">
+			<img src="Images/DualMonitorTools.png" alt="Dual Monitor Tools" />
+		</div>
+
+		<div id="navigation">
+			<span class="MenuHdr"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
+			<a href="swapscreen.html" class="MenuItem">Swap Screen</a>
 			<span class="CurPage">Dual Wallpaper</span>
-			<a href="dismon.html" class="Heading">MisMon</a>
-			<a href="dualsnap.html" class="Heading">Dual Snap</a>
-			<a href="development.html" class="Heading">Development</a>
-		</td>
-	</tr>
-	<tr class="Heading">
-		<td colspan="4"><img width="100%" height="1" src="Images/bluedot.png" /></td>
-	</tr>
-	<tr>
-		<td colspan="4" align="right"><p class="LastUpdated">last updated 20 Apr 2010&nbsp;</p></td>
-	</tr>
-</table>
-<!-- header end -->
+			<a href="dismon.html" class="MenuItem">DisMon</a>
+			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
 
 <p class="SubHeading">Dual Wallpaper</p>
 
@@ -64,28 +61,39 @@ You can also select multiple monitors by holding down the control key when you c
 The selected monitors are highlighted with a yellow border.</p>
 
 
-<p>To add an image to one or more screens, first select those screens and then click on the browse button to choose an existing image file to use.  
+<p>To add an image to one or more monitors, first select those monitors and then click on the browse button to choose an existing image file to use.  
 When you have done this, a thumbnail of the image is shown to the right of the 'Browse' button.</p>
 
-<p>If the aspect ratio of the image is different to the aspect ratio of the rectangle enclosing all of the selected screens, 
-then you need to decide how this is to be handled by the 'Fit' combo box.  The available options are:
+<p>If the image size is not the same size as the rectangle enclosing all of the selected screens, 
+then the 'Fit' combo box determines any scaling that need to be applied to the image.  The available options are:
 <ul>
-	<li>Stretch ignoring aspect ratio.</li>
-	<li>Over stretch and clip to maintain aspect ratio. (default option)</li>
+	<li>Center image and do not stretch.  
+	This is the default option and will result in each pixel in the image mapping to a single pixel on the screen.
+	If your image is larger than the selected monitors, then the image will be clipped.
+	If The image is smaller than the selected monitors, then a border will be displayed around the image.</li>
+	<li>Stretch ignoring aspect ratio. 
+	This will stretch or shrink so that the whole image is displayed occupying the whole area of the selected monitors.</li>
+	<li>Over stretch and clip to maintain aspect ratio.</li>
 	<li>Under stretch and add bars to maintain aspect ratio.</li>
 </ul>
-<p>You can then click the 'Add Image' button which will add the image to the selected monitors in the preview like the following where a single image was applied to 2 monitors.</p>
+<p>You can then click the 'Add Image' button which will add the image to the selected monitors in the preview like the following where a single image was applied to 2 monitors using the over stretch fit option.</p>
 <img src="Images/DualWallpaper2.png" />
 
 <p>If you have further monitors, then you can select these and repeat the process using either the same image or a different image.</p>
-<p>You can also adjust the position of the image on the currently selected monitors by using the movement controls in the 'Move Image' group box.  For example in the above image, you may want more of the sky visible, so if you press the up button a couple of times, you will end up with the following:</p>
+<p>You can also adjust the position of the image on the currently selected monitors by using the movement controls in the 'Move Image' group box. 
+Similarly the image can be zoomed using the + and - buttons in the 'Zoom Image' group box.
+For example in the above image, you may want more of the sky visible, so if you press the up button a couple of times, you will end up with the following:</p>
 <img src="Images/DualWallpaper3.png" />
 
 <p>When you are happy with the preview, you can click the 'Set Wallpaper' button at which point you should see your new wallpaper displayed on your desktop.</p>
 <p>When you use the 'Set Wallpaper' button, the wallpaper image is saved to a file at the following location: %LOCALAPPDATA%\GNE\DualWallpaper\DualWallpaper.bmp.  This means that each time you use this button, you will overwrite the previous wallpaper generated with this application.  If you use a third party wallpaper changer, then instead you may want to save your wallpapers to the directory that this third party application uses by using the 'Save Image' button.</p>
 
+</div>
 
+</div>
+	<div id="footer">
+		last updated 3 May 2010
+	</div>
+</div>
 </body>
 </html>
- 	  	 
-

@@ -1,40 +1,68 @@
-table.Heading
+html, body
 {
 	border: none;
 	margin: 0;
+	padding: 0;
 }
 
-tr.Heading
+#page
 {
+	width: 90%;
+	min-width: 775px;
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0;
+}
+
+#inner
+{
+	border: thin solid #3333BB;
+	background: url(images/MenuBgr.png) repeat-y white;
+}
+
+#navigation
+{
+	width: 145px;
+	padding-left:10px;
+	padding-top:10px;
+	float: left;
+}
+
+#content
+{
+	padding-right:10px;
+	padding-left:160px;
+}
+
+#header
+{
+	text-align: center;
+	border: none;
+	margin: 0;
 	background-color: #DCDCFA;
 }
 
-td.HeadingLeft
+#footer
 {
-	width: 30%;
+	text-align: right;
+	color: #3333BB;
+	font-size: 8pt;
 }
 
-td.HeadingCenter
+a.MenuItem, .CurPage
 {
-	width: 40%;
-}
-
-td.HeadingRight
-{
-	width: 30%;
-}
-
-a.Heading, .CurPage
-{
+	-moz-box-sizing: border-box;
+    box-sizing: border-box; 
+	
 	color: #3333BB;
 	background-color: #DCDCFA;
 	text-decoration: none;
-	text-align: center;
+	text-align: left;
 	display:block;
-	width:120px;
-	height:25px;
-	float:left;
-	border-top:1px solid #3333BB;
+	padding-left:10px;
+	width:125px;
+	height:1.5em;
+	border-bottom:1px solid #3333BB;
 	border-left:1px solid #3333BB;
 	border-right:1px solid #3333BB;
 	line-height:25px;
@@ -42,12 +70,34 @@ a.Heading, .CurPage
 	font-weight:bold;
 }
 
-a.Heading:hover
+.MenuHdr
+{
+	-moz-box-sizing: border-box;
+    box-sizing: border-box; 
+	
+	color: #DCDCFA;
+	background-color: #3333BB;
+	text-decoration: none;
+	text-align: left;
+	display:block;
+	padding-left:10px;
+	width:125px;
+	height:1.5em;
+	border-top:1px solid #3333BB;
+	border-bottom:1px solid #3333BB;
+	border-left:1px solid #3333BB;
+	border-right:1px solid #3333BB;
+	line-height:25px;
+	overflow:hidden;
+	font-weight:bold;
+}
+
+a.MenuItem:hover
 {
 	background-color: #FFFFFF;
 }
 
-a.Heading:active, .CurPage
+a.MenuItem:active, .CurPage
 {
 	background-color: #FFFFFF;
 }
@@ -65,9 +115,4 @@ p.SubHeading2
 	font-size: 12pt;
 	font-weight: bold;
 }
-
-p.LastUpdated
-{
-	color: #3333BB;
-	font-size: 8pt;
 }
