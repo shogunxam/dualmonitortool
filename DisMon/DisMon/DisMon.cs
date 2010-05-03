@@ -55,9 +55,13 @@ namespace DisMon
 			}
 		}
 
+		/// <summary>
+		/// Disables all secondary monitors
+		/// </summary>
+		/// <returns>true if one or more monitors were disabled</returns>
 		public bool DisableAllSecondary()
 		{
-			bool ret = true;
+			bool ret = false;
 
 			Screen[] allScreens = Screen.AllScreens;
 
@@ -65,7 +69,10 @@ namespace DisMon
 			{
 				if (!allScreens[screenIndex].Primary)
 				{
-					Disable(allScreens[screenIndex]);
+					if (Disable(allScreens[screenIndex]))
+					{
+						ret = true;
+					}
 				}
 			}
 

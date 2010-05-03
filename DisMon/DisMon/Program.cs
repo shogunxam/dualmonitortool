@@ -79,12 +79,12 @@ namespace DisMon
 				}
 				else
 				{
-					MessageBox.Show("No new process started");
+					MessageBox.Show("No new process started", MyTitle);
 				}
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MessageBox.Show(ex.Message, MyTitle);
 			}
 
 			// re-enable all the monitors we disabled
