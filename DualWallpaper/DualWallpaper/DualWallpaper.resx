@@ -121,48 +121,48 @@
   <data name="buttonMoveLeft.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvgAA
-        Dr4B6kKxwAAAAFhJREFUOE9jYBgE4D8lbgBphmGSzUHWTLIh2DQTbQg+zQQNIUYzTkNI0YzVEHIMwBrF
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvAAA
+        DrwBlbxySQAAAFhJREFUOE9jYBgE4D8lbgBphmGSzUHWTLIh2DQTbQg+zQQNIUYzTkNI0YzVEHIMwBrF
         5BiEM4pJMYxgOiHGMIKGwBRQlE7QbaEoxeIzjGjv4FJIUS5GMRQAi8dvkYLcKcYAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="buttonMoveDown.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvgAA
-        Dr4B6kKxwAAAAFFJREFUOE9jYKAi+A80i1yM4gxyDMHwB1UMAZlKikE4Q5MqhhDrGoJxSoxrCBpCyDVE
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvAAA
+        DrwBlbxySQAAAFFJREFUOE9jYKAi+A80i1yM4gxyDMHwB1UMAZlKikE4Q5MqhhDrGoJxSoxrCBpCyDVE
         GUA1Q3AZRLQrYAqxhQ3JhqC7hiwDqGYIzCCyXUFfjQAVvm+Rn3R73QAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="buttonMoveRight.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvgAA
-        Dr4B6kKxwAAAAFFJREFUOE+100EKACAIRFHvf+miRRCZ6Qxj0C6fm5+Z8AyFtZB9ae9EaOyFwNgPKWMV
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvAAA
+        DrwBlbxySQAAAFFJREFUOE+100EKACAIRFHvf+miRRCZ6Qxj0C6fm5+Z8AyFtZB9ae9EaOyFwNgPKWMV
         JMUQJMQYxGXBIC4FBAk7qiBphG2dpJvvB7K/A2+WDkx7Vm+RPksRUgAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="buttonMoveUp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvgAA
-        Dr4B6kKxwAAAAEZJREFUOE9jYBhK4D+ljgUZAMNkm0WxIcgGkO0aig3BZgDJrqHYEHwGEO0aig0hxgCC
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOvAAA
+        DrwBlbxySQAAAEZJREFUOE9jYBhK4D+ljgUZAMNkm0WxIcgGkO0aig3BZgDJrqHYEHwGEO0aig0hxgCC
         rqHYEFIMwOkaig0hxwCCYUNSZgMA8V9vkW6vyHIAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="buttonZoomOut.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwgAA
-        DsIBFShKgAAAACNJREFUOE9jYBgFIyQE/gP9SS6GBxG5BoD0UdeQERJrI9GbAHi6LNTITYmgAAAAAElF
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwAAA
+        DsABataJCQAAACNJREFUOE9jYBgFIyQE/gP9SS6GBxG5BoD0UdeQERJrI9GbAHi6LNTITYmgAAAAAElF
         TkSuQmCC
 </value>
   </data>
   <data name="buttonZoomIn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwgAA
-        DsIBFShKgAAAADhJREFUOE9jYKAD+A+0A4bJtm7UEMygIylMkBWTyoZbTapGrC6kiiG4EhJJYTJqCPH5
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOwAAA
+        DsABataJCQAAADhJREFUOE9jYKAD+A+0A4bJtm7UEMygIylMkBWTyoZbTapGrC6kiiG4EhJJYTJqCPH5
         kSoBS5R1AG9EULBStCCHAAAAAElFTkSuQmCC
 </value>
   </data>
