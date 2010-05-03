@@ -59,6 +59,8 @@ namespace DualWallpaper
 
 			// automatically select the first screen
 			AddSelectedScreen(0);
+
+			UpdateButtonStates();
 		}
 
 		private void FillFitCombo()
@@ -424,6 +426,19 @@ namespace DualWallpaper
 		}
 		#endregion
 
+
+		private void textBoxImage_TextChanged(object sender, EventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		private void UpdateButtonStates()
+		{
+			// 'Add Image' should only be enabled if an image file has been specified
+			buttonAdd.Enabled = (textBoxImage.Text.Length > 0);
+
+			// '
+		}
 
 		private void moveImage_CheckedChanged(object sender, EventArgs e)
 		{
