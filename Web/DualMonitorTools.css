@@ -3,10 +3,12 @@ html, body
 	border: none;
 	margin: 0;
 	padding: 0;
+	background-color: #DDDDDD;
 }
 
 #page
 {
+	position: relative;
 	width: 90%;
 	min-width: 775px;
 	max-width: 1000px;
@@ -14,7 +16,38 @@ html, body
 	padding: 0;
 }
 
-#inner
+#header
+{
+	position: relative;
+	text-align: left;
+	border: none;
+	margin: 0;
+	height: 100px;
+	background-color: #DCDCFA;
+	border-top:1px solid #3333BB;
+	border-left:1px solid #3333BB;
+	border-right:1px solid #3333BB;
+}
+
+#logo
+{
+	position: absolute;
+	left: 25px;
+	top: 26px;
+	width: 96px;
+	height: 48px;
+}
+
+#title
+{
+	position: absolute;
+	left: 145px;
+	top: 0px;
+	border: none;
+	margin: 0;
+}
+
+#body
 {
 	border: thin solid #3333BB;
 	background: url(Images/MenuBgr.png) repeat-y white;
@@ -34,19 +67,24 @@ html, body
 	padding-left:160px;
 }
 
-#header
-{
-	text-align: center;
-	border: none;
-	margin: 0;
-	background-color: #DCDCFA;
-}
-
 #footer
 {
 	text-align: right;
 	color: #3333BB;
 	font-size: 8pt;
+}
+
+img
+{
+	border: 0;
+}
+
+.MenuTop
+{
+	display:block;
+	width:125px;
+	height:1px;
+	border-bottom:1px solid #3333BB;
 }
 
 a.MenuItem, .CurPage
@@ -114,5 +152,4 @@ p.SubHeading2
 	color: #3333BB;
 	font-size: 12pt;
 	font-weight: bold;
-}
 }
