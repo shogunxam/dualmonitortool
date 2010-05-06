@@ -10,7 +10,7 @@ html, body
 {
 	position: relative;
 	width: 90%;
-	min-width: 775px;
+	min-width: 750px;
 	max-width: 1000px;
 	margin: 0 auto;
 	padding: 0;
@@ -29,7 +29,7 @@ html, body
 	border-right:1px solid #3333BB;
 }
 
-#logo
+#header-logo
 {
 	position: absolute;
 	left: 25px;
@@ -38,7 +38,7 @@ html, body
 	height: 48px;
 }
 
-#title
+#header-title
 {
 	position: absolute;
 	left: 145px;
@@ -69,14 +69,54 @@ html, body
 
 #footer
 {
-	text-align: right;
+	position: relative;
 	color: #3333BB;
 	font-size: 8pt;
+}
+
+#footer-left
+{
+	text-align: left;
+	float: left;
+}
+
+#footer-right
+{
+	text-align: right;
 }
 
 img
 {
 	border: 0;
+}
+
+img.AppLogo
+{
+	padding-right:10px;
+}
+
+.HdrTitleBig
+{
+	color: #3333BB;
+	font-size: 48pt;
+	font-weight: bold;
+	margin:0;
+	padding-top:10px;
+}
+
+.HdrTitleSmall
+{
+	color: #3333BB;
+	font-size: 8pt;
+	margin:0;
+}
+
+.AppTitle
+{
+	color: #3333BB;
+	font-size: 20pt;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .MenuTop
