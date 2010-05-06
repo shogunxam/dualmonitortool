@@ -45,7 +45,7 @@ This is a small tool that when started resides in the System Tray.
 It allows you to assign hotkeys for various actions.
 The main hotkey allows you to move the active window  to the next screen.
 This will also work if the active window is a maximised window.
-There are also some hotkeys emulate functionality that is built into
+There are also some hotkeys to emulate functionality that is built into
 Windows 7, such as minimising and maximising the active window, so
 users of XP and Vista can also use these.
 Further hotkeys allow all windows on a particular monitor to be minimised
@@ -80,13 +80,13 @@ DualSnap
 --------
 
 This is a small tool that when started resides in the System Tray.
-It allows you to assign a hot key which when pressed will capture 
+It allows you to assign a hotkey which when pressed will capture 
 the image on the primary screen and (optionally) display it on the
 secondary screen.
 
 It remembers previous screen captures (up to a configurable number)
 and these may be reviewed later on and either copied to the clipboard
-or saved as a PNG file.
+or saved as PNG files.
 
 
 Uninstall
