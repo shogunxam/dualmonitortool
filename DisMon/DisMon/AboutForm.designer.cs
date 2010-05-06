@@ -45,39 +45,39 @@ namespace DisMon
 			this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
 			this.pictureBox1.Location = new System.Drawing.Point(12, 12);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(50, 32);
-			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+			this.pictureBox1.Size = new System.Drawing.Size(96, 48);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 0;
 			this.pictureBox1.TabStop = false;
 			// 
 			// labelProductName
 			// 
-			this.labelProductName.Location = new System.Drawing.Point(106, 12);
+			this.labelProductName.Location = new System.Drawing.Point(114, 12);
 			this.labelProductName.Name = "labelProductName";
-			this.labelProductName.Size = new System.Drawing.Size(444, 13);
+			this.labelProductName.Size = new System.Drawing.Size(436, 13);
 			this.labelProductName.TabIndex = 1;
 			this.labelProductName.Text = "labelProductName";
 			// 
 			// labelCopyright
 			// 
-			this.labelCopyright.Location = new System.Drawing.Point(106, 31);
+			this.labelCopyright.Location = new System.Drawing.Point(114, 35);
 			this.labelCopyright.Name = "labelCopyright";
-			this.labelCopyright.Size = new System.Drawing.Size(444, 13);
+			this.labelCopyright.Size = new System.Drawing.Size(436, 13);
 			this.labelCopyright.TabIndex = 2;
 			this.labelCopyright.Text = "labelCopyright";
 			// 
 			// labelDescription
 			// 
-			this.labelDescription.Location = new System.Drawing.Point(12, 50);
+			this.labelDescription.Location = new System.Drawing.Point(12, 63);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(538, 55);
+			this.labelDescription.Size = new System.Drawing.Size(538, 73);
 			this.labelDescription.TabIndex = 3;
 			this.labelDescription.Text = "labelDescription";
 			// 
 			// pictureBox2
 			// 
 			this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-			this.pictureBox2.Location = new System.Drawing.Point(15, 108);
+			this.pictureBox2.Location = new System.Drawing.Point(12, 139);
 			this.pictureBox2.Name = "pictureBox2";
 			this.pictureBox2.Size = new System.Drawing.Size(127, 51);
 			this.pictureBox2.TabIndex = 32;
@@ -85,9 +85,9 @@ namespace DisMon
 			// 
 			// labelLicense
 			// 
-			this.labelLicense.Location = new System.Drawing.Point(12, 162);
+			this.labelLicense.Location = new System.Drawing.Point(145, 139);
 			this.labelLicense.Name = "labelLicense";
-			this.labelLicense.Size = new System.Drawing.Size(538, 60);
+			this.labelLicense.Size = new System.Drawing.Size(405, 69);
 			this.labelLicense.TabIndex = 33;
 			this.labelLicense.Text = "labelLicense";
 			// 
@@ -95,7 +95,7 @@ namespace DisMon
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(562, 237);
+			this.ClientSize = new System.Drawing.Size(562, 219);
 			this.Controls.Add(this.labelLicense);
 			this.Controls.Add(this.pictureBox2);
 			this.Controls.Add(this.labelDescription);
@@ -111,7 +111,6 @@ namespace DisMon
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
