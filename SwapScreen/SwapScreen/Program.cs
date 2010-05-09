@@ -50,6 +50,11 @@ namespace SwapScreen
 			{
 				Properties.Settings.Default.Upgrade();
 				Properties.Settings.Default.NeedSettingsUpgrade = false;
+				// save the settings now, as settings are normally only saved
+				// when user explicitly changes a setting and if the user doesn't
+				// change any settings, we would end up upgrading each time the
+				// program is started.
+				Properties.Settings.Default.Save();
 			}
 		}
 
