@@ -133,7 +133,8 @@ or two copies of the program would be started.<p>
 <ul>
 	<li>Any window that does not have the WS_VISIBLE attribute set.</li>
 	<li>Any window that has been deliberately positioned offscreen.</li>
-	<li>Any window with the WS_EX_TOOLWINDOW style.</li>
+	<li>Any window with the WS_EX_TOOLWINDOW style, 
+	unless this is the active window and you are performing an operation on the active window.</li>
 </ul>
 </p>
 <p>If the SwapScreen hotkey is used when running a full screen application, normally a game,
