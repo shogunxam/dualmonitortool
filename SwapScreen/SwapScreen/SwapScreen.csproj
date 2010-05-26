@@ -44,7 +44,11 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AutoStart.cs" />
+    <Compile Include="CursorBarrierLower.cs" />
+    <Compile Include="CursorBarrierUpper.cs" />
+    <Compile Include="CursorHelper.cs" />
     <Compile Include="HotKey.cs" />
+    <Compile Include="HotKeyController.cs" />
     <Compile Include="HotKeyForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +74,7 @@
     <Compile Include="OptionsForm.designer.cs">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OsHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutForm.resx">
@@ -112,6 +117,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Scaler.cs" />
     <Compile Include="ScreenHelper.cs" />
     <Compile Include="SystemMenuHelper.cs" />
     <Compile Include="Win32.cs" />

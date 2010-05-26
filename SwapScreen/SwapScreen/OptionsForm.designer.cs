@@ -489,6 +489,7 @@ namespace SwapScreen
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
 			this.Text = "Options for SwapScreen";
+			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.Shown += new System.EventHandler(this.OptionsForm_Shown);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
 			this.contextMenuStrip.ResumeLayout(false);
