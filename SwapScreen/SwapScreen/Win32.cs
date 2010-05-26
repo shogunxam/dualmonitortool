@@ -43,6 +43,9 @@ namespace SwapScreen
 		public const int SW_SHOWDEFAULT = 10;
 		public const int SW_FORCEMINIMIZE = 11;
 
+		// Global/Local Hooks
+		public const int WH_MOUSE_LL = 14;
+
 		// Flags for Add/Check/EnableMenuItem() 
 		public const int MF_STRING = 0x00000000;
 		public const int MF_SEPARATOR = 0x00000800;
@@ -89,6 +92,7 @@ namespace SwapScreen
 			public int right;
 			public int bottom;
 
+			// ctor to simplify creation
 			public RECT(int left, int top, int right, int bottom)
 			{
 				this.left = left;
@@ -108,11 +112,31 @@ namespace SwapScreen
 			public RECT rcNormalPosition;
 		}
 
+		public struct MSLLHOOKSTRUCT
+		{
+			public POINT pt;
+			public uint mouseData;
+			public uint flags;
+			public uint time;
+			public uint dwExtraInfo;
+		}
+
+
 		// deleagte used by EnumWindows()
 		public delegate bool EnumWindowsProc(IntPtr Wnd, uint lParam);
 
+		// delegate used by SetWindowsHookEx()
+		public delegate int HookProc(int nCode, IntPtr wParam, IntPtr lParam);
+
 		[DllImport("user32.dll")]
 		public static extern int AppendMenu(int hMenu, int uFlags, int uIDNewItem, string lpNewItem);
+
+		[DllImport("user32.dll")]
+		public static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+		//[DllImport("user32.dll")]
+		//[return: MarshalAs(UnmanagedType.Bool)]
+		//public static extern bool ClipCursor(ref RECT lpRect);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -124,16 +148,20 @@ namespace SwapScreen
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetForegroundWindow();
 
+		[DllImport("kernel32.dll")]		// winbase.h
+		public static extern IntPtr GetModuleHandle(string lpModuleName);
+
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetShellWindow();
 
 		[DllImport("user32.dll")]
-		public static extern int GetSystemMenu(int hwnd, int bRevert);
+		public static extern int GetSystemMenu(IntPtr hwnd, int bRevert);
 
 		[DllImport("user32.dll")]
 		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
 		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 
 		[DllImport("user32.dll")]
@@ -143,15 +171,26 @@ namespace SwapScreen
 		public static extern int GetWindowTextLength(IntPtr hWnd);
 
 		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool IsWindowVisible(IntPtr hWnd);
 
 		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
 		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 
 		[DllImport("user32.dll")]
+		public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 	}
 }
