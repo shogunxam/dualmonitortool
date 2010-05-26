@@ -121,9 +121,33 @@
     <value>About Swap Screen...</value>
     <comment>Text for the about menu item</comment>
   </data>
+  <data name="CursorNextScreenDescription" xml:space="preserve">
+    <value>Move cursor to next screen</value>
+  </data>
+  <data name="CursorNextScreenWin7" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CursorPrevScreenDescription" xml:space="preserve">
+    <value>Move cursor to previous screen</value>
+  </data>
+  <data name="CursorPrevScreenWin7" xml:space="preserve">
+    <value />
+  </data>
+  <data name="FreeCursorDescription" xml:space="preserve">
+    <value>Cursor free to move between screens</value>
+  </data>
+  <data name="FreeCursorWin7" xml:space="preserve">
+    <value />
+  </data>
   <data name="License" xml:space="preserve">
     <value>This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
+  </data>
+  <data name="LockCursorDescription" xml:space="preserve">
+    <value>Lock cursor onto screen</value>
+  </data>
+  <data name="LockCursorWin7" xml:space="preserve">
+    <value />
   </data>
   <data name="MaximiseDescription" xml:space="preserve">
     <value>Maximise the active window</value>
@@ -194,6 +218,12 @@ Try another hot key combination.</value>
   </data>
   <data name="ShowDesktopMenuItem" xml:space="preserve">
     <value>Show desktop {0}</value>
+  </data>
+  <data name="StickyCursorDescription" xml:space="preserve">
+    <value>Cursor movement between screens is sticky</value>
+  </data>
+  <data name="StickyCursorWin7" xml:space="preserve">
+    <value />
   </data>
   <data name="SupersizeDescription" xml:space="preserve">
     <value>Supersize the avtive window</value>

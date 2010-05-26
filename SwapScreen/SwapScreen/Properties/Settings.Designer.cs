@@ -154,5 +154,77 @@ namespace SwapScreen.Properties {
                 this["RotatePrevHotKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
+        public uint FreeCursorHotKey {
+            get {
+                return ((uint)(this["FreeCursorHotKey"]));
+            }
+            set {
+                this["FreeCursorHotKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
+        public uint StickyCursorHotKey {
+            get {
+                return ((uint)(this["StickyCursorHotKey"]));
+            }
+            set {
+                this["StickyCursorHotKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
+        public uint LockCursorHotKey {
+            get {
+                return ((uint)(this["LockCursorHotKey"]));
+            }
+            set {
+                this["LockCursorHotKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
+        public uint CursorNextScreenHotKey {
+            get {
+                return ((uint)(this["CursorNextScreenHotKey"]));
+            }
+            set {
+                this["CursorNextScreenHotKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
+        public uint CursorPrevScreenHotKey {
+            get {
+                return ((uint)(this["CursorPrevScreenHotKey"]));
+            }
+            set {
+                this["CursorPrevScreenHotKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int MinStickyForce {
+            get {
+                return ((int)(this["MinStickyForce"]));
+            }
+            set {
+                this["MinStickyForce"] = value;
+            }
+        }
     }
 }

@@ -44,6 +44,7 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AutoStart.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="CursorBarrierLower.cs" />
     <Compile Include="CursorBarrierUpper.cs" />
     <Compile Include="CursorHelper.cs" />

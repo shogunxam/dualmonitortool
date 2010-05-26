@@ -35,5 +35,23 @@
     <Setting Name="RotatePrevHotKey" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
+    <Setting Name="FreeCursorHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="StickyCursorHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="LockCursorHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="CursorNextScreenHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="CursorPrevScreenHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="MinStickyForce" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -30,11 +30,19 @@ namespace SwapScreen
 	/// </summary>
 	static class ScreenHelper
 	{
+		/// <summary>
+		/// Attempts to minimize all visible application windows on
+		/// the first screen.
+		/// </summary>
 		public static void ShowDesktop1()
 		{
 			ShowDesktop(0);
 		}
 
+		/// <summary>
+		/// Attempts to minimize all visible application windows on
+		/// the second screen.
+		/// </summary>
 		public static void ShowDesktop2()
 		{
 			ShowDesktop(1);
@@ -369,11 +377,6 @@ namespace SwapScreen
 			int curScreenIndex = FindScreenIndex(curScreen);
 			if (curScreenIndex >= 0)
 			{
-				//int otherScreenIndex = (curScreenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
-				//if (otherScreenIndex < 0)
-				//{
-				//    otherScreenIndex += Screen.AllScreens.Length;
-				//}
 				int otherScreenIndex = DeltaScreenIndex(curScreenIndex, deltaScreenIndex);
 				if (otherScreenIndex != curScreenIndex)
 				{
@@ -425,11 +428,6 @@ namespace SwapScreen
 			return screenIndex;
 		}
 
-		//public static FindDeltaScreen(Screen startScreen, int deltaScreenIndex)
-		//{
-
-		//}
-
 		/// <summary>
 		/// Moves the window corresponding to the specified HWND
 		/// to the next screen.
@@ -440,10 +438,6 @@ namespace SwapScreen
 		{
 			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
 			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			//Rectangle curRect = new Rectangle(windowPlacement.rcNormalPosition.left,
-			//                               windowPlacement.rcNormalPosition.top,
-			//                               windowPlacement.rcNormalPosition.right - windowPlacement.rcNormalPosition.left,
-			//                               windowPlacement.rcNormalPosition.bottom - windowPlacement.rcNormalPosition.top);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			Rectangle newRect = TransfromRectToOtherScreen(ref curRect, deltaScreenIndex);
 			uint oldShowCmd = windowPlacement.showCmd;
@@ -453,10 +447,6 @@ namespace SwapScreen
 				windowPlacement.showCmd = Win32.SW_RESTORE;
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 				windowPlacement.showCmd = Win32.SW_SHOW;
-				//windowPlacement.rcNormalPosition.left = newRect.Left;
-				//windowPlacement.rcNormalPosition.top = newRect.Top;
-				//windowPlacement.rcNormalPosition.right = newRect.Right;
-				//windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 				// now minimise/maximise it
@@ -466,10 +456,6 @@ namespace SwapScreen
 			else
 			{
 				// normal window - not minimised or maximised
-				//windowPlacement.rcNormalPosition.left = newRect.Left;
-				//windowPlacement.rcNormalPosition.top = newRect.Top;
-				//windowPlacement.rcNormalPosition.right = newRect.Right;
-				//windowPlacement.rcNormalPosition.bottom = newRect.Bottom;
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 			}

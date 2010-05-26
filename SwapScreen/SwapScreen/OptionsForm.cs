@@ -30,41 +30,20 @@ namespace SwapScreen
 	/// <summary>
 	/// Main form of application.
 	/// This is used to show the options dialog,
-	/// handle the context menu
-	/// and also contains the hot key and associated handling.
+	/// and handle the context menu.
 	/// </summary>
 	public partial class OptionsForm : Form
 	{
 		private bool shutDown = false;
 
+		// unique name for for a key for use within the Run section of the registry
 		private const string autoStartKeyName = "GNE_SwapScreen";
 
 		private const int IDM_ABOUTBOX = 0x100;
-		private const int ID_HOTKEY_NEXTSCREEN = 0x101;
-		private const int ID_HOTKEY_PREVSCREEN = 0x102;
-		private const int ID_HOTKEY_MINIMISE = 0x103;
-		private const int ID_HOTKEY_MINIMISE_ALL_BUT = 0x104;
-		private const int ID_HOTKEY_MAXIMISE = 0x105;
-		private const int ID_HOTKEY_SUPERSIZE = 0x106;
-		private const int ID_HOTKEY_ROTATENEXT = 0x107;
-		private const int ID_HOTKEY_ROTATEPREV = 0x108;
-		private const int ID_HOTKEY_SHOWDESKTOP1 = 0x109;
-		private const int ID_HOTKEY_SHOWDESKTOP2 = 0x10A;
-
-
-		private HotKeyController nextScreenHotKeyController;
-		private HotKeyController prevScreenHotKeyController;
-		private HotKeyController minimiseHotKeyController;
-		private HotKeyController minimiseAllButHotKeyController;
-		private HotKeyController maximiseHotKeyController;
-		private HotKeyController supersizeHotKeyController;
-		private HotKeyController rotateNextHotKeyController;
-		private HotKeyController rotatePrevHotKeyController;
-		private HotKeyController showDesktop1HotKeyController;
-		private HotKeyController showDesktop2HotKeyController;
+		// ID's 0x2?? are used by Controller for HotKey Id's
 
 		/// <summary>
-		/// Initialises the form, hot key and the context menu.
+		/// Initialises the form, the controller and the context menu.
 		/// </summary>
 		public OptionsForm()
 		{
@@ -72,115 +51,21 @@ namespace SwapScreen
 
 			this.Text = Program.MyTitle;
 
-			InitHotKeys();
+			Controller.Instance.Init(this);
 			InitContextMenu();
 		}
 
-		private void InitHotKeys()
-		{
-			nextScreenHotKeyController = new HotKeyController(this, ID_HOTKEY_NEXTSCREEN,
-				"HotKeyValue",
-				Properties.Resources.NextScreenDescription,
-				Properties.Resources.NextScreenWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.MoveActiveToNextScreen));
-
-			prevScreenHotKeyController = new HotKeyController(this, ID_HOTKEY_PREVSCREEN,
-				"PrevScreenHotKey",
-				Properties.Resources.PrevScreenDescription,
-				Properties.Resources.PrevScreenWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.MoveActiveToPrevScreen));
-
-			minimiseHotKeyController = new HotKeyController(this, ID_HOTKEY_MINIMISE,
-				"MinimiseHotKey",
-				Properties.Resources.MinimiseDescription,
-				Properties.Resources.MinimiseWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.MinimiseActive));
-
-			minimiseAllButHotKeyController = new HotKeyController(this, ID_HOTKEY_MINIMISE_ALL_BUT,
-				"MinimiseAllButHotKey",
-				Properties.Resources.MinimiseAllButDescription,
-				Properties.Resources.MinimiseAllButWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.MinimiseAllButActive));
-
-			maximiseHotKeyController = new HotKeyController(this, ID_HOTKEY_MAXIMISE,
-				"MaximiseHotKey",
-				Properties.Resources.MaximiseDescription,
-				Properties.Resources.MaximiseWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.MaximiseActive));
-
-			supersizeHotKeyController = new HotKeyController(this, ID_HOTKEY_SUPERSIZE,
-				"SupersizeHotKey",
-				Properties.Resources.SupersizeDescription,
-				Properties.Resources.SupersizeWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.SupersizeActive));
-
-			rotateNextHotKeyController = new HotKeyController(this, ID_HOTKEY_ROTATENEXT,
-				"RotateNextHotKey",
-				Properties.Resources.RotateNextDescription,
-				Properties.Resources.RotateNextWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.RotateScreensNext));
-
-			rotatePrevHotKeyController = new HotKeyController(this, ID_HOTKEY_ROTATEPREV,
-				"RotatePrevHotKey",
-				Properties.Resources.RotatePrevDescription,
-				Properties.Resources.RotatePrevWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.RotateScreensPrev));
-
-			showDesktop1HotKeyController = new HotKeyController(this, ID_HOTKEY_SHOWDESKTOP1,
-				"ShowDesktop1HotKey",
-				Properties.Resources.ShowDesktop1Description,
-				Properties.Resources.ShowDesktop1Win7,
-				new HotKey.HotKeyHandler(ScreenHelper.ShowDesktop1));
-
-			showDesktop2HotKeyController = new HotKeyController(this, ID_HOTKEY_SHOWDESKTOP2,
-				"ShowDesktop2HotKey",
-				Properties.Resources.ShowDesktop2Description,
-				Properties.Resources.ShowDesktop2Win7,
-				new HotKey.HotKeyHandler(ScreenHelper.ShowDesktop2));
-		}
-
-		private void TermHotKeys()
-		{
-			showDesktop2HotKeyController.Dispose();
-			showDesktop1HotKeyController.Dispose();
-			rotatePrevHotKeyController.Dispose();
-			rotateNextHotKeyController.Dispose();
-			supersizeHotKeyController.Dispose();
-			maximiseHotKeyController.Dispose();
-			minimiseAllButHotKeyController.Dispose();
-			minimiseHotKeyController.Dispose();
-			prevScreenHotKeyController.Dispose();
-			nextScreenHotKeyController.Dispose();
-		}
-
+		// dynamically add any needed menu items to the context menu
 		private void InitContextMenu()
 		{
+			// add a 'Show Desktop n' for each known screen
 			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
 			{
 				AddShowDesktopMenuItem(screenIndex);
 			}
 		}
 
-		private void OptionsForm_Load(object sender, EventArgs e)
-		{
-			InitHotKeyLabels();
-			UpdateAutoStartCheckBox();
-		}
-
-		private void InitHotKeyLabels()
-		{
-			labelNextScreen.Text = nextScreenHotKeyController.ToString();
-			labelPrevScreen.Text = prevScreenHotKeyController.ToString();
-			labelMinimise.Text = minimiseHotKeyController.ToString();
-			labelMinimiseAllBut.Text = minimiseAllButHotKeyController.ToString();
-			labelMaximise.Text = maximiseHotKeyController.ToString();
-			labelSupersize.Text = supersizeHotKeyController.ToString();
-			labelRotateNext.Text = rotateNextHotKeyController.ToString();
-			labelRotatePrev.Text = rotatePrevHotKeyController.ToString();
-			labelShowDesktop1.Text = showDesktop1HotKeyController.ToString();
-			labelShowDesktop2.Text = showDesktop2HotKeyController.ToString();
-		}
-
+		// add a 'Show Desktop n' for each the given screen
 		// screenIndex is 0 based
 		private void AddShowDesktopMenuItem(int screenIndex)
 		{
@@ -192,10 +77,44 @@ namespace SwapScreen
 			contextMenuStrip.Items.Insert(screenIndex, menuItem);
 		}
 
-		private void OptionsForm_Shown(object sender, EventArgs e)
+		// Finish off initialising the form
+		private void OptionsForm_Load(object sender, EventArgs e)
 		{
+			InitHotKeyLabels();
+			UpdateAutoStartCheckBox();
+
+			// add 'About...' menuitem to system menu
 			SystemMenuHelper.AppendSeparator(this);
 			SystemMenuHelper.Append(this, IDM_ABOUTBOX, Properties.Resources.AboutMenuItem);
+		}
+
+		// displays the current hotkey strings in out form
+		private void InitHotKeyLabels()
+		{
+			labelNextScreen.Text = Controller.Instance.NextScreenHotKeyController.ToString();
+			labelPrevScreen.Text = Controller.Instance.PrevScreenHotKeyController.ToString();
+			labelMinimise.Text = Controller.Instance.MinimiseHotKeyController.ToString();
+			labelMinimiseAllBut.Text = Controller.Instance.MinimiseAllButHotKeyController.ToString();
+			labelMaximise.Text = Controller.Instance.MaximiseHotKeyController.ToString();
+			labelSupersize.Text = Controller.Instance.SupersizeHotKeyController.ToString();
+			labelRotateNext.Text = Controller.Instance.RotateNextHotKeyController.ToString();
+			labelRotatePrev.Text = Controller.Instance.RotatePrevHotKeyController.ToString();
+			labelShowDesktop1.Text = Controller.Instance.ShowDesktop1HotKeyController.ToString();
+			labelShowDesktop2.Text = Controller.Instance.ShowDesktop2HotKeyController.ToString();
+
+			// cursor tab
+			labelFreeCursor.Text = Controller.Instance.FreeCursorHotKeyController.ToString();
+			labelStickyCursor.Text = Controller.Instance.StickyCursorHotKeyController.ToString();
+			labelLockCursor.Text = Controller.Instance.LockCursorHotKeyController.ToString();
+			labelCursorNextScreen.Text = Controller.Instance.CursorNextScreenHotKeyController.ToString();
+			labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
+		}
+
+		private void OptionsForm_Shown(object sender, EventArgs e)
+		{
+			// This is now performed in Form_Load()
+			//SystemMenuHelper.AppendSeparator(this);
+			//SystemMenuHelper.Append(this, IDM_ABOUTBOX, Properties.Resources.AboutMenuItem);
 		}
 
 		private void buttonCancel_Click(object sender, EventArgs e)
@@ -210,7 +129,8 @@ namespace SwapScreen
 			// don't shutdown if the form is just being closed 
 			if (shutDown || e.CloseReason != CloseReason.UserClosing)
 			{
-				TermHotKeys();
+				// Let the controller release all the hotkeys
+				Controller.Instance.Term();
 			}
 			else
 			{
@@ -295,85 +215,127 @@ namespace SwapScreen
 		}
 		#endregion
 
+		#region HotKey 'Change...' button notifications
 		private void buttonNextScreen_Click(object sender, EventArgs e)
 		{
-			if (nextScreenHotKeyController.Edit())
+			if (Controller.Instance.NextScreenHotKeyController.Edit())
 			{
-				labelNextScreen.Text = nextScreenHotKeyController.ToString();
+				labelNextScreen.Text = Controller.Instance.NextScreenHotKeyController.ToString();
 			}
 		}
 
 		private void buttonPreviousScreen_Click(object sender, EventArgs e)
 		{
-			if (prevScreenHotKeyController.Edit())
+			if (Controller.Instance.PrevScreenHotKeyController.Edit())
 			{
-				labelPrevScreen.Text = prevScreenHotKeyController.ToString();
+				labelPrevScreen.Text = Controller.Instance.PrevScreenHotKeyController.ToString();
 			}
 		}
 
 		private void buttonMinimise_Click(object sender, EventArgs e)
 		{
-			if (minimiseHotKeyController.Edit())
+			if (Controller.Instance.MinimiseHotKeyController.Edit())
 			{
-				labelMinimise.Text = minimiseHotKeyController.ToString();
+				labelMinimise.Text = Controller.Instance.MinimiseHotKeyController.ToString();
 			}
 		}
 
 		private void buttonMinimiseAllBut_Click(object sender, EventArgs e)
 		{
-			if (minimiseAllButHotKeyController.Edit())
+			if (Controller.Instance.MinimiseAllButHotKeyController.Edit())
 			{
-				labelMinimiseAllBut.Text = minimiseAllButHotKeyController.ToString();
+				labelMinimiseAllBut.Text = Controller.Instance.MinimiseAllButHotKeyController.ToString();
 			}
 		}
 
 		private void buttonMaximise_Click(object sender, EventArgs e)
 		{
-			if (maximiseHotKeyController.Edit())
+			if (Controller.Instance.MaximiseHotKeyController.Edit())
 			{
-				labelMaximise.Text = maximiseHotKeyController.ToString();
+				labelMaximise.Text = Controller.Instance.MaximiseHotKeyController.ToString();
 			}
 		}
 
 		private void buttonSuperSize_Click(object sender, EventArgs e)
 		{
-			if (supersizeHotKeyController.Edit())
+			if (Controller.Instance.SupersizeHotKeyController.Edit())
 			{
-				labelSupersize.Text = supersizeHotKeyController.ToString();
+				labelSupersize.Text = Controller.Instance.SupersizeHotKeyController.ToString();
 			}
 		}
 
 		private void buttonRotateNext_Click(object sender, EventArgs e)
 		{
-			if (rotateNextHotKeyController.Edit())
+			if (Controller.Instance.RotateNextHotKeyController.Edit())
 			{
-				labelRotateNext.Text = rotateNextHotKeyController.ToString();
+				labelRotateNext.Text = Controller.Instance.RotateNextHotKeyController.ToString();
 			}
 		}
 
 		private void buttonRotatePrev_Click(object sender, EventArgs e)
 		{
-			if (rotatePrevHotKeyController.Edit())
+			if (Controller.Instance.RotatePrevHotKeyController.Edit())
 			{
-				labelRotatePrev.Text = rotatePrevHotKeyController.ToString();
+				labelRotatePrev.Text = Controller.Instance.RotatePrevHotKeyController.ToString();
 			}
 		}
 
 		private void buttonDesktop1_Click(object sender, EventArgs e)
 		{
-			if (showDesktop1HotKeyController.Edit())
+			if (Controller.Instance.ShowDesktop1HotKeyController.Edit())
 			{
-				labelShowDesktop1.Text = showDesktop1HotKeyController.ToString();
+				labelShowDesktop1.Text = Controller.Instance.ShowDesktop1HotKeyController.ToString();
 			}
 		}
 
 		private void buttonDesktop2_Click(object sender, EventArgs e)
 		{
-			if (showDesktop2HotKeyController.Edit())
+			if (Controller.Instance.ShowDesktop2HotKeyController.Edit())
 			{
-				labelShowDesktop2.Text = showDesktop2HotKeyController.ToString();
+				labelShowDesktop2.Text = Controller.Instance.ShowDesktop2HotKeyController.ToString();
 			}
 		}
+
+		private void buttonFreeCursor_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.FreeCursorHotKeyController.Edit())
+			{
+				labelFreeCursor.Text = Controller.Instance.FreeCursorHotKeyController.ToString();
+			}
+		}
+
+		private void buttonStickyCursor_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.StickyCursorHotKeyController.Edit())
+			{
+				labelStickyCursor.Text = Controller.Instance.StickyCursorHotKeyController.ToString();
+			}
+		}
+
+		private void buttonLockCursor_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.LockCursorHotKeyController.Edit())
+			{
+				labelLockCursor.Text = Controller.Instance.LockCursorHotKeyController.ToString();
+			}
+		}
+
+		private void buttonCursorNextScreen_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.CursorNextScreenHotKeyController.Edit())
+			{
+				labelCursorNextScreen.Text = Controller.Instance.CursorNextScreenHotKeyController.ToString();
+			}
+		}
+
+		private void buttonCursorPrevScreen_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.CursorPrevScreenHotKeyController.Edit())
+			{
+				labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
+			}
+		}
+		#endregion
 
 		#region AutoStart
 		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)

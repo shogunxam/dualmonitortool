@@ -70,12 +70,84 @@ namespace SwapScreen.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move cursor to next screen.
+        /// </summary>
+        internal static string CursorNextScreenDescription {
+            get {
+                return ResourceManager.GetString("CursorNextScreenDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CursorNextScreenWin7 {
+            get {
+                return ResourceManager.GetString("CursorNextScreenWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move cursor to previous screen.
+        /// </summary>
+        internal static string CursorPrevScreenDescription {
+            get {
+                return ResourceManager.GetString("CursorPrevScreenDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CursorPrevScreenWin7 {
+            get {
+                return ResourceManager.GetString("CursorPrevScreenWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cursor free to move between screens.
+        /// </summary>
+        internal static string FreeCursorDescription {
+            get {
+                return ResourceManager.GetString("FreeCursorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string FreeCursorWin7 {
+            get {
+                return ResourceManager.GetString("FreeCursorWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This program comes with ABSOLUTELY NO WARRANTY.
         ///This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details..
         /// </summary>
         internal static string License {
             get {
                 return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock cursor onto screen.
+        /// </summary>
+        internal static string LockCursorDescription {
+            get {
+                return ResourceManager.GetString("LockCursorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string LockCursorWin7 {
+            get {
+                return ResourceManager.GetString("LockCursorWin7", resourceCulture);
             }
         }
         
@@ -284,6 +356,24 @@ namespace SwapScreen.Properties {
         internal static string ShowDesktopMenuItem {
             get {
                 return ResourceManager.GetString("ShowDesktopMenuItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cursor movement between screens is sticky.
+        /// </summary>
+        internal static string StickyCursorDescription {
+            get {
+                return ResourceManager.GetString("StickyCursorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string StickyCursorWin7 {
+            get {
+                return ResourceManager.GetString("StickyCursorWin7", resourceCulture);
             }
         }
         

@@ -50,15 +50,24 @@ namespace SwapScreen
 		// program which didn't have the disable ability
 		private const uint FLAG_DISABLED = 0x01000000;
 
+		/// <summary>
+		/// The key combo value for hotkeys that are disabled
+		/// </summary>
 		public const uint DisabledComboValue = FLAG_DISABLED;
 
 		private uint comboValue;
+		/// <summary>
+		/// A uint used to fully represent this key combination
+		/// </summary>
 		public uint ComboValue
 		{
 			get { return comboValue; }
 			set { comboValue = value; }
 		}
 
+		/// <summary>
+		/// Indicates if the key combination is enabled
+		/// </summary>
 		public bool Enabled
 		{
 			get { return !IsSet(comboValue, FLAG_DISABLED); }
@@ -111,11 +120,13 @@ namespace SwapScreen
 			set { SetBit(value, FLAG_WIN); }
 		}
 
+		// checks if the given flag is set in the value
 		private bool IsSet(uint value, uint flag)
 		{
 			return (value & flag) != 0;
 		}
 
+		// sets or unsets a given flag mask in the value
 		private void SetBit(bool set, uint flag)
 		{
 			if (set)
@@ -192,6 +203,10 @@ namespace SwapScreen
 			comboValue = config;
 		}
 
+		/// <summary>
+		/// Converts the key combination into a displayable string
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
 			string ret;

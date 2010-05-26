@@ -25,6 +25,11 @@ using System.Windows.Forms;
 
 namespace SwapScreen
 {
+	/// <summary>
+	/// This is a small wrapper for the HotKey which links the
+	/// Hotkey itself with the form to edit it and the property
+	/// required to make its key combination persistant.
+	/// </summary>
 	class HotKeyController : IDisposable
 	{
 		// The HotKey does the real work
@@ -40,16 +45,23 @@ namespace SwapScreen
 
 		// short description of the hotkey
 		private string description;
-		public string Description
-		{
-			get { return description; }
-		}
 
 		// displayable string representing the hotkey that Windows 7
 		// uses for this hotkey operation.  Leave empty if Windows 7 does
 		// not have such a key.
 		private string win7Key;
 
+		/// <summary>
+		/// Ctor
+		/// </summary>
+		/// <param name="form">Form to receive hotkey notifications</param>
+		/// <param name="id">Unique identifier for this hotkey</param>
+		/// <param name="propertyName">Name within Properties.Settings used to persist the hotkey combo</param>
+		/// <param name="description">Short description of the hotkey 
+		/// - used when editing the hotkey to remind the user what they are changing.</param>
+		/// <param name="win7Key">String representation of what Windows 7 uses for this hotkey 
+		/// - again for display to the user when they are changing the hotkey</param>
+		/// <param name="handler">The delegate to handle events for this hotkey</param>
 		public HotKeyController(Form form, int id, string propertyName, string description, string win7Key, HotKey.HotKeyHandler handler)
 		{
 			// remember these for use later on
@@ -82,9 +94,18 @@ namespace SwapScreen
 			}
 		}
 
+		/// <summary>
+		/// Show the HotKeyFrom to allow the hotkey to be chnaged.
+		/// </summary>
+		/// <returns>true if user OK'd the HotKeyForm</returns>
 		public bool Edit()
 		{
 			bool edited = false;
+
+			// If Windows 7 has its own hotkey for this,
+			// then we display a note to the user about it.
+			// The content of the note will depend on whether they
+			// are running Windows 7 or not.
 			string note = "";
 			if (win7Key != null && win7Key.Length > 0)
 			{
@@ -113,6 +134,17 @@ namespace SwapScreen
 			return edited;
 		}
 
+		/// <summary>
+		/// Checks if the hotkey is enabled
+		/// </summary>
+		/// <returns>true if the hotkey is in use</returns>
+		public bool IsEnabled()
+		{
+			//return hotKey.HotKeyCombo.ToPropertyValue() != KeyCombo.DisabledComboValue;
+			return hotKey.HotKeyCombo.Enabled;
+		}
+
+		// Gets the HotKey combo value from the persisted value in Poperties.Settings
 		private KeyCombo GetSavedKeyCombo()
 		{
 			KeyCombo keyCombo = new KeyCombo();
@@ -132,6 +164,7 @@ namespace SwapScreen
 			return keyCombo;
 		}
 
+		// Persists the hotkey combo value to Properties.Settings
 		private void SaveKeyCombo()
 		{
 			uint hotKeyValue = hotKey.HotKeyCombo.ToPropertyValue();
@@ -146,6 +179,10 @@ namespace SwapScreen
 			}
 		}
 
+		/// <summary>
+		/// Gets a user displayable string of the key combination of this hotkey.
+		/// </summary>
+		/// <returns>User displayable string of the key combination for this hotkey</returns>
 		public override string ToString()
 		{
 			return hotKey.HotKeyCombo.ToString();

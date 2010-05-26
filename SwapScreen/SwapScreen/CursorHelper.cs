@@ -27,77 +27,123 @@ using System.Windows.Forms;
 
 namespace SwapScreen
 {
+	/// <summary>
+	/// Utility class to help with cursor manipulation.
+	/// 
+	/// TODO: this class contains some static state variables, so may want
+	/// to look at splitting this class up and makeing use of a singleton
+	/// at some point in the future.
+	/// </summary>
 	class CursorHelper
 	{
-		// temp test code
-		public static void ToggleLockCursorToScreen()
-		{
-			if (llMouseHook == IntPtr.Zero)
-			{
-				StickyCursor();
-			}
-			else
-			{
-				UnLockCursor();
-			}
-		}
+		// we remember the current cursor type so that
+		// we can perform a toggle operation if required
+		private enum CursorType { Free, Sticky, Lock };
+		private static CursorType curCursorType = CursorType.Free;
 
+		/// <summary>
+		/// Set the cursor so that its movement is unhindered by the screen edges
+		/// </summary>
 		public static void FreeCursor()
 		{
 			UnLockCursor();
+			curCursorType = CursorType.Free;
 		}
 
+		/// <summary>
+		/// Make the transition between the screens sticky.
+		/// 
+		/// Note: If the current cursor state is already sticky and a hotkey has not been defined to free the cursor
+		/// then we toggle the sticky state off.  This is mainly for safety rather than functionality.
+		/// </summary>
 		public static void StickyCursor()
 		{
-			minForce = 1000; //Properties.Settings.Default.MinStickyForce;
-			LockCursorToScreen();
+			if (curCursorType == CursorType.Sticky && !Controller.Instance.FreeCursorHotKeyController.IsEnabled())
+			{
+				// force operation to toggle
+				FreeCursor();
+			}
+			else
+			{
+				minForce = Properties.Settings.Default.MinStickyForce;
+				LockCursorToScreen();
+				curCursorType = CursorType.Sticky;
+			}
 		}
 
+		/// <summary>
+		/// Lock the cursor to the current screen.
+		/// 
+		/// Note: If the current cursor state is already locked and a hotkey has not been defined to free the cursor
+		/// then we toggle the locked state off.  This is mainly for safety rather than functionality.
+		/// </summary>
 		public static void LockCursor()
 		{
-			minForce = Int32.MaxValue;
-			LockCursorToScreen();
+			if (curCursorType == CursorType.Lock && !Controller.Instance.FreeCursorHotKeyController.IsEnabled())
+			{
+				// force operation to toggle
+				FreeCursor();
+			}
+			else
+			{
+				minForce = Int32.MaxValue;
+				LockCursorToScreen();
+				curCursorType = CursorType.Lock;
+			}
 		}
 
+		/// <summary>
+		/// Move the cursor to the next screen.
+		/// The cursors position relative to the edges of the screen it is on
+		/// is maintaied after it has been moved.
+		/// </summary>
 		public static void CursorToNextScreen()
 		{
 			CursorToDeltaScreen(1);
 		}
 
+		/// <summary>
+		/// Move the cursor to the previous screen.
+		/// The cursors position relative to the edges of the screen it is on
+		/// is maintaied after it has been moved.
+		/// </summary>
 		public static void CursorToPrevScreen()
 		{
 			CursorToDeltaScreen(-1);
 		}
 
-
+		// Barriers which constrain the cursor movement
 		private static CursorBarrierLower leftBarrier;
 		private static CursorBarrierUpper rightBarrier;
 		private static CursorBarrierLower topBarrier;
 		private static CursorBarrierUpper bottomBarrier;
+		// minimum amount of force to break through the barrier
 		private static int minForce;
 		
+		// Win32 low level mouse hook
 		private static Win32.HookProc llMouseProc = llMouseHookCallback;
 		private static IntPtr llMouseHook = IntPtr.Zero;
 
+		// inidicates if cursor movement is restricted (sticky or locked)
 		private static bool CursorLocked
 		{
 			get { return llMouseHook != IntPtr.Zero; }
 		}
 
+		// This is the low level Mouse hook callback
+		// Processing in here should be efficient as possible
+		// as it can be called very frequently.
 		private static int llMouseHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
 		{
 			if (nCode >= 0)
 			{
+				// TODO: we only want pt, so we don't have to marshal the entire structure
 				Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
 
 				int x = msllHookStruct.pt.x;
 				int y = msllHookStruct.pt.y;
-				bool brokenThrough = false;
 
-				if (leftBarrier.BrokenThrough(ref x))
-				{
-					brokenThrough = true;
-				}
+				bool brokenThrough = leftBarrier.BrokenThrough(ref x);
 				if (rightBarrier.BrokenThrough(ref x))
 				{
 					brokenThrough = true;
@@ -117,6 +163,7 @@ namespace SwapScreen
 				}
 				if (x != msllHookStruct.pt.x || y != msllHookStruct.pt.y)
 				{
+					// override te position that Windows wants to place the cursor
 					Cursor.Position = new Point(x, y);
 					return 1;
 				}
@@ -124,6 +171,7 @@ namespace SwapScreen
 			return Win32.CallNextHookEx(llMouseHook, nCode, wParam, lParam);
 		}
 
+		// The cursor should be locked (possibly just sticky) to the screen it is currently on.
 		private static void LockCursorToScreen()
 		{
 			ReBuildBarriers(Cursor.Position);
@@ -141,15 +189,18 @@ namespace SwapScreen
 			}
 		}
 
+		// The cursor's movement should not be hindered by screen edges
 		private static void UnLockCursor()
 		{
 			if (llMouseHook != IntPtr.Zero)
 			{
+				// unhook our callback to make sure there is no performance degredation
 				Win32.UnhookWindowsHookEx(llMouseHook);
 				llMouseHook = IntPtr.Zero;
 			}
 		}
 
+		// Move the cursor to another screen
 		private static void CursorToDeltaScreen(int deltaScreenIndex)
 		{
 			bool wasLocked = CursorLocked;
@@ -184,12 +235,16 @@ namespace SwapScreen
 			}
 		}
 
+		// rebuild the barriers to restrict movement of the cursor
+		// to the screen that it is currently on.
+		// This can be called by the low level mouse hook callback,
+		// so needs to be reasonably efficient.
 		private static void ReBuildBarriers(Point pt)
 		{
 			Screen curScreen = Screen.FromPoint(pt);
 			// We use the virtualDesktopRect to determine if it is
 			// possible for the mouse to move over each of the borders
-			// of the current screen
+			// of the current screen.
 			Rectangle vitrualDesktopRect = ScreenHelper.GetVitrualDesktopRect();
 
 			// left of current screen
@@ -199,6 +254,7 @@ namespace SwapScreen
 			}
 			else
 			{
+				// not possible for mouse to move here, so fully disable barrier to improve efficiency
 				leftBarrier = new CursorBarrierLower(false, 0, 0);
 			}
 
@@ -209,6 +265,7 @@ namespace SwapScreen
 			}
 			else
 			{
+				// not possible for mouse to move here, so fully disable barrier to improve efficiency
 				rightBarrier = new CursorBarrierUpper(false, 0, 0);
 			}
 
@@ -219,6 +276,7 @@ namespace SwapScreen
 			}
 			else
 			{
+				// not possible for mouse to move here, so fully disable barrier to improve efficiency
 				topBarrier = new CursorBarrierLower(false, 0, 0);
 			}
 
@@ -229,9 +287,9 @@ namespace SwapScreen
 			}
 			else
 			{
+				// not possible for mouse to move here, so fully disable barrier to improve efficiency
 				bottomBarrier = new CursorBarrierUpper(false, 0, 0);
 			}
 		}
-	
 	}
 }

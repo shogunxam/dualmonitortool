@@ -23,9 +23,15 @@ using System.Text;
 
 namespace SwapScreen
 {
+	/// <summary>
+	/// Utility class to handle O/S specific issues
+	/// </summary>
 	class OsHelper
 	{
-
+		/// <summary>
+		/// Determine if we are running Windows 7
+		/// </summary>
+		/// <returns>true if this is Windows 7</returns>
 		public static bool IsWin7()
 		{
 			bool isWin7 = false;
@@ -40,7 +46,7 @@ namespace SwapScreen
 					{
 						isWin7 = true;
 					}
-					// TODO: what about future versions of Windows
+					// TODO: what about future versions of Windows?
 				}
 			}
 
