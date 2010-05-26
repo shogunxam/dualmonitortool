@@ -50,6 +50,7 @@ namespace SwapScreen
 		// program which didn't have the disable ability
 		private const uint FLAG_DISABLED = 0x01000000;
 
+		public const uint DisabledComboValue = FLAG_DISABLED;
 
 		private uint comboValue;
 		public uint ComboValue
