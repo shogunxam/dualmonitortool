@@ -259,7 +259,7 @@ namespace SwapScreen
 		/// </summary>
 		/// <param name="rect">Win 32 RECT</param>
 		/// <returns>.NET Rectangle</returns>
-		private static Rectangle RectToRectangle(ref Win32.RECT rect)
+		public static Rectangle RectToRectangle(ref Win32.RECT rect)
 		{
 			Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
@@ -269,9 +269,9 @@ namespace SwapScreen
 		/// <summary>
 		/// Converts a Rectangle to a Win32 RECT
 		/// </summary>
-		/// <param name="rectangle">.NET Rectabgle</param>
+		/// <param name="rectangle">.NET Rectangle</param>
 		/// <returns>Win32 RECT</returns>
-		private static Win32.RECT RectangleToRect(ref Rectangle rectangle)
+		public static Win32.RECT RectangleToRect(ref Rectangle rectangle)
 		{
 			Win32.RECT rect = new Win32.RECT(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
 
@@ -334,7 +334,8 @@ namespace SwapScreen
 		/// Get the bounding rectangle that covers all screens
 		/// </summary>
 		/// <returns></returns>
-		private static Rectangle GetVitrualDesktopRect()
+		//private static Rectangle GetVitrualDesktopRect()
+		public static Rectangle GetVitrualDesktopRect()
 		{
 			Rectangle boundingRect = new Rectangle();
 			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
@@ -368,11 +369,12 @@ namespace SwapScreen
 			int curScreenIndex = FindScreenIndex(curScreen);
 			if (curScreenIndex >= 0)
 			{
-				int otherScreenIndex = (curScreenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
-				if (otherScreenIndex < 0)
-				{
-					otherScreenIndex += Screen.AllScreens.Length;
-				}
+				//int otherScreenIndex = (curScreenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
+				//if (otherScreenIndex < 0)
+				//{
+				//    otherScreenIndex += Screen.AllScreens.Length;
+				//}
+				int otherScreenIndex = DeltaScreenIndex(curScreenIndex, deltaScreenIndex);
 				if (otherScreenIndex != curScreenIndex)
 				{
 					// keep TLHC in next screen same as current screen (relative to the working araea)
@@ -385,12 +387,24 @@ namespace SwapScreen
 			return otherRect;
 		}
 
+		public static int DeltaScreenIndex(int screenIndex, int deltaScreenIndex)
+		{
+			int newScreenIndex = (screenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
+			if (newScreenIndex < 0)
+			{
+				newScreenIndex += Screen.AllScreens.Length;
+			}
+
+			return newScreenIndex;
+		}
+
 		/// <summary>
 		/// Finds the index within Screen.AllScreens[] that the passed screen is on.
 		/// </summary>
 		/// <param name="screen">The screen whoose index we are trying to find</param>
 		/// <returns>Zero based screen index, or -1 if screen not found</returns>
-		private static int FindScreenIndex(Screen screen)
+		//private static int FindScreenIndex(Screen screen)
+		public static int FindScreenIndex(Screen screen)
 		{
 			int screenIndex = -1;
 			for (int i = 0; i < Screen.AllScreens.Length; i++)
@@ -410,6 +424,11 @@ namespace SwapScreen
 
 			return screenIndex;
 		}
+
+		//public static FindDeltaScreen(Screen startScreen, int deltaScreenIndex)
+		//{
+
+		//}
 
 		/// <summary>
 		/// Moves the window corresponding to the specified HWND
