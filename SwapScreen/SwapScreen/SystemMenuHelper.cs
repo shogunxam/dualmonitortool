@@ -37,7 +37,8 @@ namespace SwapScreen
 		/// <param name="form">Form containing the system menu.</param>
 		public static void AppendSeparator(Form form)
 		{
-			int hMenu = Win32.GetSystemMenu(form.Handle.ToInt32(), 0);
+			//int hMenu = Win32.GetSystemMenu(form.Handle.ToInt32(), 0);
+			int hMenu = Win32.GetSystemMenu(form.Handle, 0);
 			Win32.AppendMenu(hMenu, Win32.MF_SEPARATOR, 0, null);
 		}
 
@@ -49,7 +50,8 @@ namespace SwapScreen
 		/// <param name="newItem">Text for the new menu item.</param>
 		public static void Append(Form form, int idNewItem, string newItem)
 		{
-			int hMenu = Win32.GetSystemMenu(form.Handle.ToInt32(), 0);
+			//int hMenu = Win32.GetSystemMenu(form.Handle.ToInt32(), 0);
+			int hMenu = Win32.GetSystemMenu(form.Handle, 0);
 			Win32.AppendMenu(hMenu, Win32.MF_STRING, idNewItem, newItem);
 		}
 	}
