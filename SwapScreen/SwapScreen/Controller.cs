@@ -209,6 +209,8 @@ namespace SwapScreen
 		public void Term()
 		{
 			TermHotKeys();
+			// make sure the mouse hook has been released
+			CursorHelper.FreeCursor();
 		}
 
 		// fully initialise all of the hotkeys
