@@ -119,6 +119,15 @@ namespace SwapScreen
 		private static CursorBarrierUpper bottomBarrier;
 		// minimum amount of force to break through the barrier
 		private static int minForce;
+		public static int MinForce
+		{
+			set 
+			{ 
+				minForce = value;
+				// minForce is used within the barriers, so must update these as well
+				ReBuildBarriers(Cursor.Position);
+			}
+		}
 		
 		// Win32 low level mouse hook
 		private static Win32.HookProc llMouseProc = llMouseHookCallback;

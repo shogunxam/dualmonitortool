@@ -31,6 +31,9 @@ namespace SwapScreen
 	/// Main form of application.
 	/// This is used to show the options dialog,
 	/// and handle the context menu.
+	/// 
+	/// Note: changes made in the options dialog have immediate effect.
+	/// There is no 'OK' or 'Cancel' button.
 	/// </summary>
 	public partial class OptionsForm : Form
 	{
@@ -80,7 +83,7 @@ namespace SwapScreen
 		// Finish off initialising the form
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
-			InitHotKeyLabels();
+			InitDialogValues();
 			UpdateAutoStartCheckBox();
 
 			// add 'About...' menuitem to system menu
@@ -89,7 +92,7 @@ namespace SwapScreen
 		}
 
 		// displays the current hotkey strings in out form
-		private void InitHotKeyLabels()
+		private void InitDialogValues()
 		{
 			labelNextScreen.Text = Controller.Instance.NextScreenHotKeyController.ToString();
 			labelPrevScreen.Text = Controller.Instance.PrevScreenHotKeyController.ToString();
@@ -108,6 +111,7 @@ namespace SwapScreen
 			labelLockCursor.Text = Controller.Instance.LockCursorHotKeyController.ToString();
 			labelCursorNextScreen.Text = Controller.Instance.CursorNextScreenHotKeyController.ToString();
 			labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
+			scrollBarSticky.Value = Properties.Settings.Default.MinStickyForce;
 		}
 
 		private void OptionsForm_Shown(object sender, EventArgs e)
@@ -336,6 +340,17 @@ namespace SwapScreen
 			}
 		}
 		#endregion
+
+		#region Other dialog events
+		private void scrollBarSticky_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.MinStickyForce = scrollBarSticky.Value;
+			Properties.Settings.Default.Save();
+			// update the cursor controller in case sticky cursor currently in use
+			CursorHelper.MinForce = Properties.Settings.Default.MinStickyForce;
+		}
+		#endregion
+
 
 		#region AutoStart
 		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)

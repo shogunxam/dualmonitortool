@@ -73,36 +73,42 @@ namespace SwapScreen
 			this.checkBoxAutoStart = new System.Windows.Forms.CheckBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageActive = new System.Windows.Forms.TabPage();
-			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tabPageMouse = new System.Windows.Forms.TabPage();
-			this.tabPageGeneral = new System.Windows.Forms.TabPage();
-			this.label2 = new System.Windows.Forms.Label();
-			this.LockCursor = new System.Windows.Forms.Label();
-			this.labelLockCursor = new System.Windows.Forms.Label();
-			this.buttonFreeCursor = new System.Windows.Forms.Button();
-			this.buttonLockCursor = new System.Windows.Forms.Button();
-			this.labelStickyCursor = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
-			this.labelFreeCursor = new System.Windows.Forms.Label();
-			this.buttonStickyCursor = new System.Windows.Forms.Button();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.labelCursorNextScreen = new System.Windows.Forms.Label();
-			this.buttonCursorNextScreen = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
 			this.labelCursorPrevScreen = new System.Windows.Forms.Label();
 			this.buttonCursorPrevScreen = new System.Windows.Forms.Button();
+			this.label4 = new System.Windows.Forms.Label();
+			this.labelCursorNextScreen = new System.Windows.Forms.Label();
+			this.buttonCursorNextScreen = new System.Windows.Forms.Button();
+			this.buttonStickyCursor = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.labelFreeCursor = new System.Windows.Forms.Label();
+			this.LockCursor = new System.Windows.Forms.Label();
+			this.label9 = new System.Windows.Forms.Label();
+			this.labelLockCursor = new System.Windows.Forms.Label();
+			this.labelStickyCursor = new System.Windows.Forms.Label();
+			this.buttonFreeCursor = new System.Windows.Forms.Button();
+			this.buttonLockCursor = new System.Windows.Forms.Button();
+			this.tabPageGeneral = new System.Windows.Forms.TabPage();
+			this.scrollBarSticky = new System.Windows.Forms.HScrollBar();
+			this.label5 = new System.Windows.Forms.Label();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label13 = new System.Windows.Forms.Label();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
-			this.tabPageOther.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tabPageOther.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabPageMouse.SuspendLayout();
-			this.tabPageGeneral.SuspendLayout();
 			this.groupBox3.SuspendLayout();
+			this.tabPageGeneral.SuspendLayout();
+			this.groupBox4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// notifyIcon
@@ -176,7 +182,7 @@ namespace SwapScreen
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(226, 300);
+			this.buttonCancel.Location = new System.Drawing.Point(223, 319);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 3;
@@ -474,7 +480,7 @@ namespace SwapScreen
 			this.tabControl1.Location = new System.Drawing.Point(12, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(506, 231);
+			this.tabControl1.Size = new System.Drawing.Size(506, 258);
 			this.tabControl1.TabIndex = 7;
 			// 
 			// tabPageActive
@@ -483,21 +489,10 @@ namespace SwapScreen
 			this.tabPageActive.Location = new System.Drawing.Point(4, 22);
 			this.tabPageActive.Name = "tabPageActive";
 			this.tabPageActive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageActive.Size = new System.Drawing.Size(498, 205);
+			this.tabPageActive.Size = new System.Drawing.Size(498, 265);
 			this.tabPageActive.TabIndex = 0;
 			this.tabPageActive.Text = "Active Window";
 			this.tabPageActive.UseVisualStyleBackColor = true;
-			// 
-			// tabPageOther
-			// 
-			this.tabPageOther.Controls.Add(this.groupBox2);
-			this.tabPageOther.Location = new System.Drawing.Point(4, 22);
-			this.tabPageOther.Name = "tabPageOther";
-			this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageOther.Size = new System.Drawing.Size(498, 205);
-			this.tabPageOther.TabIndex = 1;
-			this.tabPageOther.Text = "Other Windows";
-			this.tabPageOther.UseVisualStyleBackColor = true;
 			// 
 			// groupBox1
 			// 
@@ -522,6 +517,17 @@ namespace SwapScreen
 			this.groupBox1.TabIndex = 22;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
+			// 
+			// tabPageOther
+			// 
+			this.tabPageOther.Controls.Add(this.groupBox2);
+			this.tabPageOther.Location = new System.Drawing.Point(4, 22);
+			this.tabPageOther.Name = "tabPageOther";
+			this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageOther.Size = new System.Drawing.Size(498, 205);
+			this.tabPageOther.TabIndex = 1;
+			this.tabPageOther.Text = "Other Windows";
+			this.tabPageOther.UseVisualStyleBackColor = true;
 			// 
 			// groupBox2
 			// 
@@ -549,104 +555,14 @@ namespace SwapScreen
 			// 
 			// tabPageMouse
 			// 
+			this.tabPageMouse.Controls.Add(this.groupBox4);
 			this.tabPageMouse.Controls.Add(this.groupBox3);
 			this.tabPageMouse.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMouse.Name = "tabPageMouse";
-			this.tabPageMouse.Size = new System.Drawing.Size(498, 205);
+			this.tabPageMouse.Size = new System.Drawing.Size(498, 232);
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
-			// 
-			// tabPageGeneral
-			// 
-			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
-			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
-			this.tabPageGeneral.Name = "tabPageGeneral";
-			this.tabPageGeneral.Size = new System.Drawing.Size(498, 205);
-			this.tabPageGeneral.TabIndex = 3;
-			this.tabPageGeneral.Text = "General";
-			this.tabPageGeneral.UseVisualStyleBackColor = true;
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(7, 17);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(224, 13);
-			this.label2.TabIndex = 28;
-			this.label2.Text = "Cursor free to move between screens";
-			// 
-			// LockCursor
-			// 
-			this.LockCursor.Location = new System.Drawing.Point(7, 75);
-			this.LockCursor.Name = "LockCursor";
-			this.LockCursor.Size = new System.Drawing.Size(224, 13);
-			this.LockCursor.TabIndex = 34;
-			this.LockCursor.Text = "Lock Cursor onto screen";
-			// 
-			// labelLockCursor
-			// 
-			this.labelLockCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelLockCursor.Location = new System.Drawing.Point(237, 75);
-			this.labelLockCursor.Name = "labelLockCursor";
-			this.labelLockCursor.Size = new System.Drawing.Size(153, 13);
-			this.labelLockCursor.TabIndex = 35;
-			this.labelLockCursor.Text = "labelLockCursor";
-			// 
-			// buttonFreeCursor
-			// 
-			this.buttonFreeCursor.Location = new System.Drawing.Point(396, 12);
-			this.buttonFreeCursor.Name = "buttonFreeCursor";
-			this.buttonFreeCursor.Size = new System.Drawing.Size(75, 23);
-			this.buttonFreeCursor.TabIndex = 30;
-			this.buttonFreeCursor.Text = "Change...";
-			this.buttonFreeCursor.UseVisualStyleBackColor = true;
-			this.buttonFreeCursor.Click += new System.EventHandler(this.buttonFreeCursor_Click);
-			// 
-			// buttonLockCursor
-			// 
-			this.buttonLockCursor.Location = new System.Drawing.Point(396, 70);
-			this.buttonLockCursor.Name = "buttonLockCursor";
-			this.buttonLockCursor.Size = new System.Drawing.Size(75, 23);
-			this.buttonLockCursor.TabIndex = 36;
-			this.buttonLockCursor.Text = "Change...";
-			this.buttonLockCursor.UseVisualStyleBackColor = true;
-			this.buttonLockCursor.Click += new System.EventHandler(this.buttonLockCursor_Click);
-			// 
-			// labelStickyCursor
-			// 
-			this.labelStickyCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelStickyCursor.Location = new System.Drawing.Point(237, 46);
-			this.labelStickyCursor.Name = "labelStickyCursor";
-			this.labelStickyCursor.Size = new System.Drawing.Size(153, 13);
-			this.labelStickyCursor.TabIndex = 32;
-			this.labelStickyCursor.Text = "labelStickyCursor";
-			// 
-			// label9
-			// 
-			this.label9.Location = new System.Drawing.Point(7, 46);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(224, 13);
-			this.label9.TabIndex = 31;
-			this.label9.Text = "Cursor movement between screens is sticky";
-			// 
-			// labelFreeCursor
-			// 
-			this.labelFreeCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelFreeCursor.Location = new System.Drawing.Point(237, 17);
-			this.labelFreeCursor.Name = "labelFreeCursor";
-			this.labelFreeCursor.Size = new System.Drawing.Size(153, 13);
-			this.labelFreeCursor.TabIndex = 29;
-			this.labelFreeCursor.Text = "labelFreeCursor";
-			// 
-			// buttonStickyCursor
-			// 
-			this.buttonStickyCursor.Location = new System.Drawing.Point(396, 41);
-			this.buttonStickyCursor.Name = "buttonStickyCursor";
-			this.buttonStickyCursor.Size = new System.Drawing.Size(75, 23);
-			this.buttonStickyCursor.TabIndex = 33;
-			this.buttonStickyCursor.Text = "Change...";
-			this.buttonStickyCursor.UseVisualStyleBackColor = true;
-			this.buttonStickyCursor.Click += new System.EventHandler(this.buttonStickyCursor_Click);
 			// 
 			// groupBox3
 			// 
@@ -667,37 +583,10 @@ namespace SwapScreen
 			this.groupBox3.Controls.Add(this.buttonLockCursor);
 			this.groupBox3.Location = new System.Drawing.Point(8, 9);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(479, 180);
+			this.groupBox3.Size = new System.Drawing.Size(479, 160);
 			this.groupBox3.TabIndex = 37;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "HotKeys";
-			// 
-			// label4
-			// 
-			this.label4.Location = new System.Drawing.Point(7, 104);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(224, 13);
-			this.label4.TabIndex = 37;
-			this.label4.Text = "Move cursor to next screen";
-			// 
-			// labelCursorNextScreen
-			// 
-			this.labelCursorNextScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelCursorNextScreen.Location = new System.Drawing.Point(237, 104);
-			this.labelCursorNextScreen.Name = "labelCursorNextScreen";
-			this.labelCursorNextScreen.Size = new System.Drawing.Size(153, 13);
-			this.labelCursorNextScreen.TabIndex = 38;
-			this.labelCursorNextScreen.Text = "labelCursorNextScreen";
-			// 
-			// buttonCursorNextScreen
-			// 
-			this.buttonCursorNextScreen.Location = new System.Drawing.Point(396, 99);
-			this.buttonCursorNextScreen.Name = "buttonCursorNextScreen";
-			this.buttonCursorNextScreen.Size = new System.Drawing.Size(75, 23);
-			this.buttonCursorNextScreen.TabIndex = 39;
-			this.buttonCursorNextScreen.Text = "Change...";
-			this.buttonCursorNextScreen.UseVisualStyleBackColor = true;
-			this.buttonCursorNextScreen.Click += new System.EventHandler(this.buttonCursorNextScreen_Click);
 			// 
 			// label7
 			// 
@@ -726,11 +615,180 @@ namespace SwapScreen
 			this.buttonCursorPrevScreen.UseVisualStyleBackColor = true;
 			this.buttonCursorPrevScreen.Click += new System.EventHandler(this.buttonCursorPrevScreen_Click);
 			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(7, 104);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(224, 13);
+			this.label4.TabIndex = 37;
+			this.label4.Text = "Move cursor to next screen";
+			// 
+			// labelCursorNextScreen
+			// 
+			this.labelCursorNextScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelCursorNextScreen.Location = new System.Drawing.Point(237, 104);
+			this.labelCursorNextScreen.Name = "labelCursorNextScreen";
+			this.labelCursorNextScreen.Size = new System.Drawing.Size(153, 13);
+			this.labelCursorNextScreen.TabIndex = 38;
+			this.labelCursorNextScreen.Text = "labelCursorNextScreen";
+			// 
+			// buttonCursorNextScreen
+			// 
+			this.buttonCursorNextScreen.Location = new System.Drawing.Point(396, 99);
+			this.buttonCursorNextScreen.Name = "buttonCursorNextScreen";
+			this.buttonCursorNextScreen.Size = new System.Drawing.Size(75, 23);
+			this.buttonCursorNextScreen.TabIndex = 39;
+			this.buttonCursorNextScreen.Text = "Change...";
+			this.buttonCursorNextScreen.UseVisualStyleBackColor = true;
+			this.buttonCursorNextScreen.Click += new System.EventHandler(this.buttonCursorNextScreen_Click);
+			// 
+			// buttonStickyCursor
+			// 
+			this.buttonStickyCursor.Location = new System.Drawing.Point(396, 41);
+			this.buttonStickyCursor.Name = "buttonStickyCursor";
+			this.buttonStickyCursor.Size = new System.Drawing.Size(75, 23);
+			this.buttonStickyCursor.TabIndex = 33;
+			this.buttonStickyCursor.Text = "Change...";
+			this.buttonStickyCursor.UseVisualStyleBackColor = true;
+			this.buttonStickyCursor.Click += new System.EventHandler(this.buttonStickyCursor_Click);
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(7, 17);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(224, 13);
+			this.label2.TabIndex = 28;
+			this.label2.Text = "Cursor free to move between screens";
+			// 
+			// labelFreeCursor
+			// 
+			this.labelFreeCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelFreeCursor.Location = new System.Drawing.Point(237, 17);
+			this.labelFreeCursor.Name = "labelFreeCursor";
+			this.labelFreeCursor.Size = new System.Drawing.Size(153, 13);
+			this.labelFreeCursor.TabIndex = 29;
+			this.labelFreeCursor.Text = "labelFreeCursor";
+			// 
+			// LockCursor
+			// 
+			this.LockCursor.Location = new System.Drawing.Point(7, 75);
+			this.LockCursor.Name = "LockCursor";
+			this.LockCursor.Size = new System.Drawing.Size(224, 13);
+			this.LockCursor.TabIndex = 34;
+			this.LockCursor.Text = "Lock Cursor onto screen";
+			// 
+			// label9
+			// 
+			this.label9.Location = new System.Drawing.Point(7, 46);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(224, 13);
+			this.label9.TabIndex = 31;
+			this.label9.Text = "Cursor movement between screens is sticky";
+			// 
+			// labelLockCursor
+			// 
+			this.labelLockCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelLockCursor.Location = new System.Drawing.Point(237, 75);
+			this.labelLockCursor.Name = "labelLockCursor";
+			this.labelLockCursor.Size = new System.Drawing.Size(153, 13);
+			this.labelLockCursor.TabIndex = 35;
+			this.labelLockCursor.Text = "labelLockCursor";
+			// 
+			// labelStickyCursor
+			// 
+			this.labelStickyCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelStickyCursor.Location = new System.Drawing.Point(237, 46);
+			this.labelStickyCursor.Name = "labelStickyCursor";
+			this.labelStickyCursor.Size = new System.Drawing.Size(153, 13);
+			this.labelStickyCursor.TabIndex = 32;
+			this.labelStickyCursor.Text = "labelStickyCursor";
+			// 
+			// buttonFreeCursor
+			// 
+			this.buttonFreeCursor.Location = new System.Drawing.Point(396, 12);
+			this.buttonFreeCursor.Name = "buttonFreeCursor";
+			this.buttonFreeCursor.Size = new System.Drawing.Size(75, 23);
+			this.buttonFreeCursor.TabIndex = 30;
+			this.buttonFreeCursor.Text = "Change...";
+			this.buttonFreeCursor.UseVisualStyleBackColor = true;
+			this.buttonFreeCursor.Click += new System.EventHandler(this.buttonFreeCursor_Click);
+			// 
+			// buttonLockCursor
+			// 
+			this.buttonLockCursor.Location = new System.Drawing.Point(396, 70);
+			this.buttonLockCursor.Name = "buttonLockCursor";
+			this.buttonLockCursor.Size = new System.Drawing.Size(75, 23);
+			this.buttonLockCursor.TabIndex = 36;
+			this.buttonLockCursor.Text = "Change...";
+			this.buttonLockCursor.UseVisualStyleBackColor = true;
+			this.buttonLockCursor.Click += new System.EventHandler(this.buttonLockCursor_Click);
+			// 
+			// tabPageGeneral
+			// 
+			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
+			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
+			this.tabPageGeneral.Name = "tabPageGeneral";
+			this.tabPageGeneral.Size = new System.Drawing.Size(498, 205);
+			this.tabPageGeneral.TabIndex = 3;
+			this.tabPageGeneral.Text = "General";
+			this.tabPageGeneral.UseVisualStyleBackColor = true;
+			// 
+			// scrollBarSticky
+			// 
+			this.scrollBarSticky.Location = new System.Drawing.Point(264, 12);
+			this.scrollBarSticky.Maximum = 3000;
+			this.scrollBarSticky.Name = "scrollBarSticky";
+			this.scrollBarSticky.Size = new System.Drawing.Size(177, 17);
+			this.scrollBarSticky.SmallChange = 10;
+			this.scrollBarSticky.TabIndex = 38;
+			this.scrollBarSticky.Value = 100;
+			this.scrollBarSticky.ValueChanged += new System.EventHandler(this.scrollBarSticky_ValueChanged);
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(7, 16);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(208, 13);
+			this.label5.TabIndex = 39;
+			this.label5.Text = "Resistance to movement between screens";
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.label13);
+			this.groupBox4.Controls.Add(this.label11);
+			this.groupBox4.Controls.Add(this.label5);
+			this.groupBox4.Controls.Add(this.scrollBarSticky);
+			this.groupBox4.Location = new System.Drawing.Point(8, 175);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(479, 43);
+			this.groupBox4.TabIndex = 40;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Sticky cursor options";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(237, 16);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(24, 13);
+			this.label11.TabIndex = 40;
+			this.label11.Text = "Min";
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(444, 16);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(27, 13);
+			this.label13.TabIndex = 41;
+			this.label13.Text = "Max";
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(530, 350);
+			this.ClientSize = new System.Drawing.Size(530, 354);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.buttonCancel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -745,13 +803,15 @@ namespace SwapScreen
 			this.contextMenuStrip.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPageActive.ResumeLayout(false);
-			this.tabPageOther.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
+			this.tabPageOther.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.tabPageMouse.ResumeLayout(false);
+			this.groupBox3.ResumeLayout(false);
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
-			this.groupBox3.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -822,6 +882,11 @@ namespace SwapScreen
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label labelCursorNextScreen;
 		private System.Windows.Forms.Button buttonCursorNextScreen;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.HScrollBar scrollBarSticky;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.Label label11;
 	}
 }
 
