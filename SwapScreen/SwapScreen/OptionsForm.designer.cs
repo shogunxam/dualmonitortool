@@ -77,6 +77,12 @@ namespace SwapScreen
 			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tabPageMouse = new System.Windows.Forms.TabPage();
+			this.checkBoxControlUnhindersCursor = new System.Windows.Forms.CheckBox();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.scrollBarSticky = new System.Windows.Forms.HScrollBar();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.labelCursorPrevScreen = new System.Windows.Forms.Label();
@@ -94,12 +100,6 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
-			this.scrollBarSticky = new System.Windows.Forms.HScrollBar();
-			this.label5 = new System.Windows.Forms.Label();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.label11 = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
-			this.checkBoxControlUnhindersCursor = new System.Windows.Forms.CheckBox();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
@@ -107,9 +107,9 @@ namespace SwapScreen
 			this.tabPageOther.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabPageMouse.SuspendLayout();
+			this.groupBox4.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.tabPageGeneral.SuspendLayout();
-			this.groupBox4.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// notifyIcon
@@ -490,7 +490,7 @@ namespace SwapScreen
 			this.tabPageActive.Location = new System.Drawing.Point(4, 22);
 			this.tabPageActive.Name = "tabPageActive";
 			this.tabPageActive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageActive.Size = new System.Drawing.Size(498, 265);
+			this.tabPageActive.Size = new System.Drawing.Size(498, 257);
 			this.tabPageActive.TabIndex = 0;
 			this.tabPageActive.Text = "Active Window";
 			this.tabPageActive.UseVisualStyleBackColor = true;
@@ -525,7 +525,7 @@ namespace SwapScreen
 			this.tabPageOther.Location = new System.Drawing.Point(4, 22);
 			this.tabPageOther.Name = "tabPageOther";
 			this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageOther.Size = new System.Drawing.Size(498, 205);
+			this.tabPageOther.Size = new System.Drawing.Size(498, 257);
 			this.tabPageOther.TabIndex = 1;
 			this.tabPageOther.Text = "Other Windows";
 			this.tabPageOther.UseVisualStyleBackColor = true;
@@ -565,6 +565,68 @@ namespace SwapScreen
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxControlUnhindersCursor
+			// 
+			this.checkBoxControlUnhindersCursor.AutoSize = true;
+			this.checkBoxControlUnhindersCursor.Location = new System.Drawing.Point(14, 224);
+			this.checkBoxControlUnhindersCursor.Name = "checkBoxControlUnhindersCursor";
+			this.checkBoxControlUnhindersCursor.Size = new System.Drawing.Size(301, 17);
+			this.checkBoxControlUnhindersCursor.TabIndex = 41;
+			this.checkBoxControlUnhindersCursor.Text = "Allow cursor to move freely if the left Control key is pressed";
+			this.checkBoxControlUnhindersCursor.UseVisualStyleBackColor = true;
+			this.checkBoxControlUnhindersCursor.CheckedChanged += new System.EventHandler(this.checkBoxControlUnhindersCursor_CheckedChanged);
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.label13);
+			this.groupBox4.Controls.Add(this.label11);
+			this.groupBox4.Controls.Add(this.label5);
+			this.groupBox4.Controls.Add(this.scrollBarSticky);
+			this.groupBox4.Location = new System.Drawing.Point(8, 175);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(479, 43);
+			this.groupBox4.TabIndex = 40;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Sticky cursor options";
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(444, 16);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(27, 13);
+			this.label13.TabIndex = 41;
+			this.label13.Text = "Max";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(237, 16);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(24, 13);
+			this.label11.TabIndex = 40;
+			this.label11.Text = "Min";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(7, 16);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(208, 13);
+			this.label5.TabIndex = 39;
+			this.label5.Text = "Resistance to movement between screens";
+			// 
+			// scrollBarSticky
+			// 
+			this.scrollBarSticky.Location = new System.Drawing.Point(264, 12);
+			this.scrollBarSticky.Maximum = 3000;
+			this.scrollBarSticky.Name = "scrollBarSticky";
+			this.scrollBarSticky.Size = new System.Drawing.Size(177, 17);
+			this.scrollBarSticky.SmallChange = 10;
+			this.scrollBarSticky.TabIndex = 38;
+			this.scrollBarSticky.Value = 100;
+			this.scrollBarSticky.ValueChanged += new System.EventHandler(this.scrollBarSticky_ValueChanged);
 			// 
 			// groupBox3
 			// 
@@ -730,72 +792,10 @@ namespace SwapScreen
 			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
 			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGeneral.Name = "tabPageGeneral";
-			this.tabPageGeneral.Size = new System.Drawing.Size(498, 205);
+			this.tabPageGeneral.Size = new System.Drawing.Size(498, 257);
 			this.tabPageGeneral.TabIndex = 3;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
-			// 
-			// scrollBarSticky
-			// 
-			this.scrollBarSticky.Location = new System.Drawing.Point(264, 12);
-			this.scrollBarSticky.Maximum = 3000;
-			this.scrollBarSticky.Name = "scrollBarSticky";
-			this.scrollBarSticky.Size = new System.Drawing.Size(177, 17);
-			this.scrollBarSticky.SmallChange = 10;
-			this.scrollBarSticky.TabIndex = 38;
-			this.scrollBarSticky.Value = 100;
-			this.scrollBarSticky.ValueChanged += new System.EventHandler(this.scrollBarSticky_ValueChanged);
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(7, 16);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(208, 13);
-			this.label5.TabIndex = 39;
-			this.label5.Text = "Resistance to movement between screens";
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.Controls.Add(this.label13);
-			this.groupBox4.Controls.Add(this.label11);
-			this.groupBox4.Controls.Add(this.label5);
-			this.groupBox4.Controls.Add(this.scrollBarSticky);
-			this.groupBox4.Location = new System.Drawing.Point(8, 175);
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(479, 43);
-			this.groupBox4.TabIndex = 40;
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = "Sticky cursor options";
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(237, 16);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(24, 13);
-			this.label11.TabIndex = 40;
-			this.label11.Text = "Min";
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(444, 16);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(27, 13);
-			this.label13.TabIndex = 41;
-			this.label13.Text = "Max";
-			// 
-			// checkBoxControlUnhindersCursor
-			// 
-			this.checkBoxControlUnhindersCursor.AutoSize = true;
-			this.checkBoxControlUnhindersCursor.Location = new System.Drawing.Point(14, 224);
-			this.checkBoxControlUnhindersCursor.Name = "checkBoxControlUnhindersCursor";
-			this.checkBoxControlUnhindersCursor.Size = new System.Drawing.Size(301, 17);
-			this.checkBoxControlUnhindersCursor.TabIndex = 41;
-			this.checkBoxControlUnhindersCursor.Text = "Allow cursor to move freely if the left Control key is pressed";
-			this.checkBoxControlUnhindersCursor.UseVisualStyleBackColor = true;
-			this.checkBoxControlUnhindersCursor.CheckedChanged += new System.EventHandler(this.checkBoxControlUnhindersCursor_CheckedChanged);
 			// 
 			// OptionsForm
 			// 
@@ -821,11 +821,11 @@ namespace SwapScreen
 			this.groupBox2.ResumeLayout(false);
 			this.tabPageMouse.ResumeLayout(false);
 			this.tabPageMouse.PerformLayout();
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
-			this.groupBox4.ResumeLayout(false);
-			this.groupBox4.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
