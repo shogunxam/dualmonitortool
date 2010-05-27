@@ -28,6 +28,7 @@ namespace DisMon
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisMonForm));
 			this.buttonDisable = new System.Windows.Forms.Button();
 			this.buttonEnable = new System.Windows.Forms.Button();
 			this.SuspendLayout();
@@ -60,6 +61,7 @@ namespace DisMon
 			this.Controls.Add(this.buttonEnable);
 			this.Controls.Add(this.buttonDisable);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "DisMonForm";
