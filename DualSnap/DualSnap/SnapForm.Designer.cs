@@ -42,9 +42,9 @@ namespace DualSnap
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutDualSnapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.visitDualSnapWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-			this.visitDualSnapWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			this.contextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -77,7 +77,7 @@ namespace DualSnap
             this.visitDualSnapWebsiteToolStripMenuItem,
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(198, 236);
+			this.contextMenuStrip.Size = new System.Drawing.Size(198, 214);
 			this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
 			// 
 			// snapToolStripMenuItem
@@ -157,6 +157,14 @@ namespace DualSnap
 			this.aboutDualSnapToolStripMenuItem.Text = "About Dual Snap";
 			this.aboutDualSnapToolStripMenuItem.Click += new System.EventHandler(this.aboutDualSnapToolStripMenuItem_Click);
 			// 
+			// visitDualSnapWebsiteToolStripMenuItem
+			// 
+			this.visitDualSnapWebsiteToolStripMenuItem.Name = "visitDualSnapWebsiteToolStripMenuItem";
+			this.visitDualSnapWebsiteToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.visitDualSnapWebsiteToolStripMenuItem.Text = "Visit Dual Snap Website";
+			this.visitDualSnapWebsiteToolStripMenuItem.ToolTipText = "Open Dual Snap\'s website in your browser";
+			this.visitDualSnapWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitDualSnapWebsiteToolStripMenuItem_Click);
+			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -172,14 +180,6 @@ namespace DualSnap
 			this.notifyIcon.Text = "Dual Snap";
 			this.notifyIcon.Visible = true;
 			this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
-			// 
-			// visitDualSnapWebsiteToolStripMenuItem
-			// 
-			this.visitDualSnapWebsiteToolStripMenuItem.Name = "visitDualSnapWebsiteToolStripMenuItem";
-			this.visitDualSnapWebsiteToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-			this.visitDualSnapWebsiteToolStripMenuItem.Text = "Visit Dual Snap Website";
-			this.visitDualSnapWebsiteToolStripMenuItem.ToolTipText = "Open Dual Snap\'s website in your browser";
-			this.visitDualSnapWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitDualSnapWebsiteToolStripMenuItem_Click);
 			// 
 			// SnapForm
 			// 
