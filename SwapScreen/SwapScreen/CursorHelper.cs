@@ -36,6 +36,20 @@ namespace SwapScreen
 	/// </summary>
 	class CursorHelper
 	{
+		public static void Init()
+		{
+			curCursorType = CursorType.Free;
+			minForce = Properties.Settings.Default.MinStickyForce;
+			enableDisableLocking = Properties.Settings.Default.ControlUnhindersCursor;
+		}
+
+		public static void Term()
+		{
+			// This will release the hooks if they are hooked
+			UnLockCursor();
+			curCursorType = CursorType.Free;
+		}
+
 		// we remember the current cursor type so that
 		// we can perform a toggle operation if required
 		private enum CursorType { Free, Sticky, Lock };
@@ -112,6 +126,16 @@ namespace SwapScreen
 			CursorToDeltaScreen(-1);
 		}
 
+		/// <summary>
+		/// Called when display settings have changed.
+		/// We need to capture this as the screen co-ords may have
+		/// changed so we must rebuild the barriers.
+		/// </summary>
+		public static void DisplaySettingsChanged()
+		{
+			ReBuildBarriers();
+		}
+
 		// Barriers which constrain the cursor movement
 		private static CursorBarrierLower leftBarrier;
 		private static CursorBarrierUpper rightBarrier;
@@ -125,13 +149,36 @@ namespace SwapScreen
 			{ 
 				minForce = value;
 				// minForce is used within the barriers, so must update these as well
-				ReBuildBarriers(Cursor.Position);
+				ReBuildBarriers();
+			}
+		}
+
+		// if true, allows free movement of the cursor
+		// this is set when the control key is pressed
+		private static bool disableLocking;
+
+		// enables the disabling of locking!
+		// i.e. allows locking to be disabled if the control key is pressed
+		private static bool enableDisableLocking;
+		public static bool EnableDisableLocking
+		{
+			set
+			{
+				enableDisableLocking = value;
+				if (!enableDisableLocking)
+				{
+					disableLocking = false;
+				}
 			}
 		}
 		
 		// Win32 low level mouse hook
 		private static Win32.HookProc llMouseProc = llMouseHookCallback;
 		private static IntPtr llMouseHook = IntPtr.Zero;
+
+		// Win32 low level keyboard hook
+		private static Win32.HookProc llKeyboardProc = llKeyboardHookCallback;
+		private static IntPtr llKeyboardHook = IntPtr.Zero;
 
 		// inidicates if cursor movement is restricted (sticky or locked)
 		private static bool CursorLocked
@@ -144,13 +191,18 @@ namespace SwapScreen
 		// as it can be called very frequently.
 		private static int llMouseHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
 		{
-			if (nCode >= 0)
+			if (nCode >= 0 && !disableLocking)
 			{
 				// TODO: we only want pt, so we don't have to marshal the entire structure
-				Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
+				//Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
 
-				int x = msllHookStruct.pt.x;
-				int y = msllHookStruct.pt.y;
+				// lParam is a pointer to a MSLLHOOKSTRUCT, but we only want the cursor position
+				// from this which are the first 2 ints, so instead of marshalling the entire structure
+				// we just marshal the first 2 ints to minimise any performance hit 
+				int originalX = Marshal.ReadInt32(lParam);
+				int originalY = Marshal.ReadInt32(lParam, 4);
+				int x = originalX;
+				int y = originalY;
 
 				bool brokenThrough = leftBarrier.BrokenThrough(ref x);
 				if (rightBarrier.BrokenThrough(ref x))
@@ -170,11 +222,46 @@ namespace SwapScreen
 				{
 					ReBuildBarriers(new Point(x, y));
 				}
-				if (x != msllHookStruct.pt.x || y != msllHookStruct.pt.y)
+				if (x != originalX || y != originalY)
 				{
-					// override te position that Windows wants to place the cursor
+					// override the position that Windows wants to place the cursor
 					Cursor.Position = new Point(x, y);
 					return 1;
+				}
+			}
+			return Win32.CallNextHookEx(llMouseHook, nCode, wParam, lParam);
+		}
+
+		// This is the low level Keyboard hook callback
+		// Processing in here should be efficient as possible
+		// as it can be called very frequently.
+		private static int llKeyboardHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+		{
+			if (nCode >= 0)
+			{
+
+				// lParam is a pointer to a KBDLLHOOKSTRUCT, but we only want the virtual key code
+				// from this which is the first int, so instead of marshalling the entire structure
+				// we just marshal the first int to minimise any performance hit 
+				uint vkCode = (uint)Marshal.ReadInt32(lParam);
+				Keys key = (Keys)vkCode;
+
+				if (key == Keys.LControlKey)
+				{
+					if (enableDisableLocking)
+					{
+						int msg = (int)wParam;
+						if (msg == Win32.WM_KEYDOWN)
+						{
+							disableLocking = true;
+						}
+						else if (msg == Win32.WM_KEYUP)
+						{
+							disableLocking = false;
+							// must also rebuild the barriers as the cursor may now be on a different screen
+							ReBuildBarriers();
+						}
+					}
 				}
 			}
 			return Win32.CallNextHookEx(llMouseHook, nCode, wParam, lParam);
@@ -183,7 +270,7 @@ namespace SwapScreen
 		// The cursor should be locked (possibly just sticky) to the screen it is currently on.
 		private static void LockCursorToScreen()
 		{
-			ReBuildBarriers(Cursor.Position);
+			ReBuildBarriers();
 
 			if (llMouseHook == IntPtr.Zero)
 			{
@@ -193,6 +280,12 @@ namespace SwapScreen
 					{
 						IntPtr hModule = Win32.GetModuleHandle(curModule.ModuleName);
 						llMouseHook = Win32.SetWindowsHookEx(Win32.WH_MOUSE_LL, llMouseProc, hModule, 0);
+						if (llMouseHook != IntPtr.Zero)
+						{
+							// mouse & keyboard should be hooked together so no need
+							// to move this out into its own 'if (llKeyboardHook == IntPtr.Zero)' test
+							llKeyboardHook = Win32.SetWindowsHookEx(Win32.WH_KEYBOARD_LL, llKeyboardProc, hModule, 0);
+						}
 					}
 				}
 			}
@@ -201,6 +294,15 @@ namespace SwapScreen
 		// The cursor's movement should not be hindered by screen edges
 		private static void UnLockCursor()
 		{
+			// make sure the low level keyboard hook is unhooked
+			if (llKeyboardHook != IntPtr.Zero)
+			{
+				// unhook our callback to make sure there is no performance degredation
+				Win32.UnhookWindowsHookEx(llKeyboardHook);
+				llKeyboardHook = IntPtr.Zero;
+			}
+
+			// make sure the low level mouse hook is unhooked
 			if (llMouseHook != IntPtr.Zero)
 			{
 				// unhook our callback to make sure there is no performance degredation
@@ -242,6 +344,12 @@ namespace SwapScreen
 					LockCursorToScreen();
 				}
 			}
+		}
+
+		// rebuild the barriers based on the current cursor position
+		private static void ReBuildBarriers()
+		{
+			ReBuildBarriers(Cursor.Position);
 		}
 
 		// rebuild the barriers to restrict movement of the cursor

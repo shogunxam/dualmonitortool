@@ -99,6 +99,7 @@ namespace SwapScreen
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
+			this.checkBoxControlUnhindersCursor = new System.Windows.Forms.CheckBox();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
@@ -182,7 +183,7 @@ namespace SwapScreen
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(223, 319);
+			this.buttonCancel.Location = new System.Drawing.Point(220, 302);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 3;
@@ -480,7 +481,7 @@ namespace SwapScreen
 			this.tabControl1.Location = new System.Drawing.Point(12, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(506, 258);
+			this.tabControl1.Size = new System.Drawing.Size(506, 283);
 			this.tabControl1.TabIndex = 7;
 			// 
 			// tabPageActive
@@ -555,11 +556,12 @@ namespace SwapScreen
 			// 
 			// tabPageMouse
 			// 
+			this.tabPageMouse.Controls.Add(this.checkBoxControlUnhindersCursor);
 			this.tabPageMouse.Controls.Add(this.groupBox4);
 			this.tabPageMouse.Controls.Add(this.groupBox3);
 			this.tabPageMouse.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMouse.Name = "tabPageMouse";
-			this.tabPageMouse.Size = new System.Drawing.Size(498, 232);
+			this.tabPageMouse.Size = new System.Drawing.Size(498, 257);
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
@@ -784,11 +786,22 @@ namespace SwapScreen
 			this.label13.TabIndex = 41;
 			this.label13.Text = "Max";
 			// 
+			// checkBoxControlUnhindersCursor
+			// 
+			this.checkBoxControlUnhindersCursor.AutoSize = true;
+			this.checkBoxControlUnhindersCursor.Location = new System.Drawing.Point(14, 224);
+			this.checkBoxControlUnhindersCursor.Name = "checkBoxControlUnhindersCursor";
+			this.checkBoxControlUnhindersCursor.Size = new System.Drawing.Size(301, 17);
+			this.checkBoxControlUnhindersCursor.TabIndex = 41;
+			this.checkBoxControlUnhindersCursor.Text = "Allow cursor to move freely if the left Control key is pressed";
+			this.checkBoxControlUnhindersCursor.UseVisualStyleBackColor = true;
+			this.checkBoxControlUnhindersCursor.CheckedChanged += new System.EventHandler(this.checkBoxControlUnhindersCursor_CheckedChanged);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(530, 354);
+			this.ClientSize = new System.Drawing.Size(530, 337);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.buttonCancel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -807,6 +820,7 @@ namespace SwapScreen
 			this.tabPageOther.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.tabPageMouse.ResumeLayout(false);
+			this.tabPageMouse.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
@@ -887,6 +901,7 @@ namespace SwapScreen
 		private System.Windows.Forms.HScrollBar scrollBarSticky;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.CheckBox checkBoxControlUnhindersCursor;
 	}
 }
 

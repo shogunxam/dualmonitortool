@@ -44,6 +44,7 @@ namespace SwapScreen
 		public const int SW_FORCEMINIMIZE = 11;
 
 		// Global/Local Hooks
+		public const int WH_KEYBOARD_LL = 13;
 		public const int WH_MOUSE_LL = 14;
 
 		// Flags for Add/Check/EnableMenuItem() 
@@ -76,6 +77,8 @@ namespace SwapScreen
 		public const int MOD_WIN = 0x0008;
 
 		// Windows messages
+		public const int WM_KEYDOWN = 0x0100;
+		public const int WM_KEYUP = 0x0101;
 		public const int WM_SYSCOMMAND = 0x0112;
 		public const int WM_HOTKEY = 0x0312;
 
@@ -112,14 +115,23 @@ namespace SwapScreen
 			public RECT rcNormalPosition;
 		}
 
-		public struct MSLLHOOKSTRUCT
-		{
-			public POINT pt;
-			public uint mouseData;
-			public uint flags;
-			public uint time;
-			public uint dwExtraInfo;
-		}
+		//public class KBDLLHOOKSTRUCT
+		//{
+		//    public uint vkCode;
+		//    public uint scanCode;
+		//    public uint flags;
+		//    public uint time;
+		//    public uint dwExtraInfo;
+		//}
+
+		//public struct MSLLHOOKSTRUCT
+		//{
+		//    public POINT pt;
+		//    public uint mouseData;
+		//    public uint flags;
+		//    public uint time;
+		//    public uint dwExtraInfo;
+		//}
 
 
 		// deleagte used by EnumWindows()

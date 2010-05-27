@@ -197,6 +197,8 @@ namespace SwapScreen
 		/// </summary>
 		public void Init(Form form)
 		{
+			CursorHelper.Init();
+
 			InitHotKeys(form);
 		}
 
@@ -209,8 +211,8 @@ namespace SwapScreen
 		public void Term()
 		{
 			TermHotKeys();
-			// make sure the mouse hook has been released
-			CursorHelper.FreeCursor();
+
+			CursorHelper.Term();
 		}
 
 		// fully initialise all of the hotkeys

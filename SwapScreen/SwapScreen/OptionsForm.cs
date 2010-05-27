@@ -24,6 +24,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace SwapScreen
 {
@@ -56,6 +57,18 @@ namespace SwapScreen
 
 			Controller.Instance.Init(this);
 			InitContextMenu();
+
+			SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
+		}
+
+		// This is what we do just before we exit
+		private void CleanUp()
+		{
+			SystemEvents.DisplaySettingsChanged -= new EventHandler(SystemEvents_DisplaySettingsChanged);
+
+			// Let the controller release all the hotkeys
+			// and any other resources it has
+			Controller.Instance.Term();
 		}
 
 		// dynamically add any needed menu items to the context menu
@@ -112,6 +125,8 @@ namespace SwapScreen
 			labelCursorNextScreen.Text = Controller.Instance.CursorNextScreenHotKeyController.ToString();
 			labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
 			scrollBarSticky.Value = Properties.Settings.Default.MinStickyForce;
+			checkBoxControlUnhindersCursor.Checked = Properties.Settings.Default.ControlUnhindersCursor;
+
 		}
 
 		private void OptionsForm_Shown(object sender, EventArgs e)
@@ -133,8 +148,7 @@ namespace SwapScreen
 			// don't shutdown if the form is just being closed 
 			if (shutDown || e.CloseReason != CloseReason.UserClosing)
 			{
-				// Let the controller release all the hotkeys
-				Controller.Instance.Term();
+				CleanUp();
 			}
 			else
 			{
@@ -349,7 +363,22 @@ namespace SwapScreen
 			// update the cursor controller in case sticky cursor currently in use
 			CursorHelper.MinForce = Properties.Settings.Default.MinStickyForce;
 		}
+
+		private void checkBoxControlUnhindersCursor_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.ControlUnhindersCursor = checkBoxControlUnhindersCursor.Checked;
+			Properties.Settings.Default.Save();
+			// update the cursor controller to use this now
+			CursorHelper.EnableDisableLocking = Properties.Settings.Default.ControlUnhindersCursor;
+		}
 		#endregion
+
+		// This method is called when the display settings change.
+		static void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
+		{
+			CursorHelper.DisplaySettingsChanged();
+		}
+
 
 
 		#region AutoStart

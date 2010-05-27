@@ -226,5 +226,17 @@ namespace SwapScreen.Properties {
                 this["MinStickyForce"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ControlUnhindersCursor {
+            get {
+                return ((bool)(this["ControlUnhindersCursor"]));
+            }
+            set {
+                this["ControlUnhindersCursor"] = value;
+            }
+        }
     }
 }
