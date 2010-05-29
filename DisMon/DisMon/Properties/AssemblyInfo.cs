@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DisMon")]
-[assembly: AssemblyDescription("Disables secondary monitors while another program runs, or diable manually via the GUI.")]
+[assembly: AssemblyDescription("Disables secondary monitors while another program runs, or disable manually via the GUI.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GNE")]
 [assembly: AssemblyProduct("DisMon")]
