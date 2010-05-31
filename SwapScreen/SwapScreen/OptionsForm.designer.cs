@@ -183,7 +183,7 @@ namespace SwapScreen
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(220, 302);
+			this.buttonCancel.Location = new System.Drawing.Point(227, 269);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 3;
@@ -193,7 +193,7 @@ namespace SwapScreen
 			// 
 			// buttonNextScreen
 			// 
-			this.buttonNextScreen.Location = new System.Drawing.Point(395, 11);
+			this.buttonNextScreen.Location = new System.Drawing.Point(395, 12);
 			this.buttonNextScreen.Name = "buttonNextScreen";
 			this.buttonNextScreen.Size = new System.Drawing.Size(75, 23);
 			this.buttonNextScreen.TabIndex = 4;
@@ -203,7 +203,7 @@ namespace SwapScreen
 			// 
 			// buttonDesktop2
 			// 
-			this.buttonDesktop2.Location = new System.Drawing.Point(395, 127);
+			this.buttonDesktop2.Location = new System.Drawing.Point(395, 112);
 			this.buttonDesktop2.Name = "buttonDesktop2";
 			this.buttonDesktop2.Size = new System.Drawing.Size(75, 23);
 			this.buttonDesktop2.TabIndex = 33;
@@ -214,7 +214,7 @@ namespace SwapScreen
 			// labelShowDesktop2
 			// 
 			this.labelShowDesktop2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelShowDesktop2.Location = new System.Drawing.Point(236, 132);
+			this.labelShowDesktop2.Location = new System.Drawing.Point(236, 117);
 			this.labelShowDesktop2.Name = "labelShowDesktop2";
 			this.labelShowDesktop2.Size = new System.Drawing.Size(153, 13);
 			this.labelShowDesktop2.TabIndex = 32;
@@ -222,7 +222,7 @@ namespace SwapScreen
 			// 
 			// label20
 			// 
-			this.label20.Location = new System.Drawing.Point(6, 132);
+			this.label20.Location = new System.Drawing.Point(6, 117);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(224, 13);
 			this.label20.TabIndex = 31;
@@ -230,7 +230,7 @@ namespace SwapScreen
 			// 
 			// buttonDesktop1
 			// 
-			this.buttonDesktop1.Location = new System.Drawing.Point(395, 98);
+			this.buttonDesktop1.Location = new System.Drawing.Point(395, 87);
 			this.buttonDesktop1.Name = "buttonDesktop1";
 			this.buttonDesktop1.Size = new System.Drawing.Size(75, 23);
 			this.buttonDesktop1.TabIndex = 30;
@@ -241,7 +241,7 @@ namespace SwapScreen
 			// labelShowDesktop1
 			// 
 			this.labelShowDesktop1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelShowDesktop1.Location = new System.Drawing.Point(236, 103);
+			this.labelShowDesktop1.Location = new System.Drawing.Point(236, 92);
 			this.labelShowDesktop1.Name = "labelShowDesktop1";
 			this.labelShowDesktop1.Size = new System.Drawing.Size(153, 13);
 			this.labelShowDesktop1.TabIndex = 29;
@@ -249,7 +249,7 @@ namespace SwapScreen
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(6, 103);
+			this.label18.Location = new System.Drawing.Point(6, 92);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(224, 13);
 			this.label18.TabIndex = 28;
@@ -257,7 +257,7 @@ namespace SwapScreen
 			// 
 			// buttonRotatePrev
 			// 
-			this.buttonRotatePrev.Location = new System.Drawing.Point(395, 69);
+			this.buttonRotatePrev.Location = new System.Drawing.Point(395, 62);
 			this.buttonRotatePrev.Name = "buttonRotatePrev";
 			this.buttonRotatePrev.Size = new System.Drawing.Size(75, 23);
 			this.buttonRotatePrev.TabIndex = 27;
@@ -268,7 +268,7 @@ namespace SwapScreen
 			// labelRotatePrev
 			// 
 			this.labelRotatePrev.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelRotatePrev.Location = new System.Drawing.Point(236, 74);
+			this.labelRotatePrev.Location = new System.Drawing.Point(236, 67);
 			this.labelRotatePrev.Name = "labelRotatePrev";
 			this.labelRotatePrev.Size = new System.Drawing.Size(153, 13);
 			this.labelRotatePrev.TabIndex = 26;
@@ -276,7 +276,7 @@ namespace SwapScreen
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(6, 74);
+			this.label16.Location = new System.Drawing.Point(6, 67);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(224, 13);
 			this.label16.TabIndex = 25;
@@ -284,7 +284,7 @@ namespace SwapScreen
 			// 
 			// buttonRotateNext
 			// 
-			this.buttonRotateNext.Location = new System.Drawing.Point(395, 40);
+			this.buttonRotateNext.Location = new System.Drawing.Point(395, 37);
 			this.buttonRotateNext.Name = "buttonRotateNext";
 			this.buttonRotateNext.Size = new System.Drawing.Size(75, 23);
 			this.buttonRotateNext.TabIndex = 24;
@@ -295,7 +295,7 @@ namespace SwapScreen
 			// labelRotateNext
 			// 
 			this.labelRotateNext.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelRotateNext.Location = new System.Drawing.Point(236, 45);
+			this.labelRotateNext.Location = new System.Drawing.Point(236, 42);
 			this.labelRotateNext.Name = "labelRotateNext";
 			this.labelRotateNext.Size = new System.Drawing.Size(153, 13);
 			this.labelRotateNext.TabIndex = 23;
@@ -303,7 +303,7 @@ namespace SwapScreen
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(6, 45);
+			this.label14.Location = new System.Drawing.Point(6, 42);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(224, 13);
 			this.label14.TabIndex = 22;
@@ -311,7 +311,7 @@ namespace SwapScreen
 			// 
 			// buttonSuperSize
 			// 
-			this.buttonSuperSize.Location = new System.Drawing.Point(395, 127);
+			this.buttonSuperSize.Location = new System.Drawing.Point(395, 112);
 			this.buttonSuperSize.Name = "buttonSuperSize";
 			this.buttonSuperSize.Size = new System.Drawing.Size(75, 23);
 			this.buttonSuperSize.TabIndex = 21;
@@ -322,7 +322,7 @@ namespace SwapScreen
 			// labelSupersize
 			// 
 			this.labelSupersize.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelSupersize.Location = new System.Drawing.Point(236, 132);
+			this.labelSupersize.Location = new System.Drawing.Point(236, 117);
 			this.labelSupersize.Name = "labelSupersize";
 			this.labelSupersize.Size = new System.Drawing.Size(153, 13);
 			this.labelSupersize.TabIndex = 20;
@@ -330,7 +330,7 @@ namespace SwapScreen
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(6, 132);
+			this.label12.Location = new System.Drawing.Point(6, 117);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(224, 13);
 			this.label12.TabIndex = 19;
@@ -338,7 +338,7 @@ namespace SwapScreen
 			// 
 			// buttonMaximise
 			// 
-			this.buttonMaximise.Location = new System.Drawing.Point(395, 98);
+			this.buttonMaximise.Location = new System.Drawing.Point(395, 87);
 			this.buttonMaximise.Name = "buttonMaximise";
 			this.buttonMaximise.Size = new System.Drawing.Size(75, 23);
 			this.buttonMaximise.TabIndex = 18;
@@ -349,7 +349,7 @@ namespace SwapScreen
 			// labelMaximise
 			// 
 			this.labelMaximise.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelMaximise.Location = new System.Drawing.Point(236, 103);
+			this.labelMaximise.Location = new System.Drawing.Point(236, 92);
 			this.labelMaximise.Name = "labelMaximise";
 			this.labelMaximise.Size = new System.Drawing.Size(153, 13);
 			this.labelMaximise.TabIndex = 17;
@@ -357,7 +357,7 @@ namespace SwapScreen
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(6, 103);
+			this.label10.Location = new System.Drawing.Point(6, 92);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(224, 13);
 			this.label10.TabIndex = 16;
@@ -365,7 +365,7 @@ namespace SwapScreen
 			// 
 			// buttonMinimiseAllBut
 			// 
-			this.buttonMinimiseAllBut.Location = new System.Drawing.Point(395, 11);
+			this.buttonMinimiseAllBut.Location = new System.Drawing.Point(395, 12);
 			this.buttonMinimiseAllBut.Name = "buttonMinimiseAllBut";
 			this.buttonMinimiseAllBut.Size = new System.Drawing.Size(75, 23);
 			this.buttonMinimiseAllBut.TabIndex = 15;
@@ -376,7 +376,7 @@ namespace SwapScreen
 			// labelMinimiseAllBut
 			// 
 			this.labelMinimiseAllBut.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelMinimiseAllBut.Location = new System.Drawing.Point(236, 16);
+			this.labelMinimiseAllBut.Location = new System.Drawing.Point(236, 17);
 			this.labelMinimiseAllBut.Name = "labelMinimiseAllBut";
 			this.labelMinimiseAllBut.Size = new System.Drawing.Size(153, 13);
 			this.labelMinimiseAllBut.TabIndex = 14;
@@ -384,7 +384,7 @@ namespace SwapScreen
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(6, 16);
+			this.label8.Location = new System.Drawing.Point(6, 17);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(224, 13);
 			this.label8.TabIndex = 13;
@@ -392,7 +392,7 @@ namespace SwapScreen
 			// 
 			// buttonMinimise
 			// 
-			this.buttonMinimise.Location = new System.Drawing.Point(395, 69);
+			this.buttonMinimise.Location = new System.Drawing.Point(395, 62);
 			this.buttonMinimise.Name = "buttonMinimise";
 			this.buttonMinimise.Size = new System.Drawing.Size(75, 23);
 			this.buttonMinimise.TabIndex = 12;
@@ -403,7 +403,7 @@ namespace SwapScreen
 			// labelMinimise
 			// 
 			this.labelMinimise.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelMinimise.Location = new System.Drawing.Point(236, 74);
+			this.labelMinimise.Location = new System.Drawing.Point(236, 67);
 			this.labelMinimise.Name = "labelMinimise";
 			this.labelMinimise.Size = new System.Drawing.Size(153, 13);
 			this.labelMinimise.TabIndex = 11;
@@ -411,7 +411,7 @@ namespace SwapScreen
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(6, 74);
+			this.label6.Location = new System.Drawing.Point(6, 67);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(224, 13);
 			this.label6.TabIndex = 10;
@@ -419,7 +419,7 @@ namespace SwapScreen
 			// 
 			// buttonPreviousScreen
 			// 
-			this.buttonPreviousScreen.Location = new System.Drawing.Point(395, 40);
+			this.buttonPreviousScreen.Location = new System.Drawing.Point(395, 37);
 			this.buttonPreviousScreen.Name = "buttonPreviousScreen";
 			this.buttonPreviousScreen.Size = new System.Drawing.Size(75, 23);
 			this.buttonPreviousScreen.TabIndex = 9;
@@ -430,7 +430,7 @@ namespace SwapScreen
 			// labelPrevScreen
 			// 
 			this.labelPrevScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelPrevScreen.Location = new System.Drawing.Point(236, 45);
+			this.labelPrevScreen.Location = new System.Drawing.Point(236, 42);
 			this.labelPrevScreen.Name = "labelPrevScreen";
 			this.labelPrevScreen.Size = new System.Drawing.Size(153, 13);
 			this.labelPrevScreen.TabIndex = 8;
@@ -438,7 +438,7 @@ namespace SwapScreen
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(6, 45);
+			this.label3.Location = new System.Drawing.Point(6, 42);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(224, 13);
 			this.label3.TabIndex = 7;
@@ -447,7 +447,7 @@ namespace SwapScreen
 			// labelNextScreen
 			// 
 			this.labelNextScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelNextScreen.Location = new System.Drawing.Point(236, 16);
+			this.labelNextScreen.Location = new System.Drawing.Point(236, 17);
 			this.labelNextScreen.Name = "labelNextScreen";
 			this.labelNextScreen.Size = new System.Drawing.Size(153, 13);
 			this.labelNextScreen.TabIndex = 6;
@@ -455,7 +455,7 @@ namespace SwapScreen
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 16);
+			this.label1.Location = new System.Drawing.Point(6, 17);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(224, 13);
 			this.label1.TabIndex = 5;
@@ -464,7 +464,7 @@ namespace SwapScreen
 			// checkBoxAutoStart
 			// 
 			this.checkBoxAutoStart.AutoSize = true;
-			this.checkBoxAutoStart.Location = new System.Drawing.Point(3, 3);
+			this.checkBoxAutoStart.Location = new System.Drawing.Point(6, 6);
 			this.checkBoxAutoStart.Name = "checkBoxAutoStart";
 			this.checkBoxAutoStart.Size = new System.Drawing.Size(152, 17);
 			this.checkBoxAutoStart.TabIndex = 6;
@@ -481,7 +481,7 @@ namespace SwapScreen
 			this.tabControl1.Location = new System.Drawing.Point(12, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(506, 283);
+			this.tabControl1.Size = new System.Drawing.Size(506, 260);
 			this.tabControl1.TabIndex = 7;
 			// 
 			// tabPageActive
@@ -490,7 +490,7 @@ namespace SwapScreen
 			this.tabPageActive.Location = new System.Drawing.Point(4, 22);
 			this.tabPageActive.Name = "tabPageActive";
 			this.tabPageActive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageActive.Size = new System.Drawing.Size(498, 257);
+			this.tabPageActive.Size = new System.Drawing.Size(498, 234);
 			this.tabPageActive.TabIndex = 0;
 			this.tabPageActive.Text = "Active Window";
 			this.tabPageActive.UseVisualStyleBackColor = true;
@@ -514,7 +514,7 @@ namespace SwapScreen
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Location = new System.Drawing.Point(6, 6);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(477, 167);
+			this.groupBox1.Size = new System.Drawing.Size(477, 142);
 			this.groupBox1.TabIndex = 22;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
@@ -525,7 +525,7 @@ namespace SwapScreen
 			this.tabPageOther.Location = new System.Drawing.Point(4, 22);
 			this.tabPageOther.Name = "tabPageOther";
 			this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageOther.Size = new System.Drawing.Size(498, 257);
+			this.tabPageOther.Size = new System.Drawing.Size(498, 234);
 			this.tabPageOther.TabIndex = 1;
 			this.tabPageOther.Text = "Other Windows";
 			this.tabPageOther.UseVisualStyleBackColor = true;
@@ -549,7 +549,7 @@ namespace SwapScreen
 			this.groupBox2.Controls.Add(this.labelShowDesktop1);
 			this.groupBox2.Location = new System.Drawing.Point(6, 6);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(484, 167);
+			this.groupBox2.Size = new System.Drawing.Size(477, 142);
 			this.groupBox2.TabIndex = 34;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "HotKeys";
@@ -561,7 +561,7 @@ namespace SwapScreen
 			this.tabPageMouse.Controls.Add(this.groupBox3);
 			this.tabPageMouse.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMouse.Name = "tabPageMouse";
-			this.tabPageMouse.Size = new System.Drawing.Size(498, 257);
+			this.tabPageMouse.Size = new System.Drawing.Size(498, 234);
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
@@ -569,7 +569,7 @@ namespace SwapScreen
 			// checkBoxControlUnhindersCursor
 			// 
 			this.checkBoxControlUnhindersCursor.AutoSize = true;
-			this.checkBoxControlUnhindersCursor.Location = new System.Drawing.Point(14, 224);
+			this.checkBoxControlUnhindersCursor.Location = new System.Drawing.Point(14, 205);
 			this.checkBoxControlUnhindersCursor.Name = "checkBoxControlUnhindersCursor";
 			this.checkBoxControlUnhindersCursor.Size = new System.Drawing.Size(301, 17);
 			this.checkBoxControlUnhindersCursor.TabIndex = 41;
@@ -583,9 +583,9 @@ namespace SwapScreen
 			this.groupBox4.Controls.Add(this.label11);
 			this.groupBox4.Controls.Add(this.label5);
 			this.groupBox4.Controls.Add(this.scrollBarSticky);
-			this.groupBox4.Location = new System.Drawing.Point(8, 175);
+			this.groupBox4.Location = new System.Drawing.Point(6, 156);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(479, 43);
+			this.groupBox4.Size = new System.Drawing.Size(477, 43);
 			this.groupBox4.TabIndex = 40;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Sticky cursor options";
@@ -619,7 +619,7 @@ namespace SwapScreen
 			// 
 			// scrollBarSticky
 			// 
-			this.scrollBarSticky.Location = new System.Drawing.Point(264, 12);
+			this.scrollBarSticky.Location = new System.Drawing.Point(264, 14);
 			this.scrollBarSticky.Maximum = 3000;
 			this.scrollBarSticky.Name = "scrollBarSticky";
 			this.scrollBarSticky.Size = new System.Drawing.Size(177, 17);
@@ -645,16 +645,16 @@ namespace SwapScreen
 			this.groupBox3.Controls.Add(this.labelStickyCursor);
 			this.groupBox3.Controls.Add(this.buttonFreeCursor);
 			this.groupBox3.Controls.Add(this.buttonLockCursor);
-			this.groupBox3.Location = new System.Drawing.Point(8, 9);
+			this.groupBox3.Location = new System.Drawing.Point(6, 6);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(479, 160);
+			this.groupBox3.Size = new System.Drawing.Size(477, 143);
 			this.groupBox3.TabIndex = 37;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "HotKeys";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(7, 133);
+			this.label7.Location = new System.Drawing.Point(6, 117);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(224, 13);
 			this.label7.TabIndex = 40;
@@ -663,7 +663,7 @@ namespace SwapScreen
 			// labelCursorPrevScreen
 			// 
 			this.labelCursorPrevScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelCursorPrevScreen.Location = new System.Drawing.Point(237, 133);
+			this.labelCursorPrevScreen.Location = new System.Drawing.Point(236, 117);
 			this.labelCursorPrevScreen.Name = "labelCursorPrevScreen";
 			this.labelCursorPrevScreen.Size = new System.Drawing.Size(153, 13);
 			this.labelCursorPrevScreen.TabIndex = 41;
@@ -671,7 +671,7 @@ namespace SwapScreen
 			// 
 			// buttonCursorPrevScreen
 			// 
-			this.buttonCursorPrevScreen.Location = new System.Drawing.Point(396, 128);
+			this.buttonCursorPrevScreen.Location = new System.Drawing.Point(395, 112);
 			this.buttonCursorPrevScreen.Name = "buttonCursorPrevScreen";
 			this.buttonCursorPrevScreen.Size = new System.Drawing.Size(75, 23);
 			this.buttonCursorPrevScreen.TabIndex = 42;
@@ -681,7 +681,7 @@ namespace SwapScreen
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 104);
+			this.label4.Location = new System.Drawing.Point(6, 92);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(224, 13);
 			this.label4.TabIndex = 37;
@@ -690,7 +690,7 @@ namespace SwapScreen
 			// labelCursorNextScreen
 			// 
 			this.labelCursorNextScreen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelCursorNextScreen.Location = new System.Drawing.Point(237, 104);
+			this.labelCursorNextScreen.Location = new System.Drawing.Point(236, 92);
 			this.labelCursorNextScreen.Name = "labelCursorNextScreen";
 			this.labelCursorNextScreen.Size = new System.Drawing.Size(153, 13);
 			this.labelCursorNextScreen.TabIndex = 38;
@@ -698,7 +698,7 @@ namespace SwapScreen
 			// 
 			// buttonCursorNextScreen
 			// 
-			this.buttonCursorNextScreen.Location = new System.Drawing.Point(396, 99);
+			this.buttonCursorNextScreen.Location = new System.Drawing.Point(395, 87);
 			this.buttonCursorNextScreen.Name = "buttonCursorNextScreen";
 			this.buttonCursorNextScreen.Size = new System.Drawing.Size(75, 23);
 			this.buttonCursorNextScreen.TabIndex = 39;
@@ -708,7 +708,7 @@ namespace SwapScreen
 			// 
 			// buttonStickyCursor
 			// 
-			this.buttonStickyCursor.Location = new System.Drawing.Point(396, 41);
+			this.buttonStickyCursor.Location = new System.Drawing.Point(395, 37);
 			this.buttonStickyCursor.Name = "buttonStickyCursor";
 			this.buttonStickyCursor.Size = new System.Drawing.Size(75, 23);
 			this.buttonStickyCursor.TabIndex = 33;
@@ -718,7 +718,7 @@ namespace SwapScreen
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 17);
+			this.label2.Location = new System.Drawing.Point(6, 17);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(224, 13);
 			this.label2.TabIndex = 28;
@@ -727,7 +727,7 @@ namespace SwapScreen
 			// labelFreeCursor
 			// 
 			this.labelFreeCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelFreeCursor.Location = new System.Drawing.Point(237, 17);
+			this.labelFreeCursor.Location = new System.Drawing.Point(236, 17);
 			this.labelFreeCursor.Name = "labelFreeCursor";
 			this.labelFreeCursor.Size = new System.Drawing.Size(153, 13);
 			this.labelFreeCursor.TabIndex = 29;
@@ -735,7 +735,7 @@ namespace SwapScreen
 			// 
 			// LockCursor
 			// 
-			this.LockCursor.Location = new System.Drawing.Point(7, 75);
+			this.LockCursor.Location = new System.Drawing.Point(6, 67);
 			this.LockCursor.Name = "LockCursor";
 			this.LockCursor.Size = new System.Drawing.Size(224, 13);
 			this.LockCursor.TabIndex = 34;
@@ -743,7 +743,7 @@ namespace SwapScreen
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(7, 46);
+			this.label9.Location = new System.Drawing.Point(6, 42);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(224, 13);
 			this.label9.TabIndex = 31;
@@ -752,7 +752,7 @@ namespace SwapScreen
 			// labelLockCursor
 			// 
 			this.labelLockCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelLockCursor.Location = new System.Drawing.Point(237, 75);
+			this.labelLockCursor.Location = new System.Drawing.Point(236, 67);
 			this.labelLockCursor.Name = "labelLockCursor";
 			this.labelLockCursor.Size = new System.Drawing.Size(153, 13);
 			this.labelLockCursor.TabIndex = 35;
@@ -761,7 +761,7 @@ namespace SwapScreen
 			// labelStickyCursor
 			// 
 			this.labelStickyCursor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelStickyCursor.Location = new System.Drawing.Point(237, 46);
+			this.labelStickyCursor.Location = new System.Drawing.Point(236, 42);
 			this.labelStickyCursor.Name = "labelStickyCursor";
 			this.labelStickyCursor.Size = new System.Drawing.Size(153, 13);
 			this.labelStickyCursor.TabIndex = 32;
@@ -769,7 +769,7 @@ namespace SwapScreen
 			// 
 			// buttonFreeCursor
 			// 
-			this.buttonFreeCursor.Location = new System.Drawing.Point(396, 12);
+			this.buttonFreeCursor.Location = new System.Drawing.Point(395, 12);
 			this.buttonFreeCursor.Name = "buttonFreeCursor";
 			this.buttonFreeCursor.Size = new System.Drawing.Size(75, 23);
 			this.buttonFreeCursor.TabIndex = 30;
@@ -779,7 +779,7 @@ namespace SwapScreen
 			// 
 			// buttonLockCursor
 			// 
-			this.buttonLockCursor.Location = new System.Drawing.Point(396, 70);
+			this.buttonLockCursor.Location = new System.Drawing.Point(395, 62);
 			this.buttonLockCursor.Name = "buttonLockCursor";
 			this.buttonLockCursor.Size = new System.Drawing.Size(75, 23);
 			this.buttonLockCursor.TabIndex = 36;
@@ -792,7 +792,7 @@ namespace SwapScreen
 			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
 			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGeneral.Name = "tabPageGeneral";
-			this.tabPageGeneral.Size = new System.Drawing.Size(498, 257);
+			this.tabPageGeneral.Size = new System.Drawing.Size(498, 234);
 			this.tabPageGeneral.TabIndex = 3;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
@@ -801,7 +801,7 @@ namespace SwapScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(530, 337);
+			this.ClientSize = new System.Drawing.Size(530, 303);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.buttonCancel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

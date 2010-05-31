@@ -10,9 +10,8 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
-Release 1.3
+Release 1.4
 -----------
-
 
 The release consists of the following files:
 
@@ -43,13 +42,14 @@ SwapScreen
 
 This is a small tool that when started resides in the System Tray.
 It allows you to assign hotkeys for various actions.
-The main hotkey allows you to move the active window  to the next screen.
+The main hotkey allows you to move the active window to the next screen.
 This will also work if the active window is a maximised window.
 There are also some hotkeys to emulate functionality that is built into
 Windows 7, such as minimising and maximising the active window, so
 users of XP and Vista can also use these.
 Further hotkeys allow all windows on a particular monitor to be minimised
 and to rotate the contents of the monitors.
+This tool also allows you to restrict mouse movement between screens.
 
 DualWallpaper
 -------------
@@ -107,5 +107,6 @@ then it should be safe to delete this directory.
 Known problems
 --------------
 
-No known problems.
-
+If you wish SwapScreen to fully work when you have windows from applications
+that have been 'Run as Administartor', then you will also need to start
+SwapScreen with 'Run as Administrator'.
