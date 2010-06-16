@@ -19,19 +19,95 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace DisMon
 {
 	class MonitorMode
 	{
-		public string DeviceName;
-		public Win32.DEVMODE DeviceMode = new Win32.DEVMODE();
+		private string deviceName;
+		private Win32.DEVMODE oldDeviceMode = new Win32.DEVMODE();
+		private Win32.DEVMODE newDeviceMode = new Win32.DEVMODE();
 
-		public MonitorMode(string deviceName, Win32.DEVMODE deviceMode)
+		public MonitorMode(string deviceName)
 		{
-			DeviceName = deviceName;
-			DeviceMode = deviceMode;
+			this.deviceName = deviceName;
+
+			oldDeviceMode.dmSize = (ushort)Marshal.SizeOf(oldDeviceMode);
+
+			Win32.EnumDisplaySettings(deviceName, Win32.ENUM_REGISTRY_SETTINGS, ref oldDeviceMode);
+			Win32.EnumDisplaySettings(deviceName, Win32.ENUM_CURRENT_SETTINGS, ref oldDeviceMode);
+
+			newDeviceMode = oldDeviceMode;
+		}
+
+		public bool Primary
+		{
+			get 
+			{
+				return (newDeviceMode.dmPositionX == 0 && newDeviceMode.dmPositionY == 0); 
+			}
+		}
+
+		public void Disable()
+		{
+			// clear the fields
+			newDeviceMode = new Win32.DEVMODE();
+			newDeviceMode.dmSize = (ushort)Marshal.SizeOf(newDeviceMode);
+			newDeviceMode.dmFields = Win32.DM_POSITION | Win32.DM_PELSWIDTH | Win32.DM_PELSHEIGHT
+				| Win32.DM_BITSPERPEL | Win32.DM_DISPLAYFREQUENCY | Win32.DM_DISPLAYFLAGS;
+		}
+
+		public Point NewPosition
+		{
+			get
+			{
+				return new Point(newDeviceMode.dmPositionX, newDeviceMode.dmPositionY);
+			}
+		}
+
+		public void Offset(int deltaX, int deltaY)
+		{
+			newDeviceMode.dmPositionX += deltaX;
+			newDeviceMode.dmPositionY += deltaY;
+		}
+
+		public bool Changed
+		{
+			get
+			{
+				// TODO
+				return (true);
+			}
+		}
+
+		public bool ApplyChanges()
+		{
+			bool ret = false;
+			if (Changed)
+			{
+				int change;
+				change = Win32.ChangeDisplaySettingsEx(deviceName, ref newDeviceMode, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
+				if (change == Win32.DISP_CHANGE_SUCCESSFUL)
+				{
+//					change = Win32.ChangeDisplaySettingsEx(deviceName, ref newDeviceMode, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
+					ret = true;
+				}
+			}
+
+			return ret;
+		}
+
+		public void Restore()
+		{
+			int change = Win32.ChangeDisplaySettingsEx(deviceName, ref oldDeviceMode, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
+			if (change == Win32.DISP_CHANGE_SUCCESSFUL)
+			{
+				// indicate back to the original device mode
+				newDeviceMode = oldDeviceMode;
+			}
 		}
 	}
 }

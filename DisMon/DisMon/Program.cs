@@ -52,7 +52,7 @@ namespace DisMon
 
 				// not sure if this is really wanted, but...
 				// make sure any disabled monitors are re-enabled
-				DisMon.Instance.ReEnable();
+				DisMon.Instance.Restore();
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace DisMon
 			}
 
 			// re-enable all the monitors we disabled
-			DisMon.Instance.ReEnable();
+			DisMon.Instance.Restore();
 		}
 
 		/// <summary>

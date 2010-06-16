@@ -35,7 +35,7 @@ namespace DisMon
 	{
 		static readonly DisMon instance = new DisMon();
 
-		List<MonitorMode> disabledDevices = new List<MonitorMode>();
+		List<MonitorMode> allMonitors = new List<MonitorMode>();
 
 		// Explicit static constructor to tell C# compiler
 		// not to mark type as beforefieldinit
@@ -45,6 +45,8 @@ namespace DisMon
 
 		DisMon()
 		{
+			// initialise our own list of monitors
+			EnumMonitors();
 		}
 
 		public static DisMon Instance
@@ -55,82 +57,91 @@ namespace DisMon
 			}
 		}
 
+		private void EnumMonitors()
+		{
+			// build list of devices
+			Screen[] allScreens = Screen.AllScreens;
+			for (int screenIndex = 0; screenIndex < allScreens.Length; screenIndex++)
+			{
+				allMonitors.Add(new MonitorMode(allScreens[screenIndex].DeviceName));
+			}
+		}
+
+		public void ChangePrimary(int newPrimaryIndex)
+		{
+			if (newPrimaryIndex < 0 || newPrimaryIndex >= allMonitors.Count)
+			{
+				throw new ApplicationException(string.Format("newPrimaryIndex: {0} out of range", newPrimaryIndex));
+			}
+
+			Point pt = allMonitors[newPrimaryIndex].NewPosition;
+			foreach (MonitorMode monitorMode in allMonitors)
+			{
+				monitorMode.Offset(-pt.X, -pt.Y);
+			}
+		}
+
 		/// <summary>
 		/// Disables all secondary monitors
 		/// </summary>
 		/// <returns>true if one or more monitors were disabled</returns>
-		public bool DisableAllSecondary()
+		public void DisableAllSecondary()
 		{
-			bool ret = false;
-
-			Screen[] allScreens = Screen.AllScreens;
-
-			for (int screenIndex = 0; screenIndex < allScreens.Length; screenIndex++)
+			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
 			{
-				if (!allScreens[screenIndex].Primary)
+				if (!allMonitors[monitorIndex].Primary)
 				{
-					if (Disable(allScreens[screenIndex]))
-					{
-						ret = true;
-					}
+					Disable(monitorIndex);
+				}
+			}
+		}
+
+		void Disable(int monitorIndex)
+		{
+			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
+			{
+				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", monitorIndex));
+			}
+
+			allMonitors[monitorIndex].Disable();
+		}
+
+		public bool ApplyChanges()
+		{
+			bool bRet = false;
+
+			foreach (MonitorMode monitorMode in allMonitors)
+			{
+				if (monitorMode.ApplyChanges())
+				{
+					bRet = true;
 				}
 			}
 
-			return ret;
-		}
+			Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
 
-		bool Disable(Screen screen)
-		{
-			bool ret = false;
-
-			Win32.DEVMODE defaultMode = new Win32.DEVMODE();
-			defaultMode.dmSize = (ushort)Marshal.SizeOf(defaultMode);
-
-			Win32.EnumDisplaySettings(screen.DeviceName, Win32.ENUM_REGISTRY_SETTINGS, ref defaultMode);
-			Win32.EnumDisplaySettings(screen.DeviceName, Win32.ENUM_CURRENT_SETTINGS, ref defaultMode);
-
-			Win32.DEVMODE dm = new Win32.DEVMODE();
-			dm.dmSize = (ushort)Marshal.SizeOf(dm);
-			dm.dmFields = Win32.DM_POSITION | Win32.DM_PELSWIDTH | Win32.DM_PELSHEIGHT
-				| Win32.DM_BITSPERPEL | Win32.DM_DISPLAYFREQUENCY | Win32.DM_DISPLAYFLAGS;
-			int change;
-			change = Win32.ChangeDisplaySettingsEx(screen.DeviceName, ref dm, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
-			if (change == Win32.DISP_CHANGE_SUCCESSFUL)
-			{
-				change = Win32.ChangeDisplaySettingsEx(screen.DeviceName, ref dm, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
-
-				MonitorMode disabledMonitor = new MonitorMode(screen.DeviceName, defaultMode);
-				disabledDevices.Add(disabledMonitor);
-				ret = true;
-			}
-
-			return ret;
+			return bRet;
 		}
 
 		/// <summary>
 		/// re-enable all devices that have been disabled by DisableAllSecondary()
 		/// </summary>
-		public void ReEnable()
+		public void Restore()
 		{
-			//foreach (Win32.DEVMODE dm in disabledDevices)
-			//for (int i = 0; i < disabledDevices.Count; i++)
-			foreach (MonitorMode monitor in disabledDevices)
+			foreach (MonitorMode monitorMode in allMonitors)
 			{
-				Win32.DEVMODE dm = monitor.DeviceMode;
-				int change = Win32.ChangeDisplaySettingsEx(monitor.DeviceName, ref dm, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
+				monitorMode.Restore();
 			}
 
 			Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
-
-			disabledDevices = new List<MonitorMode>();
 		}
 
-		/// <summary>
-		/// Indicates if any monitors have been disabled
-		/// </summary>
-		public bool MonitorsDisabled
-		{
-			get { return disabledDevices.Capacity > 0; }
-		}
+		///// <summary>
+		///// Indicates if any monitors have been disabled
+		///// </summary>
+		//public bool MonitorsDisabled
+		//{
+		//    get { return disabledDevices.Capacity > 0; }
+		//}
 	}
 }

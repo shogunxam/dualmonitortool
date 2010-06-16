@@ -33,6 +33,8 @@ namespace DisMon
 		private const int IDM_ABOUTBOX = 0x100;
 		private const int IDM_VISITWEBSITE = 0x101;
 
+		private bool disabledSecondary = false;
+
 		public DisMonForm()
 		{
 			InitializeComponent();
@@ -41,19 +43,23 @@ namespace DisMon
 
 		private void buttonDisable_Click(object sender, EventArgs e)
 		{
+			DisMon.Instance.ChangePrimary(1);
 			DisMon.Instance.DisableAllSecondary();
+			DisMon.Instance.ApplyChanges();
+			disabledSecondary = true;
 			UpdateEnabledStates();
 		}
 
 		private void buttonEnable_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.ReEnable();
+			DisMon.Instance.Restore();
+			disabledSecondary = false;
 			UpdateEnabledStates();
 		}
 
 		private void UpdateEnabledStates()
 		{
-			if (DisMon.Instance.MonitorsDisabled)
+			if (disabledSecondary)
 			{
 				buttonEnable.Enabled = true;
 				buttonEnable.Focus();
