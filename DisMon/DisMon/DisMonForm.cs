@@ -33,7 +33,7 @@ namespace DisMon
 		private const int IDM_ABOUTBOX = 0x100;
 		private const int IDM_VISITWEBSITE = 0x101;
 
-		private bool disabledSecondary = false;
+		//private bool disabledSecondary = false;
 
 		public DisMonForm()
 		{
@@ -41,36 +41,69 @@ namespace DisMon
 			UpdateEnabledStates();
 		}
 
-		private void buttonDisable_Click(object sender, EventArgs e)
+		private void buttonPS_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.ChangePrimary(1);
-			DisMon.Instance.DisableAllSecondary();
+			//DisMon.Instance.Enable(0);
+			DisMon.Instance.Enable(1);
+			DisMon.Instance.ChangePrimary(0);
 			DisMon.Instance.ApplyChanges();
-			disabledSecondary = true;
-			UpdateEnabledStates();
+			//UpdateEnabledStates();
 		}
 
-		private void buttonEnable_Click(object sender, EventArgs e)
+		private void buttonSP_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.Restore();
-			disabledSecondary = false;
-			UpdateEnabledStates();
+			DisMon.Instance.Enable(0);
+			//DisMon.Instance.Enable(1);
+			DisMon.Instance.ChangePrimary(1);
+			DisMon.Instance.ApplyChanges();
 		}
+
+		private void buttonPX_Click(object sender, EventArgs e)
+		{
+			//DisMon.Instance.Enable(0);
+			DisMon.Instance.ChangePrimary(0);
+			DisMon.Instance.Disable(1);
+			DisMon.Instance.ApplyChanges();
+		}
+
+		private void buttonXP_Click(object sender, EventArgs e)
+		{
+			//DisMon.Instance.Enable(1);
+			DisMon.Instance.ChangePrimary(1);
+			DisMon.Instance.Disable(0);
+			DisMon.Instance.ApplyChanges();
+		}
+
+		//private void buttonDisable_Click(object sender, EventArgs e)
+		//{
+		//    DisMon.Instance.ChangePrimary(1);
+		//    DisMon.Instance.DisableAllSecondary();
+		//    DisMon.Instance.ApplyChanges();
+		//    disabledSecondary = true;
+		//    UpdateEnabledStates();
+		//}
+
+		//private void buttonEnable_Click(object sender, EventArgs e)
+		//{
+		//    DisMon.Instance.Restore();
+		//    disabledSecondary = false;
+		//    UpdateEnabledStates();
+		//}
 
 		private void UpdateEnabledStates()
 		{
-			if (disabledSecondary)
-			{
-				buttonEnable.Enabled = true;
-				buttonEnable.Focus();
-				buttonDisable.Enabled = false;
-			}
-			else
-			{
-				buttonDisable.Enabled = true;
-				buttonDisable.Focus();
-				buttonEnable.Enabled = false;
-			}
+			//if (disabledSecondary)
+			//{
+			//    buttonEnable.Enabled = true;
+			//    buttonEnable.Focus();
+			//    buttonDisable.Enabled = false;
+			//}
+			//else
+			//{
+			//    buttonDisable.Enabled = true;
+			//    buttonDisable.Focus();
+			//    buttonEnable.Enabled = false;
+			//}
 		}
 
 		private void DisMonForm_Shown(object sender, EventArgs e)
@@ -91,14 +124,14 @@ namespace DisMon
 				}
 				else if (m.WParam.ToInt32() == IDM_VISITWEBSITE)
 				{
-					VisitDualWallpaperWebsite();
+					VisitDisMonWebsite();
 				}
 			}
 
 			base.WndProc(ref m);
 		}
 
-		private void VisitDualWallpaperWebsite()
+		private void VisitDisMonWebsite()
 		{
 			try
 			{

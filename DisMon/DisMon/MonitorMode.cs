@@ -30,6 +30,9 @@ namespace DisMon
 		private string deviceName;
 		private Win32.DEVMODE oldDeviceMode = new Win32.DEVMODE();
 		private Win32.DEVMODE newDeviceMode = new Win32.DEVMODE();
+		private Point position;
+		private bool changesPending;
+		private bool disabled;
 
 		public MonitorMode(string deviceName)
 		{
@@ -40,7 +43,11 @@ namespace DisMon
 			Win32.EnumDisplaySettings(deviceName, Win32.ENUM_REGISTRY_SETTINGS, ref oldDeviceMode);
 			Win32.EnumDisplaySettings(deviceName, Win32.ENUM_CURRENT_SETTINGS, ref oldDeviceMode);
 
+			position = new Point(oldDeviceMode.dmPositionX, oldDeviceMode.dmPositionY);
+
 			newDeviceMode = oldDeviceMode;
+			changesPending = false;
+			disabled = false;	// assume always initially enabled
 		}
 
 		public bool Primary
@@ -58,6 +65,40 @@ namespace DisMon
 			newDeviceMode.dmSize = (ushort)Marshal.SizeOf(newDeviceMode);
 			newDeviceMode.dmFields = Win32.DM_POSITION | Win32.DM_PELSWIDTH | Win32.DM_PELSHEIGHT
 				| Win32.DM_BITSPERPEL | Win32.DM_DISPLAYFREQUENCY | Win32.DM_DISPLAYFLAGS;
+			changesPending = true;
+			disabled = true;
+		}
+
+		public bool Disabled
+		{
+			get
+			{
+				return disabled;
+			}
+		}
+
+		public void Enable()
+		{
+			// copy the fields back from the saved structure
+			newDeviceMode = oldDeviceMode;
+			// what about position?
+			newDeviceMode.dmPositionX = position.X;
+			newDeviceMode.dmPositionY = position.Y;
+			changesPending = true;
+			disabled = false;
+		}
+
+		public void RePosition()
+		{
+			if (!disabled)
+			{
+				if (newDeviceMode.dmPositionX != position.X || newDeviceMode.dmPositionY != position.Y)
+				{
+					newDeviceMode.dmPositionX = position.X;
+					newDeviceMode.dmPositionY = position.Y;
+					changesPending = true;
+				}
+			}
 		}
 
 		public Point NewPosition
@@ -70,29 +111,31 @@ namespace DisMon
 
 		public void Offset(int deltaX, int deltaY)
 		{
-			newDeviceMode.dmPositionX += deltaX;
-			newDeviceMode.dmPositionY += deltaY;
+			position.X += deltaX;
+			position.Y += deltaY;
+
+			RePosition();
 		}
 
-		public bool Changed
-		{
-			get
-			{
-				// TODO
-				return (true);
-			}
-		}
+		//public bool Changed
+		//{
+		//    get
+		//    {
+		//        return (changesPending);
+		//    }
+		//}
 
 		public bool ApplyChanges()
 		{
 			bool ret = false;
-			if (Changed)
+			if (changesPending)
 			{
 				int change;
 				change = Win32.ChangeDisplaySettingsEx(deviceName, ref newDeviceMode, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
 				if (change == Win32.DISP_CHANGE_SUCCESSFUL)
 				{
 //					change = Win32.ChangeDisplaySettingsEx(deviceName, ref newDeviceMode, IntPtr.Zero, Win32.CDS_UPDATEREGISTRY, IntPtr.Zero);
+					changesPending = false;
 					ret = true;
 				}
 			}

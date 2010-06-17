@@ -29,37 +29,61 @@ namespace DisMon
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DisMonForm));
-			this.buttonDisable = new System.Windows.Forms.Button();
-			this.buttonEnable = new System.Windows.Forms.Button();
+			this.buttonPS = new System.Windows.Forms.Button();
+			this.buttonSP = new System.Windows.Forms.Button();
+			this.buttonPX = new System.Windows.Forms.Button();
+			this.buttonXP = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
-			// buttonDisable
+			// buttonPS
 			// 
-			this.buttonDisable.Location = new System.Drawing.Point(12, 12);
-			this.buttonDisable.Name = "buttonDisable";
-			this.buttonDisable.Size = new System.Drawing.Size(92, 92);
-			this.buttonDisable.TabIndex = 0;
-			this.buttonDisable.Text = "Disable Secondary Monitors";
-			this.buttonDisable.UseVisualStyleBackColor = true;
-			this.buttonDisable.Click += new System.EventHandler(this.buttonDisable_Click);
+			this.buttonPS.Image = ((System.Drawing.Image)(resources.GetObject("buttonPS.Image")));
+			this.buttonPS.Location = new System.Drawing.Point(12, 12);
+			this.buttonPS.Name = "buttonPS";
+			this.buttonPS.Size = new System.Drawing.Size(106, 58);
+			this.buttonPS.TabIndex = 2;
+			this.buttonPS.UseVisualStyleBackColor = true;
+			this.buttonPS.Click += new System.EventHandler(this.buttonPS_Click);
 			// 
-			// buttonEnable
+			// buttonSP
 			// 
-			this.buttonEnable.Location = new System.Drawing.Point(110, 12);
-			this.buttonEnable.Name = "buttonEnable";
-			this.buttonEnable.Size = new System.Drawing.Size(92, 92);
-			this.buttonEnable.TabIndex = 1;
-			this.buttonEnable.Text = "Re-enable disabled Monitors";
-			this.buttonEnable.UseVisualStyleBackColor = true;
-			this.buttonEnable.Click += new System.EventHandler(this.buttonEnable_Click);
+			this.buttonSP.Image = ((System.Drawing.Image)(resources.GetObject("buttonSP.Image")));
+			this.buttonSP.Location = new System.Drawing.Point(124, 12);
+			this.buttonSP.Name = "buttonSP";
+			this.buttonSP.Size = new System.Drawing.Size(106, 58);
+			this.buttonSP.TabIndex = 3;
+			this.buttonSP.UseVisualStyleBackColor = true;
+			this.buttonSP.Click += new System.EventHandler(this.buttonSP_Click);
+			// 
+			// buttonPX
+			// 
+			this.buttonPX.Image = ((System.Drawing.Image)(resources.GetObject("buttonPX.Image")));
+			this.buttonPX.Location = new System.Drawing.Point(12, 76);
+			this.buttonPX.Name = "buttonPX";
+			this.buttonPX.Size = new System.Drawing.Size(106, 58);
+			this.buttonPX.TabIndex = 4;
+			this.buttonPX.UseVisualStyleBackColor = true;
+			this.buttonPX.Click += new System.EventHandler(this.buttonPX_Click);
+			// 
+			// buttonXP
+			// 
+			this.buttonXP.Image = ((System.Drawing.Image)(resources.GetObject("buttonXP.Image")));
+			this.buttonXP.Location = new System.Drawing.Point(124, 76);
+			this.buttonXP.Name = "buttonXP";
+			this.buttonXP.Size = new System.Drawing.Size(106, 58);
+			this.buttonXP.TabIndex = 5;
+			this.buttonXP.UseVisualStyleBackColor = true;
+			this.buttonXP.Click += new System.EventHandler(this.buttonXP_Click);
 			// 
 			// DisMonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(216, 116);
-			this.Controls.Add(this.buttonEnable);
-			this.Controls.Add(this.buttonDisable);
+			this.ClientSize = new System.Drawing.Size(243, 148);
+			this.Controls.Add(this.buttonXP);
+			this.Controls.Add(this.buttonPX);
+			this.Controls.Add(this.buttonSP);
+			this.Controls.Add(this.buttonPS);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
@@ -73,8 +97,10 @@ namespace DisMon
 
 		#endregion
 
-		private System.Windows.Forms.Button buttonDisable;
-		private System.Windows.Forms.Button buttonEnable;
+		private System.Windows.Forms.Button buttonPS;
+		private System.Windows.Forms.Button buttonSP;
+		private System.Windows.Forms.Button buttonPX;
+		private System.Windows.Forms.Button buttonXP;
 	}
 }
 

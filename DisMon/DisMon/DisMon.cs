@@ -74,6 +74,12 @@ namespace DisMon
 				throw new ApplicationException(string.Format("newPrimaryIndex: {0} out of range", newPrimaryIndex));
 			}
 
+			if (allMonitors[newPrimaryIndex].Disabled)
+			{
+				Enable(newPrimaryIndex);
+				ApplyChanges();
+			}
+
 			Point pt = allMonitors[newPrimaryIndex].NewPosition;
 			foreach (MonitorMode monitorMode in allMonitors)
 			{
@@ -96,7 +102,17 @@ namespace DisMon
 			}
 		}
 
-		void Disable(int monitorIndex)
+		public bool IsDisabled(int monitorIndex)
+		{
+			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
+			{
+				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", monitorIndex));
+			}
+
+			return allMonitors[monitorIndex].Disabled;
+		}
+
+		public void Disable(int monitorIndex)
 		{
 			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
 			{
@@ -104,6 +120,31 @@ namespace DisMon
 			}
 
 			allMonitors[monitorIndex].Disable();
+		}
+
+		public void Enable(int enableIndex)
+		{
+			if (enableIndex < 0 || enableIndex >= allMonitors.Count)
+			{
+				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", enableIndex));
+			}
+
+			// must reposition all monitors to as re-enabling a monitor
+			// can cause positions to change
+			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
+			{
+				if (monitorIndex == enableIndex)
+				{
+					allMonitors[enableIndex].Enable();
+				}
+				else
+				{
+					if (!allMonitors[enableIndex].Disabled)
+					{
+						allMonitors[enableIndex].RePosition();
+					}
+				}
+			}
 		}
 
 		public bool ApplyChanges()
