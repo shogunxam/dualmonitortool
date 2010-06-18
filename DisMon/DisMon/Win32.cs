@@ -35,6 +35,8 @@ namespace DisMon
 
 		// Flags for ChangeDisplaySettings(/Ex).dwFlags
 		public const uint CDS_UPDATEREGISTRY = 0x00000001;
+		public const uint CDS_SET_PRIMARY    = 0x00000010;
+		public const uint CDS_NORESET        = 0x10000000;
 
 		// return values for ChangeDisplaySettings(/Ex)
 		public const int DISP_CHANGE_SUCCESSFUL = 0;
