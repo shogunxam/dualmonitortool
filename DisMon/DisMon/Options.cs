@@ -28,6 +28,8 @@ namespace DisMon
 	{
 		private List<string> processArgs = new List<string>();
 
+		private Dictionary<int, string> monOps = new Dictionary<int, string>();
+
 		public string CmdName
 		{
 			get { return GetCmdName(); }
@@ -43,6 +45,23 @@ namespace DisMon
 		{
 			get { return debug; }
 		}
+
+		public string GetMonOps(int monitorIndex)
+		{
+			string ret;
+
+			if (!monOps.TryGetValue(monitorIndex, out ret))
+			{
+				ret = "";
+			}
+
+			return ret;
+		}
+
+		public bool HasMonOps()
+		{
+			return (monOps.Count > 0);
+		}
 	
 	
 		public Options(string[] args)
@@ -52,10 +71,31 @@ namespace DisMon
 			while (argIndex < args.Length)
 			{
 				string arg = args[argIndex];
-				if (arg.Length > 0 && arg[0] == '-')
+				if (arg.Length > 1 && arg[0] == '-')
 				{
-					// process option
-					if (arg.Substring(1) == "d")
+					// first pick up the monitor number (1 based)
+					int monIndex = 0;
+					int strIndex = 0;
+					for (strIndex = 1; strIndex < arg.Length; strIndex++)
+					{
+						if (Char.IsDigit(arg[strIndex]))
+						{
+							monIndex = monIndex * 10 + arg[strIndex] - '0';
+						}
+						else
+						{
+							break;
+						}
+					}
+
+					if (monIndex > 0)
+					{
+						// pick up the rest of the string
+						string ops = arg.Substring(argIndex);
+						// make monitor index zero based
+						monOps.Add(monIndex - 1, ops);
+					}
+					else if (arg.Substring(1) == "d")
 					{
 						debug = true;
 					}

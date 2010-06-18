@@ -58,8 +58,8 @@ namespace DisMon
 
 		static void RunCmd(Options options)
 		{
-			// disable all secondary monitors
-			DisMon.Instance.DisableAllSecondary();
+			// make the requested changes to the monitors
+			ChangeMonitors(options);
 
 			ProcessStartInfo pInfo = new ProcessStartInfo();
 			pInfo.FileName = options.CmdName;
@@ -89,6 +89,42 @@ namespace DisMon
 
 			// re-enable all the monitors we disabled
 			DisMon.Instance.Restore();
+		}
+
+		static void ChangeMonitors(Options options)
+		{
+			if (options.HasMonOps())
+			{
+				for (int monitorIndex = 0; monitorIndex < DisMon.Instance.Count; monitorIndex++)
+				{
+					string monOps = options.GetMonOps(monitorIndex);
+					foreach (char c in monOps)
+					{
+						switch (c)
+						{
+							case 'd':
+								DisMon.Instance.MarkAsDisabled(monitorIndex);
+								break;
+
+							case 'p':
+								DisMon.Instance.MarkAsPrimary(monitorIndex);
+								break;
+
+							default:
+								// ignore all other options for now
+								break;
+						}
+					}
+				}
+			}
+			else
+			{
+				// If no specific monitor operations have been specified,
+				// then we disable all secondary monitors
+				DisMon.Instance.MarkAllSecondaryAsDisabled();
+			}
+
+			DisMon.Instance.ApplyChanges();
 		}
 
 		/// <summary>

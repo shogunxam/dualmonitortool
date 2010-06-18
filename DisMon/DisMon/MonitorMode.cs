@@ -58,7 +58,7 @@ namespace DisMon
 			}
 		}
 
-		public void Disable()
+		public void MarkAsDisabled()
 		{
 			// clear the fields
 			newDeviceMode = new Win32.DEVMODE();
@@ -77,7 +77,7 @@ namespace DisMon
 			}
 		}
 
-		public void Enable()
+		public void MarkAsEnabled()
 		{
 			// copy the fields back from the saved structure
 			newDeviceMode = oldDeviceMode;

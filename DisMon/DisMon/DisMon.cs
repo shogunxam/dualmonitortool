@@ -67,7 +67,15 @@ namespace DisMon
 			}
 		}
 
-		public void ChangePrimary(int newPrimaryIndex)
+		public int Count
+		{
+			get
+			{
+				return allMonitors.Count;
+			}
+		}
+
+		public void MarkAsPrimary(int newPrimaryIndex)
 		{
 			if (newPrimaryIndex < 0 || newPrimaryIndex >= allMonitors.Count)
 			{
@@ -76,7 +84,8 @@ namespace DisMon
 
 			if (allMonitors[newPrimaryIndex].Disabled)
 			{
-				Enable(newPrimaryIndex);
+				MarkAsEnabled(newPrimaryIndex);
+				// TODO chack if we really need to apply changes now
 				ApplyChanges();
 			}
 
@@ -91,13 +100,13 @@ namespace DisMon
 		/// Disables all secondary monitors
 		/// </summary>
 		/// <returns>true if one or more monitors were disabled</returns>
-		public void DisableAllSecondary()
+		public void MarkAllSecondaryAsDisabled()
 		{
 			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
 			{
 				if (!allMonitors[monitorIndex].Primary)
 				{
-					Disable(monitorIndex);
+					MarkAsDisabled(monitorIndex);
 				}
 			}
 		}
@@ -112,17 +121,17 @@ namespace DisMon
 			return allMonitors[monitorIndex].Disabled;
 		}
 
-		public void Disable(int monitorIndex)
+		public void MarkAsDisabled(int monitorIndex)
 		{
 			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
 			{
 				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", monitorIndex));
 			}
 
-			allMonitors[monitorIndex].Disable();
+			allMonitors[monitorIndex].MarkAsDisabled();
 		}
 
-		public void Enable(int enableIndex)
+		public void MarkAsEnabled(int enableIndex)
 		{
 			if (enableIndex < 0 || enableIndex >= allMonitors.Count)
 			{
@@ -135,7 +144,7 @@ namespace DisMon
 			{
 				if (monitorIndex == enableIndex)
 				{
-					allMonitors[enableIndex].Enable();
+					allMonitors[enableIndex].MarkAsEnabled();
 				}
 				else
 				{
@@ -165,7 +174,7 @@ namespace DisMon
 		}
 
 		/// <summary>
-		/// re-enable all devices that have been disabled by DisableAllSecondary()
+		/// re-enable all devices that have been disabled by MarkAllSecondaryAsDisabled()
 		/// </summary>
 		public void Restore()
 		{

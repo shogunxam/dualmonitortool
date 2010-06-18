@@ -43,41 +43,40 @@ namespace DisMon
 
 		private void buttonPS_Click(object sender, EventArgs e)
 		{
-			//DisMon.Instance.Enable(0);
-			DisMon.Instance.Enable(1);
-			DisMon.Instance.ChangePrimary(0);
+			//DisMon.Instance.MarkAsEnabled(0);
+			DisMon.Instance.MarkAsEnabled(1);
+			DisMon.Instance.MarkAsPrimary(0);
 			DisMon.Instance.ApplyChanges();
-			//UpdateEnabledStates();
 		}
 
 		private void buttonSP_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.Enable(0);
-			//DisMon.Instance.Enable(1);
-			DisMon.Instance.ChangePrimary(1);
+			DisMon.Instance.MarkAsEnabled(0);
+			//DisMon.Instance.MarkAsEnabled(1);
+			DisMon.Instance.MarkAsPrimary(1);
 			DisMon.Instance.ApplyChanges();
 		}
 
 		private void buttonPX_Click(object sender, EventArgs e)
 		{
-			//DisMon.Instance.Enable(0);
-			DisMon.Instance.ChangePrimary(0);
-			DisMon.Instance.Disable(1);
+			//DisMon.Instance.MarkAsEnabled(0);
+			DisMon.Instance.MarkAsPrimary(0);
+			DisMon.Instance.MarkAsDisabled(1);
 			DisMon.Instance.ApplyChanges();
 		}
 
 		private void buttonXP_Click(object sender, EventArgs e)
 		{
-			//DisMon.Instance.Enable(1);
-			DisMon.Instance.ChangePrimary(1);
-			DisMon.Instance.Disable(0);
+			//DisMon.Instance.MarkAsEnabled(1);
+			DisMon.Instance.MarkAsPrimary(1);
+			DisMon.Instance.MarkAsDisabled(0);
 			DisMon.Instance.ApplyChanges();
 		}
 
 		//private void buttonDisable_Click(object sender, EventArgs e)
 		//{
-		//    DisMon.Instance.ChangePrimary(1);
-		//    DisMon.Instance.DisableAllSecondary();
+		//    DisMon.Instance.MarkAsPrimary(1);
+		//    DisMon.Instance.MarkAllSecondaryAsDisabled();
 		//    DisMon.Instance.ApplyChanges();
 		//    disabledSecondary = true;
 		//    UpdateEnabledStates();
