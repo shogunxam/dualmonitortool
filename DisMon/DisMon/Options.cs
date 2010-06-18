@@ -24,46 +24,44 @@ using System.Threading;
 
 namespace DisMon
 {
+	/// <summary>
+	/// The command line options.
+	/// </summary>
 	class Options
 	{
-		private List<string> processArgs = new List<string>();
-
+		// list of options for the individual monitors 
 		private Dictionary<int, string> monOps = new Dictionary<int, string>();
 
+		// the external command and its parameters that we need to run
+		private List<string> processArgs = new List<string>();
+
+		/// <summary>
+		/// The command that needs to be run
+		/// </summary>
 		public string CmdName
 		{
 			get { return GetCmdName(); }
 		}
 
+		/// <summary>
+		/// The parameters for the command
+		/// </summary>
 		public string CmdArgs
 		{
 			get { return GetCmdArgs(); }
 		}
 
+		// Debug flag - not currently used
 		private bool debug;
 		public bool Debug
 		{
 			get { return debug; }
 		}
-
-		public string GetMonOps(int monitorIndex)
-		{
-			string ret;
-
-			if (!monOps.TryGetValue(monitorIndex, out ret))
-			{
-				ret = "";
-			}
-
-			return ret;
-		}
-
-		public bool HasMonOps()
-		{
-			return (monOps.Count > 0);
-		}
 	
-	
+		/// <summary>
+		/// Ctor that takes the list of command line arguments passed into us
+		/// </summary>
+		/// <param name="args">Command line arguments</param>
 		public Options(string[] args)
 		{
 			int argIndex = 0;
@@ -117,7 +115,35 @@ namespace DisMon
 
 		}
 
-		string GetCmdName()
+		/// <summary>
+		/// Gets the string representing the monitor operations for
+		/// the specified monitor.
+		/// If there are none, an empty string is returned.
+		/// </summary>
+		/// <param name="monitorIndex">Zero based monitor index</param>
+		/// <returns>Monitor operations for the monitor</returns>
+		public string GetMonOps(int monitorIndex)
+		{
+			string ret;
+
+			if (!monOps.TryGetValue(monitorIndex, out ret))
+			{
+				ret = "";
+			}
+
+			return ret;
+		}
+
+		/// <summary>
+		/// Indicates if there are any monitor specific operations
+		/// </summary>
+		/// <returns>true, if there are any monitor specific operations</returns>
+		public bool HasMonOps()
+		{
+			return (monOps.Count > 0);
+		}
+	
+		private string GetCmdName()
 		{
 			string cmdName = null;
 			if (processArgs.Count > 0)
@@ -128,7 +154,7 @@ namespace DisMon
 			return cmdName;
 		}
 
-		string GetCmdArgs()
+		private string GetCmdArgs()
 		{
 			string cmdArgs = null;
 
