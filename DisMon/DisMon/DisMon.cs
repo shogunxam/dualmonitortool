@@ -43,12 +43,16 @@ namespace DisMon
 		{
 		}
 
+		// private ctor
 		DisMon()
 		{
 			// initialise our own list of monitors
 			EnumMonitors();
 		}
 
+		/// <summary>
+		/// Static property to get access to the single instance of this class.
+		/// </summary>
 		public static DisMon Instance
 		{
 			get
@@ -57,6 +61,7 @@ namespace DisMon
 			}
 		}
 
+		// initialises the list of monitors
 		private void EnumMonitors()
 		{
 			// build list of devices
@@ -67,6 +72,9 @@ namespace DisMon
 			}
 		}
 
+		/// <summary>
+		/// The number of monitors we know about.
+		/// </summary>
 		public int Count
 		{
 			get
@@ -75,6 +83,13 @@ namespace DisMon
 			}
 		}
 
+		/// <summary>
+		/// Mark the specified monitor as being the primary monitor.
+		/// 
+		/// WARNING: if this monitor is currently disabled, then it will be
+		/// re-enabled with immediate effect.
+		/// </summary>
+		/// <param name="newPrimaryIndex">Zero based index of monitor.</param>
 		public void MarkAsPrimary(int newPrimaryIndex)
 		{
 			if (newPrimaryIndex < 0 || newPrimaryIndex >= allMonitors.Count)
@@ -85,14 +100,22 @@ namespace DisMon
 			if (allMonitors[newPrimaryIndex].Disabled)
 			{
 				MarkAsEnabled(newPrimaryIndex);
-				// TODO chack if we really need to apply changes now
-				ApplyChanges();
+				// TODO check if we really need to apply changes now
+//				ApplyChanges();
 			}
 
 			Point pt = allMonitors[newPrimaryIndex].NewPosition;
+			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
 			foreach (MonitorMode monitorMode in allMonitors)
 			{
-				monitorMode.Offset(-pt.X, -pt.Y);
+				if (monitorIndex == newPrimaryIndex)
+				{
+					allMonitors[newPrimaryIndex].MarkAsPrimary();
+				}
+				else
+				{
+					allMonitors[newPrimaryIndex].MarkAsSecondary(pt.X, pt.Y);
+				}
 			}
 		}
 
@@ -111,6 +134,11 @@ namespace DisMon
 			}
 		}
 
+		/// <summary>
+		/// Indicates if the monitor will be disabled after any pending changes have been made.
+		/// </summary>
+		/// <param name="monitorIndex">Zero based index of monitor.</param>
+		/// <returns>true if the monitor is (or will be) disabled.</returns>
 		public bool IsDisabled(int monitorIndex)
 		{
 			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
@@ -121,6 +149,10 @@ namespace DisMon
 			return allMonitors[monitorIndex].Disabled;
 		}
 
+		/// <summary>
+		/// Mark the specified monitor as disabled.
+		/// </summary>
+		/// <param name="monitorIndex">Zero based index of monitor.</param>
 		public void MarkAsDisabled(int monitorIndex)
 		{
 			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
@@ -131,6 +163,10 @@ namespace DisMon
 			allMonitors[monitorIndex].MarkAsDisabled();
 		}
 
+		/// <summary>
+		/// Mark the specified monitor as enabled.
+		/// </summary>
+		/// <param name="enableIndex">Zero based index of monitor.</param>
 		public void MarkAsEnabled(int enableIndex)
 		{
 			if (enableIndex < 0 || enableIndex >= allMonitors.Count)
@@ -138,7 +174,7 @@ namespace DisMon
 				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", enableIndex));
 			}
 
-			// must reposition all monitors to as re-enabling a monitor
+			// must reposition all monitors as re-enabling a monitor
 			// can cause positions to change
 			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
 			{
@@ -156,25 +192,32 @@ namespace DisMon
 			}
 		}
 
+		/// <summary>
+		/// Updates all of the monitors with any pending changes.
+		/// </summary>
+		/// <returns>true if any change has been made to any monitor.</returns>
 		public bool ApplyChanges()
 		{
-			bool bRet = false;
+			bool changesMade = false;
 
 			foreach (MonitorMode monitorMode in allMonitors)
 			{
 				if (monitorMode.ApplyChanges())
 				{
-					bRet = true;
+					changesMade = true;
 				}
 			}
 
-			Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
+			if (changesMade)
+			{
+				Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
+			}
 
-			return bRet;
+			return changesMade;
 		}
 
 		/// <summary>
-		/// re-enable all devices that have been disabled by MarkAllSecondaryAsDisabled()
+		/// Restore all monitors to the state that they were in at construction.
 		/// </summary>
 		public void Restore()
 		{
@@ -185,13 +228,5 @@ namespace DisMon
 
 			Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
 		}
-
-		///// <summary>
-		///// Indicates if any monitors have been disabled
-		///// </summary>
-		//public bool MonitorsDisabled
-		//{
-		//    get { return disabledDevices.Capacity > 0; }
-		//}
 	}
 }
