@@ -130,6 +130,12 @@ namespace DisMon
 			base.WndProc(ref m);
 		}
 
+
+		private void DisMonForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+		{
+			VisitDisMonWebsite();
+		}
+
 		private void VisitDisMonWebsite()
 		{
 			try

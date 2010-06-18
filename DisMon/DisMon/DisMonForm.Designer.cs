@@ -91,6 +91,7 @@ namespace DisMon
 			this.Name = "DisMonForm";
 			this.Text = "DisMon";
 			this.Shown += new System.EventHandler(this.DisMonForm_Shown);
+			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.DisMonForm_HelpRequested);
 			this.ResumeLayout(false);
 
 		}
