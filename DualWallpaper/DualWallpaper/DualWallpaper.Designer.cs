@@ -391,6 +391,7 @@ namespace DualWallpaper
 			this.Name = "DualWallpaper";
 			this.Text = "Dual Wallpaper";
 			this.Shown += new System.EventHandler(this.DualWallpaper_Shown);
+			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.DualWallpaper_HelpRequested);
 			((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();

@@ -470,6 +470,11 @@ namespace DualWallpaper
 			base.WndProc(ref m);
 		}
 
+		private void DualWallpaper_HelpRequested(object sender, HelpEventArgs hlpevent)
+		{
+			VisitDualWallpaperWebsite();
+		}
+
 		private void VisitDualWallpaperWebsite()
 		{
 			try
