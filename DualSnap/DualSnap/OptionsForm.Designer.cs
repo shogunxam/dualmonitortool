@@ -141,6 +141,7 @@ namespace DualSnap
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
 			this.Text = "Dual Snap Options";
+			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.OptionsForm_HelpRequested);
 			this.groupBox1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).EndInit();
 			this.ResumeLayout(false);

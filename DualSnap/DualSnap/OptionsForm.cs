@@ -59,5 +59,10 @@ namespace DualSnap
 			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
 		}
 		#endregion
+
+		private void OptionsForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+		{
+			Program.VisitDualSnapWebsite();
+		}
 	}
 }

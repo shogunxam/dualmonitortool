@@ -57,6 +57,18 @@ namespace DualSnap
 			}
 		}
 
+		public static void VisitDualSnapWebsite()
+		{
+			try
+			{
+				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/dualsnap.html");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
+		}
+
 		/// <summary>
 		/// Returns the name that we are known as.
 		/// This is used for display to the user in message boxes and the about box 

@@ -192,6 +192,7 @@ namespace DualSnap
 			this.ShowInTaskbar = false;
 			this.Text = "Form1";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SnapForm_FormClosing);
+			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.SnapForm_HelpRequested);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
 			this.contextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);

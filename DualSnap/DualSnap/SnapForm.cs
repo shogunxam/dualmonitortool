@@ -300,14 +300,12 @@ namespace DualSnap
 
 		private void visitDualSnapWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/dualsnap.html");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, Program.MyTitle);
-			}
+			Program.VisitDualSnapWebsite();
+		}
+
+		private void SnapForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+		{
+			Program.VisitDualSnapWebsite();
 		}
 
 		// Handle the "Exit" menu item click
