@@ -213,7 +213,17 @@ namespace SwapScreen
 			dlg.ShowDialog();
 		}
 
+		private void OptionsForm_HelpRequested(object sender, HelpEventArgs hlpevent)
+		{
+			visitSwapScreenWebsite();
+		}
+
 		private void visitSwapScreenWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			visitSwapScreenWebsite();
+		}
+
+		private void visitSwapScreenWebsite()
 		{
 			try
 			{

@@ -813,6 +813,7 @@ namespace SwapScreen
 			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.Shown += new System.EventHandler(this.OptionsForm_Shown);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
+			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.OptionsForm_HelpRequested);
 			this.contextMenuStrip.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPageActive.ResumeLayout(false);
