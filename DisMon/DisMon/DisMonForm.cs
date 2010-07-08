@@ -43,6 +43,7 @@ namespace DisMon
 
 		private void buttonPS_Click(object sender, EventArgs e)
 		{
+			DisMon.Instance.Revert();
 			//DisMon.Instance.MarkAsEnabled(0);
 			DisMon.Instance.MarkAsEnabled(1);
 			DisMon.Instance.MarkAsPrimary(0);
@@ -51,6 +52,7 @@ namespace DisMon
 
 		private void buttonSP_Click(object sender, EventArgs e)
 		{
+			DisMon.Instance.Revert();
 			DisMon.Instance.MarkAsEnabled(0);
 			//DisMon.Instance.MarkAsEnabled(1);
 			DisMon.Instance.MarkAsPrimary(1);
@@ -59,6 +61,7 @@ namespace DisMon
 
 		private void buttonPX_Click(object sender, EventArgs e)
 		{
+			DisMon.Instance.Revert();
 			//DisMon.Instance.MarkAsEnabled(0);
 			DisMon.Instance.MarkAsPrimary(0);
 			DisMon.Instance.MarkAsDisabled(1);
@@ -67,6 +70,7 @@ namespace DisMon
 
 		private void buttonXP_Click(object sender, EventArgs e)
 		{
+			DisMon.Instance.Revert();
 			//DisMon.Instance.MarkAsEnabled(1);
 			DisMon.Instance.MarkAsPrimary(1);
 			DisMon.Instance.MarkAsDisabled(0);

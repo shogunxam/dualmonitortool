@@ -35,7 +35,7 @@ namespace DisMon
 	{
 		static readonly DisMon instance = new DisMon();
 
-		List<MonitorMode> allMonitors = new List<MonitorMode>();
+		private IDisMon disMonImplementation;
 
 		// Explicit static constructor to tell C# compiler
 		// not to mark type as beforefieldinit
@@ -46,8 +46,14 @@ namespace DisMon
 		// private ctor
 		DisMon()
 		{
-			// initialise our own list of monitors
-			EnumMonitors();
+			if (OsHelper.IsWin7())
+			{
+				disMonImplementation = new DisMon7();
+			}
+			else
+			{
+				disMonImplementation = new DisMon6();
+			}
 		}
 
 		/// <summary>
@@ -61,17 +67,6 @@ namespace DisMon
 			}
 		}
 
-		// initialises the list of monitors
-		private void EnumMonitors()
-		{
-			// build list of devices
-			Screen[] allScreens = Screen.AllScreens;
-			for (int screenIndex = 0; screenIndex < allScreens.Length; screenIndex++)
-			{
-				allMonitors.Add(new MonitorMode(allScreens[screenIndex].DeviceName));
-			}
-		}
-
 		/// <summary>
 		/// The number of monitors we know about.
 		/// </summary>
@@ -79,8 +74,13 @@ namespace DisMon
 		{
 			get
 			{
-				return allMonitors.Count;
+				return disMonImplementation.Count();
 			}
+		}
+
+		public void Revert()
+		{
+			disMonImplementation.Revert();
 		}
 
 		/// <summary>
@@ -92,31 +92,7 @@ namespace DisMon
 		/// <param name="newPrimaryIndex">Zero based index of monitor.</param>
 		public void MarkAsPrimary(int newPrimaryIndex)
 		{
-			if (newPrimaryIndex < 0 || newPrimaryIndex >= allMonitors.Count)
-			{
-				throw new ApplicationException(string.Format("newPrimaryIndex: {0} out of range", newPrimaryIndex));
-			}
-
-			if (allMonitors[newPrimaryIndex].Disabled)
-			{
-				MarkAsEnabled(newPrimaryIndex);
-				// TODO check if we really need to apply changes now
-//				ApplyChanges();
-			}
-
-			Point pt = allMonitors[newPrimaryIndex].NewPosition;
-			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
-			foreach (MonitorMode monitorMode in allMonitors)
-			{
-				if (monitorIndex == newPrimaryIndex)
-				{
-					allMonitors[newPrimaryIndex].MarkAsPrimary();
-				}
-				else
-				{
-					allMonitors[newPrimaryIndex].MarkAsSecondary(pt.X, pt.Y);
-				}
-			}
+			disMonImplementation.MarkAsPrimary(newPrimaryIndex);
 		}
 
 		/// <summary>
@@ -125,13 +101,7 @@ namespace DisMon
 		/// <returns>true if one or more monitors were disabled</returns>
 		public void MarkAllSecondaryAsDisabled()
 		{
-			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
-			{
-				if (!allMonitors[monitorIndex].Primary)
-				{
-					MarkAsDisabled(monitorIndex);
-				}
-			}
+			disMonImplementation.MarkAllSecondaryAsDisabled();
 		}
 
 		/// <summary>
@@ -141,12 +111,7 @@ namespace DisMon
 		/// <returns>true if the monitor is (or will be) disabled.</returns>
 		public bool IsDisabled(int monitorIndex)
 		{
-			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
-			{
-				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", monitorIndex));
-			}
-
-			return allMonitors[monitorIndex].Disabled;
+			return disMonImplementation.IsDisabled(monitorIndex);
 		}
 
 		/// <summary>
@@ -155,12 +120,7 @@ namespace DisMon
 		/// <param name="monitorIndex">Zero based index of monitor.</param>
 		public void MarkAsDisabled(int monitorIndex)
 		{
-			if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
-			{
-				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", monitorIndex));
-			}
-
-			allMonitors[monitorIndex].MarkAsDisabled();
+			disMonImplementation.MarkAsDisabled(monitorIndex);
 		}
 
 		/// <summary>
@@ -169,27 +129,7 @@ namespace DisMon
 		/// <param name="enableIndex">Zero based index of monitor.</param>
 		public void MarkAsEnabled(int enableIndex)
 		{
-			if (enableIndex < 0 || enableIndex >= allMonitors.Count)
-			{
-				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", enableIndex));
-			}
-
-			// must reposition all monitors as re-enabling a monitor
-			// can cause positions to change
-			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
-			{
-				if (monitorIndex == enableIndex)
-				{
-					allMonitors[enableIndex].MarkAsEnabled();
-				}
-				else
-				{
-					if (!allMonitors[enableIndex].Disabled)
-					{
-						allMonitors[enableIndex].RePosition();
-					}
-				}
-			}
+			disMonImplementation.MarkAsEnabled(enableIndex);
 		}
 
 		/// <summary>
@@ -198,22 +138,7 @@ namespace DisMon
 		/// <returns>true if any change has been made to any monitor.</returns>
 		public bool ApplyChanges()
 		{
-			bool changesMade = false;
-
-			foreach (MonitorMode monitorMode in allMonitors)
-			{
-				if (monitorMode.ApplyChanges())
-				{
-					changesMade = true;
-				}
-			}
-
-			if (changesMade)
-			{
-				Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
-			}
-
-			return changesMade;
+			return disMonImplementation.ApplyChanges();
 		}
 
 		/// <summary>
@@ -221,12 +146,7 @@ namespace DisMon
 		/// </summary>
 		public void Restore()
 		{
-			foreach (MonitorMode monitorMode in allMonitors)
-			{
-				monitorMode.Restore();
-			}
-
-			Win32.ChangeDisplaySettings(IntPtr.Zero, 0);
+			disMonImplementation.Restore();
 		}
 	}
 }

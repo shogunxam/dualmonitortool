@@ -44,14 +44,18 @@
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DisMon.cs" />
+    <Compile Include="DisMon6.cs" />
+    <Compile Include="DisMon7.cs" />
     <Compile Include="DisMonForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DisMonForm.Designer.cs">
       <DependentUpon>DisMonForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IDisMon.cs" />
     <Compile Include="MonitorMode.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="OsHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutForm.resx">
