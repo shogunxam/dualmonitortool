@@ -59,6 +59,7 @@ namespace SwapScreen
 		public const int WS_MAXIMIZEBOX = 0x00010000;
 		public const int WS_THICKFRAME = 0x00040000;
 		public const int WS_MAXIMIZE = 0x01000000;
+		public const int WS_MINIMIZE = 0x20000000;
 
 		// Flags for GetWindowLong( , GWL_EXSTYLE)
 		public const int WS_EX_TOPMOST = 0x00000008;

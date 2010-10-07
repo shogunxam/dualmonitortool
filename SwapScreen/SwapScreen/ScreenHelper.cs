@@ -127,15 +127,40 @@ namespace SwapScreen
 
 		#region Individual Window manipulation
 		/// <summary>
-		/// Minimise the active window
+		/// Minimise/restore the active window
 		/// </summary>
 		public static void MinimiseActive()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
 			if (hWnd != null)
 			{
-				MinimiseWindow(hWnd);
+				// toggle the minimised state of the window
+				//MinimiseWindow(hWnd);
+				ToggleMinimiseWindow(hWnd);
 			}
+		}
+
+		/// <summary>
+		/// Minimise/restores the specified window
+		/// </summary>
+		/// <param name="hWnd">HWND of window to minimise</param>
+		public static void ToggleMinimiseWindow(IntPtr hWnd)
+		{
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			// check if the window is already minimised
+			if ((style & Win32.WS_MINIMIZE) == 0)
+			{
+				// not minimised - so minimise
+				windowPlacement.showCmd = Win32.SW_SHOWMINIMIZED;
+			}
+			else
+			{
+				// already minimised, so restore
+				windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+			}
+			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
 
 		/// <summary>
