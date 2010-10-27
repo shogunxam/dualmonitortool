@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="description" content="Project page for Dual Monitor Tools." />
-<meta name="keywords" content="Dual Monitor Tools, disable, secondary, multi, display, screen" />
+<meta name="keywords" content="Dual Monitor Tools, disable, secondary, multi, display, screen, dismon, dismon7" />
 <meta name="author" content="Gerald Evans" />
 <link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
 <title>Dual Monitor Tools - DisMon page</title>
@@ -52,32 +52,49 @@
 
 <p class="AppTitle">
 	<img src="Images/DisMon_48_24.png" class="AppLogo" alt="DisMon" />
-	DisMon &amp; DisMon7
+	DisMon
 </p>
 
 
-<p>DisMon and DisMon7 allow secondary monitors to be disabled when running another application.</p>
+<p>DisMon gives you some control over which monitors are disabled and which is the primary monitor when running another application.</p>
 <p>This can be useful for example when running some games where when you
 move the mouse to the edge of the screen, the mouse moves to the other screen rather than scrolling the view.</p>
-<p>DisMon is for use on Windows XP and Vista.  It will not work on Windows 7.</p>
-<p>DisMon7 is for use on Windows7.  It will not work on Windows XP or Vista.</p>
-<p>The usage of DisMon and DisMon7 is the same, except that if you run DisMon without any parameters,
+<p>DisMon can be used with Windows XP, Vista and Windows 7.  (Windows 7 users who previously had to use DisMon7 should note 
+that they should now use DisMon.)</p>
+<p>If you run DisMon without any parameters,
 then you are presented with a GUI that allows you to manually disable and re-enable the secondary monitors.
-If you use Windows 7, then this functionality is already provided by the &lt;Win&gt;+P hotkey.</p>
+If you use Windows 7, then some of this functionality is already provided by the &lt;Win&gt;+P hotkey.</p>
 
 <p class="SubHeading">Usage</p>
 
-<p>This section applies to both DisMon and DisMon7.  If you are using Windows 7, then you need to use 
-DisMon7, so just substitute DisMon7 for DisMon in the following.</p>
+<p>If you run this from the command line or as a shortcut, then the general format of the command is:<br>
+<b>&lt;Path to DisMon executable&gt; [Options for DisMon] &lt;Path to command to run&gt; [&lt;Parameters for command&gt;]</b>
+</p>
 
-<p>When DisMon.exe is run, it will take its first parameter as the name of an application to run.
+<p>
+DisMon options start with a '<b>-</b>', followed by the screen number with '<b>1</b>' being the first screen and then followed
+by one of more characters indicating the options to apply to that screen.  Currently there are only two options:<br>
+'<b>d</b>' disables the screen<br>
+'<b>p</b>' makes the screen the primary screen
+</p>
+
+<p>
+So for example, to disable the first screen and to make the second screen the primary screen, the options to use would be:
+<b>-1d -2p</b>.
+</p>
+
+<p>
+If no options are specified, then the default behaviour is to disable all secondary monitors.
+</p>
+
+<p>The first parameter after any options is the name of an application to run.
 Any further parameters will be automatically passed to this application being run.</p>
 
-<p>Before starting the application, it will disable any active secondary monitors.  
-When the application has finished running, it will re-enable all of the secondary monitors that it disabled.</p>
+<p>Before starting the application, DisMon will perform the actions specified by its options.  
+When the application has finished running, it will restore the monitors to their original state.</p>
 
 <p>Probably the easiest way to do this is to setup a shortcut to the application you want to run, 
-then edit the shortcut and in the 'Target' insert the full executable path to DisMon.</p>
+then edit the shortcut and in the 'Target' insert the full executable path to DisMon and any options you need to specify.</p>
 
 <p>For example, if DisMon is located in <b>C:\tools</b> and the application that you want to run 
 with the secondary monitors disabled is <b>C:\Supreme Commander\SupremeCommander.exe</b>
@@ -85,26 +102,41 @@ then you would set the target to:</p>
 <pre>
 C:\tools\DisMon.exe "C:\Supreme Commander\SupremeCommander.exe"
 </pre>
+or if you wanted to explicitly disable the second monitor, you could use:
+<pre>
+C:\tools\DisMon.exe -2d "C:\Supreme Commander\SupremeCommander.exe"
+</pre>
+or if you wanted to run it on the second monitor and to disable the first monitor, you would use:
+<pre>
+C:\tools\DisMon.exe -1d -2p "C:\Supreme Commander\SupremeCommander.exe"
+</pre>
+
+
 
 <p>Remember that any paths or arguments that contain spaces need to be enclosed within double quotes as in
 the above example.</p>
-<p>Now whenever you run this shortcut, it will run the application with the secondary monitors disabled.</p>
+<p>Now whenever you run this shortcut, it will run the application after performing any actions specified in the options.</p>
 
 
 <p class="SubHeading">DisMon GUI</p>
 
-<p>This only applies to DisMon and not DisMon7.</p>
 <p>When you launch DisMon with no parameters it will show the following window:</p>
 <img src="Images/DisMon.png" alt="DisMon window" />
-<p>This allows you to manually disable the secondary monitors. 
-These monitors can then be re-enabled either by pressing the re-enable button or by closing DisMon.</p>
+<p>This allows you to change which is the primary monitor and also to disable the secondary monitor in dual monitor setups. 
+When DisMon is closed, the original state of the monitors will be restored.</p>
 
 <p class="SubHeading">Further Work</p>
 
-<p>DisMon and DisMon7 are still in the early stages of development.  
+<p>DisMon is still in the early stages of development.  
 If there is any particular feature you want added, then please use the
 <a href="http://sourceforge.net/projects/dualmonitortool/forums/forum/914325">Dual Monitor Tools Open Discussion forum</a>
 to leave your sugestion.</p>
+
+<p>
+There are some known problems:<br>
+In Windows 7 when using the GUI, it is possible for the screen state to get messed up by constantly pressing the different buttons.<br>
+In Windows XP, when another screen is made the primary screen, the taskbar is not moved onto that screen unless the original screen is disabled.
+</p>
 
 
 </div>
@@ -114,7 +146,7 @@ to leave your sugestion.</p>
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 31 May 2010
+		last updated 27 Oct 2010
 		</div>
 	</div>
 </div>
