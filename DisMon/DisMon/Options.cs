@@ -89,7 +89,7 @@ namespace DisMon
 					if (monIndex > 0)
 					{
 						// pick up the rest of the string
-						string ops = arg.Substring(argIndex);
+						string ops = arg.Substring(strIndex);
 						// make monitor index zero based
 						monOps.Add(monIndex - 1, ops);
 					}

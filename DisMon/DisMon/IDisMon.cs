@@ -9,12 +9,13 @@ namespace DisMon
 		//public void Init();
 
 		int Count();
-		void Revert();
+		//void Revert();
+		void Reset();
 		void MarkAsPrimary(int newPrimaryIndex);
 		void MarkAllSecondaryAsDisabled();
-		bool IsDisabled(int monitorIndex);
+		//bool IsDisabled(int monitorIndex);
 		void MarkAsDisabled(int monitorIndex);
-		void MarkAsEnabled(int enableIndex);
+		//void MarkAsEnabled(int enableIndex);
 		bool ApplyChanges();
 		void Restore();
 	}

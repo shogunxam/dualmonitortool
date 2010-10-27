@@ -78,9 +78,9 @@ namespace DisMon
 			}
 		}
 
-		public void Revert()
+		public void Reset()
 		{
-			disMonImplementation.Revert();
+			disMonImplementation.Reset();
 		}
 
 		/// <summary>
@@ -105,16 +105,6 @@ namespace DisMon
 		}
 
 		/// <summary>
-		/// Indicates if the monitor will be disabled after any pending changes have been made.
-		/// </summary>
-		/// <param name="monitorIndex">Zero based index of monitor.</param>
-		/// <returns>true if the monitor is (or will be) disabled.</returns>
-		public bool IsDisabled(int monitorIndex)
-		{
-			return disMonImplementation.IsDisabled(monitorIndex);
-		}
-
-		/// <summary>
 		/// Mark the specified monitor as disabled.
 		/// </summary>
 		/// <param name="monitorIndex">Zero based index of monitor.</param>
@@ -123,14 +113,14 @@ namespace DisMon
 			disMonImplementation.MarkAsDisabled(monitorIndex);
 		}
 
-		/// <summary>
-		/// Mark the specified monitor as enabled.
-		/// </summary>
-		/// <param name="enableIndex">Zero based index of monitor.</param>
-		public void MarkAsEnabled(int enableIndex)
-		{
-			disMonImplementation.MarkAsEnabled(enableIndex);
-		}
+		///// <summary>
+		///// Mark the specified monitor as enabled.
+		///// </summary>
+		///// <param name="enableIndex">Zero based index of monitor.</param>
+		//public void MarkAsEnabled(int enableIndex)
+		//{
+		//    disMonImplementation.MarkAsEnabled(enableIndex);
+		//}
 
 		/// <summary>
 		/// Updates all of the monitors with any pending changes.

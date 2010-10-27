@@ -8,7 +8,7 @@ namespace DisMon
 {
 	class DisMon6 : IDisMon
 	{
-		List<MonitorMode> allMonitors = new List<MonitorMode>();
+		List<MonitorMode> allMonitors;
 
 		/// <summary>
 		/// ctor
@@ -19,10 +19,21 @@ namespace DisMon
 			EnumMonitors();
 		}
 
+		public void Reset()
+		{
+			// restore any changed monitors
+			Restore();
+
+			// rebuild list of monitors
+			// (should be identical each time we call, but jic)
+			EnumMonitors();
+		}
+
 		// initialises the list of monitors
 		private void EnumMonitors()
 		{
 			// build list of devices
+			allMonitors = new List<MonitorMode>();
 			Screen[] allScreens = Screen.AllScreens;
 			for (int screenIndex = 0; screenIndex < allScreens.Length; screenIndex++)
 			{
@@ -38,13 +49,13 @@ namespace DisMon
 			return allMonitors.Count;
 		}
 
-		/// <summary>
-		/// Revert monitors back to starting condition,
-		/// but don't apply the changes
-		/// </summary>
-		public void Revert()
-		{
-		}
+		///// <summary>
+		///// Revert monitors back to starting condition,
+		///// but don't apply the changes
+		///// </summary>
+		//public void Revert()
+		//{
+		//}
 
 		/// <summary>
 		/// Mark the specified monitor as being the primary monitor.
@@ -60,12 +71,12 @@ namespace DisMon
 				throw new ApplicationException(string.Format("newPrimaryIndex: {0} out of range", newPrimaryIndex));
 			}
 
-			if (allMonitors[newPrimaryIndex].Disabled)
-			{
-				MarkAsEnabled(newPrimaryIndex);
-				// TODO check if we really need to apply changes now
-//				ApplyChanges();
-			}
+//            if (allMonitors[newPrimaryIndex].Disabled)
+//            {
+//                MarkAsEnabled(newPrimaryIndex);
+//                // TODO check if we really need to apply changes now
+////				ApplyChanges();
+//            }
 
 			Point pt = allMonitors[newPrimaryIndex].NewPosition;
 			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
@@ -125,34 +136,34 @@ namespace DisMon
 			allMonitors[monitorIndex].MarkAsDisabled();
 		}
 
-		/// <summary>
-		/// Mark the specified monitor as enabled.
-		/// </summary>
-		/// <param name="enableIndex">Zero based index of monitor.</param>
-		public void MarkAsEnabled(int enableIndex)
-		{
-			if (enableIndex < 0 || enableIndex >= allMonitors.Count)
-			{
-				throw new ApplicationException(string.Format("monitorIndex: {0} out of range", enableIndex));
-			}
+		///// <summary>
+		///// Mark the specified monitor as enabled.
+		///// </summary>
+		///// <param name="enableIndex">Zero based index of monitor.</param>
+		//public void MarkAsEnabled(int enableIndex)
+		//{
+		//    if (enableIndex < 0 || enableIndex >= allMonitors.Count)
+		//    {
+		//        throw new ApplicationException(string.Format("monitorIndex: {0} out of range", enableIndex));
+		//    }
 
-			// must reposition all monitors as re-enabling a monitor
-			// can cause positions to change
-			for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
-			{
-				if (monitorIndex == enableIndex)
-				{
-					allMonitors[enableIndex].MarkAsEnabled();
-				}
-				else
-				{
-					if (!allMonitors[enableIndex].Disabled)
-					{
-						allMonitors[enableIndex].RePosition();
-					}
-				}
-			}
-		}
+		//    // must reposition all monitors as re-enabling a monitor
+		//    // can cause positions to change
+		//    for (int monitorIndex = 0; monitorIndex < allMonitors.Count; monitorIndex++)
+		//    {
+		//        if (monitorIndex == enableIndex)
+		//        {
+		//            allMonitors[enableIndex].MarkAsEnabled();
+		//        }
+		//        else
+		//        {
+		//            if (!allMonitors[enableIndex].Disabled)
+		//            {
+		//                allMonitors[enableIndex].RePosition();
+		//            }
+		//        }
+		//    }
+		//}
 
 		/// <summary>
 		/// Updates all of the monitors with any pending changes.

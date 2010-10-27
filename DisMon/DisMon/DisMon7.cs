@@ -150,17 +150,10 @@ namespace DisMon
 			uint numModeInfoArrayElements, DISPLAYCONFIG_MODE_INFO[] pModeInfoArray,
 			uint Flags);
 
-		//uint savedPathArraySize;
-		//uint savedModeArraySize;
-		//IntPtr pSavedPathInfo;
-		//IntPtr pSavedModeInfo;
-		//byte[] savedPathInfos;
-		//byte[] savedModeInfos;
-
+		private DISPLAYCONFIG_PATH_INFO[] originalPathInfos;
+		private DISPLAYCONFIG_MODE_INFO[] originalModeInfos;
 		private DISPLAYCONFIG_PATH_INFO[] pathInfos;
 		private DISPLAYCONFIG_MODE_INFO[] modeInfos;
-		private DISPLAYCONFIG_PATH_INFO[] savedPathInfos;
-		private DISPLAYCONFIG_MODE_INFO[] savedModeInfos;
 
 
 		/// <summary>
@@ -172,22 +165,26 @@ namespace DisMon
 			EnumMonitors();
 		}
 
+		/// <summary>
+		/// Resets the monitors back to their original state
+		/// and resets our working copy of the structures.
+		/// </summary>
+		public void Reset()
+		{
+			// restore any changed monitors
+			Restore();
+
+			// rebuild list of monitors
+			// (should be identical each time we call, but jic)
+			//EnumMonitors();
+			CopyOriginalState();
+		}
+
 		// initialises the list of monitors
 		private void EnumMonitors()
 		{
-			//// build list of devices
-			//Screen[] allScreens = Screen.AllScreens;
-			//for (int screenIndex = 0; screenIndex < allScreens.Length; screenIndex++)
-			//{
-			//    allMonitors.Add(new MonitorMode(allScreens[screenIndex].DeviceName));
-			//}
-
-
 			uint pathArraySize;
 			uint modeArraySize;
-			//IntPtr pPathInfo;
-			//IntPtr pModeInfo;
-
 
 			int err = GetDisplayConfigBufferSizes(QDC_ALL_PATHS, out pathArraySize, out modeArraySize);
 			if (err != 0)
@@ -195,56 +192,51 @@ namespace DisMon
 				throw new ApplicationException(string.Format("GetDisplayConfigBufferSizes() error: {0}", err));
 			}
 
-			//pPathInfo = Marshal.AllocHGlobal((int)pathArraySize * Marshal.SizeOf(typeof(DISPLAYCONFIG_PATH_INFO)));
-			//pModeInfo = Marshal.AllocHGlobal((int)modeArraySize * Marshal.SizeOf(typeof(DISPLAYCONFIG_MODE_INFO)));
-
 			DISPLAYCONFIG_PATH_INFO[] tempPathInfo = new DISPLAYCONFIG_PATH_INFO[pathArraySize];
 			DISPLAYCONFIG_MODE_INFO[] tempModeInfo = new DISPLAYCONFIG_MODE_INFO[modeArraySize];
 
 			IntPtr pCurrentTopologyId = IntPtr.Zero;
 			err = QueryDisplayConfig(QDC_ALL_PATHS,
-				//ref pathArraySize, pPathInfo,
 				ref pathArraySize, tempPathInfo,
-				//ref modeArraySize, pModeInfo,
 				ref modeArraySize, tempModeInfo,
 				pCurrentTopologyId);
 			if (err != 0)
 			{
-				//Marshal.FreeHGlobal(pModeInfo);
-				//Marshal.FreeHGlobal(pPathInfo);
 				throw new ApplicationException(string.Format("QueryDisplayConfig() error: {0}", err));
 			}
 
-			// make copy so we can restore at end
-			//savedPathArraySize = pathArraySize;
-			//savedModeArraySize = modeArraySize;
-			////pSavedPathInfo = Marshal.AllocHGlobal((int)savedPathArraySize * Marshal.SizeOf(typeof(DISPLAYCONFIG_PATH_INFO)));
-			////pSavedModeInfo = Marshal.AllocHGlobal((int)savedModeArraySize * Marshal.SizeOf(typeof(DISPLAYCONFIG_MODE_INFO)));
-			//savedPathInfos = new byte[savedPathArraySize];
-			//savedModeInfos = new byte[savedModeArraySize];
-			//Marshal.Copy(pPathInfo, savedPathInfos, 0, (int)savedPathArraySize);
-			//Marshal.Copy(pModeInfo, savedModeInfos, 0, (int)savedModeArraySize);
-
-			// take 2 copies of the structures
-			// 1 so that we can restore everything at the end
-			// 2 as a working copy (with the correct length as pathArraySize and modeArraySize
-			// may have been reduced by QueryDisplayConfig())
-			pathInfos = new DISPLAYCONFIG_PATH_INFO[pathArraySize];
-			modeInfos = new DISPLAYCONFIG_MODE_INFO[modeArraySize];
-			savedPathInfos = new DISPLAYCONFIG_PATH_INFO[pathArraySize];
-			savedModeInfos = new DISPLAYCONFIG_MODE_INFO[modeArraySize];
+			// save these structures so we can restore original state when required
+			// (remember QueryDisplayConfig() may have decreased pathArraySize and modeArraySize
+			//  so new array lengths may be smaller than the tempPathInfo and tempModeInfo arrays)
+			originalPathInfos = new DISPLAYCONFIG_PATH_INFO[pathArraySize];
+			originalModeInfos = new DISPLAYCONFIG_MODE_INFO[modeArraySize];
 			for (int i = 0; i < pathArraySize; i++)
 			{
-				pathInfos[i] = tempPathInfo[i];
-				savedPathInfos[i] = tempPathInfo[i];
+				originalPathInfos[i] = tempPathInfo[i];
 			}
 			for (int i = 0; i < modeArraySize; i++)
 			{
-				modeInfos[i] = tempModeInfo[i];
-				savedModeInfos[i] = tempModeInfo[i];
+				originalModeInfos[i] = tempModeInfo[i];
 			}
 
+			// copy the state to our working copy
+			CopyOriginalState();
+
 			Dump();
+		}
+
+		private void CopyOriginalState()
+		{
+			pathInfos = new DISPLAYCONFIG_PATH_INFO[originalPathInfos.Length];
+			modeInfos = new DISPLAYCONFIG_MODE_INFO[originalModeInfos.Length];
+			for (int i = 0; i < originalPathInfos.Length; i++)
+			{
+				pathInfos[i] = originalPathInfos[i];
+			}
+			for (int i = 0; i < originalModeInfos.Length; i++)
+			{
+				modeInfos[i] = originalModeInfos[i];
+			}
 		}
 
 		/// <summary>
@@ -252,26 +244,16 @@ namespace DisMon
 		/// </summary>
 		public int Count()
 		{
-			//return allMonitors.Count;
-			return 0;
-		}
+			int count = 0;
+			for (int modeIndex = 0; modeIndex < modeInfos.Length; modeIndex++)
+			{
+				if (modeInfos[modeIndex].infoType == DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE)
+				{
+					count++;
+				}
+			}
 
-		/// <summary>
-		/// Revert monitors back to starting condition,
-		/// but don't apply the changes
-		/// </summary>
-		public void Revert()
-		{
-			// restore the working copy of the path/modes back to
-			// their original values
-			for (int i = 0; i < savedPathInfos.Length; i++)
-			{
-				pathInfos[i] = savedPathInfos[i];
-			}
-			for (int i = 0; i < savedModeInfos.Length; i++)
-			{
-				modeInfos[i] = savedModeInfos[i];
-			}
+			return count;
 		}
 
 		/// <summary>
@@ -320,22 +302,6 @@ namespace DisMon
 		}
 
 		/// <summary>
-		/// Indicates if the monitor will be disabled after any pending changes have been made.
-		/// </summary>
-		/// <param name="monitorIndex">Zero based index of monitor.</param>
-		/// <returns>true if the monitor is (or will be) disabled.</returns>
-		public bool IsDisabled(int monitorIndex)
-		{
-			//if (monitorIndex < 0 || monitorIndex >= allMonitors.Count)
-			//{
-			//    throw new ApplicationException(string.Format("monitorIndex: {0} out of range", monitorIndex));
-			//}
-
-			//return allMonitors[monitorIndex].Disabled;
-			return false;
-		}
-
-		/// <summary>
 		/// Mark the specified monitor as disabled.
 		/// </summary>
 		/// <param name="monitorIndex">Zero based index of monitor.</param>
@@ -358,15 +324,6 @@ namespace DisMon
 					}
 				}
 			}
-		}
-
-		/// <summary>
-		/// Mark the specified monitor as enabled.
-		/// </summary>
-		/// <param name="enableIndex">Zero based index of monitor.</param>
-		public void MarkAsEnabled(int enableIndex)
-		{
-			// not needed as we use Revert() to restore all screens to their starting state
 		}
 
 		/// <summary>
@@ -401,8 +358,8 @@ namespace DisMon
 			int err;
 
 			err = SetDisplayConfig(
-				(uint)savedPathInfos.Length, savedPathInfos,
-				(uint)savedModeInfos.Length, savedModeInfos,
+				(uint)originalPathInfos.Length, originalPathInfos,
+				(uint)originalModeInfos.Length, originalModeInfos,
 				SDC_APPLY | SDC_ALLOW_CHANGES | SDC_USE_SUPPLIED_DISPLAY_CONFIG);
 			if (err != 0)
 			{
@@ -505,13 +462,14 @@ namespace DisMon
 				else
 				{
 					// activeSize & totalSize
-					line = string.Format("target: ({0},{1})\t({2},{3}",
+					line = string.Format("target: ({0},{1})\t({2},{3})",
 						modeInfos[modeIdx].sourceMode.padding2,
 						modeInfos[modeIdx].sourceMode.padding3,
 						modeInfos[modeIdx].sourceMode.padding4,
 						modeInfos[modeIdx].sourceMode.padding5);
 					Console.WriteLine(line);
 				}
+				Console.WriteLine("");
 			}
 
 		}
