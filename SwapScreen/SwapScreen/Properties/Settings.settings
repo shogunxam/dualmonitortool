@@ -2,58 +2,58 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SwapScreen.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="HotKeyValue" Type="System.UInt32" Scope="User">
+    <Setting Name="HotKeyValue" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">131195</Value>
     </Setting>
-    <Setting Name="NeedSettingsUpgrade" Type="System.Boolean" Scope="User">
+    <Setting Name="NeedSettingsUpgrade" Provider="PortableFileSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="PrevScreenHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="PrevScreenHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="MinimiseHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="MinimiseHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="MinimiseAllButHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="MinimiseAllButHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="MaximiseHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="MaximiseHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="SupersizeHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="SupersizeHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="RotateNextHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="RotateNextHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="ShowDesktop1HotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="ShowDesktop1HotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="ShowDesktop2HotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="ShowDesktop2HotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="RotatePrevHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="RotatePrevHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="FreeCursorHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="FreeCursorHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="StickyCursorHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="StickyCursorHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="LockCursorHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="LockCursorHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="CursorNextScreenHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="CursorNextScreenHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="CursorPrevScreenHotKey" Type="System.UInt32" Scope="User">
+    <Setting Name="CursorPrevScreenHotKey" Provider="PortableFileSettingsProvider" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
-    <Setting Name="MinStickyForce" Type="System.Int32" Scope="User">
+    <Setting Name="MinStickyForce" Provider="PortableFileSettingsProvider" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="ControlUnhindersCursor" Type="System.Boolean" Scope="User">
+    <Setting Name="ControlUnhindersCursor" Provider="PortableFileSettingsProvider" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
