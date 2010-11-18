@@ -1,3 +1,22 @@
+#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2010  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -5,6 +24,20 @@ using System.Text;
 
 namespace DisMon
 {
+	/// <summary>
+	/// Implemetation of IDisMon for Windows 7
+	/// 
+	/// BUG: There is a bug in here, where disabling the primary monitor
+	/// causes problems.
+	/// Eg. (P=Primary, S=Secondary, X=Disabled)
+	/// In a 2 monitor system starting with the primary on the left i.e. PS
+	/// Change to XP - ok (but this step seems to be the key to the problem)
+	/// Now change to PX - ok
+	/// Change back to PS - stays with PX
+	/// Even exiting so that the initial paths and modes are restored leaves it at PX.
+	/// Only solution is to into the graphics card control center and extend primary
+	/// onto secondary.
+	/// </summary>
 	class DisMon7 : IDisMon
 	{
 
@@ -172,7 +205,7 @@ namespace DisMon
 		public void Reset()
 		{
 			// restore any changed monitors
-			Restore();
+			//Restore();
 
 			// rebuild list of monitors
 			// (should be identical each time we call, but jic)
@@ -421,6 +454,7 @@ namespace DisMon
 
 		private void Dump()
 		{
+#if DEBUG
 			string line;
 			for (int pathIdx = 0; pathIdx < pathInfos.Length; pathIdx++)
 			{
@@ -471,6 +505,7 @@ namespace DisMon
 				}
 				Console.WriteLine("");
 			}
+#endif
 
 		}
 
