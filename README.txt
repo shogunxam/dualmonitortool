@@ -10,15 +10,14 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
-Release 1.4
+Release 1.5
 -----------
 
 The release consists of the following files:
 
 SwapScreen.exe      The swap screen tool
 DualWallpaper.exe	The wallpaper setting tool
-DisMon.exe			Disables secondary monitors on XP and Vista.
-DisMon7.exe			Disables secondary monitors on Windows 7.
+DisMon.exe			Disables secondary monitors.
 DualSnap.exe		The screen capture tool
 CHANGES.txt			List of changes
 COPYING.txt         GPLv3 license
@@ -65,16 +64,19 @@ with another image displayed on the third monitor.
 It also correctly sets the wallpaper when your primary monitor is not
 your leftmost or topmost monitor.
 
-DisMon & DisMon7
-----------------
+DisMon
+------
 
-This allows another application to be run, but any secondary monitors
-are disabled before this other application is run, and these disabled
-monitors are re-enabled after the application has finished running.
+This allows you to change the enabled monitors and/or to change the
+primary monitor while an application is run, with the monitor state
+being restored when the application has finished running.
 The application to run is specified as the first parameter to DisMon.
 Any further parameters are passed onto the application.
 Remember to enclose any paths or parameters within double quotes if
 they contain spaces.
+
+There is also a GUI to disable monitors and/or change the primary
+monitor manually.
 
 DualSnap
 --------
@@ -110,3 +112,7 @@ Known problems
 If you wish SwapScreen to fully work when you have windows from applications
 that have been 'Run as Administartor', then you will also need to start
 SwapScreen with 'Run as Administrator'.
+
+DisMon has problems on Windows 7 when the (initial) primary monitor is
+disabled.  Also on Windows XP, the task bar does not move with the primary
+monitor.

@@ -1,5 +1,18 @@
 Dual Monitor Tools
 
+Changes from 1.4 to 1.5
+=======================
+
+Functional: 
+SwapScreen's 'Minimise Active Window' now works as a toggle.
+SwapScreen now has a portable mode where its settings can live
+in teh same directory as the executable.
+DisMon can now also change the primary monitor.
+Command line interface to Dismon changed for better flexibility.
+
+Other:
+DisMon7 functionality (for Windows 7) now incorporated into DisMon.
+
 Changes from 1.3 to 1.4
 =======================
 
