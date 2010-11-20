@@ -31,7 +31,7 @@ namespace DualWallpaper
 {
 	/// <summary>
 	/// This handles Windows specific aspects of wallpaper.
-	/// This includes hanling the case where you have a monitor to the left
+	/// This includes handling the case where you have a monitor to the left
 	/// or above the primary monitor, as Windows requires that (0,0) in
 	/// the wallpaper corresponds to (0,0) on your primary monitor.
 	/// </summary>

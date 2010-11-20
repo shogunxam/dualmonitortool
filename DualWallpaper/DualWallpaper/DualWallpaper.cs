@@ -333,7 +333,7 @@ namespace DualWallpaper
 
 		#region image movement
 		// movement indicates where you want to look,
-		// which is the reverse of what happens to onjects in the picture
+		// which is the reverse of what happens to objects in the picture
 		private void buttonMoveUp_Click(object sender, EventArgs e)
 		{
 			MoveSelection(0, 1);
