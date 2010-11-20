@@ -86,14 +86,16 @@ namespace DualWallpaper
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Location = new System.Drawing.Point(15, 273);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(760, 130);
+			this.groupBox1.Size = new System.Drawing.Size(540, 189);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Add Image";
 			// 
 			// picSource
 			// 
-			this.picSource.Location = new System.Drawing.Point(557, 14);
+			this.picSource.BackColor = System.Drawing.Color.Black;
+			this.picSource.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.picSource.Location = new System.Drawing.Point(173, 40);
 			this.picSource.Name = "picSource";
 			this.picSource.Size = new System.Drawing.Size(197, 110);
 			this.picSource.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -102,7 +104,7 @@ namespace DualWallpaper
 			// 
 			// buttonAdd
 			// 
-			this.buttonAdd.Location = new System.Drawing.Point(476, 38);
+			this.buttonAdd.Location = new System.Drawing.Point(458, 154);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(75, 23);
 			this.buttonAdd.TabIndex = 7;
@@ -114,15 +116,15 @@ namespace DualWallpaper
 			// 
 			this.comboBoxFit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFit.FormattingEnabled = true;
-			this.comboBoxFit.Location = new System.Drawing.Point(51, 40);
+			this.comboBoxFit.Location = new System.Drawing.Point(51, 156);
 			this.comboBoxFit.Name = "comboBoxFit";
-			this.comboBoxFit.Size = new System.Drawing.Size(419, 21);
+			this.comboBoxFit.Size = new System.Drawing.Size(401, 21);
 			this.comboBoxFit.TabIndex = 6;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(6, 43);
+			this.label3.Location = new System.Drawing.Point(6, 159);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(21, 13);
 			this.label3.TabIndex = 5;
@@ -130,7 +132,7 @@ namespace DualWallpaper
 			// 
 			// buttonBrowse
 			// 
-			this.buttonBrowse.Location = new System.Drawing.Point(476, 12);
+			this.buttonBrowse.Location = new System.Drawing.Point(458, 12);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
 			this.buttonBrowse.TabIndex = 4;
@@ -142,7 +144,7 @@ namespace DualWallpaper
 			// 
 			this.textBoxImage.Location = new System.Drawing.Point(51, 14);
 			this.textBoxImage.Name = "textBoxImage";
-			this.textBoxImage.Size = new System.Drawing.Size(419, 20);
+			this.textBoxImage.Size = new System.Drawing.Size(401, 20);
 			this.textBoxImage.TabIndex = 3;
 			this.textBoxImage.TextChanged += new System.EventHandler(this.textBoxImage_TextChanged);
 			// 
@@ -193,7 +195,7 @@ namespace DualWallpaper
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(220, 552);
+			this.buttonSave.Location = new System.Drawing.Point(275, 468);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(110, 23);
 			this.buttonSave.TabIndex = 4;
@@ -203,7 +205,7 @@ namespace DualWallpaper
 			// 
 			// buttonSetWallpaper
 			// 
-			this.buttonSetWallpaper.Location = new System.Drawing.Point(441, 552);
+			this.buttonSetWallpaper.Location = new System.Drawing.Point(427, 468);
 			this.buttonSetWallpaper.Name = "buttonSetWallpaper";
 			this.buttonSetWallpaper.Size = new System.Drawing.Size(110, 23);
 			this.buttonSetWallpaper.TabIndex = 5;
@@ -220,9 +222,9 @@ namespace DualWallpaper
 			this.groupBox2.Controls.Add(this.radioButtonMove100);
 			this.groupBox2.Controls.Add(this.radioButtonMove10);
 			this.groupBox2.Controls.Add(this.radioButtonMove1);
-			this.groupBox2.Location = new System.Drawing.Point(198, 409);
+			this.groupBox2.Location = new System.Drawing.Point(561, 234);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(227, 126);
+			this.groupBox2.Size = new System.Drawing.Size(216, 116);
 			this.groupBox2.TabIndex = 6;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Move Image";
@@ -230,7 +232,7 @@ namespace DualWallpaper
 			// buttonMoveLeft
 			// 
 			this.buttonMoveLeft.Image = ((System.Drawing.Image)(resources.GetObject("buttonMoveLeft.Image")));
-			this.buttonMoveLeft.Location = new System.Drawing.Point(112, 42);
+			this.buttonMoveLeft.Location = new System.Drawing.Point(98, 42);
 			this.buttonMoveLeft.Name = "buttonMoveLeft";
 			this.buttonMoveLeft.Size = new System.Drawing.Size(32, 32);
 			this.buttonMoveLeft.TabIndex = 6;
@@ -240,7 +242,7 @@ namespace DualWallpaper
 			// buttonMoveDown
 			// 
 			this.buttonMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("buttonMoveDown.Image")));
-			this.buttonMoveDown.Location = new System.Drawing.Point(144, 74);
+			this.buttonMoveDown.Location = new System.Drawing.Point(130, 74);
 			this.buttonMoveDown.Name = "buttonMoveDown";
 			this.buttonMoveDown.Size = new System.Drawing.Size(32, 32);
 			this.buttonMoveDown.TabIndex = 5;
@@ -250,7 +252,7 @@ namespace DualWallpaper
 			// buttonMoveRight
 			// 
 			this.buttonMoveRight.Image = ((System.Drawing.Image)(resources.GetObject("buttonMoveRight.Image")));
-			this.buttonMoveRight.Location = new System.Drawing.Point(176, 42);
+			this.buttonMoveRight.Location = new System.Drawing.Point(162, 42);
 			this.buttonMoveRight.Name = "buttonMoveRight";
 			this.buttonMoveRight.Size = new System.Drawing.Size(32, 32);
 			this.buttonMoveRight.TabIndex = 4;
@@ -260,7 +262,7 @@ namespace DualWallpaper
 			// buttonMoveUp
 			// 
 			this.buttonMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("buttonMoveUp.Image")));
-			this.buttonMoveUp.Location = new System.Drawing.Point(144, 10);
+			this.buttonMoveUp.Location = new System.Drawing.Point(130, 10);
 			this.buttonMoveUp.Name = "buttonMoveUp";
 			this.buttonMoveUp.Size = new System.Drawing.Size(32, 32);
 			this.buttonMoveUp.TabIndex = 3;
@@ -309,9 +311,9 @@ namespace DualWallpaper
 			this.groupBox3.Controls.Add(this.radioButtonZoom20);
 			this.groupBox3.Controls.Add(this.radioButtonZoom5);
 			this.groupBox3.Controls.Add(this.radioButtonZoom1);
-			this.groupBox3.Location = new System.Drawing.Point(431, 409);
+			this.groupBox3.Location = new System.Drawing.Point(561, 356);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(145, 126);
+			this.groupBox3.Size = new System.Drawing.Size(216, 106);
 			this.groupBox3.TabIndex = 7;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Zoom Image";
@@ -319,7 +321,7 @@ namespace DualWallpaper
 			// buttonZoomOut
 			// 
 			this.buttonZoomOut.Image = ((System.Drawing.Image)(resources.GetObject("buttonZoomOut.Image")));
-			this.buttonZoomOut.Location = new System.Drawing.Point(81, 74);
+			this.buttonZoomOut.Location = new System.Drawing.Point(130, 49);
 			this.buttonZoomOut.Name = "buttonZoomOut";
 			this.buttonZoomOut.Size = new System.Drawing.Size(32, 32);
 			this.buttonZoomOut.TabIndex = 4;
@@ -329,7 +331,7 @@ namespace DualWallpaper
 			// buttonZoomIn
 			// 
 			this.buttonZoomIn.Image = ((System.Drawing.Image)(resources.GetObject("buttonZoomIn.Image")));
-			this.buttonZoomIn.Location = new System.Drawing.Point(81, 10);
+			this.buttonZoomIn.Location = new System.Drawing.Point(130, 10);
 			this.buttonZoomIn.Name = "buttonZoomIn";
 			this.buttonZoomIn.Size = new System.Drawing.Size(32, 32);
 			this.buttonZoomIn.TabIndex = 3;
@@ -340,7 +342,7 @@ namespace DualWallpaper
 			// 
 			this.radioButtonZoom20.AutoSize = true;
 			this.radioButtonZoom20.Checked = true;
-			this.radioButtonZoom20.Location = new System.Drawing.Point(6, 64);
+			this.radioButtonZoom20.Location = new System.Drawing.Point(9, 64);
 			this.radioButtonZoom20.Name = "radioButtonZoom20";
 			this.radioButtonZoom20.Size = new System.Drawing.Size(45, 17);
 			this.radioButtonZoom20.TabIndex = 2;
@@ -351,7 +353,7 @@ namespace DualWallpaper
 			// radioButtonZoom5
 			// 
 			this.radioButtonZoom5.AutoSize = true;
-			this.radioButtonZoom5.Location = new System.Drawing.Point(6, 41);
+			this.radioButtonZoom5.Location = new System.Drawing.Point(9, 41);
 			this.radioButtonZoom5.Name = "radioButtonZoom5";
 			this.radioButtonZoom5.Size = new System.Drawing.Size(39, 17);
 			this.radioButtonZoom5.TabIndex = 1;
@@ -362,7 +364,7 @@ namespace DualWallpaper
 			// radioButtonZoom1
 			// 
 			this.radioButtonZoom1.AutoSize = true;
-			this.radioButtonZoom1.Location = new System.Drawing.Point(6, 18);
+			this.radioButtonZoom1.Location = new System.Drawing.Point(9, 18);
 			this.radioButtonZoom1.Name = "radioButtonZoom1";
 			this.radioButtonZoom1.Size = new System.Drawing.Size(39, 17);
 			this.radioButtonZoom1.TabIndex = 0;
@@ -374,7 +376,7 @@ namespace DualWallpaper
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(784, 587);
+			this.ClientSize = new System.Drawing.Size(789, 503);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonSetWallpaper);
