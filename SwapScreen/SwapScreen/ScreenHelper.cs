@@ -233,12 +233,18 @@ namespace SwapScreen
 			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
 			if ((style & Win32.WS_THICKFRAME) != 0)
 			{
-				Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+				// This used to use the entire VirtualDesktop, but now uses the entire
+				// WorkingDesktop as we need the area where we can place windows.
+				// This only makes a difference when the taskbar is placed at the edge of
+				// the total bounded area and stretches right across it. Eg. when the taskbar
+				// is on the left side of the left most screen when screens positioned as left and right.
+				//Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+				Rectangle vitrualWorkingRect = GetVitrualWorkingRect();
 				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
 				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 
-				if (hWnd == lastSupersizeHwnd && curRect == vitrualDesktopRect)
+				if (hWnd == lastSupersizeHwnd && curRect == vitrualWorkingRect)
 				{
 					// this window has already been supersized, 
 					// so we need to return it to its previous (restored) size
@@ -247,7 +253,7 @@ namespace SwapScreen
 				else
 				{
 					// supersize the window
-					windowPlacement.rcNormalPosition = RectangleToRect(ref vitrualDesktopRect);
+					windowPlacement.rcNormalPosition = RectangleToRect(ref vitrualWorkingRect);
 
 					// and remember it, so we can undo it
 					lastSupersizeHwnd = hWnd;
@@ -364,10 +370,31 @@ namespace SwapScreen
 		}
 
 		/// <summary>
-		/// Get the bounding rectangle that covers all screens
+		/// Get the bounding rectangle that covers the working area of all screens
 		/// </summary>
 		/// <returns></returns>
-		//private static Rectangle GetVitrualDesktopRect()
+		public static Rectangle GetVitrualWorkingRect()
+		{
+			Rectangle boundingRect = new Rectangle();
+			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			{
+				if (screenIndex == 0)
+				{
+					boundingRect = Screen.AllScreens[screenIndex].WorkingArea;
+				}
+				else
+				{
+					boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].WorkingArea);
+				}
+			}
+
+			return boundingRect;
+		}
+
+		/// <summary>
+		/// Get the bounding rectangle that covers all areas of all screens
+		/// </summary>
+		/// <returns></returns>
 		public static Rectangle GetVitrualDesktopRect()
 		{
 			Rectangle boundingRect = new Rectangle();
