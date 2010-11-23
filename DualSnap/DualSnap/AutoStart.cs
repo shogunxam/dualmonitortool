@@ -50,6 +50,8 @@ namespace DualSnap
 				{
 					ret = true;
 				}
+				// release any resources
+				key.Close();
 			}
 
 			return ret;
@@ -63,6 +65,8 @@ namespace DualSnap
 		{
 			RegistryKey key = Registry.CurrentUser.CreateSubKey(runKey);
 			key.SetValue(keyName, Application.ExecutablePath);
+			// flush the changes and release any resources
+			key.Close();
 		}
 
 		/// <summary>
@@ -73,6 +77,8 @@ namespace DualSnap
 		{
 			RegistryKey key = Registry.CurrentUser.CreateSubKey(runKey);
 			key.DeleteValue(keyName);
+			// flush the changes and release any resources
+			key.Close();
 		}
 	}
 }
