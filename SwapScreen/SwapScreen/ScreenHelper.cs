@@ -532,8 +532,8 @@ namespace SwapScreen
 				int textLen = Win32.GetWindowTextLength(hWnd);
 				if (textLen > 0)
 				{
-					StringBuilder sb = new StringBuilder(textLen);
-					Win32.GetWindowText(hWnd, sb, textLen + 1);
+					StringBuilder sb = new StringBuilder(textLen + 1);
+					Win32.GetWindowText(hWnd, sb, sb.Capacity);
 					windowText = sb.ToString();
 				}
 
