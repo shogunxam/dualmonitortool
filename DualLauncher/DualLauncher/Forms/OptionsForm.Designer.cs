@@ -354,10 +354,10 @@ namespace DualLauncher
 			// 
 			this.aliasDataGridViewTextBoxColumn.DataPropertyName = "Alias";
 			this.aliasDataGridViewTextBoxColumn.Frozen = true;
-			this.aliasDataGridViewTextBoxColumn.HeaderText = "Alias";
+			this.aliasDataGridViewTextBoxColumn.HeaderText = "Magic Word";
 			this.aliasDataGridViewTextBoxColumn.Name = "aliasDataGridViewTextBoxColumn";
 			this.aliasDataGridViewTextBoxColumn.ReadOnly = true;
-			this.aliasDataGridViewTextBoxColumn.Width = 54;
+			this.aliasDataGridViewTextBoxColumn.Width = 90;
 			// 
 			// filenameDataGridViewTextBoxColumn
 			// 
