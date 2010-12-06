@@ -152,7 +152,32 @@ namespace DualLauncher
 			}
 		}
 
+		private void buttonTest_Click(object sender, EventArgs e)
+		{
+			MagicWord testMagicWord = new MagicWord();
+			if (FillMagicWord(testMagicWord))
+			{
+				// magic word is valid
+
+				// check which tab is currently selected to determine corresponding position
+				int positionIndex1 = this.tabControl.SelectedIndex + 1;
+				StartupPosition startPosition = testMagicWord.GetStartupPosition(positionIndex1);
+				// and try and run it
+				bool ok = StartupController.Instance.Launch(magicWord, startPosition);
+			}
+		}
+
 		private void buttonOK_Click(object sender, EventArgs e)
+		{
+			bool isValid = FillMagicWord(this.magicWord);
+
+			if (!isValid)
+			{
+				this.DialogResult = DialogResult.None;
+			}
+		}
+
+		private bool FillMagicWord(MagicWord changedMagicWord)
 		{
 			bool isValid;
 
@@ -172,21 +197,23 @@ namespace DualLauncher
 			{
 				this.DialogResult = DialogResult.None;
 				MessageBox.Show("TODO");
-				return;
+				return false;
 			}
 
-			magicWord.Alias = textBoxAlias.Text;
-			magicWord.Filename = textBoxFilename.Text;
-			magicWord.Parameters = textBoxParameters.Text;
-			magicWord.StartDirectory = textBoxStartDirectory.Text;
-			magicWord.Comment = textBoxComment.Text;
-			magicWord.WindowClass = textBoxWindowClass.Text;
-			magicWord.CaptionRegExpr = textBoxCaption.Text;
+			changedMagicWord.Alias = textBoxAlias.Text;
+			changedMagicWord.Filename = textBoxFilename.Text;
+			changedMagicWord.Parameters = textBoxParameters.Text;
+			changedMagicWord.StartDirectory = textBoxStartDirectory.Text;
+			changedMagicWord.Comment = textBoxComment.Text;
+			changedMagicWord.WindowClass = textBoxWindowClass.Text;
+			changedMagicWord.CaptionRegExpr = textBoxCaption.Text;
 
-			magicWord.StartupPosition1 = position1;
-			magicWord.StartupPosition2 = position2;
-			magicWord.StartupPosition3 = position3;
-			magicWord.StartupPosition4 = position4;
+			changedMagicWord.StartupPosition1 = position1;
+			changedMagicWord.StartupPosition2 = position2;
+			changedMagicWord.StartupPosition3 = position3;
+			changedMagicWord.StartupPosition4 = position4;
+
+			return true;
 		}
 	}
 }
