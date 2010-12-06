@@ -134,25 +134,12 @@ namespace DualLauncher
 		{
 			bool ret = false;
 
-//			StartupPosition startPosition = magicWord.StartupPosition1; // .StartPosition(position);
 
 			STARTUPINFO si = new STARTUPINFO();
 			si.cb = (uint)Marshal.SizeOf(si);
 
 			if (startPosition != null)
 			{
-				//if (startPosition.HasLocation)
-				//{
-				//    si.dwX = (uint)startPosition.Location.X;
-				//    si.dwY = (uint)startPosition.Location.Y;
-				//    si.dwFlags |= STARTF_USEPOSITION;
-				//}
-				//if (startPosition.HasSize)
-				//{
-				//    si.dwXSize = (uint)startPosition.Size.Width;
-				//    si.dwYSize = (uint)startPosition.Size.Height;
-				//    si.dwFlags |= STARTF_USESIZE;
-				//}
 				if (startPosition.EnablePosition)
 				{
 					si.dwX = (uint)startPosition.Position.Left;
@@ -169,7 +156,8 @@ namespace DualLauncher
 
 			PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
 
-			if (CreateProcess(magicWord.Filename, null, IntPtr.Zero, IntPtr.Zero,
+			//if (CreateProcess(magicWord.Filename, null, IntPtr.Zero, IntPtr.Zero,
+			if (CreateProcess(null, magicWord.Filename, IntPtr.Zero, IntPtr.Zero,
 				false, dwCreationFlags, IntPtr.Zero,
 				null,
 				ref si, out pi))
@@ -184,17 +172,6 @@ namespace DualLauncher
 			return ret;
 		}
 
-		//private void AddPendingMove(uint pid, StartupPosition startPosition)
-		//{
-		//    // no need to add if user doesn't care where it opens
-		//    if (startPosition != null)
-		//    {
-		//        if (startPosition.HasLocation || startPosition.HasSize)
-		//        {
-		//            pendingMoves = new StartupProcess(pid, startPosition.Clone());
-		//        }
-		//    }
-		//}
 		private void AddPendingMove(uint pid, MagicWord magicWord, StartupPosition startPosition)
 		{
 			// no need to add if user doesn't care where it opens
@@ -267,23 +244,6 @@ namespace DualLauncher
 			}
 			Trace.WriteLine("Found correct window");
 
-			//if (pendingMoves.StartupPosition.HasLocation)
-			//{
-			//    if (!pendingMoves.StartupPosition.HasSize)
-			//    {
-			//        // must keep the same size
-			//        windowPlacement.rcNormalPosition.right += pendingMoves.StartupPosition.Location.X - windowPlacement.rcNormalPosition.left;
-			//        windowPlacement.rcNormalPosition.bottom += pendingMoves.StartupPosition.Location.Y - windowPlacement.rcNormalPosition.top;
-			//    }
-			//    windowPlacement.rcNormalPosition.left = pendingMoves.StartupPosition.Location.X;
-			//    windowPlacement.rcNormalPosition.top = pendingMoves.StartupPosition.Location.Y;
-			//}
-			//if (pendingMoves.StartupPosition.HasSize)
-			//{
-			//    // TODO check the -1 
-			//    windowPlacement.rcNormalPosition.right = windowPlacement.rcNormalPosition.left + pendingMoves.StartupPosition.Size.Width - 1;
-			//    windowPlacement.rcNormalPosition.bottom = windowPlacement.rcNormalPosition.top + pendingMoves.StartupPosition.Size.Height - 1;
-			//}
 			if (pendingMoves.StartupPosition.EnablePosition)
 			{
 				windowPlacement.rcNormalPosition.left = pendingMoves.StartupPosition.Position.Left;
