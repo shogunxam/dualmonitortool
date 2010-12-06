@@ -163,6 +163,23 @@ namespace DualLauncher
 		// an array means passing index's arround 
 		//private StartupPosition[] positions = new StartupPosition[AlternativePositions];
 
+		public StartupPosition GetStartupPosition(int index1)
+		{
+			switch (index1)
+			{
+				case 1:
+					return startupPosition1;
+				case 2:
+					return startupPosition2;
+				case 3:
+					return startupPosition3;
+				case 4:
+					return startupPosition4;
+				default:
+					throw new ApplicationException(string.Format("MagicWord.GetStartupPosition - position: {0} invalid", index1));
+			}
+		}
+
 		private StartupPosition startupPosition1;
 		public StartupPosition StartupPosition1
 		{
