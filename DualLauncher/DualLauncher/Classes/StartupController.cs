@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.IO;
 
 
 namespace DualLauncher
@@ -101,6 +102,50 @@ namespace DualLauncher
 		private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
 
+		[Flags]
+		enum ASSOCF
+		{
+			ASSOCF_INIT_NOREMAPCLSID = 0x1,
+			ASSOCF_INIT_BYEXENAME = 0x2,
+			ASSOCF_OPEN_BYEXENAME = 0x2,
+			ASSOCF_INIT_DEFAULTTOSTAR = 0x4,
+			ASSOCF_INIT_DEFAULTTOFOLDER = 0x8,
+			ASSOCF_NOUSERSETTINGS = 0x10,
+			ASSOCF_NOTRUNCATE = 0x20,
+			ASSOCF_VERIFY = 0x40,
+			ASSOCF_REMAPRUNDLL = 0x80,
+			ASSOCF_NOFIXUPS = 0x100,
+			ASSOCF_IGNOREBASECLASS = 0x200,
+			ASSOCF_IGNOREUNKNOWN = 0x400
+		}
+
+		enum ASSOCSTR
+		{
+			ASSOCSTR_COMMAND = 1,
+			ASSOCSTR_EXECUTABLE,
+			ASSOCSTR_FRIENDLYDOCNAME,
+			ASSOCSTR_FRIENDLYAPPNAME,
+			ASSOCSTR_NOOPEN,
+			ASSOCSTR_SHELLNEWVALUE,
+			ASSOCSTR_DDECOMMAND,
+			ASSOCSTR_DDEIFEXEC,
+			ASSOCSTR_DDEAPPLICATION,
+			ASSOCSTR_DDETOPIC,
+			ASSOCSTR_INFOTIP,
+			ASSOCSTR_QUICKTIP,
+			ASSOCSTR_TILEINFO,
+			ASSOCSTR_CONTENTTYPE,
+			ASSOCSTR_DEFAULTICON,
+			ASSOCSTR_SHELLEXTENSION,
+			ASSOCSTR_DROPTARGET,
+			ASSOCSTR_DELEGATEEXECUTE,
+			ASSOCSTR_MAX
+		}
+
+		[DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra,
+		   [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
+
 		//private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
 
@@ -134,7 +179,6 @@ namespace DualLauncher
 		{
 			bool ret = false;
 
-
 			STARTUPINFO si = new STARTUPINFO();
 			si.cb = (uint)Marshal.SizeOf(si);
 
@@ -156,13 +200,19 @@ namespace DualLauncher
 
 			PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
 
+			string applicationName;
+			string commandLine;
+			GetCommandLine(magicWord, out applicationName, out commandLine);
+			string currentDirectory = GetCurrentDirectory(magicWord, applicationName);
+
+
 			//if (CreateProcess(magicWord.Filename, null, IntPtr.Zero, IntPtr.Zero,
-			if (CreateProcess(null, magicWord.Filename, IntPtr.Zero, IntPtr.Zero,
+//			if (CreateProcess(null, magicWord.Filename, IntPtr.Zero, IntPtr.Zero,
+			if (CreateProcess(applicationName, commandLine, IntPtr.Zero, IntPtr.Zero,
 				false, dwCreationFlags, IntPtr.Zero,
-				null,
+				currentDirectory,
 				ref si, out pi))
 			{
-				//AddPendingMove(pi.dwProcessId, startPosition);
 				AddPendingMove(pi.dwProcessId, magicWord, startPosition);
 				ResumeThread(pi.hThread);
 
@@ -170,6 +220,89 @@ namespace DualLauncher
 			}
 
 			return ret;
+		}
+			
+		
+		private void GetCommandLine(MagicWord magicWord, out string applicationName, out string commandLine)
+		{
+			commandLine = null;
+			string extension = Path.GetExtension(magicWord.Filename);
+
+			if (File.Exists(magicWord.Filename))
+			{
+				// looks like a file on the local computer
+				// explicit check for .exe as we know these should be run directly
+				if (string.Compare(extension, ".exe", true) == 0)
+				{
+					// the filename can be executed directly
+					applicationName = magicWord.Filename;
+				}
+				else
+				{
+					applicationName = GetAssociatedApp(extension);
+					// I can't see this documented anywhere, but if the extension belongs
+					// to something that can be run directly (.exe, .bat etc.) then "%1"
+					// seems to be returned
+					if (applicationName == "%1")
+					{
+						applicationName = magicWord.Filename;
+					}
+					else
+					{
+						commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
+					}
+				}
+			}
+			else
+			{
+				// assume it is a url to be opened by the browser
+				applicationName = GetAssociatedApp(".htm");
+				commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
+			}
+
+			if (magicWord.Parameters != null && magicWord.Parameters.Length > 0)
+			{
+				if (commandLine == null)
+				{
+					commandLine = string.Format("\"{0}\"", applicationName);
+				}
+				commandLine += " " + magicWord.Parameters;
+			}
+
+		}
+
+		private string GetCurrentDirectory(MagicWord magicWord, string applicationName)
+		{
+			string currentDirectory;
+
+			if (magicWord.StartDirectory != null && magicWord.StartDirectory.Length > 0)
+			{
+				currentDirectory = magicWord.StartDirectory;
+			}
+			else
+			{
+				// use directory that the application exists in
+				currentDirectory = Path.GetDirectoryName(applicationName);
+			}
+			return currentDirectory;
+		}
+
+		private string GetAssociatedApp(string extension)
+		{
+
+			// find length of buffer required to hold associated application
+			uint pcchOut = 0;
+			AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
+
+			// allocate the buffer
+			// pcchOut includes the '\0' terminator
+			StringBuilder sb = new StringBuilder((int)pcchOut);
+
+			// now get the app
+			AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
+
+			return sb.ToString();
+
 		}
 
 		private void AddPendingMove(uint pid, MagicWord magicWord, StartupPosition startPosition)
