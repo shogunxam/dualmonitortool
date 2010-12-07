@@ -182,24 +182,22 @@ namespace DualLauncher
 
 		private bool FillMagicWord(MagicWord changedMagicWord)
 		{
-			bool isValid;
+			bool isValid = true;
 
 			StartupPosition position1 = new StartupPosition();
-			isValid = this.startupPositionControl1.GetPosition(position1);
-
 			StartupPosition position2 = new StartupPosition();
-			isValid = this.startupPositionControl2.GetPosition(position2);
-
 			StartupPosition position3 = new StartupPosition();
-			isValid = this.startupPositionControl3.GetPosition(position3);
-
 			StartupPosition position4 = new StartupPosition();
-			isValid = this.startupPositionControl4.GetPosition(position4);
+
+			GetPosition(0, startupPositionControl1, position1, ref isValid);
+			GetPosition(1, startupPositionControl2, position2, ref isValid);
+			GetPosition(2, startupPositionControl3, position3, ref isValid);
+			GetPosition(3, startupPositionControl4, position4, ref isValid);
 
 			if (!isValid)
 			{
 				this.DialogResult = DialogResult.None;
-				MessageBox.Show("TODO");
+				MessageBox.Show(Properties.Resources.InvalidCoOrd, Program.MyTitle);
 				return false;
 			}
 
@@ -218,5 +216,20 @@ namespace DualLauncher
 
 			return true;
 		}
+
+		private void GetPosition(int tabIndex, StartupPositionControl startupPositionControl, StartupPosition position, ref bool isValid)
+		{
+			if (isValid)
+			{
+				isValid = startupPositionControl.GetPosition(position);
+				if (!isValid)
+				{
+					// make sure this tab is selected so user can see error
+					// TODO
+					this.tabControl.SelectedIndex = tabIndex;
+				}
+			}
+		}
+
 	}
 }
