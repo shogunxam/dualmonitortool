@@ -25,7 +25,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace DualLauncher.Controls
+namespace DualLauncher
 {
 	public partial class StartupPositionControl : UserControl
 	{
@@ -41,6 +41,8 @@ namespace DualLauncher.Controls
 
 		public void InitControl(StartupPosition startupPosition)
 		{
+			InitShowWindowCombo(startupPosition);
+
 			// called from load of containing form
 			if (startupPosition != null)
 			{
@@ -61,6 +63,33 @@ namespace DualLauncher.Controls
 			this.windowPicker.HoveredWindowChanged += new WindowPicker.HoverHandler(windowPicker_HoveredWindowChanged);
 
 			UpdateEnableState();
+		}
+
+		private void InitShowWindowCombo(StartupPosition startupPosition)
+		{
+			int showCmd = Win32.SW_SHOWNORMAL;	// the default option
+			if (startupPosition != null)
+			{
+				showCmd = startupPosition.ShowCmd;
+			}
+
+			comboBoxWinType.Items.Clear();
+			comboBoxWinType.Items.Add(Properties.Resources.ShowNormal);
+			comboBoxWinType.Items.Add(Properties.Resources.ShowMaximised);
+			comboBoxWinType.Items.Add(Properties.Resources.ShowMinimised);
+
+			if (showCmd == Win32.SW_SHOWMINIMIZED)
+			{
+				comboBoxWinType.Text = Properties.Resources.ShowMinimised;
+			}
+			else if (showCmd == Win32.SW_SHOWMAXIMIZED)
+			{
+				comboBoxWinType.Text = Properties.Resources.ShowMaximised;
+			}
+			else
+			{
+				comboBoxWinType.Text = Properties.Resources.ShowNormal;
+			}
 		}
 
 		void windowPicker_HoveredWindowChanged(IntPtr hWnd)
@@ -113,6 +142,19 @@ namespace DualLauncher.Controls
 			if (isValid)
 			{
 				position.Position = new Rectangle(left, top, width, height);
+			}
+
+			if (comboBoxWinType.Text == Properties.Resources.ShowMinimised)
+			{
+				position.ShowCmd = Win32.SW_SHOWMINIMIZED;
+			}
+			else if (comboBoxWinType.Text == Properties.Resources.ShowMaximised)
+			{
+				position.ShowCmd = Win32.SW_SHOWMAXIMIZED;
+			}
+			else
+			{
+				position.ShowCmd = Win32.SW_SHOWNORMAL;
 			}
 
 			return isValid;

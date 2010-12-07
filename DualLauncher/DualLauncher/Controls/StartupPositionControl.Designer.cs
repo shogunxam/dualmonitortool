@@ -1,4 +1,4 @@
-namespace DualLauncher.Controls
+namespace DualLauncher
 {
 	partial class StartupPositionControl
 	{
@@ -56,6 +56,7 @@ namespace DualLauncher.Controls
 			// 
 			// comboBoxWinType
 			// 
+			this.comboBoxWinType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxWinType.FormattingEnabled = true;
 			this.comboBoxWinType.Items.AddRange(new object[] {
             "Normal Window",
