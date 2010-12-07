@@ -157,5 +157,118 @@ namespace DualLauncher
 		[DllImport("user32.dll")]
 		public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
+		public struct PROCESS_INFORMATION
+		{
+			public IntPtr hProcess;
+			public IntPtr hThread;
+			public uint dwProcessId;
+			public uint dwThreadId;
+		}
+
+		public struct STARTUPINFO
+		{
+			public uint cb;
+			public string lpReserved;
+			public string lpDesktop;
+			public string lpTitle;
+			public uint dwX;
+			public uint dwY;
+			public uint dwXSize;
+			public uint dwYSize;
+			public uint dwXCountChars;
+			public uint dwYCountChars;
+			public uint dwFillAttribute;
+			public uint dwFlags;
+			public short wShowWindow;
+			public short cbReserved2;
+			public IntPtr lpReserved2;
+			public IntPtr hStdInput;
+			public IntPtr hStdOutput;
+			public IntPtr hStdError;
+		}
+
+
+		public struct SECURITY_ATTRIBUTES
+		{
+			public int length;
+			public IntPtr lpSecurityDescriptor;
+			public bool bInheritHandle;
+		}
+
+		// flags for STARTUPINFO.dwFlags
+		public const int STARTF_USESHOWWINDOW = 0x00000001;
+		public const int STARTF_USESIZE = 0x00000002;
+		public const int STARTF_USEPOSITION = 0x00000004;
+
+		// flags for CreateProcess().dwCreationFlags
+		public const uint CREATE_SUSPENDED = 0x00000004;
+		public const uint NORMAL_PRIORITY_CLASS = 0x00000020;
+
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine,
+		IntPtr lpProcessAttributes, IntPtr lpThreadAttributes,
+		bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment,
+		string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
+
+		[DllImport("kernel32.dll")]
+		public static extern uint ResumeThread(IntPtr hThread);
+
+		//[DllImport("user32.dll")]
+		//[return: MarshalAs(UnmanagedType.Bool)]
+		//static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+		//[DllImport("user32.dll")]
+		//private static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+		//[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		//private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+
+		[Flags]
+		public enum ASSOCF
+		{
+			ASSOCF_INIT_NOREMAPCLSID = 0x1,
+			ASSOCF_INIT_BYEXENAME = 0x2,
+			ASSOCF_OPEN_BYEXENAME = 0x2,
+			ASSOCF_INIT_DEFAULTTOSTAR = 0x4,
+			ASSOCF_INIT_DEFAULTTOFOLDER = 0x8,
+			ASSOCF_NOUSERSETTINGS = 0x10,
+			ASSOCF_NOTRUNCATE = 0x20,
+			ASSOCF_VERIFY = 0x40,
+			ASSOCF_REMAPRUNDLL = 0x80,
+			ASSOCF_NOFIXUPS = 0x100,
+			ASSOCF_IGNOREBASECLASS = 0x200,
+			ASSOCF_IGNOREUNKNOWN = 0x400
+		}
+
+		public enum ASSOCSTR
+		{
+			ASSOCSTR_COMMAND = 1,
+			ASSOCSTR_EXECUTABLE,
+			ASSOCSTR_FRIENDLYDOCNAME,
+			ASSOCSTR_FRIENDLYAPPNAME,
+			ASSOCSTR_NOOPEN,
+			ASSOCSTR_SHELLNEWVALUE,
+			ASSOCSTR_DDECOMMAND,
+			ASSOCSTR_DDEIFEXEC,
+			ASSOCSTR_DDEAPPLICATION,
+			ASSOCSTR_DDETOPIC,
+			ASSOCSTR_INFOTIP,
+			ASSOCSTR_QUICKTIP,
+			ASSOCSTR_TILEINFO,
+			ASSOCSTR_CONTENTTYPE,
+			ASSOCSTR_DEFAULTICON,
+			ASSOCSTR_SHELLEXTENSION,
+			ASSOCSTR_DROPTARGET,
+			ASSOCSTR_DELEGATEEXECUTE,
+			ASSOCSTR_MAX
+		}
+
+		[DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra,
+		   [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
+
 	}
 }
