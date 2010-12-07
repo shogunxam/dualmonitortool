@@ -32,6 +32,8 @@ namespace DualLauncher
 	{
 		private bool shutDown = false;
 
+		private bool lastKeyWasDel = false;
+
 		private const int ID_HOTKEY_ACTIVATE = 0x501;
 
 		//private HotKey dualLauncherHotKey;
@@ -67,6 +69,8 @@ namespace DualLauncher
 			// need to be notified whenever the magic words change
 			MagicWords.Instance.ListChanged += new ListChangedEventHandler(OnMagicWordsChanged);
 
+			magicWordListBox.InitControl();
+
 			SetAutoComplete();
 			HideEntryForm();
 
@@ -78,7 +82,42 @@ namespace DualLauncher
 
 		void Input_TextChanged(object sender, EventArgs e)
 		{
-			ShowAliasIcon();
+			//ShowAliasIcon();
+			string alias = Input.Text;
+			//if (alias.Length > 0)
+			{
+				//MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
+				//if (magicWord != null)
+				{
+					ShowAliasIcon();
+				}
+				//if (!lastKeyWasDel)
+				{
+					DoAutoComplete();
+				}
+			}
+		}
+
+		private void DoAutoComplete()
+		{
+
+			string alias = Input.Text;
+			//if (alias.Length > 0)
+			{
+				List<MagicWord> autoCompleteWords = MagicWords.Instance.GetAutoCompleteWords(alias);
+				if (autoCompleteWords.Count > 0)
+				{
+					if (alias.Length > 0 && !lastKeyWasDel)
+					{
+						string firstWord = autoCompleteWords[0].Alias;
+						Input.Text = firstWord;
+						Input.SelectionStart = alias.Length;
+						Input.SelectionLength = firstWord.Length - alias.Length;
+					}
+				}
+
+				magicWordListBox.SetMagicWords(autoCompleteWords);
+			}
 		}
 
 		private void ShowAliasIcon()
@@ -87,17 +126,12 @@ namespace DualLauncher
 			string alias = Input.Text;
 			if (alias.Length > 0)
 			{
-				try
+				// first find magic word for alias 
+				MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
+				if (magicWord != null)
 				{
-					// first find magic word for alias 
-					MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
-					if (magicWord != null)
-					{
-						fileIcon = Icon.ExtractAssociatedIcon(magicWord.Filename);
-					}
-				}
-				catch (Exception)
-				{
+					MagicWordExecutable executable = new MagicWordExecutable(magicWord);
+					fileIcon = executable.Icon;
 				}
 			}
 			if (fileIcon != null)
@@ -117,9 +151,13 @@ namespace DualLauncher
 
 		private void SetAutoComplete()
 		{
-			this.Input.AutoCompleteCustomSource = MagicWords.Instance.GetAutoCompleteWords();
-			Input.AutoCompleteSource = AutoCompleteSource.CustomSource;
-			Input.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+			//Input.AutoCompleteCustomSource = MagicWords.Instance.GetAutoCompleteWords();
+			//Input.AutoCompleteSource = AutoCompleteSource.CustomSource;
+			//Input.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+
+			//comboBox1.AutoCompleteCustomSource = MagicWords.Instance.GetAutoCompleteWords();
+			//comboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
+			//comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 		}
 
 		private void EntryForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -177,6 +215,7 @@ namespace DualLauncher
 
 		private void ShowEntryForm()
 		{
+			DoAutoComplete();
 			this.Activate();
 			this.Visible = true;
 			this.Input.Focus();
@@ -223,6 +262,18 @@ namespace DualLauncher
 
 		private void Input_KeyDown(object sender, KeyEventArgs e)
 		{
+			ProcessKeyDown(sender, e);
+		}
+
+		private void magicWordListBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			ProcessKeyDown(sender, e);
+		}
+
+		private void ProcessKeyDown(object sender, KeyEventArgs e)
+		{
+			lastKeyWasDel = false;
+
 			Trace.WriteLine(string.Format("KeyCode: {0} KeyValue: {1} KeyData: {2}",
 				e.KeyCode, e.KeyValue, e.KeyData));
 			if (e.KeyCode == Keys.Enter)
@@ -249,6 +300,14 @@ namespace DualLauncher
 			{
 				HideEntryForm();
 			}
+			else
+			{
+				//DoAutoComplete();
+				if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
+				{
+					lastKeyWasDel = true;
+				}
+			}
 		}
 
 		private void ProcessInput(int position)
@@ -256,6 +315,14 @@ namespace DualLauncher
 			string alias = Input.Text;
 			MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
 
+			if (magicWord != null)
+			{
+				StartMagicWord(magicWord, position);
+			}
+		}
+
+		private void StartMagicWord(MagicWord magicWord, int position)
+		{
 			if (magicWord != null)
 			{
 				magicWord.UseCount++;
@@ -287,5 +354,28 @@ namespace DualLauncher
 		{
 			StartupController.Instance.Poll();
 		}
+
+		private void magicWordListBox_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+		{
+			ListViewItem listViewItem = e.Item;
+			if (listViewItem != null)
+			{
+				string alias = listViewItem.Text;
+				Input.Text = alias;
+			}
+		}
+
+
+		private void magicWordListBox_DoubleClick(object sender, EventArgs e)
+		{
+			////ListViewItem listViewItem = 
+			//SelectedListViewItemCollection selectedItems = magicWordListBox.SelectedItems;
+			//if (selectedItems.Count == 1)
+			//{
+			//    string alias = selectedItems[0].Text;
+			//}
+			ProcessInput(1);
+		}
+
 	}
 }

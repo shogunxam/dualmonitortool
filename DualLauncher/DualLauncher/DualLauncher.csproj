@@ -37,7 +37,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\MagicWordExecutable.cs" />
     <Compile Include="Classes\PropertyComparer.cs" />
+    <Compile Include="Controls\MagicWordListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\StartupPositionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -164,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DualLauncher.ico" />
+    <None Include="Resources\missing.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

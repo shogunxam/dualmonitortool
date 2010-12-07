@@ -115,12 +115,28 @@ namespace DualLauncher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Co-ordinate is not valid.
+        /// </summary>
+        internal static string InvalidCoOrd {
+            get {
+                return ResourceManager.GetString("InvalidCoOrd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This program comes with ABSOLUTELY NO WARRANTY.
         ///This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details..
         /// </summary>
         internal static string License {
             get {
                 return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon missingIcon {
+            get {
+                object obj = ResourceManager.GetObject("missingIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -158,6 +174,33 @@ namespace DualLauncher.Properties {
         internal static string RegisterFail {
             get {
                 return ResourceManager.GetString("RegisterFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximised.
+        /// </summary>
+        internal static string ShowMaximised {
+            get {
+                return ResourceManager.GetString("ShowMaximised", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimised.
+        /// </summary>
+        internal static string ShowMinimised {
+            get {
+                return ResourceManager.GetString("ShowMinimised", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Normal Window.
+        /// </summary>
+        internal static string ShowNormal {
+            get {
+                return ResourceManager.GetString("ShowNormal", resourceCulture);
             }
         }
         

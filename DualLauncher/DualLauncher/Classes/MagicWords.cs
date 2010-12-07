@@ -184,6 +184,21 @@ namespace DualLauncher
 			return collection;
 		}
 
+		public List<MagicWord> GetAutoCompleteWords(string prefix)
+		{
+			List<MagicWord> autoCompleteWords = new List<MagicWord>();
+
+			foreach (MagicWord mw in magicWords)
+			{
+				if (mw.Alias.StartsWith(prefix, true, null))
+				{
+					autoCompleteWords.Add(mw);
+				}
+			}
+
+			return autoCompleteWords;
+		}
+
 		public MagicWord FindByAlias(string alias)
 		{
 			foreach (MagicWord mw in magicWords)

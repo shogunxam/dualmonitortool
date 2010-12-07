@@ -32,12 +32,13 @@ namespace DualLauncher
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntryForm));
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.enterMagicWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutDualLauncherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
-			this.enterMagicWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.magicWordListBox = new DualLauncher.MagicWordListBox();
 			this.Input = new DualLauncher.MyTextBox();
 			this.contextMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
@@ -60,6 +61,14 @@ namespace DualLauncher
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
 			this.contextMenuStrip.Size = new System.Drawing.Size(187, 92);
+			// 
+			// enterMagicWordToolStripMenuItem
+			// 
+			this.enterMagicWordToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			this.enterMagicWordToolStripMenuItem.Name = "enterMagicWordToolStripMenuItem";
+			this.enterMagicWordToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.enterMagicWordToolStripMenuItem.Text = "Enter Magic Word...";
+			this.enterMagicWordToolStripMenuItem.Click += new System.EventHandler(this.enterMagicWordToolStripMenuItem_Click);
 			// 
 			// optionsToolStripMenuItem
 			// 
@@ -94,13 +103,19 @@ namespace DualLauncher
 			this.pictureBoxIcon.TabIndex = 1;
 			this.pictureBoxIcon.TabStop = false;
 			// 
-			// enterMagicWordToolStripMenuItem
+			// magicWordListBox
 			// 
-			this.enterMagicWordToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-			this.enterMagicWordToolStripMenuItem.Name = "enterMagicWordToolStripMenuItem";
-			this.enterMagicWordToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
-			this.enterMagicWordToolStripMenuItem.Text = "Enter Magic Word...";
-			this.enterMagicWordToolStripMenuItem.Click += new System.EventHandler(this.enterMagicWordToolStripMenuItem_Click);
+			this.magicWordListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.magicWordListBox.Location = new System.Drawing.Point(12, 38);
+			this.magicWordListBox.Name = "magicWordListBox";
+			this.magicWordListBox.Size = new System.Drawing.Size(343, 74);
+			this.magicWordListBox.TabIndex = 2;
+			this.magicWordListBox.UseCompatibleStateImageBehavior = false;
+			this.magicWordListBox.DoubleClick += new System.EventHandler(this.magicWordListBox_DoubleClick);
+			this.magicWordListBox.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.magicWordListBox_ItemSelectionChanged);
+			this.magicWordListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.magicWordListBox_KeyDown);
 			// 
 			// Input
 			// 
@@ -110,7 +125,7 @@ namespace DualLauncher
 			this.Input.Location = new System.Drawing.Point(38, 6);
 			this.Input.Margin = new System.Windows.Forms.Padding(0);
 			this.Input.Name = "Input";
-			this.Input.Size = new System.Drawing.Size(307, 20);
+			this.Input.Size = new System.Drawing.Size(317, 20);
 			this.Input.TabIndex = 0;
 			this.Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Input_KeyDown);
 			// 
@@ -119,14 +134,15 @@ namespace DualLauncher
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CausesValidation = false;
-			this.ClientSize = new System.Drawing.Size(351, 32);
+			this.ClientSize = new System.Drawing.Size(361, 123);
 			this.ContextMenuStrip = this.contextMenuStrip;
 			this.Controls.Add(this.pictureBoxIcon);
+			this.Controls.Add(this.magicWordListBox);
 			this.Controls.Add(this.Input);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(1280, 85);
+			this.MaximumSize = new System.Drawing.Size(1280, 185);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(128, 55);
 			this.Name = "EntryForm";
@@ -154,6 +170,7 @@ namespace DualLauncher
 		private System.Windows.Forms.Timer timer;
 		private System.Windows.Forms.PictureBox pictureBoxIcon;
 		private System.Windows.Forms.ToolStripMenuItem enterMagicWordToolStripMenuItem;
+		private MagicWordListBox magicWordListBox;
 	}
 }
 
