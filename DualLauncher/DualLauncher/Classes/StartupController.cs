@@ -33,118 +33,6 @@ namespace DualLauncher
 	public class StartupController
 	{
 
-		public struct PROCESS_INFORMATION
-		{
-			public IntPtr hProcess;
-			public IntPtr hThread;
-			public uint dwProcessId;
-			public uint dwThreadId;
-		}
-
-		public struct STARTUPINFO
-		{
-			public uint cb;
-			public string lpReserved;
-			public string lpDesktop;
-			public string lpTitle;
-			public uint dwX;
-			public uint dwY;
-			public uint dwXSize;
-			public uint dwYSize;
-			public uint dwXCountChars;
-			public uint dwYCountChars;
-			public uint dwFillAttribute;
-			public uint dwFlags;
-			public short wShowWindow;
-			public short cbReserved2;
-			public IntPtr lpReserved2;
-			public IntPtr hStdInput;
-			public IntPtr hStdOutput;
-			public IntPtr hStdError;
-		}
-
-
-		public struct SECURITY_ATTRIBUTES
-		{
-			public int length;
-			public IntPtr lpSecurityDescriptor;
-			public bool bInheritHandle;
-		}
-
-		// flags for STARTUPINFO.dwFlags
-		public const int STARTF_USESHOWWINDOW = 0x00000001;
-		public const int STARTF_USESIZE = 0x00000002;
-		public const int STARTF_USEPOSITION = 0x00000004;
-
-		// flags for CreateProcess().dwCreationFlags
-		public const uint CREATE_SUSPENDED = 0x00000004;
-		public const uint NORMAL_PRIORITY_CLASS = 0x00000020;
-
-
-		[DllImport("kernel32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine, 
-		IntPtr lpProcessAttributes, IntPtr lpThreadAttributes,
-		bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment,
-		string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo,out PROCESS_INFORMATION lpProcessInformation);
-
-		[DllImport("kernel32.dll")]
-		public static extern uint ResumeThread(IntPtr hThread);
-
-		//[DllImport("user32.dll")]
-		//[return: MarshalAs(UnmanagedType.Bool)]
-		//static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
-
-		[DllImport("user32.dll")]
-		private static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
-
-
-		[Flags]
-		enum ASSOCF
-		{
-			ASSOCF_INIT_NOREMAPCLSID = 0x1,
-			ASSOCF_INIT_BYEXENAME = 0x2,
-			ASSOCF_OPEN_BYEXENAME = 0x2,
-			ASSOCF_INIT_DEFAULTTOSTAR = 0x4,
-			ASSOCF_INIT_DEFAULTTOFOLDER = 0x8,
-			ASSOCF_NOUSERSETTINGS = 0x10,
-			ASSOCF_NOTRUNCATE = 0x20,
-			ASSOCF_VERIFY = 0x40,
-			ASSOCF_REMAPRUNDLL = 0x80,
-			ASSOCF_NOFIXUPS = 0x100,
-			ASSOCF_IGNOREBASECLASS = 0x200,
-			ASSOCF_IGNOREUNKNOWN = 0x400
-		}
-
-		enum ASSOCSTR
-		{
-			ASSOCSTR_COMMAND = 1,
-			ASSOCSTR_EXECUTABLE,
-			ASSOCSTR_FRIENDLYDOCNAME,
-			ASSOCSTR_FRIENDLYAPPNAME,
-			ASSOCSTR_NOOPEN,
-			ASSOCSTR_SHELLNEWVALUE,
-			ASSOCSTR_DDECOMMAND,
-			ASSOCSTR_DDEIFEXEC,
-			ASSOCSTR_DDEAPPLICATION,
-			ASSOCSTR_DDETOPIC,
-			ASSOCSTR_INFOTIP,
-			ASSOCSTR_QUICKTIP,
-			ASSOCSTR_TILEINFO,
-			ASSOCSTR_CONTENTTYPE,
-			ASSOCSTR_DEFAULTICON,
-			ASSOCSTR_SHELLEXTENSION,
-			ASSOCSTR_DROPTARGET,
-			ASSOCSTR_DELEGATEEXECUTE,
-			ASSOCSTR_MAX
-		}
-
-		[DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra,
-		   [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
 
 		//private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
@@ -179,7 +67,7 @@ namespace DualLauncher
 		{
 			bool ret = false;
 
-			STARTUPINFO si = new STARTUPINFO();
+			Win32.STARTUPINFO si = new Win32.STARTUPINFO();
 			si.cb = (uint)Marshal.SizeOf(si);
 
 			if (startPosition != null)
@@ -190,120 +78,146 @@ namespace DualLauncher
 					si.dwY = (uint)startPosition.Position.Top;
 					si.dwXSize = (uint)startPosition.Position.Width;
 					si.dwYSize = (uint)startPosition.Position.Height;
-					si.dwFlags |= STARTF_USEPOSITION | STARTF_USESIZE;
+					si.dwFlags |= Win32.STARTF_USEPOSITION | Win32.STARTF_USESIZE;
+
+					// TODO: this doesn't always work
+					//si.wShowWindow = Win32.SW_HIDE;
+					// and this can result in it being maximised on wrong screen
+					//si.wShowWindow = (short)startPosition.ShowCmd;
+					//si.dwFlags |= STARTF_USESHOWWINDOW;
 				}
 			}
 
 			// want to start the thread suspended so we can get its pid as
 			// soon as possible
-			uint dwCreationFlags = NORMAL_PRIORITY_CLASS | CREATE_SUSPENDED;
+			uint dwCreationFlags = Win32.NORMAL_PRIORITY_CLASS | Win32.CREATE_SUSPENDED;
 
-			PROCESS_INFORMATION pi = new PROCESS_INFORMATION();
+			Win32.PROCESS_INFORMATION pi = new Win32.PROCESS_INFORMATION();
 
-			string applicationName;
-			string commandLine;
-			GetCommandLine(magicWord, out applicationName, out commandLine);
-			string currentDirectory = GetCurrentDirectory(magicWord, applicationName);
+			MagicWordExecutable executable = new MagicWordExecutable(magicWord);
+			//string applicationName;
+			//string commandLine;
+			//GetCommandLine(magicWord, out applicationName, out commandLine);
+			//string currentDirectory = GetCurrentDirectory(magicWord, executable.Executable);
 
 
 			//if (CreateProcess(magicWord.Filename, null, IntPtr.Zero, IntPtr.Zero,
 //			if (CreateProcess(null, magicWord.Filename, IntPtr.Zero, IntPtr.Zero,
-			if (CreateProcess(applicationName, commandLine, IntPtr.Zero, IntPtr.Zero,
+			if (Win32.CreateProcess(executable.Executable, executable.CommandLine, IntPtr.Zero, IntPtr.Zero,
 				false, dwCreationFlags, IntPtr.Zero,
-				currentDirectory,
+				executable.WorkingDirectory,
 				ref si, out pi))
 			{
 				AddPendingMove(pi.dwProcessId, magicWord, startPosition);
-				ResumeThread(pi.hThread);
+				Win32.ResumeThread(pi.hThread);
 
 				ret = true;
+			}
+			else
+			{
+				int err = Marshal.GetLastWin32Error();
+				string cmd;
+				if (executable.CommandLine != null)
+				{
+					cmd = executable.CommandLine;
+				}
+				else
+				{
+					cmd = executable.Executable;
+				}
+				Trace.WriteLine(string.Format("CreateProcess({0}) failed with {1}", cmd, err));
 			}
 
 			return ret;
 		}
 			
 		
-		private void GetCommandLine(MagicWord magicWord, out string applicationName, out string commandLine)
-		{
-			commandLine = null;
-			string extension = Path.GetExtension(magicWord.Filename);
+		//private void GetCommandLine(MagicWord magicWord, out string applicationName, out string commandLine)
+		//{
+		//    commandLine = null;
+		//    string extension = Path.GetExtension(magicWord.Filename);
 
-			if (File.Exists(magicWord.Filename))
-			{
-				// looks like a file on the local computer
-				// explicit check for .exe as we know these should be run directly
-				if (string.Compare(extension, ".exe", true) == 0)
-				{
-					// the filename can be executed directly
-					applicationName = magicWord.Filename;
-				}
-				else
-				{
-					applicationName = GetAssociatedApp(extension);
-					// I can't see this documented anywhere, but if the extension belongs
-					// to something that can be run directly (.exe, .bat etc.) then "%1"
-					// seems to be returned
-					if (applicationName == "%1")
-					{
-						applicationName = magicWord.Filename;
-					}
-					else
-					{
-						commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
-					}
-				}
-			}
-			else
-			{
-				// assume it is a url to be opened by the browser
-				applicationName = GetAssociatedApp(".htm");
-				commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
-			}
+		//    if (File.Exists(magicWord.Filename))
+		//    {
+		//        // looks like a file on the local computer
+		//        // explicit check for .exe as we know these should be run directly
+		//        if (string.Compare(extension, ".exe", true) == 0)
+		//        {
+		//            // the filename can be executed directly
+		//            applicationName = magicWord.Filename;
+		//        }
+		//        else
+		//        {
+		//            applicationName = GetAssociatedApp(extension);
+		//            // I can't see this documented anywhere, but if the extension belongs
+		//            // to something that can be run directly (.exe, .bat etc.) then "%1"
+		//            // seems to be returned
+		//            if (applicationName == "%1")
+		//            {
+		//                applicationName = magicWord.Filename;
+		//            }
+		//            else
+		//            {
+		//                commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
+		//            }
+		//        }
+		//    }
+		//    else if (Directory.Exists(magicWord.Filename))
+		//    {
+		//        applicationName = "explorer.exe";
+		//        commandLine = string.Format("explorer.exe {0}", magicWord.Filename);
+		//    }
+		//    else
+		//    {
+		//        // assume it is a url to be opened by the browser
+		//        applicationName = GetAssociatedApp(".htm");
+		//        commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
+		//    }
 
-			if (magicWord.Parameters != null && magicWord.Parameters.Length > 0)
-			{
-				if (commandLine == null)
-				{
-					commandLine = string.Format("\"{0}\"", applicationName);
-				}
-				commandLine += " " + magicWord.Parameters;
-			}
+		//    if (magicWord.Parameters != null && magicWord.Parameters.Length > 0)
+		//    {
+		//        if (commandLine == null)
+		//        {
+		//            commandLine = string.Format("\"{0}\"", applicationName);
+		//        }
+		//        commandLine += " " + magicWord.Parameters;
+		//    }
 
-		}
+		//}
 
-		private string GetCurrentDirectory(MagicWord magicWord, string applicationName)
-		{
-			string currentDirectory;
+		//private string GetCurrentDirectory(MagicWord magicWord, string applicationName)
+		//{
+		//    string currentDirectory;
 
-			if (magicWord.StartDirectory != null && magicWord.StartDirectory.Length > 0)
-			{
-				currentDirectory = magicWord.StartDirectory;
-			}
-			else
-			{
-				// use directory that the application exists in
-				currentDirectory = Path.GetDirectoryName(applicationName);
-			}
-			return currentDirectory;
-		}
+		//    if (magicWord.StartDirectory != null && magicWord.StartDirectory.Length > 0)
+		//    {
+		//        currentDirectory = magicWord.StartDirectory;
+		//    }
+		//    else
+		//    {
+		//        // use directory that the application exists in
+		//        currentDirectory = Path.GetDirectoryName(applicationName);
+		//    }
+		//    return currentDirectory;
+		//}
 
-		private string GetAssociatedApp(string extension)
-		{
+		//private string GetAssociatedApp(string extension)
+		//{
 
-			// find length of buffer required to hold associated application
-			uint pcchOut = 0;
-			AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
+		//    // find length of buffer required to hold associated application
+		//    uint pcchOut = 0;
+		//    AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
 
-			// allocate the buffer
-			// pcchOut includes the '\0' terminator
-			StringBuilder sb = new StringBuilder((int)pcchOut);
+		//    // allocate the buffer
+		//    // pcchOut includes the '\0' terminator
+		//    StringBuilder sb = new StringBuilder((int)pcchOut);
 
-			// now get the app
-			AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
+		//    // now get the app
+		//    AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
 
-			return sb.ToString();
+		//    return sb.ToString();
 
-		}
+		//}
 
 		private void AddPendingMove(uint pid, MagicWord magicWord, StartupPosition startPosition)
 		{
@@ -342,7 +256,7 @@ namespace DualLauncher
 
 			// get the pid associated with this hWnd
 			uint pid;
-			GetWindowThreadProcessId(hWnd, out pid);
+			Win32.GetWindowThreadProcessId(hWnd, out pid);
 			//Trace.WriteLine(string.Format("pid: {0} hWnd: {1}", pid, hWnd));
 
 			if (pendingMoves.Pid != pid)
@@ -383,6 +297,7 @@ namespace DualLauncher
 				windowPlacement.rcNormalPosition.top = pendingMoves.StartupPosition.Position.Top;
 				windowPlacement.rcNormalPosition.right = pendingMoves.StartupPosition.Position.Right;
 				windowPlacement.rcNormalPosition.bottom = pendingMoves.StartupPosition.Position.Bottom;
+				windowPlacement.showCmd = (uint)pendingMoves.StartupPosition.ShowCmd;
 			}
 			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 
@@ -403,7 +318,7 @@ namespace DualLauncher
 				ret = false;
 				int maxClassNameLen = 128;
 				StringBuilder sb = new StringBuilder(maxClassNameLen);
-				if (GetClassName(hWnd, sb, sb.Capacity) > 0)
+				if (Win32.GetClassName(hWnd, sb, sb.Capacity) > 0)
 				{
 					string className = sb.ToString();
 					ret = (className == pendingMove.WindowClass);
