@@ -57,53 +57,21 @@ namespace DualLauncher
 			get { return position.Size; }
 			set { position.Size = value; }
 		}
-	
-		//private bool hasLocation = false;
-		//public bool HasLocation
-		//{
-		//    get { return hasLocation; }
-		//    set { hasLocation = value; }
-		//}
 
-		//private Point location;
-		//public Point Location
-		//{
-		//    get { return location; }
-		//    set { location = value; }
-		//}
-
-		//private bool hasSize = false;
-		//public bool HasSize
-		//{
-		//    get { return hasSize; }
-		//    set { hasSize = value; }
-		//}
-
-		//private Size size;
-		//public Size Size
-		//{
-		//    get { return size; }
-		//    set { size = value; }
-		//}
+		/// <summary>
+		/// Indicates if the window should be shown minimised, maximised or normal.
+		/// This uses the save values as used by Win32.ShowWindow() and Win32.WINDOWPLACEMENT
+		/// </summary>
+		private int showCmd;
+		public int ShowCmd
+		{
+			get { return showCmd; }
+			set { showCmd = value; }
+		}
 
 		public StartupPosition()
 		{
 		}
-
-		//public StartupPosition(Point location)
-		//{
-		//    hasLocation = true;
-		//    this.location = location;
-		//}
-
-		//public StartupPosition(Point location, Size size)
-		//{
-		//    enablePosition = true;
-		//    //hasLocation = true;
-		//    this.location = location;
-		//    //hasSize = true;
-		//    this.size = size;
-		//}
 
 		public StartupPosition(Rectangle position)
 		{
