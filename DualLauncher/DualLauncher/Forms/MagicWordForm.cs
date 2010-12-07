@@ -90,6 +90,9 @@ namespace DualLauncher
 			Win32.GetWindowThreadProcessId(hWnd, out pid);
 			Process p = Process.GetProcessById((int)pid);
 			this.textBoxFilename.Text = p.MainModule.FileName;
+
+			// use the name without path or extension as the default for the alias
+			this.textBoxAlias.Text = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
