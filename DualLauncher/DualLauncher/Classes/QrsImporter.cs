@@ -69,7 +69,7 @@ namespace DualLauncher
 							{
 								curMagicWord.StartDirectory = FieldToString(match.Groups[2].Value);
 							}
-							else if (String.Compare(field, "Parms", true) == 0)
+							else if (String.Compare(field, "Params", true) == 0)
 							{
 								curMagicWord.Parameters = FieldToString(match.Groups[2].Value);
 							}
@@ -80,6 +80,16 @@ namespace DualLauncher
 							else if (String.Compare(field, "StartMode", true) == 0)
 							{
 								// TODO
+								int showCmd = Win32.SW_SHOW;
+								try
+								{
+									showCmd = Convert.ToInt32(FieldToString(match.Groups[2].Value));
+								}
+								catch (Exception)
+								{
+									curMagicWord.StartupPosition1 = new StartupPosition();
+									curMagicWord.StartupPosition1.ShowCmd = showCmd;
+								}
 							}
 						}
 					}
