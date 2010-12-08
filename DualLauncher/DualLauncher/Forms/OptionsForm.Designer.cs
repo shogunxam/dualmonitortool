@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -37,6 +37,12 @@ namespace DualLauncher
 			this.buttonEdit = new System.Windows.Forms.Button();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.dataGridView = new System.Windows.Forms.DataGridView();
+			this.aliasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.UseCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.LastUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.magicWordsBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
 			this.tabPageKeys = new System.Windows.Forms.TabPage();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -44,6 +50,7 @@ namespace DualLauncher
 			this.buttonActivate = new System.Windows.Forms.Button();
 			this.labelActivate = new System.Windows.Forms.Label();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
+			this.checkBoxMru = new System.Windows.Forms.CheckBox();
 			this.checkBoxAutoStart = new System.Windows.Forms.CheckBox();
 			this.tabPageImport = new System.Windows.Forms.TabPage();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -55,12 +62,8 @@ namespace DualLauncher
 			this.buttonDeleteAll = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.magicWordsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.aliasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.UseCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.LastUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.numericUpDownIcons = new System.Windows.Forms.NumericUpDown();
+			this.label3 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPageMagicWords.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -72,6 +75,7 @@ namespace DualLauncher
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.magicWordsBindingSource)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -152,8 +156,8 @@ namespace DualLauncher
 			// 
 			this.dataGridView.AllowUserToAddRows = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -177,6 +181,54 @@ namespace DualLauncher
 			this.dataGridView.TabIndex = 0;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
+			// 
+			// aliasDataGridViewTextBoxColumn
+			// 
+			this.aliasDataGridViewTextBoxColumn.DataPropertyName = "Alias";
+			this.aliasDataGridViewTextBoxColumn.Frozen = true;
+			this.aliasDataGridViewTextBoxColumn.HeaderText = "Magic Word";
+			this.aliasDataGridViewTextBoxColumn.Name = "aliasDataGridViewTextBoxColumn";
+			this.aliasDataGridViewTextBoxColumn.ReadOnly = true;
+			this.aliasDataGridViewTextBoxColumn.Width = 90;
+			// 
+			// filenameDataGridViewTextBoxColumn
+			// 
+			this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
+			this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
+			this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
+			this.filenameDataGridViewTextBoxColumn.ReadOnly = true;
+			this.filenameDataGridViewTextBoxColumn.Width = 74;
+			// 
+			// Parameters
+			// 
+			this.Parameters.DataPropertyName = "Parameters";
+			this.Parameters.HeaderText = "Parameters";
+			this.Parameters.Name = "Parameters";
+			this.Parameters.ReadOnly = true;
+			this.Parameters.Width = 85;
+			// 
+			// Comment
+			// 
+			this.Comment.DataPropertyName = "Comment";
+			this.Comment.HeaderText = "Comment";
+			this.Comment.Name = "Comment";
+			this.Comment.ReadOnly = true;
+			this.Comment.Width = 76;
+			// 
+			// UseCount
+			// 
+			this.UseCount.DataPropertyName = "UseCount";
+			this.UseCount.HeaderText = "UseCount";
+			this.UseCount.Name = "UseCount";
+			this.UseCount.ReadOnly = true;
+			this.UseCount.Width = 79;
+			// 
+			// LastUsed
+			// 
+			this.LastUsed.DataPropertyName = "LastUsed";
+			this.LastUsed.HeaderText = "LastUsed";
+			this.LastUsed.Name = "LastUsed";
+			this.LastUsed.Width = 77;
 			// 
 			// magicWordsBindingSource1
 			// 
@@ -234,6 +286,9 @@ namespace DualLauncher
 			// 
 			// tabPageGeneral
 			// 
+			this.tabPageGeneral.Controls.Add(this.label3);
+			this.tabPageGeneral.Controls.Add(this.numericUpDownIcons);
+			this.tabPageGeneral.Controls.Add(this.checkBoxMru);
 			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
 			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGeneral.Name = "tabPageGeneral";
@@ -241,6 +296,17 @@ namespace DualLauncher
 			this.tabPageGeneral.TabIndex = 2;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxMru
+			// 
+			this.checkBoxMru.AutoSize = true;
+			this.checkBoxMru.Location = new System.Drawing.Point(14, 38);
+			this.checkBoxMru.Name = "checkBoxMru";
+			this.checkBoxMru.Size = new System.Drawing.Size(331, 17);
+			this.checkBoxMru.TabIndex = 1;
+			this.checkBoxMru.Text = "Use most recently used in auto completion (instead of most used)";
+			this.checkBoxMru.UseVisualStyleBackColor = true;
+			this.checkBoxMru.CheckedChanged += new System.EventHandler(this.checkBoxMru_CheckedChanged);
 			// 
 			// checkBoxAutoStart
 			// 
@@ -251,6 +317,7 @@ namespace DualLauncher
 			this.checkBoxAutoStart.TabIndex = 0;
 			this.checkBoxAutoStart.Text = "Start when Windows starts";
 			this.checkBoxAutoStart.UseVisualStyleBackColor = true;
+			this.checkBoxAutoStart.CheckedChanged += new System.EventHandler(this.checkBoxAutoStart_CheckedChanged);
 			// 
 			// tabPageImport
 			// 
@@ -350,53 +417,22 @@ namespace DualLauncher
 			// 
 			this.magicWordsBindingSource.DataSource = typeof(DualLauncher.MagicWords);
 			// 
-			// aliasDataGridViewTextBoxColumn
+			// numericUpDownIcons
 			// 
-			this.aliasDataGridViewTextBoxColumn.DataPropertyName = "Alias";
-			this.aliasDataGridViewTextBoxColumn.Frozen = true;
-			this.aliasDataGridViewTextBoxColumn.HeaderText = "Magic Word";
-			this.aliasDataGridViewTextBoxColumn.Name = "aliasDataGridViewTextBoxColumn";
-			this.aliasDataGridViewTextBoxColumn.ReadOnly = true;
-			this.aliasDataGridViewTextBoxColumn.Width = 90;
+			this.numericUpDownIcons.Location = new System.Drawing.Point(196, 61);
+			this.numericUpDownIcons.Name = "numericUpDownIcons";
+			this.numericUpDownIcons.Size = new System.Drawing.Size(54, 20);
+			this.numericUpDownIcons.TabIndex = 2;
+			this.numericUpDownIcons.ValueChanged += new System.EventHandler(this.numericUpDownIcons_ValueChanged);
 			// 
-			// filenameDataGridViewTextBoxColumn
+			// label3
 			// 
-			this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
-			this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
-			this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
-			this.filenameDataGridViewTextBoxColumn.ReadOnly = true;
-			this.filenameDataGridViewTextBoxColumn.Width = 74;
-			// 
-			// Parameters
-			// 
-			this.Parameters.DataPropertyName = "Parameters";
-			this.Parameters.HeaderText = "Parameters";
-			this.Parameters.Name = "Parameters";
-			this.Parameters.ReadOnly = true;
-			this.Parameters.Width = 85;
-			// 
-			// Comment
-			// 
-			this.Comment.DataPropertyName = "Comment";
-			this.Comment.HeaderText = "Comment";
-			this.Comment.Name = "Comment";
-			this.Comment.ReadOnly = true;
-			this.Comment.Width = 76;
-			// 
-			// UseCount
-			// 
-			this.UseCount.DataPropertyName = "UseCount";
-			this.UseCount.HeaderText = "UseCount";
-			this.UseCount.Name = "UseCount";
-			this.UseCount.ReadOnly = true;
-			this.UseCount.Width = 79;
-			// 
-			// LastUsed
-			// 
-			this.LastUsed.DataPropertyName = "LastUsed";
-			this.LastUsed.HeaderText = "LastUsed";
-			this.LastUsed.Name = "LastUsed";
-			this.LastUsed.Width = 77;
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(11, 63);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(159, 13);
+			this.label3.TabIndex = 3;
+			this.label3.Text = "Initial number of icons to display:";
 			// 
 			// OptionsForm
 			// 
@@ -426,6 +462,7 @@ namespace DualLauncher
 			this.groupBox3.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.magicWordsBindingSource)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -463,5 +500,8 @@ namespace DualLauncher
 		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
 		private System.Windows.Forms.DataGridViewTextBoxColumn UseCount;
 		private System.Windows.Forms.DataGridViewTextBoxColumn LastUsed;
+		private System.Windows.Forms.CheckBox checkBoxMru;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.NumericUpDown numericUpDownIcons;
 	}
 }

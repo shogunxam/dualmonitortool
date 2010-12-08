@@ -32,6 +32,10 @@ namespace DualLauncher
 	{
 		private EntryForm entryForm;
 
+		// unique name for for a key for use within the Run section of the registry
+		private const string autoStartKeyName = "GNE_DualLauncher";
+
+
 		public OptionsForm(EntryForm entryForm)
 		{
 			this.entryForm = entryForm;
@@ -40,13 +44,15 @@ namespace DualLauncher
 
 		private void OptionsForm_Load(object sender, EventArgs e)
 		{
-			InitGrid();
-			InitDialogValues();
+			InitMagicWordsTab();
+			InitKeysTab();
+			InitGeneralTab();
+			InitImportTab();
 		}
 
 		private BindingSource bindingSource;
 
-		private void InitGrid()
+		private void InitMagicWordsTab()
 		{
 			// bind the the magic word list
 			//dataGridView.DataSource = MagicWords.Instance.IList;
@@ -57,9 +63,20 @@ namespace DualLauncher
 			UpdateMagicWordButtons();
 		}
 
-		private void InitDialogValues()
+		private void InitKeysTab()
 		{
 			labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
+		}
+
+		private void InitGeneralTab()
+		{
+			UpdateAutoStartCheckBox();
+			checkBoxMru.Checked = Properties.Settings.Default.UseMru;
+			numericUpDownIcons.Value = (decimal)Properties.Settings.Default.MaxMostUsedSize;
+		}
+
+		private void InitImportTab()
+		{
 		}
 
 		private void buttonActivate_Click(object sender, EventArgs e)
@@ -278,6 +295,40 @@ namespace DualLauncher
 			{
 				MessageBox.Show(ex.Message, Program.MyTitle);
 			}
+
+		}
+
+		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
+		{
+			if (this.checkBoxAutoStart.Checked)
+			{
+				AutoStart.SetAutoStart(autoStartKeyName);
+			}
+			else
+			{
+				AutoStart.UnsetAutoStart(autoStartKeyName);
+			}
+
+			// refresh checkbox in case set/unset AutoStart failed
+			UpdateAutoStartCheckBox();
+		}
+
+
+		private void UpdateAutoStartCheckBox()
+		{
+			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
+		}
+
+		private void checkBoxMru_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.UseMru = checkBoxMru.Checked;
+			Properties.Settings.Default.Save();
+
+		}
+
+		private void numericUpDownIcons_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.MaxMostUsedSize = (int)numericUpDownIcons.Value;
 
 		}
 	}
