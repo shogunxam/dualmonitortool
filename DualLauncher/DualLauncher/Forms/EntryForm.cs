@@ -184,13 +184,6 @@ namespace DualLauncher
 
 		private void SetAutoComplete()
 		{
-			//Input.AutoCompleteCustomSource = MagicWords.Instance.GetAutoCompleteWords();
-			//Input.AutoCompleteSource = AutoCompleteSource.CustomSource;
-			//Input.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-
-			//comboBox1.AutoCompleteCustomSource = MagicWords.Instance.GetAutoCompleteWords();
-			//comboBox1.AutoCompleteSource = AutoCompleteSource.CustomSource;
-			//comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
 		}
 
 		private void EntryForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -224,20 +217,11 @@ namespace DualLauncher
 
 		private void InitHotKey()
 		{
-			//KeyCombo defaultKeyCombo = new KeyCombo();
-			//defaultKeyCombo.FromPropertyValue(Properties.Settings.Default.HotKeyValue);
-
-			//dualLauncherHotKey = new HotKey(this, ID_HOTKEY_DUALLAUNCHER);
-			//dualLauncherHotKey.RegisterHotKey(defaultKeyCombo);
-
-			//dualLauncherHotKey.HotKeyPressed += new HotKey.HotKeyHandler(ShowEntryForm);
-
 			activateHotKeyController = new HotKeyController(this, ID_HOTKEY_ACTIVATE,
 				"ActivateHotKey",
 				Properties.Resources.ActivateDescription,
 				"",		// no Windows 7 key
 				new HotKey.HotKeyHandler(ShowEntryForm));
-
 		}
 
 		private void TermHotKey()
@@ -248,10 +232,10 @@ namespace DualLauncher
 
 		private void ShowEntryForm()
 		{
-			DoAutoComplete();
-			this.Activate();
 			this.Visible = true;
+			this.Activate();
 			this.Input.Focus();
+			DoAutoComplete();
 		}
 
 		private void HideEntryForm()
@@ -407,13 +391,6 @@ namespace DualLauncher
 
 		private void magicWordListBox_DoubleClick(object sender, EventArgs e)
 		{
-			////ListViewItem listViewItem = 
-			//SelectedListViewItemCollection selectedItems = magicWordListBox.SelectedItems;
-			//if (selectedItems.Count == 1)
-			//{
-			//    string alias = selectedItems[0].Text;
-			//}
-			//ProcessInput(1);
 		}
 
 		private void magicWordListBox_MouseClick(object sender, MouseEventArgs e)
@@ -428,6 +405,11 @@ namespace DualLauncher
 				}
 			}
 
+		}
+
+		private void EntryForm_Deactivate(object sender, EventArgs e)
+		{
+			HideEntryForm();
 		}
 
 	}

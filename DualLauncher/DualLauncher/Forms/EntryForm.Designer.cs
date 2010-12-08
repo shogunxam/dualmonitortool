@@ -150,6 +150,7 @@ namespace DualLauncher
 			this.ShowInTaskbar = false;
 			this.Text = "Dual Launcher";
 			this.TopMost = true;
+			this.Deactivate += new System.EventHandler(this.EntryForm_Deactivate);
 			this.Load += new System.EventHandler(this.EntryForm_Load);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EntryForm_FormClosing);
 			this.contextMenuStrip.ResumeLayout(false);
