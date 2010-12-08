@@ -46,5 +46,29 @@ namespace DualLauncher.Properties {
                 this["NeedSettingsUpgrade"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public int MaxMostUsedSize {
+            get {
+                return ((int)(this["MaxMostUsedSize"]));
+            }
+            set {
+                this["MaxMostUsedSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseMru {
+            get {
+                return ((bool)(this["UseMru"]));
+            }
+            set {
+                this["UseMru"] = value;
+            }
+        }
     }
 }

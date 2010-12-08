@@ -102,9 +102,18 @@ namespace DualLauncher
 		{
 
 			string alias = Input.Text;
-			//if (alias.Length > 0)
+			int maxMostUsedSize = Properties.Settings.Default.MaxMostUsedSize;
+			List<MagicWord> autoCompleteWords = null;
+
+			// if user doesn't want most used icons when no text
+			// then don't bother sorting the list of magic words
+			if (alias.Length > 0 || maxMostUsedSize > 0)
 			{
-				List<MagicWord> autoCompleteWords = MagicWords.Instance.GetAutoCompleteWords(alias);
+				// get magic words that match the current alias prefix
+				autoCompleteWords = MagicWords.Instance.GetAutoCompleteWords(alias);
+				SortMagicWords(autoCompleteWords);
+
+				// autocomplete the textbox
 				if (autoCompleteWords.Count > 0)
 				{
 					if (alias.Length > 0 && !lastKeyWasDel)
@@ -116,7 +125,31 @@ namespace DualLauncher
 					}
 				}
 
-				magicWordListBox.SetMagicWords(autoCompleteWords);
+				// if no input, then truncate the list of magic words
+				if (alias.Length == 0)
+				{
+					if (autoCompleteWords.Count > maxMostUsedSize)
+					{
+						autoCompleteWords.RemoveRange(maxMostUsedSize, autoCompleteWords.Count - maxMostUsedSize);
+					}
+				}
+			}
+
+			// update the icons displayed
+			magicWordListBox.SetMagicWords(autoCompleteWords);
+		}
+
+		private void SortMagicWords(List<MagicWord> magicWords)
+		{
+			if (Properties.Settings.Default.UseMru)
+			{
+				// want mru first
+				magicWords.Sort(delegate(MagicWord mw1, MagicWord mw2) { return mw2.LastUsed.CompareTo(mw1.LastUsed); });
+			}
+			else
+			{
+				// want most used first
+				magicWords.Sort(delegate(MagicWord mw1, MagicWord mw2) { return mw2.UseCount.CompareTo(mw1.UseCount); });
 			}
 		}
 
@@ -241,12 +274,14 @@ namespace DualLauncher
 
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			HideEntryForm();
 			OptionsForm dlg = new OptionsForm(this);
 			dlg.ShowDialog();
 		}
 
 		private void aboutDualLauncherToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			HideEntryForm();
 			AboutForm dlg = new AboutForm();
 			// TODO: why doesn't this appear to be modal?
 			dlg.ShowDialog();
@@ -312,7 +347,11 @@ namespace DualLauncher
 
 		private void ProcessInput(int position)
 		{
-			string alias = Input.Text;
+			ProcessInput(Input.Text, position);
+		}
+
+		private void ProcessInput(string alias, int position)
+		{
 			MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
 
 			if (magicWord != null)
@@ -361,7 +400,7 @@ namespace DualLauncher
 			if (listViewItem != null)
 			{
 				string alias = listViewItem.Text;
-				Input.Text = alias;
+				//Input.Text = alias;
 			}
 		}
 
@@ -374,7 +413,21 @@ namespace DualLauncher
 			//{
 			//    string alias = selectedItems[0].Text;
 			//}
-			ProcessInput(1);
+			//ProcessInput(1);
+		}
+
+		private void magicWordListBox_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				System.Windows.Forms.ListView.SelectedListViewItemCollection selectedItems = magicWordListBox.SelectedItems;
+				if (selectedItems.Count == 1)
+				{
+					string alias = selectedItems[0].Text;
+					ProcessInput(alias, 1);
+				}
+			}
+
 		}
 
 	}

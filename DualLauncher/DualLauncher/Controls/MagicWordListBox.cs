@@ -8,7 +8,7 @@ namespace DualLauncher
 {
 	public class MagicWordListBox : ListView
 	{
-		private List<MagicWord> magicWords;
+		//private List<MagicWord> magicWords;
 
 		public void InitControl()
 		{
@@ -18,7 +18,7 @@ namespace DualLauncher
 
 		public void SetMagicWords(List<MagicWord> magicWords)
 		{
-			this.magicWords = magicWords;
+			//this.magicWords = magicWords;
 
 			this.BeginUpdate();
 			this.Items.Clear();
@@ -32,20 +32,23 @@ namespace DualLauncher
 			// applications icon
 			imageList.Images.Add(Properties.Resources.missingIcon);
 
-			foreach (MagicWord mw in magicWords)
+			if (magicWords != null)
 			{
-				MagicWordExecutable executable = new MagicWordExecutable(mw);
-				int imageIndex = 0;	// the default (missing icon)
-				Icon fileIcon = executable.Icon;
-				if (fileIcon != null)
+				foreach (MagicWord mw in magicWords)
 				{
-					imageList.Images.Add(fileIcon);
-					imageIndex = imageList.Images.Count - 1;
-				}
+					MagicWordExecutable executable = new MagicWordExecutable(mw);
+					int imageIndex = 0;	// the default (missing icon)
+					Icon fileIcon = executable.Icon;
+					if (fileIcon != null)
+					{
+						imageList.Images.Add(fileIcon);
+						imageIndex = imageList.Images.Count - 1;
+					}
 
-				ListViewItem listViewItem = new ListViewItem(mw.Alias);
-				listViewItem.ImageIndex = imageIndex;
-				this.Items.Add(listViewItem);
+					ListViewItem listViewItem = new ListViewItem(mw.Alias);
+					listViewItem.ImageIndex = imageIndex;
+					this.Items.Add(listViewItem);
+				}
 			}
 
 			this.SmallImageList = imageList;

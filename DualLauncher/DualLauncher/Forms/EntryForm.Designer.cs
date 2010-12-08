@@ -110,9 +110,10 @@ namespace DualLauncher
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.magicWordListBox.Location = new System.Drawing.Point(12, 38);
 			this.magicWordListBox.Name = "magicWordListBox";
-			this.magicWordListBox.Size = new System.Drawing.Size(343, 74);
+			this.magicWordListBox.Size = new System.Drawing.Size(343, 146);
 			this.magicWordListBox.TabIndex = 2;
 			this.magicWordListBox.UseCompatibleStateImageBehavior = false;
+			this.magicWordListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.magicWordListBox_MouseClick);
 			this.magicWordListBox.DoubleClick += new System.EventHandler(this.magicWordListBox_DoubleClick);
 			this.magicWordListBox.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.magicWordListBox_ItemSelectionChanged);
 			this.magicWordListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.magicWordListBox_KeyDown);
@@ -134,7 +135,7 @@ namespace DualLauncher
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CausesValidation = false;
-			this.ClientSize = new System.Drawing.Size(361, 123);
+			this.ClientSize = new System.Drawing.Size(361, 195);
 			this.ContextMenuStrip = this.contextMenuStrip;
 			this.Controls.Add(this.pictureBoxIcon);
 			this.Controls.Add(this.magicWordListBox);
@@ -142,7 +143,6 @@ namespace DualLauncher
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MaximumSize = new System.Drawing.Size(1280, 185);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(128, 55);
 			this.Name = "EntryForm";
