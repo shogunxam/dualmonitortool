@@ -154,6 +154,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Utils\AutoStart.cs" />
     <Compile Include="Utils\ScreenHelper.cs" />
     <Compile Include="Utils\Win32.cs" />
   </ItemGroup>
