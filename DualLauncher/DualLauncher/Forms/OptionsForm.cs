@@ -92,7 +92,6 @@ namespace DualLauncher
 		{
 
 			MagicWord newMagicWord = new MagicWord();
-			newMagicWord.Alias = "ItWorks";
 			//MagicWordForm dlg = new MagicWordForm(newMagicWord);
 			MagicWordForm dlg = new MagicWordForm(newMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
