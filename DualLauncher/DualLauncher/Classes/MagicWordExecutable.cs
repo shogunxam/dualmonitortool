@@ -13,6 +13,8 @@ namespace DualLauncher
 		private string commandLine = null;
 		private string workingDirectory = null;
 
+		private static string explorerPath = null;
+
 		public MagicWordExecutable(MagicWord magicWord)
 		{
 			this.magicWord = magicWord;
@@ -74,6 +76,20 @@ namespace DualLauncher
 			}
 		}
 
+		private static string ExplorerPath
+		{
+			get 
+			{
+				if (explorerPath == null)
+				{
+					// TODO: is explorer always in WINDIR?
+					string winDir = Environment.GetEnvironmentVariable("WINDIR");
+					explorerPath = Path.Combine(winDir, "explorer.exe");
+				}
+				return explorerPath;
+			}
+		}
+
 		private void GetExecutable()
 		{
 			string extension = Path.GetExtension(magicWord.Filename);
@@ -105,8 +121,9 @@ namespace DualLauncher
 			}
 			else if (Directory.Exists(magicWord.Filename))
 			{
-				executable = "explorer.exe";
-				commandLine = string.Format("explorer.exe {0}", magicWord.Filename);
+				//executable = "explorer.exe";
+				executable = ExplorerPath;
+				commandLine = string.Format("\"{0}\" {1}", executable, magicWord.Filename);
 			}
 			else
 			{
