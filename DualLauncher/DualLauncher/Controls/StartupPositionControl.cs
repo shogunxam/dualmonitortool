@@ -78,7 +78,7 @@ namespace DualLauncher
 			comboBoxWinType.Items.Add(Properties.Resources.ShowMaximised);
 			comboBoxWinType.Items.Add(Properties.Resources.ShowMinimised);
 
-			if (showCmd == Win32.SW_SHOWMINIMIZED)
+			if (showCmd == Win32.SW_SHOWMINNOACTIVE)
 			{
 				comboBoxWinType.Text = Properties.Resources.ShowMinimised;
 			}
@@ -146,7 +146,7 @@ namespace DualLauncher
 
 			if (comboBoxWinType.Text == Properties.Resources.ShowMinimised)
 			{
-				position.ShowCmd = Win32.SW_SHOWMINIMIZED;
+				position.ShowCmd = Win32.SW_SHOWMINNOACTIVE;
 			}
 			else if (comboBoxWinType.Text == Properties.Resources.ShowMaximised)
 			{
