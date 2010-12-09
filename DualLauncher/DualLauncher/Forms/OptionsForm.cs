@@ -52,7 +52,6 @@ namespace DualLauncher
 
 			dataGridView.Focus();
 			dataGridView.Select();
-			//dataGridView.CurrentCell = dataGridView.CurrentRow.Cells[0];
 		}
 
 		private BindingSource bindingSource;
@@ -76,6 +75,19 @@ namespace DualLauncher
 		private void InitKeysTab()
 		{
 			labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
+
+			labelPos1.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position1Key);
+			labelPos2.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position2Key);
+			labelPos3.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position3Key);
+			labelPos4.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position4Key);
+		}
+
+		private string KeyComboPropertyValueToString(uint propertyValue)
+		{
+			// TODO: KeyCombo should have a ctor that takes the property value
+			KeyCombo keyCombo = new KeyCombo();
+			keyCombo.FromPropertyValue(propertyValue);
+			return keyCombo.ToString();
 		}
 
 		private void InitGeneralTab()
@@ -87,14 +99,6 @@ namespace DualLauncher
 
 		private void InitImportTab()
 		{
-		}
-
-		private void buttonActivate_Click(object sender, EventArgs e)
-		{
-			if (entryForm.ActivateHotKeyController.Edit())
-			{
-				labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
-			}
 		}
 
 		#region MagicWords grid events
@@ -189,6 +193,7 @@ namespace DualLauncher
 		}
 		#endregion
 
+		#region MagicWords
 		private void EditMagicWord(int rowIndex)
 		{
 			//// we work on a clone of the magic word in case user decides
@@ -219,10 +224,84 @@ namespace DualLauncher
 			// can delete if one or more rows are selected
 			buttonDelete.Enabled = (dataGridView.SelectedRows.Count > 0);
 		}
+		#endregion
 
-		private void EditMagicWord(MagicWord mw)
+		#region Keys
+		private void buttonActivate_Click(object sender, EventArgs e)
 		{
+			if (entryForm.ActivateHotKeyController.Edit())
+			{
+				labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
+			}
 		}
+
+		private void buttonPos1_Click(object sender, EventArgs e)
+		{
+			//TODO: need KeyCombo editor, not HotKey editor!
+			//HotKeyForm dlg = new HotKeyForm(hotKey, description, note);
+			//if (dlg.ShowDialog() == DialogResult.OK)
+			//{
+			//    // persist the new value
+			//    SaveKeyCombo();
+			//    // and commit it now
+			//    Properties.Settings.Default.Save();
+			//    //// update display
+			//    //lbl.Text = hotKey.HotKeyCombo.ToString();
+			//    // indicate OK has been pressed
+			//    edited = true;
+			//}
+		}
+
+		private void buttonPos2_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void buttonPos3_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void buttonPos4_Click(object sender, EventArgs e)
+		{
+
+		}
+		#endregion
+
+		#region General
+		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
+		{
+			if (this.checkBoxAutoStart.Checked)
+			{
+				AutoStart.SetAutoStart(autoStartKeyName);
+			}
+			else
+			{
+				AutoStart.UnsetAutoStart(autoStartKeyName);
+			}
+
+			// refresh checkbox in case set/unset AutoStart failed
+			UpdateAutoStartCheckBox();
+		}
+
+
+		private void UpdateAutoStartCheckBox()
+		{
+			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
+		}
+
+		private void checkBoxMru_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.UseMru = checkBoxMru.Checked;
+			Properties.Settings.Default.Save();
+		}
+
+		private void numericUpDownIcons_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.MaxMostUsedSize = (int)numericUpDownIcons.Value;
+
+		}
+		#endregion
 
 		#region Importing/exporting
 		private void buttonDeleteAll_Click(object sender, EventArgs e)
@@ -306,40 +385,6 @@ namespace DualLauncher
 			{
 				MessageBox.Show(ex.Message, Program.MyTitle);
 			}
-
-		}
-
-		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
-		{
-			if (this.checkBoxAutoStart.Checked)
-			{
-				AutoStart.SetAutoStart(autoStartKeyName);
-			}
-			else
-			{
-				AutoStart.UnsetAutoStart(autoStartKeyName);
-			}
-
-			// refresh checkbox in case set/unset AutoStart failed
-			UpdateAutoStartCheckBox();
-		}
-
-
-		private void UpdateAutoStartCheckBox()
-		{
-			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
-		}
-
-		private void checkBoxMru_CheckedChanged(object sender, EventArgs e)
-		{
-			Properties.Settings.Default.UseMru = checkBoxMru.Checked;
-			Properties.Settings.Default.Save();
-
-		}
-
-		private void numericUpDownIcons_ValueChanged(object sender, EventArgs e)
-		{
-			Properties.Settings.Default.MaxMostUsedSize = (int)numericUpDownIcons.Value;
 
 		}
 	}

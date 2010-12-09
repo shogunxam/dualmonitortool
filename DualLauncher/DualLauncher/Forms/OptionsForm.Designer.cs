@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -37,11 +37,20 @@ namespace DualLauncher
 			this.buttonEdit = new System.Windows.Forms.Button();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.dataGridView = new System.Windows.Forms.DataGridView();
-			this.Parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.UseCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.LastUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabPageKeys = new System.Windows.Forms.TabPage();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.buttonPos4 = new System.Windows.Forms.Button();
+			this.labelPos4 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.buttonPos3 = new System.Windows.Forms.Button();
+			this.labelPos3 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.buttonPos2 = new System.Windows.Forms.Button();
+			this.labelPos2 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
+			this.buttonPos1 = new System.Windows.Forms.Button();
+			this.labelPos1 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.buttonActivate = new System.Windows.Forms.Button();
@@ -62,10 +71,17 @@ namespace DualLauncher
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.magicWordsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.aliasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.UseCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.LastUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl1.SuspendLayout();
 			this.tabPageMagicWords.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.tabPageKeys.SuspendLayout();
+			this.groupBox4.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPageGeneral.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).BeginInit();
@@ -158,22 +174,29 @@ namespace DualLauncher
 			// dataGridView
 			// 
 			this.dataGridView.AllowUserToAddRows = false;
+			this.dataGridView.AllowUserToDeleteRows = false;
+			this.dataGridView.AllowUserToResizeColumns = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.dataGridView.AutoGenerateColumns = false;
 			this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
 			this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.aliasDataGridViewTextBoxColumn,
+            this.filenameDataGridViewTextBoxColumn,
             this.Parameters,
             this.Comment,
             this.UseCount,
             this.LastUsed});
+			this.dataGridView.DataSource = this.magicWordsBindingSource;
 			this.dataGridView.Location = new System.Drawing.Point(6, 6);
 			this.dataGridView.Name = "dataGridView";
+			this.dataGridView.ReadOnly = true;
 			this.dataGridView.RowHeadersVisible = false;
 			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView.Size = new System.Drawing.Size(534, 243);
@@ -182,39 +205,9 @@ namespace DualLauncher
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
 			// 
-			// Parameters
-			// 
-			this.Parameters.DataPropertyName = "Parameters";
-			this.Parameters.HeaderText = "Parameters";
-			this.Parameters.Name = "Parameters";
-			this.Parameters.ReadOnly = true;
-			this.Parameters.Width = 85;
-			// 
-			// Comment
-			// 
-			this.Comment.DataPropertyName = "Comment";
-			this.Comment.HeaderText = "Comment";
-			this.Comment.Name = "Comment";
-			this.Comment.ReadOnly = true;
-			this.Comment.Width = 76;
-			// 
-			// UseCount
-			// 
-			this.UseCount.DataPropertyName = "UseCount";
-			this.UseCount.HeaderText = "UseCount";
-			this.UseCount.Name = "UseCount";
-			this.UseCount.ReadOnly = true;
-			this.UseCount.Width = 79;
-			// 
-			// LastUsed
-			// 
-			this.LastUsed.DataPropertyName = "LastUsed";
-			this.LastUsed.HeaderText = "LastUsed";
-			this.LastUsed.Name = "LastUsed";
-			this.LastUsed.Width = 77;
-			// 
 			// tabPageKeys
 			// 
+			this.tabPageKeys.Controls.Add(this.groupBox4);
 			this.tabPageKeys.Controls.Add(this.groupBox1);
 			this.tabPageKeys.Location = new System.Drawing.Point(4, 22);
 			this.tabPageKeys.Name = "tabPageKeys";
@@ -224,6 +217,147 @@ namespace DualLauncher
 			this.tabPageKeys.Text = "Keys";
 			this.tabPageKeys.UseVisualStyleBackColor = true;
 			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.label10);
+			this.groupBox4.Controls.Add(this.buttonPos4);
+			this.groupBox4.Controls.Add(this.labelPos4);
+			this.groupBox4.Controls.Add(this.label8);
+			this.groupBox4.Controls.Add(this.buttonPos3);
+			this.groupBox4.Controls.Add(this.labelPos3);
+			this.groupBox4.Controls.Add(this.label6);
+			this.groupBox4.Controls.Add(this.buttonPos2);
+			this.groupBox4.Controls.Add(this.labelPos2);
+			this.groupBox4.Controls.Add(this.label4);
+			this.groupBox4.Controls.Add(this.buttonPos1);
+			this.groupBox4.Controls.Add(this.labelPos1);
+			this.groupBox4.Location = new System.Drawing.Point(16, 67);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(496, 145);
+			this.groupBox4.TabIndex = 1;
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = "Magic Word accept keys  for the 4 different opening positions";
+			// 
+			// label10
+			// 
+			this.label10.Location = new System.Drawing.Point(6, 111);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(224, 13);
+			this.label10.TabIndex = 20;
+			this.label10.Text = "Open window in position 4";
+			// 
+			// buttonPos4
+			// 
+			this.buttonPos4.Location = new System.Drawing.Point(395, 106);
+			this.buttonPos4.Name = "buttonPos4";
+			this.buttonPos4.Size = new System.Drawing.Size(75, 23);
+			this.buttonPos4.TabIndex = 19;
+			this.buttonPos4.Text = "Change...";
+			this.toolTip.SetToolTip(this.buttonPos4, "Click to change the accept key for position 4.");
+			this.buttonPos4.UseVisualStyleBackColor = true;
+			this.buttonPos4.Click += new System.EventHandler(this.buttonPos4_Click);
+			// 
+			// labelPos4
+			// 
+			this.labelPos4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelPos4.Location = new System.Drawing.Point(236, 111);
+			this.labelPos4.Name = "labelPos4";
+			this.labelPos4.Size = new System.Drawing.Size(153, 13);
+			this.labelPos4.TabIndex = 21;
+			this.labelPos4.Text = "labelPos4";
+			this.toolTip.SetToolTip(this.labelPos4, "Press this key combination in the Magic Word entry box\r\nto open the window in Sta" +
+					"rt Position 4.\r\n");
+			// 
+			// label8
+			// 
+			this.label8.Location = new System.Drawing.Point(6, 82);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(224, 13);
+			this.label8.TabIndex = 17;
+			this.label8.Text = "Open window in position 3";
+			// 
+			// buttonPos3
+			// 
+			this.buttonPos3.Location = new System.Drawing.Point(395, 77);
+			this.buttonPos3.Name = "buttonPos3";
+			this.buttonPos3.Size = new System.Drawing.Size(75, 23);
+			this.buttonPos3.TabIndex = 16;
+			this.buttonPos3.Text = "Change...";
+			this.toolTip.SetToolTip(this.buttonPos3, "Click to change the accept key for position 3.");
+			this.buttonPos3.UseVisualStyleBackColor = true;
+			this.buttonPos3.Click += new System.EventHandler(this.buttonPos3_Click);
+			// 
+			// labelPos3
+			// 
+			this.labelPos3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelPos3.Location = new System.Drawing.Point(236, 82);
+			this.labelPos3.Name = "labelPos3";
+			this.labelPos3.Size = new System.Drawing.Size(153, 13);
+			this.labelPos3.TabIndex = 18;
+			this.labelPos3.Text = "labelPos3";
+			this.toolTip.SetToolTip(this.labelPos3, "Press this key combination in the Magic Word entry box\r\nto open the window in Sta" +
+					"rt Position 3.");
+			// 
+			// label6
+			// 
+			this.label6.Location = new System.Drawing.Point(6, 53);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(224, 13);
+			this.label6.TabIndex = 14;
+			this.label6.Text = "Open window in position 2";
+			// 
+			// buttonPos2
+			// 
+			this.buttonPos2.Location = new System.Drawing.Point(395, 48);
+			this.buttonPos2.Name = "buttonPos2";
+			this.buttonPos2.Size = new System.Drawing.Size(75, 23);
+			this.buttonPos2.TabIndex = 13;
+			this.buttonPos2.Text = "Change...";
+			this.toolTip.SetToolTip(this.buttonPos2, "Click to change the accept key for position 2.");
+			this.buttonPos2.UseVisualStyleBackColor = true;
+			this.buttonPos2.Click += new System.EventHandler(this.buttonPos2_Click);
+			// 
+			// labelPos2
+			// 
+			this.labelPos2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelPos2.Location = new System.Drawing.Point(236, 53);
+			this.labelPos2.Name = "labelPos2";
+			this.labelPos2.Size = new System.Drawing.Size(153, 13);
+			this.labelPos2.TabIndex = 15;
+			this.labelPos2.Text = "labelPos2";
+			this.toolTip.SetToolTip(this.labelPos2, "Press this key combination in the Magic Word entry box\r\nto open the window in Sta" +
+					"rt Position 2.");
+			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(6, 24);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(224, 13);
+			this.label4.TabIndex = 11;
+			this.label4.Text = "Open window in position 1";
+			// 
+			// buttonPos1
+			// 
+			this.buttonPos1.Location = new System.Drawing.Point(395, 19);
+			this.buttonPos1.Name = "buttonPos1";
+			this.buttonPos1.Size = new System.Drawing.Size(75, 23);
+			this.buttonPos1.TabIndex = 10;
+			this.buttonPos1.Text = "Change...";
+			this.toolTip.SetToolTip(this.buttonPos1, "Click to change the accept key for position 1.");
+			this.buttonPos1.UseVisualStyleBackColor = true;
+			this.buttonPos1.Click += new System.EventHandler(this.buttonPos1_Click);
+			// 
+			// labelPos1
+			// 
+			this.labelPos1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelPos1.Location = new System.Drawing.Point(236, 24);
+			this.labelPos1.Name = "labelPos1";
+			this.labelPos1.Size = new System.Drawing.Size(153, 13);
+			this.labelPos1.TabIndex = 12;
+			this.labelPos1.Text = "labelPos1";
+			this.toolTip.SetToolTip(this.labelPos1, "Press this key combination in the Magic Word entry box\r\nto open the window in Sta" +
+					"rt Position 1.");
+			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.label1);
@@ -231,7 +365,7 @@ namespace DualLauncher
 			this.groupBox1.Controls.Add(this.labelActivate);
 			this.groupBox1.Location = new System.Drawing.Point(16, 16);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(496, 59);
+			this.groupBox1.Size = new System.Drawing.Size(496, 45);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
@@ -424,6 +558,55 @@ namespace DualLauncher
 			// 
 			this.magicWordsBindingSource.DataSource = typeof(DualLauncher.MagicWords);
 			// 
+			// aliasDataGridViewTextBoxColumn
+			// 
+			this.aliasDataGridViewTextBoxColumn.DataPropertyName = "Alias";
+			this.aliasDataGridViewTextBoxColumn.Frozen = true;
+			this.aliasDataGridViewTextBoxColumn.HeaderText = "Alias";
+			this.aliasDataGridViewTextBoxColumn.Name = "aliasDataGridViewTextBoxColumn";
+			this.aliasDataGridViewTextBoxColumn.ReadOnly = true;
+			this.aliasDataGridViewTextBoxColumn.Width = 54;
+			// 
+			// filenameDataGridViewTextBoxColumn
+			// 
+			this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
+			this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
+			this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
+			this.filenameDataGridViewTextBoxColumn.ReadOnly = true;
+			this.filenameDataGridViewTextBoxColumn.Width = 74;
+			// 
+			// Parameters
+			// 
+			this.Parameters.DataPropertyName = "Parameters";
+			this.Parameters.HeaderText = "Parameters";
+			this.Parameters.Name = "Parameters";
+			this.Parameters.ReadOnly = true;
+			this.Parameters.Width = 85;
+			// 
+			// Comment
+			// 
+			this.Comment.DataPropertyName = "Comment";
+			this.Comment.HeaderText = "Comment";
+			this.Comment.Name = "Comment";
+			this.Comment.ReadOnly = true;
+			this.Comment.Width = 76;
+			// 
+			// UseCount
+			// 
+			this.UseCount.DataPropertyName = "UseCount";
+			this.UseCount.HeaderText = "UseCount";
+			this.UseCount.Name = "UseCount";
+			this.UseCount.ReadOnly = true;
+			this.UseCount.Width = 79;
+			// 
+			// LastUsed
+			// 
+			this.LastUsed.DataPropertyName = "LastUsed";
+			this.LastUsed.HeaderText = "LastUsed";
+			this.LastUsed.Name = "LastUsed";
+			this.LastUsed.ReadOnly = true;
+			this.LastUsed.Width = 77;
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -443,6 +626,7 @@ namespace DualLauncher
 			this.tabPageMagicWords.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
 			this.tabPageKeys.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
@@ -482,13 +666,28 @@ namespace DualLauncher
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Button buttonDeleteAll;
 		private System.Windows.Forms.Button buttonResetCounts;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Parameters;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
-		private System.Windows.Forms.DataGridViewTextBoxColumn UseCount;
-		private System.Windows.Forms.DataGridViewTextBoxColumn LastUsed;
 		private System.Windows.Forms.CheckBox checkBoxMru;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown numericUpDownIcons;
 		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.Button buttonPos4;
+		private System.Windows.Forms.Label labelPos4;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Button buttonPos3;
+		private System.Windows.Forms.Label labelPos3;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Button buttonPos2;
+		private System.Windows.Forms.Label labelPos2;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonPos1;
+		private System.Windows.Forms.Label labelPos1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn aliasDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filenameDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Parameters;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+		private System.Windows.Forms.DataGridViewTextBoxColumn UseCount;
+		private System.Windows.Forms.DataGridViewTextBoxColumn LastUsed;
 	}
 }

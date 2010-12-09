@@ -221,19 +221,19 @@ namespace DualLauncher
 			{
 				ProcessInput(1);
 			}
-			else if (e.KeyCode == Keys.F1)
+			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position1Key) //Keys.F1)
 			{
 				ProcessInput(1);
 			}
-			else if (e.KeyCode == Keys.F2)
+			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position2Key) //Keys.F2)
 			{
 				ProcessInput(2);
 			}
-			else if (e.KeyCode == Keys.F3)
+			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position3Key) //Keys.F3)
 			{
 				ProcessInput(3);
 			}
-			else if (e.KeyCode == Keys.F4)
+			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position4Key) //Keys.F4)
 			{
 				ProcessInput(4);
 			}
