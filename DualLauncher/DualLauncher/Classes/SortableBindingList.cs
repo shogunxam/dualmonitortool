@@ -57,23 +57,46 @@ namespace DualLauncher
 			get { return sortPropertyCore; }
 		}
 
+		public void Sort(PropertyDescriptor property, ListSortDirection sortDirection)
+		{
+			ApplySortCore(property, ListSortDirection.Ascending);
+		}
+
 		protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection sortDirection)
 		{
 			sortPropertyCore = property;
 			sortDirectionCore = sortDirection;
 
-			PropertyComparer<T> comparer = new PropertyComparer<T>(property.Name, sortDirection);
+			if (property != null)
+			{
+				PropertyComparer<T> comparer = new PropertyComparer<T>(property.Name, sortDirection);
 
-			//
-			List<T> listItems = this.Items as List<T>;
-			listItems.Sort(comparer);
+				//
+				List<T> listItems = this.Items as List<T>;
+				listItems.Sort(comparer);
 
+				isSortedCore = true;
 
-			isSortedCore = true;
+				// Raise the ListChanged event so bound controls refresh their
+				// values.
+				OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+			}
+		}
 
-			// Raise the ListChanged event so bound controls refresh their
-			// values.
-			OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+		public void Insert(T record)
+		{
+			// insert the record anywhere and then sort
+			// TODO: alternatively we could find the correct insertion point
+			this.Insert(0, record);
+			ReSort();
+		}
+
+		private void ReSort()
+		{
+			if (isSortedCore)
+			{
+				ApplySortCore(sortPropertyCore, sortDirectionCore);
+			}
 		}
 
 		protected override void RemoveSortCore()
@@ -81,9 +104,27 @@ namespace DualLauncher
 			// don't think we need to support this
 		}
 
-		public void RemoveSort()
+		//public void RemoveSort()
+		//{
+		//    RemoveSortCore();
+		//}
+
+		protected override int FindCore(PropertyDescriptor property, object key)
 		{
-			RemoveSortCore();
+			//if (key != null)
+			//{
+			//    T item;
+			//    PropertyInfo propertyInfo = typeof(T).GetProperty(property.Name);
+			//    for (int i = 0; i < Count; i++)
+			//    {
+			//        item = Items[i] as T;
+			//        if (propertyInfo.GetValue(item, null).Equals(key))
+			//        {
+			//            return i;
+			//        }
+			//    }
+			//}
+			return -1;
 		}
 
 	}

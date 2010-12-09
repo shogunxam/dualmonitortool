@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace DualLauncher
 {
@@ -48,12 +49,21 @@ namespace DualLauncher
 			InitKeysTab();
 			InitGeneralTab();
 			InitImportTab();
+
+			dataGridView.Focus();
+			dataGridView.Select();
+			//dataGridView.CurrentCell = dataGridView.CurrentRow.Cells[0];
 		}
 
 		private BindingSource bindingSource;
 
 		private void InitMagicWordsTab()
 		{
+			// first make sure magic words are iniially sorted (by alias ascending)
+			PropertyDescriptor property = TypeDescriptor.GetProperties(typeof(MagicWord)).Find("Alias", false);
+			Debug.Assert(property != null);
+			MagicWords.Instance.Sort(property, ListSortDirection.Ascending);
+
 			// bind the the magic word list
 			//dataGridView.DataSource = MagicWords.Instance.IList;
 			bindingSource = new BindingSource();
@@ -114,7 +124,8 @@ namespace DualLauncher
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				// need to add new word
-				MagicWords.Instance.Add(newMagicWord);
+				//MagicWords.Instance.Add(newMagicWord);
+				MagicWords.Instance.Insert(newMagicWord);
 			}
 
 		}
