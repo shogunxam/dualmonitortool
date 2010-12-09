@@ -32,16 +32,6 @@ namespace DualLauncher
 	{
 		private bool shutDown = false;
 
-
-		//private bool lastKeyWasDel = false;
-		#region AutoComplete
-		private string curBase = "";
-		private List<MagicWord> curMagicWords = new List<MagicWord>();
-		private int curIndex = 0;
-		private bool doAutoComplete = false;
-		bool doDel = false;
-		#endregion
-
 		private const int ID_HOTKEY_ACTIVATE = 0x501;
 
 		//private HotKey dualLauncherHotKey;
@@ -88,143 +78,6 @@ namespace DualLauncher
 			timer.Start();
 		}
 
-		void Input_TextChanged(object sender, EventArgs e)
-		{
-			if (doAutoComplete)
-			{
-				doAutoComplete = false;
-				//DoAutoComplete(Input.Text);
-				DoAutoComplete();
-			}
-		}
-
-		private void DoAutoComplete()
-		{
-			//curBase = newBase;
-			//curBase = Input.Text;
-
-			if (doDel && curBase.Length > 0)
-			{
-				Trace.WriteLine(string.Format("DoAutoComplete: deleting char"));
-				doDel = false;
-				curBase = curBase.Substring(0, curBase.Length - 1);
-				//Input.Text = newBase;
-			}
-			else
-			{
-				curBase = Input.Text;
-			}
-
-			Trace.WriteLine(string.Format("DoAutoComplete: curBase: {0}", curBase));
-			int maxMostUsedSize = Properties.Settings.Default.MaxMostUsedSize;
-			//List<MagicWord> autoCompleteWords = null;
-
-			// if user doesn't want most used icons when no text
-			// then don't bother sorting the list of magic words
-			if (curBase.Length > 0 || maxMostUsedSize > 0)
-			{
-				// get magic words that match the current alias prefix
-				curMagicWords = MagicWords.Instance.GetAutoCompleteWords(curBase);
-				SortMagicWords(curMagicWords);
-				curIndex = 0;
-
-				// if no input, then truncate the list of magic words
-				if (curBase.Length == 0)
-				{
-					if (curMagicWords.Count > maxMostUsedSize)
-					{
-						curMagicWords.RemoveRange(maxMostUsedSize, curMagicWords.Count - maxMostUsedSize);
-					}
-				}
-			}
-			ShowAutoCompleteText();
-			ShowAutoCompleteList();
-		}
-
-		//private void DoAutoComplete()
-		//{
-		//    //curBase = newBase;
-		//    //curBase = Input.Text;
-
-		//    if (doDel && curBase.Length > 0)
-		//    {
-		//        Trace.WriteLine(string.Format("DoAutoComplete: deleting char"));
-		//        doDel = false;
-		//        curBase = curBase.Substring(0, curBase.Length - 1);
-		//        //Input.Text = newBase;
-		//    }
-		//    else
-		//    {
-		//        curBase = Input.Text;
-		//    }
-
-		//    Trace.WriteLine(string.Format("DoAutoComplete: curBase: {0}", curBase));
-		//    int maxMostUsedSize = Properties.Settings.Default.MaxMostUsedSize;
-		//    //List<MagicWord> autoCompleteWords = null;
-
-		//    // if user doesn't want most used icons when no text
-		//    // then don't bother sorting the list of magic words
-		//    if (curBase.Length > 0 || maxMostUsedSize > 0)
-		//    {
-		//        // get magic words that match the current alias prefix
-		//        curMagicWords = MagicWords.Instance.GetAutoCompleteWords(curBase);
-		//        SortMagicWords(curMagicWords);
-		//        curIndex = 0;
-
-		//        // if no input, then truncate the list of magic words
-		//        if (curBase.Length == 0)
-		//        {
-		//            if (curMagicWords.Count > maxMostUsedSize)
-		//            {
-		//                curMagicWords.RemoveRange(maxMostUsedSize, curMagicWords.Count - maxMostUsedSize);
-		//            }
-		//        }
-		//    }
-		//    ShowAutoCompleteText();
-		//    ShowAutoCompleteList();
-		//}
-
-		private void ShowAutoCompleteText()
-		{
-			Trace.WriteLine(string.Format("ShowAutoCompleteText: curBase: {0}", curBase));
-			if (curBase.Length > 0 && curMagicWords.Count > 0)
-			{
-				Debug.Assert(curIndex >= 0 && curIndex < curMagicWords.Count);
-				string curWord = curMagicWords[curIndex].Alias;
-				Trace.WriteLine(string.Format("ShowAutoCompleteText: curWord: {0}", curWord));
-				Input.Text = curWord;
-				Input.SelectionStart = curBase.Length;
-				Input.SelectionLength = curWord.Length - curBase.Length;
-				ShowAliasIcon();
-			}
-			else
-			{
-				Input.Text = curBase;
-				Input.SelectionStart = curBase.Length;
-				Input.SelectionLength = 0;
-				ShowAliasIcon();
-			}
-		}
-
-		private void ShowAutoCompleteList()
-		{
-			// update the icons displayed
-			magicWordListBox.SetMagicWords(curMagicWords);
-		}
-
-		private void SortMagicWords(List<MagicWord> magicWords)
-		{
-			if (Properties.Settings.Default.UseMru)
-			{
-				// want mru first
-				magicWords.Sort(delegate(MagicWord mw1, MagicWord mw2) { return mw2.LastUsed.CompareTo(mw1.LastUsed); });
-			}
-			else
-			{
-				// want most used first
-				magicWords.Sort(delegate(MagicWord mw1, MagicWord mw2) { return mw2.UseCount.CompareTo(mw1.UseCount); });
-			}
-		}
 
 		private void ShowAliasIcon()
 		{
@@ -364,11 +217,6 @@ namespace DualLauncher
 
 		private void ProcessKeyDown(object sender, KeyEventArgs e)
 		{
-			doAutoComplete = true;
-			doDel = false;
-
-			Trace.WriteLine(string.Format("KeyCode: {0} KeyValue: {1} KeyData: {2}",
-				e.KeyCode, e.KeyValue, e.KeyData));
 			if (e.KeyCode == Keys.Enter)
 			{
 				ProcessInput(1);
@@ -395,45 +243,7 @@ namespace DualLauncher
 			}
 			else
 			{
-				//DoAutoComplete();
-				if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
-				{
-					//doAutoComplete = false;
-					// TODO: check user hasn't changed selection
-					if (curBase.Length > 0)
-					{
-						//string curBase = curBase.Substring(0, curBase.Length - 1);
-						//Input.Text = newBase;
-						//Input.Text = curBase;
-						doDel = true;	
-		
-
-						//curBase = curBase.Substring(0, curBase.Length - 1);
-						//DoAutoComplete(curBase);
-						//e.Handled = true;
-
-					}
-				}
-				else if (e.KeyCode == Keys.Up)
-				{
-					if (curMagicWords.Count > 1)
-					{
-						curIndex = (curIndex + curMagicWords.Count - 1) % curMagicWords.Count;
-						doAutoComplete = false;
-						ShowAutoCompleteText();
-						e.Handled = true;
-					}
-				}
-				else if (e.KeyCode == Keys.Down)
-				{
-					if (curMagicWords.Count > 1)
-					{
-						curIndex = (curIndex + 1) % curMagicWords.Count;
-						doAutoComplete = false;
-						ShowAutoCompleteText();
-						e.Handled = true;
-					}
-				}
+				ProcessAutoCompleteKeyDown(sender, e);
 			}
 		}
 
@@ -452,29 +262,13 @@ namespace DualLauncher
 			}
 		}
 
-		private void StartMagicWord(MagicWord magicWord, int position)
+		private void StartMagicWord(MagicWord magicWord, int positionIndex1)
 		{
 			if (magicWord != null)
 			{
 				magicWord.UseCount++;
 				magicWord.LastUsed = DateTime.Now;
-				StartupPosition startPosition;
-				if (position == 2)
-				{
-					startPosition = magicWord.StartupPosition2;
-				}
-				else if (position == 3)
-				{
-					startPosition = magicWord.StartupPosition3;
-				}
-				else if (position == 4)
-				{
-					startPosition = magicWord.StartupPosition4;
-				}
-				else
-				{
-					startPosition = magicWord.StartupPosition1;
-				}
+				StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
 				StartupController.Instance.Launch(magicWord, startPosition);
 				Input.Text = "";
 				HideEntryForm();
@@ -488,14 +282,13 @@ namespace DualLauncher
 
 		private void magicWordListBox_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
 		{
-			ListViewItem listViewItem = e.Item;
-			if (listViewItem != null)
-			{
-				string alias = listViewItem.Text;
-				//Input.Text = alias;
-			}
+			//ListViewItem listViewItem = e.Item;
+			//if (listViewItem != null)
+			//{
+			//    string alias = listViewItem.Text;
+			//    //Input.Text = alias;
+			//}
 		}
-
 
 		private void magicWordListBox_DoubleClick(object sender, EventArgs e)
 		{
@@ -518,5 +311,145 @@ namespace DualLauncher
 		{
 			HideEntryForm();
 		}
+
+		#region AutoComplete
+
+		// TODO: this needs moving into its own class
+
+		private string curBase = "";
+		private List<MagicWord> curMagicWords = new List<MagicWord>();
+		private int curIndex = 0;
+		private bool doAutoComplete = false;
+		bool doDel = false;
+
+		void Input_TextChanged(object sender, EventArgs e)
+		{
+			if (doAutoComplete)
+			{
+				doAutoComplete = false;
+				//DoAutoComplete(Input.Text);
+				DoAutoComplete();
+			}
+		}
+
+		private void DoAutoComplete()
+		{
+			if (doDel && curBase.Length > 0)
+			{
+				Trace.WriteLine(string.Format("DoAutoComplete: deleting char"));
+				doDel = false;
+				curBase = curBase.Substring(0, curBase.Length - 1);
+			}
+			else
+			{
+				curBase = Input.Text;
+			}
+
+			Trace.WriteLine(string.Format("DoAutoComplete: curBase: {0}", curBase));
+			int maxMostUsedSize = Properties.Settings.Default.MaxMostUsedSize;
+
+			// if user doesn't want most used icons when no text
+			// then don't bother sorting the list of magic words
+			if (curBase.Length > 0 || maxMostUsedSize > 0)
+			{
+				// get magic words that match the current alias prefix
+				curMagicWords = MagicWords.Instance.GetAutoCompleteWords(curBase);
+				SortMagicWords(curMagicWords);
+				curIndex = 0;
+
+				// if no input, then truncate the list of magic words
+				if (curBase.Length == 0)
+				{
+					if (curMagicWords.Count > maxMostUsedSize)
+					{
+						curMagicWords.RemoveRange(maxMostUsedSize, curMagicWords.Count - maxMostUsedSize);
+					}
+				}
+			}
+			ShowAutoCompleteText();
+			ShowAutoCompleteList();
+		}
+
+		private void ShowAutoCompleteText()
+		{
+			Trace.WriteLine(string.Format("ShowAutoCompleteText: curBase: {0}", curBase));
+			if (curBase.Length > 0 && curMagicWords.Count > 0)
+			{
+				Debug.Assert(curIndex >= 0 && curIndex < curMagicWords.Count);
+				string curWord = curMagicWords[curIndex].Alias;
+				Trace.WriteLine(string.Format("ShowAutoCompleteText: curWord: {0}", curWord));
+				Input.Text = curWord;
+				Input.SelectionStart = curBase.Length;
+				Input.SelectionLength = curWord.Length - curBase.Length;
+				ShowAliasIcon();
+			}
+			else
+			{
+				Input.Text = curBase;
+				Input.SelectionStart = curBase.Length;
+				Input.SelectionLength = 0;
+				ShowAliasIcon();
+			}
+		}
+
+		private void ShowAutoCompleteList()
+		{
+			// update the icons displayed
+			magicWordListBox.SetMagicWords(curMagicWords);
+		}
+
+		private void SortMagicWords(List<MagicWord> magicWords)
+		{
+			if (Properties.Settings.Default.UseMru)
+			{
+				// want mru first
+				magicWords.Sort(delegate(MagicWord mw1, MagicWord mw2) { return mw2.LastUsed.CompareTo(mw1.LastUsed); });
+			}
+			else
+			{
+				// want most used first
+				magicWords.Sort(delegate(MagicWord mw1, MagicWord mw2) { return mw2.UseCount.CompareTo(mw1.UseCount); });
+			}
+		}
+
+		private void ProcessAutoCompleteKeyDown(object sender, KeyEventArgs e)
+		{
+			doAutoComplete = true;
+			doDel = false;
+
+			Trace.WriteLine(string.Format("ProcessAutoCompleteKeyDown KeyCode: {0} KeyValue: {1} KeyData: {2}",
+				e.KeyCode, e.KeyValue, e.KeyData));
+			if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
+			{
+				// TODO: check user hasn't changed selection
+				if (curBase.Length > 0)
+				{
+					doDel = true;
+				}
+			}
+			else if (e.KeyCode == Keys.Up)
+			{
+				if (curMagicWords.Count > 1)
+				{
+					curIndex = (curIndex + curMagicWords.Count - 1) % curMagicWords.Count;
+					doAutoComplete = false;
+					ShowAutoCompleteText();
+					e.Handled = true;
+				}
+			}
+			else if (e.KeyCode == Keys.Down)
+			{
+				if (curMagicWords.Count > 1)
+				{
+					curIndex = (curIndex + 1) % curMagicWords.Count;
+					doAutoComplete = false;
+					ShowAutoCompleteText();
+					e.Handled = true;
+				}
+			}
+		}
+
+		#endregion
+
 	}
 }
