@@ -38,6 +38,7 @@ namespace DualLauncher
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.magicWordListBox = new DualLauncher.MagicWordListBox();
 			this.Input = new DualLauncher.MyTextBox();
 			this.contextMenuStrip.SuspendLayout();
@@ -112,6 +113,7 @@ namespace DualLauncher
 			this.magicWordListBox.Name = "magicWordListBox";
 			this.magicWordListBox.Size = new System.Drawing.Size(343, 146);
 			this.magicWordListBox.TabIndex = 2;
+			this.toolTip.SetToolTip(this.magicWordListBox, "Click on an icon to run the application");
 			this.magicWordListBox.UseCompatibleStateImageBehavior = false;
 			this.magicWordListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.magicWordListBox_MouseClick);
 			this.magicWordListBox.DoubleClick += new System.EventHandler(this.magicWordListBox_DoubleClick);
@@ -128,6 +130,8 @@ namespace DualLauncher
 			this.Input.Name = "Input";
 			this.Input.Size = new System.Drawing.Size(317, 20);
 			this.Input.TabIndex = 0;
+			this.toolTip.SetToolTip(this.Input, "Start entering the magic word here and a guess will be made of the correct word.\r" +
+					"\nUse up and down arrow keys to cycle through alternatives.");
 			this.Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Input_KeyDown);
 			// 
 			// EntryForm
@@ -172,6 +176,7 @@ namespace DualLauncher
 		private System.Windows.Forms.PictureBox pictureBoxIcon;
 		private System.Windows.Forms.ToolStripMenuItem enterMagicWordToolStripMenuItem;
 		private MagicWordListBox magicWordListBox;
+		private System.Windows.Forms.ToolTip toolTip;
 	}
 }
 
