@@ -41,6 +41,7 @@ namespace DualLauncher
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.magicWordListBox = new DualLauncher.MagicWordListBox();
 			this.Input = new DualLauncher.MyTextBox();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.contextMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
 			this.SuspendLayout();
@@ -59,9 +60,10 @@ namespace DualLauncher
             this.enterMagicWordToolStripMenuItem,
             this.optionsToolStripMenuItem,
             this.aboutDualLauncherToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(187, 92);
+			this.contextMenuStrip.Size = new System.Drawing.Size(187, 120);
 			// 
 			// enterMagicWordToolStripMenuItem
 			// 
@@ -134,6 +136,11 @@ namespace DualLauncher
 					"\nUse up and down arrow keys to cycle through alternatives.");
 			this.Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Input_KeyDown);
 			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
+			// 
 			// EntryForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,6 +184,7 @@ namespace DualLauncher
 		private System.Windows.Forms.ToolStripMenuItem enterMagicWordToolStripMenuItem;
 		private MagicWordListBox magicWordListBox;
 		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 	}
 }
 
