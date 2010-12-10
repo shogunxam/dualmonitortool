@@ -38,7 +38,9 @@ namespace DualLauncher
 
 
 		// currently only allow 1 pending move
-		private StartupProcess pendingMoves = null;
+		//private StartupProcess pendingMoves = null;
+		private List<StartupProcess> pendingMoves = new List<StartupProcess>();
+
 
 		#region Singleton framework
 		// the single instance of the controller object
@@ -226,7 +228,7 @@ namespace DualLauncher
 			{
 				if (startPosition.EnablePosition)
 				{
-					pendingMoves = new StartupProcess(pid, magicWord, startPosition);
+					pendingMoves.Add(new StartupProcess(pid, magicWord, startPosition));
 				}
 			}
 		}
@@ -235,7 +237,8 @@ namespace DualLauncher
 		{
 			bool bPollAgain = false;
 
-			if (pendingMoves != null)
+			//if (pendingMoves != null)
+			if (pendingMoves != null && pendingMoves.Count > 0)
 			{
 				Trace.WriteLine("Starting Poll");
 				// need to check if this app has opened its top level window yet
@@ -259,17 +262,30 @@ namespace DualLauncher
 			Win32.GetWindowThreadProcessId(hWnd, out pid);
 			//Trace.WriteLine(string.Format("pid: {0} hWnd: {1}", pid, hWnd));
 
-			if (pendingMoves.Pid != pid)
-			{
-				// window does not belong to the process we are interested in
-				return true;
-			}
-
 			if (!Win32.IsWindowVisible(hWnd))
 			{
 				// ignore invisible windows
 				return true;
 			}
+
+			foreach (StartupProcess pendingMove in pendingMoves)
+			{
+				if (pendingMove.Pid == pid)
+				{
+					if (MoveIfMatch(pendingMove, hWnd))
+					{
+						pendingMoves.Remove(pendingMove);
+						break;
+					}
+				}
+			}
+
+			// If there are still pending moves, return true so that enumeration continues
+			return (pendingMoves.Count > 0);
+		}
+
+		private bool MoveIfMatch(StartupProcess pendingMove, IntPtr hWnd)
+		{
 
 			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
 			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
@@ -280,24 +296,24 @@ namespace DualLauncher
 			if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
 			{
 				// window has been deliberately positioned offscreen, so leave alone
-				return true;
+				return false;
 			}
 
 			Trace.WriteLine("Found candidate");
-			if (!WindowMatches(hWnd, pendingMoves))
+			if (!WindowMatches(hWnd, pendingMove))
 			{
 				// not the correct window
-				return true;
+				return false;
 			}
 			Trace.WriteLine("Found correct window");
 
-			if (pendingMoves.StartupPosition.EnablePosition)
+			if (pendingMove.StartupPosition.EnablePosition)
 			{
-				windowPlacement.rcNormalPosition.left = pendingMoves.StartupPosition.Position.Left;
-				windowPlacement.rcNormalPosition.top = pendingMoves.StartupPosition.Position.Top;
-				windowPlacement.rcNormalPosition.right = pendingMoves.StartupPosition.Position.Right;
-				windowPlacement.rcNormalPosition.bottom = pendingMoves.StartupPosition.Position.Bottom;
-				windowPlacement.showCmd = (uint)pendingMoves.StartupPosition.ShowCmd;
+				windowPlacement.rcNormalPosition.left = pendingMove.StartupPosition.Position.Left;
+				windowPlacement.rcNormalPosition.top = pendingMove.StartupPosition.Position.Top;
+				windowPlacement.rcNormalPosition.right = pendingMove.StartupPosition.Position.Right;
+				windowPlacement.rcNormalPosition.bottom = pendingMove.StartupPosition.Position.Bottom;
+				windowPlacement.showCmd = (uint)pendingMove.StartupPosition.ShowCmd;
 
 				// safety check (some old words did not have the ShowCmd value initialised)
 				if (windowPlacement.showCmd == Win32.SW_HIDE)	// 0
@@ -307,11 +323,9 @@ namespace DualLauncher
 			}
 			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 
-
-			// indicate job done
-			pendingMoves = null;
-			// no need to carry on with enumeration
-			return false;
+			// indicate that the window matches the pending move 
+			// and that we no longer need to monitor this pending move
+			return true;
 		}
 
 		private bool WindowMatches(IntPtr hWnd, StartupProcess pendingMove)
@@ -360,7 +374,6 @@ namespace DualLauncher
 					}
 				}
 			}
-
 
 			return ret;
 		}

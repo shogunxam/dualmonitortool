@@ -212,6 +212,20 @@ namespace DualLauncher
 			return null;
 		}
 
+		public List<MagicWord> FindAllByAlias(string alias)
+		{
+			List<MagicWord> mws = new List<MagicWord>();
+			foreach (MagicWord mw in magicWords)
+			{
+				if (String.Compare(alias, mw.Alias, true) == 0)
+				{
+					mws.Add(mw);
+				}
+			}
+
+			return mws;
+		}
+
 		public void Merge(Collection<MagicWord> importedWords)
 		{
 			// imported words have precedence over existing words

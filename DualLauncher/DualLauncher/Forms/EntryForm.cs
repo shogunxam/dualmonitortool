@@ -273,11 +273,22 @@ namespace DualLauncher
 
 		private void ProcessInput(string alias, int position)
 		{
-			MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
+			//MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
 
-			if (magicWord != null)
+			//if (magicWord != null)
+			//{
+			//    StartMagicWord(magicWord, position);
+			//}
+			List<MagicWord> magicWords = MagicWords.Instance.FindAllByAlias(alias);
+
+			if (magicWords.Count > 0)
 			{
-				StartMagicWord(magicWord, position);
+				foreach (MagicWord magicWord in magicWords)
+				{
+					StartMagicWord(magicWord, position);
+				}
+				Input.Text = "";
+				HideEntryForm();
 			}
 		}
 
@@ -289,8 +300,8 @@ namespace DualLauncher
 				magicWord.LastUsed = DateTime.Now;
 				StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
 				StartupController.Instance.Launch(magicWord, startPosition);
-				Input.Text = "";
-				HideEntryForm();
+				//Input.Text = "";
+				//HideEntryForm();
 			}
 		}
 
