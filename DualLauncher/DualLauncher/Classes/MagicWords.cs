@@ -228,15 +228,23 @@ namespace DualLauncher
 
 		public void Merge(Collection<MagicWord> importedWords)
 		{
-			// imported words have precedence over existing words
+			// we have 2 passes so that we can correctly support
+			// multiple applications all using the same alias
+
+			// First we remove all existing instances of the words
+			// we are about to import
 			foreach (MagicWord importedWord in importedWords)
 			{
-				MagicWord existingWord = FindByAlias(importedWord.Alias);
-				if (existingWord != null)
+				MagicWord existingWord;
+				while ((existingWord = FindByAlias(importedWord.Alias)) != null)
 				{
-					// word already exists
 					Remove(existingWord);
 				}
+			}
+
+			// now we can add the imported words
+			foreach (MagicWord importedWord in importedWords)
+			{
 				Add(importedWord);
 			}
 		}
