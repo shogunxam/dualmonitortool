@@ -237,34 +237,64 @@ namespace DualLauncher
 
 		private void buttonPos1_Click(object sender, EventArgs e)
 		{
-			//TODO: need KeyCombo editor, not HotKey editor!
-			//HotKeyForm dlg = new HotKeyForm(hotKey, description, note);
-			//if (dlg.ShowDialog() == DialogResult.OK)
-			//{
-			//    // persist the new value
-			//    SaveKeyCombo();
-			//    // and commit it now
-			//    Properties.Settings.Default.Save();
-			//    //// update display
-			//    //lbl.Text = hotKey.HotKeyCombo.ToString();
-			//    // indicate OK has been pressed
-			//    edited = true;
-			//}
+			KeyCombo keyCombo = new KeyCombo();
+			keyCombo.FromPropertyValue(Properties.Settings.Default.Position1Key);
+			string description = labelPos1Prompt.Text;
+			string note = "";
+
+			KeyComboForm dlg = new KeyComboForm(keyCombo, description, note);
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				keyCombo = dlg.KeyCombo;
+				// persist the new value
+				Properties.Settings.Default.Position1Key = keyCombo.ToPropertyValue();
+				// and commit it now
+				Properties.Settings.Default.Save();
+				//// update display
+				labelPos1.Text = keyCombo.ToString();
+			}
 		}
 
 		private void buttonPos2_Click(object sender, EventArgs e)
 		{
-
+			ChangePosKey("Position2Key", labelPos2Prompt.Text, labelPos2);
 		}
 
 		private void buttonPos3_Click(object sender, EventArgs e)
 		{
-
+			ChangePosKey("Position3Key", labelPos3Prompt.Text, labelPos3);
 		}
 
 		private void buttonPos4_Click(object sender, EventArgs e)
 		{
+			ChangePosKey("Position4Key", labelPos4Prompt.Text, labelPos4);
+		}
 
+		private void ChangePosKey(string propertyName, string description, Label label)
+		{
+			KeyCombo keyCombo = new KeyCombo();
+			try
+			{
+				keyCombo.FromPropertyValue((uint)Properties.Settings.Default[propertyName]);
+			}
+			catch (Exception ex)
+			{
+				// looks like the property name is mis-spelt or the wrong type
+				Debug.Assert(true, ex.Message);
+			}
+			string note = "";
+
+			KeyComboForm dlg = new KeyComboForm(keyCombo, description, note);
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				keyCombo = dlg.KeyCombo;
+				// persist the new value
+				Properties.Settings.Default[propertyName] = keyCombo.ToPropertyValue();
+				// and commit it now
+				Properties.Settings.Default.Save();
+				//// update display
+				label.Text = keyCombo.ToString();
+			}
 		}
 		#endregion
 

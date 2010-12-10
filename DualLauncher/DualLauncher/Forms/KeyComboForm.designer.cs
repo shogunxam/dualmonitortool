@@ -1,6 +1,6 @@
 namespace DualLauncher
 {
-	partial class HotKeyForm
+	partial class KeyComboForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -33,7 +33,7 @@ namespace DualLauncher
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.lblNote = new System.Windows.Forms.RichTextBox();
-			this.keyComboPanel = new DualLauncher.KeyComboPanel();
+			this.keyComboPanel = new KeyComboPanel();
 			this.SuspendLayout();
 			// 
 			// labelDescription
@@ -111,7 +111,7 @@ namespace DualLauncher
 			this.MinimizeBox = false;
 			this.Name = "HotKeyForm";
 			this.ShowInTaskbar = false;
-			this.Text = "Change keyCombo";
+			this.Text = "Change Hotkey";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

@@ -14,5 +14,17 @@
     <Setting Name="UseMru" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Position1Key" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">112</Value>
+    </Setting>
+    <Setting Name="Position2Key" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">113</Value>
+    </Setting>
+    <Setting Name="Position3Key" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">114</Value>
+    </Setting>
+    <Setting Name="Position4Key" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">115</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

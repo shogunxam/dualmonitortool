@@ -70,5 +70,53 @@ namespace DualLauncher.Properties {
                 this["UseMru"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("112")]
+        public uint Position1Key {
+            get {
+                return ((uint)(this["Position1Key"]));
+            }
+            set {
+                this["Position1Key"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("113")]
+        public uint Position2Key {
+            get {
+                return ((uint)(this["Position2Key"]));
+            }
+            set {
+                this["Position2Key"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("114")]
+        public uint Position3Key {
+            get {
+                return ((uint)(this["Position3Key"]));
+            }
+            set {
+                this["Position3Key"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("115")]
+        public uint Position4Key {
+            get {
+                return ((uint)(this["Position4Key"]));
+            }
+            set {
+                this["Position4Key"] = value;
+            }
+        }
     }
 }

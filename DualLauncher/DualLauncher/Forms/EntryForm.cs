@@ -221,19 +221,19 @@ namespace DualLauncher
 			{
 				ProcessInput(1);
 			}
-			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position1Key) //Keys.F1)
+			else if (CompareKeys(e, Properties.Settings.Default.Position1Key)) //Keys.F1)
 			{
 				ProcessInput(1);
 			}
-			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position2Key) //Keys.F2)
+			else if (CompareKeys(e, Properties.Settings.Default.Position2Key)) //Keys.F2)
 			{
 				ProcessInput(2);
 			}
-			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position3Key) //Keys.F3)
+			else if (CompareKeys(e, Properties.Settings.Default.Position3Key)) //Keys.F3)
 			{
 				ProcessInput(3);
 			}
-			else if (e.KeyCode == (Keys)Properties.Settings.Default.Position4Key) //Keys.F4)
+			else if (CompareKeys(e, Properties.Settings.Default.Position4Key)) //Keys.F4)
 			{
 				ProcessInput(4);
 			}
@@ -245,6 +245,25 @@ namespace DualLauncher
 			{
 				ProcessAutoCompleteKeyDown(sender, e);
 			}
+		}
+
+		private bool CompareKeys(KeyEventArgs e, uint propertyValue)
+		{
+			bool ret = false;
+			KeyCombo keyCombo = new KeyCombo();
+			keyCombo.FromPropertyValue(propertyValue);
+
+			if (e.KeyCode == keyCombo.KeyCode)
+			{
+				// check the modifier keys
+				// Note: the Win modifier is not available in KeyEventArgs
+				if (e.Alt == keyCombo.AltMod && e.Control == keyCombo.ControlMod && e.Shift == keyCombo.ShiftMod)
+				{
+					ret = true;
+				}
+			}
+
+			return ret;
 		}
 
 		private void ProcessInput(int position)

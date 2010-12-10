@@ -172,6 +172,12 @@ namespace DualLauncher
 			FillKeysCombo();
 		}
 
+		public bool AllowWin
+		{
+			// TODO: use Enabled or Visible?
+			set { chkWin.Enabled = value; }
+		}
+
 		private KeyCombo KeyComboFromPanel()
 		{
 			KeyCombo keyCombo = new KeyCombo();
