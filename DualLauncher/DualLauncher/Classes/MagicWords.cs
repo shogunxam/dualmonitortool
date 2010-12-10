@@ -140,14 +140,14 @@ namespace DualLauncher
 			return ret;
 		}
 
-		private void AddTestPosns(MagicWord mw)
-		{
-			mw.StartupPosition1 = new StartupPosition(new Rectangle(0, 0, 400, 400));
-			mw.StartupPosition2 =  new StartupPosition(new Rectangle(1280, 0, 400, 400));
-			mw.StartupPosition3 =  new StartupPosition(new Rectangle(880, 624, 400, 400));
-			mw.StartupPosition4 =  new StartupPosition(new Rectangle(2160, 624, 400, 400));
-			magicWords.Add(mw);
-		}
+		//private void AddTestPosns(MagicWord mw)
+		//{
+		//    mw.StartupPosition1 = new StartupPosition(new Rectangle(0, 0, 400, 400));
+		//    mw.StartupPosition2 =  new StartupPosition(new Rectangle(1280, 0, 400, 400));
+		//    mw.StartupPosition3 =  new StartupPosition(new Rectangle(880, 624, 400, 400));
+		//    mw.StartupPosition4 =  new StartupPosition(new Rectangle(2160, 624, 400, 400));
+		//    magicWords.Add(mw);
+		//}
 
 		public void SaveIfDirty(string filename)
 		{
