@@ -298,6 +298,12 @@ namespace DualLauncher
 				windowPlacement.rcNormalPosition.right = pendingMoves.StartupPosition.Position.Right;
 				windowPlacement.rcNormalPosition.bottom = pendingMoves.StartupPosition.Position.Bottom;
 				windowPlacement.showCmd = (uint)pendingMoves.StartupPosition.ShowCmd;
+
+				// safety check (some old words did not have the ShowCmd value initialised)
+				if (windowPlacement.showCmd == Win32.SW_HIDE)	// 0
+				{
+					windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+				}
 			}
 			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 

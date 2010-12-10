@@ -73,11 +73,11 @@ namespace DualLauncher
 		{
 		}
 
-		public StartupPosition(Rectangle position)
-		{
-			enablePosition = true;
-			this.position = position;
-		}
+		//public StartupPosition(Rectangle position)
+		//{
+		//    enablePosition = true;
+		//    this.position = position;
+		//}
 
 		// note: this is not ICloneable.Clone()
 		public StartupPosition Clone()
