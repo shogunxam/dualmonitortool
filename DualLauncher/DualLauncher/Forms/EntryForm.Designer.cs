@@ -35,13 +35,16 @@ namespace DualLauncher
 			this.enterMagicWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutDualLauncherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.buttonOptions = new System.Windows.Forms.Button();
 			this.magicWordListBox = new DualLauncher.MagicWordListBox();
+			this.columnHeaderAlias = new System.Windows.Forms.ColumnHeader();
+			this.columnHeaderFilename = new System.Windows.Forms.ColumnHeader();
 			this.Input = new DualLauncher.MyTextBox();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.contextMenuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
 			this.SuspendLayout();
@@ -63,7 +66,7 @@ namespace DualLauncher
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(187, 120);
+			this.contextMenuStrip.Size = new System.Drawing.Size(187, 98);
 			// 
 			// enterMagicWordToolStripMenuItem
 			// 
@@ -75,6 +78,7 @@ namespace DualLauncher
 			// 
 			// optionsToolStripMenuItem
 			// 
+			this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.optionsToolStripMenuItem.Text = "Options...";
@@ -86,6 +90,11 @@ namespace DualLauncher
 			this.aboutDualLauncherToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
 			this.aboutDualLauncherToolStripMenuItem.Text = "About Dual Launcher";
 			this.aboutDualLauncherToolStripMenuItem.Click += new System.EventHandler(this.aboutDualLauncherToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
@@ -106,11 +115,25 @@ namespace DualLauncher
 			this.pictureBoxIcon.TabIndex = 1;
 			this.pictureBoxIcon.TabStop = false;
 			// 
+			// buttonOptions
+			// 
+			this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonOptions.Image = ((System.Drawing.Image)(resources.GetObject("buttonOptions.Image")));
+			this.buttonOptions.Location = new System.Drawing.Point(337, 3);
+			this.buttonOptions.Name = "buttonOptions";
+			this.buttonOptions.Size = new System.Drawing.Size(24, 24);
+			this.buttonOptions.TabIndex = 3;
+			this.buttonOptions.UseVisualStyleBackColor = true;
+			this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
+			// 
 			// magicWordListBox
 			// 
 			this.magicWordListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.magicWordListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderAlias,
+            this.columnHeaderFilename});
 			this.magicWordListBox.Location = new System.Drawing.Point(12, 38);
 			this.magicWordListBox.Name = "magicWordListBox";
 			this.magicWordListBox.Size = new System.Drawing.Size(343, 146);
@@ -122,6 +145,16 @@ namespace DualLauncher
 			this.magicWordListBox.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.magicWordListBox_ItemSelectionChanged);
 			this.magicWordListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.magicWordListBox_KeyDown);
 			// 
+			// columnHeaderAlias
+			// 
+			this.columnHeaderAlias.Text = "Magic Word";
+			this.columnHeaderAlias.Width = 120;
+			// 
+			// columnHeaderFilename
+			// 
+			this.columnHeaderFilename.Text = "Filename";
+			this.columnHeaderFilename.Width = 200;
+			// 
 			// Input
 			// 
 			this.Input.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -130,16 +163,11 @@ namespace DualLauncher
 			this.Input.Location = new System.Drawing.Point(38, 6);
 			this.Input.Margin = new System.Windows.Forms.Padding(0);
 			this.Input.Name = "Input";
-			this.Input.Size = new System.Drawing.Size(317, 20);
+			this.Input.Size = new System.Drawing.Size(296, 20);
 			this.Input.TabIndex = 0;
 			this.toolTip.SetToolTip(this.Input, "Start entering the magic word here and a guess will be made of the correct word.\r" +
 					"\nUse up and down arrow keys to cycle through alternatives.");
 			this.Input.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Input_KeyDown);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
 			// 
 			// EntryForm
 			// 
@@ -148,6 +176,7 @@ namespace DualLauncher
 			this.CausesValidation = false;
 			this.ClientSize = new System.Drawing.Size(361, 195);
 			this.ContextMenuStrip = this.contextMenuStrip;
+			this.Controls.Add(this.buttonOptions);
 			this.Controls.Add(this.pictureBoxIcon);
 			this.Controls.Add(this.magicWordListBox);
 			this.Controls.Add(this.Input);
@@ -185,6 +214,9 @@ namespace DualLauncher
 		private MagicWordListBox magicWordListBox;
 		private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.Button buttonOptions;
+		private System.Windows.Forms.ColumnHeader columnHeaderAlias;
+		private System.Windows.Forms.ColumnHeader columnHeaderFilename;
 	}
 }
 

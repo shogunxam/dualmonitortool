@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -63,6 +63,10 @@ namespace DualLauncher
 			this.buttonActivate = new System.Windows.Forms.Button();
 			this.labelActivate = new System.Windows.Forms.Label();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.radioButtonIconDetails = new System.Windows.Forms.RadioButton();
+			this.radioButtonIconList = new System.Windows.Forms.RadioButton();
+			this.radioButtonIconLargeIcon = new System.Windows.Forms.RadioButton();
 			this.label3 = new System.Windows.Forms.Label();
 			this.numericUpDownIcons = new System.Windows.Forms.NumericUpDown();
 			this.checkBoxMru = new System.Windows.Forms.CheckBox();
@@ -85,6 +89,7 @@ namespace DualLauncher
 			this.groupBox4.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPageGeneral.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).BeginInit();
 			this.tabPageImport.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -177,8 +182,8 @@ namespace DualLauncher
 			this.dataGridView.AllowUserToDeleteRows = false;
 			this.dataGridView.AllowUserToResizeColumns = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -454,6 +459,7 @@ namespace DualLauncher
 			// 
 			// tabPageGeneral
 			// 
+			this.tabPageGeneral.Controls.Add(this.groupBox5);
 			this.tabPageGeneral.Controls.Add(this.label3);
 			this.tabPageGeneral.Controls.Add(this.numericUpDownIcons);
 			this.tabPageGeneral.Controls.Add(this.checkBoxMru);
@@ -464,6 +470,54 @@ namespace DualLauncher
 			this.tabPageGeneral.TabIndex = 2;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.radioButtonIconDetails);
+			this.groupBox5.Controls.Add(this.radioButtonIconList);
+			this.groupBox5.Controls.Add(this.radioButtonIconLargeIcon);
+			this.groupBox5.Location = new System.Drawing.Point(3, 87);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(163, 100);
+			this.groupBox5.TabIndex = 4;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Text = "Display icons in:";
+			// 
+			// radioButtonIconDetails
+			// 
+			this.radioButtonIconDetails.AutoSize = true;
+			this.radioButtonIconDetails.Location = new System.Drawing.Point(11, 67);
+			this.radioButtonIconDetails.Name = "radioButtonIconDetails";
+			this.radioButtonIconDetails.Size = new System.Drawing.Size(41, 17);
+			this.radioButtonIconDetails.TabIndex = 2;
+			this.radioButtonIconDetails.TabStop = true;
+			this.radioButtonIconDetails.Text = "List";
+			this.radioButtonIconDetails.UseVisualStyleBackColor = true;
+			this.radioButtonIconDetails.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			// 
+			// radioButtonIconList
+			// 
+			this.radioButtonIconList.AutoSize = true;
+			this.radioButtonIconList.Location = new System.Drawing.Point(11, 44);
+			this.radioButtonIconList.Name = "radioButtonIconList";
+			this.radioButtonIconList.Size = new System.Drawing.Size(104, 17);
+			this.radioButtonIconList.TabIndex = 1;
+			this.radioButtonIconList.TabStop = true;
+			this.radioButtonIconList.Text = "Multi-Column List";
+			this.radioButtonIconList.UseVisualStyleBackColor = true;
+			this.radioButtonIconList.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			// 
+			// radioButtonIconLargeIcon
+			// 
+			this.radioButtonIconLargeIcon.AutoSize = true;
+			this.radioButtonIconLargeIcon.Location = new System.Drawing.Point(11, 20);
+			this.radioButtonIconLargeIcon.Name = "radioButtonIconLargeIcon";
+			this.radioButtonIconLargeIcon.Size = new System.Drawing.Size(44, 17);
+			this.radioButtonIconLargeIcon.TabIndex = 0;
+			this.radioButtonIconLargeIcon.TabStop = true;
+			this.radioButtonIconLargeIcon.Text = "Grid";
+			this.radioButtonIconLargeIcon.UseVisualStyleBackColor = true;
+			this.radioButtonIconLargeIcon.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
 			// label3
 			// 
@@ -631,6 +685,8 @@ namespace DualLauncher
 			this.groupBox1.ResumeLayout(false);
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).EndInit();
 			this.tabPageImport.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
@@ -689,5 +745,9 @@ namespace DualLauncher
 		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
 		private System.Windows.Forms.DataGridViewTextBoxColumn UseCount;
 		private System.Windows.Forms.DataGridViewTextBoxColumn LastUsed;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.RadioButton radioButtonIconLargeIcon;
+		private System.Windows.Forms.RadioButton radioButtonIconDetails;
+		private System.Windows.Forms.RadioButton radioButtonIconList;
 	}
 }

@@ -161,12 +161,18 @@ namespace DualLauncher
 			this.Visible = true;
 			this.Activate();
 			this.Input.Focus();
+			UpdateIconDisplayStyle();
 			DoAutoComplete();
 		}
 
 		private void HideEntryForm()
 		{
 			this.Visible = false;
+		}
+
+		private void UpdateIconDisplayStyle()
+		{
+			this.magicWordListBox.View = Properties.Settings.Default.IconView;
 		}
 
 
@@ -183,6 +189,16 @@ namespace DualLauncher
 		}
 
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowOptions();
+		}
+
+		private void buttonOptions_Click(object sender, EventArgs e)
+		{
+			ShowOptions();
+		}
+
+		private void ShowOptions()
 		{
 			HideEntryForm();
 			OptionsForm dlg = new OptionsForm(this);
@@ -239,6 +255,8 @@ namespace DualLauncher
 			}
 			else if (e.KeyCode == Keys.Escape)
 			{
+				// clear text and hide
+				Input.Text = "";
 				HideEntryForm();
 			}
 			else

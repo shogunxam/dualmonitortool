@@ -118,5 +118,17 @@ namespace DualLauncher.Properties {
                 this["Position4Key"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LargeIcon")]
+        public global::System.Windows.Forms.View IconView {
+            get {
+                return ((global::System.Windows.Forms.View)(this["IconView"]));
+            }
+            set {
+                this["IconView"] = value;
+            }
+        }
     }
 }

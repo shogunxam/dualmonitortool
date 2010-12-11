@@ -95,6 +95,19 @@ namespace DualLauncher
 			UpdateAutoStartCheckBox();
 			checkBoxMru.Checked = Properties.Settings.Default.UseMru;
 			numericUpDownIcons.Value = (decimal)Properties.Settings.Default.MaxMostUsedSize;
+
+			if (Properties.Settings.Default.IconView == View.Details)
+			{
+				radioButtonIconDetails.Checked = true;
+			}
+			else if (Properties.Settings.Default.IconView == View.List)
+			{
+				radioButtonIconList.Checked = true;
+			}
+			else
+			{
+				radioButtonIconLargeIcon.Checked = true;
+			}
 		}
 
 		private void InitImportTab()
@@ -330,6 +343,25 @@ namespace DualLauncher
 		{
 			Properties.Settings.Default.MaxMostUsedSize = (int)numericUpDownIcons.Value;
 
+		}
+
+		private void radioButton_CheckedChanged(object sender, EventArgs e)
+		{
+			View iconView = View.LargeIcon;	// the default
+			if (radioButtonIconDetails.Checked)
+			{
+				iconView = View.Details;
+			}
+			else if (radioButtonIconList.Checked)
+			{
+				iconView = View.List;
+			}
+
+			if (iconView != Properties.Settings.Default.IconView)
+			{
+				Properties.Settings.Default.IconView = iconView;
+				Properties.Settings.Default.Save();
+			}
 		}
 		#endregion
 

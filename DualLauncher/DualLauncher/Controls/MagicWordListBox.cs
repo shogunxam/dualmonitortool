@@ -13,7 +13,10 @@ namespace DualLauncher
 		public void InitControl()
 		{
 			//this.SmallImageList.Images = new ImageList();
-			this.View = View.LargeIcon;
+			//this.View = View.LargeIcon;
+			//this.View = View.List;
+			//this.View = View.Details;
+			this.View = Properties.Settings.Default.IconView;
 		}
 
 		public void SetMagicWords(List<MagicWord> magicWords)
@@ -47,6 +50,13 @@ namespace DualLauncher
 
 					ListViewItem listViewItem = new ListViewItem(mw.Alias);
 					listViewItem.ImageIndex = imageIndex;
+
+					ListViewItem.ListViewSubItem subItemFilename = new ListViewItem.ListViewSubItem(listViewItem, mw.Filename);
+					listViewItem.SubItems.Add(subItemFilename);
+
+					//ListViewItem.ListViewSubItem subItemComment = new ListViewItem.ListViewSubItem(listViewItem, mw.Comment);
+					//listViewItem.SubItems.Add(subItemComment);
+
 					this.Items.Add(listViewItem);
 				}
 			}

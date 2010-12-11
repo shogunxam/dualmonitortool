@@ -26,5 +26,8 @@
     <Setting Name="Position4Key" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">115</Value>
     </Setting>
+    <Setting Name="IconView" Type="System.Windows.Forms.View" Scope="User">
+      <Value Profile="(Default)">LargeIcon</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
