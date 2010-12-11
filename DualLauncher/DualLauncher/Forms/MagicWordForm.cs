@@ -34,6 +34,10 @@ namespace DualLauncher
 	{
 		private MagicWord magicWord;
 
+		private bool statsReset = false;
+		private int timesUsed;
+		private DateTime lastUsed;
+
 		public MagicWordForm(MagicWord magicWord)
 		{
 			this.magicWord = magicWord;
@@ -64,6 +68,13 @@ namespace DualLauncher
 			this.startupPositionControl2.InitControl(magicWord.StartupPosition2);
 			this.startupPositionControl3.InitControl(magicWord.StartupPosition3);
 			this.startupPositionControl4.InitControl(magicWord.StartupPosition4);
+
+			lastUsed = magicWord.LastUsed;
+			timesUsed = magicWord.UseCount;
+			ShowStats();
+			//string lastUsed = "";
+			//labelLastUsed.Text = magicWord.LastUsed.ToString();
+			//labelTimesUsed.Text = magicWord.UseCount.ToString();
 		}
 
 		void textBoxFilename_TextChanged(object sender, EventArgs e)
@@ -214,6 +225,14 @@ namespace DualLauncher
 			changedMagicWord.StartupPosition3 = position3;
 			changedMagicWord.StartupPosition4 = position4;
 
+			// TODO: stats could have changed since the dialog opened
+			if (statsReset)
+			{
+				changedMagicWord.LastUsed = lastUsed;
+				changedMagicWord.UseCount = timesUsed;
+			}
+
+
 			return true;
 		}
 
@@ -229,6 +248,33 @@ namespace DualLauncher
 					this.tabControl.SelectedIndex = tabIndex;
 				}
 			}
+		}
+
+		private void buttonResetLastUsed_Click(object sender, EventArgs e)
+		{
+			lastUsed = new DateTime();
+			statsReset = true;
+			ShowStats();
+		}
+
+		private void buttonResetTimesUsed_Click(object sender, EventArgs e)
+		{
+			timesUsed = 0;
+			statsReset = true;
+			ShowStats();
+		}
+
+		private void ShowStats()
+		{
+			if (lastUsed != DateTime.MinValue)
+			{
+				labelLastUsed.Text = lastUsed.ToString();
+			}
+			else
+			{
+				labelLastUsed.Text = "";
+			}
+			labelTimesUsed.Text = timesUsed.ToString();
 		}
 
 	}

@@ -56,12 +56,19 @@ namespace DualLauncher
 			this.buttonDirBrowse = new System.Windows.Forms.Button();
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
 			this.buttonTest = new System.Windows.Forms.Button();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.windowPicker = new DualLauncher.WindowPicker();
 			this.startupPositionControl1 = new DualLauncher.StartupPositionControl();
 			this.startupPositionControl2 = new DualLauncher.StartupPositionControl();
 			this.startupPositionControl3 = new DualLauncher.StartupPositionControl();
 			this.startupPositionControl4 = new DualLauncher.StartupPositionControl();
-			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.labelLastUsed = new System.Windows.Forms.Label();
+			this.buttonResetLastUsed = new System.Windows.Forms.Button();
+			this.label9 = new System.Windows.Forms.Label();
+			this.labelTimesUsed = new System.Windows.Forms.Label();
+			this.buttonResetTimesUsed = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -70,6 +77,7 @@ namespace DualLauncher
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -223,7 +231,7 @@ namespace DualLauncher
 			// buttonOK
 			// 
 			this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonOK.Location = new System.Drawing.Point(235, 357);
+			this.buttonOK.Location = new System.Drawing.Point(249, 411);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
 			this.buttonOK.TabIndex = 12;
@@ -234,7 +242,7 @@ namespace DualLauncher
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(392, 357);
+			this.buttonCancel.Location = new System.Drawing.Point(406, 411);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 13;
@@ -362,13 +370,83 @@ namespace DualLauncher
 			this.startupPositionControl4.Size = new System.Drawing.Size(667, 87);
 			this.startupPositionControl4.TabIndex = 0;
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.buttonResetTimesUsed);
+			this.groupBox2.Controls.Add(this.labelTimesUsed);
+			this.groupBox2.Controls.Add(this.label9);
+			this.groupBox2.Controls.Add(this.buttonResetLastUsed);
+			this.groupBox2.Controls.Add(this.labelLastUsed);
+			this.groupBox2.Controls.Add(this.label8);
+			this.groupBox2.Location = new System.Drawing.Point(12, 357);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(683, 48);
+			this.groupBox2.TabIndex = 20;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Stats";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(7, 20);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(58, 13);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "Last Used:";
+			// 
+			// labelLastUsed
+			// 
+			this.labelLastUsed.Location = new System.Drawing.Point(80, 20);
+			this.labelLastUsed.Name = "labelLastUsed";
+			this.labelLastUsed.Size = new System.Drawing.Size(134, 13);
+			this.labelLastUsed.TabIndex = 1;
+			this.labelLastUsed.Text = "labelLastUsed";
+			// 
+			// buttonResetLastUsed
+			// 
+			this.buttonResetLastUsed.Location = new System.Drawing.Point(220, 15);
+			this.buttonResetLastUsed.Name = "buttonResetLastUsed";
+			this.buttonResetLastUsed.Size = new System.Drawing.Size(75, 23);
+			this.buttonResetLastUsed.TabIndex = 2;
+			this.buttonResetLastUsed.Text = "Reset";
+			this.buttonResetLastUsed.UseVisualStyleBackColor = true;
+			this.buttonResetLastUsed.Click += new System.EventHandler(this.buttonResetLastUsed_Click);
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(447, 20);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(66, 13);
+			this.label9.TabIndex = 3;
+			this.label9.Text = "Times Used:";
+			// 
+			// labelTimesUsed
+			// 
+			this.labelTimesUsed.Location = new System.Drawing.Point(519, 20);
+			this.labelTimesUsed.Name = "labelTimesUsed";
+			this.labelTimesUsed.Size = new System.Drawing.Size(64, 13);
+			this.labelTimesUsed.TabIndex = 4;
+			this.labelTimesUsed.Text = "labelTimesUsed";
+			// 
+			// buttonResetTimesUsed
+			// 
+			this.buttonResetTimesUsed.Location = new System.Drawing.Point(598, 15);
+			this.buttonResetTimesUsed.Name = "buttonResetTimesUsed";
+			this.buttonResetTimesUsed.Size = new System.Drawing.Size(75, 23);
+			this.buttonResetTimesUsed.TabIndex = 5;
+			this.buttonResetTimesUsed.Text = "Reset";
+			this.buttonResetTimesUsed.UseVisualStyleBackColor = true;
+			this.buttonResetTimesUsed.Click += new System.EventHandler(this.buttonResetTimesUsed_Click);
+			// 
 			// MagicWordForm
 			// 
 			this.AcceptButton = this.buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(711, 387);
+			this.ClientSize = new System.Drawing.Size(711, 443);
+			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonTest);
 			this.Controls.Add(this.pictureBoxIcon);
 			this.Controls.Add(this.windowPicker);
@@ -405,6 +483,8 @@ namespace DualLauncher
 			this.tabPage4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).EndInit();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -444,5 +524,12 @@ namespace DualLauncher
 		private System.Windows.Forms.PictureBox pictureBoxIcon;
 		private System.Windows.Forms.Button buttonTest;
 		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Button buttonResetTimesUsed;
+		private System.Windows.Forms.Label labelTimesUsed;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Button buttonResetLastUsed;
+		private System.Windows.Forms.Label labelLastUsed;
 	}
 }
