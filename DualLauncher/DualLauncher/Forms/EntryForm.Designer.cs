@@ -123,6 +123,7 @@ namespace DualLauncher
 			this.buttonOptions.Name = "buttonOptions";
 			this.buttonOptions.Size = new System.Drawing.Size(24, 24);
 			this.buttonOptions.TabIndex = 3;
+			this.toolTip.SetToolTip(this.buttonOptions, "Options...");
 			this.buttonOptions.UseVisualStyleBackColor = true;
 			this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
 			// 
@@ -180,7 +181,6 @@ namespace DualLauncher
 			this.Controls.Add(this.pictureBoxIcon);
 			this.Controls.Add(this.magicWordListBox);
 			this.Controls.Add(this.Input);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
