@@ -66,9 +66,7 @@ namespace DualLauncher
 
 		private void EntryForm_Load(object sender, EventArgs e)
 		{
-			// initially position ourselves at the center of the primay screen
-			Rectangle screenRect = Screen.PrimaryScreen.Bounds;
-			this.Location = new Point((screenRect.Width - Size.Width) / 2, (screenRect.Height - Size.Height) / 2);
+			SetStartupPosition();
 
 			// need to be notified whenever the magic words change
 			MagicWords.Instance.ListChanged += new ListChangedEventHandler(OnMagicWordsChanged);
@@ -84,6 +82,51 @@ namespace DualLauncher
 			timer.Start();
 		}
 
+		private void SetStartupPosition()
+		{
+			Rectangle rectangle = Properties.Settings.Default.LastPosition;
+			if (IsSensibleStartupPosition(ref rectangle))
+			{
+				this.Location = rectangle.Location;
+				this.Size = rectangle.Size;
+			}
+			else
+			{
+				// just position ourselves at the center of the primay screen
+				Rectangle screenRect = Screen.PrimaryScreen.Bounds;
+				this.Location = new Point((screenRect.Width - Size.Width) / 2, (screenRect.Height - Size.Height) / 2);
+			}
+		}
+
+		private bool IsSensibleStartupPosition(ref Rectangle rectangle)
+		{
+			if (rectangle.Width <= 0 || rectangle.Height <= 0)
+			{
+				return false;
+			}
+
+			//// TODO: this is a bit over zealous as it doesn't allow the window to be a fractionaly
+			//// outside of the working area or split over screens
+			//foreach (Screen screen in Screen.AllScreens)
+			//{
+			//    if (screen.WorkingArea.Contains(rectangle))
+			//    {
+			//        return true;
+			//    }
+			//}
+			//return false;
+
+			// find closest screen
+			Screen screen = Screen.FromRectangle(rectangle);
+			if (!screen.WorkingArea.IntersectsWith(rectangle))
+			{
+				return false;
+			}
+			// TODO: push the rectangle onto the screen?
+
+			// should at least be able to see some of the window, so allow
+			return true;
+		}
 
 		private void ShowAliasIcon()
 		{
@@ -123,6 +166,11 @@ namespace DualLauncher
 			// don't shutdown if the form is just being closed 
 			if (shutDown || e.CloseReason != CloseReason.UserClosing)
 			{
+				// save our position
+				// note we never should be minimised or maximised
+				Properties.Settings.Default.LastPosition = new Rectangle(Location, Size);
+				Properties.Settings.Default.Save();
+
 				CleanUp();
 			}
 			else

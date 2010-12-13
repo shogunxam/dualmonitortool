@@ -154,5 +154,17 @@ namespace DualLauncher.Properties {
                 this["StartupTimeout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0, 0, 0")]
+        public global::System.Drawing.Rectangle LastPosition {
+            get {
+                return ((global::System.Drawing.Rectangle)(this["LastPosition"]));
+            }
+            set {
+                this["LastPosition"] = value;
+            }
+        }
     }
 }
