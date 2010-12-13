@@ -235,27 +235,38 @@ namespace DualLauncher
 
 		public bool Poll()
 		{
-			bool bPollAgain = false;
-
-			//if (pendingMoves != null)
-			if (pendingMoves != null && pendingMoves.Count > 0)
+			if (pendingMoves.Count > 0)
 			{
 				Trace.WriteLine("Starting Poll");
 				// need to check if this app has opened its top level window yet
 				Win32.EnumWindows(new Win32.EnumWindowsProc(EnumWindowsCallback), 0);
 			}
 
-			return bPollAgain;
+			// check if any we need to timeout while waiting for any of these windows to appear 
+			foreach (StartupProcess pendingMove in pendingMoves)
+			{
+				if (pendingMove.ExpiryTime < DateTime.Now)
+				{
+					Trace.WriteLine("Startup timedout");
+					// lets give up waiting for this application to start
+					// to simplify logic, we only remove at most 1 pending move per poll
+					pendingMoves.Remove(pendingMove);
+					break;
+				}
+			}
+
+			// if there are any pending moves left, indicate that the polling needs to continue
+			return (pendingMoves.Count > 0);
 		}
 
 		public bool EnumWindowsCallback(IntPtr hWnd, uint lParam)
 		{
-			if (pendingMoves == null)
-			{
-				// not waiting for any windows
-				// this shouldn't happen anyway
-				return false;
-			}
+			//if (pendingMoves == null)
+			//{
+			//    // not waiting for any windows
+			//    // this shouldn't happen anyway
+			//    return false;
+			//}
 
 			// get the pid associated with this hWnd
 			uint pid;

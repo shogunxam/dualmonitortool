@@ -32,5 +32,8 @@
     <Setting Name="AddMagicWordHotKey" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">524353</Value>
     </Setting>
+    <Setting Name="StartupTimeout" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

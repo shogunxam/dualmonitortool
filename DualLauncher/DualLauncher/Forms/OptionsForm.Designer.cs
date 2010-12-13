@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -59,6 +59,9 @@ namespace DualLauncher
 			this.buttonPos1 = new System.Windows.Forms.Button();
 			this.labelPos1 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.buttonAddMagicWord = new System.Windows.Forms.Button();
+			this.labelAddMagicWord = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.buttonActivate = new System.Windows.Forms.Button();
 			this.labelActivate = new System.Windows.Forms.Label();
@@ -81,9 +84,9 @@ namespace DualLauncher
 			this.buttonDeleteAll = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.label4 = new System.Windows.Forms.Label();
-			this.buttonAddMagicWord = new System.Windows.Forms.Button();
-			this.labelAddMagicWord = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.numericUpDownTimeout = new System.Windows.Forms.NumericUpDown();
+			this.label6 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPageMagicWords.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -97,6 +100,7 @@ namespace DualLauncher
 			this.tabPageImport.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -185,8 +189,8 @@ namespace DualLauncher
 			this.dataGridView.AllowUserToDeleteRows = false;
 			this.dataGridView.AllowUserToResizeColumns = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -434,6 +438,35 @@ namespace DualLauncher
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
 			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(6, 45);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(224, 13);
+			this.label4.TabIndex = 11;
+			this.label4.Text = "Add Magic Word for current application";
+			// 
+			// buttonAddMagicWord
+			// 
+			this.buttonAddMagicWord.Location = new System.Drawing.Point(395, 40);
+			this.buttonAddMagicWord.Name = "buttonAddMagicWord";
+			this.buttonAddMagicWord.Size = new System.Drawing.Size(75, 23);
+			this.buttonAddMagicWord.TabIndex = 10;
+			this.buttonAddMagicWord.Text = "Change...";
+			this.toolTip.SetToolTip(this.buttonAddMagicWord, "Click to change the HotKey.");
+			this.buttonAddMagicWord.UseVisualStyleBackColor = true;
+			this.buttonAddMagicWord.Click += new System.EventHandler(this.buttonAddMagicWord_Click);
+			// 
+			// labelAddMagicWord
+			// 
+			this.labelAddMagicWord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelAddMagicWord.Location = new System.Drawing.Point(236, 45);
+			this.labelAddMagicWord.Name = "labelAddMagicWord";
+			this.labelAddMagicWord.Size = new System.Drawing.Size(153, 13);
+			this.labelAddMagicWord.TabIndex = 12;
+			this.labelAddMagicWord.Text = "labelAddMagicWord";
+			this.toolTip.SetToolTip(this.labelAddMagicWord, "Press this key combination to popup the Magic Word entry box.");
+			// 
 			// label1
 			// 
 			this.label1.Location = new System.Drawing.Point(6, 16);
@@ -465,6 +498,9 @@ namespace DualLauncher
 			// 
 			// tabPageGeneral
 			// 
+			this.tabPageGeneral.Controls.Add(this.label6);
+			this.tabPageGeneral.Controls.Add(this.numericUpDownTimeout);
+			this.tabPageGeneral.Controls.Add(this.label5);
 			this.tabPageGeneral.Controls.Add(this.groupBox5);
 			this.tabPageGeneral.Controls.Add(this.label3);
 			this.tabPageGeneral.Controls.Add(this.numericUpDownIcons);
@@ -667,34 +703,46 @@ namespace DualLauncher
 			this.buttonClose.Text = "Close";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
-			// label4
+			// label5
 			// 
-			this.label4.Location = new System.Drawing.Point(6, 45);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(224, 13);
-			this.label4.TabIndex = 11;
-			this.label4.Text = "Add Magic Word for current application";
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(4, 194);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(204, 13);
+			this.label5.TabIndex = 5;
+			this.label5.Text = "Timeout for application window to appear:";
 			// 
-			// buttonAddMagicWord
+			// numericUpDownTimeout
 			// 
-			this.buttonAddMagicWord.Location = new System.Drawing.Point(395, 40);
-			this.buttonAddMagicWord.Name = "buttonAddMagicWord";
-			this.buttonAddMagicWord.Size = new System.Drawing.Size(75, 23);
-			this.buttonAddMagicWord.TabIndex = 10;
-			this.buttonAddMagicWord.Text = "Change...";
-			this.toolTip.SetToolTip(this.buttonAddMagicWord, "Click to change the HotKey.");
-			this.buttonAddMagicWord.UseVisualStyleBackColor = true;
-			this.buttonAddMagicWord.Click += new System.EventHandler(this.buttonAddMagicWord_Click);
+			this.numericUpDownTimeout.Location = new System.Drawing.Point(214, 192);
+			this.numericUpDownTimeout.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+			this.numericUpDownTimeout.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownTimeout.Name = "numericUpDownTimeout";
+			this.numericUpDownTimeout.Size = new System.Drawing.Size(64, 20);
+			this.numericUpDownTimeout.TabIndex = 6;
+			this.numericUpDownTimeout.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownTimeout.ValueChanged += new System.EventHandler(this.numericUpDownTimeout_ValueChanged);
 			// 
-			// labelAddMagicWord
+			// label6
 			// 
-			this.labelAddMagicWord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelAddMagicWord.Location = new System.Drawing.Point(236, 45);
-			this.labelAddMagicWord.Name = "labelAddMagicWord";
-			this.labelAddMagicWord.Size = new System.Drawing.Size(153, 13);
-			this.labelAddMagicWord.TabIndex = 12;
-			this.labelAddMagicWord.Text = "labelAddMagicWord";
-			this.toolTip.SetToolTip(this.labelAddMagicWord, "Press this key combination to popup the Magic Word entry box.");
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(284, 194);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(47, 13);
+			this.label6.TabIndex = 7;
+			this.label6.Text = "seconds";
 			// 
 			// OptionsForm
 			// 
@@ -727,6 +775,7 @@ namespace DualLauncher
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -787,5 +836,8 @@ namespace DualLauncher
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button buttonAddMagicWord;
 		private System.Windows.Forms.Label labelAddMagicWord;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.NumericUpDown numericUpDownTimeout;
+		private System.Windows.Forms.Label label5;
 	}
 }

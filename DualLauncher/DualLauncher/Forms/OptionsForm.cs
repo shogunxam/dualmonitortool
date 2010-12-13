@@ -109,6 +109,8 @@ namespace DualLauncher
 			{
 				radioButtonIconLargeIcon.Checked = true;
 			}
+
+			numericUpDownTimeout.Value = (decimal)Properties.Settings.Default.StartupTimeout;
 		}
 
 		private void InitImportTab()
@@ -349,7 +351,7 @@ namespace DualLauncher
 		private void numericUpDownIcons_ValueChanged(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.MaxMostUsedSize = (int)numericUpDownIcons.Value;
-
+			Properties.Settings.Default.Save();
 		}
 
 		private void radioButton_CheckedChanged(object sender, EventArgs e)
@@ -369,6 +371,12 @@ namespace DualLauncher
 				Properties.Settings.Default.IconView = iconView;
 				Properties.Settings.Default.Save();
 			}
+		}
+
+		private void numericUpDownTimeout_ValueChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.StartupTimeout = (uint)numericUpDownTimeout.Value;
+			Properties.Settings.Default.Save();
 		}
 		#endregion
 

@@ -142,5 +142,17 @@ namespace DualLauncher.Properties {
                 this["AddMagicWordHotKey"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public uint StartupTimeout {
+            get {
+                return ((uint)(this["StartupTimeout"]));
+            }
+            set {
+                this["StartupTimeout"] = value;
+            }
+        }
     }
 }

@@ -52,12 +52,19 @@ namespace DualLauncher
 			get { return windowClass; }
 			set { windowClass = value; }
 		}
+
+		private DateTime expiryTime;
+		public DateTime ExpiryTime
+		{
+			get { return expiryTime; }
+			set { expiryTime = value; }
+		}
 	
 	
 
-		public StartupProcess()
-		{
-		}
+		//public StartupProcess()
+		//{
+		//}
 
 		public StartupProcess(uint pid, MagicWord magicWord, StartupPosition startPosition)
 		{
@@ -66,6 +73,8 @@ namespace DualLauncher
 			this.startupPosition = startPosition.Clone();
 			this.captionRegExpr = magicWord.CaptionRegExpr;
 			this.windowClass = magicWord.WindowClass;
+
+			this.expiryTime = DateTime.Now.AddSeconds((double)Properties.Settings.Default.StartupTimeout);
 		}
 
 		//public StartupProcess(uint pid, StartupPosition startupPosition)
