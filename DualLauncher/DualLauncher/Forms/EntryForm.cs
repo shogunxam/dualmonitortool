@@ -33,12 +33,18 @@ namespace DualLauncher
 		private bool shutDown = false;
 
 		private const int ID_HOTKEY_ACTIVATE = 0x501;
+		private const int ID_HOTKEY_ADD_MAGIC_WORD = 0x502;
 
-		//private HotKey dualLauncherHotKey;
 		private HotKeyController activateHotKeyController;
 		public HotKeyController ActivateHotKeyController
 		{
 			get { return activateHotKeyController; }
+		}
+
+		private HotKeyController addMagicWordHotKeyController;
+		public HotKeyController AddMagicWordHotKeyController
+		{
+			get { return addMagicWordHotKeyController; }
 		}
 
 
@@ -46,7 +52,7 @@ namespace DualLauncher
 		{
 			InitializeComponent();
 
-			InitHotKey();
+			InitHotKeys();
 			string filename = Program.MyDbFnm;
 			try
 			{
@@ -138,22 +144,49 @@ namespace DualLauncher
 			{
 				// TODO: is it too late to do anything about this?
 			}
-			TermHotKey();
+			TermHotKeys();
 		}
 
-		private void InitHotKey()
+		private void InitHotKeys()
 		{
 			activateHotKeyController = new HotKeyController(this, ID_HOTKEY_ACTIVATE,
 				"ActivateHotKey",
 				Properties.Resources.ActivateDescription,
 				"",		// no Windows 7 key
 				new HotKey.HotKeyHandler(ShowEntryForm));
+
+			addMagicWordHotKeyController = new HotKeyController(this, ID_HOTKEY_ADD_MAGIC_WORD,
+				"AddMagicWordHotKey",
+				Properties.Resources.AddMagicWordDescription,
+				"",		// no Windows 7 key
+				new HotKey.HotKeyHandler(AddMagicWord));
 		}
 
-		private void TermHotKey()
+		private void TermHotKeys()
 		{
-			//dualLauncherHotKey.Dispose();
+			addMagicWordHotKeyController.Dispose();
 			activateHotKeyController.Dispose();
+		}
+
+		private void AddMagicWord()
+		{
+			MagicWord newMagicWord = new MagicWord();
+			// get the active window
+			IntPtr hWnd = Win32.GetForegroundWindow();
+
+			if (hWnd != IntPtr.Zero)
+			{
+				// use details from the active window to prefill a new MagicWord
+				MagicWordForm.GetWindowDetails(hWnd, newMagicWord);
+			}
+
+			// let the user edit the details
+			MagicWordForm dlg = new MagicWordForm(newMagicWord);
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				// user wants this word, so insert it
+				MagicWords.Instance.Insert(newMagicWord);
+			}
 		}
 
 		private void ShowEntryForm()

@@ -120,6 +120,9 @@
   <data name="ActivateDescription" xml:space="preserve">
     <value>Activate the Magic Word input field</value>
   </data>
+  <data name="AddMagicWordDescription" xml:space="preserve">
+    <value>Adds a Magic Word for the active application</value>
+  </data>
   <data name="BrowseExeFilter" xml:space="preserve">
     <value>Programs (*.exe; *.pif; *.com; *bat; *.cmd)|*.exe; *.pif; *.com; *bat; *.cmd|All files (*.*)|*.*</value>
   </data>

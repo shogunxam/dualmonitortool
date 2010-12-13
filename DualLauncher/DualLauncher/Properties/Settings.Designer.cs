@@ -130,5 +130,17 @@ namespace DualLauncher.Properties {
                 this["IconView"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("524353")]
+        public uint AddMagicWordHotKey {
+            get {
+                return ((uint)(this["AddMagicWordHotKey"]));
+            }
+            set {
+                this["AddMagicWordHotKey"] = value;
+            }
+        }
     }
 }

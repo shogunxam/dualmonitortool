@@ -82,28 +82,85 @@ namespace DualLauncher
 			ShowAliasIcon();
 		}
 
+		//void windowPicker_HoveredWindowChanged(IntPtr hWnd)
+		//{
+		//    StringBuilder sb = new StringBuilder(128);
+		//    if (Win32.GetClassName(hWnd, sb, sb.Capacity) > 0)
+		//    {
+		//        this.textBoxWindowClass.Text = sb.ToString();
+		//    }
+
+		//    Win32.RECT rect;
+		//    if (Win32.GetWindowRect(hWnd, out rect))
+		//    {
+		//        Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
+		//        this.startupPositionControl1.SetWindowRect(rectangle);
+		//    }
+
+		//    uint pid = 0;
+		//    Win32.GetWindowThreadProcessId(hWnd, out pid);
+		//    Process p = Process.GetProcessById((int)pid);
+		//    this.textBoxFilename.Text = p.MainModule.FileName;
+
+		//    // use the name without path or extension as the default for the alias
+		//    this.textBoxAlias.Text = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
+		//}
+
 		void windowPicker_HoveredWindowChanged(IntPtr hWnd)
 		{
+			MagicWord tempMagicWord = new MagicWord();
+			if (GetWindowDetails(hWnd, tempMagicWord))
+			{
+				textBoxWindowClass.Text = tempMagicWord.WindowClass;
+				if (tempMagicWord.StartupPosition1 != null)
+				{
+					startupPositionControl1.SetWindowRect(tempMagicWord.StartupPosition1.Position);
+				}
+				textBoxFilename.Text = tempMagicWord.Filename;
+				textBoxAlias.Text = tempMagicWord.Alias;
+			}
+		}
+
+		// TODO: probably not the best place for this function to live
+		public static bool GetWindowDetails(IntPtr hWnd, MagicWord magicWord)
+		{
+			bool ret = true;
+
 			StringBuilder sb = new StringBuilder(128);
 			if (Win32.GetClassName(hWnd, sb, sb.Capacity) > 0)
 			{
-				this.textBoxWindowClass.Text = sb.ToString();
+				magicWord.WindowClass = sb.ToString();
 			}
 
 			Win32.RECT rect;
 			if (Win32.GetWindowRect(hWnd, out rect))
 			{
 				Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
-				this.startupPositionControl1.SetWindowRect(rectangle);
+				if (magicWord.StartupPosition1 == null)
+				{
+					magicWord.StartupPosition1 = new StartupPosition();
+				}
+				magicWord.StartupPosition1.Position = rectangle;
 			}
 
 			uint pid = 0;
-			Win32.GetWindowThreadProcessId(hWnd, out pid);
-			Process p = Process.GetProcessById((int)pid);
-			this.textBoxFilename.Text = p.MainModule.FileName;
+			if (Win32.GetWindowThreadProcessId(hWnd, out pid) != 0)
+			{
+				try
+				{
+					Process p = Process.GetProcessById((int)pid);
+					magicWord.Filename = p.MainModule.FileName;
 
-			// use the name without path or extension as the default for the alias
-			this.textBoxAlias.Text = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
+					// use the name without path or extension as the default for the alias
+					magicWord.Alias = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
+				}
+				catch (Exception)
+				{
+					// the process could have just died
+				}
+			}
+
+			return ret;
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)

@@ -75,6 +75,7 @@ namespace DualLauncher
 		private void InitKeysTab()
 		{
 			labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
+			labelAddMagicWord.Text = entryForm.AddMagicWordHotKeyController.ToString();
 
 			labelPos1.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position1Key);
 			labelPos2.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position2Key);
@@ -134,9 +135,7 @@ namespace DualLauncher
 		#region MagicWords button events
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
-
 			MagicWord newMagicWord = new MagicWord();
-			//MagicWordForm dlg = new MagicWordForm(newMagicWord);
 			MagicWordForm dlg = new MagicWordForm(newMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
@@ -225,7 +224,7 @@ namespace DualLauncher
 			MagicWordForm dlg = new MagicWordForm(editMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				// dialog has already updated the MgicWord
+				// dialog has already updated the MagicWord within MagicWords
 			}
 		}
 
@@ -245,6 +244,14 @@ namespace DualLauncher
 			if (entryForm.ActivateHotKeyController.Edit())
 			{
 				labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
+			}
+		}
+
+		private void buttonAddMagicWord_Click(object sender, EventArgs e)
+		{
+			if (entryForm.AddMagicWordHotKeyController.Edit())
+			{
+				labelAddMagicWord.Text = entryForm.AddMagicWordHotKeyController.ToString();
 			}
 		}
 

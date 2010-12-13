@@ -70,6 +70,15 @@ namespace DualLauncher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adds a Magic Word for the active application.
+        /// </summary>
+        internal static string AddMagicWordDescription {
+            get {
+                return ResourceManager.GetString("AddMagicWordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Programs (*.exe; *.pif; *.com; *bat; *.cmd)|*.exe; *.pif; *.com; *bat; *.cmd|All files (*.*)|*.*.
         /// </summary>
         internal static string BrowseExeFilter {

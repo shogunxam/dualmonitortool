@@ -29,5 +29,8 @@
     <Setting Name="IconView" Type="System.Windows.Forms.View" Scope="User">
       <Value Profile="(Default)">LargeIcon</Value>
     </Setting>
+    <Setting Name="AddMagicWordHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">524353</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

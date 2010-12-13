@@ -81,6 +81,9 @@ namespace DualLauncher
 			this.buttonDeleteAll = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.label4 = new System.Windows.Forms.Label();
+			this.buttonAddMagicWord = new System.Windows.Forms.Button();
+			this.labelAddMagicWord = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPageMagicWords.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -289,7 +292,7 @@ namespace DualLauncher
 			this.groupBox4.Controls.Add(this.labelPos1Prompt);
 			this.groupBox4.Controls.Add(this.buttonPos1);
 			this.groupBox4.Controls.Add(this.labelPos1);
-			this.groupBox4.Location = new System.Drawing.Point(16, 67);
+			this.groupBox4.Location = new System.Drawing.Point(16, 120);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(496, 145);
 			this.groupBox4.TabIndex = 1;
@@ -418,12 +421,15 @@ namespace DualLauncher
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.label4);
+			this.groupBox1.Controls.Add(this.buttonAddMagicWord);
+			this.groupBox1.Controls.Add(this.labelAddMagicWord);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.buttonActivate);
 			this.groupBox1.Controls.Add(this.labelActivate);
 			this.groupBox1.Location = new System.Drawing.Point(16, 16);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(496, 45);
+			this.groupBox1.Size = new System.Drawing.Size(496, 75);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
@@ -661,6 +667,35 @@ namespace DualLauncher
 			this.buttonClose.Text = "Close";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
+			// label4
+			// 
+			this.label4.Location = new System.Drawing.Point(6, 45);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(224, 13);
+			this.label4.TabIndex = 11;
+			this.label4.Text = "Add Magic Word for current application";
+			// 
+			// buttonAddMagicWord
+			// 
+			this.buttonAddMagicWord.Location = new System.Drawing.Point(395, 40);
+			this.buttonAddMagicWord.Name = "buttonAddMagicWord";
+			this.buttonAddMagicWord.Size = new System.Drawing.Size(75, 23);
+			this.buttonAddMagicWord.TabIndex = 10;
+			this.buttonAddMagicWord.Text = "Change...";
+			this.toolTip.SetToolTip(this.buttonAddMagicWord, "Click to change the HotKey.");
+			this.buttonAddMagicWord.UseVisualStyleBackColor = true;
+			this.buttonAddMagicWord.Click += new System.EventHandler(this.buttonAddMagicWord_Click);
+			// 
+			// labelAddMagicWord
+			// 
+			this.labelAddMagicWord.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelAddMagicWord.Location = new System.Drawing.Point(236, 45);
+			this.labelAddMagicWord.Name = "labelAddMagicWord";
+			this.labelAddMagicWord.Size = new System.Drawing.Size(153, 13);
+			this.labelAddMagicWord.TabIndex = 12;
+			this.labelAddMagicWord.Text = "labelAddMagicWord";
+			this.toolTip.SetToolTip(this.labelAddMagicWord, "Press this key combination to popup the Magic Word entry box.");
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,5 +784,8 @@ namespace DualLauncher
 		private System.Windows.Forms.RadioButton radioButtonIconLargeIcon;
 		private System.Windows.Forms.RadioButton radioButtonIconDetails;
 		private System.Windows.Forms.RadioButton radioButtonIconList;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonAddMagicWord;
+		private System.Windows.Forms.Label labelAddMagicWord;
 	}
 }
