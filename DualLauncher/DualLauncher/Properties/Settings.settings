@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="ActivateHotKey" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">120</Value>
+      <Value Profile="(Default)">524369</Value>
     </Setting>
     <Setting Name="NeedSettingsUpgrade" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

@@ -25,7 +25,7 @@ namespace DualLauncher.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("120")]
+        [global::System.Configuration.DefaultSettingValueAttribute("524369")]
         public uint ActivateHotKey {
             get {
                 return ((uint)(this["ActivateHotKey"]));
