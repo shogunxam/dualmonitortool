@@ -141,12 +141,14 @@ namespace DualLauncher
 				commandLine = string.Format("\"{0}\" {1}", executable, magicWord.Filename);
 			}
 
+			// make sure we specify a command line
+			if (commandLine == null)
+			{
+				commandLine = string.Format("\"{0}\"", executable);
+			} 
+			
 			if (magicWord.Parameters != null && magicWord.Parameters.Length > 0)
 			{
-				if (commandLine == null)
-				{
-					commandLine = string.Format("\"{0}\"", executable);
-				}
 				commandLine += " " + magicWord.Parameters;
 			}
 
