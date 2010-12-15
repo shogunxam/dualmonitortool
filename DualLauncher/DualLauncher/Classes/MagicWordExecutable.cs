@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Drawing;
+using System.Web;
+using System.Windows.Forms;
 
 namespace DualLauncher
 {
@@ -11,6 +13,7 @@ namespace DualLauncher
 		private MagicWord magicWord;
 		private string executable = null;
 		private string commandLine = null;
+		private string escapedCommandLine = null;
 		private string workingDirectory = null;
 
 		private static string explorerPath = null;
@@ -60,7 +63,13 @@ namespace DualLauncher
 				{
 					GetExecutable();
 				}
-				return commandLine;
+				//return commandLine;
+
+				if (escapedCommandLine == null)
+				{
+					escapedCommandLine = ExpandEscapes(commandLine);
+				}
+				return escapedCommandLine;
 			}
 		}
 
@@ -168,9 +177,92 @@ namespace DualLauncher
 			Win32.AssocQueryString(Win32.ASSOCF.ASSOCF_VERIFY, Win32.ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
 
 			return sb.ToString();
-
 		}
 
+		private string ExpandEscapes(string input)
+		{
+			string output = "";
+			int inputLengthTaken;
 
+			while (input.Length > 0)
+			{
+				output += GetNextSequence(input, out inputLengthTaken);
+				input = input.Substring(inputLengthTaken);
+			}
+
+			return output;
+		}
+
+		private string GetNextSequence(string input, out int inputLengthTaken)
+		{
+			int dollarIndex = input.IndexOf('$');
+
+			if (dollarIndex == 0)
+			{
+				int nextDollarIndex = input.IndexOf('$', 1);
+				if (nextDollarIndex == 1)
+				{
+					// $$ is an escape for $ so return a single $
+					inputLengthTaken = 2;
+					return "$";
+				}
+				else if (nextDollarIndex > 1)
+				{
+					inputLengthTaken = nextDollarIndex + 1;
+					return ReplaceParameter(input.Substring(1, nextDollarIndex - 1));
+				}
+				else
+				{
+					// no more $s so just return the sequence as is
+					inputLengthTaken = input.Length;
+					return input;
+				}
+			}
+			else if (dollarIndex < 0)
+			{
+				// no $, so return all of string
+				inputLengthTaken = input.Length;
+				return input;
+			}
+			else
+			{
+				// return everything up to the $
+				inputLengthTaken = dollarIndex;
+				return input.Substring(0, dollarIndex);
+			}
+		}
+
+		string ReplaceParameter(string parameter)
+		{
+			string prompt;
+
+			// first character of the parameter string is the parameter type
+			char parameterType = Char.ToUpper(parameter[0]);
+			
+			if (parameter.Length > 1)
+			{
+				// anything after the parameter type is the prompt for the parameter
+				prompt = parameter.Substring(1);
+			}
+			else
+			{
+				// use the comment as the prompt (as SlickRun)
+				prompt = magicWord.Comment;
+			}
+
+			ParameterInputForm dlg = new ParameterInputForm();
+			dlg.ParameterPrompt = prompt;
+			dlg.ShowDialog();
+			// there is no cancel
+
+			if (parameterType == 'W')
+			{
+				return HttpUtility.UrlEncode(dlg.ParameterValue);
+			}
+			else // if (parameterType == 'I')
+			{
+				return dlg.ParameterValue;
+			}
+		}
 	}
 }
