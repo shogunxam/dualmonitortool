@@ -247,6 +247,9 @@ namespace DualLauncher
 			{
 				Add(importedWord);
 			}
+
+			// make sure list is correctly sorted
+			ReSort();
 		}
 	}
 }

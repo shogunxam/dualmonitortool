@@ -91,7 +91,7 @@ namespace DualLauncher
 			ReSort();
 		}
 
-		private void ReSort()
+		public void ReSort()
 		{
 			if (isSortedCore)
 			{
