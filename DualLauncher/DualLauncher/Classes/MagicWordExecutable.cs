@@ -162,7 +162,7 @@ namespace DualLauncher
 
 		}
 
-		private string GetAssociatedApp(string extension)
+		public static string GetAssociatedApp(string extension)
 		{
 
 			// find length of buffer required to hold associated application

@@ -64,6 +64,12 @@ namespace DualLauncher
 							if (String.Compare(field, "Filename", true) == 0)
 							{
 								curMagicWord.Filename = FieldToString(match.Groups[2].Value);
+								// SlickRun tends to use just "iexplore" for Internet explorer,
+								// but we need the full pathname
+								if (string.Compare(curMagicWord.Filename, "iexplore", true) == 0)
+								{
+									curMagicWord.Filename = MagicWordExecutable.GetAssociatedApp(".htm");
+								}
 							}
 							else if (String.Compare(field, "Path", true) == 0)
 							{
