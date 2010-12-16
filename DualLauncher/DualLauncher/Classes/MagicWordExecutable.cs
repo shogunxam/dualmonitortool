@@ -126,7 +126,7 @@ namespace DualLauncher
 					}
 					else
 					{
-						commandLine = string.Format("\"{0}\" {1}", executable, magicWord.Filename);
+						commandLine = string.Format("\"{0}\" \"{1}\"", executable, magicWord.Filename);
 					}
 				}
 			}
@@ -134,7 +134,7 @@ namespace DualLauncher
 			{
 				//executable = "explorer.exe";
 				executable = ExplorerPath;
-				commandLine = string.Format("\"{0}\" {1}", executable, magicWord.Filename);
+				commandLine = string.Format("\"{0}\" \"{1}\"", executable, magicWord.Filename);
 			}
 			else
 			{
