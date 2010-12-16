@@ -234,7 +234,8 @@ namespace DualLauncher
 				int positionIndex1 = this.tabControl.SelectedIndex + 1;
 				StartupPosition startPosition = testMagicWord.GetStartupPosition(positionIndex1);
 				// and try and run it
-				bool ok = StartupController.Instance.Launch(magicWord, startPosition);
+				ParameterMap map = new ParameterMap();
+				bool ok = StartupController.Instance.Launch(magicWord, startPosition, map);
 			}
 		}
 

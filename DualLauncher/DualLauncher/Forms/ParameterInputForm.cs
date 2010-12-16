@@ -33,7 +33,7 @@ namespace DualLauncher
 
 		private void ParameterInputForm_Load(object sender, EventArgs e)
 		{
-			labelPrompt.Text = parameterPrompt;
+			labelPrompt.Text = parameterPrompt + ":";
 		}
 
 		private void buttonOK_Click(object sender, EventArgs e)

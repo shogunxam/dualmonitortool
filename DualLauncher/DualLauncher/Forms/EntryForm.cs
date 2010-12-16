@@ -138,7 +138,8 @@ namespace DualLauncher
 				MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
 				if (magicWord != null)
 				{
-					MagicWordExecutable executable = new MagicWordExecutable(magicWord);
+					ParameterMap map = new ParameterMap();
+					MagicWordExecutable executable = new MagicWordExecutable(magicWord, map);
 					fileIcon = executable.Icon;
 				}
 			}
@@ -415,23 +416,24 @@ namespace DualLauncher
 
 			if (magicWords.Count > 0)
 			{
+				ParameterMap map = new ParameterMap();
 				foreach (MagicWord magicWord in magicWords)
 				{
-					StartMagicWord(magicWord, position);
+					StartMagicWord(magicWord, position, map);
 				}
 				Input.Text = "";
 				HideEntryForm();
 			}
 		}
 
-		private void StartMagicWord(MagicWord magicWord, int positionIndex1)
+		private void StartMagicWord(MagicWord magicWord, int positionIndex1, ParameterMap map)
 		{
 			if (magicWord != null)
 			{
 				magicWord.UseCount++;
 				magicWord.LastUsed = DateTime.Now;
 				StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
-				StartupController.Instance.Launch(magicWord, startPosition);
+				StartupController.Instance.Launch(magicWord, startPosition, map);
 				//Input.Text = "";
 				//HideEntryForm();
 			}

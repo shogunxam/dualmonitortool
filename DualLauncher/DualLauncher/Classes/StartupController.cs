@@ -65,7 +65,7 @@ namespace DualLauncher
 		}
 		#endregion
 
-		public bool Launch(MagicWord magicWord, StartupPosition startPosition)
+		public bool Launch(MagicWord magicWord, StartupPosition startPosition, ParameterMap map)
 		{
 			bool ret = false;
 
@@ -96,7 +96,7 @@ namespace DualLauncher
 
 			Win32.PROCESS_INFORMATION pi = new Win32.PROCESS_INFORMATION();
 
-			MagicWordExecutable executable = new MagicWordExecutable(magicWord);
+			MagicWordExecutable executable = new MagicWordExecutable(magicWord, map);
 			//string applicationName;
 			//string commandLine;
 			//GetCommandLine(magicWord, out applicationName, out commandLine);

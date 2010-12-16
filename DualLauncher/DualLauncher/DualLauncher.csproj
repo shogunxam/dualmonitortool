@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\MagicWordExecutable.cs" />
+    <Compile Include="Classes\ParameterMap.cs" />
     <Compile Include="Classes\PropertyComparer.cs" />
     <Compile Include="Controls\MagicWordListBox.cs">
       <SubType>Component</SubType>

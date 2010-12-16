@@ -37,9 +37,11 @@ namespace DualLauncher
 
 			if (magicWords != null)
 			{
+				// Could use null for the parameterMap
+				ParameterMap map = new ParameterMap();
 				foreach (MagicWord mw in magicWords)
 				{
-					MagicWordExecutable executable = new MagicWordExecutable(mw);
+					MagicWordExecutable executable = new MagicWordExecutable(mw, map);
 					int imageIndex = 0;	// the default (missing icon)
 					Icon fileIcon = executable.Icon;
 					if (fileIcon != null)

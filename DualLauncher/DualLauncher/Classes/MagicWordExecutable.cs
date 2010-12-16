@@ -11,6 +11,7 @@ namespace DualLauncher
 	public class MagicWordExecutable
 	{
 		private MagicWord magicWord;
+		private ParameterMap map;
 		private string executable = null;
 		private string commandLine = null;
 		private string escapedCommandLine = null;
@@ -18,9 +19,10 @@ namespace DualLauncher
 
 		private static string explorerPath = null;
 
-		public MagicWordExecutable(MagicWord magicWord)
+		public MagicWordExecutable(MagicWord magicWord, ParameterMap map)
 		{
 			this.magicWord = magicWord;
+			this.map = map;
 		}
 
 		public string Executable
@@ -236,7 +238,7 @@ namespace DualLauncher
 
 		string ReplaceParameter(string parameter)
 		{
-			string prompt;
+			string parameterName;
 
 			// first character of the parameter string is the parameter type
 			char parameterType = Char.ToUpper(parameter[0]);
@@ -244,26 +246,37 @@ namespace DualLauncher
 			if (parameter.Length > 1)
 			{
 				// anything after the parameter type is the prompt for the parameter
-				prompt = parameter.Substring(1);
+				parameterName = parameter.Substring(1);
 			}
 			else
 			{
 				// use the comment as the prompt (as SlickRun)
-				prompt = magicWord.Comment;
+				parameterName = magicWord.Comment;
 			}
 
-			ParameterInputForm dlg = new ParameterInputForm();
-			dlg.ParameterPrompt = prompt;
-			dlg.ShowDialog();
-			// there is no cancel
+			// check if we already know this parameter value
+			string parameterValue = map.GetValue(parameterName);
+
+			if (parameterValue == null)
+			{
+				// no we don't, so ask user
+				ParameterInputForm dlg = new ParameterInputForm();
+				dlg.ParameterPrompt = parameterName;
+				dlg.ShowDialog();
+				// there is no cancel
+				parameterValue = dlg.ParameterValue;
+
+				// save the value in the map (unencoded) in case it is needed later
+				map.SetValue(parameterName, parameterValue);
+			}
 
 			if (parameterType == 'W')
 			{
-				return HttpUtility.UrlEncode(dlg.ParameterValue);
+				return HttpUtility.UrlEncode(parameterValue);
 			}
 			else // if (parameterType == 'I')
 			{
-				return dlg.ParameterValue;
+				return parameterValue;
 			}
 		}
 	}
