@@ -235,7 +235,7 @@ namespace DualLauncher
 				StartupPosition startPosition = testMagicWord.GetStartupPosition(positionIndex1);
 				// and try and run it
 				ParameterMap map = new ParameterMap();
-				bool ok = StartupController.Instance.Launch(magicWord, startPosition, map);
+				bool ok = StartupController.Instance.Launch(testMagicWord, startPosition, map);
 			}
 		}
 
@@ -334,6 +334,33 @@ namespace DualLauncher
 			}
 			labelTimesUsed.Text = timesUsed.ToString();
 		}
+
+		#region Drag and Drop
+		private void MagicWordForm_DragEnter(object sender, DragEventArgs e)
+		{
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				e.Effect = DragDropEffects.Copy;
+			}
+			else
+			{
+				e.Effect = DragDropEffects.None;
+			}
+		}
+
+		private void MagicWordForm_DragDrop(object sender, DragEventArgs e)
+		{
+			string[] filenames = e.Data.GetData(DataFormats.FileDrop) as string[];
+			if (filenames != null)
+			{
+				if (filenames.Length > 0)
+				{
+					textBoxFilename.Text = filenames[0];
+					textBoxAlias.Text = Path.GetFileNameWithoutExtension(filenames[0]);
+				}
+			}
+		}
+		#endregion
 
 	}
 }

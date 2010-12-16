@@ -57,18 +57,18 @@ namespace DualLauncher
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
 			this.buttonTest = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.buttonResetTimesUsed = new System.Windows.Forms.Button();
+			this.labelTimesUsed = new System.Windows.Forms.Label();
+			this.label9 = new System.Windows.Forms.Label();
+			this.buttonResetLastUsed = new System.Windows.Forms.Button();
+			this.labelLastUsed = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
 			this.windowPicker = new DualLauncher.WindowPicker();
 			this.startupPositionControl1 = new DualLauncher.StartupPositionControl();
 			this.startupPositionControl2 = new DualLauncher.StartupPositionControl();
 			this.startupPositionControl3 = new DualLauncher.StartupPositionControl();
 			this.startupPositionControl4 = new DualLauncher.StartupPositionControl();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.labelLastUsed = new System.Windows.Forms.Label();
-			this.buttonResetLastUsed = new System.Windows.Forms.Button();
-			this.label9 = new System.Windows.Forms.Label();
-			this.labelTimesUsed = new System.Windows.Forms.Label();
-			this.buttonResetTimesUsed = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -76,8 +76,8 @@ namespace DualLauncher
 			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -332,6 +332,75 @@ namespace DualLauncher
 			this.buttonTest.UseVisualStyleBackColor = true;
 			this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.buttonResetTimesUsed);
+			this.groupBox2.Controls.Add(this.labelTimesUsed);
+			this.groupBox2.Controls.Add(this.label9);
+			this.groupBox2.Controls.Add(this.buttonResetLastUsed);
+			this.groupBox2.Controls.Add(this.labelLastUsed);
+			this.groupBox2.Controls.Add(this.label8);
+			this.groupBox2.Location = new System.Drawing.Point(12, 357);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(683, 48);
+			this.groupBox2.TabIndex = 20;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Stats";
+			// 
+			// buttonResetTimesUsed
+			// 
+			this.buttonResetTimesUsed.Location = new System.Drawing.Point(598, 15);
+			this.buttonResetTimesUsed.Name = "buttonResetTimesUsed";
+			this.buttonResetTimesUsed.Size = new System.Drawing.Size(75, 23);
+			this.buttonResetTimesUsed.TabIndex = 5;
+			this.buttonResetTimesUsed.Text = "Reset";
+			this.buttonResetTimesUsed.UseVisualStyleBackColor = true;
+			this.buttonResetTimesUsed.Click += new System.EventHandler(this.buttonResetTimesUsed_Click);
+			// 
+			// labelTimesUsed
+			// 
+			this.labelTimesUsed.Location = new System.Drawing.Point(519, 20);
+			this.labelTimesUsed.Name = "labelTimesUsed";
+			this.labelTimesUsed.Size = new System.Drawing.Size(64, 13);
+			this.labelTimesUsed.TabIndex = 4;
+			this.labelTimesUsed.Text = "labelTimesUsed";
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(447, 20);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(66, 13);
+			this.label9.TabIndex = 3;
+			this.label9.Text = "Times Used:";
+			// 
+			// buttonResetLastUsed
+			// 
+			this.buttonResetLastUsed.Location = new System.Drawing.Point(220, 15);
+			this.buttonResetLastUsed.Name = "buttonResetLastUsed";
+			this.buttonResetLastUsed.Size = new System.Drawing.Size(75, 23);
+			this.buttonResetLastUsed.TabIndex = 2;
+			this.buttonResetLastUsed.Text = "Reset";
+			this.buttonResetLastUsed.UseVisualStyleBackColor = true;
+			this.buttonResetLastUsed.Click += new System.EventHandler(this.buttonResetLastUsed_Click);
+			// 
+			// labelLastUsed
+			// 
+			this.labelLastUsed.Location = new System.Drawing.Point(80, 20);
+			this.labelLastUsed.Name = "labelLastUsed";
+			this.labelLastUsed.Size = new System.Drawing.Size(134, 13);
+			this.labelLastUsed.TabIndex = 1;
+			this.labelLastUsed.Text = "labelLastUsed";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(7, 20);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(58, 13);
+			this.label8.TabIndex = 0;
+			this.label8.Text = "Last Used:";
+			// 
 			// windowPicker
 			// 
 			this.windowPicker.Location = new System.Drawing.Point(637, 96);
@@ -370,78 +439,10 @@ namespace DualLauncher
 			this.startupPositionControl4.Size = new System.Drawing.Size(667, 87);
 			this.startupPositionControl4.TabIndex = 0;
 			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.buttonResetTimesUsed);
-			this.groupBox2.Controls.Add(this.labelTimesUsed);
-			this.groupBox2.Controls.Add(this.label9);
-			this.groupBox2.Controls.Add(this.buttonResetLastUsed);
-			this.groupBox2.Controls.Add(this.labelLastUsed);
-			this.groupBox2.Controls.Add(this.label8);
-			this.groupBox2.Location = new System.Drawing.Point(12, 357);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(683, 48);
-			this.groupBox2.TabIndex = 20;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Stats";
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(7, 20);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(58, 13);
-			this.label8.TabIndex = 0;
-			this.label8.Text = "Last Used:";
-			// 
-			// labelLastUsed
-			// 
-			this.labelLastUsed.Location = new System.Drawing.Point(80, 20);
-			this.labelLastUsed.Name = "labelLastUsed";
-			this.labelLastUsed.Size = new System.Drawing.Size(134, 13);
-			this.labelLastUsed.TabIndex = 1;
-			this.labelLastUsed.Text = "labelLastUsed";
-			// 
-			// buttonResetLastUsed
-			// 
-			this.buttonResetLastUsed.Location = new System.Drawing.Point(220, 15);
-			this.buttonResetLastUsed.Name = "buttonResetLastUsed";
-			this.buttonResetLastUsed.Size = new System.Drawing.Size(75, 23);
-			this.buttonResetLastUsed.TabIndex = 2;
-			this.buttonResetLastUsed.Text = "Reset";
-			this.buttonResetLastUsed.UseVisualStyleBackColor = true;
-			this.buttonResetLastUsed.Click += new System.EventHandler(this.buttonResetLastUsed_Click);
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(447, 20);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(66, 13);
-			this.label9.TabIndex = 3;
-			this.label9.Text = "Times Used:";
-			// 
-			// labelTimesUsed
-			// 
-			this.labelTimesUsed.Location = new System.Drawing.Point(519, 20);
-			this.labelTimesUsed.Name = "labelTimesUsed";
-			this.labelTimesUsed.Size = new System.Drawing.Size(64, 13);
-			this.labelTimesUsed.TabIndex = 4;
-			this.labelTimesUsed.Text = "labelTimesUsed";
-			// 
-			// buttonResetTimesUsed
-			// 
-			this.buttonResetTimesUsed.Location = new System.Drawing.Point(598, 15);
-			this.buttonResetTimesUsed.Name = "buttonResetTimesUsed";
-			this.buttonResetTimesUsed.Size = new System.Drawing.Size(75, 23);
-			this.buttonResetTimesUsed.TabIndex = 5;
-			this.buttonResetTimesUsed.Text = "Reset";
-			this.buttonResetTimesUsed.UseVisualStyleBackColor = true;
-			this.buttonResetTimesUsed.Click += new System.EventHandler(this.buttonResetTimesUsed_Click);
-			// 
 			// MagicWordForm
 			// 
 			this.AcceptButton = this.buttonOK;
+			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
@@ -474,6 +475,8 @@ namespace DualLauncher
 			this.ShowInTaskbar = false;
 			this.Text = "MagicWordForm";
 			this.Load += new System.EventHandler(this.MagicWordForm_Load);
+			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MagicWordForm_DragDrop);
+			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MagicWordForm_DragEnter);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.tabControl.ResumeLayout(false);
@@ -482,9 +485,9 @@ namespace DualLauncher
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
