@@ -41,6 +41,9 @@ namespace DualLauncher
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.buttonOptions = new System.Windows.Forms.Button();
+			this.addNewMagicWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.visitDualLauncherWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.magicWordListBox = new DualLauncher.MagicWordListBox();
 			this.columnHeaderAlias = new System.Windows.Forms.ColumnHeader();
 			this.columnHeaderFilename = new System.Windows.Forms.ColumnHeader();
@@ -61,18 +64,21 @@ namespace DualLauncher
 			// 
 			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.enterMagicWordToolStripMenuItem,
+            this.addNewMagicWordToolStripMenuItem,
             this.optionsToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.aboutDualLauncherToolStripMenuItem,
+            this.visitDualLauncherWebsiteToolStripMenuItem,
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(187, 98);
+			this.contextMenuStrip.Size = new System.Drawing.Size(221, 170);
 			// 
 			// enterMagicWordToolStripMenuItem
 			// 
 			this.enterMagicWordToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
 			this.enterMagicWordToolStripMenuItem.Name = "enterMagicWordToolStripMenuItem";
-			this.enterMagicWordToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.enterMagicWordToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
 			this.enterMagicWordToolStripMenuItem.Text = "Enter Magic Word...";
 			this.enterMagicWordToolStripMenuItem.Click += new System.EventHandler(this.enterMagicWordToolStripMenuItem_Click);
 			// 
@@ -80,26 +86,26 @@ namespace DualLauncher
 			// 
 			this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
 			this.optionsToolStripMenuItem.Text = "Options...";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
 			// aboutDualLauncherToolStripMenuItem
 			// 
 			this.aboutDualLauncherToolStripMenuItem.Name = "aboutDualLauncherToolStripMenuItem";
-			this.aboutDualLauncherToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.aboutDualLauncherToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
 			this.aboutDualLauncherToolStripMenuItem.Text = "About Dual Launcher";
 			this.aboutDualLauncherToolStripMenuItem.Click += new System.EventHandler(this.aboutDualLauncherToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(217, 6);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -126,6 +132,25 @@ namespace DualLauncher
 			this.toolTip.SetToolTip(this.buttonOptions, "Options...");
 			this.buttonOptions.UseVisualStyleBackColor = true;
 			this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
+			// 
+			// addNewMagicWordToolStripMenuItem
+			// 
+			this.addNewMagicWordToolStripMenuItem.Name = "addNewMagicWordToolStripMenuItem";
+			this.addNewMagicWordToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.addNewMagicWordToolStripMenuItem.Text = "Add New Magic Word...";
+			this.addNewMagicWordToolStripMenuItem.Click += new System.EventHandler(this.addNewMagicWordToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(217, 6);
+			// 
+			// visitDualLauncherWebsiteToolStripMenuItem
+			// 
+			this.visitDualLauncherWebsiteToolStripMenuItem.Name = "visitDualLauncherWebsiteToolStripMenuItem";
+			this.visitDualLauncherWebsiteToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+			this.visitDualLauncherWebsiteToolStripMenuItem.Text = "Visit Dual Launcher Website";
+			this.visitDualLauncherWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitDualLauncherWebsiteToolStripMenuItem_Click);
 			// 
 			// magicWordListBox
 			// 
@@ -217,6 +242,9 @@ namespace DualLauncher
 		private System.Windows.Forms.Button buttonOptions;
 		private System.Windows.Forms.ColumnHeader columnHeaderAlias;
 		private System.Windows.Forms.ColumnHeader columnHeaderFilename;
+		private System.Windows.Forms.ToolStripMenuItem addNewMagicWordToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+		private System.Windows.Forms.ToolStripMenuItem visitDualLauncherWebsiteToolStripMenuItem;
 	}
 }
 

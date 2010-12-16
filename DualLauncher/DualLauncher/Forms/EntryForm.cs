@@ -207,7 +207,7 @@ namespace DualLauncher
 				"AddMagicWordHotKey",
 				Properties.Resources.AddMagicWordDescription,
 				"",		// no Windows 7 key
-				new HotKey.HotKeyHandler(AddMagicWord));
+				new HotKey.HotKeyHandler(AddNewMagicWordForActiveWindow));
 		}
 
 		private void TermHotKeys()
@@ -216,7 +216,7 @@ namespace DualLauncher
 			activateHotKeyController.Dispose();
 		}
 
-		private void AddMagicWord()
+		private void AddNewMagicWordForActiveWindow()
 		{
 			MagicWord newMagicWord = new MagicWord();
 			// get the active window
@@ -227,7 +227,16 @@ namespace DualLauncher
 				// use details from the active window to prefill a new MagicWord
 				MagicWordForm.GetWindowDetails(hWnd, newMagicWord);
 			}
+			AddNewMagicWord(newMagicWord);
+		}
 
+		private void AddNewMagicWord()
+		{
+			AddNewMagicWord(new MagicWord());
+		}
+
+		private void AddNewMagicWord(MagicWord newMagicWord)
+		{
 			// let the user edit the details
 			MagicWordForm dlg = new MagicWordForm(newMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
@@ -269,6 +278,11 @@ namespace DualLauncher
 			ShowEntryForm();
 		}
 
+		private void addNewMagicWordToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddNewMagicWord();
+		}
+
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ShowOptions();
@@ -293,6 +307,25 @@ namespace DualLauncher
 			// TODO: why doesn't this appear to be modal?
 			dlg.ShowDialog();
 		}
+
+		private void visitDualLauncherWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			VisitDualLauncherWebsite();
+		}
+
+		private void VisitDualLauncherWebsite()
+		{
+			try
+			{
+				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net/duallauncher.html");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
+		}
+
+
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
