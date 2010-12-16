@@ -318,21 +318,31 @@ namespace DualLauncher
 			}
 			Trace.WriteLine("Found correct window");
 
+			// This should always be true
 			if (pendingMove.StartupPosition.EnablePosition)
 			{
 				windowPlacement.rcNormalPosition.left = pendingMove.StartupPosition.Position.Left;
 				windowPlacement.rcNormalPosition.top = pendingMove.StartupPosition.Position.Top;
 				windowPlacement.rcNormalPosition.right = pendingMove.StartupPosition.Position.Right;
 				windowPlacement.rcNormalPosition.bottom = pendingMove.StartupPosition.Position.Bottom;
-				windowPlacement.showCmd = (uint)pendingMove.StartupPosition.ShowCmd;
 
-				// safety check (some old words did not have the ShowCmd value initialised)
-				if (windowPlacement.showCmd == Win32.SW_HIDE)	// 0
+				// If the window is to be shown minimised or maximised, then we 
+				// show it normally first, then minimised/maximised
+				windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+
+				// now minimise/maximise if needed
+				if ((uint)pendingMove.StartupPosition.ShowCmd == Win32.SW_SHOWMAXIMIZED)
 				{
-					windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+					windowPlacement.showCmd = Win32.SW_SHOWMAXIMIZED;
+					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				}
+				else if ((uint)pendingMove.StartupPosition.ShowCmd == Win32.SW_SHOWMINIMIZED)
+				{
+					windowPlacement.showCmd = Win32.SW_SHOWMINIMIZED;
+					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 				}
 			}
-			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 
 			// indicate that the window matches the pending move 
 			// and that we no longer need to monitor this pending move
