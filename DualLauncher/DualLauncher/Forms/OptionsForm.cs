@@ -464,5 +464,53 @@ namespace DualLauncher
 			}
 
 		}
+
+		private void dataGridView_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			// convert the key to s atring for easier comparison
+			string keyChar = e.KeyChar.ToString();
+
+			int totalRows = dataGridView.Rows.Count;
+			// no point in doing anything if no rows
+			if (totalRows > 0)
+			{
+				// normally we would start searching from the first row
+				int curRowIndex = 0;
+				DataGridViewSelectedRowCollection selectedRows = dataGridView.SelectedRows;
+				if (selectedRows.Count >= 1)
+				{
+					// but if something is selected, we start from the next row after the first selected item
+					curRowIndex = (selectedRows[0].Index + 1) % totalRows;
+				}
+				int newRowIndex = curRowIndex;
+				do
+				{
+					DataGridViewRow row = dataGridView.Rows[newRowIndex];
+					Object rowObject = row.DataBoundItem;
+					MagicWord magicWord = rowObject as MagicWord;
+					if (magicWord != null)
+					{
+						string alias = magicWord.Alias;
+						if (alias.ToString().StartsWith(keyChar, true, null))
+						{
+							// unselect the currently selected rows
+							foreach (DataGridViewRow selectedRow in selectedRows)
+							{
+								selectedRow.Selected = false;
+							}
+							// select the new row
+							dataGridView.Rows[newRowIndex].Selected = true;
+							// and make sure it is scolled into view
+							dataGridView.CurrentCell = dataGridView.Rows[newRowIndex].Cells[0];
+							break;
+						}
+					}
+					newRowIndex++;
+					// make sure we wrap around at the end (we already know totalRoes is not zero)
+					newRowIndex %= totalRows;
+				}
+				while (newRowIndex != curRowIndex);
+			}
+		}
 	}
 }

@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -66,6 +66,9 @@ namespace DualLauncher
 			this.buttonActivate = new System.Windows.Forms.Button();
 			this.labelActivate = new System.Windows.Forms.Label();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
+			this.label6 = new System.Windows.Forms.Label();
+			this.numericUpDownTimeout = new System.Windows.Forms.NumericUpDown();
+			this.label5 = new System.Windows.Forms.Label();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.radioButtonIconDetails = new System.Windows.Forms.RadioButton();
 			this.radioButtonIconList = new System.Windows.Forms.RadioButton();
@@ -84,9 +87,6 @@ namespace DualLauncher
 			this.buttonDeleteAll = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.label5 = new System.Windows.Forms.Label();
-			this.numericUpDownTimeout = new System.Windows.Forms.NumericUpDown();
-			this.label6 = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPageMagicWords.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -95,12 +95,12 @@ namespace DualLauncher
 			this.groupBox4.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.tabPageGeneral.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).BeginInit();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).BeginInit();
 			this.tabPageImport.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox2.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -189,8 +189,8 @@ namespace DualLauncher
 			this.dataGridView.AllowUserToDeleteRows = false;
 			this.dataGridView.AllowUserToResizeColumns = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -215,6 +215,7 @@ namespace DualLauncher
 			this.dataGridView.TabIndex = 0;
 			this.toolTip.SetToolTip(this.dataGridView, "Click on the column headers to sort.\r\nDouble-click on a row to edit it.");
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
+			this.dataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridView_KeyPress);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
 			// 
 			// aliasDataGridViewTextBoxColumn
@@ -513,6 +514,47 @@ namespace DualLauncher
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
 			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(284, 194);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(47, 13);
+			this.label6.TabIndex = 7;
+			this.label6.Text = "seconds";
+			// 
+			// numericUpDownTimeout
+			// 
+			this.numericUpDownTimeout.Location = new System.Drawing.Point(214, 192);
+			this.numericUpDownTimeout.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+			this.numericUpDownTimeout.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownTimeout.Name = "numericUpDownTimeout";
+			this.numericUpDownTimeout.Size = new System.Drawing.Size(64, 20);
+			this.numericUpDownTimeout.TabIndex = 6;
+			this.numericUpDownTimeout.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numericUpDownTimeout.ValueChanged += new System.EventHandler(this.numericUpDownTimeout_ValueChanged);
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(4, 194);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(204, 13);
+			this.label5.TabIndex = 5;
+			this.label5.Text = "Timeout for application window to appear:";
+			// 
 			// groupBox5
 			// 
 			this.groupBox5.Controls.Add(this.radioButtonIconDetails);
@@ -703,47 +745,6 @@ namespace DualLauncher
 			this.buttonClose.Text = "Close";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(4, 194);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(204, 13);
-			this.label5.TabIndex = 5;
-			this.label5.Text = "Timeout for application window to appear:";
-			// 
-			// numericUpDownTimeout
-			// 
-			this.numericUpDownTimeout.Location = new System.Drawing.Point(214, 192);
-			this.numericUpDownTimeout.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-			this.numericUpDownTimeout.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.numericUpDownTimeout.Name = "numericUpDownTimeout";
-			this.numericUpDownTimeout.Size = new System.Drawing.Size(64, 20);
-			this.numericUpDownTimeout.TabIndex = 6;
-			this.numericUpDownTimeout.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-			this.numericUpDownTimeout.ValueChanged += new System.EventHandler(this.numericUpDownTimeout_ValueChanged);
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(284, 194);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(47, 13);
-			this.label6.TabIndex = 7;
-			this.label6.Text = "seconds";
-			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -768,6 +769,7 @@ namespace DualLauncher
 			this.groupBox1.ResumeLayout(false);
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).EndInit();
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).EndInit();
@@ -775,7 +777,6 @@ namespace DualLauncher
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).EndInit();
 			this.ResumeLayout(false);
 
 		}
