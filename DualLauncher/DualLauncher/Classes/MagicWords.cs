@@ -96,58 +96,17 @@ namespace DualLauncher
 			{
 				Merge(XmlImporter.Import(filename));
 			}
-
-
-			//// test code
-			//MagicWord mw = new MagicWord("notepad", @"C:\Windows\notepad.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("test", @"T:\Test.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("explorer", @"C:\Windows\explorer.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("iexplore", @"C:\Program Files (x86)\Internet Explorer\iexplore.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("firefox", @"G:\Mozilla Firefox\firefox.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("vim", @"G:\Vim\vim72\gvim.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("cmd", @"C:\Windows\System32\cmd.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("paint", @"G:\Paint.NET\PaintDotNet.exe");
-			//mw.CaptionRegExpr = "Paint.NET";
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("vnc", @"G:\VNC4\vncviewer.exe");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("dmt", "http://dualmonitortool.sourceforge.net");
-			//AddTestPosns(mw);
-
-			//mw = new MagicWord("vinotepad", @"C:\Windows\notepad.exe");
-			//AddTestPosns(mw);
-
-			//FireWordsUpdated();
+			else
+			{
+				// if file doesn't exist, just add a single magic word for help
+				MagicWord mw = new MagicWord("help", "http://dualmonitortool.sourceforge.net/duallauncher.html");
+				magicWords.Add(mw);
+			}
 
 			isDirty = false;
 
 			return ret;
 		}
-
-		//private void AddTestPosns(MagicWord mw)
-		//{
-		//    mw.StartupPosition1 = new StartupPosition(new Rectangle(0, 0, 400, 400));
-		//    mw.StartupPosition2 =  new StartupPosition(new Rectangle(1280, 0, 400, 400));
-		//    mw.StartupPosition3 =  new StartupPosition(new Rectangle(880, 624, 400, 400));
-		//    mw.StartupPosition4 =  new StartupPosition(new Rectangle(2160, 624, 400, 400));
-		//    magicWords.Add(mw);
-		//}
 
 		public void SaveIfDirty(string filename)
 		{
