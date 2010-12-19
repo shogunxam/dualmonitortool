@@ -72,7 +72,7 @@ namespace DualLauncher
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(221, 170);
+			this.contextMenuStrip.Size = new System.Drawing.Size(221, 148);
 			// 
 			// enterMagicWordToolStripMenuItem
 			// 
@@ -148,7 +148,7 @@ namespace DualLauncher
 			this.buttonOptions.Name = "buttonOptions";
 			this.buttonOptions.Size = new System.Drawing.Size(24, 24);
 			this.buttonOptions.TabIndex = 3;
-			this.toolTip.SetToolTip(this.buttonOptions, "Options...");
+			this.toolTip.SetToolTip(this.buttonOptions, "Click for Options");
 			this.buttonOptions.UseVisualStyleBackColor = true;
 			this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
 			// 

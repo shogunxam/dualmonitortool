@@ -354,6 +354,7 @@ namespace DualLauncher
 			if (e.KeyCode == Keys.Enter)
 			{
 				ProcessInput(1);
+				e.SuppressKeyPress = true;	// stop the annoying beep when this gets passed to textbox
 			}
 			else if (CompareKeys(e, Properties.Settings.Default.Position1Key)) //Keys.F1)
 			{
@@ -376,6 +377,7 @@ namespace DualLauncher
 				// clear text and hide
 				Input.Text = "";
 				HideEntryForm();
+				e.SuppressKeyPress = true;	// stop the annoying beep when this gets passed to textbox
 			}
 			else
 			{
