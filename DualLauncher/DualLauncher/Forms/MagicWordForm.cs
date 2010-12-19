@@ -239,6 +239,24 @@ namespace DualLauncher
 			}
 		}
 
+		//private void textBoxAlias_Validating(object sender, CancelEventArgs e)
+		//{
+		//    if (textBoxAlias.Text.Length == 0)
+		//    {
+		//        MessageBox.Show(Properties.Resources.NoAlias, Program.MyTitle);
+		//        e.Cancel = true;
+		//    }
+		//}
+
+		//private void textBoxFilename_Validating(object sender, CancelEventArgs e)
+		//{
+		//    if (textBoxFilename.Text.Length == 0)
+		//    {
+		//        MessageBox.Show(Properties.Resources.NoFilename, Program.MyTitle);
+		//        e.Cancel = true;
+		//    }
+		//}
+
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
 			bool isValid = FillMagicWord(this.magicWord);
@@ -269,6 +287,20 @@ namespace DualLauncher
 				MessageBox.Show(Properties.Resources.InvalidCoOrd, Program.MyTitle);
 				return false;
 			}
+			if (textBoxAlias.Text.Length == 0)
+			{
+				this.DialogResult = DialogResult.None;
+				textBoxAlias.Focus();
+				MessageBox.Show(Properties.Resources.NoAlias, Program.MyTitle);
+				return false;
+			}
+			if (textBoxFilename.Text.Length == 0)
+			{
+				this.DialogResult = DialogResult.None;
+				textBoxFilename.Focus();
+				MessageBox.Show(Properties.Resources.NoFilename, Program.MyTitle);
+				return false;
+			}
 
 			changedMagicWord.Alias = textBoxAlias.Text;
 			changedMagicWord.Filename = textBoxFilename.Text;
@@ -289,7 +321,6 @@ namespace DualLauncher
 				changedMagicWord.LastUsed = lastUsed;
 				changedMagicWord.UseCount = timesUsed;
 			}
-
 
 			return true;
 		}

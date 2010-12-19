@@ -159,6 +159,24 @@ namespace DualLauncher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to speficy the name that you will type to run this Magic Word..
+        /// </summary>
+        internal static string NoAlias {
+            get {
+                return ResourceManager.GetString("NoAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to specify the application/document to open for this Magic Word..
+        /// </summary>
+        internal static string NoFilename {
+            get {
+                return ResourceManager.GetString("NoFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You need to select a key from the drop down box.
         /// </summary>
         internal static string NoKey {

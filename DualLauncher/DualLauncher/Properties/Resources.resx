@@ -152,6 +152,12 @@ This is free software, and you are welcome to redistribute it under certain cond
   <data name="MyTitle" xml:space="preserve">
     <value>Dual Launcher</value>
   </data>
+  <data name="NoAlias" xml:space="preserve">
+    <value>You need to speficy the name that you will type to run this Magic Word.</value>
+  </data>
+  <data name="NoFilename" xml:space="preserve">
+    <value>You need to specify the application/document to open for this Magic Word.</value>
+  </data>
   <data name="NoKey" xml:space="preserve">
     <value>You need to select a key from the drop down box</value>
   </data>
