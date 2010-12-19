@@ -239,6 +239,9 @@ namespace DualLauncher
 		private void AddNewMagicWord(MagicWord newMagicWord)
 		{
 			// let the user edit the details
+
+			// need to activate, or the MagicWordForm will be hidden under whatever was the active window
+			this.Activate();	
 			MagicWordForm dlg = new MagicWordForm(newMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
