@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -142,7 +142,7 @@ namespace DualLauncher
 			this.buttonResetCounts.Name = "buttonResetCounts";
 			this.buttonResetCounts.Size = new System.Drawing.Size(124, 23);
 			this.buttonResetCounts.TabIndex = 4;
-			this.buttonResetCounts.Text = "Reset Usage Counts";
+			this.buttonResetCounts.Text = "Reset usage counts";
 			this.toolTip.SetToolTip(this.buttonResetCounts, "Reset the number of times you have used each Magic Word.");
 			this.buttonResetCounts.UseVisualStyleBackColor = true;
 			this.buttonResetCounts.Click += new System.EventHandler(this.buttonResetCounts_Click);
@@ -189,8 +189,8 @@ namespace DualLauncher
 			this.dataGridView.AllowUserToDeleteRows = false;
 			this.dataGridView.AllowUserToResizeColumns = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -584,10 +584,10 @@ namespace DualLauncher
 			this.radioButtonIconList.AutoSize = true;
 			this.radioButtonIconList.Location = new System.Drawing.Point(11, 44);
 			this.radioButtonIconList.Name = "radioButtonIconList";
-			this.radioButtonIconList.Size = new System.Drawing.Size(104, 17);
+			this.radioButtonIconList.Size = new System.Drawing.Size(103, 17);
 			this.radioButtonIconList.TabIndex = 1;
 			this.radioButtonIconList.TabStop = true;
-			this.radioButtonIconList.Text = "Multi-Column List";
+			this.radioButtonIconList.Text = "Multi-column List";
 			this.radioButtonIconList.UseVisualStyleBackColor = true;
 			this.radioButtonIconList.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
@@ -730,15 +730,15 @@ namespace DualLauncher
 			this.buttonDeleteAll.Name = "buttonDeleteAll";
 			this.buttonDeleteAll.Size = new System.Drawing.Size(148, 23);
 			this.buttonDeleteAll.TabIndex = 3;
-			this.buttonDeleteAll.Text = "Delete All Magic Words...";
+			this.buttonDeleteAll.Text = "Delete all Magic Words...";
 			this.buttonDeleteAll.UseVisualStyleBackColor = true;
 			this.buttonDeleteAll.Click += new System.EventHandler(this.buttonDeleteAll_Click);
 			// 
 			// buttonClose
 			// 
-			this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonClose.Location = new System.Drawing.Point(257, 340);
+			this.buttonClose.Location = new System.Drawing.Point(487, 340);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
 			this.buttonClose.TabIndex = 1;
@@ -757,7 +757,7 @@ namespace DualLauncher
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
 			this.ShowInTaskbar = false;
-			this.Text = "Options";
+			this.Text = "Dual Launcher - Options";
 			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
 			this.tabControl1.ResumeLayout(false);

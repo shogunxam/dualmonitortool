@@ -226,14 +226,6 @@ namespace DualLauncher
 					}
 					ret += "Ctrl";
 				}
-				if (ShiftMod)
-				{
-					if (ret.Length > 0)
-					{
-						ret += "+";
-					}
-					ret += "Shift";
-				}
 				if (AltMod)
 				{
 					if (ret.Length > 0)
@@ -241,6 +233,14 @@ namespace DualLauncher
 						ret += "+";
 					}
 					ret += "Alt";
+				}
+				if (ShiftMod)
+				{
+					if (ret.Length > 0)
+					{
+						ret += "+";
+					}
+					ret += "Shift";
 				}
 				if (ret.Length > 0)
 				{

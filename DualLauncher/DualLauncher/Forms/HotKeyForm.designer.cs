@@ -49,9 +49,9 @@ namespace DualLauncher
 			this.checkBoxEnable.AutoSize = true;
 			this.checkBoxEnable.Location = new System.Drawing.Point(17, 30);
 			this.checkBoxEnable.Name = "checkBoxEnable";
-			this.checkBoxEnable.Size = new System.Drawing.Size(115, 17);
+			this.checkBoxEnable.Size = new System.Drawing.Size(113, 17);
 			this.checkBoxEnable.TabIndex = 1;
-			this.checkBoxEnable.Text = "Enable this Hotkey";
+			this.checkBoxEnable.Text = "Enable this hotkey";
 			this.checkBoxEnable.UseVisualStyleBackColor = true;
 			this.checkBoxEnable.CheckedChanged += new System.EventHandler(this.checkBoxEnable_CheckedChanged);
 			// 
@@ -84,7 +84,7 @@ namespace DualLauncher
 			this.lblNote.ReadOnly = true;
 			this.lblNote.Size = new System.Drawing.Size(360, 78);
 			this.lblNote.TabIndex = 5;
-			this.lblNote.Text = "";
+			this.lblNote.Text = global::DualLauncher.Properties.Resources.BrowseExeTitle;
 			// 
 			// keyComboPanel
 			// 
@@ -111,7 +111,7 @@ namespace DualLauncher
 			this.MinimizeBox = false;
 			this.Name = "HotKeyForm";
 			this.ShowInTaskbar = false;
-			this.Text = "Change keyCombo";
+			this.Text = "Dual Launcher - Change Hotkey";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

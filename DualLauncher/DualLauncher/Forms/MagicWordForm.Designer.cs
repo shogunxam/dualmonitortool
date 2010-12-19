@@ -50,13 +50,18 @@ namespace DualLauncher
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.startupPositionControl1 = new DualLauncher.StartupPositionControl();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.startupPositionControl2 = new DualLauncher.StartupPositionControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.startupPositionControl3 = new DualLauncher.StartupPositionControl();
 			this.tabPage4 = new System.Windows.Forms.TabPage();
+			this.startupPositionControl4 = new DualLauncher.StartupPositionControl();
 			this.buttonDirBrowse = new System.Windows.Forms.Button();
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
 			this.buttonTest = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.windowPicker = new DualLauncher.WindowPicker();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.buttonResetTimesUsed = new System.Windows.Forms.Button();
 			this.labelTimesUsed = new System.Windows.Forms.Label();
@@ -64,11 +69,6 @@ namespace DualLauncher
 			this.buttonResetLastUsed = new System.Windows.Forms.Button();
 			this.labelLastUsed = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.windowPicker = new DualLauncher.WindowPicker();
-			this.startupPositionControl1 = new DualLauncher.StartupPositionControl();
-			this.startupPositionControl2 = new DualLauncher.StartupPositionControl();
-			this.startupPositionControl3 = new DualLauncher.StartupPositionControl();
-			this.startupPositionControl4 = new DualLauncher.StartupPositionControl();
 			this.groupBox1.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -76,8 +76,8 @@ namespace DualLauncher
 			this.tabPage3.SuspendLayout();
 			this.tabPage4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
-			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -85,9 +85,9 @@ namespace DualLauncher
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(12, 18);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(68, 13);
+			this.label1.Size = new System.Drawing.Size(65, 13);
 			this.label1.TabIndex = 0;
-			this.label1.Text = "Magic Word:";
+			this.label1.Text = "Magic word:";
 			// 
 			// textBoxAlias
 			// 
@@ -172,7 +172,7 @@ namespace DualLauncher
 			this.groupBox1.Size = new System.Drawing.Size(684, 81);
 			this.groupBox1.TabIndex = 9;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Application Window Identification";
+			this.groupBox1.Text = "Application window identification";
 			this.toolTip.SetToolTip(this.groupBox1, resources.GetString("groupBox1.ToolTip"));
 			// 
 			// textBoxCaption
@@ -272,6 +272,13 @@ namespace DualLauncher
 			this.tabPage1.Text = "Start Position 1";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
+			// startupPositionControl1
+			// 
+			this.startupPositionControl1.Location = new System.Drawing.Point(6, 3);
+			this.startupPositionControl1.Name = "startupPositionControl1";
+			this.startupPositionControl1.Size = new System.Drawing.Size(667, 87);
+			this.startupPositionControl1.TabIndex = 0;
+			// 
 			// tabPage2
 			// 
 			this.tabPage2.Controls.Add(this.startupPositionControl2);
@@ -283,6 +290,13 @@ namespace DualLauncher
 			this.tabPage2.Text = "Start Position 2";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
+			// startupPositionControl2
+			// 
+			this.startupPositionControl2.Location = new System.Drawing.Point(6, 3);
+			this.startupPositionControl2.Name = "startupPositionControl2";
+			this.startupPositionControl2.Size = new System.Drawing.Size(667, 87);
+			this.startupPositionControl2.TabIndex = 0;
+			// 
 			// tabPage3
 			// 
 			this.tabPage3.Controls.Add(this.startupPositionControl3);
@@ -293,6 +307,13 @@ namespace DualLauncher
 			this.tabPage3.Text = "Start Position3";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
+			// startupPositionControl3
+			// 
+			this.startupPositionControl3.Location = new System.Drawing.Point(6, 3);
+			this.startupPositionControl3.Name = "startupPositionControl3";
+			this.startupPositionControl3.Size = new System.Drawing.Size(667, 87);
+			this.startupPositionControl3.TabIndex = 0;
+			// 
 			// tabPage4
 			// 
 			this.tabPage4.Controls.Add(this.startupPositionControl4);
@@ -302,6 +323,13 @@ namespace DualLauncher
 			this.tabPage4.TabIndex = 3;
 			this.tabPage4.Text = "Start Position 4";
 			this.tabPage4.UseVisualStyleBackColor = true;
+			// 
+			// startupPositionControl4
+			// 
+			this.startupPositionControl4.Location = new System.Drawing.Point(6, 3);
+			this.startupPositionControl4.Name = "startupPositionControl4";
+			this.startupPositionControl4.Size = new System.Drawing.Size(667, 87);
+			this.startupPositionControl4.TabIndex = 0;
 			// 
 			// buttonDirBrowse
 			// 
@@ -328,9 +356,19 @@ namespace DualLauncher
 			this.buttonTest.Name = "buttonTest";
 			this.buttonTest.Size = new System.Drawing.Size(128, 23);
 			this.buttonTest.TabIndex = 19;
-			this.buttonTest.Text = "Test the Magic Word";
+			this.buttonTest.Text = "Test the magic word";
 			this.buttonTest.UseVisualStyleBackColor = true;
 			this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+			// 
+			// windowPicker
+			// 
+			this.windowPicker.Location = new System.Drawing.Point(637, 96);
+			this.windowPicker.Name = "windowPicker";
+			this.windowPicker.Size = new System.Drawing.Size(48, 48);
+			this.windowPicker.TabIndex = 17;
+			this.windowPicker.TabStop = false;
+			this.toolTip.SetToolTip(this.windowPicker, "Drag the crosshairs over an existing running application to quickly fill in this " +
+					"form.");
 			// 
 			// groupBox2
 			// 
@@ -370,9 +408,9 @@ namespace DualLauncher
 			this.label9.AutoSize = true;
 			this.label9.Location = new System.Drawing.Point(447, 20);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(66, 13);
+			this.label9.Size = new System.Drawing.Size(64, 13);
 			this.label9.TabIndex = 3;
-			this.label9.Text = "Times Used:";
+			this.label9.Text = "Times used:";
 			// 
 			// buttonResetLastUsed
 			// 
@@ -397,47 +435,9 @@ namespace DualLauncher
 			this.label8.AutoSize = true;
 			this.label8.Location = new System.Drawing.Point(7, 20);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(58, 13);
+			this.label8.Size = new System.Drawing.Size(56, 13);
 			this.label8.TabIndex = 0;
-			this.label8.Text = "Last Used:";
-			// 
-			// windowPicker
-			// 
-			this.windowPicker.Location = new System.Drawing.Point(637, 96);
-			this.windowPicker.Name = "windowPicker";
-			this.windowPicker.Size = new System.Drawing.Size(48, 48);
-			this.windowPicker.TabIndex = 17;
-			this.windowPicker.TabStop = false;
-			this.toolTip.SetToolTip(this.windowPicker, "Drag the crosshairs over an existing running application to quickly fill in this " +
-					"form.");
-			// 
-			// startupPositionControl1
-			// 
-			this.startupPositionControl1.Location = new System.Drawing.Point(6, 3);
-			this.startupPositionControl1.Name = "startupPositionControl1";
-			this.startupPositionControl1.Size = new System.Drawing.Size(667, 87);
-			this.startupPositionControl1.TabIndex = 0;
-			// 
-			// startupPositionControl2
-			// 
-			this.startupPositionControl2.Location = new System.Drawing.Point(6, 3);
-			this.startupPositionControl2.Name = "startupPositionControl2";
-			this.startupPositionControl2.Size = new System.Drawing.Size(667, 87);
-			this.startupPositionControl2.TabIndex = 0;
-			// 
-			// startupPositionControl3
-			// 
-			this.startupPositionControl3.Location = new System.Drawing.Point(6, 3);
-			this.startupPositionControl3.Name = "startupPositionControl3";
-			this.startupPositionControl3.Size = new System.Drawing.Size(667, 87);
-			this.startupPositionControl3.TabIndex = 0;
-			// 
-			// startupPositionControl4
-			// 
-			this.startupPositionControl4.Location = new System.Drawing.Point(6, 3);
-			this.startupPositionControl4.Name = "startupPositionControl4";
-			this.startupPositionControl4.Size = new System.Drawing.Size(667, 87);
-			this.startupPositionControl4.TabIndex = 0;
+			this.label8.Text = "Last used:";
 			// 
 			// MagicWordForm
 			// 
@@ -473,7 +473,7 @@ namespace DualLauncher
 			this.MinimizeBox = false;
 			this.Name = "MagicWordForm";
 			this.ShowInTaskbar = false;
-			this.Text = "MagicWordForm";
+			this.Text = "DualLauncher - Add/Edit Magic Word";
 			this.Load += new System.EventHandler(this.MagicWordForm_Load);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MagicWordForm_DragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MagicWordForm_DragEnter);
@@ -485,9 +485,9 @@ namespace DualLauncher
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage4.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).EndInit();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
