@@ -26,37 +26,48 @@ using System.Reflection;
 
 using System.Diagnostics;
 
-// based on http://msdn.microsoft.com/en-us/library/aa480736.aspx
-// and http://msdn.microsoft.com/en-us/library/ms993236.aspx
-
 namespace DualLauncher
 {
+	/// <summary>
+	/// This is a sortable implementation of a BindingList
+	/// It is based on http://msdn.microsoft.com/en-us/library/aa480736.aspx
+	/// amd http://msdn.microsoft.com/en-us/library/ms993236.aspx
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class SortableBindingList<T> : BindingList<T>
 	{
-
+		// indicate we support sorting
 		protected override bool SupportsSortingCore
 		{
 			get { return true; }
 		}
 
 		private bool isSortedCore;
+		// indicate if currently sorted
 		protected override bool IsSortedCore
 		{
 			get { return isSortedCore; }
 		}
 
-		ListSortDirection sortDirectionCore;
+		private ListSortDirection sortDirectionCore;
+		// the direction of the sort
 		protected override ListSortDirection SortDirectionCore
 		{
 			get { return sortDirectionCore; }
 		}
 
-		PropertyDescriptor sortPropertyCore;
+		private PropertyDescriptor sortPropertyCore;
+		// the property name we are sorting on
 		protected override PropertyDescriptor SortPropertyCore
 		{
 			get { return sortPropertyCore; }
 		}
 
+		/// <summary>
+		/// Sort on the given property and direction
+		/// </summary>
+		/// <param name="property"></param>
+		/// <param name="sortDirection"></param>
 		public void Sort(PropertyDescriptor property, ListSortDirection sortDirection)
 		{
 			ApplySortCore(property, ListSortDirection.Ascending);
@@ -83,6 +94,10 @@ namespace DualLauncher
 			}
 		}
 
+		/// <summary>
+		/// Inserts the records into the correct sorted position
+		/// </summary>
+		/// <param name="record"></param>
 		public void Insert(T record)
 		{
 			// insert the record anywhere and then sort
@@ -91,6 +106,9 @@ namespace DualLauncher
 			ReSort();
 		}
 
+		/// <summary>
+		/// Makes sure the list is sorted 
+		/// </summary>
 		public void ReSort()
 		{
 			if (isSortedCore)
@@ -111,6 +129,8 @@ namespace DualLauncher
 
 		protected override int FindCore(PropertyDescriptor property, object key)
 		{
+			// don't think we need to support this
+
 			//if (key != null)
 			//{
 			//    T item;

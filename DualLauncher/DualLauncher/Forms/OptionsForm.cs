@@ -29,13 +29,18 @@ using System.Diagnostics;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Form for changing options and managing the list of MagicWords
+	/// </summary>
 	public partial class OptionsForm : Form
 	{
+		// reference to our main window
+		// used for access to the HotKeys
+		// TODO: think about moving the hotkeys out into a controller
 		private EntryForm entryForm;
 
 		// unique name for for a key for use within the Run section of the registry
 		private const string autoStartKeyName = "GNE_DualLauncher";
-
 
 		public OptionsForm(EntryForm entryForm)
 		{
@@ -54,6 +59,22 @@ namespace DualLauncher
 			dataGridView.Select();
 		}
 
+
+		private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			// Good time to save any upadtes to the magic words
+			try
+			{
+				MagicWords.Instance.SaveIfDirty(Program.MyDbFnm);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
+
+		}
+
+		#region MagicWords tab
 		private BindingSource bindingSource;
 
 		private void InitMagicWordsTab()
@@ -72,67 +93,36 @@ namespace DualLauncher
 			UpdateMagicWordButtons();
 		}
 
-		private void InitKeysTab()
+		private void EditMagicWord(int rowIndex)
 		{
-			labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
-			labelAddMagicWord.Text = entryForm.AddMagicWordHotKeyController.ToString();
+			//// we work on a clone of the magic word in case user decides
+			//// to cancel edits
+			//MagicWord editMagicWord = MagicWords.Instance[rowIndex].Clone();
+			//MagicWordForm dlg = new MagicWordForm(editMagicWord);
+			//if (dlg.ShowDialog() == DialogResult.OK)
+			//{
+			//    // update...
+			//    MagicWords.Instance[rowIndex] = editMagicWord;
+			//}
 
-			labelPos1.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position1Key);
-			labelPos2.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position2Key);
-			labelPos3.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position3Key);
-			labelPos4.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position4Key);
-		}
-
-		private string KeyComboPropertyValueToString(uint propertyValue)
-		{
-			// TODO: KeyCombo should have a ctor that takes the property value
-			KeyCombo keyCombo = new KeyCombo();
-			keyCombo.FromPropertyValue(propertyValue);
-			return keyCombo.ToString();
-		}
-
-		private void InitGeneralTab()
-		{
-			UpdateAutoStartCheckBox();
-			checkBoxMru.Checked = Properties.Settings.Default.UseMru;
-			numericUpDownIcons.Value = (decimal)Properties.Settings.Default.MaxMostUsedSize;
-
-			if (Properties.Settings.Default.IconView == View.Details)
+			// we work on a clone of the magic word in case user decides
+			// to cancel edits
+			MagicWord editMagicWord = MagicWords.Instance[rowIndex];
+			MagicWordForm dlg = new MagicWordForm(editMagicWord);
+			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				radioButtonIconDetails.Checked = true;
-			}
-			else if (Properties.Settings.Default.IconView == View.List)
-			{
-				radioButtonIconList.Checked = true;
-			}
-			else
-			{
-				radioButtonIconLargeIcon.Checked = true;
-			}
-
-			numericUpDownTimeout.Value = (decimal)Properties.Settings.Default.StartupTimeout;
-		}
-
-		private void InitImportTab()
-		{
-		}
-
-		#region MagicWords grid events
-
-
-		private void dataGridView_SelectionChanged(object sender, EventArgs e)
-		{
-			UpdateMagicWordButtons();
-		}
-
-		private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-		{
-			if (e.RowIndex >= 0)
-			{
-				EditMagicWord(e.RowIndex);
+				// dialog has already updated the MagicWord within MagicWords
 			}
 		}
-		#endregion
+
+		private void UpdateMagicWordButtons()
+		{
+			// can only edit if one and only one row is selected
+			buttonEdit.Enabled = (dataGridView.SelectedRows.Count == 1);
+
+			// can delete if one or more rows are selected
+			buttonDelete.Enabled = (dataGridView.SelectedRows.Count > 0);
+		}
 
 		#region MagicWords button events
 		private void buttonAdd_Click(object sender, EventArgs e)
@@ -207,40 +197,92 @@ namespace DualLauncher
 		}
 		#endregion
 
-		#region MagicWords
-		private void EditMagicWord(int rowIndex)
+		#region MagicWords grid events
+		private void dataGridView_SelectionChanged(object sender, EventArgs e)
 		{
-			//// we work on a clone of the magic word in case user decides
-			//// to cancel edits
-			//MagicWord editMagicWord = MagicWords.Instance[rowIndex].Clone();
-			//MagicWordForm dlg = new MagicWordForm(editMagicWord);
-			//if (dlg.ShowDialog() == DialogResult.OK)
-			//{
-			//    // update...
-			//    MagicWords.Instance[rowIndex] = editMagicWord;
-			//}
+			UpdateMagicWordButtons();
+		}
 
-			// we work on a clone of the magic word in case user decides
-			// to cancel edits
-			MagicWord editMagicWord = MagicWords.Instance[rowIndex];
-			MagicWordForm dlg = new MagicWordForm(editMagicWord);
-			if (dlg.ShowDialog() == DialogResult.OK)
+		private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0)
 			{
-				// dialog has already updated the MagicWord within MagicWords
+				EditMagicWord(e.RowIndex);
 			}
 		}
 
-		private void UpdateMagicWordButtons()
+		private void dataGridView_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// can only edit if one and only one row is selected
-			buttonEdit.Enabled = (dataGridView.SelectedRows.Count == 1);
+			// convert the key to s atring for easier comparison
+			string keyChar = e.KeyChar.ToString();
 
-			// can delete if one or more rows are selected
-			buttonDelete.Enabled = (dataGridView.SelectedRows.Count > 0);
+			int totalRows = dataGridView.Rows.Count;
+			// no point in doing anything if no rows
+			if (totalRows > 0)
+			{
+				// normally we would start searching from the first row
+				int curRowIndex = 0;
+				DataGridViewSelectedRowCollection selectedRows = dataGridView.SelectedRows;
+				if (selectedRows.Count >= 1)
+				{
+					// but if something is selected, we start from the next row after the first selected item
+					curRowIndex = (selectedRows[0].Index + 1) % totalRows;
+				}
+				int newRowIndex = curRowIndex;
+				do
+				{
+					DataGridViewRow row = dataGridView.Rows[newRowIndex];
+					Object rowObject = row.DataBoundItem;
+					MagicWord magicWord = rowObject as MagicWord;
+					if (magicWord != null)
+					{
+						string alias = magicWord.Alias;
+						if (alias.ToString().StartsWith(keyChar, true, null))
+						{
+							// unselect the currently selected rows
+							foreach (DataGridViewRow selectedRow in selectedRows)
+							{
+								selectedRow.Selected = false;
+							}
+							// select the new row
+							dataGridView.Rows[newRowIndex].Selected = true;
+							// and make sure it is scolled into view
+							dataGridView.CurrentCell = dataGridView.Rows[newRowIndex].Cells[0];
+							break;
+						}
+					}
+					newRowIndex++;
+					// make sure we wrap around at the end (we already know totalRoes is not zero)
+					newRowIndex %= totalRows;
+				}
+				while (newRowIndex != curRowIndex);
+			}
 		}
 		#endregion
 
-		#region Keys
+		#endregion
+
+		#region Keys tab
+
+		private void InitKeysTab()
+		{
+			labelActivate.Text = entryForm.ActivateHotKeyController.ToString();
+			labelAddMagicWord.Text = entryForm.AddMagicWordHotKeyController.ToString();
+
+			labelPos1.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position1Key);
+			labelPos2.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position2Key);
+			labelPos3.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position3Key);
+			labelPos4.Text = KeyComboPropertyValueToString(Properties.Settings.Default.Position4Key);
+		}
+
+		private string KeyComboPropertyValueToString(uint propertyValue)
+		{
+			// TODO: KeyCombo should have a ctor that takes the property value
+			KeyCombo keyCombo = new KeyCombo();
+			keyCombo.FromPropertyValue(propertyValue);
+			return keyCombo.ToString();
+		}
+
 		private void buttonActivate_Click(object sender, EventArgs e)
 		{
 			if (entryForm.ActivateHotKeyController.Edit())
@@ -320,7 +362,29 @@ namespace DualLauncher
 		}
 		#endregion
 
-		#region General
+		#region General tab
+		private void InitGeneralTab()
+		{
+			UpdateAutoStartCheckBox();
+			checkBoxMru.Checked = Properties.Settings.Default.UseMru;
+			numericUpDownIcons.Value = (decimal)Properties.Settings.Default.MaxMostUsedSize;
+
+			if (Properties.Settings.Default.IconView == View.Details)
+			{
+				radioButtonIconDetails.Checked = true;
+			}
+			else if (Properties.Settings.Default.IconView == View.List)
+			{
+				radioButtonIconList.Checked = true;
+			}
+			else
+			{
+				radioButtonIconLargeIcon.Checked = true;
+			}
+
+			numericUpDownTimeout.Value = (decimal)Properties.Settings.Default.StartupTimeout;
+		}
+
 		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
 		{
 			if (this.checkBoxAutoStart.Checked)
@@ -335,7 +399,6 @@ namespace DualLauncher
 			// refresh checkbox in case set/unset AutoStart failed
 			UpdateAutoStartCheckBox();
 		}
-
 
 		private void UpdateAutoStartCheckBox()
 		{
@@ -380,7 +443,11 @@ namespace DualLauncher
 		}
 		#endregion
 
-		#region Importing/exporting
+		#region Importing/exporting tab
+		private void InitImportTab()
+		{
+		}
+
 		private void buttonDeleteAll_Click(object sender, EventArgs e)
 		{
 			if (MagicWords.Instance.Count > 0)
@@ -450,67 +517,5 @@ namespace DualLauncher
 			}
 		}
 		#endregion
-
-		private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			// Good time to save any upadtes to the magic words
-			try
-			{
-				MagicWords.Instance.SaveIfDirty(Program.MyDbFnm);
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, Program.MyTitle);
-			}
-
-		}
-
-		private void dataGridView_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			// convert the key to s atring for easier comparison
-			string keyChar = e.KeyChar.ToString();
-
-			int totalRows = dataGridView.Rows.Count;
-			// no point in doing anything if no rows
-			if (totalRows > 0)
-			{
-				// normally we would start searching from the first row
-				int curRowIndex = 0;
-				DataGridViewSelectedRowCollection selectedRows = dataGridView.SelectedRows;
-				if (selectedRows.Count >= 1)
-				{
-					// but if something is selected, we start from the next row after the first selected item
-					curRowIndex = (selectedRows[0].Index + 1) % totalRows;
-				}
-				int newRowIndex = curRowIndex;
-				do
-				{
-					DataGridViewRow row = dataGridView.Rows[newRowIndex];
-					Object rowObject = row.DataBoundItem;
-					MagicWord magicWord = rowObject as MagicWord;
-					if (magicWord != null)
-					{
-						string alias = magicWord.Alias;
-						if (alias.ToString().StartsWith(keyChar, true, null))
-						{
-							// unselect the currently selected rows
-							foreach (DataGridViewRow selectedRow in selectedRows)
-							{
-								selectedRow.Selected = false;
-							}
-							// select the new row
-							dataGridView.Rows[newRowIndex].Selected = true;
-							// and make sure it is scolled into view
-							dataGridView.CurrentCell = dataGridView.Rows[newRowIndex].Cells[0];
-							break;
-						}
-					}
-					newRowIndex++;
-					// make sure we wrap around at the end (we already know totalRoes is not zero)
-					newRowIndex %= totalRows;
-				}
-				while (newRowIndex != curRowIndex);
-			}
-		}
 	}
 }

@@ -29,18 +29,15 @@ using System.IO;
 
 namespace DualLauncher
 {
-
+	/// <summary>
+	/// Controls the starting up of applications.
+	/// This includes waiting around for their main window to appear
+	/// and then moving the window to the required postion
+	/// </summary>
 	public class StartupController
 	{
-
-
-		//private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-
-		// currently only allow 1 pending move
-		//private StartupProcess pendingMoves = null;
+		// These are the processes we are waiting on so we can position each of their main windows
 		private List<StartupProcess> pendingMoves = new List<StartupProcess>();
-
 
 		#region Singleton framework
 		// the single instance of the controller object
@@ -58,13 +55,17 @@ namespace DualLauncher
 
 		public static StartupController Instance
 		{
-			get
-			{
-				return instance;
-			}
+			get	{return instance;}
 		}
 		#endregion
 
+		/// <summary>
+		/// Starts a new process
+		/// </summary>
+		/// <param name="magicWord">The magic word being started</param>
+		/// <param name="startPosition">The StartupPosition to use</param>
+		/// <param name="map">A ParameterMap to use for any dynamic input</param>
+		/// <returns>true if application started</returns>
 		public bool Launch(MagicWord magicWord, StartupPosition startPosition, ParameterMap map)
 		{
 			bool ret = false;
@@ -96,20 +97,15 @@ namespace DualLauncher
 
 			Win32.PROCESS_INFORMATION pi = new Win32.PROCESS_INFORMATION();
 
+			// get the executable environment for the application
 			MagicWordExecutable executable = new MagicWordExecutable(magicWord, map);
-			//string applicationName;
-			//string commandLine;
-			//GetCommandLine(magicWord, out applicationName, out commandLine);
-			//string currentDirectory = GetCurrentDirectory(magicWord, executable.Executable);
 
-
-			//if (CreateProcess(magicWord.Filename, null, IntPtr.Zero, IntPtr.Zero,
-//			if (CreateProcess(null, magicWord.Filename, IntPtr.Zero, IntPtr.Zero,
 			if (Win32.CreateProcess(executable.Executable, executable.CommandLine, IntPtr.Zero, IntPtr.Zero,
 				false, dwCreationFlags, IntPtr.Zero,
 				executable.WorkingDirectory,
 				ref si, out pi))
 			{
+				// process has been created (but suspended)
 				AddPendingMove(pi.dwProcessId, magicWord, startPosition);
 				Win32.ResumeThread(pi.hThread);
 
@@ -132,94 +128,6 @@ namespace DualLauncher
 
 			return ret;
 		}
-			
-		
-		//private void GetCommandLine(MagicWord magicWord, out string applicationName, out string commandLine)
-		//{
-		//    commandLine = null;
-		//    string extension = Path.GetExtension(magicWord.Filename);
-
-		//    if (File.Exists(magicWord.Filename))
-		//    {
-		//        // looks like a file on the local computer
-		//        // explicit check for .exe as we know these should be run directly
-		//        if (string.Compare(extension, ".exe", true) == 0)
-		//        {
-		//            // the filename can be executed directly
-		//            applicationName = magicWord.Filename;
-		//        }
-		//        else
-		//        {
-		//            applicationName = GetAssociatedApp(extension);
-		//            // I can't see this documented anywhere, but if the extension belongs
-		//            // to something that can be run directly (.exe, .bat etc.) then "%1"
-		//            // seems to be returned
-		//            if (applicationName == "%1")
-		//            {
-		//                applicationName = magicWord.Filename;
-		//            }
-		//            else
-		//            {
-		//                commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
-		//            }
-		//        }
-		//    }
-		//    else if (Directory.Exists(magicWord.Filename))
-		//    {
-		//        applicationName = "explorer.exe";
-		//        commandLine = string.Format("explorer.exe {0}", magicWord.Filename);
-		//    }
-		//    else
-		//    {
-		//        // assume it is a url to be opened by the browser
-		//        applicationName = GetAssociatedApp(".htm");
-		//        commandLine = string.Format("\"{0}\" {1}", applicationName, magicWord.Filename);
-		//    }
-
-		//    if (magicWord.Parameters != null && magicWord.Parameters.Length > 0)
-		//    {
-		//        if (commandLine == null)
-		//        {
-		//            commandLine = string.Format("\"{0}\"", applicationName);
-		//        }
-		//        commandLine += " " + magicWord.Parameters;
-		//    }
-
-		//}
-
-		//private string GetCurrentDirectory(MagicWord magicWord, string applicationName)
-		//{
-		//    string currentDirectory;
-
-		//    if (magicWord.StartDirectory != null && magicWord.StartDirectory.Length > 0)
-		//    {
-		//        currentDirectory = magicWord.StartDirectory;
-		//    }
-		//    else
-		//    {
-		//        // use directory that the application exists in
-		//        currentDirectory = Path.GetDirectoryName(applicationName);
-		//    }
-		//    return currentDirectory;
-		//}
-
-		//private string GetAssociatedApp(string extension)
-		//{
-
-		//    // find length of buffer required to hold associated application
-		//    uint pcchOut = 0;
-		//    AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
-
-		//    // allocate the buffer
-		//    // pcchOut includes the '\0' terminator
-		//    StringBuilder sb = new StringBuilder((int)pcchOut);
-
-		//    // now get the app
-		//    AssocQueryString(ASSOCF.ASSOCF_VERIFY, ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
-
-		//    return sb.ToString();
-
-		//}
 
 		private void AddPendingMove(uint pid, MagicWord magicWord, StartupPosition startPosition)
 		{
@@ -233,6 +141,11 @@ namespace DualLauncher
 			}
 		}
 
+		/// <summary>
+		/// Needs to be called periodically so that we can check the list of
+		/// applications that we are waiting on to show their main windows.
+		/// </summary>
+		/// <returns>true if more polls are required</returns>
 		public bool Poll()
 		{
 			if (pendingMoves.Count > 0)
@@ -259,19 +172,17 @@ namespace DualLauncher
 			return (pendingMoves.Count > 0);
 		}
 
+		/// <summary>
+		/// callback from Win32.EnumWindows()
+		/// </summary>
+		/// <param name="hWnd"></param>
+		/// <param name="lParam"></param>
+		/// <returns></returns>
 		public bool EnumWindowsCallback(IntPtr hWnd, uint lParam)
 		{
-			//if (pendingMoves == null)
-			//{
-			//    // not waiting for any windows
-			//    // this shouldn't happen anyway
-			//    return false;
-			//}
-
 			// get the pid associated with this hWnd
 			uint pid;
 			Win32.GetWindowThreadProcessId(hWnd, out pid);
-			//Trace.WriteLine(string.Format("pid: {0} hWnd: {1}", pid, hWnd));
 
 			if (!Win32.IsWindowVisible(hWnd))
 			{

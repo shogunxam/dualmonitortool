@@ -30,13 +30,14 @@ using System.Diagnostics;
 
 namespace DualLauncher
 {
-	//public class MagicWords : BindingList<MagicWord>
+	/// <summary>
+	/// List of MagicWords
+	/// </summary>
 	public class MagicWords : SortableBindingList<MagicWord>
-	//public class MagicWords
 	{
 		#region Singleton framework
 		// the single instance of the controller object
-		static readonly MagicWords instance = new MagicWords();
+		static private readonly MagicWords instance = new MagicWords();
 
 		// Explicit static constructor to tell C# compiler
 		// not to mark type as beforefieldinit
@@ -44,14 +45,13 @@ namespace DualLauncher
 		{
 		}
 
-		MagicWords()
+		private MagicWords()
 		{
 			// this is the default
-			//this.RaiseListChangedEvents = true;
 			this.ListChanged += new ListChangedEventHandler(MagicWords_ListChanged);
 		}
 
-		void MagicWords_ListChanged(object sender, ListChangedEventArgs e)
+		private void MagicWords_ListChanged(object sender, ListChangedEventArgs e)
 		{
 			isDirty = true;
 		}
@@ -67,25 +67,32 @@ namespace DualLauncher
 
 		public delegate void WordsUpdatedHandler();
 
-		//public event WordsUpdatedHandler WordsUpdated;
-
-		//List<MagicWord> magicWords = new List<MagicWord>();
-		BindingList<MagicWord> magicWords
+		private BindingList<MagicWord> magicWords
 		{
 			get { return this; }
 		}
 
+		/// <summary>
+		/// DataSource for use with data bound controls
+		/// </summary>
 		public BindingList<MagicWord> DataSource
 		{
 			get { return this; }
 		}
 
 		private bool isDirty;
-		public bool IsDirty
-		{
-			get { return isDirty; }
-		}
+		//public bool IsDirty
+		//{
+		//    get { return isDirty; }
+		//}
 
+		/// <summary>
+		/// Loads the magic words from a xml file.
+		/// If the file doesn't exist, then a default set of magic words is set.
+		/// (TODO: This is not really the correct place to do this.)
+		/// </summary>
+		/// <param name="filename">Xml file to load magic words from</param>
+		/// <returns>true (always)</returns>
 		public bool Load(string filename)
 		{
 			bool ret = true;
@@ -108,14 +115,23 @@ namespace DualLauncher
 			return ret;
 		}
 
+		/// <summary>
+		/// Saves the magic words if they have changed.
+		/// </summary>
+		/// <param name="filename"></param>
 		public void SaveIfDirty(string filename)
 		{
-			if (IsDirty)
+			if (isDirty)
 			{
 				Save(filename);
 			}
 		}
 
+		/// <summary>
+		/// Saves the magic words
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
 		public bool Save(string filename)
 		{
 			Trace.WriteLine("Saving...");
@@ -132,17 +148,22 @@ namespace DualLauncher
 		//    }
 		//}
 
-		public AutoCompleteStringCollection GetAutoCompleteWords()
-		{
-			AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
+		//public AutoCompleteStringCollection GetAutoCompleteWords()
+		//{
+		//    AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
 
-			foreach (MagicWord mw in magicWords)
-			{
-				collection.Add(mw.Alias);
-			}
-			return collection;
-		}
+		//    foreach (MagicWord mw in magicWords)
+		//    {
+		//        collection.Add(mw.Alias);
+		//    }
+		//    return collection;
+		//}
 
+		/// <summary>
+		/// Gets the list of magic words whose alias starts with the given prefix
+		/// </summary>
+		/// <param name="prefix"></param>
+		/// <returns></returns>
 		public List<MagicWord> GetAutoCompleteWords(string prefix)
 		{
 			List<MagicWord> autoCompleteWords = new List<MagicWord>();
@@ -158,6 +179,11 @@ namespace DualLauncher
 			return autoCompleteWords;
 		}
 
+		/// <summary>
+		/// Finds the first magic word that has the given alias
+		/// </summary>
+		/// <param name="alias"></param>
+		/// <returns></returns>
 		public MagicWord FindByAlias(string alias)
 		{
 			foreach (MagicWord mw in magicWords)
@@ -171,6 +197,11 @@ namespace DualLauncher
 			return null;
 		}
 
+		/// <summary>
+		/// Finds all magic words with the given alias
+		/// </summary>
+		/// <param name="alias"></param>
+		/// <returns></returns>
 		public List<MagicWord> FindAllByAlias(string alias)
 		{
 			List<MagicWord> mws = new List<MagicWord>();
@@ -185,6 +216,10 @@ namespace DualLauncher
 			return mws;
 		}
 
+		/// <summary>
+		/// Merges the given magic words into the current list of magic words.
+		/// </summary>
+		/// <param name="importedWords"></param>
 		public void Merge(Collection<MagicWord> importedWords)
 		{
 			// we have 2 passes so that we can correctly support

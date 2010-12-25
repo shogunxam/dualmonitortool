@@ -30,6 +30,9 @@ using System.Diagnostics;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Form for editing a MagicWord
+	/// </summary>
 	public partial class MagicWordForm : Form
 	{
 		private MagicWord magicWord;
@@ -38,6 +41,12 @@ namespace DualLauncher
 		private int timesUsed;
 		private DateTime lastUsed;
 
+		/// <summary>
+		/// ctor takes the MagicWord to be edited
+		/// If the user ok's the dialog, then this instance of the 
+		/// MagicWord will be updated
+		/// </summary>
+		/// <param name="magicWord"></param>
 		public MagicWordForm(MagicWord magicWord)
 		{
 			this.magicWord = magicWord;
@@ -72,39 +81,12 @@ namespace DualLauncher
 			lastUsed = magicWord.LastUsed;
 			timesUsed = magicWord.UseCount;
 			ShowStats();
-			//string lastUsed = "";
-			//labelLastUsed.Text = magicWord.LastUsed.ToString();
-			//labelTimesUsed.Text = magicWord.UseCount.ToString();
 		}
 
 		void textBoxFilename_TextChanged(object sender, EventArgs e)
 		{
 			ShowAliasIcon();
 		}
-
-		//void windowPicker_HoveredWindowChanged(IntPtr hWnd)
-		//{
-		//    StringBuilder sb = new StringBuilder(128);
-		//    if (Win32.GetClassName(hWnd, sb, sb.Capacity) > 0)
-		//    {
-		//        this.textBoxWindowClass.Text = sb.ToString();
-		//    }
-
-		//    Win32.RECT rect;
-		//    if (Win32.GetWindowRect(hWnd, out rect))
-		//    {
-		//        Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
-		//        this.startupPositionControl1.SetWindowRect(rectangle);
-		//    }
-
-		//    uint pid = 0;
-		//    Win32.GetWindowThreadProcessId(hWnd, out pid);
-		//    Process p = Process.GetProcessById((int)pid);
-		//    this.textBoxFilename.Text = p.MainModule.FileName;
-
-		//    // use the name without path or extension as the default for the alias
-		//    this.textBoxAlias.Text = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
-		//}
 
 		void windowPicker_HoveredWindowChanged(IntPtr hWnd)
 		{
@@ -122,6 +104,12 @@ namespace DualLauncher
 		}
 
 		// TODO: probably not the best place for this function to live
+		/// <summary>
+		/// Fills the MagicWord with details extracted from the given window
+		/// </summary>
+		/// <param name="hWnd"></param>
+		/// <param name="magicWord"></param>
+		/// <returns></returns>
 		public static bool GetWindowDetails(IntPtr hWnd, MagicWord magicWord)
 		{
 			bool ret = true;

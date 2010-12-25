@@ -26,11 +26,19 @@ using System.Collections.ObjectModel;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Class to import qrs (SlickRun) files
+	/// </summary>
 	public class QrsImporter
 	{
 		private static Regex regexAlias = new Regex(@"\[(.+)\]");
 		private static Regex regexAssign = new Regex(@"(.*?)=(.*)");
 
+		/// <summary>
+		/// Static method to read and return all magic words in a QRS file
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
 		public static Collection<MagicWord> Import(string filename)
 		{
 			Collection<MagicWord> magicWords = new Collection<MagicWord>();
@@ -49,6 +57,7 @@ namespace DualLauncher
 					{
 						if (curMagicWord != null)
 						{
+							// save previous magic word
 							magicWords.Add(curMagicWord);
 						}
 						curMagicWord = new MagicWord();
@@ -85,7 +94,6 @@ namespace DualLauncher
 							}
 							else if (String.Compare(field, "StartMode", true) == 0)
 							{
-								// TODO
 								int showCmd = Win32.SW_SHOW;
 								try
 								{
@@ -93,9 +101,9 @@ namespace DualLauncher
 								}
 								catch (Exception)
 								{
-									curMagicWord.StartupPosition1 = new StartupPosition();
-									curMagicWord.StartupPosition1.ShowCmd = showCmd;
 								}
+								curMagicWord.StartupPosition1 = new StartupPosition();
+								curMagicWord.StartupPosition1.ShowCmd = showCmd;
 							}
 						}
 					}

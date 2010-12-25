@@ -25,15 +25,25 @@ using System.ComponentModel;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// A magic word.
+	/// This is the the program that is to be run togetehr with any environmantal
+	/// details like parameters, start directory and info relating to positioning the application.
+	/// It also includes an alias/mnemonic for the application.
+	/// </summary>
 	[Serializable]
 	public class MagicWord : INotifyPropertyChanged
 	{
-		public const int AlternativePositions = 4;
-		public enum Position { First = 0, Second = 1, Third = 2, Fourth = 3 }
+		//public const int AlternativePositions = 4;
+		//public enum Position { First = 0, Second = 1, Third = 2, Fourth = 3 }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private string alias;
+		/// <summary>
+		/// An alias for the application.  
+		/// This may contain spaces and punctuation characters etc. if desired.
+		/// </summary>
 		public string Alias
 		{
 			get { return alias; }
@@ -48,6 +58,15 @@ namespace DualLauncher
 		}
 
 		private string filename;
+		/// <summary>
+		/// This can be:
+		/// Full pathname to the application to run,
+		/// or full pathname to the document to open
+		/// or full pathname of an existing directory
+		/// or a full URL which is understood by the users default browser.
+		/// If it is a URL, it may contain escape sequences like %W% for dynamic input 
+		/// from the user at runtime.
+		/// </summary>
 		public string Filename
 		{
 			get { return filename; }
@@ -62,6 +81,11 @@ namespace DualLauncher
 		}
 
 		private string parameters;
+		/// <summary>
+		/// Where Filename specifies an application, any parameters can be specified in here.
+		/// These may also include escape sequences of the form %I% (or %W% if url encoding is required)
+		/// for dynamic input.
+		/// </summary>
 		public string Parameters
 		{
 			get { return parameters; }
@@ -76,6 +100,9 @@ namespace DualLauncher
 		}
 
 		private string startDirectory;
+		/// <summary>
+		/// Directory to start the application in.
+		/// </summary>
 		public string StartDirectory
 		{
 			get { return startDirectory; }
@@ -90,6 +117,11 @@ namespace DualLauncher
 		}
 
 		private string comment;
+		/// <summary>
+		/// For compatibility with SlickRun, if dynamic input is used and a non-named parameter is used,
+		/// then the comment is used as the prompt for input, but named parameters are recommended.
+		/// Otherwise, the comment is free for whatver the user wishes.
+		/// </summary>
 		public string Comment
 		{
 			get { return comment; }
@@ -104,6 +136,10 @@ namespace DualLauncher
 		}
 
 		private string windowClass;
+		/// <summary>
+		/// This is used to help detect the correct main window of the application so that
+		/// it can be positioned at its required location if required.
+		/// </summary>
 		public string WindowClass
 		{
 			get { return windowClass; }
@@ -118,6 +154,10 @@ namespace DualLauncher
 		}
 
 		private string captionRegExpr;
+		/// <summary>
+		/// This is used to help detect the correct main window of the application so that
+		/// it can be positioned at its required location if required.
+		/// </summary>
 		public string CaptionRegExpr
 		{
 			get { return captionRegExpr; }
@@ -132,6 +172,9 @@ namespace DualLauncher
 		}
 
 		private int useCount;
+		/// <summary>
+		/// Number of times this magic word has been run (since reset) via Dual Launcher.
+		/// </summary>
 		public int UseCount
 		{
 			get { return useCount; }
@@ -146,6 +189,9 @@ namespace DualLauncher
 		}
 
 		private DateTime lastUsed = DateTime.MinValue;
+		/// <summary>
+		/// The last time (unless reset) the magic word was run via Dual Launcher.
+		/// </summary>
 		public DateTime LastUsed
 		{
 			get { return lastUsed; }
@@ -163,6 +209,11 @@ namespace DualLauncher
 		// an array means passing index's arround 
 		//private StartupPosition[] positions = new StartupPosition[AlternativePositions];
 
+		/// <summary>
+		/// Gets the StartupPosition relating to the index (1 ... 4).
+		/// </summary>
+		/// <param name="index1">Index in range 1 to 4</param>
+		/// <returns>The corresponding StartupPosition</returns>
 		public StartupPosition GetStartupPosition(int index1)
 		{
 			switch (index1)
@@ -181,6 +232,9 @@ namespace DualLauncher
 		}
 
 		private StartupPosition startupPosition1;
+		/// <summary>
+		/// The first StartupPosition
+		/// </summary>
 		public StartupPosition StartupPosition1
 		{
 			get { return startupPosition1; }
@@ -192,6 +246,9 @@ namespace DualLauncher
 		}
 
 		private StartupPosition startupPosition2;
+		/// <summary>
+		/// The second StartupPosition
+		/// </summary>
 		public StartupPosition StartupPosition2
 		{
 			get { return startupPosition2; }
@@ -203,6 +260,9 @@ namespace DualLauncher
 		}
 
 		private StartupPosition startupPosition3;
+		/// <summary>
+		/// The third StartupPosition
+		/// </summary>
 		public StartupPosition StartupPosition3
 		{
 			get { return startupPosition3; }
@@ -214,6 +274,9 @@ namespace DualLauncher
 		}
 
 		private StartupPosition startupPosition4;
+		/// <summary>
+		/// The fourth StartupPosition
+		/// </summary>
 		public StartupPosition StartupPosition4
 		{
 			get { return startupPosition4; }
@@ -224,25 +287,32 @@ namespace DualLauncher
 			}
 		}
 	
-
+		/// <summary>
+		/// defualt ctor
+		/// </summary>
 		public MagicWord()
 		{
 		}
 
+		/// <summary>
+		/// ctor with the minimum necessary to create a usable magic word
+		/// </summary>
+		/// <param name="alias">Alias to activate the magic word</param>
+		/// <param name="filename">Application/document/directory/url associated with the magic word</param>
 		public MagicWord(string alias, string filename)
 		{
 			this.alias = alias;
 			this.filename = filename;
 		}
 
-		public MagicWord Clone()
-		{
-			MagicWord mw = (MagicWord)MemberwiseClone();
+		//public MagicWord Clone()
+		//{
+		//    MagicWord mw = (MagicWord)MemberwiseClone();
 
-			// TODO
+		//    // TODO
 
-			return mw;
-		}
+		//    return mw;
+		//}
 
 		//public StartupPosition StartPosition(Position position)
 		//{

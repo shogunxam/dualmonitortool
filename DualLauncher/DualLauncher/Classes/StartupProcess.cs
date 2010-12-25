@@ -23,9 +23,17 @@ using System.Text;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// This is a process that is being started up.
+	/// This object holds information to allow us to detect the main window
+	/// of an application and then to move it to its desired position.
+	/// </summary>
 	public class StartupProcess
 	{
 		private StartupPosition startupPosition;
+		/// <summary>
+		/// The position we want the applications main window to start at
+		/// </summary>
 		public StartupPosition StartupPosition
 		{
 			get { return startupPosition; }
@@ -33,6 +41,9 @@ namespace DualLauncher
 		}
 
 		private uint pid;
+		/// <summary>
+		/// The PID of the process
+		/// </summary>
 		public uint Pid
 		{
 			get { return pid; }
@@ -40,6 +51,9 @@ namespace DualLauncher
 		}
 
 		private string captionRegExpr;
+		/// <summary>
+		/// Regular expression to detect if the caption of a window is the window we are after
+		/// </summary>
 		public string CaptionRegExpr
 		{
 			get { return captionRegExpr; }
@@ -47,6 +61,9 @@ namespace DualLauncher
 		}
 
 		private string windowClass;
+		/// <summary>
+		/// Window class of the window that we are after
+		/// </summary>
 		public string WindowClass
 		{
 			get { return windowClass; }
@@ -54,18 +71,21 @@ namespace DualLauncher
 		}
 
 		private DateTime expiryTime;
+		/// <summary>
+		/// This is the time after which this object is deemed to be of no further use
+		/// </summary>
 		public DateTime ExpiryTime
 		{
 			get { return expiryTime; }
 			set { expiryTime = value; }
 		}
 	
-	
-
-		//public StartupProcess()
-		//{
-		//}
-
+		/// <summary>
+		/// Ctor
+		/// </summary>
+		/// <param name="pid"></param>
+		/// <param name="magicWord"></param>
+		/// <param name="startPosition"></param>
 		public StartupProcess(uint pid, MagicWord magicWord, StartupPosition startPosition)
 		{
 			this.pid = pid;
@@ -76,11 +96,5 @@ namespace DualLauncher
 
 			this.expiryTime = DateTime.Now.AddSeconds((double)Properties.Settings.Default.StartupTimeout);
 		}
-
-		//public StartupProcess(uint pid, StartupPosition startupPosition)
-		//{
-		//    this.pid = pid;
-		//    this.startupPosition = startupPosition;
-		//}
 	}
 }

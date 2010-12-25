@@ -30,8 +30,6 @@ namespace DualLauncher
 	/// </summary>
 	static class ScreenHelper
 	{
-
-
 		/// <summary>
 		/// Converts a Win32 RECT to a Rectangle.
 		/// </summary>

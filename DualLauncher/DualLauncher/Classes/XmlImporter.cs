@@ -26,8 +26,16 @@ using System.IO;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Native import/export of DualLauncher files
+	/// </summary>
 	public class XmlImporter
 	{
+		/// <summary>
+		/// Static method to read the MagicWords from an xml file
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
 		public static Collection<MagicWord> Import(string filename)
 		{
 			Collection<MagicWord> magicWords = new Collection<MagicWord>();
@@ -41,6 +49,11 @@ namespace DualLauncher
 			return magicWords;
 		}
 
+		/// <summary>
+		/// Static method to save MagicWords to an xml file
+		/// </summary>
+		/// <param name="magicWords"></param>
+		/// <param name="filename"></param>
 		public static void Export(Collection<MagicWord> magicWords, string filename)
 		{
 			using (StreamWriter streamWriter = new StreamWriter(filename))

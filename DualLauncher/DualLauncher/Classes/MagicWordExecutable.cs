@@ -8,6 +8,12 @@ using System.Windows.Forms;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Represents the executble and its environment for a particular instance
+	/// of a magic word.
+	/// This handles finding the correct executable when the magic word specifies a
+	/// document/directory/url and performs any parameter substitution.
+	/// </summary>
 	public class MagicWordExecutable
 	{
 		private MagicWord magicWord;
@@ -19,12 +25,24 @@ namespace DualLauncher
 
 		private static string explorerPath = null;
 
+		/// <summary>
+		/// ctor takes MagicWord and a ParameterMap, so that parameters
+		/// can be shared when multiple MagicWords all have the same alias
+		/// and are to be started together.
+		/// </summary>
+		/// <param name="magicWord">The MagicWord thet we need executable details for</param>
+		/// <param name="map">The parameter map used to remember named parameters</param>
 		public MagicWordExecutable(MagicWord magicWord, ParameterMap map)
 		{
 			this.magicWord = magicWord;
 			this.map = map;
 		}
 
+		/// <summary>
+		/// Readonly full pathname to the executable that is going to be run.
+		/// This will be different to the filename of the MagicWord when the filename
+		/// represents a document/directory/url.
+		/// </summary>
 		public string Executable
 		{
 			get
@@ -37,6 +55,9 @@ namespace DualLauncher
 			}
 		}
 
+		/// <summary>
+		/// Readonly icon associated with the executable that would be run.
+		/// </summary>
 		public Icon Icon
 		{
 			get
@@ -57,6 +78,11 @@ namespace DualLauncher
 			}
 		}
 
+		/// <summary>
+		/// Readonly command line including executable and any parameters.
+		/// This will also expand any escapes asking the user to enter dynamic input
+		/// when required.
+		/// </summary>
 		public string CommandLine
 		{
 			get
@@ -65,7 +91,6 @@ namespace DualLauncher
 				{
 					GetExecutable();
 				}
-				//return commandLine;
 
 				if (escapedCommandLine == null)
 				{
@@ -75,6 +100,9 @@ namespace DualLauncher
 			}
 		}
 
+		/// <summary>
+		/// Readonly working(starting) directory for the executable.
+		/// </summary>
 		public string WorkingDirectory
 		{
 			get
@@ -87,6 +115,7 @@ namespace DualLauncher
 			}
 		}
 
+		// The full path to Windows Explorer
 		private static string ExplorerPath
 		{
 			get 
@@ -101,6 +130,8 @@ namespace DualLauncher
 			}
 		}
 
+		// Determines the type of MagicWord and finds corresponding executable,
+		// command line and working directory. 
 		private void GetExecutable()
 		{
 			string extension = Path.GetExtension(magicWord.Filename);
@@ -132,7 +163,7 @@ namespace DualLauncher
 			}
 			else if (Directory.Exists(magicWord.Filename))
 			{
-				//executable = "explorer.exe";
+				// looks like a directory - which we will open with Windows Explorer
 				executable = ExplorerPath;
 				commandLine = string.Format("\"{0}\" \"{1}\"", executable, magicWord.Filename);
 			}
@@ -149,11 +180,13 @@ namespace DualLauncher
 				commandLine = string.Format("\"{0}\"", executable);
 			} 
 			
+			// add on any parameters (but don't expand any escapes) to the command line
 			if (magicWord.Parameters != null && magicWord.Parameters.Length > 0)
 			{
 				commandLine += " " + magicWord.Parameters;
 			}
 
+			// get the working directory for the application
 			if (magicWord.StartDirectory != null && magicWord.StartDirectory.Length > 0)
 			{
 				workingDirectory = magicWord.StartDirectory;
@@ -163,12 +196,15 @@ namespace DualLauncher
 				// use directory that the application exists in
 				workingDirectory = Path.GetDirectoryName(executable);
 			}
-
 		}
 
+		/// <summary>
+		/// Gets the application associated with the specified extension.
+		/// </summary>
+		/// <param name="extension">Extension including the leading '.'</param>
+		/// <returns></returns>
 		public static string GetAssociatedApp(string extension)
 		{
-
 			// find length of buffer required to hold associated application
 			uint pcchOut = 0;
 			Win32.AssocQueryString(Win32.ASSOCF.ASSOCF_VERIFY, Win32.ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
@@ -183,6 +219,7 @@ namespace DualLauncher
 			return sb.ToString();
 		}
 
+		// This expands any escapes, requesting user input where required
 		private string ExpandEscapes(string input)
 		{
 			string output = "";
@@ -199,10 +236,12 @@ namespace DualLauncher
 
 		private string GetNextSequence(string input, out int inputLengthTaken)
 		{
+			// find start of first escape
 			int dollarIndex = input.IndexOf('$');
 
 			if (dollarIndex == 0)
 			{
+				// find end of escape
 				int nextDollarIndex = input.IndexOf('$', 1);
 				if (nextDollarIndex == 1)
 				{
@@ -236,6 +275,8 @@ namespace DualLauncher
 			}
 		}
 
+		// replaces the parameter with dynamic input.
+		// Note: the named parameter is without the leading or trailing $'s.
 		string ReplaceParameter(string parameter)
 		{
 			string parameterName;

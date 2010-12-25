@@ -27,6 +27,9 @@ using System.Windows.Forms;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Control to specify the startup position of an application
+	/// </summary>
 	public partial class StartupPositionControl : UserControl
 	{
 		public StartupPositionControl()
@@ -39,6 +42,10 @@ namespace DualLauncher
 
 		}
 
+		/// <summary>
+		/// Initialises the control with the given starting position
+		/// </summary>
+		/// <param name="startupPosition"></param>
 		public void InitControl(StartupPosition startupPosition)
 		{
 			InitShowWindowCombo(startupPosition);
@@ -51,8 +58,6 @@ namespace DualLauncher
 				textBoxY.Text = startupPosition.Position.Top.ToString();
 				textBoxCX.Text = startupPosition.Position.Width.ToString();
 				textBoxCY.Text = startupPosition.Position.Height.ToString();
-
-				// TODO: checkbox
 			}
 
 			// initialise the window picker
@@ -92,7 +97,7 @@ namespace DualLauncher
 			}
 		}
 
-		void windowPicker_HoveredWindowChanged(IntPtr hWnd)
+		private void windowPicker_HoveredWindowChanged(IntPtr hWnd)
 		{
 			Win32.RECT rect;
 			if (Win32.GetWindowRect(hWnd, out rect))
@@ -102,6 +107,10 @@ namespace DualLauncher
 			}
 		}
 
+		/// <summary>
+		/// Changes the displayed rectangle
+		/// </summary>
+		/// <param name="rectangle"></param>
 		public void SetWindowRect(Rectangle rectangle)
 		{
 			this.textBoxX.Text = rectangle.X.ToString();
@@ -110,14 +119,10 @@ namespace DualLauncher
 			this.textBoxCY.Text = rectangle.Height.ToString();
 		}
 
-		public StartupPosition GetPosition()
-		{
-			StartupPosition startupPosition = new StartupPosition();
-			GetPosition(startupPosition);
-
-			return startupPosition;
-		}
-
+		/// <summary>
+		/// Fills in StartupPosition with the current position details.
+		/// </summary>
+		/// <returns>true (always)</returns>
 		public bool GetPosition(StartupPosition position)
 		{
 			bool isValid = true;

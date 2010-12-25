@@ -25,6 +25,9 @@ using System.Drawing;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Control to allow a top level window to be selected
+	/// </summary>
 	public class WindowPicker : PictureBox
 	{
 		private Cursor trackingCursor;
@@ -37,12 +40,12 @@ namespace DualLauncher
 
 		/// <summary>
 		/// Definition required for delegates that want to be notified 
-		/// when the hot key has been pressed.
+		/// of the window we are hovering over.
 		/// </summary>
 		public delegate void HoverHandler(IntPtr hWnd);
 
 		/// <summary>
-		/// Event that will be fired when the hot key has been pressed.
+		/// Event that will be fired when we hover over a different window.
 		/// </summary>
 		public event HoverHandler HoveredWindowChanged;
 
@@ -50,6 +53,13 @@ namespace DualLauncher
 		{
 		}
 
+		/// <summary>
+		/// One time initialisation 
+		/// </summary>
+		/// <param name="cursorBitmap">Bitmap of cursor to use to select window</param>
+		/// <param name="imageNoCursor">Bitmap for control without the cursor (for when cursor has been
+		/// dragged away)</param>
+		/// <param name="imageWithCursor">Bitmap for control with the cursor displayed on it</param>
 		public void InitControl(Bitmap cursorBitmap, Bitmap imageNoCursor, Bitmap imageWithCursor)
 		{
 			// conver bitmap to a cursor
@@ -58,7 +68,7 @@ namespace DualLauncher
 
 			// save the bitmaps to use as images for the control
 			this.imageNoCursor = imageNoCursor;
-			// TODO: this could be dynamically generated
+			// TODO: this could be dynamically generated from imageNoCursor and cursorBitmap
 			this.imageWithCursor = imageWithCursor;
 
 			// initially display the image with the cursor

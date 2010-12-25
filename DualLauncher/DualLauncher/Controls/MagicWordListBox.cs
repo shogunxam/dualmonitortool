@@ -6,32 +6,37 @@ using System.Drawing;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Control to display a selection of MagicWords
+	/// </summary>
 	public class MagicWordListBox : ListView
 	{
-		//private List<MagicWord> magicWords;
-
+		/// <summary>
+		/// Performs one time initialisation of the control.
+		/// Should be called from the owners OnLoad()
+		/// </summary>
 		public void InitControl()
 		{
-			//this.SmallImageList.Images = new ImageList();
 			//this.View = View.LargeIcon;
 			//this.View = View.List;
 			//this.View = View.Details;
 			this.View = Properties.Settings.Default.IconView;
 		}
 
+		/// <summary>
+		/// Sets the list of MagicWords that are to be displayed in the control
+		/// </summary>
+		/// <param name="magicWords"></param>
 		public void SetMagicWords(List<MagicWord> magicWords)
 		{
-			//this.magicWords = magicWords;
-
 			this.BeginUpdate();
 			this.Items.Clear();
 
-			//this.SmallImageList.Images.Clear();
 			ImageList imageList = new ImageList();
 			imageList.ImageSize = new Size(32, 32);
 			imageList.ColorDepth = ColorDepth.Depth32Bit;
 
-			// first icon is used the generic icon we use when we can't find the
+			// first icon slot is used for the generic icon we use when we can't find the
 			// applications icon
 			imageList.Images.Add(Properties.Resources.missingIcon);
 
@@ -46,6 +51,7 @@ namespace DualLauncher
 					Icon fileIcon = executable.Icon;
 					if (fileIcon != null)
 					{
+						// found an icon for the application, so use it
 						imageList.Images.Add(fileIcon);
 						imageIndex = imageList.Images.Count - 1;
 					}

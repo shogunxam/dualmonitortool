@@ -8,9 +8,13 @@ using System.Windows.Forms;
 
 namespace DualLauncher
 {
+	// Form for the input of dynamic data when launching an application
 	public partial class ParameterInputForm : Form
 	{
 		private string parameterPrompt;
+		/// <summary>
+		/// Prompt for the parameter
+		/// </summary>
 		public string ParameterPrompt
 		{
 			//get { return parameterPrompt; }
@@ -18,7 +22,9 @@ namespace DualLauncher
 		}
 
 		private string parameterValue;
-
+		/// <summary>
+		/// Value user entered for the parameter
+		/// </summary>
 		public string ParameterValue
 		{
 			get { return parameterValue; }

@@ -25,17 +25,32 @@ using System.Reflection;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Compares property values of 2 objects. 
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class PropertyComparer<T> : IComparer<T>
 	{
 		private PropertyInfo propertyInfo;
 		private ListSortDirection sortDirection;
 
+		/// <summary>
+		/// Ctor takes the name of the property to compare and the sort direction.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="sortDirection"></param>
 		public PropertyComparer(string propertyName, ListSortDirection sortDirection)
 		{
 			this.propertyInfo = typeof(T).GetProperty(propertyName);
 			this.sortDirection = sortDirection;
 		}
 
+		/// <summary>
+		/// implementation of IComparer.Compare()
+		/// </summary>
+		/// <param name="xRecord"></param>
+		/// <param name="yRecord"></param>
+		/// <returns></returns>
 		public int Compare(T xRecord, T yRecord)
 		{
 			int ret = 0;
@@ -44,7 +59,7 @@ namespace DualLauncher
 			object xField = propertyInfo.GetValue(xRecord, null);
 			object yField = propertyInfo.GetValue(yRecord, null);
 
-			// make sure the field supports IComparable
+			// if the field supports IComparable, then use this
 			if (xField is IComparable)
 			{
 				ret = (xField as IComparable).CompareTo(yField);

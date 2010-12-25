@@ -172,6 +172,9 @@ namespace DualLauncher
 			FillKeysCombo();
 		}
 
+		/// <summary>
+		/// Writeable value indicating if the Win modifier key is allowed
+		/// </summary>
 		public bool AllowWin
 		{
 			// TODO: use Enabled or Visible?
@@ -216,6 +219,11 @@ namespace DualLauncher
 			comboKey.EndUpdate();
 		}
 
+		/// <summary>
+		/// Converts the keycode to a displayable name
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <returns></returns>
 		public static string KeyCodeToName(Keys keyCode)
 		{
 			string keyName = "?";

@@ -28,6 +28,10 @@ using System.Diagnostics;
 
 namespace DualLauncher
 {
+	/// <summary>
+	/// Main form for Dual Launcher.
+	/// This is the form that popups when the hotkey is pressed
+	/// </summary>
 	public partial class EntryForm : Form
 	{
 		private bool shutDown = false;
@@ -36,17 +40,23 @@ namespace DualLauncher
 		private const int ID_HOTKEY_ADD_MAGIC_WORD = 0x502;
 
 		private HotKeyController activateHotKeyController;
+		/// <summary>
+		/// The hotkey to activate the entry form
+		/// </summary>
 		public HotKeyController ActivateHotKeyController
 		{
 			get { return activateHotKeyController; }
 		}
 
 		private HotKeyController addMagicWordHotKeyController;
+		/// <summary>
+		/// The hotkey which will popup the 'Add MagicWord' form
+		/// prefilled with information taken from the active application.
+		/// </summary>
 		public HotKeyController AddMagicWordHotKeyController
 		{
 			get { return addMagicWordHotKeyController; }
 		}
-
 
 		public EntryForm()
 		{
@@ -82,6 +92,7 @@ namespace DualLauncher
 			timer.Start();
 		}
 
+		// This is used to restore the entry forms position to its last known position
 		private void SetStartupPosition()
 		{
 			Rectangle rectangle = Properties.Settings.Default.LastPosition;
@@ -128,6 +139,7 @@ namespace DualLauncher
 			return true;
 		}
 
+		// shows icon corresponding to alias in text box
 		private void ShowAliasIcon()
 		{
 			Icon fileIcon = null;
@@ -329,8 +341,6 @@ namespace DualLauncher
 			}
 		}
 
-
-
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			shutDown = true;
@@ -411,12 +421,6 @@ namespace DualLauncher
 
 		private void ProcessInput(string alias, int position)
 		{
-			//MagicWord magicWord = MagicWords.Instance.FindByAlias(alias);
-
-			//if (magicWord != null)
-			//{
-			//    StartMagicWord(magicWord, position);
-			//}
 			List<MagicWord> magicWords = MagicWords.Instance.FindAllByAlias(alias);
 
 			if (magicWords.Count > 0)
