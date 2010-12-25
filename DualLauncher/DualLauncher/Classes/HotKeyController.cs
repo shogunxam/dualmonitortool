@@ -144,7 +144,7 @@ namespace DualLauncher
 			return hotKey.HotKeyCombo.Enabled;
 		}
 
-		// Gets the HotKey combo value from the persisted value in Poperties.Settings
+		// Gets the HotKey combo value from the persisted value in Properties.Settings
 		private KeyCombo GetSavedKeyCombo()
 		{
 			KeyCombo keyCombo = new KeyCombo();

@@ -86,7 +86,7 @@ namespace DualLauncher
 		// Hides the (yellow) box where we would normally display the note
 		private void HideNoteBox()
 		{
-			// adjust the clent size to hide the note box
+			// adjust the client size to hide the note box
 			Size clientSize = this.ClientSize;
 			clientSize.Height = lblNote.Location.Y;
 			this.ClientSize = clientSize;

@@ -103,7 +103,7 @@ namespace DualLauncher
 			}
 			else
 			{
-				// just position ourselves at the center of the primay screen
+				// just position ourselves at the center of the primary screen
 				Rectangle screenRect = Screen.PrimaryScreen.Bounds;
 				this.Location = new Point((screenRect.Width - Size.Width) / 2, (screenRect.Height - Size.Height) / 2);
 			}

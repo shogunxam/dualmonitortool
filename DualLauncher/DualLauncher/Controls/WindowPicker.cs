@@ -62,7 +62,7 @@ namespace DualLauncher
 		/// <param name="imageWithCursor">Bitmap for control with the cursor displayed on it</param>
 		public void InitControl(Bitmap cursorBitmap, Bitmap imageNoCursor, Bitmap imageWithCursor)
 		{
-			// conver bitmap to a cursor
+			// convert bitmap to a cursor
 			IntPtr hIcon = cursorBitmap.GetHicon();
 			trackingCursor = new Cursor(hIcon);
 

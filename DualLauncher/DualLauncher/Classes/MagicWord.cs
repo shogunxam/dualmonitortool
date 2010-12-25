@@ -206,7 +206,7 @@ namespace DualLauncher
 		}
 	
 	
-		// an array means passing index's arround 
+		// an array means passing index's around 
 		//private StartupPosition[] positions = new StartupPosition[AlternativePositions];
 
 		/// <summary>

@@ -129,7 +129,7 @@ namespace DualLauncher
 			this.textBoxStartDirectory.Name = "textBoxStartDirectory";
 			this.textBoxStartDirectory.Size = new System.Drawing.Size(510, 20);
 			this.textBoxStartDirectory.TabIndex = 5;
-			this.toolTip.SetToolTip(this.textBoxStartDirectory, "This is the working directory you wnat the application started in.\r\nThis will nor" +
+			this.toolTip.SetToolTip(this.textBoxStartDirectory, "This is the working directory you want the application started in.\r\nThis will nor" +
 					"mally be left blank.");
 			// 
 			// label4
@@ -304,7 +304,7 @@ namespace DualLauncher
 			this.tabPage3.Name = "tabPage3";
 			this.tabPage3.Size = new System.Drawing.Size(676, 93);
 			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "Start Position3";
+			this.tabPage3.Text = "Start Position 3";
 			this.tabPage3.UseVisualStyleBackColor = true;
 			// 
 			// startupPositionControl3
@@ -338,7 +338,7 @@ namespace DualLauncher
 			this.buttonDirBrowse.Size = new System.Drawing.Size(75, 23);
 			this.buttonDirBrowse.TabIndex = 15;
 			this.buttonDirBrowse.Text = "Browse...";
-			this.toolTip.SetToolTip(this.buttonDirBrowse, "Brose for the starting directory.");
+			this.toolTip.SetToolTip(this.buttonDirBrowse, "Browse for the starting directory.");
 			this.buttonDirBrowse.UseVisualStyleBackColor = true;
 			this.buttonDirBrowse.Click += new System.EventHandler(this.buttonDirBrowse_Click);
 			// 

@@ -94,7 +94,7 @@ namespace DualLauncher
 			public RECT rcNormalPosition;
 		}
 
-		// deleagte used by EnumWindows()
+		// delegate used by EnumWindows()
 		public delegate bool EnumWindowsProc(IntPtr Wnd, uint lParam);
 
 		[DllImport("user32.dll")]

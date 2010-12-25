@@ -62,7 +62,7 @@ namespace DualLauncher
 
 		private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			// Good time to save any upadtes to the magic words
+			// Good time to save any updates to the magic words
 			try
 			{
 				MagicWords.Instance.SaveIfDirty(Program.MyDbFnm);
@@ -79,12 +79,12 @@ namespace DualLauncher
 
 		private void InitMagicWordsTab()
 		{
-			// first make sure magic words are iniially sorted (by alias ascending)
+			// first make sure magic words are initially sorted (by alias ascending)
 			PropertyDescriptor property = TypeDescriptor.GetProperties(typeof(MagicWord)).Find("Alias", false);
 			Debug.Assert(property != null);
 			MagicWords.Instance.Sort(property, ListSortDirection.Ascending);
 
-			// bind the the magic word list
+			// bind the magic word list
 			//dataGridView.DataSource = MagicWords.Instance.IList;
 			bindingSource = new BindingSource();
 			bindingSource.DataSource = MagicWords.Instance.DataSource;
@@ -213,7 +213,7 @@ namespace DualLauncher
 
 		private void dataGridView_KeyPress(object sender, KeyPressEventArgs e)
 		{
-			// convert the key to s atring for easier comparison
+			// convert the key to a string for easier comparison
 			string keyChar = e.KeyChar.ToString();
 
 			int totalRows = dataGridView.Rows.Count;
@@ -246,13 +246,13 @@ namespace DualLauncher
 							}
 							// select the new row
 							dataGridView.Rows[newRowIndex].Selected = true;
-							// and make sure it is scolled into view
+							// and make sure it is scrolled into view
 							dataGridView.CurrentCell = dataGridView.Rows[newRowIndex].Cells[0];
 							break;
 						}
 					}
 					newRowIndex++;
-					// make sure we wrap around at the end (we already know totalRoes is not zero)
+					// make sure we wrap around at the end (we already know totalRows is not zero)
 					newRowIndex %= totalRows;
 				}
 				while (newRowIndex != curRowIndex);
