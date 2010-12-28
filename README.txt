@@ -4,20 +4,21 @@ Dual Monitor Tools
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.
 
-Currently the tools available are SwapScreen, DualWallpaper, DisMon and DualSnap.
+Currently the tools available are SwapScreen, DualLauncher, DualWallpaper, DisMon and DualSnap.
 
 Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
-Release 1.5
+Release 1.6
 -----------
 
 The release consists of the following files:
 
 SwapScreen.exe      The swap screen tool
+DualLauncher.exe	Application launcher
 DualWallpaper.exe	The wallpaper setting tool
-DisMon.exe			Disables secondary monitors.
+DisMon.exe			Disables secondary monitors
 DualSnap.exe		The screen capture tool
 CHANGES.txt			List of changes
 COPYING.txt         GPLv3 license
@@ -49,6 +50,13 @@ users of XP and Vista can also use these.
 Further hotkeys allow all windows on a particular monitor to be minimised
 and to rotate the contents of the monitors.
 This tool also allows you to restrict mouse movement between screens.
+
+DualLauncher
+------------
+
+Dual Launcher allows you to launch your favourite applications with a 
+few key strokes and to position them at pre-configured positions on any
+of your monitors.
 
 DualWallpaper
 -------------

@@ -38,7 +38,7 @@ namespace DualWallpaper
 		// positive offset image shifted to the right (or down)
 		// so need to add offset when calculating dest
 		// and subtract when calculating src
-		private int offset;
+		//private int offset;
 
 		private double zoom;
 
@@ -56,7 +56,7 @@ namespace DualWallpaper
 			this.s2 = s2;
 			this.d1 = d1;
 			this.d2 = d2;
-			this.offset = 0;
+			//this.offset = 0;
 			this.zoom = 1.0;
 		}
 

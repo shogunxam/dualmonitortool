@@ -188,12 +188,12 @@ namespace DualLauncher
 		}
 
 
-		public struct SECURITY_ATTRIBUTES
-		{
-			public int length;
-			public IntPtr lpSecurityDescriptor;
-			public bool bInheritHandle;
-		}
+		//public struct SECURITY_ATTRIBUTES
+		//{
+		//    public int length;
+		//    public IntPtr lpSecurityDescriptor;
+		//    public bool bInheritHandle;
+		//}
 
 		// flags for STARTUPINFO.dwFlags
 		public const int STARTF_USESHOWWINDOW = 0x00000001;
