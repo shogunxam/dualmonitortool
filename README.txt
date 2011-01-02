@@ -16,11 +16,11 @@ Release 1.6
 The release consists of the following files:
 
 SwapScreen.exe      The swap screen tool
-DualLauncher.exe	Application launcher
-DualWallpaper.exe	The wallpaper setting tool
-DisMon.exe			Disables secondary monitors
-DualSnap.exe		The screen capture tool
-CHANGES.txt			List of changes
+DualLauncher.exe    Application launcher
+DualWallpaper.exe   The wallpaper setting tool
+DisMon.exe          Disables secondary monitors
+DualSnap.exe        The screen capture tool
+CHANGES.txt         List of changes
 COPYING.txt         GPLv3 license
 README.txt          This file
 
