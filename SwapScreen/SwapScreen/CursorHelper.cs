@@ -400,7 +400,7 @@ namespace SwapScreen
 			// bottom of current screen
 			if (curScreen.Bounds.Bottom < vitrualDesktopRect.Bottom)
 			{
-				bottomBarrier = new CursorBarrierUpper(true, curScreen.Bounds.Right - 1, minForce);
+				bottomBarrier = new CursorBarrierUpper(true, curScreen.Bounds.Bottom - 1, minForce);
 			}
 			else
 			{
