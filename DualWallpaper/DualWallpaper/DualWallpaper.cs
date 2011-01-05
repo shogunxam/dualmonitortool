@@ -83,7 +83,7 @@ namespace DualWallpaper
 				textBoxImage.Text = dlg.FileName;
 				try
 				{
-					picSource.Image = Bitmap.FromFile(textBoxImage.Text);
+					picSource.Image = LoadImageFromFile(textBoxImage.Text);
 				}
 				catch (Exception ex)
 				{
@@ -99,7 +99,7 @@ namespace DualWallpaper
 				// load image file
 				try
 				{
-					Image image = Bitmap.FromFile(textBoxImage.Text);
+					Image image = LoadImageFromFile(textBoxImage.Text);
 					Stretch stretchType = comboBoxFit.SelectedItem as Stretch;
 					Debug.Assert(stretchType != null);
 					controller.AddImage(image, stretchType.Type);
@@ -112,6 +112,45 @@ namespace DualWallpaper
 					MessageBox.Show(ex.Message, Program.MyTitle);
 				}
 			}
+		}
+
+		private Image LoadImageFromFile(string imageFilename)
+		{
+			Image image;
+
+			// Solution 1
+			// This keeps the fie open which causes a problem
+			// if we try to save the wallpaper back here later on
+			image = Bitmap.FromFile(textBoxImage.Text);
+
+			// Solution 2
+			//// the following seems to work, but is not recommened as the documentation
+			//// for Image.FromStream() says:
+			//// 'You must keep the stream open for the lifetime of the Image'
+			//using (MemoryStream stream = new MemoryStream(File.ReadAllBytes(imageFilename)))
+			//{
+			//    return Image.FromStream(stream);
+			//}
+
+			// Solution 3
+			//// This leaves the stream open so will work and adhere to the documentation, 
+			//// but results in a memory leak.
+			//MemoryStream stream = new MemoryStream(File.ReadAllBytes(imageFilename));
+			//image = new Image.FromStream(stream);
+
+			// Solution 4
+			// some people have suggested copying the image to a secondary image
+			// using either Clone() or a copy ctor() and returning that 
+			// but the documentation doesn't make it clear if the cloned image
+			// still has a reference to the original stream
+
+			// Solution 5
+			// Create a class that encapsulates both the image and the stream
+			// Trouble is the PictureBox wants an image, so you need to manage 
+			// the lifetime of the new object and make sure it isn't destroyed
+			// while the PictureBox is still using the Image in it.
+
+			return image;
 		}
 
 		private void CreateWallpaper()

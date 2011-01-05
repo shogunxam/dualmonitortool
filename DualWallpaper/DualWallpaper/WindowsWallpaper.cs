@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
 using Microsoft.Win32;
 
@@ -96,22 +97,36 @@ namespace DualWallpaper
 		{
 			string dir = Program.MyAppDataDir;
 			string path = Path.Combine(dir, "DualWallpaper.bmp");
-			wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
 
-			// make sure image is tiled
-			using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
+			try
 			{
-				key.SetValue("TileWallpaper", "1");
-				key.SetValue("WallpaperStyle", "0");
-			}
+				wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
+				// make sure image is tiled
+				using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
+				{
+					key.SetValue("TileWallpaper", "1");
+					key.SetValue("WallpaperStyle", "0");
+				}
 
-			// now set the wallpaper
-			Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
+				// now set the wallpaper
+				Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 		private void SaveWallpaper(Image wallpaper, string fnm)
 		{
-			wallpaper.Save(fnm, System.Drawing.Imaging.ImageFormat.Bmp);
+			try
+			{
+				wallpaper.Save(fnm, System.Drawing.Imaging.ImageFormat.Bmp);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 		private Image WrapImage(out bool wrapped)
