@@ -45,6 +45,10 @@ namespace DualSnap
 			this.visitDualSnapWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.deleteCurrentSnapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.deleteAllSnapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			this.contextMenuStrip.SuspendLayout();
 			this.SuspendLayout();
@@ -68,16 +72,20 @@ namespace DualSnap
             this.snapToolStripMenuItem,
             this.showLastSnapToolStripMenuItem,
             this.snapsToolStripMenuItem,
+            this.optionsToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.toolStripSeparator2,
-            this.optionsToolStripMenuItem,
+            this.deleteCurrentSnapToolStripMenuItem,
+            this.deleteAllSnapsToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.aboutDualSnapToolStripMenuItem,
             this.visitDualSnapWebsiteToolStripMenuItem,
+            this.toolStripMenuItem2,
             this.exitToolStripMenuItem});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(198, 214);
+			this.contextMenuStrip.Size = new System.Drawing.Size(198, 292);
 			this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
 			// 
 			// snapToolStripMenuItem
@@ -144,9 +152,10 @@ namespace DualSnap
 			// 
 			// optionsToolStripMenuItem
 			// 
+			this.optionsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("optionsToolStripMenuItem.Image")));
 			this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
 			this.optionsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-			this.optionsToolStripMenuItem.Text = "Options...";
+			this.optionsToolStripMenuItem.Text = "Options";
 			this.optionsToolStripMenuItem.ToolTipText = "Show Options";
 			this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
 			// 
@@ -180,6 +189,32 @@ namespace DualSnap
 			this.notifyIcon.Text = "Dual Snap";
 			this.notifyIcon.Visible = true;
 			this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+			// 
+			// deleteCurrentSnapToolStripMenuItem
+			// 
+			this.deleteCurrentSnapToolStripMenuItem.Name = "deleteCurrentSnapToolStripMenuItem";
+			this.deleteCurrentSnapToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.deleteCurrentSnapToolStripMenuItem.Text = "Delete Current Snap";
+			this.deleteCurrentSnapToolStripMenuItem.ToolTipText = "Delete the current snap";
+			this.deleteCurrentSnapToolStripMenuItem.Click += new System.EventHandler(this.deleteCurrentSnapToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(194, 6);
+			// 
+			// deleteAllSnapsToolStripMenuItem
+			// 
+			this.deleteAllSnapsToolStripMenuItem.Name = "deleteAllSnapsToolStripMenuItem";
+			this.deleteAllSnapsToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+			this.deleteAllSnapsToolStripMenuItem.Text = "Delete all Snaps...";
+			this.deleteAllSnapsToolStripMenuItem.ToolTipText = "Delete all snaps";
+			this.deleteAllSnapsToolStripMenuItem.Click += new System.EventHandler(this.deleteAllSnapsToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(194, 6);
 			// 
 			// SnapForm
 			// 
@@ -216,6 +251,10 @@ namespace DualSnap
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem visitDualSnapWebsiteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deleteCurrentSnapToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem deleteAllSnapsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 	}
 }
 

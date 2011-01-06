@@ -21,6 +21,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace DualSnap
 {
@@ -75,6 +76,49 @@ namespace DualSnap
 			if (snaps.Count > maxSnaps)
 			{
 				snaps.RemoveAt(0);
+			}
+		}
+
+		/// <summary>
+		/// Deletes all snaps in the history
+		/// </summary>
+		public void DeleteAll()
+		{
+			snaps.Clear();
+		}
+
+		/// <summary>
+		/// Deletes at most a single snap using the same image
+		/// </summary>
+		/// <param name="image">The image we are trying to delete</param>
+		/// <returns>true if a snap was deleted</returns>
+		public bool Delete(Image image)
+		{
+			foreach (Snap snap in snaps)
+			{
+				if (snap.Image == image)
+				{
+					snaps.Remove(snap);
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Returns the last snap available
+		/// </summary>
+		/// <returns></returns>
+		public Snap LastSnap()
+		{
+			if (snaps.Count > 0)
+			{
+				return snaps[snaps.Count - 1];
+			}
+			else
+			{
+				return null;
 			}
 		}
 

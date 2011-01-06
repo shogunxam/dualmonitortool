@@ -121,6 +121,9 @@
     <value>About Swap Screen...</value>
     <comment>Text for the about menu item</comment>
   </data>
+  <data name="DeleteConfirm" xml:space="preserve">
+    <value>Are you sure you want to delate all {0} snaps?</value>
+  </data>
   <data name="License" xml:space="preserve">
     <value>This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>

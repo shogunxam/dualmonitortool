@@ -203,6 +203,8 @@ namespace DualSnap
 			snapsToolStripMenuItem.Enabled = hasSnaps;
 			copyToolStripMenuItem.Enabled = hasSnaps;
 			saveAsToolStripMenuItem.Enabled = hasSnaps;
+			deleteCurrentSnapToolStripMenuItem.Enabled = hasSnaps;
+			deleteAllSnapsToolStripMenuItem.Enabled = hasSnaps;
 		}
 
 		// handle the "Snap" menu item click
@@ -271,6 +273,32 @@ namespace DualSnap
 			ShowLastSnap();
 		}
 
+		// Handle the "Options" menu item click
+		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			OptionsForm dlg = new OptionsForm(this);
+			//dlg.DualSnapHotKey = dualSnapHotKey.HotKeyCombo;
+			//dlg.ShowSnapHotKey = showSnapHotKey.HotKeyCombo;
+			dlg.AutoShowSnap = Properties.Settings.Default.AutoShowSnap;
+			dlg.MaxSnaps = snapHistory.MaxSnaps;
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				//// use the new hotkeys
+				//dualSnapHotKey.RegisterHotKey(dlg.DualSnapHotKey);
+				//showSnapHotKey.RegisterHotKey(dlg.ShowSnapHotKey);
+
+				// and the maximum number of snaps we remember
+				snapHistory.MaxSnaps = dlg.MaxSnaps;
+
+				// save these settings for the next time we run
+				//Properties.Settings.Default.HotKeyValue = dlg.DualSnapHotKey.ToPropertyValue();
+				//Properties.Settings.Default.ShowSnapHotKey = dlg.ShowSnapHotKey.ToPropertyValue();
+				Properties.Settings.Default.AutoShowSnap = dlg.AutoShowSnap;
+				Properties.Settings.Default.MaxSnaps = dlg.MaxSnaps;
+				Properties.Settings.Default.Save();
+			}
+		}
+
 		// Handle the "Copy" menu item click
 		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -304,29 +332,63 @@ namespace DualSnap
 			}
 		}
 
-		// Handle the "Options" menu item click
-		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void deleteCurrentSnapToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OptionsForm dlg = new OptionsForm(this);
-			//dlg.DualSnapHotKey = dualSnapHotKey.HotKeyCombo;
-			//dlg.ShowSnapHotKey = showSnapHotKey.HotKeyCombo;
-			dlg.AutoShowSnap = Properties.Settings.Default.AutoShowSnap;
-			dlg.MaxSnaps = snapHistory.MaxSnaps;
-			if (dlg.ShowDialog() == DialogResult.OK)
+			if (snapHistory.Count > 0)
 			{
-				//// use the new hotkeys
-				//dualSnapHotKey.RegisterHotKey(dlg.DualSnapHotKey);
-				//showSnapHotKey.RegisterHotKey(dlg.ShowSnapHotKey);
+				// we do not know our position in the list,
+				// but we know the current image as we are displaying it
+				if (pictureBox.Image != null)
+				{
+					if (snapHistory.Delete(pictureBox.Image))
+					{
+						// we have deleted this snap
+						if (snapHistory.Count > 0)
+						{
+							pictureBox.Image = snapHistory.LastSnap().Image;
+						}
+						else
+						{
+							// we have deleted the last snap
+							pictureBox.Image = null;
+							HideLastSnap();
+						}
+					}
+				}
+			}
+		}
 
-				// and the maximum number of snaps we remember
-				snapHistory.MaxSnaps = dlg.MaxSnaps;
+		private void deleteAllSnapsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (snapHistory.Count > 0)
+			{
+				// if deleting multiple snaps, get confirmation first
+				if (snapHistory.Count > 1)
+				{
+					string msg = string.Format(Properties.Resources.DeleteConfirm, snapHistory.Count);
+					if (MessageBox.Show(msg,
+						Program.MyTitle,
+						MessageBoxButtons.YesNo,
+						MessageBoxIcon.Question,
+						MessageBoxDefaultButton.Button2) != DialogResult.Yes)
+					{
+						// no, user doesn't want to go ahead
+						return;
+					}
+				}
 
-				// save these settings for the next time we run
-				//Properties.Settings.Default.HotKeyValue = dlg.DualSnapHotKey.ToPropertyValue();
-				//Properties.Settings.Default.ShowSnapHotKey = dlg.ShowSnapHotKey.ToPropertyValue();
-				Properties.Settings.Default.AutoShowSnap = dlg.AutoShowSnap;
-				Properties.Settings.Default.MaxSnaps = dlg.MaxSnaps;
-				Properties.Settings.Default.Save();
+				// delete all snaps
+				snapHistory.DeleteAll();
+
+				// make sure the current image isn't referenced, so it can be freed
+				pictureBox.Image = null;
+
+				// we could ask the garbage collection to run here,
+				// but it is usually advised to let the GC run when it thinks is best
+				//GC.Collect();
+
+				// no point in having the snap window visible
+				HideLastSnap();
 			}
 		}
 
