@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009  Gerald Evans
+// Copyright (C) 2009-2011  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ namespace SwapScreen
 			{
 				// as the key asked to be disabled
 				// isRegistered will be false,
-				// bu we return true as the we have done what we were asked to do
+				// but we return true as we have done what we were asked to do
 				isRegistered = false;
 				hotKeyCombo = keyCombo;
 				return true;
