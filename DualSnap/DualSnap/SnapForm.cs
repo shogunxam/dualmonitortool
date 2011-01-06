@@ -39,9 +39,29 @@ namespace DualSnap
 	{
 		private bool shutDown = false;
 
-		private const int ID_HOTKEY_DUALSNAP = 0x102;
+		private const int ID_HOTKEY_TAKESNAP = 0x102;
+		private const int ID_HOTKEY_SHOWSNAP = 0x103;
 
-		private HotKey dualSnapHotKey;
+		//private HotKey dualSnapHotKey;
+		//private HotKey showSnapHotKey;
+
+		private HotKeyController takeSnapHotKeyController;
+		/// <summary>
+		/// The hotkey to take a snap of the primary screen
+		/// </summary>
+		public HotKeyController TakeSnapHotKeyController
+		{
+			get { return takeSnapHotKeyController; }
+		}
+
+		private HotKeyController showSnapHotKeyController;
+		/// <summary>
+		/// The hotkey which will toggle the display status of the current snap
+		/// </summary>
+		public HotKeyController ShowSnapHotKeyController
+		{
+			get { return showSnapHotKeyController; }
+		}
 
 		private SnapHistory snapHistory = new SnapHistory(Properties.Settings.Default.MaxSnaps);
 
@@ -54,24 +74,32 @@ namespace DualSnap
 
 			this.Text = Program.MyTitle;
 
-			InitHotKey();
+			InitHotKeys();
 			InitContextMenu();
 		}
 
-		private void InitHotKey()
+		private void InitHotKeys()
 		{
-			KeyCombo defaultKeyCombo = new KeyCombo();
-			defaultKeyCombo.FromPropertyValue(Properties.Settings.Default.HotKeyValue);
 
-			dualSnapHotKey = new HotKey(this, ID_HOTKEY_DUALSNAP);
-			dualSnapHotKey.RegisterHotKey(defaultKeyCombo);
+			// set the hotkey for taking the snaps
+			takeSnapHotKeyController = new HotKeyController(this, ID_HOTKEY_TAKESNAP,
+				"HotKeyValue",
+				Properties.Resources.TakeSnapDescription,
+				"",		// no Windows 7 key
+				new HotKey.HotKeyHandler(TakeSnap));
 
-			dualSnapHotKey.HotKeyPressed += new HotKey.HotKeyHandler(TakeSnap);
+			// set the hotkey for toggling the display of the snaps
+			showSnapHotKeyController = new HotKeyController(this, ID_HOTKEY_SHOWSNAP,
+				"ShowSnapHotKey",
+				Properties.Resources.ShowSnapDescription,
+				"",		// no Windows 7 key
+				new HotKey.HotKeyHandler(ToggleShowSnap));
 		}
 
 		private void TermHotKey()
 		{
-			dualSnapHotKey.Dispose();
+			showSnapHotKeyController.Dispose();
+			takeSnapHotKeyController.Dispose();
 		}
 
 		private void InitContextMenu()
@@ -127,16 +155,20 @@ namespace DualSnap
 
 		private void ShowLastSnap()
 		{
-			// position window on second screen
-			Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
-			this.Location = secondaryScreen.Bounds.Location;
-			this.Size = secondaryScreen.Bounds.Size;
-			// we also maximize it, so if moved by SwapScreen it will still occupy the whole screen 
-			// even if the monitor is a different size
-			this.WindowState = FormWindowState.Maximized;
-			this.TopMost = true;
-			this.Visible = true;
-			this.showLastSnapToolStripMenuItem.Checked = true;
+			// if we have a snap, then show it
+			if (snapHistory.Count > 0)
+			{
+				// position window on second screen
+				Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
+				this.Location = secondaryScreen.Bounds.Location;
+				this.Size = secondaryScreen.Bounds.Size;
+				// we also maximize it, so if moved by SwapScreen it will still occupy the whole screen 
+				// even if the monitor is a different size
+				this.WindowState = FormWindowState.Maximized;
+				this.TopMost = true;
+				this.Visible = true;
+				this.showLastSnapToolStripMenuItem.Checked = true;
+			}
 		}
 
 		private void HideLastSnap()
@@ -181,6 +213,11 @@ namespace DualSnap
 
 		// handle the "Show Snap" menu item click
 		private void showSnapToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ToggleShowSnap();
+		}
+
+		private void ToggleShowSnap()
 		{
 			if (this.Visible)
 			{
@@ -270,20 +307,23 @@ namespace DualSnap
 		// Handle the "Options" menu item click
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			OptionsForm dlg = new OptionsForm();
-			dlg.DualSnapHotKey = dualSnapHotKey.HotKeyCombo;
+			OptionsForm dlg = new OptionsForm(this);
+			//dlg.DualSnapHotKey = dualSnapHotKey.HotKeyCombo;
+			//dlg.ShowSnapHotKey = showSnapHotKey.HotKeyCombo;
 			dlg.AutoShowSnap = Properties.Settings.Default.AutoShowSnap;
 			dlg.MaxSnaps = snapHistory.MaxSnaps;
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
-				// use the new hotkey 
-				dualSnapHotKey.RegisterHotKey(dlg.DualSnapHotKey);
+				//// use the new hotkeys
+				//dualSnapHotKey.RegisterHotKey(dlg.DualSnapHotKey);
+				//showSnapHotKey.RegisterHotKey(dlg.ShowSnapHotKey);
 
 				// and the maximum number of snaps we remember
 				snapHistory.MaxSnaps = dlg.MaxSnaps;
 
 				// save these settings for the next time we run
-				Properties.Settings.Default.HotKeyValue = dlg.DualSnapHotKey.ToPropertyValue();
+				//Properties.Settings.Default.HotKeyValue = dlg.DualSnapHotKey.ToPropertyValue();
+				//Properties.Settings.Default.ShowSnapHotKey = dlg.ShowSnapHotKey.ToPropertyValue();
 				Properties.Settings.Default.AutoShowSnap = dlg.AutoShowSnap;
 				Properties.Settings.Default.MaxSnaps = dlg.MaxSnaps;
 				Properties.Settings.Default.Save();

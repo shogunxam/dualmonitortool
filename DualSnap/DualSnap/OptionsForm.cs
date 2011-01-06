@@ -29,13 +29,24 @@ namespace DualSnap
 {
 	public partial class OptionsForm : Form
 	{
+		// reference to our main window
+		// used for access to the HotKeys
+		// TODO: think about moving the hotkeys out into a controller
+		private SnapForm snapForm;
+
 		private const string autoStartKeyName = "GNE_DualSnap";
 
-		public KeyCombo DualSnapHotKey
-		{
-			get { return keyComboPanel.KeyCombo; }
-			set { keyComboPanel.KeyCombo = value; }
-		}
+		//public KeyCombo DualSnapHotKey
+		//{
+		//    get { return keyComboPanel.KeyCombo; }
+		//    set { keyComboPanel.KeyCombo = value; }
+		//}
+
+		//public KeyCombo ShowSnapHotKey
+		//{
+		//    get { return showSnapComboPanel.KeyCombo; }
+		//    set { showSnapComboPanel.KeyCombo = value; }
+		//}
 
 		public int MaxSnaps
 		{
@@ -49,10 +60,29 @@ namespace DualSnap
 			set { checkBoxShowSnap.Checked = value; }
 		}
 	
-		public OptionsForm()
+		public OptionsForm(SnapForm snapForm)
 		{
+			this.snapForm = snapForm;
 			InitializeComponent();
+		}
+
+		private void OptionsForm_Load(object sender, EventArgs e)
+		{
+			InitHotKeys();
 			UpdateAutoStartCheckBox();
+
+			// enable display of hotkeys as appropriate 
+			//checkBoxEnableDualSnap.Checked = keyComboPanel.KeyCombo.Enabled;
+			//checkBoxEnableShowSnap.Checked = showSnapComboPanel.KeyCombo.Enabled;
+			//UpdateEnableDualSnap();
+			//UpdateEnableShowSnap();
+		}
+
+		private void InitHotKeys()
+		{
+			labelTakeSnap.Text = snapForm.TakeSnapHotKeyController.ToString();
+			labelShowSnap.Text = snapForm.ShowSnapHotKeyController.ToString();
+
 		}
 
 		#region AutoStart
@@ -83,5 +113,42 @@ namespace DualSnap
 		{
 			Program.VisitDualSnapWebsite();
 		}
+
+		//private void checkBoxEnableDualSnap_CheckedChanged(object sender, EventArgs e)
+		//{
+		//    UpdateEnableDualSnap();
+		//}
+
+		//private void checkBoxEnableShowSnap_CheckedChanged(object sender, EventArgs e)
+		//{
+		//    UpdateEnableShowSnap();
+		//}
+
+		//private void UpdateEnableDualSnap()
+		//{
+		//    keyComboPanel.Enabled = checkBoxEnableDualSnap.Checked;
+		//}
+
+		//private void UpdateEnableShowSnap()
+		//{
+		//    showSnapComboPanel.Enabled = checkBoxEnableShowSnap.Checked;
+		//}
+
+		private void buttonTakeSnap_Click(object sender, EventArgs e)
+		{
+			if (snapForm.TakeSnapHotKeyController.Edit())
+			{
+				labelTakeSnap.Text = snapForm.TakeSnapHotKeyController.ToString();
+			}
+		}
+
+		private void buttonShowSnap_Click(object sender, EventArgs e)
+		{
+			if (snapForm.ShowSnapHotKeyController.Edit())
+			{
+				labelShowSnap.Text = snapForm.ShowSnapHotKeyController.ToString();
+			}
+		}
+
 	}
 }

@@ -14,5 +14,8 @@
     <Setting Name="NeedSettingsUpgrade" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="ShowSnapHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">131192</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

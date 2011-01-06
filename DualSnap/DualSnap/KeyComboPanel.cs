@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009  Gerald Evans
+// Copyright (C) 2009-2011  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -210,7 +210,8 @@ namespace DualSnap
 			comboKey.EndUpdate();
 		}
 
-		private static string KeyCodeToName(Keys keyCode)
+		//private static string KeyCodeToName(Keys keyCode)
+		public static string KeyCodeToName(Keys keyCode)
 		{
 			string keyName = "?";
 			foreach (VirtualKey virtualKey in virtualKeys)

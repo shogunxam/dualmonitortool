@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,31 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutMenuItem" xml:space="preserve">
-    <value>About Swap Screen...</value>
-    <comment>Text for the about menu item</comment>
-  </data>
-  <data name="License" xml:space="preserve">
-    <value>This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
-  </data>
-  <data name="MyTitle" xml:space="preserve">
-    <value>Dual Snap</value>
-  </data>
-  <data name="NoKey" xml:space="preserve">
-    <value>You need to select a key from the drop down box</value>
-  </data>
-  <data name="RegisterFail" xml:space="preserve">
-    <value>The registration of this hot key has failed.
-Try another hot key combination.</value>
-  </data>
-  <data name="ShowSnapDescription" xml:space="preserve">
-    <value>Toggle display of current snapshot</value>
-  </data>
-  <data name="SnapMenuItemTooltip" xml:space="preserve">
-    <value>Click to show this image.</value>
-  </data>
-  <data name="TakeSnapDescription" xml:space="preserve">
-    <value>Take a snapshot of the primary screen</value>
-  </data>
 </root>

@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009  Gerald Evans
+// Copyright (C) 2009-2011  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,19 +45,10 @@ namespace DualSnap
 		private KeyCombo hotKeyCombo;
 		/// <summary>
 		/// The KeyCombo that we will be using as the hotkey.
-		/// This can be changed dynamically, even when it is registered.
 		/// </summary>
 		public KeyCombo HotKeyCombo
 		{
 			get { return hotKeyCombo; }
-			//set
-			//{
-			//    hotKeyCombo = value;
-			//    if (isRegistered)
-			//    {
-			//        RegisterHotKey();
-			//    }
-			//}
 		}
 	
 		private Form form;
@@ -68,7 +59,7 @@ namespace DualSnap
 
 		/// <summary>
 		/// Constructor that initialises the hotkey.
-		/// The hot key will not actually be registered RegisterHotKey() is called.
+		/// The hot key will not actually be registered until RegisterHotKey() is called.
 		/// </summary>
 		/// <param name="hotKeyCombo">Initial hot key combination to use</param>
 		/// <param name="form">Window to receive hot key as required by Win32 API</param>
@@ -111,7 +102,7 @@ namespace DualSnap
 		/// <summary>
 		/// Registers the hot key with Windows.
 		/// </summary>
-		/// <returns>true if the hot key was registered successfully</returns>
+		/// <returns>true if the hot key was accepted</returns>
 		public bool RegisterHotKey(KeyCombo keyCombo)
 		{
 			if (form == null)
@@ -128,14 +119,26 @@ namespace DualSnap
 				UnRegisterHotKey();
 			}
 
-			isRegistered = Win32.RegisterHotKey(form.Handle, id,
-												keyCombo.Win32Modifier,
-												keyCombo.Win32KeyCode);
-			if (isRegistered)
+			if (keyCombo.Enabled)
 			{
-				hotKeyCombo = keyCombo;
+				isRegistered = Win32.RegisterHotKey(form.Handle, id,
+													keyCombo.Win32Modifier,
+													keyCombo.Win32KeyCode);
+				if (isRegistered)
+				{
+					hotKeyCombo = keyCombo;
+				}
+				return isRegistered;
 			}
-			return isRegistered;
+			else
+			{
+				// as the key asked to be disabled
+				// isRegistered will be false,
+				// but we return true as we have done what we were asked to do
+				isRegistered = false;
+				hotKeyCombo = keyCombo;
+				return true;
+			}
 		}
 
 		/// <summary>
