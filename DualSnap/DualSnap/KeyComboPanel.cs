@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009-2011  Gerald Evans
+// Copyright (C) 2009  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -58,21 +58,86 @@ namespace DualSnap
 		private static VirtualKey[] virtualKeys = new VirtualKey[]
 		{
 			new VirtualKey(Keys.Back, "<Backspace>" ),
-			new VirtualKey(Keys.Tab, "<Tab>" ),
-			new VirtualKey(Keys.Enter, "<Enter>" ),
-			new VirtualKey(Keys.Pause, "<Pause>" ),
-			new VirtualKey(Keys.Escape, "<Esc>" ),
-			new VirtualKey(Keys.Space, "<Space>" ),
-			new VirtualKey(Keys.PageUp, "<PageUp>" ),
-			new VirtualKey(Keys.PageDown, "<PageDown>" ),
-			new VirtualKey(Keys.End, "<End>" ),
-			new VirtualKey(Keys.Home, "<Home>" ),
-			new VirtualKey(Keys.Left, "<Left>" ),
-			new VirtualKey(Keys.Up, "<Up>" ),
-			new VirtualKey(Keys.Right, "<Right>" ),
-			new VirtualKey(Keys.Down, "<Down>" ),
-			new VirtualKey(Keys.Insert, "<Insert>" ),
 			new VirtualKey(Keys.Delete, "<Delete>" ),
+			new VirtualKey(Keys.Divide, "<Divide>" ),
+			new VirtualKey(Keys.Down, "<Down>" ),
+			new VirtualKey(Keys.End, "<End>" ),
+			new VirtualKey(Keys.Enter, "<Enter>" ),
+			new VirtualKey(Keys.Escape, "<Esc>" ),
+			new VirtualKey(Keys.Home, "<Home>" ),
+			new VirtualKey(Keys.Insert, "<Insert>" ),
+			new VirtualKey(Keys.Left, "<Left>" ),
+			new VirtualKey(Keys.PageDown, "<PageDown>" ),
+			new VirtualKey(Keys.PageUp, "<PageUp>" ),
+			new VirtualKey(Keys.Pause, "<Pause>" ),
+			new VirtualKey(Keys.PrintScreen, "<PrintScrn>" ),
+			new VirtualKey(Keys.Right, "<Right>" ),
+			new VirtualKey(Keys.Scroll, "<ScrollLock>" ),
+			new VirtualKey(Keys.Space, "<Space>" ),
+			new VirtualKey(Keys.Tab, "<Tab>" ),
+			new VirtualKey(Keys.Up, "<Up>" ),
+
+			new VirtualKey(Keys.OemBackslash, "<OemBackslash>" ),
+			new VirtualKey(Keys.OemCloseBrackets, "<OemCloseBrackets>" ),
+			new VirtualKey(Keys.Oemcomma, "<OemComma>" ),
+			new VirtualKey(Keys.OemMinus, "<OemMinus>" ),
+			new VirtualKey(Keys.OemOpenBrackets, "<OemOpenBrackets>" ),
+			new VirtualKey(Keys.OemPeriod, "<OemPeriod>" ),
+			new VirtualKey(Keys.OemPipe, "<OemPipe>" ),
+			new VirtualKey(Keys.Oemplus, "<OemPlus>" ),
+			new VirtualKey(Keys.OemQuestion, "<OemQuestion>" ),
+			new VirtualKey(Keys.OemQuotes, "<OemQuotes>" ),
+			new VirtualKey(Keys.OemSemicolon, "<OemSemicolon>" ),
+			new VirtualKey(Keys.Oemtilde, "<OemTilde>" ),
+
+			
+			new VirtualKey(Keys.F1, "<F1>" ),
+			new VirtualKey(Keys.F2, "<F2>" ),
+			new VirtualKey(Keys.F3, "<F3>" ),
+			new VirtualKey(Keys.F4, "<F4>" ),
+			new VirtualKey(Keys.F5, "<F5>" ),
+			new VirtualKey(Keys.F6, "<F6>" ),
+			new VirtualKey(Keys.F7, "<F7>" ),
+			new VirtualKey(Keys.F8, "<F8>" ),
+			new VirtualKey(Keys.F9, "<F9>" ),
+			new VirtualKey(Keys.F10, "<F10>" ),
+			new VirtualKey(Keys.F11, "<F11>" ),
+			new VirtualKey(Keys.F12, "<F12>" ),
+
+			// The multimedia keys (with and without moddifiers)
+			// can't be used as hotkeys
+			//new VirtualKey(Keys.MediaNextTrack, "<MediaNextTrack>" ),
+			//new VirtualKey(Keys.MediaPlayPause, "<MediaPlayPause>" ),
+			//new VirtualKey(Keys.MediaPreviousTrack, "<MediaPreviousTrack>" ),
+			//new VirtualKey(Keys.MediaStop, "<MediaStop>" ),
+			//new VirtualKey(Keys.VolumeDown, "<VolumeDown>" ),
+			//new VirtualKey(Keys.VolumeDown, "<VolumeMute>" ),
+			//new VirtualKey(Keys.VolumeUp, "<VolumeUp>" ),
+
+			//new VirtualKey(Keys.BrowserBack, "<BrowserBack>" ),
+			//new VirtualKey(Keys.BrowserFavorites, "<BrowserFavorites>" ),
+			//new VirtualKey(Keys.BrowserForward, "<BrowserForward>" ),
+			//new VirtualKey(Keys.BrowserHome, "<BrowserHome>" ),
+			//new VirtualKey(Keys.BrowserRefresh, "<BrowserRefresh>" ),
+			//new VirtualKey(Keys.BrowserSearch, "<BrowserSearch>" ),
+			//new VirtualKey(Keys.BrowserStop, "<BrowserStop>" ),
+
+			new VirtualKey(Keys.NumPad0, "<Num0>" ),
+			new VirtualKey(Keys.NumPad1, "<Num1>" ),
+			new VirtualKey(Keys.NumPad2, "<Num2>" ),
+			new VirtualKey(Keys.NumPad3, "<Num3>" ),
+			new VirtualKey(Keys.NumPad4, "<Num4>" ),
+			new VirtualKey(Keys.NumPad5, "<Num5>" ),
+			new VirtualKey(Keys.NumPad6, "<Num6>" ),
+			new VirtualKey(Keys.NumPad7, "<Num7>" ),
+			new VirtualKey(Keys.NumPad8, "<Num8>" ),
+			new VirtualKey(Keys.NumPad9, "<Num9>" ),
+
+			new VirtualKey(Keys.Multiply, "<Num*>" ),
+			new VirtualKey(Keys.Add, "<Num+>" ),
+			new VirtualKey(Keys.Subtract, "<Num->" ),
+			new VirtualKey(Keys.Decimal, "<Num.>" ),
+			new VirtualKey(Keys.Divide, "<Num/>" ),
 
 			new VirtualKey(Keys.D0, "0" ),
 			new VirtualKey(Keys.D1, "1" ),
@@ -110,40 +175,7 @@ namespace DualSnap
 			new VirtualKey(Keys.W, "W" ),
 			new VirtualKey(Keys.X, "X" ),
 			new VirtualKey(Keys.Y, "Y" ),
-			new VirtualKey(Keys.Z, "Z" ),
-
-			new VirtualKey(Keys.NumPad0, "<Num0>" ),
-			new VirtualKey(Keys.NumPad1, "<Num1>" ),
-			new VirtualKey(Keys.NumPad2, "<Num2>" ),
-			new VirtualKey(Keys.NumPad3, "<Num3>" ),
-			new VirtualKey(Keys.NumPad4, "<Num4>" ),
-			new VirtualKey(Keys.NumPad5, "<Num5>" ),
-			new VirtualKey(Keys.NumPad6, "<Num6>" ),
-			new VirtualKey(Keys.NumPad7, "<Num7>" ),
-			new VirtualKey(Keys.NumPad8, "<Num8>" ),
-			new VirtualKey(Keys.NumPad9, "<Num9>" ),
-
-			new VirtualKey(Keys.Multiply, "<Num*>" ),
-			new VirtualKey(Keys.Add, "<Num+>" ),
-			new VirtualKey(Keys.Subtract, "<Num->" ),
-			new VirtualKey(Keys.Decimal, "<Num.>" ),
-			new VirtualKey(Keys.Divide, "<Num/>" ),
-
-			new VirtualKey(Keys.F1, "<F1>" ),
-			new VirtualKey(Keys.F2, "<F2>" ),
-			new VirtualKey(Keys.F3, "<F3>" ),
-			new VirtualKey(Keys.F4, "<F4>" ),
-			new VirtualKey(Keys.F5, "<F5>" ),
-			new VirtualKey(Keys.F6, "<F6>" ),
-			new VirtualKey(Keys.F7, "<F7>" ),
-			new VirtualKey(Keys.F8, "<F8>" ),
-			new VirtualKey(Keys.F9, "<F9>" ),
-			new VirtualKey(Keys.F10, "<F10>" ),
-			new VirtualKey(Keys.F11, "<F11>" ),
-			new VirtualKey(Keys.F12, "<F12>" ),
-
-			new VirtualKey(Keys.Scroll, "<ScrollLock>" )
-
+			new VirtualKey(Keys.Z, "Z" )
 		};
 		#endregion
 
@@ -170,6 +202,15 @@ namespace DualSnap
 		{
 			InitializeComponent();
 			FillKeysCombo();
+		}
+
+		/// <summary>
+		/// Writeable value indicating if the Win modifier key is allowed
+		/// </summary>
+		public bool AllowWin
+		{
+			// TODO: use Enabled or Visible?
+			set { chkWin.Enabled = value; }
 		}
 
 		private KeyCombo KeyComboFromPanel()
@@ -210,7 +251,11 @@ namespace DualSnap
 			comboKey.EndUpdate();
 		}
 
-		//private static string KeyCodeToName(Keys keyCode)
+		/// <summary>
+		/// Converts the keycode to a displayable name
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <returns></returns>
 		public static string KeyCodeToName(Keys keyCode)
 		{
 			string keyName = "?";
