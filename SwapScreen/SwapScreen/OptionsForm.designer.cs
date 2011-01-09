@@ -77,6 +77,8 @@ namespace SwapScreen
 			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tabPageMouse = new System.Windows.Forms.TabPage();
+			this.comboBoxCursorMode = new System.Windows.Forms.ComboBox();
+			this.label15 = new System.Windows.Forms.Label();
 			this.checkBoxControlUnhindersCursor = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.label13 = new System.Windows.Forms.Label();
@@ -183,7 +185,7 @@ namespace SwapScreen
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(227, 269);
+			this.buttonCancel.Location = new System.Drawing.Point(228, 298);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 3;
@@ -481,7 +483,7 @@ namespace SwapScreen
 			this.tabControl1.Location = new System.Drawing.Point(12, 3);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(506, 260);
+			this.tabControl1.Size = new System.Drawing.Size(506, 289);
 			this.tabControl1.TabIndex = 7;
 			// 
 			// tabPageActive
@@ -490,7 +492,7 @@ namespace SwapScreen
 			this.tabPageActive.Location = new System.Drawing.Point(4, 22);
 			this.tabPageActive.Name = "tabPageActive";
 			this.tabPageActive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageActive.Size = new System.Drawing.Size(498, 234);
+			this.tabPageActive.Size = new System.Drawing.Size(498, 263);
 			this.tabPageActive.TabIndex = 0;
 			this.tabPageActive.Text = "Active Window";
 			this.tabPageActive.UseVisualStyleBackColor = true;
@@ -525,7 +527,7 @@ namespace SwapScreen
 			this.tabPageOther.Location = new System.Drawing.Point(4, 22);
 			this.tabPageOther.Name = "tabPageOther";
 			this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageOther.Size = new System.Drawing.Size(498, 234);
+			this.tabPageOther.Size = new System.Drawing.Size(498, 263);
 			this.tabPageOther.TabIndex = 1;
 			this.tabPageOther.Text = "Other Windows";
 			this.tabPageOther.UseVisualStyleBackColor = true;
@@ -556,15 +558,36 @@ namespace SwapScreen
 			// 
 			// tabPageMouse
 			// 
+			this.tabPageMouse.Controls.Add(this.comboBoxCursorMode);
+			this.tabPageMouse.Controls.Add(this.label15);
 			this.tabPageMouse.Controls.Add(this.checkBoxControlUnhindersCursor);
 			this.tabPageMouse.Controls.Add(this.groupBox4);
 			this.tabPageMouse.Controls.Add(this.groupBox3);
 			this.tabPageMouse.Location = new System.Drawing.Point(4, 22);
 			this.tabPageMouse.Name = "tabPageMouse";
-			this.tabPageMouse.Size = new System.Drawing.Size(498, 234);
+			this.tabPageMouse.Size = new System.Drawing.Size(498, 263);
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
+			// 
+			// comboBoxCursorMode
+			// 
+			this.comboBoxCursorMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxCursorMode.FormattingEnabled = true;
+			this.comboBoxCursorMode.Location = new System.Drawing.Point(176, 227);
+			this.comboBoxCursorMode.Name = "comboBoxCursorMode";
+			this.comboBoxCursorMode.Size = new System.Drawing.Size(300, 21);
+			this.comboBoxCursorMode.TabIndex = 43;
+			this.comboBoxCursorMode.SelectedIndexChanged += new System.EventHandler(this.comboBoxCursorMode_SelectedIndexChanged);
+			// 
+			// label15
+			// 
+			this.label15.AutoSize = true;
+			this.label15.Location = new System.Drawing.Point(14, 229);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(155, 13);
+			this.label15.TabIndex = 42;
+			this.label15.Text = "Default cursor mode on startup:";
 			// 
 			// checkBoxControlUnhindersCursor
 			// 
@@ -792,7 +815,7 @@ namespace SwapScreen
 			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
 			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGeneral.Name = "tabPageGeneral";
-			this.tabPageGeneral.Size = new System.Drawing.Size(498, 234);
+			this.tabPageGeneral.Size = new System.Drawing.Size(498, 263);
 			this.tabPageGeneral.TabIndex = 3;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
@@ -801,7 +824,7 @@ namespace SwapScreen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(530, 303);
+			this.ClientSize = new System.Drawing.Size(530, 333);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.buttonCancel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -903,6 +926,8 @@ namespace SwapScreen
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.CheckBox checkBoxControlUnhindersCursor;
+		private System.Windows.Forms.ComboBox comboBoxCursorMode;
+		private System.Windows.Forms.Label label15;
 	}
 }
 

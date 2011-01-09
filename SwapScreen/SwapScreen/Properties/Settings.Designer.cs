@@ -256,5 +256,17 @@ namespace SwapScreen.Properties {
                 this["ControlUnhindersCursor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultCursorType {
+            get {
+                return ((int)(this["DefaultCursorType"]));
+            }
+            set {
+                this["DefaultCursorType"] = value;
+            }
+        }
     }
 }

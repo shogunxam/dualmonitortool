@@ -216,7 +216,7 @@ namespace SwapScreen
 		/// </summary>
 		public void Init(Form form)
 		{
-			CursorHelper.Init();
+			CursorHelper.Init((CursorHelper.CursorType)Properties.Settings.Default.DefaultCursorType);
 
 			InitHotKeys(form);
 		}

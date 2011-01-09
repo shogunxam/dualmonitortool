@@ -126,7 +126,36 @@ namespace SwapScreen
 			labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
 			scrollBarSticky.Value = Properties.Settings.Default.MinStickyForce;
 			checkBoxControlUnhindersCursor.Checked = Properties.Settings.Default.ControlUnhindersCursor;
+			InitDefaultCursorMode();
 
+		}
+
+		private void InitDefaultCursorMode()
+		{
+			comboBoxCursorMode.BeginUpdate();
+			comboBoxCursorMode.Items.Clear();
+			comboBoxCursorMode.Items.Add(Properties.Resources.FreeCursorDescription);
+			comboBoxCursorMode.Items.Add(Properties.Resources.StickyCursorDescription);
+			comboBoxCursorMode.Items.Add(Properties.Resources.LockCursorDescription);
+
+			// Using SwapScreen.CursorHelper.CursorType in Properties.Settings lead to 
+			// occasional compilation problems (usually just a load of warings), 
+			// so int is used in the settings, and we cast to a CursorType when required.
+			// TODO: need to find out the cause of the problems in Properties.Settings
+			SwapScreen.CursorHelper.CursorType t = (CursorHelper.CursorType)Properties.Settings.Default.DefaultCursorType;
+			if (t == CursorHelper.CursorType.Sticky)
+			{
+				comboBoxCursorMode.SelectedItem = Properties.Resources.StickyCursorDescription;
+			}
+			else if (t == CursorHelper.CursorType.Lock)
+			{
+				comboBoxCursorMode.SelectedItem = Properties.Resources.LockCursorDescription;
+			}
+			else
+			{
+				comboBoxCursorMode.SelectedItem = Properties.Resources.FreeCursorDescription;
+			}
+			comboBoxCursorMode.EndUpdate();
 		}
 
 		private void OptionsForm_Shown(object sender, EventArgs e)
@@ -363,6 +392,29 @@ namespace SwapScreen
 				labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
 			}
 		}
+
+		private void comboBoxCursorMode_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CursorHelper.CursorType cursorType = CursorHelper.CursorType.Free;
+
+			string selected = comboBoxCursorMode.SelectedItem.ToString();
+			if (selected == Properties.Resources.StickyCursorDescription)
+			{
+				cursorType = CursorHelper.CursorType.Sticky;
+			}
+			else if (selected == Properties.Resources.LockCursorDescription)
+			{
+				cursorType = CursorHelper.CursorType.Lock;
+			}
+			else
+			{
+				// anything else - leave as free
+			}
+
+			Properties.Settings.Default.DefaultCursorType = (int)cursorType;
+			Properties.Settings.Default.Save();
+		}
+
 		#endregion
 
 		#region Other dialog events

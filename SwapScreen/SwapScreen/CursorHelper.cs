@@ -34,13 +34,31 @@ namespace SwapScreen
 	/// to look at splitting this class up and makeing use of a singleton
 	/// at some point in the future.
 	/// </summary>
-	class CursorHelper
+	public class CursorHelper
 	{
-		public static void Init()
+		//[Serializable]
+		public enum CursorType { Free = 0, Sticky, Lock };
+
+		public static void Init(CursorType initCursorType)
 		{
+			// put everything in a fixed state (with a free cursor)
 			curCursorType = CursorType.Free;
 			minForce = Properties.Settings.Default.MinStickyForce;
 			enableDisableLocking = Properties.Settings.Default.ControlUnhindersCursor;
+
+			// now set the initial cursor mode
+			if (initCursorType == CursorType.Sticky)
+			{
+				StickyCursor();
+			}
+			else if (initCursorType == CursorType.Lock)
+			{
+				LockCursor();
+			}
+			else
+			{
+				// leave in free mode
+			}
 		}
 
 		public static void Term()
@@ -52,7 +70,6 @@ namespace SwapScreen
 
 		// we remember the current cursor type so that
 		// we can perform a toggle operation if required
-		private enum CursorType { Free, Sticky, Lock };
 		private static CursorType curCursorType = CursorType.Free;
 
 		/// <summary>
