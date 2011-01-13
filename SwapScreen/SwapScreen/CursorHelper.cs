@@ -281,7 +281,7 @@ namespace SwapScreen
 					}
 				}
 			}
-			return Win32.CallNextHookEx(llMouseHook, nCode, wParam, lParam);
+			return Win32.CallNextHookEx(llKeyboardHook, nCode, wParam, lParam);
 		}
 
 		// The cursor should be locked (possibly just sticky) to the screen it is currently on.
