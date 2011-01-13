@@ -35,6 +35,7 @@ namespace DualLauncher
 	public partial class EntryForm : Form
 	{
 		private bool shutDown = false;
+		private bool loaded = false;	// indicates if form has been loaded
 
 		private const int ID_HOTKEY_ACTIVATE = 0x501;
 		private const int ID_HOTKEY_ADD_MAGIC_WORD = 0x502;
@@ -179,10 +180,15 @@ namespace DualLauncher
 			// don't shutdown if the form is just being closed 
 			if (shutDown || e.CloseReason != CloseReason.UserClosing)
 			{
-				// save our position
-				// note we never should be minimised or maximised
-				Properties.Settings.Default.LastPosition = new Rectangle(Location, Size);
-				Properties.Settings.Default.Save();
+				// only save the position if the form has been loaded,
+				// else we would end up save the std default windows position
+				if (loaded)
+				{
+					// save our position
+					// note we never should be minimised or maximised
+					Properties.Settings.Default.LastPosition = new Rectangle(Location, Size);
+					Properties.Settings.Default.Save();
+				}
 
 				CleanUp();
 			}
