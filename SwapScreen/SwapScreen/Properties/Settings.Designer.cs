@@ -24,7 +24,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("131195")]
         public uint HotKeyValue {
@@ -37,7 +37,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool NeedSettingsUpgrade {
@@ -50,7 +50,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint PrevScreenHotKey {
@@ -63,7 +63,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint MinimiseHotKey {
@@ -76,7 +76,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint MinimiseAllButHotKey {
@@ -89,7 +89,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint MaximiseHotKey {
@@ -102,7 +102,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint SupersizeHotKey {
@@ -115,7 +115,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint RotateNextHotKey {
@@ -128,7 +128,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint ShowDesktop1HotKey {
@@ -141,7 +141,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint ShowDesktop2HotKey {
@@ -154,7 +154,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint RotatePrevHotKey {
@@ -167,7 +167,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint FreeCursorHotKey {
@@ -180,7 +180,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint StickyCursorHotKey {
@@ -193,7 +193,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint LockCursorHotKey {
@@ -206,7 +206,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint CursorNextScreenHotKey {
@@ -219,7 +219,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("16777216")]
         public uint CursorPrevScreenHotKey {
@@ -232,7 +232,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
         public int MinStickyForce {
@@ -245,7 +245,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableFileSettingsProvider))]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ControlUnhindersCursor {
@@ -258,6 +258,7 @@ namespace SwapScreen.Properties {
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(SwapScreen.PortableFileSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DefaultCursorType {
