@@ -124,16 +124,8 @@ namespace SwapScreen
 			// 
 			// contextMenuStrip
 			// 
-			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSeparator2,
-            this.swapScreensToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.toolStripMenuItemOptions,
-            this.toolStripMenuItemAbout,
-            this.visitSwapScreenWebsiteToolStripMenuItem,
-            this.toolStripMenuItemExit});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(211, 126);
+			this.contextMenuStrip.Size = new System.Drawing.Size(211, 148);
 			// 
 			// toolStripSeparator2
 			// 
@@ -156,6 +148,7 @@ namespace SwapScreen
 			// toolStripMenuItemOptions
 			// 
 			this.toolStripMenuItemOptions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			this.toolStripMenuItemOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemOptions.Image")));
 			this.toolStripMenuItemOptions.Name = "toolStripMenuItemOptions";
 			this.toolStripMenuItemOptions.Size = new System.Drawing.Size(210, 22);
 			this.toolStripMenuItemOptions.Text = "Options...";
