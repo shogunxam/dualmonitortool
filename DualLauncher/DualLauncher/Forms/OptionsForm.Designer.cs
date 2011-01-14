@@ -29,7 +29,7 @@ namespace DualLauncher
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageMagicWords = new System.Windows.Forms.TabPage();
 			this.buttonResetCounts = new System.Windows.Forms.Button();
@@ -37,12 +37,6 @@ namespace DualLauncher
 			this.buttonEdit = new System.Windows.Forms.Button();
 			this.buttonAdd = new System.Windows.Forms.Button();
 			this.dataGridView = new System.Windows.Forms.DataGridView();
-			this.aliasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.UseCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.LastUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.magicWordsBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.tabPageKeys = new System.Windows.Forms.TabPage();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -87,6 +81,12 @@ namespace DualLauncher
 			this.buttonDeleteAll = new System.Windows.Forms.Button();
 			this.buttonClose = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.aliasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.filenameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Parameters = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.UseCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.LastUsed = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabControl1.SuspendLayout();
 			this.tabPageMagicWords.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -189,8 +189,8 @@ namespace DualLauncher
 			this.dataGridView.AllowUserToDeleteRows = false;
 			this.dataGridView.AllowUserToResizeColumns = false;
 			this.dataGridView.AllowUserToResizeRows = false;
-			dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.dataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
@@ -217,55 +217,6 @@ namespace DualLauncher
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridView_KeyPress);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-			// 
-			// aliasDataGridViewTextBoxColumn
-			// 
-			this.aliasDataGridViewTextBoxColumn.DataPropertyName = "Alias";
-			this.aliasDataGridViewTextBoxColumn.Frozen = true;
-			this.aliasDataGridViewTextBoxColumn.HeaderText = "Alias";
-			this.aliasDataGridViewTextBoxColumn.Name = "aliasDataGridViewTextBoxColumn";
-			this.aliasDataGridViewTextBoxColumn.ReadOnly = true;
-			this.aliasDataGridViewTextBoxColumn.Width = 54;
-			// 
-			// filenameDataGridViewTextBoxColumn
-			// 
-			this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
-			this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
-			this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
-			this.filenameDataGridViewTextBoxColumn.ReadOnly = true;
-			this.filenameDataGridViewTextBoxColumn.Width = 74;
-			// 
-			// Parameters
-			// 
-			this.Parameters.DataPropertyName = "Parameters";
-			this.Parameters.HeaderText = "Parameters";
-			this.Parameters.Name = "Parameters";
-			this.Parameters.ReadOnly = true;
-			this.Parameters.Width = 85;
-			// 
-			// Comment
-			// 
-			this.Comment.DataPropertyName = "Comment";
-			this.Comment.HeaderText = "Comment";
-			this.Comment.Name = "Comment";
-			this.Comment.ReadOnly = true;
-			this.Comment.Width = 76;
-			// 
-			// UseCount
-			// 
-			this.UseCount.DataPropertyName = "UseCount";
-			this.UseCount.HeaderText = "UseCount";
-			this.UseCount.Name = "UseCount";
-			this.UseCount.ReadOnly = true;
-			this.UseCount.Width = 79;
-			// 
-			// LastUsed
-			// 
-			this.LastUsed.DataPropertyName = "LastUsed";
-			this.LastUsed.HeaderText = "LastUsed";
-			this.LastUsed.Name = "LastUsed";
-			this.LastUsed.ReadOnly = true;
-			this.LastUsed.Width = 77;
 			// 
 			// magicWordsBindingSource
 			// 
@@ -745,6 +696,55 @@ namespace DualLauncher
 			this.buttonClose.Text = "Close";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
+			// aliasDataGridViewTextBoxColumn
+			// 
+			this.aliasDataGridViewTextBoxColumn.DataPropertyName = "Alias";
+			this.aliasDataGridViewTextBoxColumn.Frozen = true;
+			this.aliasDataGridViewTextBoxColumn.HeaderText = "Magic Word";
+			this.aliasDataGridViewTextBoxColumn.Name = "aliasDataGridViewTextBoxColumn";
+			this.aliasDataGridViewTextBoxColumn.ReadOnly = true;
+			this.aliasDataGridViewTextBoxColumn.Width = 90;
+			// 
+			// filenameDataGridViewTextBoxColumn
+			// 
+			this.filenameDataGridViewTextBoxColumn.DataPropertyName = "Filename";
+			this.filenameDataGridViewTextBoxColumn.HeaderText = "Filename";
+			this.filenameDataGridViewTextBoxColumn.Name = "filenameDataGridViewTextBoxColumn";
+			this.filenameDataGridViewTextBoxColumn.ReadOnly = true;
+			this.filenameDataGridViewTextBoxColumn.Width = 74;
+			// 
+			// Parameters
+			// 
+			this.Parameters.DataPropertyName = "Parameters";
+			this.Parameters.HeaderText = "Parameters";
+			this.Parameters.Name = "Parameters";
+			this.Parameters.ReadOnly = true;
+			this.Parameters.Width = 85;
+			// 
+			// Comment
+			// 
+			this.Comment.DataPropertyName = "Comment";
+			this.Comment.HeaderText = "Comment";
+			this.Comment.Name = "Comment";
+			this.Comment.ReadOnly = true;
+			this.Comment.Width = 76;
+			// 
+			// UseCount
+			// 
+			this.UseCount.DataPropertyName = "UseCount";
+			this.UseCount.HeaderText = "UseCount";
+			this.UseCount.Name = "UseCount";
+			this.UseCount.ReadOnly = true;
+			this.UseCount.Width = 79;
+			// 
+			// LastUsed
+			// 
+			this.LastUsed.DataPropertyName = "LastUsed";
+			this.LastUsed.HeaderText = "LastUsed";
+			this.LastUsed.Name = "LastUsed";
+			this.LastUsed.ReadOnly = true;
+			this.LastUsed.Width = 77;
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -824,12 +824,6 @@ namespace DualLauncher
 		private System.Windows.Forms.Label labelPos1Prompt;
 		private System.Windows.Forms.Button buttonPos1;
 		private System.Windows.Forms.Label labelPos1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn aliasDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn filenameDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Parameters;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
-		private System.Windows.Forms.DataGridViewTextBoxColumn UseCount;
-		private System.Windows.Forms.DataGridViewTextBoxColumn LastUsed;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.RadioButton radioButtonIconLargeIcon;
 		private System.Windows.Forms.RadioButton radioButtonIconDetails;
@@ -840,5 +834,11 @@ namespace DualLauncher
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.NumericUpDown numericUpDownTimeout;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.DataGridViewTextBoxColumn aliasDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn filenameDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Parameters;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+		private System.Windows.Forms.DataGridViewTextBoxColumn UseCount;
+		private System.Windows.Forms.DataGridViewTextBoxColumn LastUsed;
 	}
 }
