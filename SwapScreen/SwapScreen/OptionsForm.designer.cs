@@ -102,6 +102,7 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
@@ -124,8 +125,17 @@ namespace SwapScreen
 			// 
 			// contextMenuStrip
 			// 
+			this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator2,
+            this.swapScreensToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.toolStripMenuItemOptions,
+            this.toolStripMenuItemAbout,
+            this.visitSwapScreenWebsiteToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.toolStripMenuItemExit});
 			this.contextMenuStrip.Name = "contextMenuStrip";
-			this.contextMenuStrip.Size = new System.Drawing.Size(211, 148);
+			this.contextMenuStrip.Size = new System.Drawing.Size(211, 154);
 			// 
 			// toolStripSeparator2
 			// 
@@ -813,6 +823,11 @@ namespace SwapScreen
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
 			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(207, 6);
+			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -921,6 +936,7 @@ namespace SwapScreen
 		private System.Windows.Forms.CheckBox checkBoxControlUnhindersCursor;
 		private System.Windows.Forms.ComboBox comboBoxCursorMode;
 		private System.Windows.Forms.Label label15;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 	}
 }
 
