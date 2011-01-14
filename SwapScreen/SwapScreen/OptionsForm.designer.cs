@@ -38,6 +38,7 @@ namespace SwapScreen
 			this.toolStripMenuItemOptions = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
 			this.visitSwapScreenWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonNextScreen = new System.Windows.Forms.Button();
@@ -102,7 +103,6 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
@@ -161,7 +161,7 @@ namespace SwapScreen
 			this.toolStripMenuItemOptions.Image = ((System.Drawing.Image)(resources.GetObject("toolStripMenuItemOptions.Image")));
 			this.toolStripMenuItemOptions.Name = "toolStripMenuItemOptions";
 			this.toolStripMenuItemOptions.Size = new System.Drawing.Size(210, 22);
-			this.toolStripMenuItemOptions.Text = "Options...";
+			this.toolStripMenuItemOptions.Text = "Options";
 			this.toolStripMenuItemOptions.ToolTipText = "Configure hotkey to move the active window to the next screen";
 			this.toolStripMenuItemOptions.Click += new System.EventHandler(this.toolStripMenuItemOptions_Click);
 			// 
@@ -178,6 +178,11 @@ namespace SwapScreen
 			this.visitSwapScreenWebsiteToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
 			this.visitSwapScreenWebsiteToolStripMenuItem.Text = "Visit Swap Screen Website";
 			this.visitSwapScreenWebsiteToolStripMenuItem.Click += new System.EventHandler(this.visitSwapScreenWebsiteToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(207, 6);
 			// 
 			// toolStripMenuItemExit
 			// 
@@ -822,11 +827,6 @@ namespace SwapScreen
 			this.tabPageGeneral.TabIndex = 3;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(207, 6);
 			// 
 			// OptionsForm
 			// 
