@@ -91,6 +91,11 @@ namespace DualLauncher
 
 			timer.Interval = 500;
 			timer.Start();
+
+			// indicate form has been loaded, so we know this function has been called
+			// this is currently used to know whenthe form position has been set
+			// as we don't want to save it on exit unless it has been set
+			loaded = true;
 		}
 
 		// This is used to restore the entry forms position to its last known position
