@@ -163,10 +163,14 @@ namespace SwapScreen
 		public static int MinForce
 		{
 			set 
-			{ 
-				minForce = value;
-				// minForce is used within the barriers, so must update these as well
-				ReBuildBarriers();
+			{
+				// This is a bit messy, but only udate the minForce if we are in sticky mode
+				if (curCursorType == CursorType.Sticky)
+				{
+					minForce = value;
+					// minForce is used within the barriers, so must update these as well
+					ReBuildBarriers();
+				}
 			}
 		}
 
