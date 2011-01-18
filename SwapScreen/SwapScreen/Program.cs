@@ -39,6 +39,16 @@ namespace SwapScreen
 			CheckIfNeedSettingsUpgrade();
 
 			OptionsForm form = new OptionsForm();
+
+			// Experimental code start
+			// Note: this setting is normallt false in the configuration file
+			// and needs to be manually edited to force it to true
+			if (Properties.Settings.Default.ReduceMemSizeOnStartup)
+			{
+				ReduceMemSize();
+			}
+			// Experimental code end
+
 			Application.Run();
 		}
 
@@ -56,6 +66,27 @@ namespace SwapScreen
 				// program is started.
 				Properties.Settings.Default.Save();
 			}
+		}
+
+		// This will not get called in a default release.
+		//
+		// We force the garbage collector to run and then force all the apps pages
+		// to be released.
+		// This will then cause page faults as code/data is required, but
+		// any code/data that was only required for startup shouldn't get paged back in
+		// unless it resides in the same page as non-startup code/data.
+		// This is to get an idea of the real working set size when the program is running/idling.
+		//
+		// Although this will make the application look smaller and hence more efficient
+		// it will actually do the reverse due to the extra page faults caused.
+		//
+		// Also, if the system was to run low on memory the O/S would page our least active pages out
+		// anyway.
+		private static void ReduceMemSize()
+		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			Win32.SetProcessWorkingSetSize(System.Diagnostics.Process.GetCurrentProcess().Handle, 0xFFFFFFFF, 0xFFFFFFFF);
 		}
 
 		/// <summary>

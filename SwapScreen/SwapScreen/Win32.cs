@@ -195,6 +195,10 @@ namespace SwapScreen
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 
+		[DllImport("kernel32.dll")]		// winbase.h
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool SetProcessWorkingSetSize(IntPtr hProcess, uint dwMinimumWorkingSetSize, uint dwMaximumWorkingSetSize);
+
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
 
