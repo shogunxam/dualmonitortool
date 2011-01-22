@@ -1,5 +1,24 @@
 Dual Monitor Tools
 
+
+Changes from 1.6 to 1.7
+=======================
+
+Bug fixes:
+SwapScreen cursor locking/stickiness had problems with some layouts with screens with different resolutions.
+DualWallpaper would crash if it couldn't write to a wallpaper.
+DualLauncher could sometimes forget its default screen position.
+SwapScreen fix to hooking which could cause problems if other programs also hook the mouse and/or keyboard.
+
+Functional:
+DualSnap now has hotkey to toggle display of snap.
+SwapScreen can set default cursor mode at startup.
+DualSnap, DualLauncher and SwapScreen now allow more keys to be used as hotkeys.
+
+Other:
+DualSnap options window re-arranged so hotkey editing is in same style as the other tools.
+
+
 Changes from 1.5 to 1.6
 =======================
 
