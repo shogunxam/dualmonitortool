@@ -66,7 +66,7 @@ namespace DisMon
 		}
 
 		// sets monitors and exits immediatedly
-		private bool exitImmediatedly = true;
+		private bool exitImmediatedly = false;
 		public bool ExitImmediatedly
 		{
 			get { return exitImmediatedly; }
