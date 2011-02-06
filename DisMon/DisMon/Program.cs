@@ -49,8 +49,13 @@ namespace DisMon
 			{
 				// no command - so just launch the gui
 				Application.Run(new DisMonForm());
+			}
 
-				// not sure if this is really wanted, but...
+			// normally we make sure the monitors are restored to the state they were in
+			// when we started, unless the "-n" (do not restore) command line option is used in which
+			// case we leave them as they are.
+			if (options.Restore)
+			{
 				// make sure any disabled monitors are re-enabled
 				DisMon.Instance.Restore();
 			}
@@ -86,9 +91,6 @@ namespace DisMon
 			{
 				MessageBox.Show(ex.Message, MyTitle);
 			}
-
-			// re-enable all the monitors we disabled
-			DisMon.Instance.Restore();
 		}
 
 		static void ChangeMonitors(Options options)

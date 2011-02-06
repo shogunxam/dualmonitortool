@@ -57,6 +57,13 @@ namespace DisMon
 		{
 			get { return debug; }
 		}
+
+		// restore monntors when existing flag (true by default)
+		private bool restore = true;
+		public bool Restore
+		{
+			get { return Restore; }
+		}
 	
 		/// <summary>
 		/// Ctor that takes the list of command line arguments passed into us
@@ -96,6 +103,10 @@ namespace DisMon
 					else if (arg.Substring(1) == "d")
 					{
 						debug = true;
+					}
+					else if (arg.Substring(1) == "n")
+					{
+						restore = false;
 					}
 					argIndex++;
 				}
