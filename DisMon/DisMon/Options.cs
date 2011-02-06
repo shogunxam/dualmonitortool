@@ -58,11 +58,18 @@ namespace DisMon
 			get { return debug; }
 		}
 
-		// restore monntors when existing flag (true by default)
+		// restore monitors when existing flag (true by default)
 		private bool restore = true;
 		public bool Restore
 		{
-			get { return Restore; }
+			get { return restore; }
+		}
+
+		// sets monitors and exits immediatedly
+		private bool exitImmediatedly = true;
+		public bool ExitImmediatedly
+		{
+			get { return exitImmediatedly; }
 		}
 	
 		/// <summary>
@@ -106,6 +113,12 @@ namespace DisMon
 					}
 					else if (arg.Substring(1) == "n")
 					{
+						restore = false;
+					}
+					else if (arg.Substring(1) == "x")
+					{
+						exitImmediatedly = true;
+						// this also forces the restore flag off
 						restore = false;
 					}
 					argIndex++;

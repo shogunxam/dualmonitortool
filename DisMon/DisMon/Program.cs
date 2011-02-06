@@ -40,7 +40,13 @@ namespace DisMon
 			Options options = new Options(args);
 
 			string cmdName = options.CmdName;
-			if (cmdName != null && cmdName.Length > 0)
+			if (options.ExitImmediatedly)
+			{
+				// make the requested changes to the monitors
+				// and exit
+				ChangeMonitors(options);
+			}
+			else if (cmdName != null && cmdName.Length > 0)
 			{
 				// we are just going to run another command
 				RunCmd(options);
