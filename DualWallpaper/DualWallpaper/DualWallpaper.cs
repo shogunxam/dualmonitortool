@@ -526,5 +526,17 @@ namespace DualWallpaper
 			}
 		}
 
+        private void cmdChangeBackground_Click(object sender, EventArgs e)
+        {
+            if (this.cdgBackground.ShowDialog() == DialogResult.OK)
+            {
+
+                this.pbxBackGroundColor.BackColor = cdgBackground.Color;
+                controller.desktopRectBackColor = cdgBackground.Color;
+
+
+            }
+        }
+
 	}
 }

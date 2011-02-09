@@ -50,6 +50,17 @@ namespace DualWallpaper
 		{
 			get { return desktopRect; }
 		}
+
+        private Color _desktopRectBackColor = Color.Black;
+        /// <summary>
+        /// The backgroundcolor of the rectangle that covers all of the screens
+        /// </summary>
+
+        public Color desktopRectBackColor
+        {
+            get { return _desktopRectBackColor; }
+            set { _desktopRectBackColor = value; }
+        }
 	
 		/// <summary>
 		/// ctor
@@ -96,7 +107,7 @@ namespace DualWallpaper
 
 			using (Graphics g = Graphics.FromImage(image))
 			{
-				g.Clear(Color.Black);
+                g.Clear(_desktopRectBackColor);
 
 				foreach (ScreenMapping screenMapping in allScreens)
 				{
