@@ -154,10 +154,10 @@ namespace SwapScreen
 		}
 
 		// Barriers which constrain the cursor movement
-		private static CursorBarrierLower leftBarrier;
-		private static CursorBarrierUpper rightBarrier;
-		private static CursorBarrierLower topBarrier;
-		private static CursorBarrierUpper bottomBarrier;
+		private static CursorBarrierLower leftBarrier = new CursorBarrierLower(false, 0, 0);
+		private static CursorBarrierUpper rightBarrier = new CursorBarrierUpper(false, 0, 0);
+		private static CursorBarrierLower topBarrier = new CursorBarrierLower(false, 0, 0);
+		private static CursorBarrierUpper bottomBarrier = new CursorBarrierUpper(false, 0, 0);
 		// minimum amount of force to break through the barrier
 		private static int minForce;
 		public static int MinForce
@@ -214,11 +214,10 @@ namespace SwapScreen
 		{
 			if (nCode >= 0 && !disableLocking)
 			{
-				// TODO: we only want pt, so we don't have to marshal the entire structure
-				//Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
-
-				// lParam is a pointer to a MSLLHOOKSTRUCT, but we only want the cursor position
-				// from this which are the first 2 ints, so instead of marshalling the entire structure
+				// lParam is a pointer to a MSLLHOOKSTRUCT, so normally we would do:
+				// Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
+				// but we only want the cursor position from this which are the first 2 ints, 
+				// so instead of marshalling the entire structure
 				// we just marshal the first 2 ints to minimise any performance hit 
 				int originalX = Marshal.ReadInt32(lParam);
 				int originalY = Marshal.ReadInt32(lParam, 4);
@@ -388,45 +387,45 @@ namespace SwapScreen
 			// left of current screen
 			if (curScreen.Bounds.Left > vitrualDesktopRect.Left)
 			{
-				leftBarrier = new CursorBarrierLower(true, curScreen.Bounds.Left, minForce);
+				leftBarrier.ChangeBarrier(true, curScreen.Bounds.Left, minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				leftBarrier = new CursorBarrierLower(false, 0, 0);
+				leftBarrier.ChangeBarrier(false, 0, 0);
 			}
 
 			// right of current screen
 			if (curScreen.Bounds.Right < vitrualDesktopRect.Right)
 			{
-				rightBarrier = new CursorBarrierUpper(true, curScreen.Bounds.Right - 1, minForce);
+				rightBarrier.ChangeBarrier(true, curScreen.Bounds.Right - 1, minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				rightBarrier = new CursorBarrierUpper(false, 0, 0);
+				rightBarrier.ChangeBarrier(false, 0, 0);
 			}
 
 			// top of current screen
 			if (curScreen.Bounds.Top > vitrualDesktopRect.Top)
 			{
-				topBarrier = new CursorBarrierLower(true, curScreen.Bounds.Top, minForce);
+				topBarrier.ChangeBarrier(true, curScreen.Bounds.Top, minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				topBarrier = new CursorBarrierLower(false, 0, 0);
+				topBarrier.ChangeBarrier(false, 0, 0);
 			}
 
 			// bottom of current screen
 			if (curScreen.Bounds.Bottom < vitrualDesktopRect.Bottom)
 			{
-				bottomBarrier = new CursorBarrierUpper(true, curScreen.Bounds.Bottom - 1, minForce);
+				bottomBarrier.ChangeBarrier(true, curScreen.Bounds.Bottom - 1, minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				bottomBarrier = new CursorBarrierUpper(false, 0, 0);
+				bottomBarrier.ChangeBarrier(false, 0, 0);
 			}
 		}
 	}

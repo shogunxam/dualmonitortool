@@ -28,14 +28,8 @@ namespace SwapScreen
 	/// This is for 1D only, so 2 of these classes will be needed
 	/// to constrain cursor movement.
 	/// </summary>
-	class CursorBarrierUpper
+	class CursorBarrierUpper : CursorBarrier
 	{
-		// could have base class for these and ctor, but not really worth it
-		private bool active;
-		private int limit;
-		private int minForce;
-		private int totalForce;
-
 		/// <summary>
 		/// Constructs the upper barrier.
 		/// </summary>
@@ -47,11 +41,8 @@ namespace SwapScreen
 		/// Otherwise it represents the number of extra screen pixels the cursor has to move before
 		/// we allow the cursor to break through the barrier.</param>
 		public CursorBarrierUpper(bool active, int limit, int minForce)
+			: base(active, limit, minForce)
 		{
-			this.active = active;
-			this.limit = limit;
-			this.minForce = minForce;
-			this.totalForce = 0;
 		}
 
 		/// <summary>
