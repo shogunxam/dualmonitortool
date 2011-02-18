@@ -224,29 +224,63 @@ namespace SwapScreen
 				int x = originalX;
 				int y = originalY;
 
-				bool brokenThrough = leftBarrier.BrokenThrough(ref x);
-				if (rightBarrier.BrokenThrough(ref x))
+				if (Properties.Settings.Default.PrimaryReturnUnhindered
+					&& Screen.PrimaryScreen.Bounds.Contains(x, y))
 				{
-					brokenThrough = true;
-				}
-				if (topBarrier.BrokenThrough(ref y))
-				{
-					brokenThrough = true;
-				}
-				if (bottomBarrier.BrokenThrough(ref y))
-				{
-					brokenThrough = true;
-				}
+					// cursor is returning to (or is on) primary screen
+					// and the user wants this to happen freely
 
-				if (brokenThrough)
-				{
-					ReBuildBarriers(new Point(x, y));
+					// still need to check if we have moved outside of the current screen
+					// so that we can rebuild the barriers for the new screen
+					bool outside = leftBarrier.Outside(x);
+					if (rightBarrier.Outside(x))
+					{
+						outside = true;
+					}
+					if (topBarrier.Outside(y))
+					{
+						outside = true;
+					}
+					if (bottomBarrier.Outside(y))
+					{
+						outside = true;
+					}
+
+					if (outside)
+					{
+						ReBuildBarriers(new Point(x, y));
+					}
 				}
-				if (x != originalX || y != originalY)
+				else
 				{
-					// override the position that Windows wants to place the cursor
-					Cursor.Position = new Point(x, y);
-					return 1;
+					// check if the cursor has moved from one screen to another
+					// and if so add the required amount of stickiness to the cursor
+					// restraining it to the current screen if necessary
+
+					bool brokenThrough = leftBarrier.BrokenThrough(ref x);
+					if (rightBarrier.BrokenThrough(ref x))
+					{
+						brokenThrough = true;
+					}
+					if (topBarrier.BrokenThrough(ref y))
+					{
+						brokenThrough = true;
+					}
+					if (bottomBarrier.BrokenThrough(ref y))
+					{
+						brokenThrough = true;
+					}
+
+					if (brokenThrough)
+					{
+						ReBuildBarriers(new Point(x, y));
+					}
+					if (x != originalX || y != originalY)
+					{
+						// override the position that Windows wants to place the cursor
+						Cursor.Position = new Point(x, y);
+						return 1;
+					}
 				}
 			}
 			return Win32.CallNextHookEx(llMouseHook, nCode, wParam, lParam);

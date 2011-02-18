@@ -104,7 +104,7 @@ namespace SwapScreen
 			SystemMenuHelper.Append(this, IDM_ABOUTBOX, Properties.Resources.AboutMenuItem);
 		}
 
-		// displays the current hotkey strings in out form
+		// displays the current hotkey strings in the form
 		private void InitDialogValues()
 		{
 			labelNextScreen.Text = Controller.Instance.NextScreenHotKeyController.ToString();
@@ -126,8 +126,8 @@ namespace SwapScreen
 			labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
 			scrollBarSticky.Value = Properties.Settings.Default.MinStickyForce;
 			checkBoxControlUnhindersCursor.Checked = Properties.Settings.Default.ControlUnhindersCursor;
+			checkBoxPrimaryReturnUnhindered.Checked = Properties.Settings.Default.PrimaryReturnUnhindered;
 			InitDefaultCursorMode();
-
 		}
 
 		private void InitDefaultCursorMode()
@@ -432,6 +432,13 @@ namespace SwapScreen
 			Properties.Settings.Default.Save();
 			// update the cursor controller to use this now
 			CursorHelper.EnableDisableLocking = Properties.Settings.Default.ControlUnhindersCursor;
+		}
+
+		private void checkBoxPrimaryReturnUnhindered_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.PrimaryReturnUnhindered = checkBoxPrimaryReturnUnhindered.Checked;
+			Properties.Settings.Default.Save();
+			// This value is checked directly in the hook, so no need to do anything else here
 		}
 		#endregion
 

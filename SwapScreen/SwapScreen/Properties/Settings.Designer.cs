@@ -281,5 +281,17 @@ namespace SwapScreen.Properties {
                 this["ReduceMemSizeOnStartup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool PrimaryReturnUnhindered {
+            get {
+                return ((bool)(this["PrimaryReturnUnhindered"]));
+            }
+            set {
+                this["PrimaryReturnUnhindered"] = value;
+            }
+        }
     }
 }

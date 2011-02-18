@@ -89,5 +89,25 @@ namespace SwapScreen
 
 			return brokenThrough;
 		}
+
+		/// <summary>
+		/// Checks if the value is outside of the barrier.
+		/// This does not take into account any effort required to break through the barrier
+		/// </summary>
+		/// <param name="newValue">new cursor position</param>
+		/// <returns>true if the specified position is outside of the barrier</returns>
+		public bool Outside(int newValue)
+		{
+			bool outside = false;
+			if (active)
+			{
+				if (newValue < limit)
+				{
+					outside = true;
+				}
+			}
+
+			return outside;
+		}
 	}
 }
