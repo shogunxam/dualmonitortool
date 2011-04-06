@@ -205,7 +205,8 @@ namespace DisMon
 				}
 				else
 				{
-					MessageBox.Show(string.Format("Change failed with: {0}", change));
+					string errorMsg = string.Format("Change failed with: {0}", change);
+					MessageBox.Show(errorMsg, Program.MyTitle);
 				}
 			}
 
