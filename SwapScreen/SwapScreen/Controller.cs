@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace SwapScreen
 {
@@ -48,6 +49,9 @@ namespace SwapScreen
 		private const int ID_HOTKEY_LOCKCURSOR = 0x20D;
 		private const int ID_HOTKEY_CURSORNEXTSCREEN = 0x20E;
 		private const int ID_HOTKEY_CURSORPREVSCREEN = 0x20F;
+
+		private const int ID_HOTKEY_UDA_START = 0x1000;
+		// area above this reserved for dynamic (user) user hotkeys
 
 		// the single instance of the controller object
 		static readonly Controller instance = new Controller();
@@ -219,6 +223,7 @@ namespace SwapScreen
 			CursorHelper.Init((CursorHelper.CursorType)Properties.Settings.Default.DefaultCursorType);
 
 			InitHotKeys(form);
+			InitWinPosHotKeys(form);
 		}
 
 		/// <summary>
@@ -229,6 +234,7 @@ namespace SwapScreen
 		/// </summary>
 		public void Term()
 		{
+			TermWinPosHotKeys();
 			TermHotKeys();
 
 			CursorHelper.Term();
@@ -348,5 +354,63 @@ namespace SwapScreen
 			nextScreenHotKeyController.Dispose();
 		}
 
+
+		#region WinPos HotKeys
+
+		private List<UdaController> UdaControllers = new List<UdaController>();
+
+		// fully initialise all of the hotkeys
+		private void InitWinPosHotKeys(Form form)
+		{
+			int id = ID_HOTKEY_UDA_START;
+
+			// test code
+			//AddUdaController(form, id, "655409|0|0|640|800|screen1 left");
+			//id++;
+			//AddUdaController(form, id, "655410|640|0|640|800|screen1 right");
+			//id++;
+			//AddUdaController(form, id, "655411|1280|0|640|1024|screen2 left");
+			//id++;
+			//AddUdaController(form, id, "655412|1960|0|640|1024|screen2 left");
+			//id++;
+
+			// more test code
+			uint keyCode = 655409;	// Ctrl+Win+1
+			for (int idx = 0; idx < Screen.AllScreens.Length; idx++)
+			{
+				Rectangle rect = Screen.AllScreens[idx].WorkingArea;
+				Rectangle left = new Rectangle(rect.Left, rect.Top, rect.Width / 2, rect.Height);
+				Rectangle right = new Rectangle(rect.Left + rect.Width / 2, rect.Top, rect.Width / 2, rect.Height);
+
+				string description = string.Format("Screen {0} left", idx + 1);
+				string propertyValue = UdaController.ToPropertyValue(keyCode, left, description);
+				AddUdaController(form, id, propertyValue);
+				id++;
+				keyCode++;
+
+				description = string.Format("Screen {0} right", idx + 1);
+				propertyValue = UdaController.ToPropertyValue(keyCode, right, description);
+				AddUdaController(form, id, propertyValue);
+				id++;
+				keyCode++;
+			}
+		}
+
+		private void AddUdaController(Form form, int id, string propertyValue)
+		{
+			UdaController controller = new UdaController(form, id, propertyValue);
+			UdaControllers.Add(controller);
+		}
+
+		// terminates all of the hotkeys
+		private void TermWinPosHotKeys()
+		{
+			foreach (UdaController controller in UdaControllers)
+			{
+				controller.Dispose();
+			}
+		}
+
+		#endregion
 	}
 }

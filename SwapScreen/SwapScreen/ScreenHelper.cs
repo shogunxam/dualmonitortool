@@ -290,6 +290,18 @@ namespace SwapScreen
 				MoveWindowToNext(hWnd, -1);
 			}
 		}
+
+		/// <summary>
+		/// Moves the active window to the given rectangle
+		/// </summary>
+		public static void MoveActiveToRectangle(Rectangle rectangle)
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				MoveWindow(hWnd, rectangle);
+			}
+		}
 		#endregion
 
 		#region Private Helpers
@@ -511,6 +523,29 @@ namespace SwapScreen
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
+		}
+
+		/// <summary>
+		/// Moves the window corresponding to the specified HWND
+		/// to the next screen.
+		/// </summary>
+		/// <param name="hWnd">HWND of window to move.</param>
+		/// <param name="newRect">Rectangle the window is being moved too.</param>
+		private static void MoveWindow(IntPtr hWnd, Rectangle newRect)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			uint oldShowCmd = windowPlacement.showCmd;
+			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			{
+				// need to restore window before moving it
+				windowPlacement.showCmd = Win32.SW_RESTORE;
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				// make sure window will be shown normally
+				windowPlacement.showCmd = Win32.SW_SHOW;
+			}
+			windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
+			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
 
 		#endregion
