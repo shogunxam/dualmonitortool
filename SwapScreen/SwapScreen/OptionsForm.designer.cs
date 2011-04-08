@@ -75,9 +75,12 @@ namespace SwapScreen
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageActive = new System.Windows.Forms.TabPage();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.tabPageUda = new System.Windows.Forms.TabPage();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tabPageMouse = new System.Windows.Forms.TabPage();
+			this.checkBoxPrimaryReturnUnhindered = new System.Windows.Forms.CheckBox();
 			this.comboBoxCursorMode = new System.Windows.Forms.ComboBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.checkBoxControlUnhindersCursor = new System.Windows.Forms.CheckBox();
@@ -103,11 +106,22 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
-			this.checkBoxPrimaryReturnUnhindered = new System.Windows.Forms.CheckBox();
+			this.udaPanel1 = new SwapScreen.UdaPanel();
+			this.udaPanel2 = new SwapScreen.UdaPanel();
+			this.udaPanel3 = new SwapScreen.UdaPanel();
+			this.udaPanel4 = new SwapScreen.UdaPanel();
+			this.udaPanel5 = new SwapScreen.UdaPanel();
+			this.udaPanel6 = new SwapScreen.UdaPanel();
+			this.udaPanel7 = new SwapScreen.UdaPanel();
+			this.udaPanel8 = new SwapScreen.UdaPanel();
+			this.udaPanel9 = new SwapScreen.UdaPanel();
+			this.udaPanel10 = new SwapScreen.UdaPanel();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
 			this.groupBox1.SuspendLayout();
+			this.tabPageUda.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			this.tabPageOther.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabPageMouse.SuspendLayout();
@@ -486,6 +500,7 @@ namespace SwapScreen
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.tabPageActive);
+			this.tabControl1.Controls.Add(this.tabPageUda);
 			this.tabControl1.Controls.Add(this.tabPageOther);
 			this.tabControl1.Controls.Add(this.tabPageMouse);
 			this.tabControl1.Controls.Add(this.tabPageGeneral);
@@ -501,7 +516,7 @@ namespace SwapScreen
 			this.tabPageActive.Location = new System.Drawing.Point(4, 22);
 			this.tabPageActive.Name = "tabPageActive";
 			this.tabPageActive.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageActive.Size = new System.Drawing.Size(498, 263);
+			this.tabPageActive.Size = new System.Drawing.Size(498, 280);
 			this.tabPageActive.TabIndex = 0;
 			this.tabPageActive.Text = "Active Window";
 			this.tabPageActive.UseVisualStyleBackColor = true;
@@ -530,13 +545,43 @@ namespace SwapScreen
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
 			// 
+			// tabPageUda
+			// 
+			this.tabPageUda.Controls.Add(this.groupBox5);
+			this.tabPageUda.Location = new System.Drawing.Point(4, 22);
+			this.tabPageUda.Name = "tabPageUda";
+			this.tabPageUda.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageUda.Size = new System.Drawing.Size(498, 280);
+			this.tabPageUda.TabIndex = 4;
+			this.tabPageUda.Text = "Active -> UDA";
+			this.tabPageUda.UseVisualStyleBackColor = true;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.udaPanel10);
+			this.groupBox5.Controls.Add(this.udaPanel9);
+			this.groupBox5.Controls.Add(this.udaPanel8);
+			this.groupBox5.Controls.Add(this.udaPanel7);
+			this.groupBox5.Controls.Add(this.udaPanel6);
+			this.groupBox5.Controls.Add(this.udaPanel5);
+			this.groupBox5.Controls.Add(this.udaPanel4);
+			this.groupBox5.Controls.Add(this.udaPanel3);
+			this.groupBox5.Controls.Add(this.udaPanel2);
+			this.groupBox5.Controls.Add(this.udaPanel1);
+			this.groupBox5.Location = new System.Drawing.Point(6, 6);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(477, 268);
+			this.groupBox5.TabIndex = 23;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Text = "HotKeys and User Defined Areas";
+			// 
 			// tabPageOther
 			// 
 			this.tabPageOther.Controls.Add(this.groupBox2);
 			this.tabPageOther.Location = new System.Drawing.Point(4, 22);
 			this.tabPageOther.Name = "tabPageOther";
 			this.tabPageOther.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPageOther.Size = new System.Drawing.Size(498, 263);
+			this.tabPageOther.Size = new System.Drawing.Size(498, 280);
 			this.tabPageOther.TabIndex = 1;
 			this.tabPageOther.Text = "Other Windows";
 			this.tabPageOther.UseVisualStyleBackColor = true;
@@ -579,6 +624,17 @@ namespace SwapScreen
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxPrimaryReturnUnhindered
+			// 
+			this.checkBoxPrimaryReturnUnhindered.AutoSize = true;
+			this.checkBoxPrimaryReturnUnhindered.Location = new System.Drawing.Point(14, 229);
+			this.checkBoxPrimaryReturnUnhindered.Name = "checkBoxPrimaryReturnUnhindered";
+			this.checkBoxPrimaryReturnUnhindered.Size = new System.Drawing.Size(254, 17);
+			this.checkBoxPrimaryReturnUnhindered.TabIndex = 44;
+			this.checkBoxPrimaryReturnUnhindered.Text = "Allow cursor to return freely to the primary screen";
+			this.checkBoxPrimaryReturnUnhindered.UseVisualStyleBackColor = true;
+			this.checkBoxPrimaryReturnUnhindered.CheckedChanged += new System.EventHandler(this.checkBoxPrimaryReturnUnhindered_CheckedChanged);
 			// 
 			// comboBoxCursorMode
 			// 
@@ -825,21 +881,80 @@ namespace SwapScreen
 			this.tabPageGeneral.Controls.Add(this.checkBoxAutoStart);
 			this.tabPageGeneral.Location = new System.Drawing.Point(4, 22);
 			this.tabPageGeneral.Name = "tabPageGeneral";
-			this.tabPageGeneral.Size = new System.Drawing.Size(498, 263);
+			this.tabPageGeneral.Size = new System.Drawing.Size(498, 280);
 			this.tabPageGeneral.TabIndex = 3;
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
 			// 
-			// checkBoxPrimaryReturnUnhindered
+			// udaPanel1
 			// 
-			this.checkBoxPrimaryReturnUnhindered.AutoSize = true;
-			this.checkBoxPrimaryReturnUnhindered.Location = new System.Drawing.Point(14, 229);
-			this.checkBoxPrimaryReturnUnhindered.Name = "checkBoxPrimaryReturnUnhindered";
-			this.checkBoxPrimaryReturnUnhindered.Size = new System.Drawing.Size(254, 17);
-			this.checkBoxPrimaryReturnUnhindered.TabIndex = 44;
-			this.checkBoxPrimaryReturnUnhindered.Text = "Allow cursor to return freely to the primary screen";
-			this.checkBoxPrimaryReturnUnhindered.UseVisualStyleBackColor = true;
-			this.checkBoxPrimaryReturnUnhindered.CheckedChanged += new System.EventHandler(this.checkBoxPrimaryReturnUnhindered_CheckedChanged);
+			this.udaPanel1.Location = new System.Drawing.Point(6, 12);
+			this.udaPanel1.Name = "udaPanel1";
+			this.udaPanel1.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel1.TabIndex = 0;
+			// 
+			// udaPanel2
+			// 
+			this.udaPanel2.Location = new System.Drawing.Point(6, 37);
+			this.udaPanel2.Name = "udaPanel2";
+			this.udaPanel2.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel2.TabIndex = 1;
+			// 
+			// udaPanel3
+			// 
+			this.udaPanel3.Location = new System.Drawing.Point(6, 62);
+			this.udaPanel3.Name = "udaPanel3";
+			this.udaPanel3.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel3.TabIndex = 2;
+			// 
+			// udaPanel4
+			// 
+			this.udaPanel4.Location = new System.Drawing.Point(6, 87);
+			this.udaPanel4.Name = "udaPanel4";
+			this.udaPanel4.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel4.TabIndex = 3;
+			// 
+			// udaPanel5
+			// 
+			this.udaPanel5.Location = new System.Drawing.Point(6, 112);
+			this.udaPanel5.Name = "udaPanel5";
+			this.udaPanel5.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel5.TabIndex = 4;
+			// 
+			// udaPanel6
+			// 
+			this.udaPanel6.Location = new System.Drawing.Point(6, 137);
+			this.udaPanel6.Name = "udaPanel6";
+			this.udaPanel6.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel6.TabIndex = 5;
+			// 
+			// udaPanel7
+			// 
+			this.udaPanel7.Location = new System.Drawing.Point(6, 162);
+			this.udaPanel7.Name = "udaPanel7";
+			this.udaPanel7.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel7.TabIndex = 6;
+			// 
+			// udaPanel8
+			// 
+			this.udaPanel8.Location = new System.Drawing.Point(6, 187);
+			this.udaPanel8.Name = "udaPanel8";
+			this.udaPanel8.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel8.TabIndex = 7;
+			// 
+			// udaPanel9
+			// 
+			this.udaPanel9.Location = new System.Drawing.Point(6, 212);
+			this.udaPanel9.Name = "udaPanel9";
+			this.udaPanel9.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel9.TabIndex = 8;
+			// 
+			// udaPanel10
+			// 
+			this.udaPanel10.Location = new System.Drawing.Point(6, 237);
+			this.udaPanel10.Name = "udaPanel10";
+			this.udaPanel10.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel10.TabIndex = 9;
 			// 
 			// OptionsForm
 			// 
@@ -862,6 +977,8 @@ namespace SwapScreen
 			this.tabControl1.ResumeLayout(false);
 			this.tabPageActive.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
+			this.tabPageUda.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
 			this.tabPageOther.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.tabPageMouse.ResumeLayout(false);
@@ -951,6 +1068,18 @@ namespace SwapScreen
 		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.CheckBox checkBoxPrimaryReturnUnhindered;
+		private System.Windows.Forms.TabPage tabPageUda;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private UdaPanel udaPanel8;
+		private UdaPanel udaPanel7;
+		private UdaPanel udaPanel6;
+		private UdaPanel udaPanel5;
+		private UdaPanel udaPanel4;
+		private UdaPanel udaPanel3;
+		private UdaPanel udaPanel2;
+		private UdaPanel udaPanel1;
+		private UdaPanel udaPanel10;
+		private UdaPanel udaPanel9;
 	}
 }
 

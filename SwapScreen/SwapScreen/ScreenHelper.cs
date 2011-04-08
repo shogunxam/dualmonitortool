@@ -544,6 +544,15 @@ namespace SwapScreen
 				// make sure window will be shown normally
 				windowPlacement.showCmd = Win32.SW_SHOW;
 			}
+
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			if ((style & Win32.WS_THICKFRAME) == 0)
+			{
+				// the window can't be resized, so keep its size the same
+				newRect.Width = windowPlacement.rcNormalPosition.right - windowPlacement.rcNormalPosition.left;
+				newRect.Height = windowPlacement.rcNormalPosition.bottom - windowPlacement.rcNormalPosition.top;
+			}
+
 			windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
 			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 		}

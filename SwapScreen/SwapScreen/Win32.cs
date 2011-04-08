@@ -165,6 +165,9 @@ namespace SwapScreen
 		public static extern IntPtr GetModuleHandle(string lpModuleName);
 
 		[DllImport("user32.dll")]
+		public static extern IntPtr GetParent(IntPtr hWnd);
+
+		[DllImport("user32.dll")]
 		public static extern IntPtr GetShellWindow();
 
 		[DllImport("user32.dll")]
@@ -176,6 +179,10 @@ namespace SwapScreen
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetWindowRect(IntPtr hwnd, out Win32.RECT lpRect);
 
 		[DllImport("user32.dll")]
 		public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
@@ -209,5 +216,9 @@ namespace SwapScreen
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+		[DllImport("user32.dll")]
+		public static extern IntPtr WindowFromPoint(Win32.POINT point);
+
 	}
 }

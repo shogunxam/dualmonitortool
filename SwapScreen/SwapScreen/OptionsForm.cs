@@ -118,6 +118,9 @@ namespace SwapScreen
 			labelShowDesktop1.Text = Controller.Instance.ShowDesktop1HotKeyController.ToString();
 			labelShowDesktop2.Text = Controller.Instance.ShowDesktop2HotKeyController.ToString();
 
+			// UDA tab
+			InitUdaValues();
+
 			// cursor tab
 			labelFreeCursor.Text = Controller.Instance.FreeCursorHotKeyController.ToString();
 			labelStickyCursor.Text = Controller.Instance.StickyCursorHotKeyController.ToString();
@@ -417,6 +420,49 @@ namespace SwapScreen
 
 		#endregion
 
+		#region User Defined Areas
+		private void InitUdaValues()
+		{
+			udaPanel1.AssociateWith(Controller.Instance.GetUdaController(0));
+			udaPanel2.AssociateWith(Controller.Instance.GetUdaController(1));
+			udaPanel3.AssociateWith(Controller.Instance.GetUdaController(2));
+			udaPanel4.AssociateWith(Controller.Instance.GetUdaController(3));
+			udaPanel5.AssociateWith(Controller.Instance.GetUdaController(4));
+			udaPanel6.AssociateWith(Controller.Instance.GetUdaController(5));
+			udaPanel7.AssociateWith(Controller.Instance.GetUdaController(6));
+			udaPanel8.AssociateWith(Controller.Instance.GetUdaController(7));
+			udaPanel9.AssociateWith(Controller.Instance.GetUdaController(8));
+			udaPanel10.AssociateWith(Controller.Instance.GetUdaController(9));
+		}
+
+	//    private void buttonUda1_Click(object sender, EventArgs e)
+	//    {
+	//        Button button = sender as Button;
+	//        if (button != null)
+	//        {
+	//            int udaNum = GetUdaNum(button);
+	//            if (udaNum > 0)
+	//            {
+	//                UdaController udaController = Controller.Instance.GetUdaController(udaNum);
+	//                if (udaController != null)
+	//                {
+	//                    if (udaController.Edit())
+	//                    {
+	////						labelMinimiseAllBut.Text = Controller.Instance.MinimiseAllButHotKeyController.ToString();
+	//                    }
+	//                }
+	//            }
+	//        }
+	//    }
+
+		//private int GetUdaNum(Button button)
+		//{
+		//    int ret = 0;
+
+		//    return ret;
+		//}
+		#endregion
+
 		#region Other dialog events
 		private void scrollBarSticky_ValueChanged(object sender, EventArgs e)
 		{
@@ -471,5 +517,6 @@ namespace SwapScreen
 			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
 		}
 		#endregion
+
 	}
 }

@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
@@ -223,7 +224,7 @@ namespace SwapScreen
 			CursorHelper.Init((CursorHelper.CursorType)Properties.Settings.Default.DefaultCursorType);
 
 			InitHotKeys(form);
-			InitWinPosHotKeys(form);
+			InitUdaHotKeys(form);
 		}
 
 		/// <summary>
@@ -234,7 +235,7 @@ namespace SwapScreen
 		/// </summary>
 		public void Term()
 		{
-			TermWinPosHotKeys();
+			TermUdaHotKeys();
 			TermHotKeys();
 
 			CursorHelper.Term();
@@ -355,55 +356,136 @@ namespace SwapScreen
 		}
 
 
-		#region WinPos HotKeys
+		#region UDA HotKeys
+
+		// In this version we have a fixed number of UDA controllers
+		// but in future the plan is for this to be dynamic 
+		private const int numUdaControllers = 10;
 
 		private List<UdaController> UdaControllers = new List<UdaController>();
 
 		// fully initialise all of the hotkeys
-		private void InitWinPosHotKeys(Form form)
+		private void InitUdaHotKeys(Form form)
 		{
 			int id = ID_HOTKEY_UDA_START;
 
-			// test code
-			//AddUdaController(form, id, "655409|0|0|640|800|screen1 left");
-			//id++;
-			//AddUdaController(form, id, "655410|640|0|640|800|screen1 right");
-			//id++;
-			//AddUdaController(form, id, "655411|1280|0|640|1024|screen2 left");
-			//id++;
-			//AddUdaController(form, id, "655412|1960|0|640|1024|screen2 left");
-			//id++;
-
-			// more test code
-			uint keyCode = 655409;	// Ctrl+Win+1
-			for (int idx = 0; idx < Screen.AllScreens.Length; idx++)
+			// add a fxed number of controllers (10)
+			for (int idx = 0; idx < numUdaControllers; idx++)
 			{
-				Rectangle rect = Screen.AllScreens[idx].WorkingArea;
-				Rectangle left = new Rectangle(rect.Left, rect.Top, rect.Width / 2, rect.Height);
-				Rectangle right = new Rectangle(rect.Left + rect.Width / 2, rect.Top, rect.Width / 2, rect.Height);
-
-				string description = string.Format("Screen {0} left", idx + 1);
-				string propertyValue = UdaController.ToPropertyValue(keyCode, left, description);
-				AddUdaController(form, id, propertyValue);
+				UdaController controller = new UdaController(form, id);
+				UdaControllers.Add(controller);
 				id++;
-				keyCode++;
+			}
 
-				description = string.Format("Screen {0} right", idx + 1);
-				propertyValue = UdaController.ToPropertyValue(keyCode, right, description);
-				AddUdaController(form, id, propertyValue);
-				id++;
-				keyCode++;
+			// get the saved settings
+			StringCollection udaProperties = Properties.Settings.Default.UdaHotKeys;
+			if (udaProperties != null && udaProperties.Count > 0)
+			{
+				int controllerIndex = 0;
+				foreach (string udaProperty in udaProperties)
+				{
+					if (controllerIndex < UdaControllers.Count)
+					{
+						UdaController udaController = UdaControllers[controllerIndex];
+						udaController.InitFromProperty(udaProperty);
+					}
+					controllerIndex++;
+				}
+			}
+			else
+			{
+				// no settings - so generate an initial list
+				GenerateDefaultUdas();
 			}
 		}
 
-		private void AddUdaController(Form form, int id, string propertyValue)
+		public void SaveUdaSettings()
 		{
-			UdaController controller = new UdaController(form, id, propertyValue);
-			UdaControllers.Add(controller);
+			StringCollection udaProperties = new StringCollection();
+			foreach (UdaController udaController in UdaControllers)
+			{
+				string propertyValue = udaController.GetPropertyValue();
+				udaProperties.Add(propertyValue);
+			}
+
+			Properties.Settings.Default.UdaHotKeys = udaProperties;
+			Properties.Settings.Default.Save();
+		}
+
+		private void GenerateDefaultUdas()
+		{
+			int screens = Screen.AllScreens.Length;
+			// add half screens
+			int idx = 0;
+			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
+			{
+				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
+
+				string description = string.Format("Screen {0} - left half", screen + 1);
+				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width / 2, rect.Height, description);
+				idx++;
+
+				description = string.Format("Screen {0} - right half", screen + 1);
+				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top, rect.Width / 2, rect.Height, description);
+				idx++;
+			}
+
+			// add quadrants
+			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
+			{
+				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
+
+				string description = string.Format("Screen {0} - top left quadrant", screen + 1);
+				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width / 2, rect.Height / 2, description);
+				idx++;
+
+				description = string.Format("Screen {0} - top right quadrant", screen + 1);
+				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top, rect.Width / 2, rect.Height / 2, description);
+				idx++;
+
+				description = string.Format("Screen {0} - bottom left quadrant", screen + 1);
+				SetDefaultUda(idx, rect.Left, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height, description);
+				idx++;
+
+				description = string.Format("Screen {0} - bottom right quadrant", screen + 1);
+				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height, description);
+				idx++;
+			}
+		}
+
+		private void SetDefaultUda(int idx, int left, int right, int width, int height, string description)
+		{
+			if (idx >= 0 && idx < UdaControllers.Count)
+			{
+				UdaController udaController = UdaControllers[idx];
+
+				//uint keyCode = 655409;	// Ctrl+Win+1
+				uint keyCode = 0x10A0031;	// Ctrl+Win+1 - disabled
+				keyCode += (uint)idx;
+				if (idx == 9)
+				{
+					keyCode = 0x10A0030;	// Ctrl+Win+0 - disabled
+				}
+
+				Rectangle rectangle = new Rectangle(left, right, width, height);
+				udaController.InitFromProperty(UdaController.ToPropertyValue(keyCode, rectangle, description));
+			}
+		}
+
+		public UdaController GetUdaController(int index)
+		{
+			if (index >= 0 && index < UdaControllers.Count)
+			{
+				return UdaControllers[index];
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		// terminates all of the hotkeys
-		private void TermWinPosHotKeys()
+		private void TermUdaHotKeys()
 		{
 			foreach (UdaController controller in UdaControllers)
 			{

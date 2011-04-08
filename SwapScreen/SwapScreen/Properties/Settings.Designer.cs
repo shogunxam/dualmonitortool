@@ -293,5 +293,16 @@ namespace SwapScreen.Properties {
                 this["PrimaryReturnUnhindered"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection UdaHotKeys {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["UdaHotKeys"]));
+            }
+            set {
+                this["UdaHotKeys"] = value;
+            }
+        }
     }
 }

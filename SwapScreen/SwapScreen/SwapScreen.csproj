@@ -107,6 +107,14 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UdaForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UdaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UdaPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UdaPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -125,10 +133,28 @@
     <Compile Include="Scaler.cs" />
     <Compile Include="ScreenHelper.cs" />
     <Compile Include="SystemMenuHelper.cs" />
+    <Compile Include="UdaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UdaForm.Designer.cs">
+      <DependentUpon>UdaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UdaPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UdaPanel.Designer.cs">
+      <DependentUpon>UdaPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Win32.cs" />
     <Compile Include="UdaController.cs" />
+    <Compile Include="WindowPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TargetCursor.png" />
+    <None Include="Resources\WinCrossHairs.png" />
+    <None Include="Resources\WinNoCrossHairs.png" />
     <Content Include="SwapScreen.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
