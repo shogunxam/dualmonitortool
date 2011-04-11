@@ -26,8 +26,13 @@ using System.Windows.Forms;
 namespace DualSnap
 {
 	/// <summary>
-	/// Represents a key combination and associated logic to 
-	/// register it as a hotkey. 
+	/// Provides the glue so that an event can be fired when
+	/// a particular key combination is pressed.
+	/// 
+	/// It is best to think of the HotKey as being associated 
+	/// with the action to be performed rather than the key
+	/// combination, although both can be changed during the
+	/// life of the HotKey. 
 	/// </summary>
 	public class HotKey : IMessageFilter, IDisposable
 	{
@@ -50,7 +55,7 @@ namespace DualSnap
 		{
 			get { return hotKeyCombo; }
 		}
-	
+
 		private Form form;
 		private int id;
 		private bool isRegistered;
@@ -58,7 +63,7 @@ namespace DualSnap
 		//private bool isDisposed;
 
 		/// <summary>
-		/// Constructor that initialises the hotkey.
+		/// Constructor that initialises the hotkey and provides its identity.
 		/// The hot key will not actually be registered until RegisterHotKey() is called.
 		/// </summary>
 		/// <param name="hotKeyCombo">Initial hot key combination to use</param>
@@ -101,8 +106,12 @@ namespace DualSnap
 
 		/// <summary>
 		/// Registers the hot key with Windows.
+		/// If another key combo was registered, then this will be de-registered first.
 		/// </summary>
-		/// <returns>true if the hot key was accepted</returns>
+		/// <param name="keyCombo">The new key combo to register with the hotey</param>
+		/// <returns>true if the hot key was accepted.  
+		/// false indicates new keyCombo was not accepted, but previous state
+		/// of the hot key should have been restored.</returns>
 		public bool RegisterHotKey(KeyCombo keyCombo)
 		{
 			if (form == null)
@@ -127,8 +136,25 @@ namespace DualSnap
 				if (isRegistered)
 				{
 					hotKeyCombo = keyCombo;
+					// new key combinaton as been succesfully registered as a hotkey
+					return true;
 				}
-				return isRegistered;
+				else
+				{
+					// failed to register new key combo 
+					// - probably because it's already registered as a hotkey
+					if (hotKeyCombo.Enabled)
+					{
+						// re-register old key combo to return to the state we were in when called
+						isRegistered = Win32.RegisterHotKey(form.Handle, id,
+													hotKeyCombo.Win32Modifier,
+													hotKeyCombo.Win32KeyCode);
+						// above should not fail 
+						// but if it does, there is not much we can do about it
+					}
+					// failed to register new key combination as hot key
+					return false;
+				}
 			}
 			else
 			{
