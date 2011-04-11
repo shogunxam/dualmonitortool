@@ -106,16 +106,16 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
-			this.udaPanel1 = new SwapScreen.UdaPanel();
-			this.udaPanel2 = new SwapScreen.UdaPanel();
-			this.udaPanel3 = new SwapScreen.UdaPanel();
-			this.udaPanel4 = new SwapScreen.UdaPanel();
-			this.udaPanel5 = new SwapScreen.UdaPanel();
-			this.udaPanel6 = new SwapScreen.UdaPanel();
-			this.udaPanel7 = new SwapScreen.UdaPanel();
-			this.udaPanel8 = new SwapScreen.UdaPanel();
-			this.udaPanel9 = new SwapScreen.UdaPanel();
 			this.udaPanel10 = new SwapScreen.UdaPanel();
+			this.udaPanel9 = new SwapScreen.UdaPanel();
+			this.udaPanel8 = new SwapScreen.UdaPanel();
+			this.udaPanel7 = new SwapScreen.UdaPanel();
+			this.udaPanel6 = new SwapScreen.UdaPanel();
+			this.udaPanel5 = new SwapScreen.UdaPanel();
+			this.udaPanel4 = new SwapScreen.UdaPanel();
+			this.udaPanel3 = new SwapScreen.UdaPanel();
+			this.udaPanel2 = new SwapScreen.UdaPanel();
+			this.udaPanel1 = new SwapScreen.UdaPanel();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
@@ -573,7 +573,7 @@ namespace SwapScreen
 			this.groupBox5.Size = new System.Drawing.Size(477, 268);
 			this.groupBox5.TabIndex = 23;
 			this.groupBox5.TabStop = false;
-			this.groupBox5.Text = "HotKeys and User Defined Areas";
+			this.groupBox5.Text = "User Defined Areas and associated HotKeys";
 			// 
 			// tabPageOther
 			// 
@@ -886,61 +886,12 @@ namespace SwapScreen
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
 			// 
-			// udaPanel1
+			// udaPanel10
 			// 
-			this.udaPanel1.Location = new System.Drawing.Point(6, 12);
-			this.udaPanel1.Name = "udaPanel1";
-			this.udaPanel1.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel1.TabIndex = 0;
-			// 
-			// udaPanel2
-			// 
-			this.udaPanel2.Location = new System.Drawing.Point(6, 37);
-			this.udaPanel2.Name = "udaPanel2";
-			this.udaPanel2.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel2.TabIndex = 1;
-			// 
-			// udaPanel3
-			// 
-			this.udaPanel3.Location = new System.Drawing.Point(6, 62);
-			this.udaPanel3.Name = "udaPanel3";
-			this.udaPanel3.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel3.TabIndex = 2;
-			// 
-			// udaPanel4
-			// 
-			this.udaPanel4.Location = new System.Drawing.Point(6, 87);
-			this.udaPanel4.Name = "udaPanel4";
-			this.udaPanel4.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel4.TabIndex = 3;
-			// 
-			// udaPanel5
-			// 
-			this.udaPanel5.Location = new System.Drawing.Point(6, 112);
-			this.udaPanel5.Name = "udaPanel5";
-			this.udaPanel5.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel5.TabIndex = 4;
-			// 
-			// udaPanel6
-			// 
-			this.udaPanel6.Location = new System.Drawing.Point(6, 137);
-			this.udaPanel6.Name = "udaPanel6";
-			this.udaPanel6.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel6.TabIndex = 5;
-			// 
-			// udaPanel7
-			// 
-			this.udaPanel7.Location = new System.Drawing.Point(6, 162);
-			this.udaPanel7.Name = "udaPanel7";
-			this.udaPanel7.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel7.TabIndex = 6;
-			// 
-			// udaPanel8
-			// 
-			this.udaPanel8.Location = new System.Drawing.Point(6, 187);
-			this.udaPanel8.Name = "udaPanel8";
-			this.udaPanel8.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel8.TabIndex = 7;
+			this.udaPanel10.Location = new System.Drawing.Point(6, 237);
+			this.udaPanel10.Name = "udaPanel10";
+			this.udaPanel10.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel10.TabIndex = 9;
 			// 
 			// udaPanel9
 			// 
@@ -949,12 +900,61 @@ namespace SwapScreen
 			this.udaPanel9.Size = new System.Drawing.Size(465, 23);
 			this.udaPanel9.TabIndex = 8;
 			// 
-			// udaPanel10
+			// udaPanel8
 			// 
-			this.udaPanel10.Location = new System.Drawing.Point(6, 237);
-			this.udaPanel10.Name = "udaPanel10";
-			this.udaPanel10.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel10.TabIndex = 9;
+			this.udaPanel8.Location = new System.Drawing.Point(6, 187);
+			this.udaPanel8.Name = "udaPanel8";
+			this.udaPanel8.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel8.TabIndex = 7;
+			// 
+			// udaPanel7
+			// 
+			this.udaPanel7.Location = new System.Drawing.Point(6, 162);
+			this.udaPanel7.Name = "udaPanel7";
+			this.udaPanel7.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel7.TabIndex = 6;
+			// 
+			// udaPanel6
+			// 
+			this.udaPanel6.Location = new System.Drawing.Point(6, 137);
+			this.udaPanel6.Name = "udaPanel6";
+			this.udaPanel6.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel6.TabIndex = 5;
+			// 
+			// udaPanel5
+			// 
+			this.udaPanel5.Location = new System.Drawing.Point(6, 112);
+			this.udaPanel5.Name = "udaPanel5";
+			this.udaPanel5.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel5.TabIndex = 4;
+			// 
+			// udaPanel4
+			// 
+			this.udaPanel4.Location = new System.Drawing.Point(6, 87);
+			this.udaPanel4.Name = "udaPanel4";
+			this.udaPanel4.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel4.TabIndex = 3;
+			// 
+			// udaPanel3
+			// 
+			this.udaPanel3.Location = new System.Drawing.Point(6, 62);
+			this.udaPanel3.Name = "udaPanel3";
+			this.udaPanel3.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel3.TabIndex = 2;
+			// 
+			// udaPanel2
+			// 
+			this.udaPanel2.Location = new System.Drawing.Point(6, 37);
+			this.udaPanel2.Name = "udaPanel2";
+			this.udaPanel2.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel2.TabIndex = 1;
+			// 
+			// udaPanel1
+			// 
+			this.udaPanel1.Location = new System.Drawing.Point(6, 12);
+			this.udaPanel1.Name = "udaPanel1";
+			this.udaPanel1.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel1.TabIndex = 0;
 			// 
 			// OptionsForm
 			// 
@@ -968,6 +968,7 @@ namespace SwapScreen
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Options for SwapScreen";
 			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.Shown += new System.EventHandler(this.OptionsForm_Shown);

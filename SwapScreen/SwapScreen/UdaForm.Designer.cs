@@ -43,9 +43,9 @@ namespace SwapScreen
 			this.textBoxHeight = new System.Windows.Forms.TextBox();
 			this.checkBoxEnable = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.keyComboPanel = new SwapScreen.KeyComboPanel();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.windowPicker = new SwapScreen.WindowPicker();
-			this.keyComboPanel = new SwapScreen.KeyComboPanel();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
 			this.SuspendLayout();
@@ -171,21 +171,21 @@ namespace SwapScreen
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Hotkey";
 			// 
-			// windowPicker
-			// 
-			this.windowPicker.Location = new System.Drawing.Point(238, 71);
-			this.windowPicker.Name = "windowPicker";
-			this.windowPicker.Size = new System.Drawing.Size(64, 64);
-			this.windowPicker.TabIndex = 19;
-			this.windowPicker.TabStop = false;
-			this.toolTip.SetToolTip(this.windowPicker, "Drag and drop over a window to copy its position and size");
-			// 
 			// keyComboPanel
 			// 
 			this.keyComboPanel.Location = new System.Drawing.Point(6, 19);
 			this.keyComboPanel.Name = "keyComboPanel";
 			this.keyComboPanel.Size = new System.Drawing.Size(238, 102);
 			this.keyComboPanel.TabIndex = 0;
+			// 
+			// windowPicker
+			// 
+			this.windowPicker.Location = new System.Drawing.Point(243, 79);
+			this.windowPicker.Name = "windowPicker";
+			this.windowPicker.Size = new System.Drawing.Size(48, 48);
+			this.windowPicker.TabIndex = 19;
+			this.windowPicker.TabStop = false;
+			this.toolTip.SetToolTip(this.windowPicker, "Drag and drop over a window to copy its position and size");
 			// 
 			// UdaForm
 			// 
