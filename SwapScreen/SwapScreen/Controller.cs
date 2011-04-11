@@ -415,8 +415,19 @@ namespace SwapScreen
 		private void GenerateDefaultUdas()
 		{
 			int screens = Screen.AllScreens.Length;
-			// add half screens
 			int idx = 0;
+
+			// add full screens
+			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
+			{
+				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
+
+				string description = string.Format("Screen {0}", screen + 1);
+				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width, rect.Height, description);
+				idx++;
+			}
+
+			// add half screens
 			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
 			{
 				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
@@ -444,11 +455,11 @@ namespace SwapScreen
 				idx++;
 
 				description = string.Format("Screen {0} - bottom left quadrant", screen + 1);
-				SetDefaultUda(idx, rect.Left, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height, description);
+				SetDefaultUda(idx, rect.Left, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height / 2, description);
 				idx++;
 
 				description = string.Format("Screen {0} - bottom right quadrant", screen + 1);
-				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height, description);
+				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height / 2, description);
 				idx++;
 			}
 		}
