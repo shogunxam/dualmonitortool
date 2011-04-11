@@ -26,8 +26,13 @@ using System.Windows.Forms;
 namespace DualLauncher
 {
 	/// <summary>
-	/// Represents a key combination and associated logic to 
-	/// register it as a hotkey. 
+	/// Provides the glue so that an event can be fired when
+	/// a particular key combination is pressed.
+	/// 
+	/// It is best to think of the HotKey as being associated 
+	/// with the action to be performed rather than the key
+	/// combination, although both can be changed during the
+	/// life of the HotKey. 
 	/// </summary>
 	public class HotKey : IMessageFilter, IDisposable
 	{
@@ -45,21 +50,12 @@ namespace DualLauncher
 		private KeyCombo hotKeyCombo;
 		/// <summary>
 		/// The KeyCombo that we will be using as the hotkey.
-		/// This can be changed dynamically, even when it is registered.
 		/// </summary>
 		public KeyCombo HotKeyCombo
 		{
 			get { return hotKeyCombo; }
-			//set
-			//{
-			//    hotKeyCombo = value;
-			//    if (isRegistered)
-			//    {
-			//        RegisterHotKey();
-			//    }
-			//}
 		}
-	
+
 		private Form form;
 		private int id;
 		private bool isRegistered;
@@ -67,8 +63,8 @@ namespace DualLauncher
 		//private bool isDisposed;
 
 		/// <summary>
-		/// Constructor that initialises the hotkey.
-		/// The hot key will not actually be registered RegisterHotKey() is called.
+		/// Constructor that initialises the hotkey and provides its identity.
+		/// The hot key will not actually be registered until RegisterHotKey() is called.
 		/// </summary>
 		/// <param name="hotKeyCombo">Initial hot key combination to use</param>
 		/// <param name="form">Window to receive hot key as required by Win32 API</param>
@@ -110,8 +106,12 @@ namespace DualLauncher
 
 		/// <summary>
 		/// Registers the hot key with Windows.
+		/// If another key combo was registered, then this will be de-registered first.
 		/// </summary>
-		/// <returns>true if the hot key was registered successfully</returns>
+		/// <param name="keyCombo">The new key combo to register with the hotey</param>
+		/// <returns>true if the hot key was accepted.  
+		/// false indicates new keyCombo was not accepted, but previous state
+		/// of the hot key should have been restored.</returns>
 		public bool RegisterHotKey(KeyCombo keyCombo)
 		{
 			if (form == null)
@@ -128,14 +128,43 @@ namespace DualLauncher
 				UnRegisterHotKey();
 			}
 
-			isRegistered = Win32.RegisterHotKey(form.Handle, id,
-												keyCombo.Win32Modifier,
-												keyCombo.Win32KeyCode);
-			if (isRegistered)
+			if (keyCombo.Enabled)
 			{
-				hotKeyCombo = keyCombo;
+				isRegistered = Win32.RegisterHotKey(form.Handle, id,
+													keyCombo.Win32Modifier,
+													keyCombo.Win32KeyCode);
+				if (isRegistered)
+				{
+					hotKeyCombo = keyCombo;
+					// new key combinaton as been succesfully registered as a hotkey
+					return true;
+				}
+				else
+				{
+					// failed to register new key combo 
+					// - probably because it's already registered as a hotkey
+					if (hotKeyCombo.Enabled)
+					{
+						// re-register old key combo to return to the state we were in when called
+						isRegistered = Win32.RegisterHotKey(form.Handle, id,
+													hotKeyCombo.Win32Modifier,
+													hotKeyCombo.Win32KeyCode);
+						// above should not fail 
+						// but if it does, there is not much we can do about it
+					}
+					// failed to register new key combination as hot key
+					return false;
+				}
 			}
-			return isRegistered;
+			else
+			{
+				// as the key asked to be disabled
+				// isRegistered will be false,
+				// but we return true as we have done what we were asked to do
+				isRegistered = false;
+				hotKeyCombo = keyCombo;
+				return true;
+			}
 		}
 
 		/// <summary>
