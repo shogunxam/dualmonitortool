@@ -85,6 +85,7 @@ namespace SwapScreen
 			this.textBoxName.Name = "textBoxName";
 			this.textBoxName.Size = new System.Drawing.Size(213, 20);
 			this.textBoxName.TabIndex = 8;
+			this.toolTip.SetToolTip(this.textBoxName, "Your name for this area");
 			// 
 			// label1
 			// 
@@ -101,6 +102,7 @@ namespace SwapScreen
 			this.textBoxX.Name = "textBoxX";
 			this.textBoxX.Size = new System.Drawing.Size(64, 20);
 			this.textBoxX.TabIndex = 10;
+			this.toolTip.SetToolTip(this.textBoxX, "X co-ordinate of top left corner");
 			// 
 			// label2
 			// 
@@ -117,6 +119,7 @@ namespace SwapScreen
 			this.textBoxY.Name = "textBoxY";
 			this.textBoxY.Size = new System.Drawing.Size(64, 20);
 			this.textBoxY.TabIndex = 12;
+			this.toolTip.SetToolTip(this.textBoxY, "Y co-ordinate for top left corner");
 			// 
 			// label3
 			// 
@@ -133,22 +136,24 @@ namespace SwapScreen
 			this.textBoxWidth.Name = "textBoxWidth";
 			this.textBoxWidth.Size = new System.Drawing.Size(64, 20);
 			this.textBoxWidth.TabIndex = 14;
+			this.toolTip.SetToolTip(this.textBoxWidth, "Width of area");
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(152, 108);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(10, 13);
+			this.label4.Size = new System.Drawing.Size(12, 13);
 			this.label4.TabIndex = 15;
-			this.label4.Text = ",";
+			this.label4.Text = "x";
 			// 
 			// textBoxHeight
 			// 
-			this.textBoxHeight.Location = new System.Drawing.Point(168, 108);
+			this.textBoxHeight.Location = new System.Drawing.Point(168, 105);
 			this.textBoxHeight.Name = "textBoxHeight";
 			this.textBoxHeight.Size = new System.Drawing.Size(64, 20);
 			this.textBoxHeight.TabIndex = 16;
+			this.toolTip.SetToolTip(this.textBoxHeight, "Height of area");
 			// 
 			// checkBoxEnable
 			// 
