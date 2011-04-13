@@ -68,20 +68,26 @@ If you use Windows 7, then some of this functionality is already provided by the
 
 <p class="SubHeading">Usage</p>
 
-<p>If you run this from the command line or as a shortcut, then the general format of the command is:<br>
+<p>If you run this from the command line or as a shortcut, then the general format of the command is:<br/>
 <b>&lt;Path to DisMon executable&gt; [Options for DisMon] &lt;Path to command to run&gt; [&lt;Parameters for command&gt;]</b>
 </p>
 
 <p>
-DisMon options start with a '<b>-</b>', followed by the screen number with '<b>1</b>' being the first screen and then followed
-by one of more characters indicating the options to apply to that screen.  Currently there are only two options:<br>
-'<b>d</b>' disables the screen<br>
+DisMon options start with a '<b>-</b>'.  There are 2 types of options: screen dependent options and general options. The screen dependent options have the screen number following the '<b>-</b> with '<b>1</b>' being the first screen. The screen number is then followed
+by one or more characters indicating the options to apply to that screen.  Currently there are only two options:<br/>
+'<b>d</b>' disables the screen<br/>
 '<b>p</b>' makes the screen the primary screen
 </p>
 
 <p>
 So for example, to disable the first screen and to make the second screen the primary screen, the options to use would be:
 <b>-1d -2p</b>.
+</p>
+
+<p>
+There are 2 general options:<br/>
+'<b>n</b>' don't restore the screens on exit<br/>
+'<b>x</b>' apply the changes and exit immediately
 </p>
 
 <p>
@@ -134,7 +140,7 @@ If there is any particular feature you want added, then please use the
 to leave your sugestion.</p>
 
 <p class="SubHeading">Known Problems</p>
-<p>In Windows 7, if the primary screen is disabled (in the GUI this is equivalent to pressing the button in the bottom right), then later changes can lead to unpredictable results, eg. one of the screens can be permanently disabled until it is re-enabled using Windows (or your Graphics card) control panel.<br>
+<p>In Windows 7, if the primary screen is disabled (in the GUI this is equivalent to pressing the button in the bottom right), then later changes can lead to unpredictable results, eg. one of the screens can be permanently disabled until it is re-enabled using Windows (or your Graphics card) control panel.<br/>
 In Windows XP, when another screen is made the primary screen, the taskbar is not moved onto that screen unless the original screen is disabled.
 </p>
 
@@ -146,7 +152,7 @@ In Windows XP, when another screen is made the primary screen, the taskbar is no
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 26 Dec 2010
+		last updated 12 Apr 2011
 		</div>
 	</div>
 </div>

@@ -77,7 +77,7 @@ appropriate 'Change...' button, you can enable the other hotkeys and choose a su
 either in this program or in another program or by Windows itself. If you do try to use one of these, 
 then you will be told that this is the case and you will be able to change the key combination to something different.</p>
 
-<p>The options window contains four tabs:</p>
+<p>The options window contains five tabs:</p>
 
 <p class="SubHeading">'Active Window' tab</p>
 
@@ -101,14 +101,24 @@ If you are running Windows 7, then Windows 7 already provides this functionality
 Win+&lt;Down&gt; hotkey.</p>
 
 <p class="SubHeading2"><a name="Maximise">Maximise active window</a></p>
-<p>If the active window can be maximised, then it is maximised.<br />
+<p>If the active window can be maximised, then it is maximised.
+If it is already maximised, then it is restored.<br />
 If you are running Windows 7, then Windows 7 already provides this functionality with the
 Win+&lt;Up&gt; hotkey.</p>
 
 <p class="SubHeading2"><a name="Supersize">Supersize active window</a></p>
 <p>If the active window can be resized, then it is made large enough to cover all screens.<br />
 This may mean that part(s) of the window may not be visible if your screens have different resolutions, 
-or if you have a fixed taskbar displayed.</p>
+or if you have a fixed taskbar displayed.<br />
+If you press the hotkey again on a window that has just been supersized, then the window is restored to its
+previous location and size.</p>
+
+<p class="SubHeading">'Active -&gt; UDA' tab</p>
+
+<img src="Images/SwapScreen1Uda.png" alt="Active to UDA Window" />
+<p>These allow you to move the active window to a User Defined Area (UDA).</p>
+
+<p>When first run, 10 default UDA's are generated, but you may change the name, location, size and the hotkey for all of these.</p>
 
 <p class="SubHeading">'Other Windows' tab</p>
 
@@ -170,6 +180,12 @@ You can adjust the resistance using the <a href="#StickyResistance">Resistance t
 <p class="SubHeading2"><a name="ControlCursor">Allow cursor to move freely if the left Control key is pressed</a></p>
 <p>If this is checked, then regardless of mode, you can freely move the cursor between screens while the left control key is pressed.</p>
 
+<p class="SubHeading2"><a name="PrimaryReturn">Allow cursor to return freely to the primary screen</a></p>
+<p>If this is checked, then regardless of mode, you can freely move the cursor over a screen boundary if the cursor is being moved onto the primary screen.</p>
+
+<p class="SubHeading2"><a name="DefaultCursor">Default cursor mode on startup</a></p>
+<p>Allows the cursor mode to be automatically set when SwapScreen starts.</p>
+
 <p class="SubHeading">'General' tab</p>
 
 <img src="Images/SwapScreen4.png" alt="General" />
@@ -221,7 +237,7 @@ to restore normal operation of the game, and in others it can mess the current g
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 26 Dec 2010
+		last updated 13 Apr 2011
 		</div>
 	</div>
 </div>

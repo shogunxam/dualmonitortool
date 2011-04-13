@@ -1,0 +1,7 @@
+Dual Monitor Tools
+
+Special thanks to the following:
+
+Shawn Steele for adding the background colour selector in DualWallpaper.
+
+All those that have contributed to the forum with bugs and suggestions for improvements.

@@ -1,19 +1,36 @@
 Dual Monitor Tools
 
+Changes from 1.7 to 1.8
+=======================
+
+Functional:
+SwapScreen now allows you to move the active window to any of 10 user defined areas
+SwapScreen now has an option to allow sticky/locked cursors to return freely to the primary screen
+The background colour can now be set in DualWallpaper
+Option -n added to DisMon to stop it from restoring the monitors to their original state before it exits
+Option -x added to DisMon to tell it to change monitor states and exit 
+
+Bug fixes:
+Cancelling the 'Change hotkey' dialog did not always leave the hotkey unchanged
+In DualLauncher, the disable hotkey operation did not disable the hotkey
+
+Other:
+Changes to SwapScreen to reduce memory allocations
+
 
 Changes from 1.6 to 1.7
 =======================
+
+Functional:
+DualSnap now has hotkey to toggle display of snap.
+SwapScreen can set default cursor mode at startup.
+DualSnap, DualLauncher and SwapScreen now allow more keys to be used as hotkeys.
 
 Bug fixes:
 SwapScreen cursor locking/stickiness had problems with some layouts with screens with different resolutions.
 DualWallpaper would crash if it couldn't write to a wallpaper.
 DualLauncher could sometimes forget its default screen position.
 SwapScreen fix to hooking which could cause problems if other programs also hook the mouse and/or keyboard.
-
-Functional:
-DualSnap now has hotkey to toggle display of snap.
-SwapScreen can set default cursor mode at startup.
-DualSnap, DualLauncher and SwapScreen now allow more keys to be used as hotkeys.
 
 Other:
 DualSnap options window re-arranged so hotkey editing is in same style as the other tools.
