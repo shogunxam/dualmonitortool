@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2010  Gerald Evans
+// Copyright (C) 2010-2011  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -470,12 +470,11 @@ namespace SwapScreen
 			{
 				UdaController udaController = UdaControllers[idx];
 
-				//uint keyCode = 655409;	// Ctrl+Win+1
-				uint keyCode = 0x10A0031;	// Ctrl+Win+1 - disabled
+				uint keyCode = 0x1010031;	// Alt+1 - disabled
 				keyCode += (uint)idx;
 				if (idx == 9)
 				{
-					keyCode = 0x10A0030;	// Ctrl+Win+0 - disabled
+					keyCode = 0x1010030;	// Alt+0 - disabled
 				}
 
 				Rectangle rectangle = new Rectangle(left, right, width, height);
