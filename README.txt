@@ -23,6 +23,7 @@ DualSnap.exe        The screen capture tool
 CHANGES.txt         List of changes
 COPYING.txt         GPLv3 license
 README.txt          This file
+THANKS.txt          Contributors to the project
 
 Requirements
 ------------
