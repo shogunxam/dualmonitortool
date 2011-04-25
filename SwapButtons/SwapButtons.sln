@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SwapButtons", "SwapButtons\SwapButtons.vcxproj", "{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF} = {D6A42785-6F24-4E8A-A507-76BC5C332DDF}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SwapButtonsDll", "SwapButtonsDll\SwapButtonsDll.vcxproj", "{D6A42785-6F24-4E8A-A507-76BC5C332DDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Debug|Win32.Build.0 = Debug|Win32
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Debug|x64.ActiveCfg = Debug|x64
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Debug|x64.Build.0 = Debug|x64
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Release|Win32.ActiveCfg = Release|Win32
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Release|Win32.Build.0 = Release|Win32
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Release|x64.ActiveCfg = Release|x64
+		{DE6710F5-58F2-4DF8-A1E0-2EC9CDB65FC6}.Release|x64.Build.0 = Release|x64
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Debug|Win32.Build.0 = Debug|Win32
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Debug|x64.ActiveCfg = Debug|x64
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Debug|x64.Build.0 = Debug|x64
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Release|Win32.ActiveCfg = Release|Win32
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Release|Win32.Build.0 = Release|Win32
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Release|x64.ActiveCfg = Release|x64
+		{D6A42785-6F24-4E8A-A507-76BC5C332DDF}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
