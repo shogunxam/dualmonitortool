@@ -73,6 +73,7 @@ CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame, DWORD dwButtons)
 	  m_ButtonList(dwButtons)
 {
 	m_pTheme = new CTheme();
+	m_pTheme->GrabThemeData(hWndFrame);
 	m_ButtonList.LoadBitmaps(hModule);
 }
 
@@ -211,6 +212,13 @@ static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		}
 
 		return DefWindowProc(hWnd, message, wParam, lParam);
+	//case WM_ACTIVATE:
+	//	pFloatBar = CFloatBar::FloatBarInstance(hWnd);
+	//	if (pFloatBar)
+	//	{
+	//		pFloatBar->OnActivate();
+	//	}
+	//	break;
 	case WM_PAINT:
 		pFloatBar = CFloatBar::FloatBarInstance(hWnd);
 		if (pFloatBar)
@@ -239,6 +247,11 @@ void CFloatBar::OnCreate(HWND hWnd)
 {
 	m_pTheme->Init(hWnd);
 }
+
+//void CFloatBar::OnActivate()
+//{
+//	m_pTheme->Activate(m_hWndFloatBar);
+//}
 
 void CFloatBar::OnPaint()
 {

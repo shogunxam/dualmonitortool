@@ -16,21 +16,125 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "StdAfx.h"
-#include "Theme.h"
 
+#include <UxTheme.h>
+#include <vsstyle.h>
+#include <vssym32.h>
+
+#include <dwmapi.h>
+
+#include "Theme.h"
 #include "ButtonList.h"
+
+#pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 #define IS_TITLE_BUTTON_VISIBLE(dw) (dw & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0
 
 #define TRANSPARENT_COLOUR	(RGB(0, 255, 0))
 
 CTheme::CTheme(void)
+	: m_hbmBackground(NULL)
 {
 }
 
 // virtual
 CTheme::~CTheme(void)
 {
+	if (m_hbmBackground)
+	{
+		DeleteObject(m_hbmBackground);
+	}
+}
+
+void CTheme::GrabThemeData(HWND hWndFrame)
+{
+	m_hWndFrame = hWndFrame;
+
+	HTHEME hTheme = OpenThemeData(hWndFrame, L"WINDOW");
+	if (hTheme)
+	{
+		if (m_hbmBackground)
+		{
+			DeleteObject(m_hbmBackground);
+			m_hbmBackground = NULL;
+		}
+
+		HRESULT hr = GetThemeBitmap(hTheme, WP_CAPTION, CS_ACTIVE, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
+		//HRESULT hr = GetThemeBitmap(hTheme, WP_MAXBUTTON, MAXBS_NORMAL, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
+		//HRESULT hr = GetThemeBitmap(hTheme, WP_VERTSCROLL, VSS_NORMAL, TMT_GLYPHDIBDATA, GBF_COPY, &m_hbmBackground);
+		if (hr == S_OK)
+		{
+			OutputDebugString(L"Got background\n");
+			if (m_hbmBackground)
+			{
+				BITMAP bm;
+				GetObject(m_hbmBackground, sizeof(bm), &bm);
+				m_nButtonWidth = bm.bmWidth;
+				m_nButtonHeight = bm.bmHeight;
+			}
+		}
+
+		int nWidth = GetThemeSysSize(hTheme, SM_CXSIZE);
+		int nHeight = GetThemeSysSize(hTheme, SM_CYSIZE);
+
+		wchar_t szThemeName[256];
+		hr = GetCurrentThemeName(szThemeName, 256, 0, 0, 0, 0);
+
+		wchar_t szFilename[256];
+		hr = GetThemeFilename(hTheme, WP_MAXBUTTON, MAXBS_NORMAL, TMT_IMAGEFILE, szFilename, 256);
+
+		COLORREF clrBg;
+		hr = GetThemeColor(hTheme, WP_CAPTION, CS_ACTIVE, TMT_COLOR, &clrBg);
+		hr = GetThemeColor(hTheme, WP_CAPTION, CS_ACTIVE, TMT_BACKGROUND, &clrBg);
+		hr = GetThemeColor(hTheme, WP_CAPTION, CS_ACTIVE, TMT_FILLCOLOR, &clrBg);
+		hr = GetThemeColor(hTheme, WP_CAPTION, CS_ACTIVE, TMT_ACTIVECAPTION, &clrBg);
+		hr = GetThemeColor(hTheme, WP_CAPTION, CS_ACTIVE, TMT_BTNFACE, &clrBg);
+		hr = GetThemeColor(hTheme, WP_CAPTION, CS_ACTIVE, TMT_WINDOW, &clrBg);
+
+		GrabThemeBackgroundColour(hTheme);
+
+		CloseThemeData(hTheme);
+	}
+}
+
+void CTheme::GrabThemeBackgroundColour(HTHEME hTheme)
+{
+	HRESULT hr;
+	DWORD color = 0;
+	BOOL opaque = FALSE;
+
+	hr = DwmGetColorizationColor(&color, &opaque);
+	if (hr == S_OK)
+	{
+		m_clrBackground = ARGBToColorref(color);
+	}
+	else
+	{
+
+		// desperation: settle on a light grey
+		m_clrBackground = RGB(224, 224, 224);
+	}
+}
+
+// static
+COLORREF CTheme::ARGBToColorref(DWORD ARGB)
+{
+	DWORD red =   (ARGB & 0x00FF0000) >> 16;
+	DWORD green = (ARGB & 0x0000ff00) >> 8;
+	DWORD blue =  (ARGB & 0x000000FF);
+	DWORD alpha = (ARGB & 0xFF000000) >> 24;
+
+	// assume the colour underneath is going to be white
+	DWORD blend = 0xFF;	// for red, green and blue
+	// and adust the colours according to the alpha
+
+#define BLEND_COLOUR(in, alpha, blend) ((in * alpha + blend * (0xFF - alpha)) / 0xFF)
+	red = BLEND_COLOUR(red, alpha, blend);
+	green = BLEND_COLOUR(green, alpha, blend);
+	blue = BLEND_COLOUR(blue, alpha, blend);
+#undef BLEND_COLOUR
+
+	return RGB(red, green, blue);
 }
 
 // Called once only per FloatBar (ideally during WM_CREATE of the FloatBar)
@@ -44,6 +148,12 @@ void CTheme::Init(HWND hWndFloatBar)
 	// set the colour we are going to use as transparent
 	SetLayeredWindowAttributes(hWndFloatBar, TRANSPARENT_COLOUR, 0, LWA_COLORKEY);
 }
+
+//void CTheme::Activate(HWND hWndFloatBar)
+//{
+//	MARGINS margins = { -1, -1, -1, -1 };
+//	HRESULT hr = DwmExtendFrameIntoClientArea(hWndFloatBar, &margins);
+//}
 
 // calculates:
 //	int m_nButtonHeight;
@@ -158,6 +268,17 @@ void CTheme::CalcPositioning(HWND hWndFrame)
 	// TODO: this is a temporary fudge
 	m_nButtonWidth += 4;
 	m_nButtonHeight -= 2;
+
+
+	//if (m_hbmBackground)
+	//{
+	//	BITMAP bm;
+	//	GetObject(m_hbmBackground, sizeof(bm), &bm);
+	//	m_nButtonWidth = bm.bmWidth;
+	//	m_nButtonHeight = bm.bmHeight;
+	//}
+
+
 }
 
 RECT CTheme::GetBarRect(HWND hWndFrame, const CButtonList& buttonList)
@@ -218,7 +339,8 @@ void CTheme::PaintBar(HWND hWndFloatBar, const CButtonList& buttonList)
 
 		// Transparency is not what we need as clicks go to whats below us
 		//HBRUSH hBrush = CreateSolidBrush(TRANSPARENT_COLOUR);
-		HBRUSH hBrush = CreateSolidBrush(RGB(224, 224, 224));
+		//HBRUSH hBrush = CreateSolidBrush(RGB(224, 224, 224));
+		HBRUSH hBrush = CreateSolidBrush(m_clrBackground);
 		FillRect(hDC, &rectBar, hBrush);
 
 		// the pen to draw border around buttons
@@ -241,12 +363,36 @@ void CTheme::PaintBar(HWND hWndFloatBar, const CButtonList& buttonList)
 				x += 2;
 			}
 
+
 			//SIZE buttonSize = m_ButtonList.GetSize(index);
 			rectButton.left = x;
 			rectButton.top = y;
 			rectButton.right = x + m_nButtonWidth; //buttonSize.cx;
 			rectButton.bottom = y + m_nButtonHeight;//buttonSize.cy;
 			x += m_nButtonWidth;//buttonSize.cx;
+
+			//if (m_hbmBackground)
+			//{
+			//	HBITMAP hbmOld = (HBITMAP)SelectObject(hDC, m_hbmBackground);
+
+			//	BitBlt(hDC, x, y, m_nButtonWidth, m_nButtonHeight, hDC, 0, 0, SRCCOPY);
+
+			//	SelectObject(hDC, hbmOld);
+			//}
+
+	//HTHEME hTheme = OpenThemeData(m_hWndFrame, L"WINDOW");
+	//if (hTheme)
+	//{
+
+	//	HRESULT hr = DrawThemeBackground(hTheme, hDC, WP_MAXBUTTON, MAXBS_NORMAL, &rectButton, NULL);
+	//	if (hr == S_OK)
+	//	{
+	//		OutputDebugString(L"background painted\n");
+	//	}
+
+	//	CloseThemeData(hTheme);
+	//}
+
 
 			buttonList.Paint(index, hDC, rectButton);
 		}

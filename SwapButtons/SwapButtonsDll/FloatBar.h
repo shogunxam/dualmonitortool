@@ -56,6 +56,7 @@ public:
 	SIZE GetBarSize() ;//const;
 
 	void OnCreate(HWND hWnd);
+	//void OnActivate();
 	void OnPaint();
 	void CalcPositioning();
 

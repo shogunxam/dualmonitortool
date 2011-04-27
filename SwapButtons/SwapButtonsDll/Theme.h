@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <UxTheme.h>
+
 class CButtonList;
 
 class CTheme
@@ -26,8 +28,12 @@ public:
 	//CTheme(HWND hWndFrame, DWORD dwButtons);
 	virtual ~CTheme(void);
 
-	void CTheme::Init(HWND hWndFloatBar);
+	void GrabThemeData(HWND hWndFrame);
+
+	void Init(HWND hWndFloatBar);
+	//void Activate(HWND hWndFloatBar);
 	void CalcPositioning(HWND hWndFrame);
+
 	RECT GetBarRect(HWND hWndFrame, const CButtonList& buttonList);
 	SIZE GetBarSize(const CButtonList& buttonList);
 
@@ -37,6 +43,10 @@ public:
 	//DWORD HitTest(int x, int y);
 
 protected:
+	void GrabThemeBackgroundColour(HTHEME hTheme);
+
+protected:
+	static COLORREF ARGBToColorref(DWORD ARGB);
 	static bool IsPreVista();
 
 protected:
@@ -44,6 +54,10 @@ protected:
 	int m_nButtonWidth;
 	int m_nRightOffset;
 	int m_nTopOffset;
+
+	HBITMAP m_hbmBackground;
+	HWND m_hWndFrame;
+	COLORREF m_clrBackground;
 
 };
 
