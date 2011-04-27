@@ -19,6 +19,7 @@
 
 #include "SwapButtonsDll.h"
 #include "ButtonList.h"
+#include "LayoutManager.h"
 
 struct FloatInfo;
 
@@ -98,6 +99,7 @@ private:
 	//int m_nRightOffset;		// offset between right of FloatBar and right of frame
 	//int m_nTopOffset;		// offset between top of FloatBar and top of frame
 
-	CTheme* m_pTheme;
+	//CTheme* m_pTheme;
+	CLayoutManager m_LayoutManager;
 };
 

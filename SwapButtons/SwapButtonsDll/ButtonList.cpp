@@ -115,51 +115,76 @@ HBITMAP CButtonList::CreateMask(HBITMAP hbmImage)
 	return hbmMask;
 }
 
-void CButtonList::Paint(int index, HDC hDC, const RECT& rect) const
+bool CButtonList::GetGlyph(int index, HBITMAP* phbmImage, HBITMAP* phbmMask) const
 {
-	//HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 0));
-	//FillRect(hDC, &rect, hBrush);
-
-	//if (index == 0)
-	//{
-	//	TextOut(hDC, rect.left, rect.top, L"N", 1);
-	//}
-	//else
-	//{
-	//	TextOut(hDC, rect.left, rect.top, L"S", 1);
-	//}
 	if (index == 0)
 	{
-		PaintBitmap(m_hbmPrev, m_hbmPrevMask, hDC, rect);
+		*phbmImage = m_hbmPrev;
+		*phbmMask = m_hbmPrevMask;
 	}
 	else if (index == 1)
 	{
-		PaintBitmap(m_hbmNext, m_hbmNextMask, hDC, rect);
+		*phbmImage = m_hbmNext;
+		*phbmMask = m_hbmNextMask;
+	}
+	else if (index == 2)
+	{
+		*phbmImage = m_hbmSupersize;
+		*phbmMask = m_hbmSupersizeMask;
 	}
 	else
 	{
-		PaintBitmap(m_hbmSupersize, m_hbmSupersizeMask, hDC, rect);
+		return false;
 	}
+
+	return true;
 }
 
-void CButtonList::PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const
-{
-	HDC hDCMem = CreateCompatibleDC(hDC);
-	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
-
-	BITMAP bm;
-	GetObject(hbmImage, sizeof(bm), &bm);
-
-	int x = (rect.right + rect.left - bm.bmWidth) / 2;
-	int y = (rect.top + rect.bottom - bm.bmHeight) / 2;
-
-	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
-	SelectObject(hDCMem, hbmImage);
-	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
-
-	SelectObject(hDCMem, hbmOld);
-	DeleteDC(hDCMem);
-}
+//void CButtonList::Paint(int index, HDC hDC, const RECT& rect) const
+//{
+//	//HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 0));
+//	//FillRect(hDC, &rect, hBrush);
+//
+//	//if (index == 0)
+//	//{
+//	//	TextOut(hDC, rect.left, rect.top, L"N", 1);
+//	//}
+//	//else
+//	//{
+//	//	TextOut(hDC, rect.left, rect.top, L"S", 1);
+//	//}
+//	if (index == 0)
+//	{
+//		PaintBitmap(m_hbmPrev, m_hbmPrevMask, hDC, rect);
+//	}
+//	else if (index == 1)
+//	{
+//		PaintBitmap(m_hbmNext, m_hbmNextMask, hDC, rect);
+//	}
+//	else
+//	{
+//		PaintBitmap(m_hbmSupersize, m_hbmSupersizeMask, hDC, rect);
+//	}
+//}
+//
+//void CButtonList::PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const
+//{
+//	HDC hDCMem = CreateCompatibleDC(hDC);
+//	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
+//
+//	BITMAP bm;
+//	GetObject(hbmImage, sizeof(bm), &bm);
+//
+//	int x = (rect.right + rect.left - bm.bmWidth) / 2;
+//	int y = (rect.top + rect.bottom - bm.bmHeight) / 2;
+//
+//	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
+//	SelectObject(hDCMem, hbmImage);
+//	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
+//
+//	SelectObject(hDCMem, hbmOld);
+//	DeleteDC(hDCMem);
+//}
 
 
 void CButtonList::Click(int index, HWND hWndFrame)

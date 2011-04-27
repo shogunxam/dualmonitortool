@@ -85,7 +85,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>uxtheme.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dwmapi.lib;uxtheme.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>dwmapi.lib</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="ButtonList.h" />
     <ClInclude Include="FloatBar.h" />
+    <ClInclude Include="LayoutManager.h" />
     <ClInclude Include="ResourceDll.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenMap.h" />
@@ -145,7 +147,7 @@
     <ClInclude Include="SwapButtonsDll.h" />
     <ClInclude Include="SwapButtonsHook.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Theme.h" />
+    <ClInclude Include="ThemeDwm.h" />
     <ClInclude Include="WinHelper.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +167,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FloatBar.cpp" />
+    <ClCompile Include="LayoutManager.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenMap.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -174,7 +177,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SwapButtonsHook.cpp" />
-    <ClCompile Include="Theme.cpp" />
+    <ClCompile Include="ThemeDwm.cpp" />
     <ClCompile Include="WinHelper.cpp" />
   </ItemGroup>
   <ItemGroup>

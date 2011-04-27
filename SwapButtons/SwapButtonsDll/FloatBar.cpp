@@ -19,7 +19,6 @@
 #include <Windowsx.h>
 #include "FloatBar.h"
 #include "FloatInfo.h"
-#include "Theme.h"
 
 #include "WinHelper.h"
 
@@ -72,14 +71,15 @@ CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame, DWORD dwButtons)
 	  m_OldWndProc(NULL),
 	  m_ButtonList(dwButtons)
 {
-	m_pTheme = new CTheme();
-	m_pTheme->GrabThemeData(hWndFrame);
+//	m_pTheme = new CTheme();
+//	m_pTheme->GrabThemeData(hWndFrame);
+	m_LayoutManager.ReInit(hWndFrame);
 	m_ButtonList.LoadBitmaps(hModule);
 }
 
 CFloatBar::~CFloatBar()
 {
-	delete m_pTheme;
+//	delete m_pTheme;
 }
 
 void CFloatBar::SetOldWndProc(WNDPROC WndProc)
@@ -168,7 +168,7 @@ void CFloatBar::AdjustBarToParent()
 //RectParent.top -= 30;
 
 	// TODO: don't need to call this everytime
-	m_pTheme->CalcPositioning(m_hWndFrame);
+	//m_pTheme->CalcPositioning(m_hWndFrame);
 
 	//SIZE size = m_pTheme->GetBarSize(m_ButtonList);
 	//RECT rectFloatBar;
@@ -176,7 +176,9 @@ void CFloatBar::AdjustBarToParent()
 	//rectFloatBar.left = rectFloatBar.right - size.cx;
 	//rectFloatBar.top = rectFrame.top + m_nTopOffset;
 	//rectFloatBar.bottom = rectFloatBar.top + size.cy;
-	RECT rectFloatBar = m_pTheme->GetBarRect(m_hWndFrame, m_ButtonList);
+	//RECT rectFloatBar = m_pTheme->GetBarRect(m_hWndFrame, m_ButtonList);
+	RECT rectFloatBar = m_LayoutManager.GetBarRect(m_hWndFrame, m_ButtonList);
+
 
 	wsprintf(szMsg, L"Move-> (%d, %d), (%d, %d)\n", rectFloatBar.left, rectFloatBar.top, rectFloatBar.right, rectFloatBar.bottom);
 	OutputDebugString(szMsg);
@@ -245,7 +247,8 @@ static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 void CFloatBar::OnCreate(HWND hWnd)
 {
-	m_pTheme->Init(hWnd);
+//	m_pTheme->Init(hWnd);
+	m_LayoutManager.PrepareFloatBar(hWnd);
 }
 
 //void CFloatBar::OnActivate()
@@ -255,7 +258,8 @@ void CFloatBar::OnCreate(HWND hWnd)
 
 void CFloatBar::OnPaint()
 {
-	m_pTheme->PaintBar(m_hWndFloatBar, m_ButtonList);
+//	m_pTheme->PaintBar(m_hWndFloatBar, m_ButtonList);
+	m_LayoutManager.PaintBar(m_hWndFloatBar, m_ButtonList);
 }
 
 void CFloatBar::OnLButtonDown(WPARAM wParam, int x, int y)
@@ -269,24 +273,10 @@ void CFloatBar::OnLButtonDown(WPARAM wParam, int x, int y)
 			SetActiveWindow(m_hWndFrame);
 			//CWinHelper::MoveWindowToNext(m_hWndFrame);
 
-			int right = 1;
-			int index;
-			int count = m_ButtonList.Count();
-			for (index = 0; index < count; index++)
+			int index = m_LayoutManager.HitToIndex(x, y, m_ButtonList);
+			if (index >= 0)
 			{
-				if (index != 0)
-				{
-					// add in seperator
-					right += 2;
-				}
-				//right += m_ButtonList.GetSize(index).cx;
-				right += m_pTheme->GetButtonWidth();
-
-				if (x <= right + 1)
-				{
-					m_ButtonList.Click(index, m_hWndFrame);
-					break;
-				}
+				m_ButtonList.Click(index, m_hWndFrame);
 			}
 		}
 	}

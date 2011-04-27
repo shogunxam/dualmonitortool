@@ -37,14 +37,15 @@ public:
 	int Count() const;
 
 	SIZE GetSize(int index);
-	void Paint(int index, HDC hDC, const RECT& rect) const;
+	bool GetGlyph(int index, HBITMAP* phbmImage, HBITMAP* phbmMask) const;
+	//void Paint(int index, HDC hDC, const RECT& rect) const;
 	void Click(int index, HWND hWndFrame);
 
 //	CButton* At(int index);
 
 private:
 	HBITMAP CreateMask(HBITMAP hbmImage);
-	void PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const;
+	//void PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const;
 
 private:
 	DWORD m_dwButtons;
