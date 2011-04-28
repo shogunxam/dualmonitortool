@@ -26,8 +26,6 @@ struct FloatInfo;
 void FloatBarUpdate(HWND hWndFrame, HINSTANCE hInstance, struct FloatInfo* pFloatInfo);
 
 
-class CTheme;
-
 class LOCALMODE_API CFloatBar
 {
 private:
@@ -58,6 +56,7 @@ public:
 
 	void OnCreate(HWND hWnd);
 	//void OnActivate();
+	void OnThemeChange();
 	void OnPaint();
 	void CalcPositioning();
 

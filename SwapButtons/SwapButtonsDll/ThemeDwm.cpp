@@ -4,6 +4,11 @@
 #include "ThemeDwm.h"
 #include "LayoutManager.h"
 
+//#define TRANSPARENT_COLOUR	(RGB(0, 255, 0))
+//#define TRANSPARENT_COLOUR	(RGB(1, 1, 1))
+#define TRANSPARENT_COLOUR	(RGB(0, 0, 0))
+
+
 
 CThemeDwm::CThemeDwm(void)
 	: m_bCheckedAvailable(false),
@@ -22,6 +27,7 @@ CThemeDwm::~CThemeDwm(void)
 	}
 }
 
+// virtual 
 bool CThemeDwm::IsAvailable()
 {
 	if (!m_bCheckedAvailable)
@@ -47,6 +53,7 @@ void CThemeDwm::CheckIfAvailable()
 }
 
 // if DWM composition is enabled, then we assume it is in use by all windows
+// virtual 
 bool CThemeDwm::IsInUse(HWND hWndFrame)
 {
 	bool bInUse = false;
@@ -64,6 +71,7 @@ bool CThemeDwm::IsInUse(HWND hWndFrame)
 	return bInUse;
 }
 
+// virtual 
 bool CThemeDwm::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 {
 	// TODO: must find a better way of doing this
@@ -83,7 +91,7 @@ bool CThemeDwm::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 
 	//TODO: this is a temprary fudge
 	pLayoutMetrics->m_nButtonWidth = nStdButtonSize + 4;
-	pLayoutMetrics->m_nButtonHeight = nStdButtonSize - 1;
+	pLayoutMetrics->m_nButtonHeight = nStdButtonSize - 3;
 
 	pLayoutMetrics->m_nLeftBorder = 1;
 	pLayoutMetrics->m_nRightBorder = 1;
@@ -112,51 +120,50 @@ void CThemeDwm::SaveBgrColour()
 	}
 }
 
-// private static
-COLORREF CThemeDwm::ARGBToColorref(DWORD ARGB)
-{
-	DWORD red =   (ARGB & 0x00FF0000) >> 16;
-	DWORD green = (ARGB & 0x0000ff00) >> 8;
-	DWORD blue =  (ARGB & 0x000000FF);
-	DWORD alpha = (ARGB & 0xFF000000) >> 24;
-
-	// assume the colour underneath is going to be white
-	DWORD blend = 0xFF;	// for red, green and blue
-	// and adust the colours according to the alpha
-
-#define BLEND_COLOUR(in, alpha, blend) ((in * alpha + blend * (0xFF - alpha)) / 0xFF)
-	red = BLEND_COLOUR(red, alpha, blend);
-	green = BLEND_COLOUR(green, alpha, blend);
-	blue = BLEND_COLOUR(blue, alpha, blend);
-#undef BLEND_COLOUR
-
-	return RGB(red, green, blue);
-}
-
+// virtual 
 void CThemeDwm::PrepareFloatBar(HWND hWndFloatBar)
 {
-	// nothing to do
+	// set the layered style
+//	DWORD dwExStyle = GetWindowLong(hWndFloatBar, GWL_EXSTYLE);
+//	dwExStyle |= WS_EX_LAYERED;
+//	SetWindowLong(hWndFloatBar, GWL_EXSTYLE, dwExStyle);
+
+	// set the colour we are going to use as transparent
+	SetLayeredWindowAttributes(hWndFloatBar, TRANSPARENT_COLOUR, 0, LWA_COLORKEY);
+
+
+	DWM_BLURBEHIND blurBehind = { 0 };
+    
+    blurBehind.dwFlags = DWM_BB_ENABLE | DWM_BB_TRANSITIONONMAXIMIZED;
+    blurBehind.fEnable = TRUE;
+    blurBehind.fTransitionOnMaximized = FALSE;
+
+        blurBehind.dwFlags |= DWM_BB_BLURREGION;
+        blurBehind.hRgnBlur = 0;
+ 
+   DwmEnableBlurBehindWindow(hWndFloatBar, &blurBehind);
 }
 
-void CThemeDwm::PaintStart(HDC hDC)
-{
-	// nothing to do
-}
-
+// virtual 
 void CThemeDwm::PaintBarBackground(HDC hDC, RECT rectBar)
 {
-	HBRUSH hBrush = CreateSolidBrush(m_BgrColour);
+	//HBRUSH hBrush = CreateSolidBrush(m_BgrColour);
+	//HBRUSH hBrush = CreateSolidBrush(TRANSPARENT_COLOUR);
+	HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
 	FillRect(hDC, &rectBar, hBrush);
 }
 
+// virtual 
 void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBITMAP hbmMask)
 {
 	HDC hDCMem = CreateCompatibleDC(hDC);
 	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
 
+	// get the size of the glyph
 	BITMAP bm;
 	GetObject(hbmImage, sizeof(bm), &bm);
 
+	// and center it
 	int x = (rectButton.right + rectButton.left - bm.bmWidth) / 2;
 	int y = (rectButton.top + rectButton.bottom - bm.bmHeight) / 2;
 
@@ -168,6 +175,7 @@ void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBIT
 	DeleteDC(hDCMem);
 }
 
+// virtual 
 void CThemeDwm::PaintButtonSpacing(HDC hDC, RECT rectButton)
 {
 	HPEN hPen = CreatePen(PS_SOLID, 1, RGB(128, 128, 128));
@@ -180,10 +188,14 @@ void CThemeDwm::PaintButtonSpacing(HDC hDC, RECT rectButton)
 	SelectObject(hDC, hOldPen);
 }
 
+// virtual 
 void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 {
 		// the pen to draw border around buttons
 		HPEN hPen = CreatePen(PS_SOLID, 1, RGB(128, 128, 128));
+		//HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+		//HPEN hPen = CreatePen(PS_SOLID, 1, RGB(1, 0, 0));
+		//HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 		HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);
 
 		int nArcRadius = 4;
@@ -217,10 +229,4 @@ void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 
 		// restore DC to original state 
 		SelectObject(hDC, hOldPen);
-}
-
-
-void CThemeDwm::PaintEnd(HDC hDC)
-{
-	// nothing to do
 }

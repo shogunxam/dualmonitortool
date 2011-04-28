@@ -237,6 +237,14 @@ static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			pFloatBar->OnLButtonDown(wParam, xPos, yPos);
 		}
 		break;
+	case WM_DWMCOMPOSITIONCHANGED:
+	case WM_DWMCOLORIZATIONCOLORCHANGED:
+		pFloatBar = CFloatBar::FloatBarInstance(hWnd);
+		if (pFloatBar)
+		{
+			pFloatBar->OnThemeChange();
+		}
+		break;
 	case WM_DESTROY:
 		break;
 	default:
@@ -255,6 +263,11 @@ void CFloatBar::OnCreate(HWND hWnd)
 //{
 //	m_pTheme->Activate(m_hWndFloatBar);
 //}
+
+void CFloatBar::OnThemeChange()
+{
+	m_LayoutManager.ReInit(m_hWndFrame);
+}
 
 void CFloatBar::OnPaint()
 {

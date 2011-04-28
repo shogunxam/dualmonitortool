@@ -1,33 +1,33 @@
 #pragma once
 
 #include "SwapButtonsDll.h"
+#include "Theme.h"
 
 struct LayoutMetrics;
 
-class LOCALMODE_API CThemeDwm
+class LOCALMODE_API CThemeDwm : public CTheme
 {
 public:
 	CThemeDwm(void);
 	virtual ~CThemeDwm(void);
 
-	bool IsAvailable();
-	bool IsInUse(HWND hWndFrame);
+	virtual bool IsAvailable();
+	virtual bool IsInUse(HWND hWndFrame);
 
-	bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame);
-	void PrepareFloatBar(HWND hWndFloatBar);
+	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame);
+	virtual void PrepareFloatBar(HWND hWndFloatBar);
 
-	void PaintStart(HDC hDC);
-	void PaintBarBackground(HDC hDC, RECT rectBar);
-	void PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBITMAP hbmMask);
-	void PaintButtonSpacing(HDC hDC, RECT rectButton);
-	void PaintBarBorder(HDC hDC, RECT rectBar);
-	void PaintEnd(HDC hDC);
+	//virtual void PaintStart(HDC hDC);
+	virtual void PaintBarBackground(HDC hDC, RECT rectBar);
+	virtual void PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBITMAP hbmMask);
+	virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);
+	virtual void PaintBarBorder(HDC hDC, RECT rectBar);
+	//virtual void PaintEnd(HDC hDC);
 
 
 private:
 	void CheckIfAvailable();
 	void SaveBgrColour();
-	static COLORREF ARGBToColorref(DWORD ARGB);
 
 
 private:

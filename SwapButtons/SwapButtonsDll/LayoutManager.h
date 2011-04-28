@@ -41,7 +41,7 @@ private:
 
 private:
 	CThemeDwm m_ThemeDwm;
-	CThemeDwm* m_pCurTheme;
+	CTheme* m_pCurTheme;
 	struct LayoutMetrics m_LayoutMetrics;
 };
 

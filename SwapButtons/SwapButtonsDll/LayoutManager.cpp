@@ -141,7 +141,7 @@ SIZE CLayoutManager::CalcBarOffsets(HWND hWndFrame)
 		}
 
 		// TODO: temp hack - this needs to go into theme
-		//nTopPos += 2;
+		nTopPos += 1;
 		nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
 	}
 
