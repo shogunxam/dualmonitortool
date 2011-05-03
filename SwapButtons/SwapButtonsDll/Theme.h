@@ -14,7 +14,7 @@ public:
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame) = 0;
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
 
-	virtual void PaintStart(HDC hDC);
+	virtual void PaintStart(HDC hDC, RECT rectBar);
 	virtual void PaintBarBackground(HDC hDC, RECT rectBar);
 	virtual void PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBITMAP hbmMask) = 0;
 	virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);

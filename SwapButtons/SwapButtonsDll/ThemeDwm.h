@@ -17,18 +17,24 @@ public:
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame);
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
 
-	//virtual void PaintStart(HDC hDC);
+	virtual void PaintStart(HDC hDC, RECT rectBar);
 	virtual void PaintBarBackground(HDC hDC, RECT rectBar);
 	virtual void PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBITMAP hbmMask);
 	virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);
 	virtual void PaintBarBorder(HDC hDC, RECT rectBar);
-	//virtual void PaintEnd(HDC hDC);
+	virtual void PaintEnd(HDC hDC);
 
 
 private:
 	void CheckIfAvailable();
 	void SaveBgrColour();
 
+private:
+	static const int LEFT_BORDER;
+	static const int RIGHT_BORDER;
+	static const int TOP_BORDER;
+	static const int BOTTOM_BORDER;
+	static const int BUTTON_SPACING;
 
 private:
 	bool m_bCheckedAvailable;

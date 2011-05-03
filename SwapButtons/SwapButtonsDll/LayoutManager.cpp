@@ -118,6 +118,8 @@ SIZE CLayoutManager::CalcBarOffsets(HWND hWndFrame)
 	}
 	else
 	{
+		// NOTE: DWMWA_CAPTION_BUTTON_BOUNDS may also be of use?
+
 		// Vista & later only
 		TITLEBARINFOEX titleBarInfoEx;
 		titleBarInfoEx.cbSize = sizeof(titleBarInfoEx);
@@ -141,7 +143,7 @@ SIZE CLayoutManager::CalcBarOffsets(HWND hWndFrame)
 		}
 
 		// TODO: temp hack - this needs to go into theme
-		nTopPos += 1;
+		//nTopPos += 1;
 		nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
 	}
 
@@ -191,7 +193,7 @@ void CLayoutManager::PaintBar(HWND hWndFloatBar, const CButtonList& buttonList)
 		RECT rectButton;
 		GetClientRect(hWndFloatBar, &rectBar);
 
-		m_pCurTheme->PaintStart(hDC);
+		m_pCurTheme->PaintStart(hDC, rectBar);
 
 		m_pCurTheme->PaintBarBackground(hDC, rectBar);
 

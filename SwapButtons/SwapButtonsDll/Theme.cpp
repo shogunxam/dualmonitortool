@@ -17,7 +17,7 @@ void CTheme::PrepareFloatBar(HWND hWndFloatBar)
 }
 
 // virtual 
-void CTheme::PaintStart(HDC hDC)
+void CTheme::PaintStart(HDC hDC, RECT rectBar)
 {
 	// base implementation does nothing
 }

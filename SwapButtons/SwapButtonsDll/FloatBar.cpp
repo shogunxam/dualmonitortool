@@ -25,6 +25,7 @@
 static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 
+#define WM_ERASEBACKGROUND 0x0014
 
 WCHAR szFloatBarClassName[] = L"GNE_FloatBar";
 
@@ -51,7 +52,8 @@ ATOM CFloatBar::RegisterFloatBarClass(HINSTANCE hInstance)
 	wcex.hInstance		= hInstance;
 	wcex.hIcon			= NULL;
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+	//wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+	wcex.hbrBackground	= NULL;
 	wcex.lpszMenuName	= NULL;
 	wcex.lpszClassName	= szFloatBarClassName;
 	wcex.hIconSm		= NULL;
@@ -221,6 +223,12 @@ static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	//		pFloatBar->OnActivate();
 	//	}
 	//	break;
+	case WM_MOVE:
+		// TODO: only if using transparent mode
+		InvalidateRect(hWnd, NULL, TRUE);
+		break;
+	case WM_ERASEBACKGROUND:
+		return 1;
 	case WM_PAINT:
 		pFloatBar = CFloatBar::FloatBarInstance(hWnd);
 		if (pFloatBar)
