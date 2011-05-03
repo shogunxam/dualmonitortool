@@ -23,6 +23,8 @@ public:
 
 protected:
 		static COLORREF ARGBToColorref(DWORD ARGB);
+		static DWORD ARGBBlend(DWORD ARGB);
+
 
 };
 

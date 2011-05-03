@@ -232,6 +232,10 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 
 		switch (nMsg)
 		{
+		case WM_SHOWWINDOW:
+			pFloatBar->UpdateBarWindow(hWnd, ghModule);
+			break;
+
 		case WM_WINDOWPOSCHANGED:
 			OutputDebugString(L"WM_WINDOWPOSCHANGED\n");
 			pFloatBar->UpdateBarWindow(hWnd, ghModule);

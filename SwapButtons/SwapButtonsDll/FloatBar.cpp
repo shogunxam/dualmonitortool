@@ -186,7 +186,16 @@ void CFloatBar::AdjustBarToParent()
 	OutputDebugString(szMsg);
 
 	//MoveWindow(m_hWnd, Rect.left, Rect.top, Rect.right -  Rect.left, Rect.bottom - Rect.top, FALSE);
-	BOOL ret = SetWindowPos(m_hWndFloatBar, m_hWndFrame, rectFloatBar.left, rectFloatBar.top, rectFloatBar.right - rectFloatBar.left, rectFloatBar.bottom - rectFloatBar.top, SWP_SHOWWINDOW);
+	UINT uFlags;
+	if (IsWindowVisible(m_hWndFrame))
+	{
+		uFlags = SWP_SHOWWINDOW;
+	}
+	else
+	{
+		uFlags = SWP_HIDEWINDOW;
+	}
+	BOOL ret = SetWindowPos(m_hWndFloatBar, m_hWndFrame, rectFloatBar.left, rectFloatBar.top, rectFloatBar.right - rectFloatBar.left, rectFloatBar.bottom - rectFloatBar.top, uFlags);
 	//SetWindowPos(m_hWnd, HWND_TOP, Rect.left, Rect.top, Rect.right - Rect.left, Rect.bottom - Rect.top, SWP_SHOWWINDOW);
 	//printf("%d\r\n", ret);
 
@@ -275,6 +284,7 @@ void CFloatBar::OnCreate(HWND hWnd)
 void CFloatBar::OnThemeChange()
 {
 	m_LayoutManager.ReInit(m_hWndFrame);
+	InvalidateRect(m_hWndFloatBar, NULL, FALSE);
 }
 
 void CFloatBar::OnPaint()

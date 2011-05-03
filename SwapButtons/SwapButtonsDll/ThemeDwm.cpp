@@ -417,9 +417,10 @@ void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 	DWORD dwDark = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
 	greyLevel = 252;
 	DWORD dwLight = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-	alpha = 0;
-	greyLevel = 1;
-	DWORD dwTransparent = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+	alpha = 160;
+	greyLevel = 255;
+	//DWORD dwTransparent = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+	DWORD dwTransparent = dwLight;
 
 	int radius = 4;
 	for (int y = rectBar.top; y < rectBar.bottom - radius; y++)
@@ -454,7 +455,7 @@ void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 
 	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 0] = dwTransparent;
 	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 2] = dwTransparent;
+	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 2] = dwLight;
 	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 3] = dwLight;
 
 	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + 0] = dwTransparent;
@@ -476,7 +477,7 @@ void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 
 	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 1] = dwTransparent;
 	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 2] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 3] = dwTransparent;
+	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 3] = dwLight;
 	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 4] = dwLight;
 
 	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + m_nWidth - 1] = dwTransparent;
@@ -519,9 +520,28 @@ void CThemeDwm::PaintEnd(HDC hDC)
 		//	DeleteObject(hBitmap);
 		//}
 
-		Bitmap bitmap(m_nWidth, m_nHeight, 4 * m_nWidth, PixelFormat32bppARGB, (BYTE*)m_pdwBits);
 
-		Graphics graphics(hDC);
+		Gdiplus::Graphics graphics(hDC);
+
+
+		// can't seem to get transparency working correctly, so just pre-fill
+		// our background with the theme colour for now
+		if (m_bIsAvailable)
+		{
+			DWORD color = 0;
+			BOOL opaque = FALSE;
+
+			HRESULT hr = DwmGetColorizationColor(&color, &opaque);
+			if (SUCCEEDED(hr))
+			{
+				SolidBrush bgrBrush(CTheme::ARGBBlend(color));
+				graphics.FillRectangle(&bgrBrush, 0, 0, m_nWidth, m_nHeight);
+			}
+		}
+
+
+
+		Bitmap bitmap(m_nWidth, m_nHeight, 4 * m_nWidth, PixelFormat32bppARGB, (BYTE*)m_pdwBits);
 		graphics.DrawImage(&bitmap, 0, 0);
 
 //	Pen redPen(Color(255, 255, 0, 0), 2);
