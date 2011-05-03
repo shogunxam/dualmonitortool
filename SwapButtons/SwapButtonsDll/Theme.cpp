@@ -3,12 +3,43 @@
 
 
 CTheme::CTheme(void)
+:     m_hbmPrev(NULL),
+	  m_hbmNext(NULL),
+	  m_hbmSupersize(NULL)
 {
 }
 
 
 CTheme::~CTheme(void)
 {
+	if (m_hbmSupersize)
+	{
+		DeleteObject(m_hbmSupersize);
+	}
+	if (m_hbmNext)
+	{
+		DeleteObject(m_hbmNext);
+	}
+	if (m_hbmPrev)
+	{
+		DeleteObject(m_hbmPrev);
+	}
+}
+
+// virtual (but probably will not need to be)
+HBITMAP CTheme::GetImage(int index)
+{
+	switch (index)
+	{
+	case 0:
+		return m_hbmPrev;
+	case 1:
+		return m_hbmNext;
+	case 2:
+		return m_hbmSupersize;
+	default:
+		return NULL;
+	}
 }
 
 // virtual 

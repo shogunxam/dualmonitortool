@@ -4,6 +4,8 @@
 #include "ThemeDwm.h"
 #include "LayoutManager.h"
 
+#include "ResourceDll.h"
+
 #include <objidl.h>
 #include <gdiplus.h>
 using namespace Gdiplus;
@@ -33,7 +35,7 @@ CThemeDwm::CThemeDwm(void)
 {
 }
 
-
+// virtual
 CThemeDwm::~CThemeDwm(void)
 {
 	if (m_hDwmLib)
@@ -41,6 +43,16 @@ CThemeDwm::~CThemeDwm(void)
 		FreeLibrary(m_hDwmLib);
 	}
 }
+
+
+// virtual
+void CThemeDwm::LoadBitmaps(HMODULE hModule)
+{
+	m_hbmPrev = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_PREV));
+	m_hbmNext = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_NEXT));
+	m_hbmSupersize = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_SUPERSIZE));
+}
+
 
 // virtual 
 bool CThemeDwm::IsAvailable()
@@ -144,6 +156,62 @@ void CThemeDwm::SaveBgrColour()
 	}
 }
 
+// virtual
+SIZE CThemeDwm::CalcBarOffsets(HWND hWndFrame)
+{
+	int nExistingButtonsWidth = 0;
+	DWORD dwStyle = GetWindowLong(hWndFrame, GWL_STYLE);
+	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
+	RECT rectFrame;
+	GetWindowRect(hWndFrame, &rectFrame);
+	int nRightPos = rectFrame.right;
+	int nTopPos = rectFrame.top;
+
+	int nStdButtonSize = 0;
+	if (dwExStyle & WS_EX_TOOLWINDOW)
+	{
+		nStdButtonSize = GetSystemMetrics(SM_CYSMSIZE);
+	}
+	else
+	{
+		nStdButtonSize = GetSystemMetrics(SM_CYSIZE);
+	}
+	int nStdSpacing = 2; // x pixels between std buttons
+
+	// NOTE: DWMWA_CAPTION_BUTTON_BOUNDS may also be of use?
+
+	// Vista & later only
+	TITLEBARINFOEX titleBarInfoEx;
+	titleBarInfoEx.cbSize = sizeof(titleBarInfoEx);
+	SendMessage(hWndFrame, WM_GETTITLEBARINFOEX, 0, (LPARAM)&titleBarInfoEx);
+
+	// iterate over all of the children on the titlebar
+	// finding the one with the minimum x co-ord
+	// TODO: are there defines for the child indexes?
+	for (int nTitleBarChild = 2; nTitleBarChild <= 5; nTitleBarChild++)
+	{
+		if ((titleBarInfoEx.rgstate[nTitleBarChild] & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0)
+		{
+			// button should be visible
+			nTopPos = titleBarInfoEx.rgrect[nTitleBarChild].top;
+			if (titleBarInfoEx.rgrect[nTitleBarChild].left < nRightPos)
+			{
+				nRightPos = titleBarInfoEx.rgrect[nTitleBarChild].left;
+				// should be able to break here as indexes are in button order (left to right)
+			}
+		}
+	}
+
+	// TODO: temp hack - this needs to go into theme
+	//nTopPos += 1;
+	nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
+
+	SIZE offsets;
+	offsets.cx = rectFrame.right - nRightPos;
+	offsets.cy = nTopPos - rectFrame.top;
+	return offsets;
+}
+
 // virtual 
 void CThemeDwm::PrepareFloatBar(HWND hWndFloatBar)
 {
@@ -245,8 +313,10 @@ void CThemeDwm::PaintBarBackground(HDC hDC, RECT rectBar)
 }
 
 // virtual 
-void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, HBITMAP hbmImage, HBITMAP hbmMask)
+void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 {
+	HBITMAP hbmImage = GetImage(index);
+
 #ifdef USE_GDI
 	HDC hDCMem = CreateCompatibleDC(hDC);
 	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);

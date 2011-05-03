@@ -76,7 +76,8 @@ CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame, DWORD dwButtons)
 //	m_pTheme = new CTheme();
 //	m_pTheme->GrabThemeData(hWndFrame);
 	m_LayoutManager.ReInit(hWndFrame);
-	m_ButtonList.LoadBitmaps(hModule);
+	//m_ButtonList.LoadBitmaps(hModule);
+	m_LayoutManager.LoadBitmaps(hModule);
 }
 
 CFloatBar::~CFloatBar()

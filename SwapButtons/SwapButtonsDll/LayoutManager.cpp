@@ -7,6 +7,7 @@
 CLayoutManager::CLayoutManager(void)
 	: m_pCurTheme(NULL)
 {
+
 }
 
 
@@ -25,8 +26,15 @@ void CLayoutManager::ReInit(HWND hWndFrame)
 	else
 	{
 		// use classic theme
-		OutputDebugString(L"No theme available\n");
+		m_pCurTheme = &m_ThemeClassic;
+		m_pCurTheme->ReInit(&m_LayoutMetrics, hWndFrame);
 	}
+}
+
+void CLayoutManager::LoadBitmaps(HMODULE hModule)
+{
+	m_ThemeClassic.LoadBitmaps(hModule);
+	m_ThemeDwm.LoadBitmaps(hModule);
 }
 
 void CLayoutManager::PrepareFloatBar(HWND hWndFloatBar)
@@ -61,95 +69,15 @@ RECT CLayoutManager::GetBarRect(HWND hWndFrame, const CButtonList& buttonList)
 // private
 SIZE CLayoutManager::CalcBarOffsets(HWND hWndFrame)
 {
-	int nExistingButtonsWidth = 0;
-	DWORD dwStyle = GetWindowLong(hWndFrame, GWL_STYLE);
-	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
-	RECT rectFrame;
-	GetWindowRect(hWndFrame, &rectFrame);
-	int nRightPos = rectFrame.right;
-	int nTopPos = rectFrame.top;
-
-	int nStdButtonSize = 0;
-	if (dwExStyle & WS_EX_TOOLWINDOW)
+	if (m_pCurTheme)
 	{
-		nStdButtonSize = GetSystemMetrics(SM_CYSMSIZE);
-	}
-	else
-	{
-		nStdButtonSize = GetSystemMetrics(SM_CYSIZE);
-	}
-	int nStdSpacing = 2; // x pixels between std buttons
-
-	if (IsPreVista())
-	{
-		// pre-Vista so no WM_GETTITLRBARINFOEX
-		//adjust for the border
-		if (dwStyle & WS_THICKFRAME)
-		{
-			nRightPos -= GetSystemMetrics(SM_CXSIZEFRAME);
-			nTopPos += GetSystemMetrics(SM_CYSIZEFRAME);
-		}
-		else
-		{
-			nRightPos -= GetSystemMetrics(SM_CXFIXEDFRAME);
-			nTopPos += GetSystemMetrics(SM_CYFIXEDFRAME);
-		}
-
-		// adjust for any titlebar 
-		TITLEBARINFO titleBarInfo;
-		titleBarInfo.cbSize = sizeof(titleBarInfo);
-		GetTitleBarInfo(hWndFrame, &titleBarInfo);
-		// TODO: are there defines for the child indexes?
-		//if (dwStyle & WS_SYSMENU)
-		if (IS_TITLE_BUTTON_VISIBLE(titleBarInfo.rgstate[5]))
-		{
-			nRightPos -= (nStdButtonSize + nStdSpacing);
-		}
-
-		// Alt: could use titleBarInfo for these as well
-		if (dwStyle & (WS_MINIMIZEBOX | WS_MAXIMIZEBOX))
-		{
-			nRightPos -= (nStdButtonSize + nStdSpacing) * 2;
-		}
-		else if (dwExStyle & WS_EX_CONTEXTHELP)
-		{
-			nRightPos -= (nStdButtonSize + nStdSpacing);
-		}
-	}
-	else
-	{
-		// NOTE: DWMWA_CAPTION_BUTTON_BOUNDS may also be of use?
-
-		// Vista & later only
-		TITLEBARINFOEX titleBarInfoEx;
-		titleBarInfoEx.cbSize = sizeof(titleBarInfoEx);
-		SendMessage(hWndFrame, WM_GETTITLEBARINFOEX, 0, (LPARAM)&titleBarInfoEx);
-
-		// iterate over all of the children on the titlebar
-		// finding the one with the minimum x co-ord
-		// TODO: are there defines for the child indexes?
-		for (int nTitleBarChild = 2; nTitleBarChild <= 5; nTitleBarChild++)
-		{
-			if ((titleBarInfoEx.rgstate[nTitleBarChild] & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0)
-			{
-				// button should be visible
-				nTopPos = titleBarInfoEx.rgrect[nTitleBarChild].top;
-				if (titleBarInfoEx.rgrect[nTitleBarChild].left < nRightPos)
-				{
-					nRightPos = titleBarInfoEx.rgrect[nTitleBarChild].left;
-					// should be able to break here as indexes are in button order (left to right)
-				}
-			}
-		}
-
-		// TODO: temp hack - this needs to go into theme
-		//nTopPos += 1;
-		nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
+		return m_pCurTheme->CalcBarOffsets(hWndFrame);
 	}
 
+	// TODO
 	SIZE offsets;
-	offsets.cx = rectFrame.right - nRightPos;
-	offsets.cy = nTopPos - rectFrame.top;
+	offsets.cx = 0;
+	offsets.cy = 0;
 	return offsets;
 }
 
@@ -214,12 +142,15 @@ void CLayoutManager::PaintBar(HWND hWndFloatBar, const CButtonList& buttonList)
 			rectButton.top = y;
 			rectButton.bottom = rectButton.top + m_LayoutMetrics.m_nButtonHeight;
 
-			HBITMAP hbmImage;
-			HBITMAP hbmMask;
-			if (buttonList.GetGlyph(index, &hbmImage, &hbmMask))
-			{
-				m_pCurTheme->PaintButtonFace(hDC, rectButton, hbmImage, hbmMask);
-			}
+			//HBITMAP hbmImage;
+			//HBITMAP hbmMask;
+			//if (buttonList.GetGlyph(index, &hbmImage, &hbmMask))
+			//{
+			//	m_pCurTheme->PaintButtonFace(hDC, rectButton, hbmImage, hbmMask);
+			//}
+
+			// TODO: convert index to button ID
+			m_pCurTheme->PaintButtonFace(hDC, rectButton, index);
 
 			if (index  < count - 1)
 			{

@@ -148,6 +148,7 @@
     <ClInclude Include="SwapButtonsHook.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Theme.h" />
+    <ClInclude Include="ThemeClassic.h" />
     <ClInclude Include="ThemeDwm.h" />
     <ClInclude Include="WinHelper.h" />
   </ItemGroup>
@@ -179,6 +180,7 @@
     </ClCompile>
     <ClCompile Include="SwapButtonsHook.cpp" />
     <ClCompile Include="Theme.cpp" />
+    <ClCompile Include="ThemeClassic.cpp" />
     <ClCompile Include="ThemeDwm.cpp" />
     <ClCompile Include="WinHelper.cpp" />
   </ItemGroup>

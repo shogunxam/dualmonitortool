@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SwapButtonsDll.h"
+#include "ThemeClassic.h"
 #include "ThemeDwm.h"
 
 class CButtonList;
@@ -24,6 +25,7 @@ public:
 
 
 	void ReInit(HWND hWndFrame);
+	void LoadBitmaps(HMODULE hModule);
 
 	void PrepareFloatBar(HWND hWndFloatBar);
 
@@ -40,6 +42,7 @@ private:
 	static bool IsPreVista();
 
 private:
+	CThemeClassic m_ThemeClassic;
 	CThemeDwm m_ThemeDwm;
 	CTheme* m_pCurTheme;
 	struct LayoutMetrics m_LayoutMetrics;

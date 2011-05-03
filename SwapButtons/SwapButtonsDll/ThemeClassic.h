@@ -5,11 +5,11 @@
 
 struct LayoutMetrics;
 
-class LOCALMODE_API CThemeDwm : public CTheme
+class LOCALMODE_API CThemeClassic : public CTheme
 {
 public:
-	CThemeDwm(void);
-	virtual ~CThemeDwm(void);
+	CThemeClassic(void);
+	virtual ~CThemeClassic(void);
 
 	virtual void LoadBitmaps(HMODULE hModule);
 	virtual bool IsAvailable();
@@ -27,9 +27,8 @@ public:
 	virtual void PaintEnd(HDC hDC);
 
 
-private:
-	void CheckIfAvailable();
-	void SaveBgrColour();
+
+
 
 private:
 	static const int LEFT_BORDER;
@@ -38,11 +37,4 @@ private:
 	static const int BOTTOM_BORDER;
 	static const int BUTTON_SPACING;
 
-private:
-	bool m_bCheckedAvailable;
-	bool m_bIsAvailable;
-	HMODULE m_hDwmLib;
-
-	COLORREF m_BgrColour;
 };
-
