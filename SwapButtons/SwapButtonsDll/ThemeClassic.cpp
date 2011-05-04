@@ -207,6 +207,8 @@ void CThemeClassic::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 	dwShadow = TO_ARGB(dwShadow);
 	DWORD dwDkShadow = GetSysColor(COLOR_3DDKSHADOW);
 	dwDkShadow = TO_ARGB(dwDkShadow);
+	DWORD dwBtnText = GetSysColor(COLOR_BTNTEXT);
+	dwBtnText = TO_ARGB(dwBtnText);
 
 	// get co-ords of TLHC and BRHC - these are all inclusive values
 	// i.e. (right, bottom) is really part of the button
@@ -260,7 +262,8 @@ void CThemeClassic::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 					if (dwRGB != 0x00FF00)
 					{
 						//DWORD dwARGB = 0xFF000000 | dwRGB;	// TODO: ordering
-						m_BitmapBuffer.Set(x + xOffset, y + yOffset, dwRGB);
+						//m_BitmapBuffer.Set(x + xOffset, y + yOffset, dwRGB);
+						m_BitmapBuffer.Set(x + xOffset, y + yOffset, dwBtnText);
 					}
 				}
 			}
