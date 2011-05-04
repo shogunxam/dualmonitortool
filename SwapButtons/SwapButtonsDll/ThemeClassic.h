@@ -2,6 +2,7 @@
 
 #include "SwapButtonsDll.h"
 #include "Theme.h"
+#include "BitmapBuffer.h"
 
 struct LayoutMetrics;
 
@@ -27,7 +28,8 @@ public:
 	virtual void PaintEnd(HDC hDC);
 
 
-
+private:
+	CBitmapBuffer m_BitmapBuffer;
 
 
 private:

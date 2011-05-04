@@ -165,19 +165,21 @@ void CThemeClassic::PrepareFloatBar(HWND hWndFloatBar)
 {
 }
 
-static DWORD* m_pdwBits = NULL;
-static int m_nWidth;
-static int m_nHeight;
-static RECT m_RectBar;
+//static DWORD* m_pdwBits = NULL;
+//static int m_nWidth;
+//static int m_nHeight;
+//static RECT m_RectBar;
 
 // virtual 
 void CThemeClassic::PaintStart(HDC hDC, RECT rectBar)
 {
-	m_RectBar = rectBar;
+//	m_RectBar = rectBar;
 
-	m_nWidth = rectBar.right - rectBar.left;
-	m_nHeight = rectBar.bottom - rectBar.top;
-	m_pdwBits = new DWORD[m_nWidth * m_nHeight];
+	//m_nWidth = rectBar.right - rectBar.left;
+	//m_nHeight = rectBar.bottom - rectBar.top;
+	//m_pdwBits = new DWORD[m_nWidth * m_nHeight];
+
+	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
 }
 
 // virtual 
@@ -187,16 +189,14 @@ void CThemeClassic::PaintBarBackground(HDC hDC, RECT rectBar)
 
 #define TO_ARGB(rgb) (((rgb & 0xFF) << 16) | ((rgb & 0xFF0000) >> 16) | (rgb & 0xFF00) | 0xFF000000)
 
-#define FLIP_Y(y) (m_nHeight - (y))
+//#define FLIP_Y(y) (m_nHeight - (y))
 
-#define BM_INDEX(x, y) ((m_nHeight - (y) - 1) * m_nWidth + (x))
+//#define BM_INDEX(x, y) ((m_nHeight - (y) - 1) * m_nWidth + (x))
 
 // virtual 
 void CThemeClassic::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 {
 	HBITMAP hbmImage = GetImage(index);
-	int x;
-	int y;
 
 	DWORD dwLight = GetSysColor(COLOR_3DHILIGHT);
 	dwLight = TO_ARGB(dwLight);
@@ -208,31 +208,27 @@ void CThemeClassic::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 	DWORD dwDkShadow = GetSysColor(COLOR_3DDKSHADOW);
 	dwDkShadow = TO_ARGB(dwDkShadow);
 
-	for (x = rectButton.left; x < rectButton.right - 1; x++)
-	{
-		m_pdwBits[BM_INDEX(x, 0)] = dwLight;
-	}
-	m_pdwBits[BM_INDEX(rectButton.right - 1, 0)] = dwDkShadow;
-	for (y = rectButton.top + 1; y < rectButton.bottom - 2; y++)
-	{
-		m_pdwBits[BM_INDEX(rectButton.left, y)] = dwLight;
-		for (x = rectButton.left + 1; x < rectButton.right - 2; x++)
-		{
-			m_pdwBits[BM_INDEX(x, y)] = dwFace;
-		}
-		m_pdwBits[BM_INDEX(rectButton.right - 2, y)] = dwShadow;
-		m_pdwBits[BM_INDEX(rectButton.right - 1, y)] = dwDkShadow;
-	}
+	// get co-ords of TLHC and BRHC - these are all inclusive values
+	// i.e. (right, bottom) is really part of the button
+	int left = rectButton.left;
+	int top = rectButton.top;
+	int right = rectButton.right - 1;
+	int bottom = rectButton.bottom - 1;
 
-	m_pdwBits[BM_INDEX(rectButton.left, m_nHeight - 2)] = dwLight;
-	m_pdwBits[BM_INDEX(rectButton.left, m_nHeight - 1)] = dwDkShadow;
-	for (x = rectButton.left + 1; x < rectButton.right - 1; x++)
-	{
-		m_pdwBits[BM_INDEX(x, m_nHeight - 2)] = dwShadow;
-		m_pdwBits[BM_INDEX(x, m_nHeight - 1)] = dwDkShadow;
-	}
-	m_pdwBits[BM_INDEX(rectButton.right - 1, m_nHeight - 2)] = dwDkShadow;
-	m_pdwBits[BM_INDEX(rectButton.right - 1, m_nHeight - 1)] = dwDkShadow;
+	// add highlight to top and left
+	m_BitmapBuffer.DrawHLine(left, right - 1, top, dwLight);
+	m_BitmapBuffer.DrawVLine(left, top, bottom -1, dwLight);
+
+	// fill the face
+	m_BitmapBuffer.Fill(left + 1, top + 1, right - 2, bottom - 2, dwFace);
+
+	// add the shadows
+	m_BitmapBuffer.DrawHLine(left + 1, right - 1, bottom - 1, dwShadow);
+	m_BitmapBuffer.DrawVLine(right - 1, top + 1, bottom -1, dwShadow);
+
+	// add the dark shadows
+	m_BitmapBuffer.DrawHLine(left, right, bottom, dwDkShadow);
+	m_BitmapBuffer.DrawVLine(right, top, bottom, dwDkShadow);
 
 	// now add the glyph
 	//HBITMAP hbmOld = (HBITMAP)SelectObject(hDC, hbmImage);
@@ -253,19 +249,18 @@ void CThemeClassic::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 		{
 			// add glyph to our bitmap
 			int xOffset = rectButton.left + (rectButton.right - rectButton.left - bm.bmWidth) / 2;
-			// +1 to move image up as 3D outline takes 1 line at top and 2 at bottom 
-			// and remember this y increases as you move up
-			int yOffset = rectButton.top + (rectButton.bottom - rectButton.top - bm.bmHeight + 1) / 2;
+			int yOffset = rectButton.top + (rectButton.bottom - rectButton.top - bm.bmHeight) / 2;
 			for (int y = 0; y < bm.bmHeight; y++)
 			{
 				for (int x = 0; x < bm.bmWidth; x++)
 				{
-					DWORD dwRGB = pBits[y * bm.bmWidth + x];
+					// remember a bitmap is upside down (with y=0 at the bottom)
+					DWORD dwRGB = pBits[(bm.bmHeight - y - 1) * bm.bmWidth + x];
 					// green is transparent
 					if (dwRGB != 0x00FF00)
 					{
 						//DWORD dwARGB = 0xFF000000 | dwRGB;	// TODO: ordering
-						m_pdwBits[(y + yOffset) * m_nWidth + x + xOffset] = dwRGB;
+						m_BitmapBuffer.Set(x + xOffset, y + yOffset, dwRGB);
 					}
 				}
 			}
@@ -292,15 +287,18 @@ void CThemeClassic::PaintBarBorder(HDC hDC, RECT rectBar)
 // virtual 
 void CThemeClassic::PaintEnd(HDC hDC)
 {
-	if (m_pdwBits)
+//	if (m_pdwBits)
 	{
 		// create a bitmap 
+
+		int nWidth = m_BitmapBuffer.GetWidth();
+		int nHeight = m_BitmapBuffer.GetHeight();
 
 		BITMAPINFO bmi;
 		memset(&bmi, 0, sizeof(bmi));
 		bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
-		bmi.bmiHeader.biWidth = m_nWidth;
-		bmi.bmiHeader.biHeight = m_nHeight;
+		bmi.bmiHeader.biWidth = nWidth;
+		bmi.bmiHeader.biHeight = -nHeight;
 		bmi.bmiHeader.biPlanes = 1;
 		bmi.bmiHeader.biBitCount = 32;
 		bmi.bmiHeader.biCompression = BI_RGB;
@@ -310,18 +308,18 @@ void CThemeClassic::PaintEnd(HDC hDC)
 		//memeset(&bm, 0, sizeof(bm));
 
 		//HBITMAP hbmBar = CreateBitmap (m_nWidth, m_nHeight, 1, 32, m_pdwBits);
-		HBITMAP hbmBar = CreateCompatibleBitmap (hDC, m_nWidth, m_nHeight);
-		SetDIBits(hDC, hbmBar, 0, m_nHeight, m_pdwBits, &bmi, DIB_RGB_COLORS);
+		HBITMAP hbmBar = CreateCompatibleBitmap (hDC, nWidth, nHeight);
+		SetDIBits(hDC, hbmBar, 0, nHeight, m_BitmapBuffer.GetBits(), &bmi, DIB_RGB_COLORS);
 
 		HDC hDCMem = CreateCompatibleDC(hDC);
 
 		HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmBar);
 
-		BitBlt(hDC, 0, 0, m_nWidth, m_nHeight, hDCMem, 0, 0, SRCCOPY);
+		BitBlt(hDC, 0, 0, nWidth, nHeight, hDCMem, 0, 0, SRCCOPY);
 		SelectObject(hDCMem, hbmOld);
 		DeleteDC(hDCMem);
 	}
 
-	delete [] m_pdwBits;
-	m_pdwBits = NULL;
+//	delete [] m_pdwBits;
+//	m_pdwBits = NULL;
 }

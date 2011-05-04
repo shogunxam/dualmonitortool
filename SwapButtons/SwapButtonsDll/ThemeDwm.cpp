@@ -245,71 +245,15 @@ void CThemeDwm::PrepareFloatBar(HWND hWndFloatBar)
    
 }
 
-Graphics* m_pGraphics = NULL;
-Bitmap* m_pBitmap = NULL;
-DWORD* m_pdwBits = NULL;
-int m_nWidth;
-int m_nHeight;
-RECT m_RectBar;
-
 // virtual 
 void CThemeDwm::PaintStart(HDC hDC, RECT rectBar)
 {
-#ifdef USE_GDI
-#else
-	m_RectBar = rectBar;
-	//GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-
-	//m_pGraphics = new Graphics(hDC);
-	//m_pBitmap = new Bitmap(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
-
-	m_nWidth = rectBar.right - rectBar.left;
-	m_nHeight = rectBar.bottom - rectBar.top;
-	m_pdwBits = new DWORD[m_nWidth * m_nHeight];
-
-	//int nMid = m_nHeight / 2;
-	//for (int y = 0; y < m_nHeight; y++)
-	//{
-	//	byte alpha = 160;
-	//	BYTE greyLevel;
-	//	if (y == 0)
-	//	{
-	//		greyLevel = 252;
-	//	}
-	//	else if (y > nMid)
-	//	{
-	//		greyLevel = 180 + (180 - 200) * (y - nMid) / nMid;
-	//	}
-	//	else
-	//	{
-	//		greyLevel = 234 + (211 - 234) * y / nMid;
-	//	}
-
-	//	//Color color(alpha, greyLevel, greyLevel, greyLevel);
-	//	DWORD dw = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-
-	//	for (int x = 0; x < m_nWidth; x++)
-	//	{
-	//		m_pdwBits[y * m_nWidth + x] = dw;
-	//	}
-	//}
-#endif
-
+	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
 }
 
 // virtual 
 void CThemeDwm::PaintBarBackground(HDC hDC, RECT rectBar)
 {
-#ifdef USE_GDI
-	//HBRUSH hBrush = CreateSolidBrush(m_BgrColour);
-	HBRUSH hBrush = CreateSolidBrush(TRANSPARENT_COLOUR);
-	//HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
-	//HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
-	FillRect(hDC, &rectBar, hBrush);
-#else
-//	Pen redPen(Color(255, 255, 0, 0), 2);
-//	m_pGraphics->DrawLine(&redPen, 0, 0, rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
-#endif
 }
 
 // virtual 
@@ -317,37 +261,30 @@ void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 {
 	HBITMAP hbmImage = GetImage(index);
 
-#ifdef USE_GDI
-	HDC hDCMem = CreateCompatibleDC(hDC);
-	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
-
-	// get the size of the glyph
-	BITMAP bm;
-	GetObject(hbmImage, sizeof(bm), &bm);
-
-	// and center it
-	int x = (rectButton.right + rectButton.left - bm.bmWidth) / 2;
-	int y = (rectButton.top + rectButton.bottom - bm.bmHeight) / 2;
-
-	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
-	SelectObject(hDCMem, hbmImage);
-	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
-
-	SelectObject(hDCMem, hbmOld);
-	DeleteDC(hDCMem);
-#else
 	byte alpha = 160;
 	BYTE greyLevel = 252;
-	DWORD dwLightBorder =(alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+	DWORD dwLight = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+
+	// get co-ords of TLHC and BRHC - these are all inclusive values
+	// i.e. (right, bottom) is really part of the button
+	int left = rectButton.left;
+	int top = rectButton.top;
+	int right = rectButton.right - 1;
+	int bottom = rectButton.bottom - 1;
 
 	int nMid = (rectButton.top + rectButton.bottom) / 2;
-	for (int y = rectButton.top; y < rectButton.bottom; y++)
+
+	// add light border around the button
+	greyLevel = 252;
+	m_BitmapBuffer.DrawHLine(left, right, top, dwLight);
+	m_BitmapBuffer.DrawHLine(left, right, bottom, dwLight);
+	m_BitmapBuffer.DrawVLine(left, top, bottom, dwLight);
+	m_BitmapBuffer.DrawVLine(right, top, bottom, dwLight);
+
+
+	for (int y = top + 1; y <= bottom - 1; y++)
 	{
-		if (y == rectButton.top || y == rectButton.bottom - 1)
-		{
-			greyLevel = 252;
-		}
-		else if (y > nMid)
+		if (y > nMid)
 		{
 			greyLevel = 180 + (180 - 200) * (y - nMid) / nMid;
 		}
@@ -356,17 +293,9 @@ void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 			greyLevel = 234 + (211 - 234) * y / nMid;
 		}
 
-		//Color color(alpha, greyLevel, greyLevel, greyLevel);
-		//DWORD dw = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-
 		DWORD dw = Color::MakeARGB(alpha, greyLevel, greyLevel, greyLevel);
 
-		m_pdwBits[y * m_nWidth + rectButton.left] = dwLightBorder;
-		for (int x = rectButton.left + 1; x < rectButton.right - 1; x++)
-		{
-			m_pdwBits[y * m_nWidth + x] = dw;
-		}
-		m_pdwBits[y * m_nWidth + rectButton.right - 1] = dwLightBorder;
+		m_BitmapBuffer.DrawHLine(left + 1, right - 1, y, dw);
 	}
 
 	// now add the glyph
@@ -393,12 +322,15 @@ void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 			{
 				for (int x = 0; x < bm.bmWidth; x++)
 				{
-					DWORD dwRGB = pBits[y * bm.bmWidth + x];
+					// remember a bitmap is upside down (with y=0 at the bottom)
+					DWORD dwRGB = pBits[(bm.bmHeight - y - 1) * bm.bmWidth + x];
 					if (dwRGB != 0)
 					{
 						// black is transparent
 						DWORD dwARGB = 0xFF000000 | dwRGB;	// TODO: ordering
-						m_pdwBits[(y + yOffset) * m_nWidth + x + xOffset] = dwARGB;
+						//m_pdwBits[(y + yOffset) * m_nWidth + x + xOffset] = dwARGB;
+						m_BitmapBuffer.Set(x + xOffset, y + yOffset, dwARGB);
+
 					}
 				}
 			}
@@ -407,6 +339,26 @@ void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 
 		//SelectObject(hDC, hbmOld);
 	}
+
+#ifdef USE_GDI
+	HDC hDCMem = CreateCompatibleDC(hDC);
+	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
+
+	// get the size of the glyph
+	BITMAP bm;
+	GetObject(hbmImage, sizeof(bm), &bm);
+
+	// and center it
+	int x = (rectButton.right + rectButton.left - bm.bmWidth) / 2;
+	int y = (rectButton.top + rectButton.bottom - bm.bmHeight) / 2;
+
+	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
+	SelectObject(hDCMem, hbmImage);
+	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
+
+	SelectObject(hDCMem, hbmOld);
+	DeleteDC(hDCMem);
+#elif USE_GDIPLUS
 #endif
 }
 
@@ -414,34 +366,85 @@ void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
 // virtual 
 void CThemeDwm::PaintButtonSpacing(HDC hDC, RECT rectButton)
 {
-#ifdef USE_GDI
-	HPEN hPen = CreatePen(PS_SOLID, 1, RGB(128, 128, 128));
-	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);
-
-	MoveToEx(hDC, rectButton.right, rectButton.top, NULL);
-	LineTo(hDC, rectButton.right, rectButton.bottom);
-
-	// restore DC to original state 
-	SelectObject(hDC, hOldPen);
-
-#else
-	//Graphics	graphics(hDC);
-	//Pen pen(Color(255, 128, 128, 128));
-	//graphics.DrawLine(&pen, rectButton.right, rectButton.top, rectButton.right, rectButton.bottom);
-
 	BYTE alpha = 160;
 	BYTE greyLevel = 0;
-	DWORD dw = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-	for (int y = rectButton.top; y < rectButton.bottom; y++)
-	{
-		m_pdwBits[y * m_nWidth + rectButton.right] = dw;
-	}
-#endif
+	DWORD dwRGB = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+
+	m_BitmapBuffer.DrawVLine(rectButton.right, rectButton.top, rectButton.bottom - 1, dwRGB);
 }
 
 // virtual 
 void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 {
+	BYTE alpha = 160;
+	BYTE greyLevel = 0;
+	DWORD dwDark = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+	greyLevel = 252;
+	DWORD dwLight = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+	alpha = 160;
+	greyLevel = 255;
+	//DWORD dwTransparent = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
+	DWORD dwTransparent = dwLight;
+
+	int radius = 4;
+
+	// left border
+	m_BitmapBuffer.DrawVLine(rectBar.left, rectBar.top, rectBar.bottom - radius, dwLight);
+	m_BitmapBuffer.DrawVLine(rectBar.left + 1, rectBar.top, rectBar.bottom - radius, dwDark);
+
+	// right border
+	m_BitmapBuffer.DrawVLine(rectBar.right - 2, rectBar.top, rectBar.bottom - radius, dwDark);
+	m_BitmapBuffer.DrawVLine(rectBar.right - 1, rectBar.top, rectBar.bottom - radius, dwLight);
+
+
+	// bottom border
+	m_BitmapBuffer.DrawHLine(rectBar.left + radius, rectBar.right - 1 - radius, rectBar.bottom - 2, dwDark);
+	m_BitmapBuffer.DrawHLine(rectBar.left + radius, rectBar.right - 1 - radius, rectBar.bottom - 1, dwLight);
+
+	// add curves
+	m_BitmapBuffer.Set(0, rectBar.bottom - radius, dwTransparent);
+	m_BitmapBuffer.Set(1, rectBar.bottom - radius, dwLight);
+	m_BitmapBuffer.Set(2, rectBar.bottom - radius, dwDark);
+	m_BitmapBuffer.Set(3, rectBar.bottom - radius, dwLight);
+
+	m_BitmapBuffer.Set(0, rectBar.bottom - radius + 1, dwTransparent);
+	m_BitmapBuffer.Set(1, rectBar.bottom - radius + 1, dwLight);
+	m_BitmapBuffer.Set(2, rectBar.bottom - radius + 1, dwDark);
+	m_BitmapBuffer.Set(3, rectBar.bottom - radius + 1, dwDark);
+	m_BitmapBuffer.Set(4, rectBar.bottom - radius + 1, dwLight);
+
+	m_BitmapBuffer.Set(0, rectBar.bottom - radius + 2, dwTransparent);
+	m_BitmapBuffer.Set(1, rectBar.bottom - radius + 2, dwTransparent);
+	m_BitmapBuffer.Set(2, rectBar.bottom - radius + 2, dwLight);
+	m_BitmapBuffer.Set(3, rectBar.bottom - radius + 2, dwLight);
+
+	m_BitmapBuffer.Set(0, rectBar.bottom - radius + 3, dwTransparent);
+	m_BitmapBuffer.Set(1, rectBar.bottom - radius + 3, dwTransparent);
+	m_BitmapBuffer.Set(2, rectBar.bottom - radius + 3, dwTransparent);
+	m_BitmapBuffer.Set(3, rectBar.bottom - radius + 3, dwTransparent);
+
+
+	m_BitmapBuffer.Set(rectBar.right - 1, rectBar.bottom - radius, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 2, rectBar.bottom - radius, dwLight);
+	m_BitmapBuffer.Set(rectBar.right - 3, rectBar.bottom - radius, dwDark);
+	m_BitmapBuffer.Set(rectBar.right - 4, rectBar.bottom - radius, dwLight);
+
+	m_BitmapBuffer.Set(rectBar.right - 1, rectBar.bottom - radius + 1, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 2, rectBar.bottom - radius + 1, dwLight);
+	m_BitmapBuffer.Set(rectBar.right - 3, rectBar.bottom - radius + 1, dwDark);
+	m_BitmapBuffer.Set(rectBar.right - 4, rectBar.bottom - radius + 1, dwDark);
+	m_BitmapBuffer.Set(rectBar.right - 5, rectBar.bottom - radius + 1, dwLight);
+
+	m_BitmapBuffer.Set(rectBar.right - 1, rectBar.bottom - radius + 2, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 2, rectBar.bottom - radius + 2, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 3, rectBar.bottom - radius + 2, dwLight);
+	m_BitmapBuffer.Set(rectBar.right - 4, rectBar.bottom - radius + 2, dwLight);
+
+	m_BitmapBuffer.Set(rectBar.right - 1, rectBar.bottom - radius + 3, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 2, rectBar.bottom - radius + 3, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 3, rectBar.bottom - radius + 3, dwTransparent);
+	m_BitmapBuffer.Set(rectBar.right - 4, rectBar.bottom - radius + 3, dwTransparent);
+
 #ifdef USE_GDI
 		// the pen to draw border around buttons
 		HPEN hPen = CreatePen(PS_SOLID, 1, RGB(128, 128, 128));
@@ -481,80 +484,7 @@ void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 
 		// restore DC to original state 
 		SelectObject(hDC, hOldPen);
-#else
-	BYTE alpha = 160;
-	BYTE greyLevel = 0;
-	DWORD dwDark = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-	greyLevel = 252;
-	DWORD dwLight = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-	alpha = 160;
-	greyLevel = 255;
-	//DWORD dwTransparent = (alpha << 24) | (greyLevel << 16) | (greyLevel << 8) | greyLevel;
-	DWORD dwTransparent = dwLight;
-
-	int radius = 4;
-	for (int y = rectBar.top; y < rectBar.bottom - radius; y++)
-	{
-		// left border
-		m_pdwBits[y * m_nWidth + rectBar.left] = dwLight;
-		m_pdwBits[y * m_nWidth + rectBar.left + 1] = dwDark;
-
-		// right border
-		m_pdwBits[y * m_nWidth + rectBar.right - 1] = dwLight;
-		m_pdwBits[y * m_nWidth + rectBar.right - 2] = dwDark;
-	}
-
-	for (int x = rectBar.left + radius; x < rectBar.right - radius; x++)
-	{
-		// bottom border
-		m_pdwBits[(rectBar.bottom - 1) * m_nWidth + x] = dwLight;
-		m_pdwBits[(rectBar.bottom - 2) * m_nWidth + x] = dwDark;
-	}
-
-	// add curves
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + 0] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + 1] = dwLight;
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + 2] = dwDark;
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + 3] = dwLight;
-
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + 0] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + 1] = dwLight;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + 2] = dwDark;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + 3] = dwDark;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + 4] = dwLight;
-
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 0] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 2] = dwLight;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + 3] = dwLight;
-
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + 0] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + 2] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + 3] = dwTransparent;
-
-
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + m_nWidth - 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + m_nWidth - 2] = dwLight;
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + m_nWidth - 3] = dwDark;
-	m_pdwBits[(rectBar.bottom - radius)* m_nWidth + m_nWidth - 4] = dwLight;
-
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + m_nWidth - 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + m_nWidth - 2] = dwLight;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + m_nWidth - 3] = dwDark;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + m_nWidth - 4] = dwDark;
-	m_pdwBits[(rectBar.bottom - radius + 1)* m_nWidth + m_nWidth - 5] = dwLight;
-
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 2] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 3] = dwLight;
-	m_pdwBits[(rectBar.bottom - radius + 2)* m_nWidth + m_nWidth - 4] = dwLight;
-
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + m_nWidth - 1] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + m_nWidth - 2] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + m_nWidth - 3] = dwTransparent;
-	m_pdwBits[(rectBar.bottom - radius + 3)* m_nWidth + m_nWidth - 4] = dwTransparent;
-
+#elif USE_GDIPLUS
 #endif
 }
 
@@ -565,35 +495,15 @@ void CThemeDwm::PaintEnd(HDC hDC)
 #else
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
-//	m_pGraphics = new Graphics(hDC);
-
-	if (m_pdwBits)
+	const DWORD* pdwBits = m_BitmapBuffer.GetBits();
+	int nWidth = m_BitmapBuffer.GetWidth();
+	int nHeight = m_BitmapBuffer.GetHeight();
+	if (pdwBits)
 	{
-		//BITMAP gdiBitmap;
-		//gdiBitmap.bmType = 0;
-		//gdiBitmap.bmWidth = m_nWidth;
-		//gdiBitmap.bmHeight = m_nHeight;
-		//gdiBitmap.bmWidthBytes = m_nWidth * sizeof(DWORD);
-		//gdiBitmap.bmPlanes = 1;
-		//gdiBitmap.bmBitsPixel = 32;
-		//gdiBitmap.bmBits = m_pdwBits;
-
-		//HBITMAP hBitmap = CreateBitmap(m_nWidth, m_nHeight, 1, 32, m_pdwBits);
-		//if (hBitmap)
-		//{
-		//	Bitmap bitmap(hBitmap, NULL);
-
-		//	Graphics graphics(hDC);
-		//	graphics.DrawImage(&bitmap, 0, 0);
-
-
-		//	DeleteObject(hBitmap);
-		//}
-
-
+#ifdef ORIGINAL
 		Gdiplus::Graphics graphics(hDC);
 
-
+		
 		// can't seem to get transparency working correctly, so just pre-fill
 		// our background with the theme colour for now
 		if (m_bIsAvailable)
@@ -605,31 +515,45 @@ void CThemeDwm::PaintEnd(HDC hDC)
 			if (SUCCEEDED(hr))
 			{
 				SolidBrush bgrBrush(CTheme::ARGBBlend(color));
-				graphics.FillRectangle(&bgrBrush, 0, 0, m_nWidth, m_nHeight);
+				graphics.FillRectangle(&bgrBrush, 0, 0, nWidth, nHeight);
 			}
 		}
 
-
-
-		Bitmap bitmap(m_nWidth, m_nHeight, 4 * m_nWidth, PixelFormat32bppARGB, (BYTE*)m_pdwBits);
+		Bitmap bitmap(nWidth, nHeight, 4 * nWidth, PixelFormat32bppARGB, (BYTE*)pdwBits);
 		graphics.DrawImage(&bitmap, 0, 0);
+#else
+		// avoid flickering by building the image in a buffer
+		Bitmap DisplayBuffer(nWidth, nHeight, PixelFormat32bppARGB);
+		Graphics* pBufferGraphics = Graphics::FromImage(&DisplayBuffer);
 
-//	Pen redPen(Color(255, 255, 0, 0), 2);
-//	graphics.DrawLine(&redPen, 0, 0, m_nWidth / 2, 0);
+		// can't seem to get transparency working correctly, so just pre-fill
+		// our buffer with the theme colour for now
+		// we really need to fill it with what ever is below our window
+		if (m_bIsAvailable)
+		{
+			DWORD color = 0;
+			BOOL opaque = FALSE;
 
+			HRESULT hr = DwmGetColorizationColor(&color, &opaque);
+			if (SUCCEEDED(hr))
+			{
+				SolidBrush bgrBrush(CTheme::ARGBBlend(color));
+				pBufferGraphics->FillRectangle(&bgrBrush, 0, 0, nWidth, nHeight);
+			}
+		}
 
+		Bitmap bitmap(nWidth, nHeight, 4 * nWidth, PixelFormat32bppARGB, (BYTE*)pdwBits);
+		pBufferGraphics->DrawImage(&bitmap, 0, 0);
 
+		Gdiplus::Graphics graphics(hDC);
+		graphics.DrawImage(&DisplayBuffer, 0, 0);
+
+		delete pBufferGraphics;
+
+#endif
 	}
 
-	delete [] m_pdwBits;
-	m_pdwBits = NULL;
-
-	//delete m_pBitmap;
-	//m_pBitmap = NULL;
-
-//	delete m_pGraphics;
-//	m_pGraphics = NULL;
-
 	GdiplusShutdown(gdiplusToken);
+
 #endif
 }

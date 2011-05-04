@@ -137,6 +137,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitmapBuffer.h" />
     <ClInclude Include="ButtonList.h" />
     <ClInclude Include="FloatBar.h" />
     <ClInclude Include="LayoutManager.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="WinHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitmapBuffer.cpp" />
     <ClCompile Include="ButtonList.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>

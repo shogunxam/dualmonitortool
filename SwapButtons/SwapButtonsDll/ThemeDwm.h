@@ -2,6 +2,7 @@
 
 #include "SwapButtonsDll.h"
 #include "Theme.h"
+#include "BitmapBuffer.h"
 
 struct LayoutMetrics;
 
@@ -32,17 +33,19 @@ private:
 	void SaveBgrColour();
 
 private:
-	static const int LEFT_BORDER;
-	static const int RIGHT_BORDER;
-	static const int TOP_BORDER;
-	static const int BOTTOM_BORDER;
-	static const int BUTTON_SPACING;
+	CBitmapBuffer m_BitmapBuffer;
 
-private:
 	bool m_bCheckedAvailable;
 	bool m_bIsAvailable;
 	HMODULE m_hDwmLib;
 
 	COLORREF m_BgrColour;
+
+private:
+	static const int LEFT_BORDER;
+	static const int RIGHT_BORDER;
+	static const int TOP_BORDER;
+	static const int BOTTOM_BORDER;
+	static const int BUTTON_SPACING;
 };
 
