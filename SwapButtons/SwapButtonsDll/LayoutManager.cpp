@@ -23,6 +23,12 @@ void CLayoutManager::ReInit(HWND hWndFrame)
 		m_pCurTheme = &m_ThemeDwm;
 		m_pCurTheme->ReInit(&m_LayoutMetrics, hWndFrame);
 	}
+	else if (m_ThemeBasic.IsAvailable() && m_ThemeBasic.IsInUse(hWndFrame))
+	{
+		// use the basic theme
+		m_pCurTheme = &m_ThemeBasic;
+		m_pCurTheme->ReInit(&m_LayoutMetrics, hWndFrame);
+	}
 	else
 	{
 		// use classic theme
@@ -118,53 +124,55 @@ void CLayoutManager::PaintBar(HWND hWndFloatBar, const CButtonList& buttonList)
 
 		HDC hDC = BeginPaint(hWndFloatBar, &ps);
 		RECT rectBar;
-		RECT rectButton;
+		//RECT rectButton;
 		GetClientRect(hWndFloatBar, &rectBar);
 
-		m_pCurTheme->PaintStart(hDC, rectBar);
+		m_pCurTheme->PaintBar(hWndFloatBar, hDC, buttonList, rectBar);
 
-		m_pCurTheme->PaintBarBackground(hDC, rectBar);
+		//m_pCurTheme->PaintStart(hDC, rectBar);
 
-		// the pen to draw border around buttons
-		HPEN hPen = CreatePen(PS_SOLID, 1, RGB(128, 128, 128));
-		HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);
+		//m_pCurTheme->PaintBarBackground(hDC, rectBar);
+
+		//// the pen to draw border around buttons
+		//HPEN hPen = CreatePen(PS_SOLID, 1, RGB(128, 128, 128));
+		//HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);
 
 
-		int x = rectBar.left + m_LayoutMetrics.m_nLeftBorder;
-		int y = rectBar.top + m_LayoutMetrics.m_nTopBorder;
-		int index;
-		int count = buttonList.Count();
-		for (index = 0; index < count; index++)
-		{
+		//int x = rectBar.left + m_LayoutMetrics.m_nLeftBorder;
+		//int y = rectBar.top + m_LayoutMetrics.m_nTopBorder;
+		//int index;
+		//int count = buttonList.Count();
+		//for (index = 0; index < count; index++)
+		//{
 
-			rectButton.left = x;
-			rectButton.right = rectButton.left + m_LayoutMetrics.m_nButtonWidth;
-			rectButton.top = y;
-			rectButton.bottom = rectButton.top + m_LayoutMetrics.m_nButtonHeight;
+		//	rectButton.left = x;
+		//	rectButton.right = rectButton.left + m_LayoutMetrics.m_nButtonWidth;
+		//	rectButton.top = y;
+		//	rectButton.bottom = rectButton.top + m_LayoutMetrics.m_nButtonHeight;
 
-			//HBITMAP hbmImage;
-			//HBITMAP hbmMask;
-			//if (buttonList.GetGlyph(index, &hbmImage, &hbmMask))
-			//{
-			//	m_pCurTheme->PaintButtonFace(hDC, rectButton, hbmImage, hbmMask);
-			//}
+		//	//HBITMAP hbmImage;
+		//	//HBITMAP hbmMask;
+		//	//if (buttonList.GetGlyph(index, &hbmImage, &hbmMask))
+		//	//{
+		//	//	m_pCurTheme->PaintButtonFace(hDC, rectButton, hbmImage, hbmMask);
+		//	//}
 
-			// TODO: convert index to button ID
-			m_pCurTheme->PaintButtonFace(hDC, rectButton, index);
+		//	// TODO: convert index to button ID
+		//	m_pCurTheme->PaintButtonFace(hDC, rectButton, index);
 
-			if (index  < count - 1)
-			{
-				// paint spacing between buttons
-				m_pCurTheme->PaintButtonSpacing(hDC, rectButton);
+		//	if (index  < count - 1)
+		//	{
+		//		// paint spacing between buttons
+		//		m_pCurTheme->PaintButtonSpacing(hDC, rectButton);
 
-				x += m_LayoutMetrics.m_nSpacing;
-			}
-			x += m_LayoutMetrics.m_nButtonWidth;
-		}
+		//		x += m_LayoutMetrics.m_nSpacing;
+		//	}
+		//	x += m_LayoutMetrics.m_nButtonWidth;
+		//}
 
-		m_pCurTheme->PaintBarBorder(hDC, rectBar);
+		//m_pCurTheme->PaintBarBorder(hDC, rectBar);
 
-		m_pCurTheme->PaintEnd(hDC);
+		//m_pCurTheme->PaintEnd(hDC, rectBar);
 
 		EndPaint(hWndFloatBar, &ps);
 	}

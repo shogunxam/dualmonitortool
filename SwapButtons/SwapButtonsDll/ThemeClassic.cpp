@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "ThemeClassic.h"
 #include "LayoutManager.h"
+#include "ButtonList.h"
 
 #include "ResourceDll.h"
 
@@ -36,8 +37,6 @@ bool CThemeClassic::IsAvailable()
 	return true;
 }
 
-// if DWM composition is enabled, then we assume it is in use by all windows
-// virtual 
 bool CThemeClassic::IsInUse(HWND hWndFrame)
 {
 	// always in use if asked
@@ -65,12 +64,12 @@ bool CThemeClassic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 	}
 
 	//TODO: this is a temprary fudge
-	pLayoutMetrics->m_nButtonWidth = nStdButtonSize - 2;
-	pLayoutMetrics->m_nButtonHeight = nStdButtonSize - 4;
+	m_nButtonWidth = nStdButtonSize - 2;
+	m_nButtonHeight = nStdButtonSize - 4;
 
 	// TODO: hack while testing
-	//pLayoutMetrics->m_nButtonWidth = nButtonWidth;
-	//pLayoutMetrics->m_nButtonHeight = nButtonHeight;
+	pLayoutMetrics->m_nButtonWidth = m_nButtonWidth;
+	pLayoutMetrics->m_nButtonHeight = m_nButtonHeight;
 
 	wchar_t szMsg[256];
 	wsprintf(szMsg, L"nStdButtonSize: %d Width: %d Height: %d\n", nStdButtonSize, pLayoutMetrics->m_nButtonWidth, pLayoutMetrics->m_nButtonHeight);
@@ -171,21 +170,41 @@ void CThemeClassic::PrepareFloatBar(HWND hWndFloatBar)
 //static RECT m_RectBar;
 
 // virtual 
-void CThemeClassic::PaintStart(HDC hDC, RECT rectBar)
+void CThemeClassic::PaintBar(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectBar)
 {
-//	m_RectBar = rectBar;
-
-	//m_nWidth = rectBar.right - rectBar.left;
-	//m_nHeight = rectBar.bottom - rectBar.top;
-	//m_pdwBits = new DWORD[m_nWidth * m_nHeight];
-
 	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
+
+	int x = rectBar.left + LEFT_BORDER;
+	int y = rectBar.top + TOP_BORDER;
+	int index;
+	int count = buttonList.Count();
+	RECT rectButton;
+
+	for (index = 0; index < count; index++)
+	{
+		rectButton.left = x;
+		rectButton.right = rectButton.left + m_nButtonWidth;
+		rectButton.top = y;
+		rectButton.bottom = rectButton.top + m_nButtonHeight;
+
+		// TODO: convert index to button ID
+		PaintButtonFace(hDC, rectButton, index);
+
+		if (index  < count - 1)
+		{
+			// paint spacing between buttons
+			PaintButtonSpacing(hDC, rectButton);
+
+			x += BUTTON_SPACING;
+		}
+		x += m_nButtonWidth;
+	}
+
+	PaintBarBorder(hDC, rectBar);
+
+	PaintEnd(hDC, rectBar);
 }
 
-// virtual 
-void CThemeClassic::PaintBarBackground(HDC hDC, RECT rectBar)
-{
-}
 
 #define TO_ARGB(rgb) (((rgb & 0xFF) << 16) | ((rgb & 0xFF0000) >> 16) | (rgb & 0xFF00) | 0xFF000000)
 
@@ -288,7 +307,7 @@ void CThemeClassic::PaintBarBorder(HDC hDC, RECT rectBar)
 }
 
 // virtual 
-void CThemeClassic::PaintEnd(HDC hDC)
+void CThemeClassic::PaintEnd(HDC hDC, RECT rectBar)
 {
 //	if (m_pdwBits)
 	{

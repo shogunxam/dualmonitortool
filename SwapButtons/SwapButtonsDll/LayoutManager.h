@@ -2,6 +2,7 @@
 
 #include "SwapButtonsDll.h"
 #include "ThemeClassic.h"
+#include "ThemeBasic.h"
 #include "ThemeDwm.h"
 
 class CButtonList;
@@ -43,6 +44,7 @@ private:
 
 private:
 	CThemeClassic m_ThemeClassic;
+	CThemeBasic m_ThemeBasic;
 	CThemeDwm m_ThemeDwm;
 	CTheme* m_pCurTheme;
 	struct LayoutMetrics m_LayoutMetrics;

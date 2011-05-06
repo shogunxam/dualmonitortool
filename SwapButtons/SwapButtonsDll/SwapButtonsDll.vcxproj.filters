@@ -63,6 +63,9 @@
     <ClInclude Include="BitmapBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ThemeBasic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BitmapBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThemeBasic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

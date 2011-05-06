@@ -47,35 +47,35 @@ void CTheme::PrepareFloatBar(HWND hWndFloatBar)
 {
 }
 
-// virtual 
-void CTheme::PaintStart(HDC hDC, RECT rectBar)
-{
-	// base implementation does nothing
-}
-
-// virtual 
-void CTheme::PaintBarBackground(HDC hDC, RECT rectBar)
-{
-	// base implementation does nothing
-}
-
-// virtual 
-void CTheme::PaintButtonSpacing(HDC hDC, RECT rectButton)
-{
-	// base implementation does nothing
-}
-
-// virtual 
-void CTheme::PaintBarBorder(HDC hDC, RECT rectBar)
-{
-	// base implementation does nothing
-}
-
-// virtual 
-void CTheme::PaintEnd(HDC hDC)
-{
-	// base implementation does nothing
-}
+//// virtual 
+//void CTheme::PaintStart(HDC hDC, RECT rectBar)
+//{
+//	// base implementation does nothing
+//}
+//
+//// virtual 
+//void CTheme::PaintBarBackground(HDC hDC, RECT rectBar)
+//{
+//	// base implementation does nothing
+//}
+//
+//// virtual 
+//void CTheme::PaintButtonSpacing(HDC hDC, RECT rectButton)
+//{
+//	// base implementation does nothing
+//}
+//
+//// virtual 
+//void CTheme::PaintBarBorder(HDC hDC, RECT rectBar)
+//{
+//	// base implementation does nothing
+//}
+//
+//// virtual 
+//void CTheme::PaintEnd(HDC hDC, RECT rectBar)
+//{
+//	// base implementation does nothing
+//}
 
 ///////////////////////// static helper functions /////////////////////////
 

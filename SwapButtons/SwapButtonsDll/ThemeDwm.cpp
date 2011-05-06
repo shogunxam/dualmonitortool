@@ -3,6 +3,7 @@
 
 #include "ThemeDwm.h"
 #include "LayoutManager.h"
+#include "ButtonList.h"
 
 #include "ResourceDll.h"
 
@@ -117,12 +118,16 @@ bool CThemeDwm::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 	}
 
 	//TODO: this is a temprary fudge
-	pLayoutMetrics->m_nButtonWidth = nStdButtonSize + 4;
-	pLayoutMetrics->m_nButtonHeight = nStdButtonSize - 3;
+	m_nButtonWidth = nStdButtonSize + 4;
+	m_nButtonHeight = nStdButtonSize - 3;
 
 	// TODO: hack while testing
-	pLayoutMetrics->m_nButtonWidth = 26;
-	pLayoutMetrics->m_nButtonHeight = 16;
+	m_nButtonWidth = 26;
+	m_nButtonHeight = 16;
+
+	// TODO: do we need these in the metrics?
+	pLayoutMetrics->m_nButtonWidth = m_nButtonWidth;
+	pLayoutMetrics->m_nButtonHeight = m_nButtonHeight;
 
 	wchar_t szMsg[256];
 	wsprintf(szMsg, L"nStdButtonSize: %d Width: %d Height: %d\n", nStdButtonSize, pLayoutMetrics->m_nButtonWidth, pLayoutMetrics->m_nButtonHeight);
@@ -246,10 +251,46 @@ void CThemeDwm::PrepareFloatBar(HWND hWndFloatBar)
 }
 
 // virtual 
-void CThemeDwm::PaintStart(HDC hDC, RECT rectBar)
+void CThemeDwm::PaintBar(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectBar)
 {
 	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
+
+	int x = rectBar.left + LEFT_BORDER;
+	int y = rectBar.top + TOP_BORDER;
+	int index;
+	int count = buttonList.Count();
+	RECT rectButton;
+
+	for (index = 0; index < count; index++)
+	{
+		rectButton.left = x;
+		rectButton.right = rectButton.left + m_nButtonWidth;
+		rectButton.top = y;
+		rectButton.bottom = rectButton.top + m_nButtonHeight;
+
+		// TODO: convert index to button ID
+		PaintButtonFace(hDC, rectButton, index);
+
+		if (index  < count - 1)
+		{
+			// paint spacing between buttons
+			PaintButtonSpacing(hDC, rectButton);
+
+			x += BUTTON_SPACING;
+		}
+		x += m_nButtonWidth;
+	}
+
+	PaintBarBorder(hDC, rectBar);
+
+	PaintEnd(hDC, rectBar);
 }
+
+//// virtual 
+//void CThemeDwm::PaintStart(HDC hDC, RECT rectBar)
+//{
+//	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
+//}
 
 // virtual 
 void CThemeDwm::PaintBarBackground(HDC hDC, RECT rectBar)
@@ -489,7 +530,7 @@ void CThemeDwm::PaintBarBorder(HDC hDC, RECT rectBar)
 }
 
 // virtual 
-void CThemeDwm::PaintEnd(HDC hDC)
+void CThemeDwm::PaintEnd(HDC hDC, RECT rectBar)
 {
 #ifdef USE_GDI
 #else

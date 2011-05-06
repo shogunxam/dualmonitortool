@@ -2,6 +2,8 @@
 
 #include "SwapButtonsDll.h"
 
+class CButtonList;
+
 class LOCALMODE_API CTheme
 {
 public:
@@ -17,13 +19,14 @@ public:
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame) = 0;
 	virtual SIZE CalcBarOffsets(HWND hWndFrame) = 0;
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
+	virtual void PaintBar(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectBar) = 0;
 
-	virtual void PaintStart(HDC hDC, RECT rectBar);
-	virtual void PaintBarBackground(HDC hDC, RECT rectBar);
-	virtual void PaintButtonFace(HDC hDC, RECT rectButton, int index) = 0;
-	virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);
-	virtual void PaintBarBorder(HDC hDC, RECT rectBar);
-	virtual void PaintEnd(HDC hDC);
+	//virtual void PaintStart(HDC hDC, RECT rectBar);
+	//virtual void PaintBarBackground(HDC hDC, RECT rectBar);
+	//virtual void PaintButtonFace(HDC hDC, RECT rectButton, int index) = 0;
+	//virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);
+	//virtual void PaintBarBorder(HDC hDC, RECT rectBar);
+	//virtual void PaintEnd(HDC hDC, RECT rectBar);
 
 protected:
 		static COLORREF ARGBToColorref(DWORD ARGB);

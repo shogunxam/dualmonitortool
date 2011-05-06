@@ -19,18 +19,24 @@ public:
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame);
 	virtual SIZE CalcBarOffsets(HWND hWndFrame);
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
+	virtual void PaintBar(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectBar);
 
-	virtual void PaintStart(HDC hDC, RECT rectBar);
-	virtual void PaintBarBackground(HDC hDC, RECT rectBar);
-	virtual void PaintButtonFace(HDC hDC, RECT rectButton, int index);
-	virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);
-	virtual void PaintBarBorder(HDC hDC, RECT rectBar);
-	virtual void PaintEnd(HDC hDC);
+	//virtual void PaintStart(HDC hDC, RECT rectBar);
+	//virtual void PaintBarBackground(HDC hDC, RECT rectBar);
+	//virtual void PaintButtonFace(HDC hDC, RECT rectButton, int index);
+	//virtual void PaintButtonSpacing(HDC hDC, RECT rectButton);
+	//virtual void PaintBarBorder(HDC hDC, RECT rectBar);
+	//virtual void PaintEnd(HDC hDC, RECT rectBar);
 
 
 private:
 	void CheckIfAvailable();
 	void SaveBgrColour();
+	void PaintBarBackground(HDC hDC, RECT rectBar);
+	void PaintButtonFace(HDC hDC, RECT rectButton, int index);
+	void PaintButtonSpacing(HDC hDC, RECT rectButton);
+	void PaintBarBorder(HDC hDC, RECT rectBar);
+	void PaintEnd(HDC hDC, RECT rectBar);
 
 private:
 	CBitmapBuffer m_BitmapBuffer;
@@ -40,6 +46,9 @@ private:
 	HMODULE m_hDwmLib;
 
 	COLORREF m_BgrColour;
+
+	int m_nButtonWidth;
+	int m_nButtonHeight;
 
 private:
 	static const int LEFT_BORDER;
