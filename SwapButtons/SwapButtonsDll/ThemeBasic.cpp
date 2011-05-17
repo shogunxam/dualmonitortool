@@ -26,7 +26,10 @@ CThemeBasic::CThemeBasic(void)
 	  m_hbmBar(NULL),
 	  m_hbmOld(NULL),
 	  m_hbmBackground(NULL),
-	  m_hDwmLib(NULL)
+	  m_hDwmLib(NULL),
+	  m_hbmPrevMask(NULL),
+	  m_hbmNextMask(NULL),
+	  m_hbmSupersizeMask(NULL)
 {
 }
 
@@ -63,6 +66,7 @@ CThemeBasic::~CThemeBasic(void)
 // virtual
 void CThemeBasic::LoadBitmaps(HMODULE hModule)
 {
+	// the glyphs to display on the buttons
 	m_hbmPrev = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_PREV));
 	m_hbmNext = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_NEXT));
 	m_hbmSupersize = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_SUPERSIZE));
@@ -132,15 +136,19 @@ bool CThemeBasic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 		int nLayout;
 		hr = GetThemeEnumValue(m_hTheme, WP_MINBUTTON, 0, TMT_IMAGELAYOUT, &nLayout);
 
-		//RECT rectButton;
-		//hr = GetThemeRect(m_hTheme, WP_MINBUTTON, 0, TMT_DEFAULTPANESIZE, &rectButton);
+		RECT rectButton;
+		hr = GetThemeRect(m_hTheme, WP_MINBUTTON, 0, TMT_DEFAULTPANESIZE, &rectButton);
 		int nW;
 		int nH;
 		hr = GetThemeInt(m_hTheme, WP_MINBUTTON, 0, TMT_WIDTH, &nW);
+		hr = GetThemeInt(m_hTheme, WP_MAXBUTTON, 0, TMT_WIDTH, &nW);
+		hr = GetThemeInt(m_hTheme, WP_CLOSEBUTTON, 0, TMT_WIDTH, &nW);
 		hr = GetThemeMetric(m_hTheme, NULL, WP_MINBUTTON, 0, TMT_HEIGHT, &nH);
 
-		//SIZE sz;
-		//hr = GetThemePartSize(m_hTheme, NULL, WP_CAPTION, 0, NULL, TMT_CAPTIONBAR, &sz);
+		SIZE sz;
+		hr = GetThemePartSize(m_hTheme, NULL, WP_MINBUTTON, 0, NULL, TS_TRUE, &sz);
+		hr = GetThemePartSize(m_hTheme, NULL, WP_MAXBUTTON, 0, NULL, TS_TRUE, &sz);
+		hr = GetThemePartSize(m_hTheme, NULL, WP_CLOSEBUTTON, 0, NULL, TS_TRUE, &sz);
 
 		//HRESULT hr = GetThemeBitmap(hTheme, WP_CAPTION, CS_ACTIVE, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_CLOSEBUTTON, CBS_NORMAL, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
@@ -162,8 +170,8 @@ bool CThemeBasic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 		//CloseThemeData(hTheme);
 
 		// TODO:
-		m_nButtonWidth = 24;
-		m_nButtonHeight = 16;
+		m_nButtonWidth = 28;
+		m_nButtonHeight = 15;
 
 		m_ImageStrip.SetImageStrip(m_hbmBackground, 8, margins, nLayout == IL_VERTICAL);
 
@@ -204,7 +212,28 @@ void CThemeBasic::SaveBgrColour()
 		//}
 
 		COLORREF color;
-		HRESULT hr = GetThemeColor(m_hTheme, WP_CAPTION, CS_ACTIVE, TMT_ACTIVECAPTION, &color);
+		HRESULT hr;
+		hr = GetThemeColor(m_hTheme, WP_CAPTION, CS_ACTIVE, TMT_ACTIVECAPTION, &color);
+		if (SUCCEEDED(hr))
+		{
+			m_BgrColour = color;
+		}
+		hr = GetThemeColor(m_hTheme, WP_CAPTION, CS_ACTIVE, TMT_BACKGROUND, &color);
+		if (SUCCEEDED(hr))
+		{
+			m_BgrColour = color;
+		}
+		hr = GetThemeColor(m_hTheme, WP_CAPTION, CS_ACTIVE, TMT_FILLCOLOR, &color);
+		if (SUCCEEDED(hr))
+		{
+			m_BgrColour = color;
+		}
+		hr = GetThemeColor(m_hTheme, WP_CAPTION, CS_ACTIVE, TMT_FILLCOLORHINT, &color);
+		if (SUCCEEDED(hr))
+		{
+			m_BgrColour = color;
+		}
+		hr = GetThemeColor(m_hTheme, WP_CAPTION, CS_ACTIVE, TMT_TRANSPARENTCOLOR, &color);
 		if (SUCCEEDED(hr))
 		{
 			m_BgrColour = color;
@@ -289,9 +318,27 @@ void CThemeBasic::PrepareFloatBar(HWND hWndFloatBar)
 //static RECT m_RectBar;
 
 // virtual 
-void CThemeBasic::PaintBar(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectBar)
+void CThemeBasic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar)
 {
 	PaintStart(hDC, rectBar);
+
+
+	//// test start
+	//// not all clients process WM_PRINTCLIENT, so this si not a solution
+	//POINT pt;
+	//pt.x = 0;
+	//pt.y = 0;
+	//MapWindowPoints(hWndFloatBar, hWndFrame, &pt, 1);
+	//RECT rc;
+	//GetClipBox(m_hDCMem, &rc);
+	////SetViewportOrgEx(m_hDCMem, -pt.x - rc.left, -pt.y - rc.top, &pt);
+	//SendMessage(hWndFrame, WM_PRINTCLIENT, WPARAM(m_hDCMem), PRF_NONCLIENT);
+	////SetViewportOrgEx(m_hDCMem, pt.x, pt.y, NULL);
+	//// test end
+
+		//HRESULT hr;
+		//SIZE sz;
+		//hr = GetThemePartSize(m_hTheme, m_hDCMem, WP_MINBUTTON, 1, &rectBar, TS_DRAW, &sz);
 
 	int x = rectBar.left + LEFT_BORDER;
 	int y = rectBar.top + TOP_BORDER;
@@ -353,8 +400,11 @@ void CThemeBasic::PaintStart(HDC hDC, RECT rectBar)
 
 	// fill background with defult colour
 	HBRUSH hBrush = CreateSolidBrush(m_BgrColour); 
-	FillRect(hDC, &rectBar, hBrush);
+//	HBRUSH hBrush = CreateSolidBrush(RGB(255,0,0)); 
+	FillRect(m_hDCMem, &rectBar, hBrush);
 	DeleteObject(hBrush);
+
+
 
 }
 
@@ -390,10 +440,10 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, i
 	//{
 		HRESULT hr;
 
-		if (IsThemeBackgroundPartiallyTransparent(m_hTheme, WP_MINBUTTON, 0))
-		{
-			DrawThemeParentBackground(hWndFloatBar, m_hDCMem, &rectButton);
-		}
+		//if (IsThemeBackgroundPartiallyTransparent(m_hTheme, WP_MINBUTTON, 0))
+		//{
+		//	DrawThemeParentBackground(hWndFloatBar, m_hDCMem, &rectButton);
+		//}
 
 	//	//hr = DrawThemeBackground(m_hTheme, m_hDCMem, WP_CAPTION, 0, &rectButton, NULL);
 	//	//hr = DrawThemeBackground(m_hTheme, m_hDCMem, WP_CLOSEBUTTON, CBS_NORMAL, &rectButton, NULL);

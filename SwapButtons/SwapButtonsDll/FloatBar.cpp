@@ -291,7 +291,7 @@ void CFloatBar::OnThemeChange()
 void CFloatBar::OnPaint()
 {
 //	m_pTheme->PaintBar(m_hWndFloatBar, m_ButtonList);
-	m_LayoutManager.PaintBar(m_hWndFloatBar, m_ButtonList);
+	m_LayoutManager.PaintBar(m_hWndFloatBar, m_hWndFrame, m_ButtonList);
 }
 
 void CFloatBar::OnLButtonDown(WPARAM wParam, int x, int y)

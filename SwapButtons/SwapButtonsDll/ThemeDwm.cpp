@@ -251,7 +251,7 @@ void CThemeDwm::PrepareFloatBar(HWND hWndFloatBar)
 }
 
 // virtual 
-void CThemeDwm::PaintBar(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectBar)
+void CThemeDwm::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar)
 {
 	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
 
