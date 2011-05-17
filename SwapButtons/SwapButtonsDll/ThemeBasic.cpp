@@ -8,6 +8,7 @@
 #include "ThemeBasic.h"
 #include "LayoutManager.h"
 #include "ButtonList.h"
+#include "ImageStrip.h"
 
 #include "ResourceDll.h"
 
@@ -32,6 +33,19 @@ CThemeBasic::CThemeBasic(void)
 // virtual
 CThemeBasic::~CThemeBasic(void)
 {
+	if (m_hbmSupersizeMask)
+	{
+		DeleteObject(m_hbmSupersizeMask);
+	}
+	if (m_hbmNextMask)
+	{
+		DeleteObject(m_hbmNextMask);
+	}
+	if (m_hbmPrevMask)
+	{
+		DeleteObject(m_hbmPrevMask);
+	}
+
 	if (m_hbmBackground)
 	{
 		DeleteObject(m_hbmBackground);
@@ -52,6 +66,11 @@ void CThemeBasic::LoadBitmaps(HMODULE hModule)
 	m_hbmPrev = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_PREV));
 	m_hbmNext = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_NEXT));
 	m_hbmSupersize = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_SUPERSIZE));
+
+	// create the masks for these glyphs
+	m_hbmPrevMask = CreateMask(m_hbmPrev);
+	m_hbmNextMask = CreateMask(m_hbmNext);
+	m_hbmSupersizeMask = CreateMask(m_hbmSupersize);
 }
 
 // virtual 
@@ -105,12 +124,30 @@ bool CThemeBasic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 			m_hbmBackground = NULL;
 		}
 
+		HRESULT hr;
+
+		MARGINS margins;
+		hr = GetThemeMargins(m_hTheme, NULL, WP_MINBUTTON, 0, TMT_SIZINGMARGINS, NULL, &margins);
+
+		int nLayout;
+		hr = GetThemeEnumValue(m_hTheme, WP_MINBUTTON, 0, TMT_IMAGELAYOUT, &nLayout);
+
+		//RECT rectButton;
+		//hr = GetThemeRect(m_hTheme, WP_MINBUTTON, 0, TMT_DEFAULTPANESIZE, &rectButton);
+		int nW;
+		int nH;
+		hr = GetThemeInt(m_hTheme, WP_MINBUTTON, 0, TMT_WIDTH, &nW);
+		hr = GetThemeMetric(m_hTheme, NULL, WP_MINBUTTON, 0, TMT_HEIGHT, &nH);
+
+		//SIZE sz;
+		//hr = GetThemePartSize(m_hTheme, NULL, WP_CAPTION, 0, NULL, TMT_CAPTIONBAR, &sz);
+
 		//HRESULT hr = GetThemeBitmap(hTheme, WP_CAPTION, CS_ACTIVE, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_CLOSEBUTTON, CBS_NORMAL, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_CAPTION, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, MINBS_NORMAL, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
-		HRESULT hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
+		hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		if (SUCCEEDED(hr))
 		{
 			OutputDebugString(L"Got background\n");
@@ -127,6 +164,8 @@ bool CThemeBasic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 		// TODO:
 		m_nButtonWidth = 24;
 		m_nButtonHeight = 16;
+
+		m_ImageStrip.SetImageStrip(m_hbmBackground, 8, margins, nLayout == IL_VERTICAL);
 
 		pLayoutMetrics->m_nButtonWidth = m_nButtonWidth;
 		pLayoutMetrics->m_nButtonHeight = m_nButtonHeight;
@@ -339,22 +378,22 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, i
 	int nButtonHeight = rectButton.bottom - rectButton.top;
 
 	//HDC hdDCButton = CreateCompatibleDC(m_hDCMem);
-	HDC hdDCButton = CreateCompatibleDC(hDC);
-	HBITMAP hbmOld = (HBITMAP)SelectObject(hdDCButton, m_hbmBackground);
-	BITMAP bm;
-	GetObject(m_hbmBackground, sizeof(BITMAP), &bm);
+//	HDC hdDCButton = CreateCompatibleDC(hDC);
+//	HBITMAP hbmOld = (HBITMAP)SelectObject(hdDCButton, m_hbmBackground);
+//	BITMAP bm;
+//	GetObject(m_hbmBackground, sizeof(BITMAP), &bm);
 
 	//BitBlt(m_hDCMem, rectButton.left, rectButton.top, nButtonWidth, nButtonHeight, hdDCButton, 0, 0, SRCCOPY);
-	StretchBlt(m_hDCMem, rectButton.left, rectButton.top, nButtonWidth, nButtonHeight, hdDCButton, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
+//	StretchBlt(m_hDCMem, rectButton.left, rectButton.top, nButtonWidth, nButtonHeight, hdDCButton, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
 
 	//if (m_hTheme)
 	//{
-	//	HRESULT hr;
+		HRESULT hr;
 
-	//	if (IsThemeBackgroundPartiallyTransparent(m_hTheme, WP_MINBUTTON, 0))
-	//	{
-	//		DrawThemeParentBackground(hWndFloatBar, hDC, &rectButton);
-	//	}
+		if (IsThemeBackgroundPartiallyTransparent(m_hTheme, WP_MINBUTTON, 0))
+		{
+			DrawThemeParentBackground(hWndFloatBar, m_hDCMem, &rectButton);
+		}
 
 	//	//hr = DrawThemeBackground(m_hTheme, m_hDCMem, WP_CAPTION, 0, &rectButton, NULL);
 	//	//hr = DrawThemeBackground(m_hTheme, m_hDCMem, WP_CLOSEBUTTON, CBS_NORMAL, &rectButton, NULL);
@@ -367,7 +406,16 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, i
 	//DeleteDC(hdDCButton);
 
 
-	//// now add the glyph
+
+
+
+
+
+	m_ImageStrip.Draw(0, m_hDCMem, rectButton);
+
+
+
+	// now add the glyph
 	//HBITMAP hbmImage = GetImage(index);
 
 	//BITMAP bm;
@@ -377,11 +425,36 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, i
 	//int xOffset = (nButtonWidth - bm.bmWidth) / 2;
 	//int yOffset = (nButtonHeight - bm.bmHeight) / 2;
 
-	//SelectObject(hdDCButton, hbmImage);
+	//HDC hdDCButton = CreateCompatibleDC(m_hDCMem);
+	//HBITMAP hbmOld = (HBITMAP)SelectObject(hdDCButton, hbmImage);
 	//BitBlt(m_hDCMem, rectButton.left + xOffset, rectButton.top + yOffset, nGlyphWidth, nGlyphHeight, hdDCButton, 0, 0, SRCCOPY);
+	//SelectObject(hdDCButton, hbmOld);
+	//DeleteDC(hdDCButton);
 
-	SelectObject(hdDCButton, hbmOld);
-	DeleteDC(hdDCButton);
+
+	HBITMAP hbmImage;
+	HBITMAP hbmMask;
+
+	if (GetImage(index, &hbmImage, &hbmMask))
+	{
+		HDC hDCMem = CreateCompatibleDC(m_hDCMem);
+		HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
+
+		BITMAP bm;
+		GetObject(hbmImage, sizeof(bm), &bm);
+
+		int x = (rectButton.right + rectButton.left - bm.bmWidth) / 2;
+		int y = (rectButton.top + rectButton.bottom - bm.bmHeight) / 2;
+
+		BitBlt(m_hDCMem, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
+		SelectObject(hDCMem, hbmImage);
+		BitBlt(m_hDCMem, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
+
+		SelectObject(hDCMem, hbmOld);
+		DeleteDC(hDCMem);
+	}
+
+
 }
 
 // called to add spacing after the button
@@ -408,4 +481,27 @@ void CThemeBasic::PaintEnd(HDC hDC, RECT rectBar)
 	// clean up
 	SelectObject(m_hDCMem, m_hbmOld);
 	DeleteDC(m_hDCMem);
+}
+
+bool CThemeBasic::GetImage(int index, HBITMAP* pImage, HBITMAP* pMask)
+{
+	switch (index)
+	{
+	case 0:
+		*pImage = m_hbmPrev;
+		*pMask = m_hbmPrevMask;
+		break;
+	case 1:
+		*pImage = m_hbmNext;
+		*pMask = m_hbmNextMask;
+		break;
+	case 2:
+		*pImage = m_hbmSupersize;
+		*pMask = m_hbmSupersizeMask;
+		break;
+	default:
+		return false;
+	}
+
+	return true;
 }

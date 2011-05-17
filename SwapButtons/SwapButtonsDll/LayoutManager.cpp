@@ -40,6 +40,7 @@ void CLayoutManager::ReInit(HWND hWndFrame)
 void CLayoutManager::LoadBitmaps(HMODULE hModule)
 {
 	m_ThemeClassic.LoadBitmaps(hModule);
+	m_ThemeBasic.LoadBitmaps(hModule);
 	m_ThemeDwm.LoadBitmaps(hModule);
 }
 

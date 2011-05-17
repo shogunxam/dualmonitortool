@@ -7,6 +7,7 @@
 #include <vssym32.h>
 
 #include "Theme.h"
+#include "ImageStrip.h"
 //#include "BitmapBuffer.h"
 
 struct LayoutMetrics;
@@ -44,6 +45,9 @@ private:
 	void PaintBarBorder(HDC hDC, RECT rectBar);
 	void PaintEnd(HDC hDC, RECT rectBar);
 
+	bool GetImage(int index, HBITMAP* pImage, HBITMAP* pMask);
+
+
 private:
 	HTHEME m_hTheme;
 	HDC m_hDCMem;
@@ -61,6 +65,12 @@ private:
 
 	int m_nButtonWidth;
 	int m_nButtonHeight;
+
+	CImageStrip m_ImageStrip;
+
+	HBITMAP m_hbmPrevMask;
+	HBITMAP m_hbmNextMask;
+	HBITMAP m_hbmSupersizeMask;
 
 
 private:

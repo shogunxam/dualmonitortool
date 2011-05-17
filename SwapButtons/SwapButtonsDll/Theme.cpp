@@ -121,3 +121,36 @@ DWORD CTheme::ARGBBlend(DWORD ARGB)
 	return 0xFF000000 | (red << 16) | (green << 8) | blue;
 }
 
+
+// protected static
+HBITMAP CTheme::CreateMask(HBITMAP hbmImage)
+{
+	// see http://www.winprog.org/tutorial/transparency.html
+
+	HBITMAP hbmMask;
+	HDC hdcMemImage;
+	HDC hdcMemMask;
+	BITMAP bm;
+
+	GetObject(hbmImage, sizeof(BITMAP), &bm);
+
+	// mask is same size as image but only 1 bit/pixel
+	hbmMask = CreateBitmap(bm.bmWidth, bm.bmHeight, 1, 1, NULL);
+
+	hdcMemImage = CreateCompatibleDC(0);
+	hdcMemMask = CreateCompatibleDC(0);
+
+	SelectObject(hdcMemImage, hbmImage);
+	SelectObject(hdcMemMask, hbmMask);
+
+	// create the mask
+	SetBkColor(hdcMemImage, RGB(0, 0, 0));
+	BitBlt(hdcMemMask, 0, 0, bm.bmWidth, bm.bmHeight, hdcMemImage, 0, 0, SRCCOPY);
+
+	DeleteDC(hdcMemMask);
+	DeleteDC(hdcMemImage);
+
+	return hbmMask;
+}
+
+

@@ -140,6 +140,7 @@
     <ClInclude Include="BitmapBuffer.h" />
     <ClInclude Include="ButtonList.h" />
     <ClInclude Include="FloatBar.h" />
+    <ClInclude Include="ImageStrip.h" />
     <ClInclude Include="LayoutManager.h" />
     <ClInclude Include="ResourceDll.h" />
     <ClInclude Include="Screen.h" />
@@ -172,6 +173,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="FloatBar.cpp" />
+    <ClCompile Include="ImageStrip.cpp" />
     <ClCompile Include="LayoutManager.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenMap.cpp" />

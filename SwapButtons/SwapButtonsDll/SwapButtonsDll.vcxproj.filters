@@ -66,6 +66,9 @@
     <ClInclude Include="ThemeBasic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageStrip.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ThemeBasic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageStrip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

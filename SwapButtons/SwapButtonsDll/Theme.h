@@ -31,6 +31,7 @@ public:
 protected:
 		static COLORREF ARGBToColorref(DWORD ARGB);
 		static DWORD ARGBBlend(DWORD ARGB);
+		static HBITMAP CreateMask(HBITMAP hbmImage);
 
 protected:
 	HBITMAP m_hbmPrev;
