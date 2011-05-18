@@ -17,7 +17,7 @@ public:
 	virtual bool IsInUse(HWND hWndFrame) = 0;
 
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame) = 0;
-	virtual SIZE CalcBarOffsets(HWND hWndFrame) = 0;
+	virtual SIZE CalcBarOffsets(HWND hWndFrame);
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
 	virtual void PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar) = 0;
 
@@ -29,9 +29,15 @@ public:
 	//virtual void PaintEnd(HDC hDC, RECT rectBar);
 
 protected:
-		static COLORREF ARGBToColorref(DWORD ARGB);
-		static DWORD ARGBBlend(DWORD ARGB);
-		static HBITMAP CreateMask(HBITMAP hbmImage);
+	static COLORREF ARGBToColorref(DWORD ARGB);
+	static DWORD ARGBBlend(DWORD ARGB);
+	static HBITMAP CreateMask(HBITMAP hbmImage);
+	static POINT GetStdButtonsTLHC(HWND hWndFrame);
+
+private:
+	static POINT GetStdButtonsTLHCPreVista(HWND hWndFrame);
+	static POINT GetStdButtonsTLHCVista(HWND hWndFrame);
+	static bool IsPreVista();
 
 protected:
 	HBITMAP m_hbmPrev;

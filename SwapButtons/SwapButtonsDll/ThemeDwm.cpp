@@ -162,60 +162,60 @@ void CThemeDwm::SaveBgrColour()
 }
 
 // virtual
-SIZE CThemeDwm::CalcBarOffsets(HWND hWndFrame)
-{
-	int nExistingButtonsWidth = 0;
-	DWORD dwStyle = GetWindowLong(hWndFrame, GWL_STYLE);
-	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
-	RECT rectFrame;
-	GetWindowRect(hWndFrame, &rectFrame);
-	int nRightPos = rectFrame.right;
-	int nTopPos = rectFrame.top;
-
-	int nStdButtonSize = 0;
-	if (dwExStyle & WS_EX_TOOLWINDOW)
-	{
-		nStdButtonSize = GetSystemMetrics(SM_CYSMSIZE);
-	}
-	else
-	{
-		nStdButtonSize = GetSystemMetrics(SM_CYSIZE);
-	}
-	int nStdSpacing = 2; // x pixels between std buttons
-
-	// NOTE: DWMWA_CAPTION_BUTTON_BOUNDS may also be of use?
-
-	// Vista & later only
-	TITLEBARINFOEX titleBarInfoEx;
-	titleBarInfoEx.cbSize = sizeof(titleBarInfoEx);
-	SendMessage(hWndFrame, WM_GETTITLEBARINFOEX, 0, (LPARAM)&titleBarInfoEx);
-
-	// iterate over all of the children on the titlebar
-	// finding the one with the minimum x co-ord
-	// TODO: are there defines for the child indexes?
-	for (int nTitleBarChild = 2; nTitleBarChild <= 5; nTitleBarChild++)
-	{
-		if ((titleBarInfoEx.rgstate[nTitleBarChild] & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0)
-		{
-			// button should be visible
-			nTopPos = titleBarInfoEx.rgrect[nTitleBarChild].top;
-			if (titleBarInfoEx.rgrect[nTitleBarChild].left < nRightPos)
-			{
-				nRightPos = titleBarInfoEx.rgrect[nTitleBarChild].left;
-				// should be able to break here as indexes are in button order (left to right)
-			}
-		}
-	}
-
-	// TODO: temp hack - this needs to go into theme
-	//nTopPos += 1;
-	nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
-
-	SIZE offsets;
-	offsets.cx = rectFrame.right - nRightPos;
-	offsets.cy = nTopPos - rectFrame.top;
-	return offsets;
-}
+//SIZE CThemeDwm::CalcBarOffsets(HWND hWndFrame)
+//{
+//	int nExistingButtonsWidth = 0;
+//	DWORD dwStyle = GetWindowLong(hWndFrame, GWL_STYLE);
+//	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
+//	RECT rectFrame;
+//	GetWindowRect(hWndFrame, &rectFrame);
+//	int nRightPos = rectFrame.right;
+//	int nTopPos = rectFrame.top;
+//
+//	int nStdButtonSize = 0;
+//	if (dwExStyle & WS_EX_TOOLWINDOW)
+//	{
+//		nStdButtonSize = GetSystemMetrics(SM_CYSMSIZE);
+//	}
+//	else
+//	{
+//		nStdButtonSize = GetSystemMetrics(SM_CYSIZE);
+//	}
+//	int nStdSpacing = 2; // x pixels between std buttons
+//
+//	// NOTE: DWMWA_CAPTION_BUTTON_BOUNDS may also be of use?
+//
+//	// Vista & later only
+//	TITLEBARINFOEX titleBarInfoEx;
+//	titleBarInfoEx.cbSize = sizeof(titleBarInfoEx);
+//	SendMessage(hWndFrame, WM_GETTITLEBARINFOEX, 0, (LPARAM)&titleBarInfoEx);
+//
+//	// iterate over all of the children on the titlebar
+//	// finding the one with the minimum x co-ord
+//	// TODO: are there defines for the child indexes?
+//	for (int nTitleBarChild = 2; nTitleBarChild <= 5; nTitleBarChild++)
+//	{
+//		if ((titleBarInfoEx.rgstate[nTitleBarChild] & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0)
+//		{
+//			// button should be visible
+//			nTopPos = titleBarInfoEx.rgrect[nTitleBarChild].top;
+//			if (titleBarInfoEx.rgrect[nTitleBarChild].left < nRightPos)
+//			{
+//				nRightPos = titleBarInfoEx.rgrect[nTitleBarChild].left;
+//				// should be able to break here as indexes are in button order (left to right)
+//			}
+//		}
+//	}
+//
+//	// TODO: temp hack - this needs to go into theme
+//	//nTopPos += 1;
+//	nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
+//
+//	SIZE offsets;
+//	offsets.cx = rectFrame.right - nRightPos;
+//	offsets.cy = nTopPos - rectFrame.top;
+//	return offsets;
+//}
 
 // virtual 
 void CThemeDwm::PrepareFloatBar(HWND hWndFloatBar)

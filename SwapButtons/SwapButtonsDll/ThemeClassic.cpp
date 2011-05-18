@@ -88,75 +88,75 @@ bool CThemeClassic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 #define IS_TITLE_BUTTON_VISIBLE(dw) (dw & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0
 
 // virtual 
-SIZE CThemeClassic::CalcBarOffsets(HWND hWndFrame)
-{
-	int nExistingButtonsWidth = 0;
-	DWORD dwStyle = GetWindowLong(hWndFrame, GWL_STYLE);
-	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
-	RECT rectFrame;
-	GetWindowRect(hWndFrame, &rectFrame);
-	int nRightPos = rectFrame.right;
-	int nTopPos = rectFrame.top;
-
-	int nStdButtonSize = 0;
-	if (dwExStyle & WS_EX_TOOLWINDOW)
-	{
-		nStdButtonSize = GetSystemMetrics(SM_CYSMSIZE);
-	}
-	else
-	{
-		nStdButtonSize = GetSystemMetrics(SM_CYSIZE);
-	}
-	int nStdSpacing = 2; // x pixels between std buttons
-
-	// Classic theme is supported on XP, where there is no WM_GETTITLRBARINFOEX
-
-	//adjust for the border
-	if (dwStyle & WS_THICKFRAME)
-	{
-		nRightPos -= GetSystemMetrics(SM_CXSIZEFRAME);
-		nTopPos += GetSystemMetrics(SM_CYSIZEFRAME);
-	}
-	else
-	{
-		nRightPos -= GetSystemMetrics(SM_CXFIXEDFRAME);
-		nTopPos += GetSystemMetrics(SM_CYFIXEDFRAME);
-	}
-
-	// TODO
-	// hack: move 2 pixels down to center 
-	nTopPos += 2;
-
-	// adjust for any titlebar 
-	TITLEBARINFO titleBarInfo;
-	titleBarInfo.cbSize = sizeof(titleBarInfo);
-	GetTitleBarInfo(hWndFrame, &titleBarInfo);
-	// TODO: are there defines for the child indexes?
-	//if (dwStyle & WS_SYSMENU)
-	if (IS_TITLE_BUTTON_VISIBLE(titleBarInfo.rgstate[5]))
-	{
-		nRightPos -= (nStdButtonSize + nStdSpacing);
-	}
-
-	// Alt: could use titleBarInfo for these as well
-	if (dwStyle & (WS_MINIMIZEBOX | WS_MAXIMIZEBOX))
-	{
-		nRightPos -= (nStdButtonSize + nStdSpacing) * 2;
-	}
-	else if (dwExStyle & WS_EX_CONTEXTHELP)
-	{
-		nRightPos -= (nStdButtonSize + nStdSpacing);
-	}
-
-	// TODO: temp hack - this needs to go into theme
-	//nTopPos += 1;
-	nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
-
-	SIZE offsets;
-	offsets.cx = rectFrame.right - nRightPos;
-	offsets.cy = nTopPos - rectFrame.top;
-	return offsets;
-}
+//SIZE CThemeClassic::CalcBarOffsets(HWND hWndFrame)
+//{
+//	int nExistingButtonsWidth = 0;
+//	DWORD dwStyle = GetWindowLong(hWndFrame, GWL_STYLE);
+//	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
+//	RECT rectFrame;
+//	GetWindowRect(hWndFrame, &rectFrame);
+//	int nRightPos = rectFrame.right;
+//	int nTopPos = rectFrame.top;
+//
+//	int nStdButtonSize = 0;
+//	if (dwExStyle & WS_EX_TOOLWINDOW)
+//	{
+//		nStdButtonSize = GetSystemMetrics(SM_CYSMSIZE);
+//	}
+//	else
+//	{
+//		nStdButtonSize = GetSystemMetrics(SM_CYSIZE);
+//	}
+//	int nStdSpacing = 2; // x pixels between std buttons
+//
+//	// Classic theme is supported on XP, where there is no WM_GETTITLRBARINFOEX
+//
+//	//adjust for the border
+//	if (dwStyle & WS_THICKFRAME)
+//	{
+//		nRightPos -= GetSystemMetrics(SM_CXSIZEFRAME);
+//		nTopPos += GetSystemMetrics(SM_CYSIZEFRAME);
+//	}
+//	else
+//	{
+//		nRightPos -= GetSystemMetrics(SM_CXFIXEDFRAME);
+//		nTopPos += GetSystemMetrics(SM_CYFIXEDFRAME);
+//	}
+//
+//	// TODO
+//	// hack: move 2 pixels down to center 
+//	nTopPos += 2;
+//
+//	// adjust for any titlebar 
+//	TITLEBARINFO titleBarInfo;
+//	titleBarInfo.cbSize = sizeof(titleBarInfo);
+//	GetTitleBarInfo(hWndFrame, &titleBarInfo);
+//	// TODO: are there defines for the child indexes?
+//	//if (dwStyle & WS_SYSMENU)
+//	if (IS_TITLE_BUTTON_VISIBLE(titleBarInfo.rgstate[5]))
+//	{
+//		nRightPos -= (nStdButtonSize + nStdSpacing);
+//	}
+//
+//	// Alt: could use titleBarInfo for these as well
+//	if (dwStyle & (WS_MINIMIZEBOX | WS_MAXIMIZEBOX))
+//	{
+//		nRightPos -= (nStdButtonSize + nStdSpacing) * 2;
+//	}
+//	else if (dwExStyle & WS_EX_CONTEXTHELP)
+//	{
+//		nRightPos -= (nStdButtonSize + nStdSpacing);
+//	}
+//
+//	// TODO: temp hack - this needs to go into theme
+//	//nTopPos += 1;
+//	nRightPos -= nStdButtonSize / 2; // to allow spacing between the button sets
+//
+//	SIZE offsets;
+//	offsets.cx = rectFrame.right - nRightPos;
+//	offsets.cy = nTopPos - rectFrame.top;
+//	return offsets;
+//}
 
 
 // virtual 

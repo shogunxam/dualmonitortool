@@ -23,7 +23,7 @@ public:
 	virtual bool IsInUse(HWND hWndFrame);
 
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame);
-	virtual SIZE CalcBarOffsets(HWND hWndFrame);
+	//virtual SIZE CalcBarOffsets(HWND hWndFrame);
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
 	virtual void PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar);
 
