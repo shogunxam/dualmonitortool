@@ -33,7 +33,7 @@ public:
 	RECT GetBarRect(HWND hWndFrame, const CButtonList& buttonList);
 	SIZE GetBarSize(const CButtonList& buttonList);
 
-	void PaintBar(HWND hWndFloatBar, HWND hWndFrame, const CButtonList& buttonList);
+	void PaintBar(HWND hWndFloatBar, HWND hWndFrame, const CButtonList& buttonList, bool bActive);
 	//int GetButtonWidth();
 	int HitToIndex(int x, int y, const CButtonList& buttonList);
 

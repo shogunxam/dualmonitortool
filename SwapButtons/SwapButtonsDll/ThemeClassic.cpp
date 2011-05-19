@@ -170,7 +170,7 @@ void CThemeClassic::PrepareFloatBar(HWND hWndFloatBar)
 //static RECT m_RectBar;
 
 // virtual 
-void CThemeClassic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar)
+void CThemeClassic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive)
 {
 	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
 

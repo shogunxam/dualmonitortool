@@ -25,7 +25,7 @@ public:
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame);
 	//virtual SIZE CalcBarOffsets(HWND hWndFrame);
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
-	virtual void PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar);
+	virtual void PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive);
 
 	//virtual void PaintStart(HDC hDC, RECT rectBar);
 	//virtual void PaintBarBackground(HDC hDC, RECT rectBar);
@@ -40,7 +40,7 @@ private:
 
 	void PaintStart(HDC hDC, RECT rectBar);
 	void PaintBarBackground(HDC hDC, RECT rectBar);
-	void PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, int index);
+	void PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, int index, bool bActive);
 	void PaintButtonSpacing(HDC hDC, RECT rectButton);
 	void PaintBarBorder(HDC hDC, RECT rectBar);
 	void PaintEnd(HDC hDC, RECT rectBar);

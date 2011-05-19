@@ -236,6 +236,10 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 			pFloatBar->UpdateBarWindow(hWnd, ghModule);
 			break;
 
+		case WM_ACTIVATE:
+			pFloatBar->ShowActiveState(LOWORD(wParam) ? true : false);
+			break;
+
 		case WM_WINDOWPOSCHANGED:
 			OutputDebugString(L"WM_WINDOWPOSCHANGED\n");
 			pFloatBar->UpdateBarWindow(hWnd, ghModule);

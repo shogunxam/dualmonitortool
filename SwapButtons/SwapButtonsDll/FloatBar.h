@@ -54,6 +54,9 @@ public:
 	void AdjustBarToParent();
 	SIZE GetBarSize() ;//const;
 
+	void ShowActiveState(bool bActive);
+
+
 	void OnCreate(HWND hWnd);
 	//void OnActivate();
 	void OnThemeChange();
@@ -90,6 +93,7 @@ private:
 	HWND m_hWndFrame;
 	HWND m_hWndFloatBar;
 	WNDPROC m_OldWndProc;
+	bool m_bActive;
 
 	CButtonList m_ButtonList;
 

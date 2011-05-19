@@ -71,6 +71,7 @@ CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame, DWORD dwButtons)
 	: m_hWndFrame(hWndFrame),
 	  m_hWndFloatBar(0),
 	  m_OldWndProc(NULL),
+	  m_bActive(false),
 	  m_ButtonList(dwButtons)
 {
 //	m_pTheme = new CTheme();
@@ -121,6 +122,19 @@ void CFloatBar::UpdateBarWindow(HWND hWndFrame, HINSTANCE hInstance)
 	AdjustBarToParent();
 }
 
+void CFloatBar::ShowActiveState(bool bActive)
+{
+	if (bActive != m_bActive)
+	{
+		m_bActive = bActive;
+		if (m_hWndFloatBar)
+		{
+			InvalidateRect(m_hWndFloatBar, NULL, FALSE);
+		}
+	}
+}
+
+
 void CFloatBar::CreateBarWindow(HWND hWndFrame, HINSTANCE hInstance)
 {
 	wchar_t szMsg[256];
@@ -144,6 +158,10 @@ void CFloatBar::CreateBarWindow(HWND hWndFrame, HINSTANCE hInstance)
 		AdjustBarToParent();
 
 		ShowWindow(m_hWndFloatBar, SW_SHOW);
+
+		// initialise the active flag
+		m_bActive = (GetActiveWindow() == m_hWndFrame);
+
 		UpdateWindow(m_hWndFloatBar);
 	}
 }
@@ -291,7 +309,7 @@ void CFloatBar::OnThemeChange()
 void CFloatBar::OnPaint()
 {
 //	m_pTheme->PaintBar(m_hWndFloatBar, m_ButtonList);
-	m_LayoutManager.PaintBar(m_hWndFloatBar, m_hWndFrame, m_ButtonList);
+	m_LayoutManager.PaintBar(m_hWndFloatBar, m_hWndFrame, m_ButtonList, m_bActive);
 }
 
 void CFloatBar::OnLButtonDown(WPARAM wParam, int x, int y)

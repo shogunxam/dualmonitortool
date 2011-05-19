@@ -211,6 +211,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	//	pFloatBar->AdjustToParent();
 	//	return lResult;
 
+	case WM_ACTIVATE:
+		if (gpFloatBar)
+		{
+			gpFloatBar->ShowActiveState(LOWORD(wParam) ? true : false);
+		}
+		return 0;
+
 	case WM_WINDOWPOSCHANGED:
 		lResult = DefWindowProc(hWnd, message, wParam, lParam);
 		if (gpFloatBar)

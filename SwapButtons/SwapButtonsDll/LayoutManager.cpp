@@ -117,7 +117,7 @@ SIZE CLayoutManager::GetBarSize(const CButtonList& buttonList)
 	return size;
 }
 
-void CLayoutManager::PaintBar(HWND hWndFloatBar, HWND hWndFrame, const CButtonList& buttonList)
+void CLayoutManager::PaintBar(HWND hWndFloatBar, HWND hWndFrame, const CButtonList& buttonList, bool bActive)
 {
 	if (m_pCurTheme)
 	{
@@ -128,7 +128,7 @@ void CLayoutManager::PaintBar(HWND hWndFloatBar, HWND hWndFrame, const CButtonLi
 		//RECT rectButton;
 		GetClientRect(hWndFloatBar, &rectBar);
 
-		m_pCurTheme->PaintBar(hWndFloatBar, hWndFrame, hDC, buttonList, rectBar);
+		m_pCurTheme->PaintBar(hWndFloatBar, hWndFrame, hDC, buttonList, rectBar, bActive);
 
 		//m_pCurTheme->PaintStart(hDC, rectBar);
 
