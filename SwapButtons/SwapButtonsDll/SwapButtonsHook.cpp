@@ -199,7 +199,7 @@ void CheckIsSubClassed(HWND hWndFrame)
 		}
 #endif
 		// TODO: use CFloatBar::CreateFloatBar() to handle exceptions
-		DWORD dwButtons = 0;
+		DWORD dwButtons = 0x00000CBA;
 		CFloatBar* pFloatBar = new CFloatBar(ghModule, hWndFrame, dwButtons);
 		if (pFloatBar)
 		{

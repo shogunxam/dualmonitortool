@@ -34,17 +34,20 @@
 
 enum EFloatButton
 {
-	FB_NONE     = 0x00,
-	FB_SCREEN_1 = 0x01,
-	FB_SCREEN_2 = 0x02,
-	FB_SCREEN_3 = 0x03,
-	FB_SCREEN_4 = 0x04,
-	FB_SCREEN_5 = 0x05,
-	FB_SCREEN_6 = 0x06,
-	FB_PREV     = 0x0A,
-	FB_NEXT     = 0x0B,
-	FB_SUPERSIZE = 0x0C,
+	FB_NONE     = 0x0,
+	FB_SCREEN_1 = 0x1,
+	FB_SCREEN_2 = 0x2,
+	FB_SCREEN_3 = 0x3,
+	FB_SCREEN_4 = 0x4,
+	FB_SCREEN_5 = 0x5,
+	FB_SCREEN_6 = 0x6,
+	FB_PREV     = 0xA,
+	FB_NEXT     = 0xB,
+	FB_SUPERSIZE = 0xC,
 };
+
+// max number of buttons we can display
+#define MAX_BUTTONS	8	
 
 class LOCALMODE_API CButtonList
 {
@@ -66,11 +69,16 @@ public:
 //	CButton* At(int index);
 
 private:
+	void Init(DWORD dwButtons);
+
 	//HBITMAP CreateMask(HBITMAP hbmImage);
 	//void PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const;
 
 private:
 	DWORD m_dwButtons;
+
+	EFloatButton m_Buttons[MAX_BUTTONS];
+	int m_nButtons;	// count of buttons in above
 
 	//HBITMAP m_hbmPrev;
 	//HBITMAP m_hbmPrevMask;

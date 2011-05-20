@@ -26,32 +26,58 @@
 CButtonList::CButtonList(DWORD dwButtons)
 	: m_dwButtons(dwButtons)
 {
+	Init(dwButtons);
 }
 
 CButtonList::~CButtonList(void)
 {
 }
 
+void CButtonList::Init(DWORD dwButtons)
+{
+	m_nButtons = 0;
+	int nMask = 0x0000000F;
+	for (int i = 0; i < MAX_BUTTONS; i++)
+	{
+		EFloatButton button = (EFloatButton)(dwButtons & nMask);
+		if (button != FB_NONE)
+		{
+			if (m_nButtons < MAX_BUTTONS)
+			{
+				m_Buttons[m_nButtons] = button;
+				m_nButtons++;
+			}
+		}
+		dwButtons >>= 4;
+	}
+}
+
 int CButtonList::Count() const
 {
 	// hardcoded for now
-	return 3;
+	//return 3;
+	return m_nButtons;
 }
 
 EFloatButton CButtonList::IndexToButton(int index) const
 {
 	// hardcoded for now
-	if (index == 0)
+	//if (index == 0)
+	//{
+	//	return FB_PREV;
+	//}
+	//else if (index == 1)
+	//{
+	//	return FB_NEXT;
+	//}
+	//else if (index == 2)
+	//{
+	//	return FB_SUPERSIZE;
+	//}
+
+	if (index >= 0 && index < m_nButtons)
 	{
-		return FB_PREV;
-	}
-	else if (index == 1)
-	{
-		return FB_NEXT;
-	}
-	else if (index == 2)
-	{
-		return FB_SUPERSIZE;
+		return m_Buttons[index];
 	}
 	return FB_NONE;
 }
