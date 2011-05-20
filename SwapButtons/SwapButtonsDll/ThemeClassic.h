@@ -5,6 +5,7 @@
 #include "BitmapBuffer.h"
 
 struct LayoutMetrics;
+enum EFloatButton;
 
 class LOCALMODE_API CThemeClassic : public CTheme
 {
@@ -31,7 +32,7 @@ public:
 
 private:
 	void PaintBarBackground(HDC hDC, RECT rectBar);
-	void PaintButtonFace(HDC hDC, RECT rectButton, int index);
+	void PaintButtonFace(HDC hDC, RECT rectButton, EFloatButton button);
 	void PaintButtonSpacing(HDC hDC, RECT rectButton);
 	void PaintBarBorder(HDC hDC, RECT rectBar);
 	void PaintEnd(HDC hDC, RECT rectBar);

@@ -24,188 +24,65 @@
 //extern HMODULE ghModule;
 
 CButtonList::CButtonList(DWORD dwButtons)
-	: m_dwButtons(dwButtons),
-	  m_hbmPrev(NULL),
-	  m_hbmPrevMask(NULL),
-	  m_hbmNext(NULL),
-	  m_hbmNextMask(NULL),
-	  m_hbmSupersize(NULL),
-	  m_hbmSupersizeMask(NULL)
+	: m_dwButtons(dwButtons)
 {
 }
 
 CButtonList::~CButtonList(void)
 {
-	if (m_hbmSupersizeMask)
-	{
-		DeleteObject(m_hbmSupersizeMask);
-	}
-	if (m_hbmSupersize)
-	{
-		DeleteObject(m_hbmSupersize);
-	}
-	if (m_hbmNextMask)
-	{
-		DeleteObject(m_hbmNextMask);
-	}
-	if (m_hbmNext)
-	{
-		DeleteObject(m_hbmNext);
-	}
-	if (m_hbmPrevMask)
-	{
-		DeleteObject(m_hbmPrevMask);
-	}
-	if (m_hbmPrev)
-	{
-		DeleteObject(m_hbmPrev);
-	}
-}
-
-void CButtonList::LoadBitmaps(HMODULE hModule)
-{
-	m_hbmPrev = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_PREV));
-	m_hbmPrevMask = CreateMask(m_hbmPrev);
-	m_hbmNext = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_NEXT));
-	m_hbmNextMask = CreateMask(m_hbmNext);
-	m_hbmSupersize = LoadBitmap(hModule, MAKEINTRESOURCE(IDB_SUPERSIZE));
-	m_hbmSupersizeMask = CreateMask(m_hbmSupersize);
 }
 
 int CButtonList::Count() const
 {
+	// hardcoded for now
 	return 3;
 }
 
-SIZE CButtonList::GetSize(int index)
+EFloatButton CButtonList::IndexToButton(int index) const
 {
-	SIZE size;
-	size.cx = 20;
-	size.cy = 20;
-	return size;
-}
-
-HBITMAP CButtonList::CreateMask(HBITMAP hbmImage)
-{
-	// see http://www.winprog.org/tutorial/transparency.html
-
-	HBITMAP hbmMask;
-	HDC hdcMemImage;
-	HDC hdcMemMask;
-	BITMAP bm;
-
-	GetObject(hbmImage, sizeof(BITMAP), &bm);
-
-	// mask is same size as image but only 1 bit/pixel
-	hbmMask = CreateBitmap(bm.bmWidth, bm.bmHeight, 1, 1, NULL);
-
-	hdcMemImage = CreateCompatibleDC(0);
-	hdcMemMask = CreateCompatibleDC(0);
-
-	SelectObject(hdcMemImage, hbmImage);
-	SelectObject(hdcMemMask, hbmMask);
-
-	// create the mask
-	SetBkColor(hdcMemImage, RGB(0, 0, 0));
-	BitBlt(hdcMemMask, 0, 0, bm.bmWidth, bm.bmHeight, hdcMemImage, 0, 0, SRCCOPY);
-
-	DeleteDC(hdcMemMask);
-	DeleteDC(hdcMemImage);
-
-	return hbmMask;
-}
-
-bool CButtonList::GetGlyph(int index, HBITMAP* phbmImage, HBITMAP* phbmMask) const
-{
+	// hardcoded for now
 	if (index == 0)
 	{
-		*phbmImage = m_hbmPrev;
-		*phbmMask = m_hbmPrevMask;
+		return FB_PREV;
 	}
 	else if (index == 1)
 	{
-		*phbmImage = m_hbmNext;
-		*phbmMask = m_hbmNextMask;
+		return FB_NEXT;
 	}
 	else if (index == 2)
 	{
-		*phbmImage = m_hbmSupersize;
-		*phbmMask = m_hbmSupersizeMask;
+		return FB_SUPERSIZE;
 	}
-	else
-	{
-		return false;
-	}
-
-	return true;
+	return FB_NONE;
 }
-
-//void CButtonList::Paint(int index, HDC hDC, const RECT& rect) const
-//{
-//	//HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 0));
-//	//FillRect(hDC, &rect, hBrush);
-//
-//	//if (index == 0)
-//	//{
-//	//	TextOut(hDC, rect.left, rect.top, L"N", 1);
-//	//}
-//	//else
-//	//{
-//	//	TextOut(hDC, rect.left, rect.top, L"S", 1);
-//	//}
-//	if (index == 0)
-//	{
-//		PaintBitmap(m_hbmPrev, m_hbmPrevMask, hDC, rect);
-//	}
-//	else if (index == 1)
-//	{
-//		PaintBitmap(m_hbmNext, m_hbmNextMask, hDC, rect);
-//	}
-//	else
-//	{
-//		PaintBitmap(m_hbmSupersize, m_hbmSupersizeMask, hDC, rect);
-//	}
-//}
-//
-//void CButtonList::PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const
-//{
-//	HDC hDCMem = CreateCompatibleDC(hDC);
-//	HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
-//
-//	BITMAP bm;
-//	GetObject(hbmImage, sizeof(bm), &bm);
-//
-//	int x = (rect.right + rect.left - bm.bmWidth) / 2;
-//	int y = (rect.top + rect.bottom - bm.bmHeight) / 2;
-//
-//	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
-//	SelectObject(hDCMem, hbmImage);
-//	BitBlt(hDC, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
-//
-//	SelectObject(hDCMem, hbmOld);
-//	DeleteDC(hDCMem);
-//}
 
 
 void CButtonList::Click(int index, HWND hWndFrame)
 {
-	if (index == 0)
+	EFloatButton button = IndexToButton(index);
+	switch (button)
 	{
+	case FB_SCREEN_1:
+	case FB_SCREEN_2:
+	case FB_SCREEN_3:
+	case FB_SCREEN_4:
+	case FB_SCREEN_5:
+	case FB_SCREEN_6:
+		// TODO:
+		break;
+	case FB_PREV:
+		// TODO:
 		CWinHelper::MoveWindowToNext(hWndFrame);
-	}
-	else if (index == 1)
-	{
+		break;
+	case FB_NEXT:
 		CWinHelper::MoveWindowToNext(hWndFrame);
-	}
-	else
-	{
+		break;
+	case FB_SUPERSIZE:
 		CWinHelper::SupersizeWindow(hWndFrame);
+		break;
+
+	default:
+		// invalid button?
+		break;
 	}
 }
-
-//CButton* CButtonList::At(int index)
-//{
-//	CButton* pRet = NULL;
-//
-//	return pRet;
-//}

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Theme.h"
+#include "ButtonList.h"
 
 
 CTheme::CTheme(void)
@@ -27,15 +28,15 @@ CTheme::~CTheme(void)
 }
 
 // virtual (but probably will not need to be)
-HBITMAP CTheme::GetImage(int index)
+HBITMAP CTheme::GetImage(EFloatButton button)
 {
-	switch (index)
+	switch (button)
 	{
-	case 0:
+	case FB_PREV:
 		return m_hbmPrev;
-	case 1:
+	case FB_NEXT:
 		return m_hbmNext;
-	case 2:
+	case FB_SUPERSIZE:
 		return m_hbmSupersize;
 	default:
 		return NULL;

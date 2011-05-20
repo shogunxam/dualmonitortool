@@ -3,6 +3,8 @@
 #include "SwapButtonsDll.h"
 
 class CButtonList;
+enum EFloatButton;
+
 
 class LOCALMODE_API CTheme
 {
@@ -11,7 +13,7 @@ public:
 	virtual ~CTheme(void);
 
 	virtual void LoadBitmaps(HMODULE hModule) = 0;
-	virtual HBITMAP GetImage(int index);
+	virtual HBITMAP GetImage(EFloatButton button);
 
 	virtual bool IsAvailable() = 0;
 	virtual bool IsInUse(HWND hWndFrame) = 0;

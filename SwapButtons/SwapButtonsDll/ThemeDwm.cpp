@@ -268,8 +268,9 @@ void CThemeDwm::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButt
 		rectButton.top = y;
 		rectButton.bottom = rectButton.top + m_nButtonHeight;
 
-		// TODO: convert index to button ID
-		PaintButtonFace(hDC, rectButton, index);
+		// convert index to button ID
+		EFloatButton button = buttonList.IndexToButton(index);
+		PaintButtonFace(hDC, rectButton, button);
 
 		if (index  < count - 1)
 		{
@@ -298,9 +299,9 @@ void CThemeDwm::PaintBarBackground(HDC hDC, RECT rectBar)
 }
 
 // virtual 
-void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, int index)
+void CThemeDwm::PaintButtonFace(HDC hDC, RECT rectButton, EFloatButton button)
 {
-	HBITMAP hbmImage = GetImage(index);
+	HBITMAP hbmImage = GetImage(button);
 
 	byte alpha = 160;
 	BYTE greyLevel = 252;

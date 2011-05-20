@@ -21,10 +21,30 @@
 
 //class CButton;
 
-#define FLOAT_BUTTON_NONE			0x00
-#define FLOAT_BUTTON_PREV			0x01
-#define FLOAT_BUTTON_NEXT			0x02
-#define FLOAT_BUTTON_SUPERSIZE	0x05
+//#define FLOAT_BUTTON_NONE			0x00
+//#define FLOAT_BUTTON_1				0x01
+//#define FLOAT_BUTTON_2				0x02
+//#define FLOAT_BUTTON_3				0x03
+//#define FLOAT_BUTTON_4				0x04
+//#define FLOAT_BUTTON_5				0x05
+//#define FLOAT_BUTTON_6				0x06
+//#define FLOAT_BUTTON_PREV			0x0A
+//#define FLOAT_BUTTON_NEXT			0x0B
+//#define FLOAT_BUTTON_SUPERSIZE		0x0C
+
+enum EFloatButton
+{
+	FB_NONE     = 0x00,
+	FB_SCREEN_1 = 0x01,
+	FB_SCREEN_2 = 0x02,
+	FB_SCREEN_3 = 0x03,
+	FB_SCREEN_4 = 0x04,
+	FB_SCREEN_5 = 0x05,
+	FB_SCREEN_6 = 0x06,
+	FB_PREV     = 0x0A,
+	FB_NEXT     = 0x0B,
+	FB_SUPERSIZE = 0x0C,
+};
 
 class LOCALMODE_API CButtonList
 {
@@ -32,29 +52,31 @@ public:
 	CButtonList(DWORD dwButtons);
 	~CButtonList(void);
 
-	void LoadBitmaps(HMODULE hModule);
+	//void LoadBitmaps(HMODULE hModule);
 
 	int Count() const;
+	EFloatButton IndexToButton(int index) const;
 
-	SIZE GetSize(int index);
-	bool GetGlyph(int index, HBITMAP* phbmImage, HBITMAP* phbmMask) const;
+
+	//SIZE GetSize(int index);
+	//bool GetGlyph(int index, HBITMAP* phbmImage, HBITMAP* phbmMask) const;
 	//void Paint(int index, HDC hDC, const RECT& rect) const;
 	void Click(int index, HWND hWndFrame);
 
 //	CButton* At(int index);
 
 private:
-	HBITMAP CreateMask(HBITMAP hbmImage);
+	//HBITMAP CreateMask(HBITMAP hbmImage);
 	//void PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const;
 
 private:
 	DWORD m_dwButtons;
 
-	HBITMAP m_hbmPrev;
-	HBITMAP m_hbmPrevMask;
-	HBITMAP m_hbmNext;
-	HBITMAP m_hbmNextMask;
-	HBITMAP m_hbmSupersize;
-	HBITMAP m_hbmSupersizeMask;
+	//HBITMAP m_hbmPrev;
+	//HBITMAP m_hbmPrevMask;
+	//HBITMAP m_hbmNext;
+	//HBITMAP m_hbmNextMask;
+	//HBITMAP m_hbmSupersize;
+	//HBITMAP m_hbmSupersizeMask;
 };
 

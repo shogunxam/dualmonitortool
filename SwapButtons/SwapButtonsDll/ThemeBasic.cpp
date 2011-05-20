@@ -352,7 +352,7 @@ void CThemeBasic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CBu
 		rectButton.bottom = rectButton.top + m_nButtonHeight;
 
 		// TODO: convert index to button ID
-		PaintButtonFace(hWndFloatBar, hDC, rectButton, index, bActive);
+		PaintButtonFace(hWndFloatBar, hDC, buttonList, rectButton, index, bActive);
 
 		if (index  < count - 1)
 		{
@@ -420,7 +420,7 @@ void CThemeBasic::PaintBarBackground(HDC hDC, RECT rectBar)
 //#define BM_INDEX(x, y) ((m_nHeight - (y) - 1) * m_nWidth + (x))
 
 // virtual 
-void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, int index, bool bActive)
+void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectButton, int index, bool bActive)
 {
 	int nButtonWidth = rectButton.right - rectButton.left;
 	int nButtonHeight = rectButton.bottom - rectButton.top;
@@ -483,7 +483,8 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, i
 	HBITMAP hbmImage;
 	HBITMAP hbmMask;
 
-	if (GetImage(index, &hbmImage, &hbmMask))
+	EFloatButton button = buttonList.IndexToButton(index);
+	if (GetImage(button, &hbmImage, &hbmMask))
 	{
 		HDC hDCMem = CreateCompatibleDC(m_hDCMem);
 		HBITMAP hbmOld = (HBITMAP)SelectObject(hDCMem, hbmMask);
@@ -531,19 +532,19 @@ void CThemeBasic::PaintEnd(HDC hDC, RECT rectBar)
 	DeleteDC(m_hDCMem);
 }
 
-bool CThemeBasic::GetImage(int index, HBITMAP* pImage, HBITMAP* pMask)
+bool CThemeBasic::GetImage(EFloatButton button, HBITMAP* pImage, HBITMAP* pMask)
 {
-	switch (index)
+	switch (button)
 	{
-	case 0:
+	case FB_PREV:
 		*pImage = m_hbmPrev;
 		*pMask = m_hbmPrevMask;
 		break;
-	case 1:
+	case FB_NEXT:
 		*pImage = m_hbmNext;
 		*pMask = m_hbmNextMask;
 		break;
-	case 2:
+	case FB_SUPERSIZE:
 		*pImage = m_hbmSupersize;
 		*pMask = m_hbmSupersizeMask;
 		break;

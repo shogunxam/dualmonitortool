@@ -11,6 +11,7 @@
 //#include "BitmapBuffer.h"
 
 struct LayoutMetrics;
+enum EFloatButton;
 
 class LOCALMODE_API CThemeBasic : public CTheme
 {
@@ -40,12 +41,12 @@ private:
 
 	void PaintStart(HDC hDC, RECT rectBar);
 	void PaintBarBackground(HDC hDC, RECT rectBar);
-	void PaintButtonFace(HWND hWndFloatBar, HDC hDC, RECT rectButton, int index, bool bActive);
+	void PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectButton, int index, bool bActive);
 	void PaintButtonSpacing(HDC hDC, RECT rectButton);
 	void PaintBarBorder(HDC hDC, RECT rectBar);
 	void PaintEnd(HDC hDC, RECT rectBar);
 
-	bool GetImage(int index, HBITMAP* pImage, HBITMAP* pMask);
+	bool GetImage(EFloatButton button, HBITMAP* pImage, HBITMAP* pMask);
 
 
 private:
