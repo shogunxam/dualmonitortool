@@ -10,7 +10,7 @@
 #include <objidl.h>
 #include <gdiplus.h>
 using namespace Gdiplus;
-#pragma comment (lib,"Gdiplus.lib")
+//#pragma comment (lib,"Gdiplus.lib")
 
 
 //#define TRANSPARENT_COLOUR	(RGB(0, 255, 0))

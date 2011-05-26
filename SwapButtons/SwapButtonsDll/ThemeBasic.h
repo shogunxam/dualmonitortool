@@ -13,6 +13,9 @@
 struct LayoutMetrics;
 enum EFloatButton;
 
+typedef HRESULT (WINAPI *PGetThemeBitmap)(HTHEME, int, int, int, ULONG, HBITMAP*);
+
+
 class LOCALMODE_API CThemeBasic : public CTheme
 {
 public:
@@ -37,6 +40,9 @@ public:
 
 private:
 	void CheckIfAvailable();
+	void SaveButtonSize(HWND hWndFrame);
+	void SaveBackgroundBitmap();
+	void ConvertPathToResourceName(wchar_t* pszName);
 	void SaveBgrColour();
 
 	void PaintStart(HDC hDC, RECT rectBar);
@@ -61,6 +67,8 @@ private:
 	bool m_bCheckedAvailable;
 	bool m_bIsAvailable;
 	HMODULE m_hDwmLib;
+	HMODULE m_hUxThemeLib;
+	PGetThemeBitmap  m_pfnGetThemeBitmap;
 
 	COLORREF m_BgrColour;
 

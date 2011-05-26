@@ -40,7 +40,7 @@ public:
 
 private:
 	SIZE CalcBarOffsets(HWND hWndFrame);
-	static bool IsPreVista();
+	//static bool IsPreVista();
 
 private:
 	CThemeClassic m_ThemeClassic;

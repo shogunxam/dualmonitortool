@@ -88,11 +88,37 @@ SIZE CLayoutManager::CalcBarOffsets(HWND hWndFrame)
 	return offsets;
 }
 
-// private static
-bool CLayoutManager::IsPreVista()
-{
-	return false;
-}
+//// private static
+//bool CLayoutManager::IsPreVista()
+//{
+//	bool ret = true;
+//	//return true;	// for testing
+//
+//	OSVERSIONINFO VerInfo;
+//
+//	memset(&VerInfo, 0, sizeof(VerInfo));
+//	VerInfo.dwOSVersionInfoSize = sizeof(VerInfo);
+//	GetVersionEx((OSVERSIONINFO*)&VerInfo);
+//
+//	if (VerInfo.dwPlatformId == 1)
+//	{
+//		// 9X and earlier
+//	}
+//	else if (VerInfo.dwPlatformId == 2)
+//	{
+//		// NT and later
+//		if (VerInfo.dwMajorVersion >= 6)	// Vista or later
+//		{
+//			ret = false;
+//		}
+//	}
+//	else if (VerInfo.dwPlatformId == 3)
+//	{
+//		// Windows CE
+//	}
+//
+//	return ret;
+//}
 
 SIZE CLayoutManager::GetBarSize(const CButtonList& buttonList)
 {

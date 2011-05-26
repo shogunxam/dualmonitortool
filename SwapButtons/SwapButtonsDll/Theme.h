@@ -35,11 +35,11 @@ protected:
 	static DWORD ARGBBlend(DWORD ARGB);
 	static HBITMAP CreateMask(HBITMAP hbmImage);
 	static POINT GetStdButtonsTLHC(HWND hWndFrame);
+	static bool IsPreVista();
 
 private:
 	static POINT GetStdButtonsTLHCPreVista(HWND hWndFrame);
 	static POINT GetStdButtonsTLHCVista(HWND hWndFrame);
-	static bool IsPreVista();
 
 protected:
 	HBITMAP m_hbmPrev;

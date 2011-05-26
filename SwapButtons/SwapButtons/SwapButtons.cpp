@@ -135,7 +135,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ghInst = hInstance; // Store instance handle in our global variable
 
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   //hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   //   CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+   DWORD dwExStyle = 0;
+   // for local testing of tool windows
+   //dwExStyle |= WS_EX_TOOLWINDOW;
+   hWnd = CreateWindowEx(dwExStyle, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
@@ -243,7 +248,8 @@ void SetLocalMode(HWND hWnd)
 	{
 		ghModuleBitmaps = LoadLibrary(L"SwapButtonsDll.dll");
 		CFloatBar::ProcInit(ghInst);
-		gpFloatBar = new CFloatBar(ghModuleBitmaps, hWnd, 0);
+		DWORD dwButtons = 0x00000CBA;
+		gpFloatBar = new CFloatBar(ghModuleBitmaps, hWnd, dwButtons);
 	}
 }
 

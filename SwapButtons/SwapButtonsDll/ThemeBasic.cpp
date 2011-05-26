@@ -26,7 +26,11 @@ CThemeBasic::CThemeBasic(void)
 	  m_hbmBar(NULL),
 	  m_hbmOld(NULL),
 	  m_hbmBackground(NULL),
+	  m_bCheckedAvailable(false),
+	  m_bIsAvailable(false),
 	  m_hDwmLib(NULL),
+	  m_hUxThemeLib(NULL),
+	  m_pfnGetThemeBitmap(NULL),
 	  m_hbmPrevMask(NULL),
 	  m_hbmNextMask(NULL),
 	  m_hbmSupersizeMask(NULL)
@@ -52,6 +56,10 @@ CThemeBasic::~CThemeBasic(void)
 	if (m_hbmBackground)
 	{
 		DeleteObject(m_hbmBackground);
+	}
+	if (m_hUxThemeLib)
+	{
+		FreeLibrary(m_hUxThemeLib);
 	}
 	if (m_hDwmLib)
 	{
@@ -90,14 +98,12 @@ bool CThemeBasic::IsAvailable()
 // private
 void CThemeBasic::CheckIfAvailable()
 {
-	m_hDwmLib = LoadLibrary(L"dwmapi.dll");
-	if (m_hDwmLib)
+	m_hUxThemeLib = LoadLibrary(L"uxtheme.dll");
+	if (m_hUxThemeLib)
 	{
-		if (GetProcAddress(m_hDwmLib, "DwmIsCompositionEnabled")
-		 && GetProcAddress(m_hDwmLib, "DwmGetColorizationColor"))
-		{
-			m_bIsAvailable = true;
-		}
+		m_bIsAvailable = true;
+		// GetThemeBitmap() is only available on Vista or later
+		m_pfnGetThemeBitmap = (PGetThemeBitmap)GetProcAddress(m_hUxThemeLib, "GetThemeBitmap");
 	}
 	m_bCheckedAvailable = true;
 }
@@ -155,23 +161,10 @@ bool CThemeBasic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_CAPTION, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, MINBS_NORMAL, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
 		//HRESULT hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
-		hr = GetThemeBitmap(m_hTheme, WP_MINBUTTON, 0, TMT_DIBDATA, GBF_COPY, &m_hbmBackground);
-		if (SUCCEEDED(hr))
-		{
-			OutputDebugString(L"Got background\n");
-			if (m_hbmBackground)
-			{
-				BITMAP bm;
-				GetObject(m_hbmBackground, sizeof(bm), &bm);
-				m_nButtonWidth = bm.bmWidth;
-				m_nButtonHeight = bm.bmHeight;
-			}
-		}
-		//CloseThemeData(hTheme);
 
-		// TODO:
-		m_nButtonWidth = 28;
-		m_nButtonHeight = 15;
+		SaveBackgroundBitmap();
+
+		SaveButtonSize(hWndFrame);
 
 		m_ImageStrip.SetImageStrip(m_hbmBackground, 8, margins, nLayout == IL_VERTICAL);
 
@@ -195,6 +188,91 @@ bool CThemeBasic::ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame)
 	}
 
 	return false;
+}
+
+// private
+void CThemeBasic::SaveButtonSize(HWND hWndFrame)
+{
+	DWORD dwExStyle = GetWindowLong(hWndFrame, GWL_EXSTYLE);
+	int nxSize;
+	int nySize;
+
+	//int nButtonWidth = GetSystemMetrics(SM_CXSIZE);
+	//int nButtonHeight = GetSystemMetrics(SM_CYSIZE);
+	if (dwExStyle & WS_EX_TOOLWINDOW)
+	{
+		nxSize = GetSystemMetrics(SM_CXSMSIZE);
+		nySize = GetSystemMetrics(SM_CYSMSIZE);
+	}
+	else
+	{
+		nxSize = GetSystemMetrics(SM_CXSIZE);
+		nySize = GetSystemMetrics(SM_CYSIZE);
+	}
+
+	//TODO: this is a temprary fudge
+	m_nButtonWidth = nxSize -4; // was - 2;
+	m_nButtonHeight = nySize - 4;
+
+	// HACK: for Vista
+	//m_nButtonWidth = 28;
+	//m_nButtonHeight = 15;
+}
+
+// private
+void CThemeBasic::SaveBackgroundBitmap()
+{
+	HRESULT hr;
+	HBITMAP hbm;
+
+	if (m_pfnGetThemeBitmap)
+	{
+		hr = m_pfnGetThemeBitmap(m_hTheme, WP_MINBUTTON, 0, TMT_DIBDATA, GBF_COPY, &hbm);
+		if (SUCCEEDED(hr))
+		{
+			m_hbmBackground = hbm;
+		}
+	}
+	else
+	{
+		wchar_t szThemeFnm[MAX_PATH];
+		wchar_t szBitmapName[MAX_PATH];	// not really a path
+
+		// get the path to the theme
+		hr = GetCurrentThemeName(szThemeFnm, MAX_PATH, NULL, 0, NULL, 0);
+		if (SUCCEEDED(hr))
+		{
+			hr = GetThemeFilename(m_hTheme, WP_MINBUTTON, 0, TMT_IMAGEFILE, szBitmapName, MAX_PATH);
+			if (SUCCEEDED(hr))
+			{
+				// convert the bitmap name from a path style name to a resource style name
+				ConvertPathToResourceName(szBitmapName);
+
+				HMODULE hThemeModule = LoadLibraryEx(szThemeFnm, NULL, LOAD_LIBRARY_AS_DATAFILE);
+				if (hThemeModule)
+				{
+					m_hbmBackground = (HBITMAP)LoadImage(hThemeModule, szBitmapName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+					FreeLibrary(hThemeModule);
+				}
+			}
+		}
+	}
+}
+
+// private
+void CThemeBasic::ConvertPathToResourceName(wchar_t* pszName)
+{
+	for (wchar_t* psz = pszName; *psz; psz++)
+	{
+		if (isalnum(*psz))
+		{
+			*psz = toupper(*psz);
+		}
+		else
+		{
+			*psz = '_';
+		}
+	}
 }
 
 // private
@@ -436,7 +514,7 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList&
 
 	//if (m_hTheme)
 	//{
-		HRESULT hr;
+		//HRESULT hr;
 
 		//if (IsThemeBackgroundPartiallyTransparent(m_hTheme, WP_MINBUTTON, 0))
 		//{
@@ -492,12 +570,44 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList&
 		BITMAP bm;
 		GetObject(hbmImage, sizeof(bm), &bm);
 
+#ifdef OLD_CODE
 		int x = (rectButton.right + rectButton.left - bm.bmWidth) / 2;
 		int y = (rectButton.top + rectButton.bottom - bm.bmHeight) / 2;
 
 		BitBlt(m_hDCMem, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
 		SelectObject(hDCMem, hbmImage);
 		BitBlt(m_hDCMem, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
+#else
+		// we use the height of the button to scale the glyph
+		int nTopMargin = 3;
+		int nBottomMargin = 3;
+		int nTargetHeight = rectButton.bottom - rectButton.top - nTopMargin - nBottomMargin; 
+		int nTargetWidth = nTargetHeight * bm.bmWidth / bm.bmHeight;
+
+		// as scaled images don't look too good, we only scale if there is a significant difference in size
+		if (bm.bmHeight >= nTargetHeight - 6 && bm.bmHeight <= nTargetHeight + 2)
+		{
+			int x = (rectButton.right + rectButton.left - bm.bmWidth) / 2;
+			int y = (rectButton.top + rectButton.bottom - bm.bmHeight) / 2;
+
+			BitBlt(m_hDCMem, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCAND);
+			SelectObject(hDCMem, hbmImage);
+			BitBlt(m_hDCMem, x, y, bm.bmWidth, bm.bmHeight, hDCMem, 0, 0, SRCPAINT);
+		}
+		else
+		{
+			int x = (rectButton.right + rectButton.left - nTargetWidth) / 2;
+			int y = (rectButton.top + rectButton.bottom - nTargetHeight) / 2; // should be rectButton.top + nTopMargin
+
+			StretchBlt(m_hDCMem, x, y, 	nTargetWidth, nTargetHeight,
+				hDCMem, 0, 0, bm.bmWidth, bm.bmHeight,
+				SRCAND);
+			SelectObject(hDCMem, hbmImage);
+			StretchBlt(m_hDCMem, x, y, 	nTargetWidth, nTargetHeight,
+				hDCMem, 0, 0, bm.bmWidth, bm.bmHeight,
+				SRCPAINT);
+			}
+#endif
 
 		SelectObject(hDCMem, hbmOld);
 		DeleteDC(hDCMem);
