@@ -34,13 +34,14 @@ int gnFrameCount = 0;
 #pragma comment(linker, "/section:shared,rws")
 // handle to the CBT hook used to detect new windows
 HHOOK ghHook = 0;
-// tom for property to use to associate our floatbar with the frame wnd
+// atom for property to use to associate our floatbar with the frame wnd
 ATOM gAtomFloatInfo = 0;
 // our window message to force the FloatBar to reload the configuration info - typically after the gui has changed it
 UINT gwm_reinit = 0;
 // our window message to force the FloatBar to unhook itself and close
 UINT gwm_unload = 0;
-
+// flag indicating if we should hook into any newly discovered windows
+bool gbHookWindows = false;
 #pragma data_seg()
 
 // forward declarations
@@ -67,6 +68,9 @@ DWORD HookStart()
 	wsprintf(szMsg, L"gwm_reinit = %d gwm_unload = %d\n", gwm_reinit, gwm_unload);
 	OutputDebugString(szMsg);
 
+	// allow newly discovered frame windows to be subclassed
+	gbHookWindows = true;
+
 	//ghShellHook = SetWindowsHookEx(WH_SHELL, ShellProc, ghModule, 0);
 	ghHook = SetWindowsHookEx(WH_CBT, HookProc, ghModule, 0);
 	
@@ -86,6 +90,13 @@ DWORD HookStart()
 DWORD HookEnd()
 {
 	DWORD err = 0;
+
+	// stop any more windows from being sub-classed
+	gbHookWindows = false;
+
+	// broadcast to all instances of our dll that they should start unhooking themselves
+	DWORD dwRecipients = BSM_APPLICATIONS;
+	BroadcastSystemMessage(BSF_FORCEIFHUNG | BSF_NOTIMEOUTIFNOTHUNG, &dwRecipients, gwm_unload, 0, 0);
 
 	if (ghHook)
 	{
@@ -153,7 +164,10 @@ __declspec(dllexport) LRESULT CALLBACK HookProc(int nCode, WPARAM wParam, LPARAM
 		break;
 	case HCBT_ACTIVATE:
 		OutputDebugString(L"HCBT_ACTIVATE\n");
-		CheckIsSubClassed((HWND)wParam);
+		if (gbHookWindows)
+		{
+			CheckIsSubClassed((HWND)wParam);
+		}
 		break;
 	case HCBT_DESTROYWND:
 		// no need to handle as we will get WM_NCDESTROY in our sub-classed windows
@@ -279,6 +293,7 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 			}
 			else if (nMsg == gwm_unload)
 			{
+				EndSubClass(hWnd, pFloatBar);
 			}
 			break;
 		}

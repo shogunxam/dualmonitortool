@@ -300,7 +300,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			OutputDebugString(L"gwm_reinit\n");
 			// it may make more sense to catch this message directly in the FloatBar?
-			gpFloatBar->ReInit();
+			if (gpFloatBar)
+			{
+				gpFloatBar->ReInit();
+			}
 		}
 		else if (message == gwm_unload)
 		{
