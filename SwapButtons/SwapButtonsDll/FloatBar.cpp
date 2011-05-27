@@ -17,6 +17,8 @@
 
 #include "StdAfx.h"
 #include <Windowsx.h>
+#include <Shlobj.h>	// for SHGetFolderPath()
+
 #include "FloatBar.h"
 #include "FloatInfo.h"
 
@@ -27,7 +29,7 @@ static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 #define WM_ERASEBACKGROUND 0x0014
 
-WCHAR szFloatBarClassName[] = L"GNE_FloatBar";
+WCHAR szFloatBarClassName[] = L"GNE_DMT_FloatBar";
 
 
 
@@ -67,13 +69,14 @@ ATOM CFloatBar::RegisterFloatBarClass(HINSTANCE hInstance)
 //	// TODO: move code from SwapButtonsHook into here to do this
 //}
 
-CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame, DWORD dwButtons)
+CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame)
 	: m_hWndFrame(hWndFrame),
 	  m_hWndFloatBar(0),
 	  m_OldWndProc(NULL),
 	  m_bActive(false),
-	  m_ButtonList(dwButtons)
+	  m_ButtonList(0)
 {
+	m_ButtonList.ChangeButtons(GetButtonsConfig());
 //	m_pTheme = new CTheme();
 //	m_pTheme->GrabThemeData(hWndFrame);
 	m_LayoutManager.ReInit(hWndFrame);
@@ -105,7 +108,6 @@ HWND CFloatBar::GetHWndFloatBar() const
 {
 	return m_hWndFloatBar;
 }
-
 
 
 void CFloatBar::UpdateBarWindow(HWND hWndFrame, HINSTANCE hInstance)
@@ -302,9 +304,22 @@ void CFloatBar::OnCreate(HWND hWnd)
 
 void CFloatBar::OnThemeChange()
 {
+	//m_LayoutManager.ReInit(m_hWndFrame);
+	//InvalidateRect(m_hWndFloatBar, NULL, FALSE);
+	ReInit();
+}
+
+/*
+ * Called to re-initialise the float bar
+ * either after the theme has been changed
+ * or if the gui wants different buttons displayed
+ */
+void CFloatBar::ReInit()
+{
 	m_LayoutManager.ReInit(m_hWndFrame);
 	InvalidateRect(m_hWndFloatBar, NULL, FALSE);
 }
+
 
 void CFloatBar::OnPaint()
 {
@@ -339,3 +354,22 @@ CFloatBar* CFloatBar::FloatBarInstance(HWND hWndFloatBar)
 	return pFloatBar;
 }
 
+
+// private
+DWORD CFloatBar::GetButtonsConfig()
+{
+	DWORD dwButtons = 0xCAB;
+
+	//wstring sIniFnm = L"%LOCALAPPDATA%\\GNE\\SwapButtons\\SwapButtons.ini";
+	//wstring sIniFnm = L"C:\\Users\\admin\\AppData\\Local\\GNE\\SwapButtons\\SwapButtons.ini";
+
+	wchar_t szIniFnm[MAX_PATH];
+	HRESULT hr = SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA, NULL, SHGFP_TYPE_CURRENT, szIniFnm);
+	if (SUCCEEDED(hr))
+	{
+		wcscat_s(szIniFnm, MAX_PATH, L"\\GNE\\SwapButtons\\SwapButtons.ini");
+		dwButtons = GetPrivateProfileInt(L"Config", L"Buttons", 0x00000ABC, szIniFnm);
+	}
+
+	return dwButtons;
+}

@@ -32,8 +32,15 @@ int gnFrameCount = 0;
 // data shared by all instances of the dll
 #pragma data_seg("shared")
 #pragma comment(linker, "/section:shared,rws")
+// handle to the CBT hook used to detect new windows
 HHOOK ghHook = 0;
+// tom for property to use to associate our floatbar with the frame wnd
 ATOM gAtomFloatInfo = 0;
+// our window message to force the FloatBar to reload the configuration info - typically after the gui has changed it
+UINT gwm_reinit = 0;
+// our window message to force the FloatBar to unhook itself and close
+UINT gwm_unload = 0;
+
 #pragma data_seg()
 
 // forward declarations
@@ -52,6 +59,10 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 // called by gui
 DWORD HookStart()
 {
+	// register window messages as broadcast by the gui
+	gwm_reinit = RegisterWindowMessage(L"GNE_DMT_REINIT");
+	gwm_unload = RegisterWindowMessage(L"GNE_DMT_UNLOAD");
+
 	//ghShellHook = SetWindowsHookEx(WH_SHELL, ShellProc, ghModule, 0);
 	ghHook = SetWindowsHookEx(WH_CBT, HookProc, ghModule, 0);
 	
@@ -97,7 +108,7 @@ DWORD HookProcessAttach(HMODULE hModule)
 	wchar_t szDllFnm[MAX_PATH];
 
 	ghModule = hModule;
-	gAtomFloatInfo = GlobalAddAtom(L"GNE_SwapButtons");
+	gAtomFloatInfo = GlobalAddAtom(L"GNE_DMT_SwapButtons");
 
 	wsprintf(szMsg, L"gAtomFloatInfo=0x%x\n", gAtomFloatInfo);
 	OutputDebugString(szMsg);
@@ -199,8 +210,8 @@ void CheckIsSubClassed(HWND hWndFrame)
 		}
 #endif
 		// TODO: use CFloatBar::CreateFloatBar() to handle exceptions
-		DWORD dwButtons = 0x00000CBA;
-		CFloatBar* pFloatBar = new CFloatBar(ghModule, hWndFrame, dwButtons);
+		//DWORD dwButtons = 0x00000CBA;
+		CFloatBar* pFloatBar = new CFloatBar(ghModule, hWndFrame);
 		if (pFloatBar)
 		{
 			OutputDebugString(L"allocated FloatBar\n");
@@ -257,6 +268,14 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 		//	break;
 
 		default:
+			if (nMsg == gwm_reinit)
+			{
+				// it may make more sense to catch this message directly in the FloatBar?
+				pFloatBar->ReInit();
+			}
+			else if (nMsg == gwm_unload)
+			{
+			}
 			break;
 		}
 

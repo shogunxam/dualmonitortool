@@ -55,7 +55,8 @@ public:
 	CButtonList(DWORD dwButtons);
 	~CButtonList(void);
 
-	//void LoadBitmaps(HMODULE hModule);
+	void ChangeButtons(DWORD dwButtons);
+
 
 	int Count() const;
 	EFloatButton IndexToButton(int index) const;
@@ -69,7 +70,7 @@ public:
 //	CButton* At(int index);
 
 private:
-	void Init(DWORD dwButtons);
+	void Init();
 
 	//HBITMAP CreateMask(HBITMAP hbmImage);
 	//void PaintBitmap(HBITMAP hbmImage, HBITMAP hbmMask, HDC hDC, const RECT& rect) const;

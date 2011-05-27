@@ -44,7 +44,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 
 
-extern "C" SWAPBUTTONSDLL_API DWORD Hook(void)
+extern "C" SWAPBUTTONSDLL_API DWORD Hook()
 {
 	return HookStart();
 }

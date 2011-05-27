@@ -39,7 +39,7 @@ private:
 	static ATOM RegisterFloatBarClass(HINSTANCE hInstance);
 
 public:
-	CFloatBar(HMODULE hModule, HWND hWndFrame, DWORD dwButtons);
+	CFloatBar(HMODULE hModule, HWND hWndFrame);
 	virtual ~CFloatBar();
 
 	void SetOldWndProc(WNDPROC WndProc);
@@ -60,6 +60,7 @@ public:
 	void OnCreate(HWND hWnd);
 	//void OnActivate();
 	void OnThemeChange();
+	void ReInit();
 	void OnPaint();
 	void CalcPositioning();
 
@@ -86,6 +87,7 @@ public:
 
 
 private:
+	DWORD GetButtonsConfig();
 //	ATOM MyRegisterClass(HINSTANCE hInstance);
 
 

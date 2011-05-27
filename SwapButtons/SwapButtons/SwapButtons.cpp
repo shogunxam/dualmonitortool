@@ -33,14 +33,21 @@
 HINSTANCE ghInst;								// current instance
 TCHAR gszTitle[MAX_LOADSTRING];					// The title bar text
 
-HMODULE ghModuleBitmaps;
 
+// START LOCAL TESTING - only needed for local mode testing (not hooking into all applications) 
+HMODULE ghModuleBitmaps = NULL;
 CFloatBar* gpFloatBar = NULL;
+// our window message to force the FloatBar to reload the configuration info - typically after the gui has changed it
+UINT gwm_reinit = 0;
+// our window message to force the FloatBar to unhook itself and close
+UINT gwm_unload = 0;
+// END LOCAL TESTING
 
 // Forward declarations of functions included in this code module:
 bool CheckIfAlreadyRunning(HANDLE* phMutex);
 ATOM				MyRegisterClass(LPCTSTR pszWindowClass);
-BOOL				InitInstance(int);
+bool RegisterMessages();
+int				InitInstance(int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 void				SetLocalMode(HWND hWnd);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
@@ -56,6 +63,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
  	// TODO: Place code here.
 	MSG msg;
 	HACCEL hAccelTable;
+	int err;
 
 	// setup the global variables to save passing them around 
 	ghInst = hInstance;
@@ -69,9 +77,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	}
 
 	// Perform application initialization:
-	if (!InitInstance (nCmdShow))
+	err = InitInstance (nCmdShow);
+	if (err)
 	{
-		return 2;
+		return err;
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SWAPBUTTONS));
@@ -120,7 +129,7 @@ bool CheckIfAlreadyRunning(HANDLE* phMutex)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-BOOL InitInstance(int nCmdShow)
+int InitInstance(int nCmdShow)
 {
 	HWND hWnd;
 
@@ -129,6 +138,10 @@ BOOL InitInstance(int nCmdShow)
 
    	MyRegisterClass(szWindowClass);
 
+	if (!RegisterMessages())
+	{
+		return 3;
+	}
 
 	DWORD dwExStyle = 0;
 	// for local testing of tool windows
@@ -138,13 +151,14 @@ BOOL InitInstance(int nCmdShow)
 
 	if (!hWnd)
 	{
-		return FALSE;
+		MessageBox(NULL, _T("Failed to create window"), gszTitle, MB_OK | MB_ICONERROR);
+		return 4;
 	}
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 
-	return TRUE;
+	return 0;
 }
 
 //
@@ -171,6 +185,25 @@ ATOM MyRegisterClass(LPCTSTR pszWindowClass)
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
 	return RegisterClassEx(&wcex);
+}
+
+bool RegisterMessages()
+{
+	gwm_reinit = RegisterWindowMessage(_T("GNE_DMT_REINIT"));
+	gwm_unload = RegisterWindowMessage(_T("GNE_DMT_UNLOAD"));
+
+	if (!gwm_reinit)
+	{
+		MessageBox(NULL, _T("Failed to register reinit message"), gszTitle, MB_OK | MB_ICONERROR);
+		return false;
+	}
+	else if (!gwm_unload)
+	{
+		MessageBox(NULL, _T("Failed to register reinit message"), gszTitle, MB_OK | MB_ICONERROR);
+		return false;
+	}
+
+	return true;
 }
 
 //
@@ -267,8 +300,8 @@ void SetLocalMode(HWND hWnd)
 	{
 		ghModuleBitmaps = LoadLibrary(L"SwapButtonsDll.dll");
 		CFloatBar::ProcInit(ghInst);
-		DWORD dwButtons = 0x00000CBA;
-		gpFloatBar = new CFloatBar(ghModuleBitmaps, hWnd, dwButtons);
+		//DWORD dwButtons = 0x00000CBA;
+		gpFloatBar = new CFloatBar(ghModuleBitmaps, hWnd);
 	}
 }
 

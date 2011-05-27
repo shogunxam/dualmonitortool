@@ -21,20 +21,26 @@
 
 #include "ResourceDll.h"
 
-//extern HMODULE ghModule;
-
 CButtonList::CButtonList(DWORD dwButtons)
 	: m_dwButtons(dwButtons)
 {
-	Init(dwButtons);
+	Init();
 }
 
 CButtonList::~CButtonList(void)
 {
 }
 
-void CButtonList::Init(DWORD dwButtons)
+void CButtonList::ChangeButtons(DWORD dwButtons)
 {
+	m_dwButtons = dwButtons;
+
+	Init();
+}
+
+void CButtonList::Init()
+{
+	DWORD dwButtons = m_dwButtons;
 	m_nButtons = 0;
 	int nMask = 0x0000000F;
 	for (int i = 0; i < MAX_BUTTONS; i++)
@@ -54,27 +60,11 @@ void CButtonList::Init(DWORD dwButtons)
 
 int CButtonList::Count() const
 {
-	// hardcoded for now
-	//return 3;
 	return m_nButtons;
 }
 
 EFloatButton CButtonList::IndexToButton(int index) const
 {
-	// hardcoded for now
-	//if (index == 0)
-	//{
-	//	return FB_PREV;
-	//}
-	//else if (index == 1)
-	//{
-	//	return FB_NEXT;
-	//}
-	//else if (index == 2)
-	//{
-	//	return FB_SUPERSIZE;
-	//}
-
 	if (index >= 0 && index < m_nButtons)
 	{
 		return m_Buttons[index];
