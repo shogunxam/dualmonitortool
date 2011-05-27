@@ -31,16 +31,16 @@
 
 // Global Variables:
 HINSTANCE ghInst;								// current instance
-TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
-TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+TCHAR gszTitle[MAX_LOADSTRING];					// The title bar text
 
 HMODULE ghModuleBitmaps;
 
 CFloatBar* gpFloatBar = NULL;
 
 // Forward declarations of functions included in this code module:
-ATOM				MyRegisterClass(HINSTANCE hInstance);
-BOOL				InitInstance(HINSTANCE, int);
+bool CheckIfAlreadyRunning(HANDLE* phMutex);
+ATOM				MyRegisterClass(LPCTSTR pszWindowClass);
+BOOL				InitInstance(int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 void				SetLocalMode(HWND hWnd);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
@@ -57,15 +57,21 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	MSG msg;
 	HACCEL hAccelTable;
 
-	// Initialize global strings
-	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_SWAPBUTTONS, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
+	// setup the global variables to save passing them around 
+	ghInst = hInstance;
+	LoadString(hInstance, IDS_APP_TITLE, gszTitle, MAX_LOADSTRING);
+
+	// check we are not already running
+	HANDLE hMutex;
+	if (CheckIfAlreadyRunning(&hMutex))
+	{
+		return 1;
+	}
 
 	// Perform application initialization:
-	if (!InitInstance (hInstance, nCmdShow))
+	if (!InitInstance (nCmdShow))
 	{
-		return FALSE;
+		return 2;
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SWAPBUTTONS));
@@ -80,43 +86,28 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		}
 	}
 
+	// this will happen when we exit anyway, but it is nicer to be explicit
+	CloseHandle(hMutex);
+
 	return (int) msg.wParam;
 }
 
 
-
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
-//  COMMENTS:
-//
-//    This function and its usage are only necessary if you want this code
-//    to be compatible with Win32 systems prior to the 'RegisterClassEx'
-//    function that was added to Windows 95. It is important to call this function
-//    so that the application will get 'well formed' small icons associated
-//    with it.
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
+bool CheckIfAlreadyRunning(HANDLE* phMutex)
 {
-	WNDCLASSEX wcex;
+#ifdef _WIN64
+	TCHAR* pszMutexName = L"GNE_DMT_SwapButtons_64";
+#else
+	TCHAR* pszMutexName = _T("GNE_DMT_SwapButtons_32");
+#endif
+	*phMutex = CreateMutex(NULL, FALSE, pszMutexName);
+	if (GetLastError() == ERROR_ALREADY_EXISTS || GetLastError() == ERROR_ACCESS_DENIED)
+	{
+		MessageBox(NULL, L"SwapButtons is already running", pszMutexName, MB_OK | MB_ICONWARNING);
+		return true;
+	}
 
-	wcex.cbSize = sizeof(WNDCLASSEX);
-
-	wcex.style			= CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc	= WndProc;
-	wcex.cbClsExtra		= 0;
-	wcex.cbWndExtra		= 0;
-	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SWAPBUTTONS));
-	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_SWAPBUTTONS);
-	wcex.lpszClassName	= szWindowClass;
-	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
-	return RegisterClassEx(&wcex);
+	return false;
 }
 
 //
@@ -129,29 +120,57 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL InitInstance(int nCmdShow)
 {
-   HWND hWnd;
+	HWND hWnd;
 
-   ghInst = hInstance; // Store instance handle in our global variable
+	TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+	LoadString(ghInst, IDC_SWAPBUTTONS, szWindowClass, MAX_LOADSTRING);
 
-   //hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-   //   CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-   DWORD dwExStyle = 0;
-   // for local testing of tool windows
-   //dwExStyle |= WS_EX_TOOLWINDOW;
-   hWnd = CreateWindowEx(dwExStyle, szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+   	MyRegisterClass(szWindowClass);
 
-   if (!hWnd)
-   {
-      return FALSE;
-   }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+	DWORD dwExStyle = 0;
+	// for local testing of tool windows
+	//dwExStyle |= WS_EX_TOOLWINDOW;
+	hWnd = CreateWindowEx(dwExStyle, szWindowClass, gszTitle, WS_OVERLAPPEDWINDOW,
+      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, ghInst, NULL);
 
-   return TRUE;
+	if (!hWnd)
+	{
+		return FALSE;
+	}
+
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
+
+	return TRUE;
+}
+
+//
+//  FUNCTION: MyRegisterClass()
+//
+//  PURPOSE: Registers the window class.
+//
+ATOM MyRegisterClass(LPCTSTR pszWindowClass)
+{
+
+	WNDCLASSEX wcex;
+	wcex.cbSize = sizeof(WNDCLASSEX);
+
+	wcex.style			= CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc	= WndProc;
+	wcex.cbClsExtra		= 0;
+	wcex.cbWndExtra		= 0;
+	wcex.hInstance		= ghInst;
+	wcex.hIcon			= LoadIcon(ghInst, MAKEINTRESOURCE(IDI_SWAPBUTTONS));
+	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_SWAPBUTTONS);
+	wcex.lpszClassName	= pszWindowClass;
+	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
+	return RegisterClassEx(&wcex);
 }
 
 //
