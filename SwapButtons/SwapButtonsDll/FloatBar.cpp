@@ -114,7 +114,7 @@ void CFloatBar::UpdateBarWindow(HWND hWndFrame, HINSTANCE hInstance)
 {
 	wchar_t szMsg[256];
 	wsprintf(szMsg, L"FloatBarUpdate hWnd: 0x%x hWndFloatBar: 0x%x\n", hWndFrame, m_hWndFloatBar);
-	OutputDebugString(szMsg);
+	//OutputDebugString(szMsg);
 
 	if (!m_hWndFloatBar)
 	{
@@ -204,7 +204,7 @@ void CFloatBar::AdjustBarToParent()
 
 
 	wsprintf(szMsg, L"Move-> (%d, %d), (%d, %d)\n", rectFloatBar.left, rectFloatBar.top, rectFloatBar.right, rectFloatBar.bottom);
-	OutputDebugString(szMsg);
+	//OutputDebugString(szMsg);
 
 	//MoveWindow(m_hWnd, Rect.left, Rect.top, Rect.right -  Rect.left, Rect.bottom - Rect.top, FALSE);
 	UINT uFlags;
@@ -304,9 +304,9 @@ void CFloatBar::OnCreate(HWND hWnd)
 
 void CFloatBar::OnThemeChange()
 {
-	//m_LayoutManager.ReInit(m_hWndFrame);
-	//InvalidateRect(m_hWndFloatBar, NULL, FALSE);
-	ReInit();
+	//ReInit();
+	m_LayoutManager.ReInit(m_hWndFrame);
+	InvalidateRect(m_hWndFloatBar, NULL, FALSE);
 }
 
 /*
@@ -316,7 +316,9 @@ void CFloatBar::OnThemeChange()
  */
 void CFloatBar::ReInit()
 {
+	m_ButtonList.ChangeButtons(GetButtonsConfig());
 	m_LayoutManager.ReInit(m_hWndFrame);
+	AdjustBarToParent();
 	InvalidateRect(m_hWndFloatBar, NULL, FALSE);
 }
 

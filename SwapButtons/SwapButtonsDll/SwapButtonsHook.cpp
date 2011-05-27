@@ -63,6 +63,10 @@ DWORD HookStart()
 	gwm_reinit = RegisterWindowMessage(L"GNE_DMT_REINIT");
 	gwm_unload = RegisterWindowMessage(L"GNE_DMT_UNLOAD");
 
+	wchar_t szMsg[1025];
+	wsprintf(szMsg, L"gwm_reinit = %d gwm_unload = %d\n", gwm_reinit, gwm_unload);
+	OutputDebugString(szMsg);
+
 	//ghShellHook = SetWindowsHookEx(WH_SHELL, ShellProc, ghModule, 0);
 	ghHook = SetWindowsHookEx(WH_CBT, HookProc, ghModule, 0);
 	
@@ -77,7 +81,6 @@ DWORD HookStart()
 		return 0;
 	}
 }
-
 
 // called by gui
 DWORD HookEnd()
@@ -252,7 +255,7 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 			break;
 
 		case WM_WINDOWPOSCHANGED:
-			OutputDebugString(L"WM_WINDOWPOSCHANGED\n");
+			//OutputDebugString(L"WM_WINDOWPOSCHANGED\n");
 			pFloatBar->UpdateBarWindow(hWnd, ghModule);
 			break;
 
@@ -270,6 +273,7 @@ static LRESULT CALLBACK MyWndProc(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lP
 		default:
 			if (nMsg == gwm_reinit)
 			{
+				OutputDebugString(L"gwm_reinit\n");
 				// it may make more sense to catch this message directly in the FloatBar?
 				pFloatBar->ReInit();
 			}

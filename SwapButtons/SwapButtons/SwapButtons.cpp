@@ -242,6 +242,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_UNHOOK:
 			UnHook();
 			break;
+		case IDM_REINIT:
+			if (gwm_reinit)
+			{
+				DWORD dwRecipients = BSM_APPLICATIONS;
+				// TODO: not sure about BSF_POSTMESSAGE
+				BroadcastSystemMessage(BSF_POSTMESSAGE, &dwRecipients, gwm_reinit, 0, 0);
+			}
+			break;
 		case IDM_ABOUT:
 			DialogBox(ghInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
@@ -288,6 +296,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		break;
 	default:
+		if (message == gwm_reinit)
+		{
+			OutputDebugString(L"gwm_reinit\n");
+			// it may make more sense to catch this message directly in the FloatBar?
+			gpFloatBar->ReInit();
+		}
+		else if (message == gwm_unload)
+		{
+		}
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	return 0;
