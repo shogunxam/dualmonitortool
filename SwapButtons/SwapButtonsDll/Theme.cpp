@@ -1,3 +1,20 @@
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2011  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 #include "StdAfx.h"
 #include "Theme.h"
 #include "ButtonList.h"
@@ -236,6 +253,7 @@ POINT CTheme::GetStdButtonsTLHCPreVista(HWND hWndFrame)
 	GetTitleBarInfo(hWndFrame, &titleBarInfo);
 
 	// TODO: are there defines for the child indexes?
+	//       5 = Close button
 #define IS_TITLE_BUTTON_VISIBLE(dw) (dw & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0
 	if (IS_TITLE_BUTTON_VISIBLE(titleBarInfo.rgstate[5]))
 	{
@@ -277,6 +295,10 @@ POINT CTheme::GetStdButtonsTLHCVista(HWND hWndFrame)
 	// iterate over all of the children on the titlebar
 	// finding the one with the minimum x co-ord
 	// TODO: are there defines for the child indexes?
+	//       2 = minimise burron
+	//       3 = maximise button
+	//       4 = help button
+	//       5 = close button
 	for (int nTitleBarChild = 2; nTitleBarChild <= 5; nTitleBarChild++)
 	{
 		if ((titleBarInfoEx.rgstate[nTitleBarChild] & (STATE_SYSTEM_INVISIBLE | STATE_SYSTEM_OFFSCREEN | STATE_SYSTEM_UNAVAILABLE)) == 0)
