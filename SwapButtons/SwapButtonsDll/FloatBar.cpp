@@ -143,8 +143,10 @@ void CFloatBar::CreateBarWindow(HWND hWndFrame, HINSTANCE hInstance)
 	wsprintf(szMsg, L"Creating float bar for 0x%x\n", hWndFrame);
 	OutputDebugString(szMsg);
 	// creates a FloatBar for a particular window
-	m_hWndFloatBar = CreateWindow(szFloatBarClassName, NULL, WS_CHILD | WS_CLIPSIBLINGS,
-	    100, 100, 200, 200, GetDesktopWindow(), NULL, hInstance, this);
+	//m_hWndFloatBar = CreateWindow(szFloatBarClassName, NULL, WS_CHILD | WS_CLIPSIBLINGS,
+	//    100, 100, 200, 200, GetDesktopWindow(), NULL, hInstance, this);
+	m_hWndFloatBar = CreateWindow(szFloatBarClassName, NULL, WS_POPUP | WS_CLIPSIBLINGS,
+	    100, 100, 200, 200, hWndFrame, NULL, hInstance, this);
 
 	if (m_hWndFloatBar)
 	{
@@ -220,7 +222,7 @@ void CFloatBar::AdjustBarToParent()
 	//SetWindowPos(m_hWnd, HWND_TOP, Rect.left, Rect.top, Rect.right - Rect.left, Rect.bottom - Rect.top, SWP_SHOWWINDOW);
 	//printf("%d\r\n", ret);
 
-	SetActiveWindow(m_hWndFloatBar);
+	//SetActiveWindow(m_hWndFloatBar); // GNE 30/05/11 is this needed ?
 }
 
 
