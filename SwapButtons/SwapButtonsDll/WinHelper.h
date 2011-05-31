@@ -27,16 +27,17 @@ public:
 
 	static void SupersizeWindow(HWND hWnd);
 	static void MoveWindowToNext(HWND hWnd);
+	static void MoveWindowToPrev(HWND hWnd);
+	static void MoveWindowToScreen(HWND hWnd, int screenIndex);
 
 
 private:
 	static RECT GetVitrualWorkingRect();
 
-
-	static RECT TransformToOtherScreen(const RECT& srcRect, int nDelta);
+	static void MoveWindowToDeltaScreen(HWND hWnd, int nDelta);
+	static void MoveWindow(HWND hWnd, WINDOWPLACEMENT* pWindowPlacement, const RECT& newRect);
 
 private:
-	static 
-		CScreenMap m_ScreenMap;
+	static CScreenMap m_ScreenMap;
 };
 

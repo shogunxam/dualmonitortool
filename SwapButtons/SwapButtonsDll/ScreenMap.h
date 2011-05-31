@@ -27,16 +27,20 @@ public:
 
 	void AddMonitor(HMONITOR hMonitor, LPRECT lprcMonitor);
 
-	RECT TransformToOtherScreen(const RECT& srcRect, int nDelta);
+	RECT TransformToOtherScreenDelta(const RECT& srcRect, int nDelta);
+	RECT TransformToOtherScreen(const RECT& srcRect, int otherScreenIndex);
 
+	RECT GetVitrualWorkingRect();
 
 protected:
 	void BuildMap();
 	const CScreen& GetNextScreen(HMONITOR hMonitor);
 	int DeltaScreenIndex(int screenIndex, int deltaScreenIndex);
 
+	RECT TransformRect(const RECT& srcRect, int srcScreenIndex, int destScreenIndex);
 	int FindHMonitor(HMONITOR hMonitor);
 //	void TracePlacementInfo(CWnd* pWnd, const WINDOWPLACEMENT* pPlacement);
+
 
 private:
 	std::vector<CScreen> m_Screens;

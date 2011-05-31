@@ -62,32 +62,48 @@ void CScreenMap::AddMonitor(HMONITOR hMonitor, LPRECT lprcMonitor)
 	m_Screens.push_back(NewScreen);
 }
 
-RECT CScreenMap::TransformToOtherScreen(const RECT& srcRect, int deltaScreenIndex)
+RECT CScreenMap::TransformToOtherScreenDelta(const RECT& srcRect, int deltaScreenIndex)
 {
-	RECT otherRect = srcRect;
-
 	// determine which screen this rectangle is (mainly) on
 	HMONITOR hMonitor = MonitorFromRect(&srcRect, MONITOR_DEFAULTTONEAREST);
 
 	int curScreenIndex = FindHMonitor(hMonitor);
 	int otherScreenIndex = DeltaScreenIndex(curScreenIndex, deltaScreenIndex);
 
-	if (otherScreenIndex != curScreenIndex)
+	return TransformRect(srcRect, curScreenIndex, otherScreenIndex);
+}
+
+RECT CScreenMap::TransformToOtherScreen(const RECT& srcRect, int otherScreenIndex)
+{
+	// determine which screen this rectangle is (mainly) on
+	HMONITOR hMonitor = MonitorFromRect(&srcRect, MONITOR_DEFAULTTONEAREST);
+
+	int curScreenIndex = FindHMonitor(hMonitor);
+
+	return TransformRect(srcRect, curScreenIndex, otherScreenIndex);
+}
+
+// protected
+RECT CScreenMap::TransformRect(const RECT& srcRect, int srcScreenIndex, int destScreenIndex)
+{
+	RECT destRect = srcRect;
+
+	if (srcScreenIndex != destScreenIndex)
 	{
 		// keep TLHC in next screen same as current screen (relative to the working araea)
-		CScreen curScreen = m_Screens[curScreenIndex];
-		CScreen otherScreen = m_Screens[otherScreenIndex];
+		CScreen curScreen = m_Screens[srcScreenIndex];
+		CScreen otherScreen = m_Screens[destScreenIndex];
 		RECT curScreenRect = curScreen.GetRect();
 		RECT otherScreenRect = otherScreen.GetRect();
 		int xOffset = otherScreenRect.left - curScreenRect.left;
 		int yOffset = otherScreenRect.top - curScreenRect.top;
-		otherRect.left += xOffset;
-		otherRect.right += xOffset;
-		otherRect.top += yOffset;
-		otherRect.bottom += yOffset;
+		destRect.left += xOffset;
+		destRect.right += xOffset;
+		destRect.top += yOffset;
+		destRect.bottom += yOffset;
 	}
 
-	return otherRect;
+	return destRect;
 }
 
 int CScreenMap::DeltaScreenIndex(int screenIndex, int deltaScreenIndex)
@@ -114,4 +130,26 @@ int CScreenMap::FindHMonitor(HMONITOR hMonitor)
 	}
 
 	return nScreenIndex;
+}
+
+RECT CScreenMap::GetVitrualWorkingRect()
+{
+	RECT workingRect = { 0, 0, 0, 0};	// UnionRect() will ignore this rectangle
+	RECT curRect;
+
+	// TODO: this returns total size not working size
+	for (int nIndex = 0; nIndex < (int)m_Screens.size(); nIndex++)
+	{
+		curRect = m_Screens[nIndex].GetRect();
+		//if (nIndex == 0)
+		//{
+		//	workingRect = curRect;
+		//}
+		//else
+		//{
+			UnionRect(&workingRect, &workingRect, &curRect);
+		//}
+	}
+
+	return workingRect;
 }

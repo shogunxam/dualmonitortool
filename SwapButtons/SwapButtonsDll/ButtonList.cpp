@@ -84,11 +84,11 @@ void CButtonList::Click(int index, HWND hWndFrame)
 	case FB_SCREEN_4:
 	case FB_SCREEN_5:
 	case FB_SCREEN_6:
-		// TODO:
+		// screenIndex is zero based
+		CWinHelper::MoveWindowToScreen(hWndFrame, button - FB_SCREEN_1);
 		break;
 	case FB_PREV:
-		// TODO:
-		CWinHelper::MoveWindowToNext(hWndFrame);
+		CWinHelper::MoveWindowToPrev(hWndFrame);
 		break;
 	case FB_NEXT:
 		CWinHelper::MoveWindowToNext(hWndFrame);

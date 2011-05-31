@@ -19,7 +19,7 @@
 #include "WinHelper.h"
 
 
-BOOL CALLBACK EnumMonitorCallback(HMONITOR hMonitor, HDC hDCMonitor, LPRECT lprcMonitor, LPARAM dwData);
+//BOOL CALLBACK EnumMonitorCallback(HMONITOR hMonitor, HDC hDCMonitor, LPRECT lprcMonitor, LPARAM dwData);
 
 
 CScreenMap CWinHelper::m_ScreenMap;
@@ -28,11 +28,9 @@ CWinHelper::CWinHelper(void)
 {
 }
 
-
 CWinHelper::~CWinHelper(void)
 {
 }
-
 
 // static
 void CWinHelper::SupersizeWindow(HWND hWnd)
@@ -48,7 +46,6 @@ void CWinHelper::SupersizeWindow(HWND hWnd)
 		GetWindowPlacement(hWnd, &WindowPlacement);
 		RECT curRect = WindowPlacement.rcNormalPosition;
 
-		// TODO: ability to un-supersize
 		//if (hWnd == lastSupersizeHwnd && curRect == lastSupersizeRect)
 		if (hWnd == lastSupersizeHwnd && memcmp(&curRect, &VirtualWorkingRect, sizeof(RECT)) == 0)
 		{
@@ -74,54 +71,66 @@ void CWinHelper::SupersizeWindow(HWND hWnd)
 // static
 void CWinHelper::MoveWindowToNext(HWND hWnd)
 {
+	MoveWindowToDeltaScreen(hWnd, 1);
+}
+
+// static
+void CWinHelper::MoveWindowToPrev(HWND hWnd)
+{
+	MoveWindowToDeltaScreen(hWnd, -1);
+}
+
+// static
+void CWinHelper::MoveWindowToScreen(HWND hWnd, int screenIndex)
+{
 	WINDOWPLACEMENT windowPlacement;
 	GetWindowPlacement(hWnd, &windowPlacement);
 	RECT curRect = windowPlacement.rcNormalPosition;
-	RECT newRect = m_ScreenMap.TransformToOtherScreen(curRect, 1);
-	UINT oldShowCmd = windowPlacement.showCmd;
+	RECT newRect = m_ScreenMap.TransformToOtherScreen(curRect, screenIndex);
+
+	MoveWindow(hWnd, &windowPlacement, newRect);
+}
+
+// private static
+void CWinHelper::MoveWindowToDeltaScreen(HWND hWnd, int nDelta)
+{
+	WINDOWPLACEMENT windowPlacement;
+	GetWindowPlacement(hWnd, &windowPlacement);
+	RECT curRect = windowPlacement.rcNormalPosition;
+	RECT newRect = m_ScreenMap.TransformToOtherScreenDelta(curRect, nDelta);
+
+	MoveWindow(hWnd, &windowPlacement, newRect);
+}
+
+// private static
+void CWinHelper::MoveWindow(HWND hWnd, WINDOWPLACEMENT* pWindowPlacement, const RECT& newRect)
+{
+	UINT oldShowCmd = pWindowPlacement->showCmd;
 
 	if (oldShowCmd == SW_SHOWMINIMIZED || oldShowCmd == SW_SHOWMAXIMIZED)
 	{
 		// first restore it
-		windowPlacement.showCmd = SW_RESTORE;
-		SetWindowPlacement(hWnd, &windowPlacement);
+		pWindowPlacement->showCmd = SW_RESTORE;
+		SetWindowPlacement(hWnd, pWindowPlacement);
 
 		// now move it to the new screen
-		windowPlacement.showCmd = SW_SHOW;
-		windowPlacement.rcNormalPosition = newRect;
-		SetWindowPlacement(hWnd, &windowPlacement);
+		pWindowPlacement->showCmd = SW_SHOW;
+		pWindowPlacement->rcNormalPosition = newRect;
+		SetWindowPlacement(hWnd, pWindowPlacement);
 
 		// now min or maximise it
-		windowPlacement.showCmd = oldShowCmd;
-		SetWindowPlacement(hWnd, &windowPlacement);
+		pWindowPlacement->showCmd = oldShowCmd;
+		SetWindowPlacement(hWnd, pWindowPlacement);
 	}
 	else
 	{
-		windowPlacement.rcNormalPosition = newRect;
-		SetWindowPlacement(hWnd, &windowPlacement);
+		pWindowPlacement->rcNormalPosition = newRect;
+		SetWindowPlacement(hWnd, pWindowPlacement);
 	}
-
-
 }
 
 // static
 RECT CWinHelper::GetVitrualWorkingRect()
 {
-	RECT rect;
-
-	// TODO
-	rect.left = 0;
-	rect.top = 0;
-	rect.right = 2560;
-	rect.bottom = 1024;
-
-	return rect;
-}
-
-// static
-RECT CWinHelper::TransformToOtherScreen(const RECT& srcRect, int nDelta)
-{
-	RECT newRect = srcRect;
-
-	return newRect;
+	return m_ScreenMap.GetVitrualWorkingRect();
 }
