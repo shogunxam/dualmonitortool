@@ -64,6 +64,8 @@ public:
 	void OnPaint();
 	void CalcPositioning();
 
+	void OnMouseMove(WPARAM wParam, int x, int y);
+	void OnMouseLeave();
 	void OnLButtonDown(WPARAM wParam, int x, int y);
 
 	static CFloatBar* FloatBarInstance(HWND hWndFloatBar);
@@ -88,6 +90,8 @@ public:
 
 private:
 	DWORD GetButtonsConfig();
+	bool StartTracking();
+
 //	ATOM MyRegisterClass(HINSTANCE hInstance);
 
 
@@ -98,6 +102,8 @@ private:
 	bool m_bActive;
 
 	CButtonList m_ButtonList;
+
+	int m_nHoverIndex;	// index of button cursor is over. -1 if none
 
 	//int m_nButtonHeight;	// height of an individual button
 	//int m_nButtonWidth;		// width of an individual button (excluding any padding)

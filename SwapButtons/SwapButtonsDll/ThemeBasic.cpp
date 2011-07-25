@@ -411,7 +411,7 @@ void CThemeBasic::PrepareFloatBar(HWND hWndFloatBar)
 //static RECT m_RectBar;
 
 // virtual 
-void CThemeBasic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive)
+void CThemeBasic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive, int nHoverIndex)
 {
 	PaintStart(hDC, rectBar);
 
@@ -438,6 +438,7 @@ void CThemeBasic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CBu
 	int index;
 	int count = buttonList.Count();
 	RECT rectButton;
+	bool bHover;
 
 	for (index = 0; index < count; index++)
 	{
@@ -447,7 +448,8 @@ void CThemeBasic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CBu
 		rectButton.bottom = rectButton.top + m_nButtonHeight;
 
 		// TODO: convert index to button ID
-		PaintButtonFace(hWndFloatBar, hDC, buttonList, rectButton, index, bActive);
+		bHover = (nHoverIndex == index);
+		PaintButtonFace(hWndFloatBar, hDC, buttonList, rectButton, index, bActive, bHover);
 
 		if (index  < count - 1)
 		{
@@ -515,7 +517,7 @@ void CThemeBasic::PaintBarBackground(HDC hDC, RECT rectBar)
 //#define BM_INDEX(x, y) ((m_nHeight - (y) - 1) * m_nWidth + (x))
 
 // virtual 
-void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectButton, int index, bool bActive)
+void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList& buttonList, RECT rectButton, int index, bool bActive, bool bHover)
 {
 	int nButtonWidth = rectButton.right - rectButton.left;
 	int nButtonHeight = rectButton.bottom - rectButton.top;
@@ -554,6 +556,10 @@ void CThemeBasic::PaintButtonFace(HWND hWndFloatBar, HDC hDC, const CButtonList&
 
 
 	int nImageIndex = bActive ? 0 : 4;
+	if (bHover)
+	{
+		nImageIndex += 1;
+	}
 	m_ImageStrip.Draw(nImageIndex, m_hDCMem, rectButton);
 
 

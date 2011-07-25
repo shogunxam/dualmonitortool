@@ -74,7 +74,8 @@ CFloatBar::CFloatBar(HMODULE hModule, HWND hWndFrame)
 	  m_hWndFloatBar(0),
 	  m_OldWndProc(NULL),
 	  m_bActive(false),
-	  m_ButtonList(0)
+	  m_ButtonList(0),
+	  m_nHoverIndex(-1)
 {
 	m_ButtonList.ChangeButtons(GetButtonsConfig());
 //	m_pTheme = new CTheme();
@@ -268,6 +269,22 @@ static LRESULT CALLBACK FloatBarWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			pFloatBar->OnPaint();
 		}
 		break;
+	case WM_MOUSEMOVE:
+		pFloatBar = CFloatBar::FloatBarInstance(hWnd);
+		if (pFloatBar)
+		{
+			xPos = GET_X_LPARAM(lParam);
+			yPos = GET_Y_LPARAM(lParam);
+			pFloatBar->OnMouseMove(wParam, xPos, yPos);
+		}
+		break;
+	case WM_MOUSELEAVE:
+		pFloatBar = CFloatBar::FloatBarInstance(hWnd);
+		if (pFloatBar)
+		{
+			pFloatBar->OnMouseLeave();
+		}
+		break;
 	case WM_LBUTTONDOWN:
 		pFloatBar = CFloatBar::FloatBarInstance(hWnd);
 		if (pFloatBar)
@@ -328,7 +345,50 @@ void CFloatBar::ReInit()
 void CFloatBar::OnPaint()
 {
 //	m_pTheme->PaintBar(m_hWndFloatBar, m_ButtonList);
-	m_LayoutManager.PaintBar(m_hWndFloatBar, m_hWndFrame, m_ButtonList, m_bActive);
+	m_LayoutManager.PaintBar(m_hWndFloatBar, m_hWndFrame, m_ButtonList, m_bActive, m_nHoverIndex);
+}
+
+void CFloatBar::OnMouseMove(WPARAM wParam, int x, int y)
+{
+	if (m_hWndFrame)
+	{
+		int index = m_LayoutManager.HitToIndex(x, y, m_ButtonList);
+		if (index >= 0)
+		{
+			if (index != m_nHoverIndex)
+			{
+				// if not already tracking, start tracking
+				if (m_nHoverIndex >= 0 || StartTracking())
+				{
+					// indicate which button should be highlighted due to the hover
+					m_nHoverIndex = index;
+				}
+				// force bar to repaint
+				InvalidateRect(m_hWndFloatBar, NULL, FALSE);
+			}
+		}
+	}
+}
+
+void CFloatBar::OnMouseLeave()
+{
+	// mouse has left bar window
+	m_nHoverIndex = -1;
+	// force bar to repaint
+	InvalidateRect(m_hWndFloatBar, NULL, FALSE);
+}
+
+bool CFloatBar::StartTracking()
+{
+	TRACKMOUSEEVENT tme;
+	tme.cbSize = sizeof(tme);
+	tme.dwFlags = TME_LEAVE;
+	tme.hwndTrack = m_hWndFloatBar;
+	if (TrackMouseEvent(&tme))
+	{
+		return true;
+	}
+	return false;
 }
 
 void CFloatBar::OnLButtonDown(WPARAM wParam, int x, int y)

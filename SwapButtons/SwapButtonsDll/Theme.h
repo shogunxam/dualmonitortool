@@ -38,7 +38,7 @@ public:
 	virtual bool ReInit(struct LayoutMetrics* pLayoutMetrics, HWND hWndFrame) = 0;
 	virtual SIZE CalcBarOffsets(HWND hWndFrame);
 	virtual void PrepareFloatBar(HWND hWndFloatBar);
-	virtual void PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive) = 0;
+	virtual void PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive, int nHoverIndex) = 0;
 
 	//virtual void PaintStart(HDC hDC, RECT rectBar);
 	//virtual void PaintBarBackground(HDC hDC, RECT rectBar);

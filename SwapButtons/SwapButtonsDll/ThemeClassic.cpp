@@ -187,7 +187,7 @@ void CThemeClassic::PrepareFloatBar(HWND hWndFloatBar)
 //static RECT m_RectBar;
 
 // virtual 
-void CThemeClassic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive)
+void CThemeClassic::PaintBar(HWND hWndFloatBar, HWND hWndFrame, HDC hDC, const CButtonList& buttonList, RECT rectBar, bool bActive, int nHoverIndex)
 {
 	m_BitmapBuffer.Init(rectBar.right - rectBar.left, rectBar.bottom - rectBar.top);
 
