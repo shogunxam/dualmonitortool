@@ -131,7 +131,7 @@ This is free software, and you are welcome to redistribute it under certain cond
     <value>Dual Wallpaper</value>
   </data>
   <data name="OpenImageFilter" xml:space="preserve">
-    <value>Image Files (*.bmp, *.jpg, *.png, *.gif)|*.bmp;*.jpg;*.png;*.gif</value>
+    <value>Image Files (*.bmp, *.jpg, *.jpeg, *.png, *.gif)|*.bmp;*.jpg;*.jpeg;*.png;*.gif</value>
   </data>
   <data name="OverStretch" xml:space="preserve">
     <value>Over stretch and clip to maintain aspect ratio</value>
