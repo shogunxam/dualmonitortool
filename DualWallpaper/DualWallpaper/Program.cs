@@ -33,6 +33,8 @@ namespace DualWallpaper
 		[STAThread]
 		static void Main()
 		{
+			Win32.SetProcessDPIAware();
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new DualWallpaper());

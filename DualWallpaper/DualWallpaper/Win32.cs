@@ -32,6 +32,9 @@ namespace DualWallpaper
 		public static extern int GetSystemMenu(int hwnd, int bRevert);
 
 		[DllImport("user32.dll")]
+		public static extern bool SetProcessDPIAware();
+
+		[DllImport("user32.dll")]
 		public static extern int SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
 
 	}
