@@ -446,7 +446,7 @@ namespace DualLauncher
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(711, 443);
+			this.ClientSize = new System.Drawing.Size(711, 453);
 			this.ControlBox = false;
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonTest);
