@@ -302,6 +302,39 @@ namespace SwapScreen
 				MoveWindow(hWnd, rectangle);
 			}
 		}
+
+		/// <summary>
+		/// Swaps the size/position of the active window and the top level
+		/// window immediatedlt below it (in z-order). 
+		/// </summary>
+		public static void SwapTop2Windows()
+		{
+			IntPtr hWndTop = Win32.GetForegroundWindow();
+			if (hWndTop != null)
+			{
+				//IntPtr hWndNext = hWndTop;
+				//do
+				//{
+				//    hWndNext = Win32.GetWindow(hWndNext, Win32.GW_HWNDNEXT);
+				//} while (hWndNext != null && !IsCandidateForMoving(hWndNext));
+
+				// less efficient, but easier to read
+				IntPtr hWndNext = Win32.GetWindow(hWndTop, Win32.GW_HWNDNEXT);
+				while (hWndNext != null && !IsCandidateForMoving(hWndNext))
+				{
+					hWndNext = Win32.GetWindow(hWndNext, Win32.GW_HWNDNEXT);
+				}
+
+				if (hWndNext != null)
+				{
+					SwapWindows(hWndTop, hWndNext);
+
+					// now make the old next the active window
+					Win32.SetForegroundWindow(hWndNext);
+				}
+			}
+			//DumpZWindows();
+		}
 		#endregion
 
 		#region Private Helpers
@@ -336,6 +369,7 @@ namespace SwapScreen
 		/// <returns>List of HWND's belonging to application windows.</returns>
 		private static List<IntPtr> GetVisibleApplicationWindows()
 		{
+			// TODO: rewrite using IsCandidateForMoving()
 			List<IntPtr> hWndList = new List<IntPtr>();
 			IntPtr hWndShell = Win32.GetShellWindow();
 			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
@@ -379,6 +413,46 @@ namespace SwapScreen
 			Win32.EnumWindows(windowVisiter, 0);
 
 			return hWndList;
+		}
+
+		private static bool IsCandidateForMoving(IntPtr hWnd)
+		{
+			bool isCandidate = false;
+
+			if (hWnd == Win32.GetShellWindow())
+			{
+				// ignore the shell (Program Manager) window
+			}
+			else if (!Win32.IsWindowVisible(hWnd))
+			{
+				// ignore any windows without WS_VISIBLE
+			}
+			else
+			{
+				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
+				Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+				if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
+				{
+					// window has been deliberately positioned offscreen, so leave alone
+				}
+				else
+				{
+					int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
+					if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
+					{
+						// This is a tool window - leave alone
+					}
+					else
+					{
+						// we should be able to move this window without any ill effect
+						isCandidate = true;
+					}
+				}
+			}
+
+			return isCandidate;
 		}
 
 		/// <summary>
@@ -557,6 +631,57 @@ namespace SwapScreen
 			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
 
+		private static void SwapWindows(IntPtr hWndTop, IntPtr hWndNext)
+		{
+			// get the current window positions
+			Win32.WINDOWPLACEMENT topPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWndTop, ref topPlacement);
+			Win32.WINDOWPLACEMENT nextPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWndNext, ref nextPlacement);
+
+			// swap the positions
+			MoveWindowToPlacement(hWndTop, nextPlacement);
+			MoveWindowToPlacement(hWndNext, topPlacement);
+		}
+
+		private static void MoveWindowToPlacement(IntPtr hWnd, Win32.WINDOWPLACEMENT windowPlacement)
+		{
+			Win32.WINDOWPLACEMENT oldPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref oldPlacement);
+			uint oldShowCmd = oldPlacement.showCmd;
+			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			{
+				// need to restore window before moving it
+				oldPlacement.showCmd = Win32.SW_RESTORE;
+				Win32.SetWindowPlacement(hWnd, ref oldPlacement);
+			}
+
+			// take copy of new windowPlacement (structure so copying values)
+			Win32.WINDOWPLACEMENT newPlacement = windowPlacement;
+
+			// make sure window will initially be shown normally
+			newPlacement.showCmd = Win32.SW_SHOW;
+
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			if ((style & Win32.WS_THICKFRAME) == 0)
+			{
+				// the window can't be resized, so keep its size the same
+				int fixedWidth = oldPlacement.rcNormalPosition.right - oldPlacement.rcNormalPosition.left;
+				int fixedHeight = oldPlacement.rcNormalPosition.bottom - oldPlacement.rcNormalPosition.top;
+				newPlacement.rcNormalPosition.right = newPlacement.rcNormalPosition.left + fixedWidth;
+				newPlacement.rcNormalPosition.bottom = newPlacement.rcNormalPosition.top + fixedHeight;
+			}
+
+			Win32.SetWindowPlacement(hWnd, ref newPlacement);
+
+			if (windowPlacement.showCmd == Win32.SW_SHOWMINIMIZED || windowPlacement.showCmd == Win32.SW_SHOWMAXIMIZED)
+			{
+				// set minimised or maximised as required
+				newPlacement.showCmd = windowPlacement.showCmd;
+				Win32.SetWindowPlacement(hWnd, ref newPlacement);
+			}
+		}
+
 		#endregion
 
 		#region Debugging helpers
@@ -569,32 +694,59 @@ namespace SwapScreen
 			// for each application window...
 			foreach (IntPtr hWnd in hWndList)
 			{
-				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-
-				string windowText = "";
-				int textLen = Win32.GetWindowTextLength(hWnd);
-				if (textLen > 0)
-				{
-					StringBuilder sb = new StringBuilder(textLen + 1);
-					Win32.GetWindowText(hWnd, sb, sb.Capacity);
-					windowText = sb.ToString();
-				}
-
-				int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
-				string style = DumpExStyle(exStyle);
-
-				string visible = "";
-				if (Win32.IsWindowVisible(hWnd))
-				{
-					visible = "VISIBLE";
-				}
-
-				log.Add(string.Format("hWnd:{0} {1} \"{2}\" {3} {4}", hWnd, DumpWindowPlacement(windowPlacement), windowText, style, visible));
+				log.Add(DumpWindowInfo(hWnd));
 			}
 
 			LogForm dlg = new LogForm(log);
 			dlg.ShowDialog();
+		}
+
+		public static void DumpZWindows()
+		{
+			int maxWindows = 50;
+			List<string> log = new List<string>();
+
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			//IntPtr hWnd = Win32.GetWindow((IntPtr)0, 0);
+			if (hWnd != null)
+			{
+				do
+				{
+					log.Add(DumpWindowInfo(hWnd));
+
+					hWnd = Win32.GetWindow(hWnd, Win32.GW_HWNDNEXT);
+					//hWnd = Win32.GetWindow(hWnd, 3);
+				} while (hWnd != null && maxWindows-- > 0);
+			}
+
+			LogForm dlg = new LogForm(log);
+			dlg.ShowDialog();
+		}
+
+		public static string DumpWindowInfo(IntPtr hWnd)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+
+			string windowText = "";
+			int textLen = Win32.GetWindowTextLength(hWnd);
+			if (textLen > 0)
+			{
+				StringBuilder sb = new StringBuilder(textLen + 1);
+				Win32.GetWindowText(hWnd, sb, sb.Capacity);
+				windowText = sb.ToString();
+			}
+
+			int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
+			string style = DumpExStyle(exStyle);
+
+			string visible = "";
+			if (Win32.IsWindowVisible(hWnd))
+			{
+				visible = "VISIBLE";
+			}
+
+			return string.Format("hWnd:{0} {1} \"{2}\" {3} {4}", hWnd, DumpWindowPlacement(windowPlacement), windowText, style, visible);
 		}
 
 		public static string DumpWindowPlacement(Win32.WINDOWPLACEMENT windowPlacement)

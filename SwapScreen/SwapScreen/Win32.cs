@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009  Gerald Evans
+// Copyright (C) 2009-2011 Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -50,6 +50,9 @@ namespace SwapScreen
 		// Flags for Add/Check/EnableMenuItem() 
 		public const int MF_STRING = 0x00000000;
 		public const int MF_SEPARATOR = 0x00000800;
+
+		// Commands for GetWindow()
+		public const uint GW_HWNDNEXT = 2;
 
 		// Indexes for GetWindowLong()
 		public const int GWL_STYLE = -16;
@@ -174,6 +177,9 @@ namespace SwapScreen
 		public static extern int GetSystemMenu(IntPtr hwnd, int bRevert);
 
 		[DllImport("user32.dll")]
+		public static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
+
+		[DllImport("user32.dll")]
 		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
 		[DllImport("user32.dll")]
@@ -199,12 +205,15 @@ namespace SwapScreen
 		public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
 		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool SetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+		public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
 
 		[DllImport("kernel32.dll")]		// winbase.h
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetProcessWorkingSetSize(IntPtr hProcess, uint dwMinimumWorkingSetSize, uint dwMaximumWorkingSetSize);
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool SetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
