@@ -107,19 +107,23 @@ namespace SwapScreen
 		// displays the current hotkey strings in the form
 		private void InitDialogValues()
 		{
+			// active window tab
 			labelNextScreen.Text = Controller.Instance.NextScreenHotKeyController.ToString();
 			labelPrevScreen.Text = Controller.Instance.PrevScreenHotKeyController.ToString();
 			labelMinimise.Text = Controller.Instance.MinimiseHotKeyController.ToString();
-			labelMinimiseAllBut.Text = Controller.Instance.MinimiseAllButHotKeyController.ToString();
 			labelMaximise.Text = Controller.Instance.MaximiseHotKeyController.ToString();
 			labelSupersize.Text = Controller.Instance.SupersizeHotKeyController.ToString();
+			labelSwapTop2.Text = Controller.Instance.SwapTop2HotKeyController.ToString();
+
+			// UDA tab
+			InitUdaValues();
+
+			// other window tab
+			labelMinimiseAllBut.Text = Controller.Instance.MinimiseAllButHotKeyController.ToString();
 			labelRotateNext.Text = Controller.Instance.RotateNextHotKeyController.ToString();
 			labelRotatePrev.Text = Controller.Instance.RotatePrevHotKeyController.ToString();
 			labelShowDesktop1.Text = Controller.Instance.ShowDesktop1HotKeyController.ToString();
 			labelShowDesktop2.Text = Controller.Instance.ShowDesktop2HotKeyController.ToString();
-
-			// UDA tab
-			InitUdaValues();
 
 			// cursor tab
 			labelFreeCursor.Text = Controller.Instance.FreeCursorHotKeyController.ToString();
@@ -393,6 +397,14 @@ namespace SwapScreen
 			if (Controller.Instance.CursorPrevScreenHotKeyController.Edit())
 			{
 				labelCursorPrevScreen.Text = Controller.Instance.CursorPrevScreenHotKeyController.ToString();
+			}
+		}
+
+		private void buttonSwapTop2_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.SwapTop2HotKeyController.Edit())
+			{
+				labelSwapTop2.Text = Controller.Instance.SwapTop2HotKeyController.ToString();
 			}
 		}
 

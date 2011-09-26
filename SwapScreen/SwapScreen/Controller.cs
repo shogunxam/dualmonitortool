@@ -50,6 +50,7 @@ namespace SwapScreen
 		private const int ID_HOTKEY_LOCKCURSOR = 0x20D;
 		private const int ID_HOTKEY_CURSORNEXTSCREEN = 0x20E;
 		private const int ID_HOTKEY_CURSORPREVSCREEN = 0x20F;
+		private const int ID_HOTKEY_SWAPTOP2 = 0x210;
 
 		private const int ID_HOTKEY_UDA_START = 0x1000;
 		// area above this reserved for dynamic (user) user hotkeys
@@ -209,6 +210,15 @@ namespace SwapScreen
 			get { return cursorPrevScreenHotKeyController; }
 		}
 
+		private HotKeyController swapTop2HotKeyController;
+		/// <summary>
+		/// HotKey to supersize the active window
+		/// </summary>
+		public HotKeyController SwapTop2HotKeyController
+		{
+			get { return swapTop2HotKeyController; }
+		}
+
 		/// <summary>
 		/// Initialise the Controller.
 		/// This could be done implicitly from the ctor() 
@@ -275,10 +285,10 @@ namespace SwapScreen
 				new HotKey.HotKeyHandler(ScreenHelper.MaximiseActive));
 
 			supersizeHotKeyController = new HotKeyController(form, ID_HOTKEY_SUPERSIZE,
-				"SupersizeHotKey",
-				Properties.Resources.SupersizeDescription,
-				Properties.Resources.SupersizeWin7,
-				new HotKey.HotKeyHandler(ScreenHelper.SupersizeActive));
+			    "SupersizeHotKey",
+			    Properties.Resources.SupersizeDescription,
+			    Properties.Resources.SupersizeWin7,
+			    new HotKey.HotKeyHandler(ScreenHelper.SupersizeActive));
 
 			rotateNextHotKeyController = new HotKeyController(form, ID_HOTKEY_ROTATENEXT,
 				"RotateNextHotKey",
@@ -333,11 +343,18 @@ namespace SwapScreen
 				Properties.Resources.CursorPrevScreenDescription,
 				Properties.Resources.CursorPrevScreenWin7,
 				new HotKey.HotKeyHandler(CursorHelper.CursorToPrevScreen));
+
+			swapTop2HotKeyController = new HotKeyController(form, ID_HOTKEY_SWAPTOP2,
+				"SwapTop2HotKey",
+				Properties.Resources.SwapTop2Description,
+				Properties.Resources.SwapTop2Win7,
+				new HotKey.HotKeyHandler(ScreenHelper.SwapTop2Windows));
 		}
 
 		// terminates all of the hotkeys
 		private void TermHotKeys()
 		{
+			swapTop2HotKeyController.Dispose();
 			cursorPrevScreenHotKeyController.Dispose();
 			cursorNextScreenHotKeyController.Dispose();
 			lockCursorHotKeyController.Dispose();

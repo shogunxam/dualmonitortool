@@ -68,5 +68,8 @@
     <Setting Name="UdaHotKeys" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SwapTop2HotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

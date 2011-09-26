@@ -106,6 +106,9 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
+			this.label17 = new System.Windows.Forms.Label();
+			this.labelSwapTop2 = new System.Windows.Forms.Label();
+			this.buttonSwapTop2 = new System.Windows.Forms.Button();
 			this.udaPanel10 = new SwapScreen.UdaPanel();
 			this.udaPanel9 = new SwapScreen.UdaPanel();
 			this.udaPanel8 = new SwapScreen.UdaPanel();
@@ -440,7 +443,7 @@ namespace SwapScreen
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(224, 13);
 			this.label6.TabIndex = 10;
-			this.label6.Text = "Minimise active Window";
+			this.label6.Text = "Minimise active window";
 			// 
 			// buttonPreviousScreen
 			// 
@@ -523,6 +526,9 @@ namespace SwapScreen
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.label17);
+			this.groupBox1.Controls.Add(this.labelSwapTop2);
+			this.groupBox1.Controls.Add(this.buttonSwapTop2);
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.label12);
 			this.groupBox1.Controls.Add(this.buttonNextScreen);
@@ -540,7 +546,7 @@ namespace SwapScreen
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Location = new System.Drawing.Point(6, 6);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(477, 142);
+			this.groupBox1.Size = new System.Drawing.Size(477, 179);
 			this.groupBox1.TabIndex = 22;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
@@ -886,6 +892,33 @@ namespace SwapScreen
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
 			// 
+			// label17
+			// 
+			this.label17.Location = new System.Drawing.Point(6, 142);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(224, 13);
+			this.label17.TabIndex = 22;
+			this.label17.Text = "Swap active window with next";
+			// 
+			// labelSwapTop2
+			// 
+			this.labelSwapTop2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelSwapTop2.Location = new System.Drawing.Point(236, 142);
+			this.labelSwapTop2.Name = "labelSwapTop2";
+			this.labelSwapTop2.Size = new System.Drawing.Size(153, 13);
+			this.labelSwapTop2.TabIndex = 23;
+			this.labelSwapTop2.Text = "labelSwapTop2";
+			// 
+			// buttonSwapTop2
+			// 
+			this.buttonSwapTop2.Location = new System.Drawing.Point(395, 137);
+			this.buttonSwapTop2.Name = "buttonSwapTop2";
+			this.buttonSwapTop2.Size = new System.Drawing.Size(75, 23);
+			this.buttonSwapTop2.TabIndex = 24;
+			this.buttonSwapTop2.Text = "Change...";
+			this.buttonSwapTop2.UseVisualStyleBackColor = true;
+			this.buttonSwapTop2.Click += new System.EventHandler(this.buttonSwapTop2_Click);
+			// 
 			// udaPanel10
 			// 
 			this.udaPanel10.Location = new System.Drawing.Point(6, 237);
@@ -1081,6 +1114,9 @@ namespace SwapScreen
 		private UdaPanel udaPanel1;
 		private UdaPanel udaPanel10;
 		private UdaPanel udaPanel9;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.Label labelSwapTop2;
+		private System.Windows.Forms.Button buttonSwapTop2;
 	}
 }
 
