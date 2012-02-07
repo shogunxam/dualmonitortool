@@ -43,38 +43,60 @@ namespace DisMon
 
 		private void buttonPS_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.Reset();
-			//DisMon.Instance.MarkAsEnabled(0);
-			//DisMon.Instance.MarkAsEnabled(1);
-			DisMon.Instance.MarkAsPrimary(0);
-			DisMon.Instance.ApplyChanges();
+			try
+			{
+				DisMon.Instance.Reset();
+				DisMon.Instance.MarkAsPrimary(0);
+				DisMon.Instance.ApplyChanges();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 		private void buttonSP_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.Reset();
-			//DisMon.Instance.MarkAsEnabled(0);
-			//DisMon.Instance.MarkAsEnabled(1);
-			DisMon.Instance.MarkAsPrimary(1);
-			DisMon.Instance.ApplyChanges();
+			try
+			{
+				DisMon.Instance.Reset();
+				DisMon.Instance.MarkAsPrimary(1);
+				DisMon.Instance.ApplyChanges();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 		private void buttonPX_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.Reset();
-			//DisMon.Instance.MarkAsEnabled(0);
-			DisMon.Instance.MarkAsPrimary(0);
-			DisMon.Instance.MarkAsDisabled(1);
-			DisMon.Instance.ApplyChanges();
+			try
+			{
+				DisMon.Instance.Reset();
+				DisMon.Instance.MarkAsPrimary(0);
+				DisMon.Instance.MarkAsDisabled(1);
+				DisMon.Instance.ApplyChanges();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 		private void buttonXP_Click(object sender, EventArgs e)
 		{
-			DisMon.Instance.Reset();
-			//DisMon.Instance.MarkAsEnabled(1);
-			DisMon.Instance.MarkAsPrimary(1);
-			DisMon.Instance.MarkAsDisabled(0);
-			DisMon.Instance.ApplyChanges();
+			try
+			{
+				DisMon.Instance.Reset();
+				DisMon.Instance.MarkAsPrimary(1);
+				DisMon.Instance.MarkAsDisabled(0);
+				DisMon.Instance.ApplyChanges();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
 		}
 
 		//private void buttonDisable_Click(object sender, EventArgs e)
