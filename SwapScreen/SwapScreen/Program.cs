@@ -41,7 +41,7 @@ namespace SwapScreen
 			OptionsForm form = new OptionsForm();
 
 			// Experimental code start
-			// Note: this setting is normallt false in the configuration file
+			// Note: this setting is normally false in the configuration file
 			// and needs to be manually edited to force it to true
 			if (Properties.Settings.Default.ReduceMemSizeOnStartup)
 			{
