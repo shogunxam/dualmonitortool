@@ -455,6 +455,7 @@ namespace DualWallpaper
 			// 
 			// DualWallpaper
 			// 
+			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(780, 461);
@@ -472,6 +473,8 @@ namespace DualWallpaper
 			this.Name = "DualWallpaper";
 			this.Text = "Dual Wallpaper";
 			this.Shown += new System.EventHandler(this.DualWallpaper_Shown);
+			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DualWallpaper_DragDrop);
+			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.DualWallpaper_DragEnter);
 			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.DualWallpaper_HelpRequested);
 			((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picSource)).EndInit();

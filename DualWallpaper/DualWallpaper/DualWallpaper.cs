@@ -119,7 +119,7 @@ namespace DualWallpaper
 			Image image;
 
 			// Solution 1
-			// This keeps the fie open which causes a problem
+			// This keeps the file open which causes a problem
 			// if we try to save the wallpaper back here later on
 			image = Bitmap.FromFile(textBoxImage.Text);
 
@@ -547,6 +547,53 @@ namespace DualWallpaper
 				CreateWallpaper();
 				// and update the preview to show the new background
 				UpdatePreview();
+			}
+		}
+
+		private void DualWallpaper_DragEnter(object sender, DragEventArgs e)
+		{
+			// Check if a file is being dragged over.
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				e.Effect = DragDropEffects.Copy;
+			}
+		}
+
+		private void DualWallpaper_DragDrop(object sender, DragEventArgs e)
+		{
+			// A list of files will be dropped. Get it.
+			string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+
+			if (files.Length <= 0) return;
+			string fileName = string.Empty;
+
+			// These are the extensions we support.
+			List<string> allowedExtensions = new List<string>(new string[] {".bmp", ".jpg", ".jpeg", ".png", ".gif"});
+
+			// Look through the files and find the first Image file that we can support.
+			foreach (string file in files)
+			{
+				if (allowedExtensions.Contains(Path.GetExtension(file).ToLower()))
+				{
+					fileName = file;
+					break;
+				}
+			}
+
+			// Did we find any files that we can load?
+			if (fileName == string.Empty) return;
+
+			textBoxImage.Text = fileName;
+			try
+			{
+				// Load the Image
+				picSource.Image = LoadImageFromFile(textBoxImage.Text);
+				// Set the image as the selected screen's wallpaper
+				buttonAdd_Click(null, null);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
 			}
 		}
 	}
