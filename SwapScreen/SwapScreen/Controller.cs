@@ -511,6 +511,20 @@ namespace SwapScreen
 			}
 		}
 
+		public void SaveSettings()
+		{
+			try
+			{
+				// this can throw an exception if for example the .config file is deleted
+				Properties.Settings.Default.Save();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
+		}
+
+
 		// terminates all of the hotkeys
 		private void TermUdaHotKeys()
 		{

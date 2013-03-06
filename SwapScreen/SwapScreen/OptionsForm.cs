@@ -429,7 +429,7 @@ namespace SwapScreen
 			}
 
 			Properties.Settings.Default.DefaultCursorType = (int)cursorType;
-			Properties.Settings.Default.Save();
+			SaveSettings();
 		}
 
 		#endregion
@@ -481,7 +481,7 @@ namespace SwapScreen
 		private void scrollBarSticky_ValueChanged(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.MinStickyForce = scrollBarSticky.Value;
-			Properties.Settings.Default.Save();
+			SaveSettings();
 			// update the cursor controller in case sticky cursor currently in use
 			CursorHelper.MinForce = Properties.Settings.Default.MinStickyForce;
 		}
@@ -489,7 +489,7 @@ namespace SwapScreen
 		private void checkBoxControlUnhindersCursor_CheckedChanged(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.ControlUnhindersCursor = checkBoxControlUnhindersCursor.Checked;
-			Properties.Settings.Default.Save();
+			SaveSettings();
 			// update the cursor controller to use this now
 			CursorHelper.EnableDisableLocking = Properties.Settings.Default.ControlUnhindersCursor;
 		}
@@ -497,10 +497,25 @@ namespace SwapScreen
 		private void checkBoxPrimaryReturnUnhindered_CheckedChanged(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.PrimaryReturnUnhindered = checkBoxPrimaryReturnUnhindered.Checked;
-			Properties.Settings.Default.Save();
+			SaveSettings();
 			// This value is checked directly in the hook, so no need to do anything else here
 		}
 		#endregion
+
+
+		void SaveSettings()
+		{
+			try
+			{
+				// this can throw an exception if for example the .config file is deleted
+				//Properties.Settings.Default.Save();
+				Controller.Instance.SaveSettings();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, Program.MyTitle);
+			}
+		}
 
 		// This method is called when the display settings change.
 		static void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)

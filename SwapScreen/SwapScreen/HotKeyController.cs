@@ -124,7 +124,8 @@ namespace SwapScreen
 				// persist the new value
 				SaveKeyCombo();
 				// and commit it now
-				Properties.Settings.Default.Save();
+				//Properties.Settings.Default.Save();
+				Controller.Instance.SaveSettings();
 				//// update display
 				//lbl.Text = hotKey.HotKeyCombo.ToString();
 				// indicate OK has been pressed

@@ -64,7 +64,8 @@ namespace SwapScreen
 				// when user explicitly changes a setting and if the user doesn't
 				// change any settings, we would end up upgrading each time the
 				// program is started.
-				Properties.Settings.Default.Save();
+				//Properties.Settings.Default.Save();
+				Controller.Instance.SaveSettings();
 			}
 		}
 
