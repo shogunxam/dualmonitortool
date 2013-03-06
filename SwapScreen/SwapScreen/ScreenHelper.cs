@@ -23,6 +23,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
 
+using System.Runtime.InteropServices;
+
+
 namespace SwapScreen
 {
 	/// <summary>
@@ -685,6 +688,82 @@ namespace SwapScreen
 		#endregion
 
 		#region Debugging helpers
+
+		// Not suitable for XP
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern IntPtr OpenInputDesktop(uint dwFlags, bool fInherit, uint dwDesiredAccess);
+		const int DESKTOP_READOBJECTS = 1;
+
+		[DllImport("user32.dll", SetLastError = true)]
+		static extern bool GetUserObjectInformation(IntPtr hObj, int nIndex, StringBuilder lpString, int nLength, out int lpnLengthNeeded);
+		const int UOI_NAME = 2;
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+		const uint WM_DISPLAYCHANGE = 0x7E;
+		private static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
+
+
+		public static void DumpDesktopInfo(Form mainForm)
+		{
+			List<string> log = new List<string>();
+
+			IntPtr hDesk = OpenInputDesktop(0, false, DESKTOP_READOBJECTS);
+			if (hDesk != IntPtr.Zero)
+			{
+				log.Add("Opened desktop");
+
+				int stringLength = 0;
+				StringBuilder lpString = new StringBuilder();
+				GetUserObjectInformation(hDesk, UOI_NAME, lpString, stringLength, out stringLength);
+				if (GetUserObjectInformation(hDesk, UOI_NAME, lpString, stringLength, out stringLength))
+				{
+					log.Add("Desktop name: " + lpString.ToString());
+				}
+				// CloseInputDesktop?
+			}
+
+			int monitorCount = System.Windows.Forms.SystemInformation.MonitorCount;
+			log.Add(string.Format("Monitor count is {0}", monitorCount));
+
+
+			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			{
+				Rectangle rect = Screen.AllScreens[screenIndex].WorkingArea;
+				log.Add(string.Format("screen {0}: ({1}, {2}) - ({3}, {4})", screenIndex, rect.Left, rect.Top, rect.Right, rect.Bottom));
+			}
+
+			//Form myForm = null;//Form.ActiveForm;
+			//log.Add(string.Format("There are {0} open forms", Application.OpenForms.Count));
+			//if (Application.OpenForms.Count > 0)
+			//{
+			//	myForm = Application.OpenForms[0];
+			//}
+			if (mainForm != null)
+			{
+				log.Add("Sending WM_DISPLAYCHANGE");
+				log.Add(string.Format("to {0:x}", mainForm.Handle));
+				SendMessage(mainForm.Handle, WM_DISPLAYCHANGE, IntPtr.Zero, IntPtr.Zero);
+				//SendMessage(HWND_BROADCAST, WM_DISPLAYCHANGE, IntPtr.Zero, IntPtr.Zero);
+
+				//System.Reflection.FieldInfo fieldInfo = typeof(Screen).GetField("AllScreens", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+				//fieldInfo.SetValue(null, null);
+
+				System.Reflection.ConstructorInfo ctorInfo = typeof(Screen).GetConstructor(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic, null, new Type[0], null);
+				log.Add(string.Format("ctorInfo {0}", ctorInfo));
+				ctorInfo.Invoke(null, null);
+			}
+
+			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			{
+				Rectangle rect = Screen.AllScreens[screenIndex].WorkingArea;
+				log.Add(string.Format("screen {0}: ({1}, {2}) - ({3}, {4})", screenIndex, rect.Left, rect.Top, rect.Right, rect.Bottom));
+			}
+
+			LogForm dlg = new LogForm(log);
+			dlg.ShowDialog();
+		}
+
 		public static void DumpAllWindows()
 		{
 			List<IntPtr> hWndList = GetVisibleApplicationWindows();
