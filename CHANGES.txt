@@ -1,5 +1,18 @@
 Dual Monitor Tools
 
+Changes from 1.8 to 1.9
+=======================
+
+Functional:
+DualWallpaper now supports drag and drop (thanks to Nithin Philips for this)
+SwapScreen has new hotkey to allow the top two windows to be be swapped
+SwapScreen has 4 new hotkeys for snap left/right/up/down
+
+Bug fixes:
+SwapScreen has improved handling of configuration saving problems
+DualWallpaper supports DPI scaling other than 100%
+DualWallpaper now also supports .jpeg (with an e) extension for input images
+
 Changes from 1.7 to 1.8
 =======================
 

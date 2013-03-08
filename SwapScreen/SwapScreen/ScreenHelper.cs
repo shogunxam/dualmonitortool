@@ -295,6 +295,54 @@ namespace SwapScreen
 		}
 
 		/// <summary>
+		/// Snap the active window left.
+		/// </summary>
+		public static void SnapActiveLeft()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				SnapWindowLeftRight(hWnd, -1);
+			}
+		}
+
+		/// <summary>
+		/// Snap the active window right.
+		/// </summary>
+		public static void SnapActiveRight()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				SnapWindowLeftRight(hWnd, 1);
+			}
+		}
+
+		/// <summary>
+		/// Snap the active window up.
+		/// </summary>
+		public static void SnapActiveUp()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				SnapWindowUpDown(hWnd, -1);
+			}
+		}
+
+		/// <summary>
+		/// Snap the active window down.
+		/// </summary>
+		public static void SnapActiveDown()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
+			{
+				SnapWindowUpDown(hWnd, 1);
+			}
+		}
+
+		/// <summary>
 		/// Moves the active window to the given rectangle
 		/// </summary>
 		public static void MoveActiveToRectangle(Rectangle rectangle)
@@ -599,6 +647,122 @@ namespace SwapScreen
 				// normal window - not minimised or maximised
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
 				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
+		}
+
+		/// <summary>
+		/// Moves the window corresponding to the specified HWND
+		/// to the left/right half screen.
+		/// </summary>
+		/// <param name="hWnd">HWND of window to move.</param>
+		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
+		private static void SnapWindowLeftRight(IntPtr hWnd, int delta)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
+			uint oldShowCmd = windowPlacement.showCmd;
+
+			Screen curScreen = Screen.FromRectangle(curRect);
+			int curScreenIndex = FindScreenIndex(curScreen);
+			if (curScreenIndex >= 0)
+			{
+				int newHalf = AdvanceHalfScreen(curScreenIndex, curScreen.WorkingArea.Left, curScreen.WorkingArea.Right, curRect.Left, delta);
+				int newScreenIndex = newHalf / 2;
+				Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
+				Rectangle newRect;
+				if ((newHalf % 2) == 0)
+				{
+					// left half
+					newRect = new Rectangle(screenRect.Left, screenRect.Top, screenRect.Width / 2, screenRect.Height);
+				}
+				else
+				{
+					// right half
+					newRect = new Rectangle(screenRect.Left + screenRect.Width / 2, screenRect.Top, screenRect.Width / 2, screenRect.Height);
+				}
+				if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+				{
+					// need to restore window before moving it
+					windowPlacement.showCmd = Win32.SW_RESTORE;
+					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				}
+				windowPlacement.showCmd = Win32.SW_SHOW;
+				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
+		}
+
+		/// <summary>
+		/// Moves the window corresponding to the specified HWND
+		/// to the top/bottom half screen.
+		/// </summary>
+		/// <param name="hWnd">HWND of window to move.</param>
+		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
+		private static void SnapWindowUpDown(IntPtr hWnd, int delta)
+		{
+			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
+			uint oldShowCmd = windowPlacement.showCmd;
+
+			Screen curScreen = Screen.FromRectangle(curRect);
+			int curScreenIndex = FindScreenIndex(curScreen);
+			if (curScreenIndex >= 0)
+			{
+				int newHalf = AdvanceHalfScreen(curScreenIndex, curScreen.WorkingArea.Top, curScreen.WorkingArea.Bottom, curRect.Top, delta);
+				int newScreenIndex = newHalf / 2;
+				Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
+				Rectangle newRect;
+				if ((newHalf % 2) == 0)
+				{
+					// top half
+					newRect = new Rectangle(screenRect.Left, screenRect.Top, screenRect.Width, screenRect.Height / 2);
+				}
+				else
+				{
+					// bottom half
+					newRect = new Rectangle(screenRect.Left, screenRect.Top + screenRect.Height / 2, screenRect.Width, screenRect.Height / 2);
+				}
+				if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+				{
+					// need to restore window before moving it
+					windowPlacement.showCmd = Win32.SW_RESTORE;
+					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				}
+				windowPlacement.showCmd = Win32.SW_SHOW;
+				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
+				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			}
+		}
+
+		private static int AdvanceHalfScreen(int curScreenIndex, int screenStart, int screenEnd, int winStart, int delta)
+		{
+			if (delta < 0)
+			{
+				if (winStart == screenStart)
+				{
+					// right half of previous screen
+					return DeltaScreenIndex(curScreenIndex, -1) * 2 + 1;
+				}
+				else
+				{
+					// left half of current screen
+					return curScreenIndex * 2;
+				}
+			}
+			else
+			{
+				if (winStart == (screenStart + screenEnd) / 2)
+				{
+					// left half of next screen
+					return DeltaScreenIndex(curScreenIndex, 1) * 2;
+				}
+				else
+				{
+					// right half of current screen
+					return curScreenIndex * 2 + 1;
+				}
 			}
 		}
 

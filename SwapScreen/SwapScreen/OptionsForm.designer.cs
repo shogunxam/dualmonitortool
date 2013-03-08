@@ -75,8 +75,33 @@ namespace SwapScreen
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPageActive = new System.Windows.Forms.TabPage();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label26 = new System.Windows.Forms.Label();
+			this.labelSnapDown = new System.Windows.Forms.Label();
+			this.buttonSnapDown = new System.Windows.Forms.Button();
+			this.label24 = new System.Windows.Forms.Label();
+			this.labelSnapUp = new System.Windows.Forms.Label();
+			this.buttonSnapUp = new System.Windows.Forms.Button();
+			this.label22 = new System.Windows.Forms.Label();
+			this.labelSnapRight = new System.Windows.Forms.Label();
+			this.buttonSnapRight = new System.Windows.Forms.Button();
+			this.label19 = new System.Windows.Forms.Label();
+			this.labelSnapLeft = new System.Windows.Forms.Label();
+			this.buttonSnapLeft = new System.Windows.Forms.Button();
+			this.label17 = new System.Windows.Forms.Label();
+			this.labelSwapTop2 = new System.Windows.Forms.Label();
+			this.buttonSwapTop2 = new System.Windows.Forms.Button();
 			this.tabPageUda = new System.Windows.Forms.TabPage();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.udaPanel10 = new SwapScreen.UdaPanel();
+			this.udaPanel9 = new SwapScreen.UdaPanel();
+			this.udaPanel8 = new SwapScreen.UdaPanel();
+			this.udaPanel7 = new SwapScreen.UdaPanel();
+			this.udaPanel6 = new SwapScreen.UdaPanel();
+			this.udaPanel5 = new SwapScreen.UdaPanel();
+			this.udaPanel4 = new SwapScreen.UdaPanel();
+			this.udaPanel3 = new SwapScreen.UdaPanel();
+			this.udaPanel2 = new SwapScreen.UdaPanel();
+			this.udaPanel1 = new SwapScreen.UdaPanel();
 			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tabPageMouse = new System.Windows.Forms.TabPage();
@@ -106,19 +131,6 @@ namespace SwapScreen
 			this.buttonFreeCursor = new System.Windows.Forms.Button();
 			this.buttonLockCursor = new System.Windows.Forms.Button();
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
-			this.label17 = new System.Windows.Forms.Label();
-			this.labelSwapTop2 = new System.Windows.Forms.Label();
-			this.buttonSwapTop2 = new System.Windows.Forms.Button();
-			this.udaPanel10 = new SwapScreen.UdaPanel();
-			this.udaPanel9 = new SwapScreen.UdaPanel();
-			this.udaPanel8 = new SwapScreen.UdaPanel();
-			this.udaPanel7 = new SwapScreen.UdaPanel();
-			this.udaPanel6 = new SwapScreen.UdaPanel();
-			this.udaPanel5 = new SwapScreen.UdaPanel();
-			this.udaPanel4 = new SwapScreen.UdaPanel();
-			this.udaPanel3 = new SwapScreen.UdaPanel();
-			this.udaPanel2 = new SwapScreen.UdaPanel();
-			this.udaPanel1 = new SwapScreen.UdaPanel();
 			this.contextMenuStrip.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPageActive.SuspendLayout();
@@ -526,6 +538,18 @@ namespace SwapScreen
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.label26);
+			this.groupBox1.Controls.Add(this.labelSnapDown);
+			this.groupBox1.Controls.Add(this.buttonSnapDown);
+			this.groupBox1.Controls.Add(this.label24);
+			this.groupBox1.Controls.Add(this.labelSnapUp);
+			this.groupBox1.Controls.Add(this.buttonSnapUp);
+			this.groupBox1.Controls.Add(this.label22);
+			this.groupBox1.Controls.Add(this.labelSnapRight);
+			this.groupBox1.Controls.Add(this.buttonSnapRight);
+			this.groupBox1.Controls.Add(this.label19);
+			this.groupBox1.Controls.Add(this.labelSnapLeft);
+			this.groupBox1.Controls.Add(this.buttonSnapLeft);
 			this.groupBox1.Controls.Add(this.label17);
 			this.groupBox1.Controls.Add(this.labelSwapTop2);
 			this.groupBox1.Controls.Add(this.buttonSwapTop2);
@@ -546,10 +570,145 @@ namespace SwapScreen
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Location = new System.Drawing.Point(6, 6);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(477, 179);
+			this.groupBox1.Size = new System.Drawing.Size(477, 268);
 			this.groupBox1.TabIndex = 22;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "HotKeys";
+			// 
+			// label26
+			// 
+			this.label26.Location = new System.Drawing.Point(6, 242);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(224, 13);
+			this.label26.TabIndex = 34;
+			this.label26.Text = "Snap down";
+			// 
+			// labelSnapDown
+			// 
+			this.labelSnapDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelSnapDown.Location = new System.Drawing.Point(236, 242);
+			this.labelSnapDown.Name = "labelSnapDown";
+			this.labelSnapDown.Size = new System.Drawing.Size(153, 13);
+			this.labelSnapDown.TabIndex = 35;
+			this.labelSnapDown.Text = "labelSnapDown";
+			// 
+			// buttonSnapDown
+			// 
+			this.buttonSnapDown.Location = new System.Drawing.Point(395, 237);
+			this.buttonSnapDown.Name = "buttonSnapDown";
+			this.buttonSnapDown.Size = new System.Drawing.Size(75, 23);
+			this.buttonSnapDown.TabIndex = 36;
+			this.buttonSnapDown.Text = "Change...";
+			this.buttonSnapDown.UseVisualStyleBackColor = true;
+			this.buttonSnapDown.Click += new System.EventHandler(this.buttonSnapDown_Click);
+			// 
+			// label24
+			// 
+			this.label24.Location = new System.Drawing.Point(6, 217);
+			this.label24.Name = "label24";
+			this.label24.Size = new System.Drawing.Size(224, 13);
+			this.label24.TabIndex = 31;
+			this.label24.Text = "Snap up";
+			// 
+			// labelSnapUp
+			// 
+			this.labelSnapUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelSnapUp.Location = new System.Drawing.Point(236, 217);
+			this.labelSnapUp.Name = "labelSnapUp";
+			this.labelSnapUp.Size = new System.Drawing.Size(153, 13);
+			this.labelSnapUp.TabIndex = 32;
+			this.labelSnapUp.Text = "labelSnapUp";
+			// 
+			// buttonSnapUp
+			// 
+			this.buttonSnapUp.Location = new System.Drawing.Point(395, 212);
+			this.buttonSnapUp.Name = "buttonSnapUp";
+			this.buttonSnapUp.Size = new System.Drawing.Size(75, 23);
+			this.buttonSnapUp.TabIndex = 33;
+			this.buttonSnapUp.Text = "Change...";
+			this.buttonSnapUp.UseVisualStyleBackColor = true;
+			this.buttonSnapUp.Click += new System.EventHandler(this.buttonSnapUp_Click);
+			// 
+			// label22
+			// 
+			this.label22.Location = new System.Drawing.Point(6, 192);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(224, 13);
+			this.label22.TabIndex = 28;
+			this.label22.Text = "Snap right";
+			// 
+			// labelSnapRight
+			// 
+			this.labelSnapRight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelSnapRight.Location = new System.Drawing.Point(236, 192);
+			this.labelSnapRight.Name = "labelSnapRight";
+			this.labelSnapRight.Size = new System.Drawing.Size(153, 13);
+			this.labelSnapRight.TabIndex = 29;
+			this.labelSnapRight.Text = "labelSnapRight";
+			// 
+			// buttonSnapRight
+			// 
+			this.buttonSnapRight.Location = new System.Drawing.Point(395, 187);
+			this.buttonSnapRight.Name = "buttonSnapRight";
+			this.buttonSnapRight.Size = new System.Drawing.Size(75, 23);
+			this.buttonSnapRight.TabIndex = 30;
+			this.buttonSnapRight.Text = "Change...";
+			this.buttonSnapRight.UseVisualStyleBackColor = true;
+			this.buttonSnapRight.Click += new System.EventHandler(this.buttonSnapRight_Click);
+			// 
+			// label19
+			// 
+			this.label19.Location = new System.Drawing.Point(6, 167);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(224, 13);
+			this.label19.TabIndex = 25;
+			this.label19.Text = "Swap left";
+			// 
+			// labelSnapLeft
+			// 
+			this.labelSnapLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelSnapLeft.Location = new System.Drawing.Point(236, 167);
+			this.labelSnapLeft.Name = "labelSnapLeft";
+			this.labelSnapLeft.Size = new System.Drawing.Size(153, 13);
+			this.labelSnapLeft.TabIndex = 26;
+			this.labelSnapLeft.Text = "labelSnapLeft";
+			// 
+			// buttonSnapLeft
+			// 
+			this.buttonSnapLeft.Location = new System.Drawing.Point(395, 162);
+			this.buttonSnapLeft.Name = "buttonSnapLeft";
+			this.buttonSnapLeft.Size = new System.Drawing.Size(75, 23);
+			this.buttonSnapLeft.TabIndex = 27;
+			this.buttonSnapLeft.Text = "Change...";
+			this.buttonSnapLeft.UseVisualStyleBackColor = true;
+			this.buttonSnapLeft.Click += new System.EventHandler(this.buttonSnapLeft_Click);
+			// 
+			// label17
+			// 
+			this.label17.Location = new System.Drawing.Point(6, 142);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(224, 13);
+			this.label17.TabIndex = 22;
+			this.label17.Text = "Swap active window with next";
+			// 
+			// labelSwapTop2
+			// 
+			this.labelSwapTop2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+			this.labelSwapTop2.Location = new System.Drawing.Point(236, 142);
+			this.labelSwapTop2.Name = "labelSwapTop2";
+			this.labelSwapTop2.Size = new System.Drawing.Size(153, 13);
+			this.labelSwapTop2.TabIndex = 23;
+			this.labelSwapTop2.Text = "labelSwapTop2";
+			// 
+			// buttonSwapTop2
+			// 
+			this.buttonSwapTop2.Location = new System.Drawing.Point(395, 137);
+			this.buttonSwapTop2.Name = "buttonSwapTop2";
+			this.buttonSwapTop2.Size = new System.Drawing.Size(75, 23);
+			this.buttonSwapTop2.TabIndex = 24;
+			this.buttonSwapTop2.Text = "Change...";
+			this.buttonSwapTop2.UseVisualStyleBackColor = true;
+			this.buttonSwapTop2.Click += new System.EventHandler(this.buttonSwapTop2_Click);
 			// 
 			// tabPageUda
 			// 
@@ -580,6 +739,76 @@ namespace SwapScreen
 			this.groupBox5.TabIndex = 23;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "User Defined Areas and associated HotKeys";
+			// 
+			// udaPanel10
+			// 
+			this.udaPanel10.Location = new System.Drawing.Point(6, 237);
+			this.udaPanel10.Name = "udaPanel10";
+			this.udaPanel10.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel10.TabIndex = 9;
+			// 
+			// udaPanel9
+			// 
+			this.udaPanel9.Location = new System.Drawing.Point(6, 212);
+			this.udaPanel9.Name = "udaPanel9";
+			this.udaPanel9.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel9.TabIndex = 8;
+			// 
+			// udaPanel8
+			// 
+			this.udaPanel8.Location = new System.Drawing.Point(6, 187);
+			this.udaPanel8.Name = "udaPanel8";
+			this.udaPanel8.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel8.TabIndex = 7;
+			// 
+			// udaPanel7
+			// 
+			this.udaPanel7.Location = new System.Drawing.Point(6, 162);
+			this.udaPanel7.Name = "udaPanel7";
+			this.udaPanel7.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel7.TabIndex = 6;
+			// 
+			// udaPanel6
+			// 
+			this.udaPanel6.Location = new System.Drawing.Point(6, 137);
+			this.udaPanel6.Name = "udaPanel6";
+			this.udaPanel6.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel6.TabIndex = 5;
+			// 
+			// udaPanel5
+			// 
+			this.udaPanel5.Location = new System.Drawing.Point(6, 112);
+			this.udaPanel5.Name = "udaPanel5";
+			this.udaPanel5.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel5.TabIndex = 4;
+			// 
+			// udaPanel4
+			// 
+			this.udaPanel4.Location = new System.Drawing.Point(6, 87);
+			this.udaPanel4.Name = "udaPanel4";
+			this.udaPanel4.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel4.TabIndex = 3;
+			// 
+			// udaPanel3
+			// 
+			this.udaPanel3.Location = new System.Drawing.Point(6, 62);
+			this.udaPanel3.Name = "udaPanel3";
+			this.udaPanel3.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel3.TabIndex = 2;
+			// 
+			// udaPanel2
+			// 
+			this.udaPanel2.Location = new System.Drawing.Point(6, 37);
+			this.udaPanel2.Name = "udaPanel2";
+			this.udaPanel2.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel2.TabIndex = 1;
+			// 
+			// udaPanel1
+			// 
+			this.udaPanel1.Location = new System.Drawing.Point(6, 12);
+			this.udaPanel1.Name = "udaPanel1";
+			this.udaPanel1.Size = new System.Drawing.Size(465, 23);
+			this.udaPanel1.TabIndex = 0;
 			// 
 			// tabPageOther
 			// 
@@ -892,103 +1121,6 @@ namespace SwapScreen
 			this.tabPageGeneral.Text = "General";
 			this.tabPageGeneral.UseVisualStyleBackColor = true;
 			// 
-			// label17
-			// 
-			this.label17.Location = new System.Drawing.Point(6, 142);
-			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(224, 13);
-			this.label17.TabIndex = 22;
-			this.label17.Text = "Swap active window with next";
-			// 
-			// labelSwapTop2
-			// 
-			this.labelSwapTop2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-			this.labelSwapTop2.Location = new System.Drawing.Point(236, 142);
-			this.labelSwapTop2.Name = "labelSwapTop2";
-			this.labelSwapTop2.Size = new System.Drawing.Size(153, 13);
-			this.labelSwapTop2.TabIndex = 23;
-			this.labelSwapTop2.Text = "labelSwapTop2";
-			// 
-			// buttonSwapTop2
-			// 
-			this.buttonSwapTop2.Location = new System.Drawing.Point(395, 137);
-			this.buttonSwapTop2.Name = "buttonSwapTop2";
-			this.buttonSwapTop2.Size = new System.Drawing.Size(75, 23);
-			this.buttonSwapTop2.TabIndex = 24;
-			this.buttonSwapTop2.Text = "Change...";
-			this.buttonSwapTop2.UseVisualStyleBackColor = true;
-			this.buttonSwapTop2.Click += new System.EventHandler(this.buttonSwapTop2_Click);
-			// 
-			// udaPanel10
-			// 
-			this.udaPanel10.Location = new System.Drawing.Point(6, 237);
-			this.udaPanel10.Name = "udaPanel10";
-			this.udaPanel10.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel10.TabIndex = 9;
-			// 
-			// udaPanel9
-			// 
-			this.udaPanel9.Location = new System.Drawing.Point(6, 212);
-			this.udaPanel9.Name = "udaPanel9";
-			this.udaPanel9.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel9.TabIndex = 8;
-			// 
-			// udaPanel8
-			// 
-			this.udaPanel8.Location = new System.Drawing.Point(6, 187);
-			this.udaPanel8.Name = "udaPanel8";
-			this.udaPanel8.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel8.TabIndex = 7;
-			// 
-			// udaPanel7
-			// 
-			this.udaPanel7.Location = new System.Drawing.Point(6, 162);
-			this.udaPanel7.Name = "udaPanel7";
-			this.udaPanel7.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel7.TabIndex = 6;
-			// 
-			// udaPanel6
-			// 
-			this.udaPanel6.Location = new System.Drawing.Point(6, 137);
-			this.udaPanel6.Name = "udaPanel6";
-			this.udaPanel6.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel6.TabIndex = 5;
-			// 
-			// udaPanel5
-			// 
-			this.udaPanel5.Location = new System.Drawing.Point(6, 112);
-			this.udaPanel5.Name = "udaPanel5";
-			this.udaPanel5.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel5.TabIndex = 4;
-			// 
-			// udaPanel4
-			// 
-			this.udaPanel4.Location = new System.Drawing.Point(6, 87);
-			this.udaPanel4.Name = "udaPanel4";
-			this.udaPanel4.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel4.TabIndex = 3;
-			// 
-			// udaPanel3
-			// 
-			this.udaPanel3.Location = new System.Drawing.Point(6, 62);
-			this.udaPanel3.Name = "udaPanel3";
-			this.udaPanel3.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel3.TabIndex = 2;
-			// 
-			// udaPanel2
-			// 
-			this.udaPanel2.Location = new System.Drawing.Point(6, 37);
-			this.udaPanel2.Name = "udaPanel2";
-			this.udaPanel2.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel2.TabIndex = 1;
-			// 
-			// udaPanel1
-			// 
-			this.udaPanel1.Location = new System.Drawing.Point(6, 12);
-			this.udaPanel1.Name = "udaPanel1";
-			this.udaPanel1.Size = new System.Drawing.Size(465, 23);
-			this.udaPanel1.TabIndex = 0;
-			// 
 			// OptionsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1117,6 +1249,18 @@ namespace SwapScreen
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label labelSwapTop2;
 		private System.Windows.Forms.Button buttonSwapTop2;
+		private System.Windows.Forms.Label label26;
+		private System.Windows.Forms.Label labelSnapDown;
+		private System.Windows.Forms.Button buttonSnapDown;
+		private System.Windows.Forms.Label label24;
+		private System.Windows.Forms.Label labelSnapUp;
+		private System.Windows.Forms.Button buttonSnapUp;
+		private System.Windows.Forms.Label label22;
+		private System.Windows.Forms.Label labelSnapRight;
+		private System.Windows.Forms.Button buttonSnapRight;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.Label labelSnapLeft;
+		private System.Windows.Forms.Button buttonSnapLeft;
 	}
 }
 

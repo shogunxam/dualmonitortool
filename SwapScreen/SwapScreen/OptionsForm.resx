@@ -124,14 +124,6 @@
     <value>132, 22</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="toolStripMenuItemOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOswAA
-        DrMB43LcUwAAAE5JREFUOE9jYKAHcHBw+A/DJNs3cJpBTsXnbJAcQe/gMoDo8MDmf6LDBFkhNjZe51Nd
-        M8HAgikg2anIJlOkGTnOiY4ibP6iSDPRAUVthQBEIGcG9xWuaAAAAABJRU5ErkJggg==
-</value>
-  </data>
   <data name="notifyIcon.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAMAEBAAAAEACABoBQAANgAAADAwAAABACAAqCUAAJ4FAAAgIAAAAQAgAKgQAABGKwAAKAAAABAA
@@ -390,6 +382,14 @@
         kP+MjIz/iIiI/4WFhf+BgYH/gICA/4CAgP+AgID/gICA//8AAP//AAD//wAA///wD///8A////AP/wAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</value>
+  </data>
+  <data name="toolStripMenuItemOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAlwSFlzAAAOsAAA
+        DrABTsv9PgAAAE5JREFUOE9jYKAHcHBw+A/DJNs3cJpBTsXnbJAcQe/gMoDo8MDmf6LDBFkhNjZe51Nd
+        M8HAgikg2anIJlOkGTnOiY4ibP6iSDPRAUVthQBEIGcG9xWuaAAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

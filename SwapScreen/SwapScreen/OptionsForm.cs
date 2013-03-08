@@ -114,6 +114,10 @@ namespace SwapScreen
 			labelMaximise.Text = Controller.Instance.MaximiseHotKeyController.ToString();
 			labelSupersize.Text = Controller.Instance.SupersizeHotKeyController.ToString();
 			labelSwapTop2.Text = Controller.Instance.SwapTop2HotKeyController.ToString();
+			labelSnapLeft.Text = Controller.Instance.SnapLeftHotKeyController.ToString();
+			labelSnapRight.Text = Controller.Instance.SnapRightHotKeyController.ToString();
+			labelSnapUp.Text = Controller.Instance.SnapUpHotKeyController.ToString();
+			labelSnapDown.Text = Controller.Instance.SnapDownHotKeyController.ToString();
 
 			// UDA tab
 			InitUdaValues();
@@ -407,6 +411,38 @@ namespace SwapScreen
 			if (Controller.Instance.SwapTop2HotKeyController.Edit())
 			{
 				labelSwapTop2.Text = Controller.Instance.SwapTop2HotKeyController.ToString();
+			}
+		}
+
+		private void buttonSnapLeft_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.SnapLeftHotKeyController.Edit())
+			{
+				labelSnapLeft.Text = Controller.Instance.SnapLeftHotKeyController.ToString();
+			}
+		}
+
+		private void buttonSnapRight_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.SnapRightHotKeyController.Edit())
+			{
+				labelSnapRight.Text = Controller.Instance.SnapRightHotKeyController.ToString();
+			}
+		}
+
+		private void buttonSnapUp_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.SnapUpHotKeyController.Edit())
+			{
+				labelSnapUp.Text = Controller.Instance.SnapUpHotKeyController.ToString();
+			}
+		}
+
+		private void buttonSnapDown_Click(object sender, EventArgs e)
+		{
+			if (Controller.Instance.SnapDownHotKeyController.Edit())
+			{
+				labelSnapDown.Text = Controller.Instance.SnapDownHotKeyController.ToString();
 			}
 		}
 

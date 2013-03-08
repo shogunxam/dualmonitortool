@@ -71,5 +71,17 @@
     <Setting Name="SwapTop2HotKey" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
+    <Setting Name="SnapLeftHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="SnapRightHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="SnapUpHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
+    <Setting Name="SnapDownHotKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">16777216</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

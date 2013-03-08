@@ -222,6 +222,30 @@ Try another hot key combination.</value>
   <data name="ShowDesktopMenuItem" xml:space="preserve">
     <value>Show desktop {0}</value>
   </data>
+  <data name="SnapDownDescription" xml:space="preserve">
+    <value>Snap active window down</value>
+  </data>
+  <data name="SnapDownWin7" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SnapLeftDescription" xml:space="preserve">
+    <value>Snap active window left</value>
+  </data>
+  <data name="SnapLeftWin7" xml:space="preserve">
+    <value>Win+&lt;Left&gt;</value>
+  </data>
+  <data name="SnapRightDescription" xml:space="preserve">
+    <value>Snap active window right</value>
+  </data>
+  <data name="SnapRightWin7" xml:space="preserve">
+    <value>Win+&lt;Right&gt;</value>
+  </data>
+  <data name="SnapUpDescription" xml:space="preserve">
+    <value>Snap active window up</value>
+  </data>
+  <data name="SnapUpWin7" xml:space="preserve">
+    <value />
+  </data>
   <data name="StickyCursorDescription" xml:space="preserve">
     <value>Cursor movement between screens is sticky</value>
   </data>

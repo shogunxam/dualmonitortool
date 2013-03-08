@@ -51,6 +51,10 @@ namespace SwapScreen
 		private const int ID_HOTKEY_CURSORNEXTSCREEN = 0x20E;
 		private const int ID_HOTKEY_CURSORPREVSCREEN = 0x20F;
 		private const int ID_HOTKEY_SWAPTOP2 = 0x210;
+		private const int ID_HOTKEY_SNAPLEFT = 0x211;
+		private const int ID_HOTKEY_SNAPRIGHT = 0x212;
+		private const int ID_HOTKEY_SNAPUP = 0x213;
+		private const int ID_HOTKEY_SNAPDOWN = 0x214;
 
 		private const int ID_HOTKEY_UDA_START = 0x1000;
 		// area above this reserved for dynamic (user) user hotkeys
@@ -219,6 +223,42 @@ namespace SwapScreen
 			get { return swapTop2HotKeyController; }
 		}
 
+		private HotKeyController snapLeftHotKeyController;
+		/// <summary>
+		/// HotKey to move the active window to the previous half screen (left/right)
+		/// </summary>
+		public HotKeyController SnapLeftHotKeyController
+		{
+			get { return snapLeftHotKeyController; }
+		}
+
+		private HotKeyController snapRightHotKeyController;
+		/// <summary>
+		/// HotKey to move the active window to the next half screen (left/right)
+		/// </summary>
+		public HotKeyController SnapRightHotKeyController
+		{
+			get { return snapRightHotKeyController; }
+		}
+
+		private HotKeyController snapUpHotKeyController;
+		/// <summary>
+		/// HotKey to move the active window to the previous half screen (top/bottom)
+		/// </summary>
+		public HotKeyController SnapUpHotKeyController
+		{
+			get { return snapUpHotKeyController; }
+		}
+
+		private HotKeyController snapDownHotKeyController;
+		/// <summary>
+		/// HotKey to move the active window to the next half screen (top/bottom)
+		/// </summary>
+		public HotKeyController SnapDownHotKeyController
+		{
+			get { return snapDownHotKeyController; }
+		}
+
 		/// <summary>
 		/// Initialise the Controller.
 		/// This could be done implicitly from the ctor() 
@@ -349,11 +389,39 @@ namespace SwapScreen
 				Properties.Resources.SwapTop2Description,
 				Properties.Resources.SwapTop2Win7,
 				new HotKey.HotKeyHandler(ScreenHelper.SwapTop2Windows));
+
+			snapLeftHotKeyController = new HotKeyController(form, ID_HOTKEY_SNAPLEFT,
+				"SnapLeftHotKey",
+				Properties.Resources.SnapLeftDescription,
+				Properties.Resources.SnapLeftWin7,
+				new HotKey.HotKeyHandler(ScreenHelper.SnapActiveLeft));
+
+			snapRightHotKeyController = new HotKeyController(form, ID_HOTKEY_SNAPRIGHT,
+				"SnapRightHotKey",
+				Properties.Resources.SnapRightDescription,
+				Properties.Resources.SnapRightWin7,
+				new HotKey.HotKeyHandler(ScreenHelper.SnapActiveRight));
+
+			snapUpHotKeyController = new HotKeyController(form, ID_HOTKEY_SNAPUP,
+				"SnapUpHotKey",
+				Properties.Resources.SnapUpDescription,
+				Properties.Resources.SnapUpWin7,
+				new HotKey.HotKeyHandler(ScreenHelper.SnapActiveUp));
+
+			snapDownHotKeyController = new HotKeyController(form, ID_HOTKEY_SNAPDOWN,
+				"SnapDownHotKey",
+				Properties.Resources.SnapDownDescription,
+				Properties.Resources.SnapDownWin7,
+				new HotKey.HotKeyHandler(ScreenHelper.SnapActiveDown));
 		}
 
 		// terminates all of the hotkeys
 		private void TermHotKeys()
 		{
+			snapDownHotKeyController.Dispose();
+			snapUpHotKeyController.Dispose();
+			snapRightHotKeyController.Dispose();
+			snapLeftHotKeyController.Dispose();
 			swapTop2HotKeyController.Dispose();
 			cursorPrevScreenHotKeyController.Dispose();
 			cursorNextScreenHotKeyController.Dispose();
