@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwapScreen", "SwapScreen\SwapScreen.csproj", "{CB3DD795-9E35-4A24-BA08-99CC65A9F771}"
 EndProject
 Global

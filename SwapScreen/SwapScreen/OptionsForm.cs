@@ -248,7 +248,7 @@ namespace SwapScreen
 
 		private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
 		{
-			ScreenHelper.DumpDesktopInfo(this);
+			//ScreenHelper.DumpDesktopInfo(this);
 
 			AboutForm dlg = new AboutForm();
 			// TODO: why doesn't this appear to be modal?

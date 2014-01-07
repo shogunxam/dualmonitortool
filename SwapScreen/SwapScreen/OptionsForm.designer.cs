@@ -662,7 +662,7 @@ namespace SwapScreen
 			this.label19.Name = "label19";
 			this.label19.Size = new System.Drawing.Size(224, 13);
 			this.label19.TabIndex = 25;
-			this.label19.Text = "Swap left";
+			this.label19.Text = "Snap left";
 			// 
 			// labelSnapLeft
 			// 
@@ -1135,9 +1135,9 @@ namespace SwapScreen
 			this.Name = "OptionsForm";
 			this.ShowInTaskbar = false;
 			this.Text = "Options for SwapScreen";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
 			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.Shown += new System.EventHandler(this.OptionsForm_Shown);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
 			this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.OptionsForm_HelpRequested);
 			this.contextMenuStrip.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);

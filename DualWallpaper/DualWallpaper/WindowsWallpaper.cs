@@ -131,7 +131,8 @@ namespace DualWallpaper
 
 		private Image WrapImage(out bool wrapped)
 		{
-			if (virtualDesktop.Left < 0 || virtualDesktop.Top < 0)
+			//if (virtualDesktop.Left < 0 || virtualDesktop.Top < 0)
+			if (NeedsWrapping())
 			{
 				// must wrap image
 				// so that the four quadrants
@@ -193,6 +194,37 @@ namespace DualWallpaper
 				wrapped = false;
 				return srcImage;
 			}
+		}
+
+		bool NeedsWrapping()
+		{
+			// On Windows versions prior to 8, (0,0) in the wallpaper corresponds to (0,0) on your primary monitor
+			// On 8 (0,0) in the wallpaper corresponds to the TLHC of your monitors
+
+			if (virtualDesktop.Left < 0 || virtualDesktop.Top < 0)
+			{
+				// TLHC is not (0,0)
+				OperatingSystem osInfo = Environment.OSVersion;
+
+				// see http://stackoverflow.com/questions/13620223/how-to-detect-windows-8-operating-system-using-c-sharp-4-0
+				Version win8Version = new Version(6, 2, 9200, 0);
+				if (osInfo.Platform == PlatformID.Win32NT && osInfo.Version >= win8Version)
+				{
+					// Win 8 and later want a direct mapping
+					return false;
+				}
+				else
+				{
+					// earlier versions expect the primary TLHC to be (0,0)
+					return true;
+				}
+			}
+			else
+			{
+				// TLHC is (0,0) so direct mapping
+				return false;
+			}
+
 		}
 	}
 }

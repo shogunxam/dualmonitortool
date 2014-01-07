@@ -8,10 +8,16 @@ DualWallpaper now supports drag and drop (thanks to Nithin Philips for this)
 SwapScreen has new hotkey to allow the top two windows to be be swapped
 SwapScreen has 4 new hotkeys for snap left/right/up/down
 
+Windows 8 support:
+DualWallpaper works with win 8 when primary monitor not left/top most
+
 Bug fixes:
 SwapScreen has improved handling of configuration saving problems
 DualWallpaper supports DPI scaling other than 100%
 DualWallpaper now also supports .jpeg (with an e) extension for input images
+
+Other:
+Now built against .NET 4.0 
 
 Changes from 1.7 to 1.8
 =======================
