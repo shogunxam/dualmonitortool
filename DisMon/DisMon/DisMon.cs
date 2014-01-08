@@ -46,7 +46,7 @@ namespace DisMon
 		// private ctor
 		DisMon()
 		{
-			if (OsHelper.IsWin7())
+			if (OsHelper.IsWin7OrLater())
 			{
 				disMonImplementation = new DisMon7();
 			}

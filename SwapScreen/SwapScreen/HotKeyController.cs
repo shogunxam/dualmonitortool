@@ -109,7 +109,7 @@ namespace SwapScreen
 			string note = "";
 			if (win7Key != null && win7Key.Length > 0)
 			{
-				if (OsHelper.IsWin7())
+				if (OsHelper.IsWin7OrLater())
 				{
 					note = string.Format(Properties.Resources.Win7, win7Key);
 				}

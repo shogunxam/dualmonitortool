@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SwapScreen
+namespace DualWallpaper
 {
 	/// <summary>
 	/// Utility class to handle O/S specific issues
@@ -29,12 +29,12 @@ namespace SwapScreen
 	class OsHelper
 	{
 		/// <summary>
-		/// Determine if we are running Windows 7 or later
+		/// Determine if we are running Windows Vista (or later)
 		/// </summary>
-		/// <returns>true if this is Windows 7 or later</returns>
-		public static bool IsWin7OrLater()
+		/// <returns>true if this is Windows Vista or later</returns>
+		public static bool IsVistaOrLater()
 		{
-			bool isWin7orLater = false;
+			bool isVistaOrLater = false;
 
 			System.OperatingSystem osInfo = System.Environment.OSVersion;
 
@@ -46,22 +46,13 @@ namespace SwapScreen
 				// 6.0 => Vista / 2008
 				// 6.1 => Win 7 / 2008 R2 / 2011
 				// 6.2 => Win 8 / 2012
-				if (osInfo.Version.Major == 6)
+				if (osInfo.Version.Major >= 6)
 				{
-					if (osInfo.Version.Minor >= 1)
-					{
-						isWin7orLater = true;
-					}
-					// TODO: what about future versions of Windows?
+					isVistaOrLater = true;
 				}
-				else if (osInfo.Version.Major > 6)
-				{
-					isWin7orLater = true;
-				}
-
 			}
 
-			return isWin7orLater;
+			return isVistaOrLater;
 		}
 	}
 }
