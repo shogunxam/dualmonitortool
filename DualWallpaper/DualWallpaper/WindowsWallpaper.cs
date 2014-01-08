@@ -206,9 +206,7 @@ namespace DualWallpaper
 				// TLHC is not (0,0)
 				OperatingSystem osInfo = Environment.OSVersion;
 
-				// see http://stackoverflow.com/questions/13620223/how-to-detect-windows-8-operating-system-using-c-sharp-4-0
-				Version win8Version = new Version(6, 2, 9200, 0);
-				if (osInfo.Platform == PlatformID.Win32NT && osInfo.Version >= win8Version)
+				if (OsHelper.IsWin8OrLater())
 				{
 					// Win 8 and later want a direct mapping
 					return false;

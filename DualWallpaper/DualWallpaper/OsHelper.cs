@@ -54,5 +54,39 @@ namespace DualWallpaper
 
 			return isVistaOrLater;
 		}
+
+		/// <summary>
+		/// Determine if we are running Windows 8 (or later)
+		/// </summary>
+		/// <returns>true if this is Windows 8 or later</returns>
+		public static bool IsWin8OrLater()
+		{
+			bool isWin8OrLater = false;
+
+			System.OperatingSystem osInfo = System.Environment.OSVersion;
+
+			if (osInfo.Platform == PlatformID.Win32NT)
+			{
+				// 5.0 => 2000
+				// 5.1 => XP
+				// 5.2 => 2003
+				// 6.0 => Vista / 2008
+				// 6.1 => Win 7 / 2008 R2 / 2011
+				// 6.2 => Win 8 / 2012
+				if (osInfo.Version.Major == 6)
+				{
+					if (osInfo.Version.Minor >= 2)
+					{
+						isWin8OrLater = true;
+					}
+				}
+				else if (osInfo.Version.Major > 6)
+				{
+					isWin8OrLater = true;
+				}
+			}
+
+			return isWin8OrLater;
+		}
 	}
 }

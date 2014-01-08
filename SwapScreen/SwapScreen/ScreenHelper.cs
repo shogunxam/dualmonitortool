@@ -660,6 +660,7 @@ namespace SwapScreen
 		{
 			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
 			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			uint oldShowCmd = windowPlacement.showCmd;
 
@@ -671,15 +672,23 @@ namespace SwapScreen
 				int newScreenIndex = newHalf / 2;
 				Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
 				Rectangle newRect;
+				int newWidth = screenRect.Width / 2;
+				int newHeight = screenRect.Height;
+				if ((style & Win32.WS_THICKFRAME) == 0)
+				{
+					// the window can't be resized, so keep its size the same
+					newWidth = curRect.Width;
+					newHeight = curRect.Height;
+				}
 				if ((newHalf % 2) == 0)
 				{
 					// left half
-					newRect = new Rectangle(screenRect.Left, screenRect.Top, screenRect.Width / 2, screenRect.Height);
+					newRect = new Rectangle(screenRect.Left, screenRect.Top, newWidth, newHeight);
 				}
 				else
 				{
 					// right half
-					newRect = new Rectangle(screenRect.Left + screenRect.Width / 2, screenRect.Top, screenRect.Width / 2, screenRect.Height);
+					newRect = new Rectangle(screenRect.Left + screenRect.Width / 2, screenRect.Top, newWidth, newHeight);
 				}
 				if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
 				{
@@ -703,6 +712,7 @@ namespace SwapScreen
 		{
 			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
 			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			uint oldShowCmd = windowPlacement.showCmd;
 
@@ -714,15 +724,23 @@ namespace SwapScreen
 				int newScreenIndex = newHalf / 2;
 				Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
 				Rectangle newRect;
+				int newWidth = screenRect.Width;
+				int newHeight = screenRect.Height / 2;
+				if ((style & Win32.WS_THICKFRAME) == 0)
+				{
+					// the window can't be resized, so keep its size the same
+					newWidth = curRect.Width;
+					newHeight = curRect.Height;
+				}
 				if ((newHalf % 2) == 0)
 				{
 					// top half
-					newRect = new Rectangle(screenRect.Left, screenRect.Top, screenRect.Width, screenRect.Height / 2);
+					newRect = new Rectangle(screenRect.Left, screenRect.Top, newWidth, newHeight);
 				}
 				else
 				{
 					// bottom half
-					newRect = new Rectangle(screenRect.Left, screenRect.Top + screenRect.Height / 2, screenRect.Width, screenRect.Height / 2);
+					newRect = new Rectangle(screenRect.Left, screenRect.Top + screenRect.Height / 2, newWidth, newHeight);
 				}
 				if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
 				{
