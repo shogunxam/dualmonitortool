@@ -10,7 +10,7 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
-Release 1.8
+Release 1.9
 -----------
 
 The release consists of the following files:
@@ -73,7 +73,7 @@ with another image displayed on the third monitor.
 It also correctly sets the wallpaper when your primary monitor is not
 your leftmost or topmost monitor.
 
-DisMon
+DisMon (Beta software)
 ------
 
 This allows you to change the enabled monitors and/or to change the
