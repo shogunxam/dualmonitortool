@@ -16,8 +16,6 @@ SwapScreen has improved handling of configuration saving problems
 DualWallpaper supports DPI scaling other than 100%
 DualWallpaper now also supports .jpeg (with an e) extension for input images
 
-Other:
-Now built against .NET 4.0 
 
 Changes from 1.7 to 1.8
 =======================

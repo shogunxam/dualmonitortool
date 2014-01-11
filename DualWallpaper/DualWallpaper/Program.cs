@@ -33,11 +33,12 @@ namespace DualWallpaper
 		[STAThread]
 		static void Main()
 		{
-			// SetProcessDPIAware is not available on XP
-			if (OsHelper.IsVistaOrLater())
-			{
-				Win32.SetProcessDPIAware();
-			}
+			// This is now done by the manifest
+			//// SetProcessDPIAware is not available on XP
+			//if (OsHelper.IsVistaOrLater())
+			//{
+			//	Win32.SetProcessDPIAware();
+			//}
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

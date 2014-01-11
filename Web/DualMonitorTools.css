@@ -193,3 +193,8 @@ p.SubHeading2
 	font-size: 12pt;
 	font-weight: bold;
 }
+
+p.Warning
+{
+	color:#FF0000;
+}
