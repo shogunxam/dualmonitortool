@@ -74,6 +74,9 @@ namespace SwapScreen
 		public const int WPF_SETMINPOSITION = 0x0001;
 		public const int WPF_RESTORETOMAXIMIZED = 0x0002;
 
+		// MSLLHOOKSTRUCT.dwExtraInfo
+		public const uint MOUSEEVENTF_FROMTOUCH = 0xFF515700;
+
 		// Modifier keys
 		public const int MOD_ALT = 0x0001;
 		public const int MOD_CONTROL = 0x0002;
@@ -128,14 +131,14 @@ namespace SwapScreen
 		//    public uint dwExtraInfo;
 		//}
 
-		//public struct MSLLHOOKSTRUCT
-		//{
-		//    public POINT pt;
-		//    public uint mouseData;
-		//    public uint flags;
-		//    public uint time;
-		//    public uint dwExtraInfo;
-		//}
+		public struct MSLLHOOKSTRUCT
+		{
+			public POINT pt;
+			public uint mouseData;
+			public uint flags;
+			public uint time;
+			public uint dwExtraInfo;
+		}
 
 
 		// deleagte used by EnumWindows()
