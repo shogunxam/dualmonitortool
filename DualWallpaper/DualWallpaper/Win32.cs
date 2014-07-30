@@ -28,8 +28,14 @@ namespace DualWallpaper
 		[DllImport("user32.dll")]
 		public static extern int AppendMenu(int hMenu, int uFlags, int uIDNewItem, string lpNewItem);
 
+		[DllImport("kernel32.dll")]
+		public static extern bool AttachConsole(int pid);
+
 		[DllImport("user32.dll")]
 		public static extern int GetSystemMenu(int hwnd, int bRevert);
+
+		[DllImport("kernel32")]
+		public static extern bool FreeConsole();
 
 		[DllImport("user32.dll")]
 		public static extern bool SetProcessDPIAware();

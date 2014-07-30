@@ -62,6 +62,8 @@
     <Compile Include="DualWallpaper.Designer.cs">
       <DependentUpon>DualWallpaper.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsoleApplication.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="OsHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

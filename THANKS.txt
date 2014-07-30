@@ -4,5 +4,6 @@ Special thanks to the following:
 
 Shawn Steele for adding the background colour selector in DualWallpaper.
 Nithin Philips for adding the drag and drop to DualWallpaper.
+Christopher Drexler for the command line option to DualWallpaper.
 
 And all those that have contributed to the forum with bugs and suggestions for improvements.

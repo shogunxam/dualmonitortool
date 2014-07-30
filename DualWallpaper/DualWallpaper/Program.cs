@@ -31,7 +31,7 @@ namespace DualWallpaper
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
 		{
 			// This is now done by the manifest
 			//// SetProcessDPIAware is not available on XP
@@ -40,15 +40,38 @@ namespace DualWallpaper
 			//	Win32.SetProcessDPIAware();
 			//}
 
+			Options options = new Options(args);
+
+			if (options.CmdMode)
+			{
+				ConsoleMain(options);
+			}
+			else
+			{
+				GuiMain(options);
+			}
+		}
+
+		static void ConsoleMain(Options options)
+		{
+			Win32.AttachConsole(-1);
+			ConsoleApplication consoleApplication = new ConsoleApplication(options);
+			consoleApplication.Run();
+			Win32.FreeConsole();
+		}
+
+		static void GuiMain(Options options)
+		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new DualWallpaper());
 		}
 
+
 		/// <summary>
 		/// Returns the name that we are known as.
 		/// This is used for display to the user in message boxes and the about box 
-		/// and the cpation of the main window.
+		/// and the caption of the main window.
 		/// This is not expected to change even if the program gets translated?
 		/// </summary>
 		public static string MyTitle
