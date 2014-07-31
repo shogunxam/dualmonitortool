@@ -105,6 +105,7 @@ namespace SwapScreen
 			this.tabPageOther = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.tabPageMouse = new System.Windows.Forms.TabPage();
+			this.comboBoxFreeMovementKey = new System.Windows.Forms.ComboBox();
 			this.checkBoxPrimaryReturnUnhindered = new System.Windows.Forms.CheckBox();
 			this.comboBoxCursorMode = new System.Windows.Forms.ComboBox();
 			this.label15 = new System.Windows.Forms.Label();
@@ -847,6 +848,7 @@ namespace SwapScreen
 			// 
 			// tabPageMouse
 			// 
+			this.tabPageMouse.Controls.Add(this.comboBoxFreeMovementKey);
 			this.tabPageMouse.Controls.Add(this.checkBoxPrimaryReturnUnhindered);
 			this.tabPageMouse.Controls.Add(this.comboBoxCursorMode);
 			this.tabPageMouse.Controls.Add(this.label15);
@@ -859,6 +861,16 @@ namespace SwapScreen
 			this.tabPageMouse.TabIndex = 2;
 			this.tabPageMouse.Text = "Cursor";
 			this.tabPageMouse.UseVisualStyleBackColor = true;
+			// 
+			// comboBoxFreeMovementKey
+			// 
+			this.comboBoxFreeMovementKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxFreeMovementKey.FormattingEnabled = true;
+			this.comboBoxFreeMovementKey.Location = new System.Drawing.Point(274, 203);
+			this.comboBoxFreeMovementKey.Name = "comboBoxFreeMovementKey";
+			this.comboBoxFreeMovementKey.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxFreeMovementKey.TabIndex = 45;
+			this.comboBoxFreeMovementKey.SelectedIndexChanged += new System.EventHandler(this.comboBoxFreeMovementKey_SelectedIndexChanged);
 			// 
 			// checkBoxPrimaryReturnUnhindered
 			// 
@@ -895,9 +907,9 @@ namespace SwapScreen
 			this.checkBoxControlUnhindersCursor.AutoSize = true;
 			this.checkBoxControlUnhindersCursor.Location = new System.Drawing.Point(14, 205);
 			this.checkBoxControlUnhindersCursor.Name = "checkBoxControlUnhindersCursor";
-			this.checkBoxControlUnhindersCursor.Size = new System.Drawing.Size(301, 17);
+			this.checkBoxControlUnhindersCursor.Size = new System.Drawing.Size(249, 17);
 			this.checkBoxControlUnhindersCursor.TabIndex = 41;
-			this.checkBoxControlUnhindersCursor.Text = "Allow cursor to move freely if the left Control key is pressed";
+			this.checkBoxControlUnhindersCursor.Text = "Allow cursor to move freely if this key is pressed";
 			this.checkBoxControlUnhindersCursor.UseVisualStyleBackColor = true;
 			this.checkBoxControlUnhindersCursor.CheckedChanged += new System.EventHandler(this.checkBoxControlUnhindersCursor_CheckedChanged);
 			// 
@@ -1261,6 +1273,7 @@ namespace SwapScreen
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Label labelSnapLeft;
 		private System.Windows.Forms.Button buttonSnapLeft;
+		private System.Windows.Forms.ComboBox comboBoxFreeMovementKey;
 	}
 }
 

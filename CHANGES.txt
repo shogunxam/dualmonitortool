@@ -1,5 +1,16 @@
 Dual Monitor Tools
 
+Changes from 1.9 to 1.10
+========================
+
+Functional:
+DualWallpaper has limited support for being run from the command line or batch scripts
+SwapScreen has a choice for key to use to allow cursor to move between screens
+
+Bug fixes:
+SwapScreen should now work better with touch screens
+
+
 Changes from 1.8 to 1.9
 =======================
 

@@ -83,5 +83,8 @@
     <Setting Name="SnapDownHotKey" Type="System.UInt32" Scope="User">
       <Value Profile="(Default)">16777216</Value>
     </Setting>
+    <Setting Name="FreeCursorMovementKey" Type="System.UInt32" Scope="User">
+      <Value Profile="(Default)">162</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

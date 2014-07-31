@@ -139,6 +139,7 @@ namespace SwapScreen
 			checkBoxControlUnhindersCursor.Checked = Properties.Settings.Default.ControlUnhindersCursor;
 			checkBoxPrimaryReturnUnhindered.Checked = Properties.Settings.Default.PrimaryReturnUnhindered;
 			InitDefaultCursorMode();
+			initFreeMovementKey();
 		}
 
 		private void InitDefaultCursorMode()
@@ -150,7 +151,7 @@ namespace SwapScreen
 			comboBoxCursorMode.Items.Add(Properties.Resources.LockCursorDescription);
 
 			// Using SwapScreen.CursorHelper.CursorType in Properties.Settings lead to 
-			// occasional compilation problems (usually just a load of warings), 
+			// occasional compilation problems (usually just a load of warnings), 
 			// so int is used in the settings, and we cast to a CursorType when required.
 			// TODO: need to find out the cause of the problems in Properties.Settings
 			SwapScreen.CursorHelper.CursorType t = (CursorHelper.CursorType)Properties.Settings.Default.DefaultCursorType;
@@ -167,6 +168,37 @@ namespace SwapScreen
 				comboBoxCursorMode.SelectedItem = Properties.Resources.FreeCursorDescription;
 			}
 			comboBoxCursorMode.EndUpdate();
+		}
+
+		void initFreeMovementKey()
+		{
+			comboBoxFreeMovementKey.BeginUpdate();
+			comboBoxFreeMovementKey.Items.Clear();
+			comboBoxFreeMovementKey.Items.Add(Properties.Resources.LControlKey);
+			comboBoxFreeMovementKey.Items.Add(Properties.Resources.RControlKey);
+			comboBoxFreeMovementKey.Items.Add(Properties.Resources.LShiftKey);
+			comboBoxFreeMovementKey.Items.Add(Properties.Resources.RShiftKey);
+
+			Keys freeMovementKey = (Keys)Properties.Settings.Default.FreeCursorMovementKey;
+			if (freeMovementKey == Keys.RControlKey)
+			{
+				comboBoxFreeMovementKey.SelectedItem = Properties.Resources.RControlKey;
+			}
+			else if (freeMovementKey == Keys.LShiftKey)
+			{
+				comboBoxFreeMovementKey.SelectedItem = Properties.Resources.LShiftKey;
+			}
+			else if (freeMovementKey == Keys.RShiftKey)
+			{
+				comboBoxFreeMovementKey.SelectedItem = Properties.Resources.RShiftKey;
+			}
+			else //if (freeMovementKey == Keys.LControlKey) - default case
+			{
+				comboBoxFreeMovementKey.SelectedItem = Properties.Resources.LControlKey;
+			}
+
+			comboBoxFreeMovementKey.EndUpdate();
+
 		}
 
 		private void OptionsForm_Shown(object sender, EventArgs e)
@@ -285,7 +317,7 @@ namespace SwapScreen
 		}
 		#endregion
 
-		#region HotKey 'Change...' button notifications
+		#region HotKey 'Change...' control notifications
 		private void buttonNextScreen_Click(object sender, EventArgs e)
 		{
 			if (Controller.Instance.NextScreenHotKeyController.Edit())
@@ -446,31 +478,10 @@ namespace SwapScreen
 			}
 		}
 
-		private void comboBoxCursorMode_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			CursorHelper.CursorType cursorType = CursorHelper.CursorType.Free;
-
-			string selected = comboBoxCursorMode.SelectedItem.ToString();
-			if (selected == Properties.Resources.StickyCursorDescription)
-			{
-				cursorType = CursorHelper.CursorType.Sticky;
-			}
-			else if (selected == Properties.Resources.LockCursorDescription)
-			{
-				cursorType = CursorHelper.CursorType.Lock;
-			}
-			else
-			{
-				// anything else - leave as free
-			}
-
-			Properties.Settings.Default.DefaultCursorType = (int)cursorType;
-			SaveSettings();
-		}
 
 		#endregion
 
-		#region User Defined Areas
+		#region 'User Defined Areas' control notifications
 		private void InitUdaValues()
 		{
 			udaPanel1.AssociateWith(Controller.Instance.GetUdaController(0));
@@ -513,7 +524,53 @@ namespace SwapScreen
 		//}
 		#endregion
 
-		#region Other dialog events
+		#region 'Cursor ' control notifications
+		private void comboBoxCursorMode_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			CursorHelper.CursorType cursorType = CursorHelper.CursorType.Free;
+
+			string selected = comboBoxCursorMode.SelectedItem.ToString();
+			if (selected == Properties.Resources.StickyCursorDescription)
+			{
+				cursorType = CursorHelper.CursorType.Sticky;
+			}
+			else if (selected == Properties.Resources.LockCursorDescription)
+			{
+				cursorType = CursorHelper.CursorType.Lock;
+			}
+			else
+			{
+				// anything else - leave as free
+			}
+
+			Properties.Settings.Default.DefaultCursorType = (int)cursorType;
+			SaveSettings();
+		}
+
+		private void comboBoxFreeMovementKey_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Keys freeMovementKey = Keys.LControlKey;
+			string selected = comboBoxFreeMovementKey.SelectedItem.ToString();
+			if (selected == Properties.Resources.RControlKey)
+			{
+				freeMovementKey = Keys.RControlKey;
+			}
+			else if (selected == Properties.Resources.LShiftKey)
+			{
+				freeMovementKey = Keys.LShiftKey;
+			}
+			else if (selected == Properties.Resources.RShiftKey)
+			{
+				freeMovementKey = Keys.RShiftKey;
+			}
+			else
+			{
+				// anything else - leave as left control
+			}
+			Properties.Settings.Default.FreeCursorMovementKey = (uint)freeMovementKey;
+			SaveSettings();
+		}
+
 		private void scrollBarSticky_ValueChanged(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.MinStickyForce = scrollBarSticky.Value;
@@ -536,6 +593,10 @@ namespace SwapScreen
 			SaveSettings();
 			// This value is checked directly in the hook, so no need to do anything else here
 		}
+
+		#endregion
+
+		#region Other dialog events
 		#endregion
 
 
@@ -582,6 +643,7 @@ namespace SwapScreen
 			this.checkBoxAutoStart.Checked = AutoStart.IsAutoStart(autoStartKeyName);
 		}
 		#endregion
+
 
 	}
 }

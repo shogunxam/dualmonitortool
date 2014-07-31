@@ -310,7 +310,8 @@ namespace SwapScreen
 				uint vkCode = (uint)Marshal.ReadInt32(lParam);
 				Keys key = (Keys)vkCode;
 
-				if (key == Keys.LControlKey)
+				//if (key == Keys.LControlKey)
+				if (key == (Keys)Properties.Settings.Default.FreeCursorMovementKey)
 				{
 					if (enableDisableLocking)
 					{
