@@ -107,7 +107,9 @@ namespace DualWallpaper
 
 			using (Graphics g = Graphics.FromImage(image))
 			{
-                g.Clear(_desktopRectBackColor);
+				// use best interpolation mode available
+				g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+				g.Clear(_desktopRectBackColor);
 
 				foreach (ScreenMapping screenMapping in allScreens)
 				{
