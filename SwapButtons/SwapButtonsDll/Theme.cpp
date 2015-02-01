@@ -295,7 +295,7 @@ POINT CTheme::GetStdButtonsTLHCVista(HWND hWndFrame)
 	// iterate over all of the children on the titlebar
 	// finding the one with the minimum x co-ord
 	// TODO: are there defines for the child indexes?
-	//       2 = minimise burron
+	//       2 = minimise button
 	//       3 = maximise button
 	//       4 = help button
 	//       5 = close button

@@ -55,7 +55,7 @@ html, body
 
 #navigation
 {
-	width: 145px;
+	width: 245px;
 	padding-left:10px;
 	padding-top:10px;
 	float: left;
@@ -64,7 +64,7 @@ html, body
 #content
 {
 	padding-right:10px;
-	padding-left:160px;
+	padding-left:260px;
 }
 
 #footer
@@ -122,7 +122,7 @@ img.AppLogo
 .MenuTop
 {
 	display:block;
-	width:125px;
+	width:225px;
 	height:1px;
 	border-bottom:1px solid #3333BB;
 }
@@ -138,7 +138,7 @@ a.MenuItem, .CurPage
 	text-align: left;
 	display:block;
 	padding-left:10px;
-	width:125px;
+	width:225px;
 	height:1.5em;
 	border-bottom:1px solid #3333BB;
 	border-left:1px solid #3333BB;
@@ -159,7 +159,7 @@ a.MenuItem, .CurPage
 	text-align: left;
 	display:block;
 	padding-left:10px;
-	width:125px;
+	width:225px;
 	height:1.5em;
 	border-top:1px solid #3333BB;
 	border-bottom:1px solid #3333BB;

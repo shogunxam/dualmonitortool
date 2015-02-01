@@ -4,11 +4,13 @@ Changes from 1.9 to 1.10
 ========================
 
 Functional:
+Added new tool Dual Wallpaper Changer
 DualWallpaper has limited support for being run from the command line or batch scripts
 SwapScreen has a choice for key to use to allow cursor to move between screens
 
 Bug fixes:
 SwapScreen should now work better with touch screens
+DualWallpaper interpolation mode changed to improve image quality
 
 
 Changes from 1.8 to 1.9

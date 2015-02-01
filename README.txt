@@ -4,45 +4,56 @@ Dual Monitor Tools
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.
 
-Currently the tools available are SwapScreen, DualLauncher, DualWallpaper, DisMon and DualSnap.
+Currently the tools available are SwapScreen, DualLauncher, DualWallpaper, 
+DualWallpaperChanger, DisMon and DualSnap.
 
 Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
-Release 1.9
------------
+Release 1.10
+------------
 
 The release consists of the following files:
 
-SwapScreen.exe      The swap screen tool
-DualLauncher.exe    Application launcher
-DualWallpaper.exe   The wallpaper setting tool
-DisMon.exe          Disables secondary monitors
-DualSnap.exe        The screen capture tool
-CHANGES.txt         List of changes
-COPYING.txt         GPLv3 license
-README.txt          This file
-THANKS.txt          Contributors to the project
+SwapScreen.exe              The swap screen tool
+DualLauncher.exe            Application launcher
+DualWallpaper.exe           The wallpaper setting tool
+DualWallpaperChanger.exe    Wallpaper changer tool
+DWC_Library.dll             Wallpaper changer plugin library
+DWC_LocalDisk.dll           Wallpaper changer plugin to show images from local disk
+DWC_RandomShapes.dll        Wallpaper changer plugin to create images from random shapes
+DWC_Unsplash.dll            Wallpaper changer plugin to download images from www.unspash.com
+DisMon.exe                  Disables secondary monitors
+DualSnap.exe                The screen capture tool
+CHANGES.txt                 List of changes
+COPYING.txt                 GPLv3 license
+README.txt                  This file
+THANKS.txt                  Contributors to the project
 
 Requirements
 ------------
 
-Dual Monitor Tools should run on any implementation of Windows that has
-.NET 2.0 installed.
-Obviously you should have two or more monitors attached to the computer.
+Dual Monitor Tools should run on any implementation of Windows that has .NET 2.0 installed,
+but DualWallpaperChanger requires .NET 4.5 or later.
+Ideally you need two or more monitors attached to the computer, but tools like
+DualLauncher and DualWallpaperChanger can be useful to users with a single monitor.
 
 Installation
 ------------
 
-There is currently no installer, so you need to copy the files yourself
-to a suitable directory. 
+There is currently no installer, so you need to unzip the download and extract the files
+to a suitable directory and then run the tools that you want.
+
+SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap will all put
+themselves in the Notification Area (System Tray) when run, so if you run them
+and it looks like nothing has happened, you need to look in the Notification Area.
+These four tools all have an option 'Start when Windows starts' which does what it says.
 
 SwapScreen
 ----------
 
-This is a small tool that when started resides in the System Tray.
-It allows you to assign hotkeys for various actions.
+This allows you to assign hotkeys for various actions.
 The main hotkey allows you to move the active window to the next screen.
 This will also work if the active window is a maximised window.
 There are also some hotkeys to emulate functionality that is built into
@@ -73,6 +84,19 @@ with another image displayed on the third monitor.
 It also correctly sets the wallpaper when your primary monitor is not
 your leftmost or topmost monitor.
 
+DualWallpaperChanger
+--------------------
+
+Uses plugins to find images to use as wallpaper and changes the wallpaper
+on a periodic basis and/or at start up. 
+
+You can select which plugins to use and configure them as required and
+give them different weights.
+3 plugins are available at the moment:
+LocalDisk: takes images from specified directory on your local disk.
+Unspalsh: takes images from www.unsplash.com.
+RandomShapes: creates wallpaper from random shapes.
+
 DisMon (Beta software)
 ------
 
@@ -90,8 +114,7 @@ monitor manually.
 DualSnap
 --------
 
-This is a small tool that when started resides in the System Tray.
-It allows you to assign a hotkey which when pressed will capture 
+This allows you to assign a hotkey which when pressed will capture 
 the image on the primary screen and (optionally) display it on the
 secondary screen.
 
