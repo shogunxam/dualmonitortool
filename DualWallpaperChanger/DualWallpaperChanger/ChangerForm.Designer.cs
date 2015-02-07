@@ -208,7 +208,7 @@
 			this.labelNextChange.Location = new System.Drawing.Point(164, 230);
 			this.labelNextChange.Name = "labelNextChange";
 			this.labelNextChange.Size = new System.Drawing.Size(398, 13);
-			this.labelNextChange.TabIndex = 15;
+			this.labelNextChange.TabIndex = 14;
 			this.labelNextChange.Text = "Next change in";
 			// 
 			// buttonChangeWallpaper
@@ -216,7 +216,7 @@
 			this.buttonChangeWallpaper.Location = new System.Drawing.Point(13, 225);
 			this.buttonChangeWallpaper.Name = "buttonChangeWallpaper";
 			this.buttonChangeWallpaper.Size = new System.Drawing.Size(145, 23);
-			this.buttonChangeWallpaper.TabIndex = 14;
+			this.buttonChangeWallpaper.TabIndex = 13;
 			this.buttonChangeWallpaper.Text = "Change Wallpaper Now";
 			this.buttonChangeWallpaper.UseVisualStyleBackColor = true;
 			this.buttonChangeWallpaper.Click += new System.EventHandler(this.buttonChangeWallpaper_Click);
@@ -238,7 +238,7 @@
 			this.comboBoxMultiMonitor.Location = new System.Drawing.Point(117, 112);
 			this.comboBoxMultiMonitor.Name = "comboBoxMultiMonitor";
 			this.comboBoxMultiMonitor.Size = new System.Drawing.Size(445, 21);
-			this.comboBoxMultiMonitor.TabIndex = 12;
+			this.comboBoxMultiMonitor.TabIndex = 9;
 			this.comboBoxMultiMonitor.SelectedIndexChanged += new System.EventHandler(this.comboBoxMultiMonitor_SelectedIndexChanged);
 			// 
 			// label3
@@ -247,7 +247,7 @@
 			this.label3.Location = new System.Drawing.Point(10, 115);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(70, 13);
-			this.label3.TabIndex = 11;
+			this.label3.TabIndex = 8;
 			this.label3.Text = "Multi Monitor:";
 			// 
 			// label2
@@ -256,7 +256,7 @@
 			this.label2.Location = new System.Drawing.Point(10, 170);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(101, 13);
-			this.label2.TabIndex = 10;
+			this.label2.TabIndex = 12;
 			this.label2.Text = "Background Colour:";
 			// 
 			// comboBoxFit
@@ -266,7 +266,7 @@
 			this.comboBoxFit.Location = new System.Drawing.Point(117, 139);
 			this.comboBoxFit.Name = "comboBoxFit";
 			this.comboBoxFit.Size = new System.Drawing.Size(445, 21);
-			this.comboBoxFit.TabIndex = 9;
+			this.comboBoxFit.TabIndex = 11;
 			this.comboBoxFit.SelectedIndexChanged += new System.EventHandler(this.comboBoxFit_SelectedIndexChanged);
 			// 
 			// label1
@@ -275,7 +275,7 @@
 			this.label1.Location = new System.Drawing.Point(10, 142);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(21, 13);
-			this.label1.TabIndex = 8;
+			this.label1.TabIndex = 10;
 			this.label1.Text = "Fit:";
 			// 
 			// checkBoxChangePeriodically
@@ -284,7 +284,7 @@
 			this.checkBoxChangePeriodically.Location = new System.Drawing.Point(6, 52);
 			this.checkBoxChangePeriodically.Name = "checkBoxChangePeriodically";
 			this.checkBoxChangePeriodically.Size = new System.Drawing.Size(166, 17);
-			this.checkBoxChangePeriodically.TabIndex = 7;
+			this.checkBoxChangePeriodically.TabIndex = 2;
 			this.checkBoxChangePeriodically.Text = "Change wallpaper periodically";
 			this.checkBoxChangePeriodically.UseVisualStyleBackColor = true;
 			this.checkBoxChangePeriodically.CheckedChanged += new System.EventHandler(this.checkBoxChangePeriodically_CheckedChanged);
@@ -295,7 +295,7 @@
 			this.labelPeriod3.Location = new System.Drawing.Point(313, 79);
 			this.labelPeriod3.Name = "labelPeriod3";
 			this.labelPeriod3.Size = new System.Drawing.Size(44, 13);
-			this.labelPeriod3.TabIndex = 6;
+			this.labelPeriod3.TabIndex = 7;
 			this.labelPeriod3.Text = "Minutes";
 			// 
 			// numericUpDownMinutes
@@ -308,7 +308,7 @@
             0});
 			this.numericUpDownMinutes.Name = "numericUpDownMinutes";
 			this.numericUpDownMinutes.Size = new System.Drawing.Size(61, 20);
-			this.numericUpDownMinutes.TabIndex = 5;
+			this.numericUpDownMinutes.TabIndex = 6;
 			this.numericUpDownMinutes.ValueChanged += new System.EventHandler(this.numericUpDownMinutes_ValueChanged);
 			// 
 			// labelPeriod2
@@ -317,7 +317,7 @@
 			this.labelPeriod2.Location = new System.Drawing.Point(191, 79);
 			this.labelPeriod2.Name = "labelPeriod2";
 			this.labelPeriod2.Size = new System.Drawing.Size(35, 13);
-			this.labelPeriod2.TabIndex = 4;
+			this.labelPeriod2.TabIndex = 5;
 			this.labelPeriod2.Text = "Hours";
 			// 
 			// numericUpDownHours
@@ -330,7 +330,7 @@
             0});
 			this.numericUpDownHours.Name = "numericUpDownHours";
 			this.numericUpDownHours.Size = new System.Drawing.Size(53, 20);
-			this.numericUpDownHours.TabIndex = 3;
+			this.numericUpDownHours.TabIndex = 4;
 			this.numericUpDownHours.ValueChanged += new System.EventHandler(this.numericUpDownHours_ValueChanged);
 			// 
 			// labelPeriod1
@@ -339,7 +339,7 @@
 			this.labelPeriod1.Location = new System.Drawing.Point(5, 79);
 			this.labelPeriod1.Name = "labelPeriod1";
 			this.labelPeriod1.Size = new System.Drawing.Size(121, 13);
-			this.labelPeriod1.TabIndex = 2;
+			this.labelPeriod1.TabIndex = 3;
 			this.labelPeriod1.Text = "Time between changes:";
 			// 
 			// checkBoxChangeOnStart

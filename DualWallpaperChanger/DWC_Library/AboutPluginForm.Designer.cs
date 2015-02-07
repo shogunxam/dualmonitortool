@@ -105,6 +105,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutPluginForm";
+			this.ShowInTaskbar = false;
 			this.Text = "AboutPluginForm";
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlugin)).EndInit();

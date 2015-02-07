@@ -40,6 +40,7 @@
 			<a href="swapscreen.html" class="MenuItem">Swap Screen</a>
 			<a href="duallauncher.html" class="MenuItem">Dual Launcher</a>
 			<span class="CurPage">Dual Wallpaper</span>
+			<a href="dualwallpaperchanger.html" class="MenuItem">Dual Wallpaper Changer</a>
 			<a href="dismon.html" class="MenuItem">DisMon</a>
 			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
 			<br />
@@ -102,6 +103,21 @@ then the 'Fit' combo box determines any scaling that need to be applied to the i
 <p>When you are happy with the preview, you can click the 'Set Wallpaper' button at which point you should see your new wallpaper displayed on your desktop.</p>
 <p>When you use the 'Set Wallpaper' button, the wallpaper image is saved to a file at the following location: %LOCALAPPDATA%\GNE\DualWallpaper\DualWallpaper.bmp.  This means that each time you use this button, you will overwrite the previous wallpaper generated with this application.  If you use a third party wallpaper changer, then instead you may want to save your wallpapers to the directory that this third party application uses by using the 'Save Image' button.</p>
 
+<p class="SubHeading">Command line usage</p>
+
+<p>Dual Wallpaper can be run from the command line to set the wallpaper without any graphical user interface so may be used from a batch file.  Usage is in the form:<br/>
+<b>&lt;Path to DualWallpaer executable&gt; [options] &lt;Path to image file&gt;</b>
+</p>
+<p>
+The current options are:<br />
+<b>-?</b> show usage<br />
+<b>-v</b> show version<br />
+<b>-so</b> over stretch image to fit, maintaining aspect ratio (default)<br />
+<b>-su</b> under stretch image to fit, maintaining aspect ratio<br />
+<b>-sc</b> center image with no stretching<br />
+<b>-sf</b> stretch to fit in both directions<br />
+</p>
+
 </div>
 
 </div>
@@ -109,7 +125,7 @@ then the 'Fit' combo box determines any scaling that need to be applied to the i
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 12 Apr 2011
+		last updated 6 Feb 2015
 		</div>
 	</div>
 </div>

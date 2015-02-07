@@ -59,7 +59,7 @@
 			this.checkBoxUseGradients.Location = new System.Drawing.Point(15, 28);
 			this.checkBoxUseGradients.Name = "checkBoxUseGradients";
 			this.checkBoxUseGradients.Size = new System.Drawing.Size(143, 17);
-			this.checkBoxUseGradients.TabIndex = 16;
+			this.checkBoxUseGradients.TabIndex = 0;
 			this.checkBoxUseGradients.Text = "Fill shapes with gradients";
 			this.checkBoxUseGradients.UseVisualStyleBackColor = true;
 			// 
@@ -68,7 +68,7 @@
 			this.textBoxDescription.Location = new System.Drawing.Point(109, 102);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(470, 20);
-			this.textBoxDescription.TabIndex = 12;
+			this.textBoxDescription.TabIndex = 4;
 			// 
 			// label2
 			// 
@@ -76,7 +76,7 @@
 			this.label2.Location = new System.Drawing.Point(8, 105);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63, 13);
-			this.label2.TabIndex = 11;
+			this.label2.TabIndex = 3;
 			this.label2.Text = "Description:";
 			// 
 			// numericUpDownWeight
@@ -89,7 +89,7 @@
             0});
 			this.numericUpDownWeight.Name = "numericUpDownWeight";
 			this.numericUpDownWeight.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownWeight.TabIndex = 10;
+			this.numericUpDownWeight.TabIndex = 2;
 			// 
 			// label1
 			// 
@@ -97,7 +97,7 @@
 			this.label1.Location = new System.Drawing.Point(8, 78);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 13);
-			this.label1.TabIndex = 9;
+			this.label1.TabIndex = 1;
 			this.label1.Text = "Weight:";
 			// 
 			// buttonCancel
@@ -106,7 +106,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(298, 310);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 18;
+			this.buttonCancel.TabIndex = 12;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -116,7 +116,7 @@
 			this.buttonOK.Location = new System.Drawing.Point(217, 310);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 17;
+			this.buttonOK.TabIndex = 11;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -127,7 +127,7 @@
 			this.label3.Location = new System.Drawing.Point(8, 139);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(46, 13);
-			this.label3.TabIndex = 19;
+			this.label3.TabIndex = 5;
 			this.label3.Text = "Shapes:";
 			// 
 			// numericUpDownRectangles
@@ -140,7 +140,7 @@
             0});
 			this.numericUpDownRectangles.Name = "numericUpDownRectangles";
 			this.numericUpDownRectangles.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownRectangles.TabIndex = 20;
+			this.numericUpDownRectangles.TabIndex = 6;
 			// 
 			// checkBoxUseAlpha
 			// 
@@ -148,7 +148,7 @@
 			this.checkBoxUseAlpha.Location = new System.Drawing.Point(15, 51);
 			this.checkBoxUseAlpha.Name = "checkBoxUseAlpha";
 			this.checkBoxUseAlpha.Size = new System.Drawing.Size(129, 17);
-			this.checkBoxUseAlpha.TabIndex = 21;
+			this.checkBoxUseAlpha.TabIndex = 1;
 			this.checkBoxUseAlpha.Text = "Make shapes opaque";
 			this.checkBoxUseAlpha.UseVisualStyleBackColor = true;
 			// 
@@ -158,7 +158,7 @@
 			this.checkBoxRectangles.Location = new System.Drawing.Point(17, 28);
 			this.checkBoxRectangles.Name = "checkBoxRectangles";
 			this.checkBoxRectangles.Size = new System.Drawing.Size(82, 17);
-			this.checkBoxRectangles.TabIndex = 22;
+			this.checkBoxRectangles.TabIndex = 0;
 			this.checkBoxRectangles.Text = "Rectamgles";
 			this.checkBoxRectangles.UseVisualStyleBackColor = true;
 			// 
@@ -168,7 +168,7 @@
 			this.checkBoxEllipses.Location = new System.Drawing.Point(17, 51);
 			this.checkBoxEllipses.Name = "checkBoxEllipses";
 			this.checkBoxEllipses.Size = new System.Drawing.Size(61, 17);
-			this.checkBoxEllipses.TabIndex = 23;
+			this.checkBoxEllipses.TabIndex = 1;
 			this.checkBoxEllipses.Text = "Ellipses";
 			this.checkBoxEllipses.UseVisualStyleBackColor = true;
 			// 
@@ -179,7 +179,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(11, 203);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(200, 83);
-			this.groupBox1.TabIndex = 24;
+			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Use following shapes";
 			// 
@@ -190,7 +190,7 @@
 			this.groupBox2.Location = new System.Drawing.Point(326, 203);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(200, 83);
-			this.groupBox2.TabIndex = 25;
+			this.groupBox2.TabIndex = 9;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Paint style";
 			// 
@@ -200,7 +200,7 @@
 			this.checkBoxRandomBackground.Location = new System.Drawing.Point(11, 168);
 			this.checkBoxRandomBackground.Name = "checkBoxRandomBackground";
 			this.checkBoxRandomBackground.Size = new System.Drawing.Size(158, 17);
-			this.checkBoxRandomBackground.TabIndex = 26;
+			this.checkBoxRandomBackground.TabIndex = 7;
 			this.checkBoxRandomBackground.Text = "Random background colour";
 			this.checkBoxRandomBackground.UseVisualStyleBackColor = true;
 			// 
@@ -210,7 +210,7 @@
 			this.label4.Location = new System.Drawing.Point(106, 32);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(384, 13);
-			this.label4.TabIndex = 27;
+			this.label4.TabIndex = 0;
 			this.label4.Text = "Plugin for DualWallpaperChanger to create images composed of random shapes";
 			// 
 			// buttonAbout
@@ -218,7 +218,7 @@
 			this.buttonAbout.Location = new System.Drawing.Point(14, 310);
 			this.buttonAbout.Name = "buttonAbout";
 			this.buttonAbout.Size = new System.Drawing.Size(75, 23);
-			this.buttonAbout.TabIndex = 28;
+			this.buttonAbout.TabIndex = 10;
 			this.buttonAbout.Text = "About";
 			this.buttonAbout.UseVisualStyleBackColor = true;
 			this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
@@ -256,6 +256,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "RandomShapesForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Random Shapes";
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRectangles)).EndInit();

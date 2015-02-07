@@ -54,7 +54,7 @@
 			this.label1.Location = new System.Drawing.Point(10, 88);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 13);
-			this.label1.TabIndex = 0;
+			this.label1.TabIndex = 1;
 			this.label1.Text = "Weight:";
 			// 
 			// numericUpDownWeight
@@ -67,7 +67,7 @@
             0});
 			this.numericUpDownWeight.Name = "numericUpDownWeight";
 			this.numericUpDownWeight.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownWeight.TabIndex = 1;
+			this.numericUpDownWeight.TabIndex = 2;
 			// 
 			// label2
 			// 
@@ -75,7 +75,7 @@
 			this.label2.Location = new System.Drawing.Point(10, 115);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63, 13);
-			this.label2.TabIndex = 2;
+			this.label2.TabIndex = 3;
 			this.label2.Text = "Description:";
 			// 
 			// textBoxDescription
@@ -83,7 +83,7 @@
 			this.textBoxDescription.Location = new System.Drawing.Point(111, 112);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(470, 20);
-			this.textBoxDescription.TabIndex = 3;
+			this.textBoxDescription.TabIndex = 4;
 			// 
 			// label3
 			// 
@@ -91,7 +91,7 @@
 			this.label3.Location = new System.Drawing.Point(10, 141);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(39, 13);
-			this.label3.TabIndex = 4;
+			this.label3.TabIndex = 5;
 			this.label3.Text = "Folder:";
 			// 
 			// textBoxDirectory
@@ -99,14 +99,14 @@
 			this.textBoxDirectory.Location = new System.Drawing.Point(111, 138);
 			this.textBoxDirectory.Name = "textBoxDirectory";
 			this.textBoxDirectory.Size = new System.Drawing.Size(470, 20);
-			this.textBoxDirectory.TabIndex = 5;
+			this.textBoxDirectory.TabIndex = 6;
 			// 
 			// buttonBrowse
 			// 
 			this.buttonBrowse.Location = new System.Drawing.Point(587, 136);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowse.TabIndex = 6;
+			this.buttonBrowse.TabIndex = 7;
 			this.buttonBrowse.Text = "Browse...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
 			this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
@@ -121,7 +121,7 @@
 			this.checkBoxRecursive.Location = new System.Drawing.Point(13, 164);
 			this.checkBoxRecursive.Name = "checkBoxRecursive";
 			this.checkBoxRecursive.Size = new System.Drawing.Size(115, 17);
-			this.checkBoxRecursive.TabIndex = 7;
+			this.checkBoxRecursive.TabIndex = 8;
 			this.checkBoxRecursive.Text = "Look in sub-folders";
 			this.checkBoxRecursive.UseVisualStyleBackColor = true;
 			// 
@@ -131,7 +131,7 @@
 			this.checkBoxRescan.Location = new System.Drawing.Point(13, 187);
 			this.checkBoxRescan.Name = "checkBoxRescan";
 			this.checkBoxRescan.Size = new System.Drawing.Size(229, 17);
-			this.checkBoxRescan.TabIndex = 8;
+			this.checkBoxRescan.TabIndex = 9;
 			this.checkBoxRescan.Text = "Rescan folder(s) before getting each image";
 			this.checkBoxRescan.UseVisualStyleBackColor = true;
 			// 
@@ -140,7 +140,7 @@
 			this.buttonOK.Location = new System.Drawing.Point(223, 219);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 9;
+			this.buttonOK.TabIndex = 11;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -151,7 +151,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(369, 219);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 10;
+			this.buttonCancel.TabIndex = 12;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
@@ -161,7 +161,7 @@
 			this.label4.Location = new System.Drawing.Point(108, 30);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(324, 13);
-			this.label4.TabIndex = 11;
+			this.label4.TabIndex = 0;
 			this.label4.Text = "Plugin for DualWallpaperChanger to get images stored on local disk";
 			// 
 			// buttonAbout
@@ -169,7 +169,7 @@
 			this.buttonAbout.Location = new System.Drawing.Point(13, 219);
 			this.buttonAbout.Name = "buttonAbout";
 			this.buttonAbout.Size = new System.Drawing.Size(75, 23);
-			this.buttonAbout.TabIndex = 12;
+			this.buttonAbout.TabIndex = 10;
 			this.buttonAbout.Text = "About";
 			this.buttonAbout.UseVisualStyleBackColor = true;
 			this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
@@ -208,6 +208,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "LocalDiskForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Local Disk";
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

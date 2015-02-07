@@ -197,9 +197,10 @@ namespace DualMonitorTools.DualWallpaperChanger
 			{
 				int period = GetMinutesBetweenChanges();
 				int timeLeft = period - _minutesSinceLastChange;
-				if (timeLeft < 0)
+				// never want to report less than 0 minutes
+				if (timeLeft < 1)
 				{
-					timeLeft = 0;
+					timeLeft = 1;
 				}
 				string formatString = (timeLeft <= 1) ? Properties.Resources.MsgTimeToChange1 : Properties.Resources.MsgTimeToChange2;
 				msgText = string.Format(formatString, timeLeft);
@@ -331,6 +332,8 @@ namespace DualMonitorTools.DualWallpaperChanger
 		int GetMinutesBetweenChanges()
 		{
 			int ret = Settings.Default.IntervalHours * 60 + Settings.Default.IntervalMinutes;
+			// Note: OK to return 0, as the timer only ticks once a minute,
+			// so when on timer, won't change more than once per minute
 			return ret;
 		}
 
@@ -474,7 +477,7 @@ namespace DualMonitorTools.DualWallpaperChanger
 
 		private void visitDualWallpaperChangerWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			VisitDualMonitorToolsWebsite("duallauncher.html");
+			VisitDualMonitorToolsWebsite("dualwallpaperchanger.html");
 		}
 
 		private void VisitDualMonitorToolsWebsite(string pageName)

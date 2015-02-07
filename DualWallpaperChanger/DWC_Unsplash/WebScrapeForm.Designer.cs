@@ -57,7 +57,7 @@
 			this.buttonAbout.Location = new System.Drawing.Point(26, 182);
 			this.buttonAbout.Name = "buttonAbout";
 			this.buttonAbout.Size = new System.Drawing.Size(75, 23);
-			this.buttonAbout.TabIndex = 27;
+			this.buttonAbout.TabIndex = 6;
 			this.buttonAbout.Text = "About";
 			this.buttonAbout.UseVisualStyleBackColor = true;
 			this.buttonAbout.Click += new System.EventHandler(this.buttonAbout_Click);
@@ -68,7 +68,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(382, 182);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 26;
+			this.buttonCancel.TabIndex = 8;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -78,7 +78,7 @@
 			this.buttonOK.Location = new System.Drawing.Point(236, 182);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 25;
+			this.buttonOK.TabIndex = 7;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -88,7 +88,7 @@
 			this.textBoxDescription.Location = new System.Drawing.Point(112, 105);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(470, 20);
-			this.textBoxDescription.TabIndex = 19;
+			this.textBoxDescription.TabIndex = 4;
 			// 
 			// label2
 			// 
@@ -96,7 +96,7 @@
 			this.label2.Location = new System.Drawing.Point(11, 108);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63, 13);
-			this.label2.TabIndex = 18;
+			this.label2.TabIndex = 3;
 			this.label2.Text = "Description:";
 			// 
 			// numericUpDownWeight
@@ -109,7 +109,7 @@
             0});
 			this.numericUpDownWeight.Name = "numericUpDownWeight";
 			this.numericUpDownWeight.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownWeight.TabIndex = 17;
+			this.numericUpDownWeight.TabIndex = 2;
 			// 
 			// label4
 			// 
@@ -117,7 +117,7 @@
 			this.label4.Location = new System.Drawing.Point(11, 81);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(44, 13);
-			this.label4.TabIndex = 16;
+			this.label4.TabIndex = 1;
 			this.label4.Text = "Weight:";
 			// 
 			// checkBoxFirstPageOnly
@@ -126,7 +126,7 @@
 			this.checkBoxFirstPageOnly.Location = new System.Drawing.Point(14, 137);
 			this.checkBoxFirstPageOnly.Name = "checkBoxFirstPageOnly";
 			this.checkBoxFirstPageOnly.Size = new System.Drawing.Size(248, 17);
-			this.checkBoxFirstPageOnly.TabIndex = 28;
+			this.checkBoxFirstPageOnly.TabIndex = 5;
 			this.checkBoxFirstPageOnly.Text = "Take image from first page (ignore other pages)";
 			this.checkBoxFirstPageOnly.UseVisualStyleBackColor = true;
 			// 
@@ -135,7 +135,7 @@
 			this.linkLabel.Location = new System.Drawing.Point(109, 31);
 			this.linkLabel.Name = "linkLabel";
 			this.linkLabel.Size = new System.Drawing.Size(473, 13);
-			this.linkLabel.TabIndex = 29;
+			this.linkLabel.TabIndex = 0;
 			this.linkLabel.TabStop = true;
 			this.linkLabel.Text = "Plugin for DualWallpaperChanger to get images from ";
 			this.linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
@@ -158,6 +158,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "WebScrapeForm";
+			this.ShowInTaskbar = false;
 			this.Text = "www.unsplash.com";
 			this.Load += new System.EventHandler(this.WebScrapeForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
