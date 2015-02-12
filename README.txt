@@ -45,6 +45,11 @@ Installation
 There is currently no installer, so you need to unzip the download and extract the files
 to a suitable directory and then run the tools that you want.
 
+You may need to mark the files as safe to run before you can use them.
+This also includes the .dll files used by DualWallpaperChanger.
+To do this, right click on the file in Windows Explorer,
+select 'Properties', click the 'Unblock' button and then 'OK'.
+
 SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap will all put
 themselves in the Notification Area (System Tray) when run, so if you run them
 and it looks like nothing has happened, you need to look in the Notification Area.
