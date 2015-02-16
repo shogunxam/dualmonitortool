@@ -21,9 +21,12 @@ DualLauncher.exe            Application launcher
 DualWallpaper.exe           The wallpaper setting tool
 DualWallpaperChanger.exe    Wallpaper changer tool
 DWC_Library.dll             Wallpaper changer plugin library
-DWC_LocalDisk.dll           Wallpaper changer plugin to show images from local disk
-DWC_RandomShapes.dll        Wallpaper changer plugin to create images from random shapes
-DWC_Unsplash.dll            Wallpaper changer plugin to download images from www.unspash.com
+DWC_LocalDisk.dll           Wallpaper changer plugin to show images from 
+                            local disk
+DWC_RandomShapes.dll        Wallpaper changer plugin to create images from
+                            random shapes
+DWC_Unsplash.dll            Wallpaper changer plugin to download images from 
+                            www.unspash.com
 DisMon.exe                  Disables secondary monitors
 DualSnap.exe                The screen capture tool
 CHANGES.txt                 List of changes
@@ -34,26 +37,32 @@ THANKS.txt                  Contributors to the project
 Requirements
 ------------
 
-Dual Monitor Tools should run on any implementation of Windows that has .NET 2.0 installed,
-but DualWallpaperChanger requires .NET 4.5 or later.
-Ideally you need two or more monitors attached to the computer, but tools like
-DualLauncher and DualWallpaperChanger can be useful to users with a single monitor.
+Dual Monitor Tools should run on any implementation of Windows that has
+.NET 2.0 installed,but DualWallpaperChanger requires .NET 4.5 or later.
+Ideally you need two or more monitors attached to the computer, but tools
+like DualLauncher and DualWallpaperChanger can be useful to users with a
+single monitor.
 
 Installation
 ------------
 
-There is currently no installer, so you need to unzip the download and extract the files
-to a suitable directory and then run the tools that you want.
+There is currently no installer, just follow the following steps to 
+manually install:
 
-You may need to mark the files as safe to run before you can use them.
-This also includes the .dll files used by DualWallpaperChanger.
-To do this, right click on the file in Windows Explorer,
-select 'Properties', click the 'Unblock' button and then 'OK'.
+1) Download DualMonitorTools-1.10.zip to a folder on your computer.
+2) Before unzipping this file, it is recommended that you mark it as safe
+by right-clicking on it, selecting "Properties", click the 'Unblock' button 
+and then 'OK'. This step is not essential, but will save hassle later on
+especially when trying to use DualWallpaperChanger.
+3) Extract the contents of the zip to a suitable folder on your computer.
+
+Then just run the tools that you are interested in.
 
 SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap will all put
 themselves in the Notification Area (System Tray) when run, so if you run them
-and it looks like nothing has happened, you need to look in the Notification Area.
-These four tools all have an option 'Start when Windows starts' which does what it says.
+and it looks like nothing has happened, you need to look in the Notification
+Area.  These four tools all have an option 'Start when Windows starts' which 
+does what it says.
 
 SwapScreen
 ----------
@@ -101,6 +110,11 @@ give them different weights.
 LocalDisk: takes images from specified directory on your local disk.
 Unspalsh: takes images from www.unsplash.com.
 RandomShapes: creates wallpaper from random shapes.
+
+If you find that no plugins are available, then the chances are that 
+the DWC_*.dll files are all being blocked by Windows.
+To fix this, right click on each of these files in turn,
+select "Properties", click the 'Unblock' button and then 'OK'.
 
 DisMon (Beta software)
 ------
@@ -153,3 +167,6 @@ SwapScreen with 'Run as Administrator'.
 DisMon has problems on Windows 7 when the (initial) primary monitor is
 disabled.  Also on Windows XP, the task bar does not move with the primary
 monitor.
+
+The dll plugin files used by DualWallpaperChanger must be unblocked
+(Properties->Unblock) before they can be used.
