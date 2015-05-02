@@ -141,7 +141,7 @@ namespace DualMonitorTools.DualWallpaperChanger
 		}
 
 		/// <summary>
-		/// Once only initialisation of the timig mechanism to periodically update the wallpaper
+		/// Once only initialisation of the timing mechanism to periodically update the wallpaper
 		/// </summary>
 		void InitializeChanging()
 		{

@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B8377ACA-52D2-4B1D-887C-D7102AA859C6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DMT</RootNamespace>
+    <AssemblyName>DMT</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DMT.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AppForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AppForm.Designer.cs">
+      <DependentUpon>AppForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller.cs" />
+    <Compile Include="Library\HotKeys\HotKey.cs" />
+    <Compile Include="Library\HotKeys\HotKeyController.cs" />
+    <Compile Include="Library\HotKeys\HotKeyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Library\HotKeys\HotKeyForm.Designer.cs">
+      <DependentUpon>HotKeyForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\HotKeys\HotKeyPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Library\HotKeys\HotKeyPanel.Designer.cs">
+      <DependentUpon>HotKeyPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\HotKeys\HotKeyRepository.cs" />
+    <Compile Include="Library\HotKeys\IHotKeyService.cs" />
+    <Compile Include="Library\HotKeys\KeyCombo.cs" />
+    <Compile Include="Library\HotKeys\KeyComboPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Library\HotKeys\KeyComboPanel.Designer.cs">
+      <DependentUpon>KeyComboPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\HotKeys\VirtualKey.cs" />
+    <Compile Include="Library\OsHelper.cs" />
+    <Compile Include="Library\SafeFileWriter.cs" />
+    <Compile Include="Library\Scaler.cs" />
+    <Compile Include="Library\ScreenHelper.cs" />
+    <Compile Include="Library\Settings\BoolSetting.cs" />
+    <Compile Include="Library\Settings\IntSetting.cs" />
+    <Compile Include="Library\Win32.cs" />
+    <Compile Include="Library\WindowPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorBarrier.cs" />
+    <Compile Include="Modules\Cursor\CursorBarrierLower.cs" />
+    <Compile Include="Modules\Cursor\CursorBarrierUpper.cs" />
+    <Compile Include="Modules\Cursor\CursorModule.cs" />
+    <Compile Include="Modules\Cursor\CursorOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorOptionsPanel.Designer.cs">
+      <DependentUpon>CursorOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\General\AutoStart.cs" />
+    <Compile Include="Modules\General\GeneralModule.cs" />
+    <Compile Include="Modules\General\GeneralOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\General\GeneralOptionsPanel.Designer.cs">
+      <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Library\StringUtils.cs" />
+    <Compile Include="Modules\IModuleService.cs" />
+    <Compile Include="Modules\Module.cs" />
+    <Compile Include="Modules\ModuleOptionNode.cs" />
+    <Compile Include="Modules\ModuleOptionNodeBranch.cs" />
+    <Compile Include="Modules\ModuleOptionNodeLeaf.cs" />
+    <Compile Include="Modules\ModuleRepository.cs" />
+    <Compile Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.Designer.cs">
+      <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenModule.cs" />
+    <Compile Include="Modules\SwapScreen\SwapScreenOtherOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenOtherOptionsPanel.Designer.cs">
+      <DependentUpon>SwapScreenOtherOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenUdaOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenUdaOptionsPanel.Designer.cs">
+      <DependentUpon>SwapScreenUdaOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\UdaController.cs" />
+    <Compile Include="Modules\SwapScreen\UdaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\UdaForm.Designer.cs">
+      <DependentUpon>UdaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\UdaHelper.cs" />
+    <Compile Include="Modules\SwapScreen\UdaPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\UdaPanel.Designer.cs">
+      <DependentUpon>UdaPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.Designer.cs">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\CommonStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\CursorStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CursorStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\SwapScreenStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SwapScreenStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Library\Settings\DataLocations.cs" />
+    <Compile Include="Library\Settings\ISettingsService.cs" />
+    <Compile Include="Library\Settings\SettingsReader.cs" />
+    <Compile Include="Library\Settings\SettingsRepository.cs" />
+    <Compile Include="Library\Settings\SettingsWriter.cs" />
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AppForm.resx">
+      <DependentUpon>AppForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\HotKeys\HotKeyForm.resx">
+      <DependentUpon>HotKeyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\HotKeys\HotKeyPanel.resx">
+      <DependentUpon>HotKeyPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Library\HotKeys\KeyComboPanel.resx">
+      <DependentUpon>KeyComboPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Cursor\CursorOptionsPanel.resx">
+      <DependentUpon>CursorOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\General\GeneralOptionsPanel.resx">
+      <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.resx">
+      <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\SwapScreenOtherOptionsPanel.resx">
+      <DependentUpon>SwapScreenOtherOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\SwapScreenUdaOptionsPanel.resx">
+      <DependentUpon>SwapScreenUdaOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\UdaForm.resx">
+      <DependentUpon>UdaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\UdaPanel.resx">
+      <DependentUpon>UdaPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Resources\CommonStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\CursorStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CursorStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SwapScreenStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SwapScreenStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DMT.ico" />
+    <None Include="Resources\WinNoCrossHairs.png" />
+    <None Include="Resources\WinCrossHairs.png" />
+    <None Include="Resources\TargetCursor.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
