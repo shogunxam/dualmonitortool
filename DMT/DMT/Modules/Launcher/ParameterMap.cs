@@ -1,4 +1,4 @@
-﻿#region copyright
+#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
 // Copyright (C) 2015  Gerald Evans
@@ -19,28 +19,45 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DMT.Library.Settings
+namespace DMT.Modules.Launcher
 {
-	interface ISettingsService
+	/// <summary>
+	/// Map of (parameter name, parameter value) pairs for dynamic input parameters
+	/// </summary>
+	public class ParameterMap
 	{
-		bool SettingExists(string moduleName, string settingName);
+		Dictionary<string, string> _map = new Dictionary<string, string>();
 
-		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, int value);
+		public ParameterMap()
+		{
+		}
 
-		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, uint value);
+		/// <summary>
+		/// Gets the value for a particular parameter name.
+		/// Returns null if parameter name not found.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public string GetValue(string name)
+		{
+			if (_map.ContainsKey(name))
+			{
+				return _map[name];
+			}
 
-		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
-		void SetSetting(string moduleName, string settingName, bool set);
+			return null;
+		}
 
-		string GetSetting(string moduleName, string settingName);
-		void SetSetting(string moduleName, string settingName, string settingValue);
-
-		void SaveSettings();
+		/// <summary>
+		/// Saves the parameter value for the parameter name.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetValue(string name, string value)
+		{
+			_map[name] = value;
+		}
 	}
 }

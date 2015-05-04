@@ -28,18 +28,23 @@ namespace DMT.Library
 {
 	static class StringUtils
 	{
-		public static bool ToBool(string text)
+		public static bool ToBool(string text, bool defaultValue = false)
 		{
 			if (string.Compare(text, "true", true) == 0
 			 || string.Compare(text, "1") == 0)
 			{
 				return true;
 			}
+			else if (string.Compare(text, "false", true) == 0
+			 || string.Compare(text, "0") == 0)
+			{
+				return false;
+			}
 
-			return false;
+			return defaultValue;
 		}
 
-		public static int ToInt(string text)
+		public static int ToInt(string text, int defaultValue = 0)
 		{
 			int result = 0;
 
@@ -47,10 +52,10 @@ namespace DMT.Library
 			{
 				return result;
 			}
-			return 0;
+			return defaultValue;
 		}
 
-		public static uint ToUInt(string text)
+		public static uint ToUInt(string text, uint defaultValue = 0)
 		{
 			uint result = 0;
 

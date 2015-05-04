@@ -25,22 +25,34 @@ using System.Threading.Tasks;
 
 namespace DMT.Library.Settings
 {
-	interface ISettingsService
+	class UIntSetting
 	{
-		bool SettingExists(string moduleName, string settingName);
+		ISettingsService _settingsService;
+		string _moduleName;
+		string _settingName;
 
-		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, int value);
+		uint _value;
+		public uint Value
+		{
+			get
+			{
+				return _value;
+			}
+			set
+			{
+				_value = value;
+				_settingsService.SetSetting(_moduleName, _settingName, value);
+				_settingsService.SaveSettings();
+			}
+		}
 
-		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, uint value);
+		public UIntSetting(ISettingsService settingsService, string moduleName, string settingName, uint defaultValue = 0)
+		{
+			_settingsService = settingsService;
+			_moduleName = moduleName;
+			_settingName = settingName;
 
-		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
-		void SetSetting(string moduleName, string settingName, bool set);
-
-		string GetSetting(string moduleName, string settingName);
-		void SetSetting(string moduleName, string settingName, string settingValue);
-
-		void SaveSettings();
+			_value = _settingsService.GetSettingAsUInt(_moduleName, _settingName, defaultValue);
+		}
 	}
 }

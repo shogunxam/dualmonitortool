@@ -78,9 +78,10 @@ namespace DMT.Library.Settings
 
 
 		#region int settings
-		public int GetSettingAsInt(string moduleName, string settingName)
+		public int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0)
 		{
-			return StringUtils.ToInt(GetSetting(moduleName, settingName));
+		
+			return StringUtils.ToInt(GetSetting(moduleName, settingName), defaultValue);
 		}
 
 		public void SetSetting(string moduleName, string settingName, int value)
@@ -90,9 +91,9 @@ namespace DMT.Library.Settings
 		#endregion
 
 		#region uint settings
-		public uint GetSettingAsUInt(string moduleName, string settingName)
+		public uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0)
 		{
-			return StringUtils.ToUInt(GetSetting(moduleName, settingName));
+			return StringUtils.ToUInt(GetSetting(moduleName, settingName), defaultValue);
 		}
 
 		public void SetSetting(string moduleName, string settingName, uint value)
@@ -102,9 +103,9 @@ namespace DMT.Library.Settings
 		#endregion
 
 		#region bool settings
-		public bool GetSettingAsBool(string moduleName, string settingName)
+		public bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false)
 		{
-			return StringUtils.ToBool(GetSetting(moduleName, settingName));
+			return StringUtils.ToBool(GetSetting(moduleName, settingName), defaultValue);
 		}
 
 		public void SetSetting(string moduleName, string settingName, bool set)

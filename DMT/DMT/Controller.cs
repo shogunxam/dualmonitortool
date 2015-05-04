@@ -51,6 +51,7 @@ namespace DMT
 			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService));
 			_moduleService.AddModule(new DMT.Modules.SwapScreen.SwapScreenModule(_settingsService, _hotKeyService));
 			_moduleService.AddModule(new DMT.Modules.Cursor.CursorModule(_settingsService, _hotKeyService));
+			_moduleService.AddModule(new DMT.Modules.Launcher.LauncherModule(_settingsService, _hotKeyService, _appForm));
 		}
 
 		public void Stop()

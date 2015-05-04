@@ -117,17 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="missingIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\missing.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TargetCursor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TargetCursor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WinCrossHairs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinCrossHairs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WinNoCrossHairs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinNoCrossHairs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttonOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA6pAAAOqQHxEgd1AAAASklE
+        QVQ4T8WMwQkAMAgDHc39l2oRFFJIxSLUg3xCLvIFVV0Rr+rMyUYml05vB9nxQQxxzDoKDll8xmECxmec
+        ZwGZk42WHLTkIUQ2RCBnBhQtErYAAAAASUVORK5CYII=
+</value>
   </data>
 </root>

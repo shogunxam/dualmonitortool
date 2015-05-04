@@ -30,6 +30,7 @@ namespace DMT.Library.Settings
 	class DataLocations
 	{
 		public string SettingsFilename { get; protected set; }
+		public string MagicWordsFilename { get; set; }
 
 		#region Singleton support
 		// the single instance of the controller object
@@ -62,6 +63,7 @@ namespace DMT.Library.Settings
 			string dataDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 			SettingsFilename = Path.Combine(dataDir, "DmtSettings.xml");
+			MagicWordsFilename = Path.Combine(dataDir, "DmtMagicWords.xml");
 		}
 	}
 }

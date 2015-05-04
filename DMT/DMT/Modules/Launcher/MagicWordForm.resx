@@ -117,17 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="missingIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\missing.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="groupBox1.ToolTip" xml:space="preserve">
+    <value>Fields to help identify the applications window when it opens,
+so that it can be moved to the correct location.
+These are only sometimes needed and then only if you wish the
+application window  to be opened at a specific position.</value>
   </data>
-  <data name="TargetCursor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TargetCursor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WinCrossHairs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinCrossHairs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WinNoCrossHairs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinNoCrossHairs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="textBoxFilename.ToolTip" xml:space="preserve">
+    <value>This can be:
+full path of an application,
+full path of a file if its extension is associated with an application,
+a folder that you want opened in Windows Explorer,
+or a web address that you want opened in your browser.
+</value>
   </data>
 </root>

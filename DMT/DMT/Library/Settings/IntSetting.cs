@@ -46,13 +46,13 @@ namespace DMT.Library.Settings
 			}
 		}
 
-		public IntSetting(ISettingsService settingsService, string moduleName, string settingName)
+		public IntSetting(ISettingsService settingsService, string moduleName, string settingName, int defaultValue = 0)
 		{
 			_settingsService = settingsService;
 			_moduleName = moduleName;
 			_settingName = settingName;
 
-			_value = _settingsService.GetSettingAsInt(_moduleName, _settingName);
+			_value = _settingsService.GetSettingAsInt(_moduleName, _settingName, defaultValue);
 		}
 	}
 }

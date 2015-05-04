@@ -117,17 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="missingIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\missing.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ActivateDescription" xml:space="preserve">
+    <value>Activate Magic Word input</value>
   </data>
-  <data name="TargetCursor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TargetCursor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddMagicWordDescription" xml:space="preserve">
+    <value>Add Magic Word for current application</value>
   </data>
-  <data name="WinCrossHairs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinCrossHairs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BrowseExeFilter" xml:space="preserve">
+    <value>Programs (*.exe; *.pif; *.com; *bat; *.cmd)|*.exe; *.pif; *.com; *bat; *.cmd|All files (*.*)|*.*</value>
   </data>
-  <data name="WinNoCrossHairs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WinNoCrossHairs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ConfirmDel1MW" xml:space="preserve">
+    <value>Are you sure you want to delete the '{0}' MagicWord?</value>
+  </data>
+  <data name="ConfirmDel2MW" xml:space="preserve">
+    <value>Are you sure you want to delete all {0} selected MagicWords?</value>
+  </data>
+  <data name="ConfirmDelAllMW" xml:space="preserve">
+    <value>Are you sure you want to delete all MagicWords?</value>
+  </data>
+  <data name="InvalidCoOrd" xml:space="preserve">
+    <value>Co-ordinate is not valid</value>
+  </data>
+  <data name="NoAlias" xml:space="preserve">
+    <value>You need to speficy the name that you will type to run this Magic Word.</value>
+  </data>
+  <data name="NoFilename" xml:space="preserve">
+    <value>You need to specify the application/document to open for this Magic Word.</value>
+  </data>
+  <data name="QrsFilter" xml:space="preserve">
+    <value>SlickRun data files (*.qrs)|*.qrs|All files (*.*)|*.*</value>
+  </data>
+  <data name="ShowMaximised" xml:space="preserve">
+    <value>Maximised</value>
+  </data>
+  <data name="ShowMinimised" xml:space="preserve">
+    <value>Minimised</value>
+  </data>
+  <data name="ShowNormal" xml:space="preserve">
+    <value>Normal Window</value>
+  </data>
+  <data name="XmlFilter" xml:space="preserve">
+    <value>XML files (*.xml)|*.xml|All files (*.*)|*.*</value>
   </data>
 </root>

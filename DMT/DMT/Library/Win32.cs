@@ -83,16 +83,83 @@ namespace DMT.Library
 		public const int MOD_SHIFT = 0x0004;
 		public const int MOD_WIN = 0x0008;
 
+		// flags for STARTUPINFO.dwFlags
+		public const int STARTF_USESHOWWINDOW = 0x00000001;
+		public const int STARTF_USESIZE = 0x00000002;
+		public const int STARTF_USEPOSITION = 0x00000004;
+
+		// flags for CreateProcess().dwCreationFlags
+		public const uint CREATE_SUSPENDED = 0x00000004;
+		public const uint NORMAL_PRIORITY_CLASS = 0x00000020;
+
 		// Windows messages
 		public const int WM_KEYDOWN = 0x0100;
 		public const int WM_KEYUP = 0x0101;
 		public const int WM_SYSCOMMAND = 0x0112;
 		public const int WM_HOTKEY = 0x0312;
 
+		[Flags]
+		public enum ASSOCF
+		{
+			ASSOCF_INIT_NOREMAPCLSID = 0x1,
+			ASSOCF_INIT_BYEXENAME = 0x2,
+			ASSOCF_OPEN_BYEXENAME = 0x2,
+			ASSOCF_INIT_DEFAULTTOSTAR = 0x4,
+			ASSOCF_INIT_DEFAULTTOFOLDER = 0x8,
+			ASSOCF_NOUSERSETTINGS = 0x10,
+			ASSOCF_NOTRUNCATE = 0x20,
+			ASSOCF_VERIFY = 0x40,
+			ASSOCF_REMAPRUNDLL = 0x80,
+			ASSOCF_NOFIXUPS = 0x100,
+			ASSOCF_IGNOREBASECLASS = 0x200,
+			ASSOCF_IGNOREUNKNOWN = 0x400
+		}
+
+		public enum ASSOCSTR
+		{
+			ASSOCSTR_COMMAND = 1,
+			ASSOCSTR_EXECUTABLE,
+			ASSOCSTR_FRIENDLYDOCNAME,
+			ASSOCSTR_FRIENDLYAPPNAME,
+			ASSOCSTR_NOOPEN,
+			ASSOCSTR_SHELLNEWVALUE,
+			ASSOCSTR_DDECOMMAND,
+			ASSOCSTR_DDEIFEXEC,
+			ASSOCSTR_DDEAPPLICATION,
+			ASSOCSTR_DDETOPIC,
+			ASSOCSTR_INFOTIP,
+			ASSOCSTR_QUICKTIP,
+			ASSOCSTR_TILEINFO,
+			ASSOCSTR_CONTENTTYPE,
+			ASSOCSTR_DEFAULTICON,
+			ASSOCSTR_SHELLEXTENSION,
+			ASSOCSTR_DROPTARGET,
+			ASSOCSTR_DELEGATEEXECUTE,
+			ASSOCSTR_MAX
+		}
+
+		public struct MSLLHOOKSTRUCT
+		{
+			public POINT pt;
+			public uint mouseData;
+			public uint flags;
+			public uint time;
+			public uint dwExtraInfo;
+		}
+
+
 		public struct POINT
 		{
 			public int x;
 			public int y;
+		}
+
+		public struct PROCESS_INFORMATION
+		{
+			public IntPtr hProcess;
+			public IntPtr hThread;
+			public uint dwProcessId;
+			public uint dwThreadId;
 		}
 
 		public struct RECT
@@ -110,6 +177,28 @@ namespace DMT.Library
 				this.right = right;
 				this.bottom = bottom;
 			}
+		}
+
+		public struct STARTUPINFO
+		{
+			public uint cb;
+			public string lpReserved;
+			public string lpDesktop;
+			public string lpTitle;
+			public uint dwX;
+			public uint dwY;
+			public uint dwXSize;
+			public uint dwYSize;
+			public uint dwXCountChars;
+			public uint dwYCountChars;
+			public uint dwFillAttribute;
+			public uint dwFlags;
+			public short wShowWindow;
+			public short cbReserved2;
+			public IntPtr lpReserved2;
+			public IntPtr hStdInput;
+			public IntPtr hStdOutput;
+			public IntPtr hStdError;
 		}
 
 		public struct WINDOWPLACEMENT
@@ -131,24 +220,19 @@ namespace DMT.Library
 		//    public uint dwExtraInfo;
 		//}
 
-		public struct MSLLHOOKSTRUCT
-		{
-			public POINT pt;
-			public uint mouseData;
-			public uint flags;
-			public uint time;
-			public uint dwExtraInfo;
-		}
-
-
 		// deleagte used by EnumWindows()
 		public delegate bool EnumWindowsProc(IntPtr Wnd, uint lParam);
 
 		// delegate used by SetWindowsHookEx()
 		public delegate int HookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
+
 		[DllImport("user32.dll")]
 		public static extern int AppendMenu(int hMenu, int uFlags, int uIDNewItem, string lpNewItem);
+
+		[DllImport("Shlwapi.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra,
+		   [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
 
 		[DllImport("user32.dll")]
 		public static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
@@ -157,9 +241,20 @@ namespace DMT.Library
 		//[return: MarshalAs(UnmanagedType.Bool)]
 		//public static extern bool ClipCursor(ref RECT lpRect);
 
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine,
+		IntPtr lpProcessAttributes, IntPtr lpThreadAttributes,
+		bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment,
+		string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
+
+
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, uint lParam);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetDesktopWindow();
@@ -200,12 +295,18 @@ namespace DMT.Library
 		public static extern int GetWindowTextLength(IntPtr hWnd);
 
 		[DllImport("user32.dll")]
+		public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool IsWindowVisible(IntPtr hWnd);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+		[DllImport("kernel32.dll")]
+		public static extern uint ResumeThread(IntPtr hThread);
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetForegroundWindow(IntPtr hWnd);

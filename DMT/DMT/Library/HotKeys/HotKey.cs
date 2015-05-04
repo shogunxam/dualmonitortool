@@ -56,9 +56,9 @@ namespace DMT.Library.HotKeys
 			get { return hotKeyCombo; }
 		}
 	
-		private Form form;
-		private int id;
-		private bool isRegistered;
+		Form _form;
+		int _id;
+		bool _isRegistered;
 
 		//private bool isDisposed;
 
@@ -71,8 +71,8 @@ namespace DMT.Library.HotKeys
 		/// <param name="id">An ID for the hot key as required by the Win32 API</param>
 		public HotKey(Form form, int id)
 		{
-			this.form = form;
-			this.id = id;
+			_form = form;
+			_id = id;
 
 			// we need to monitor the messages so we know when the hotkey is pressed
 			Application.AddMessageFilter(this);
@@ -114,26 +114,26 @@ namespace DMT.Library.HotKeys
 		/// of the hot key should have been restored.</returns>
 		public bool RegisterHotKey(KeyCombo keyCombo)
 		{
-			if (form == null)
+			if (_form == null)
 			{
 				throw new ApplicationException("HotKey must be associated with a form before registering");
 			}
-			if (form.Handle == IntPtr.Zero)
+			if (_form.Handle == IntPtr.Zero)
 			{
 				throw new ApplicationException("HotKey must be associated with a window before registering");
 			}
 
-			if (isRegistered)
+			if (_isRegistered)
 			{
 				UnRegisterHotKey();
 			}
 
 			if (keyCombo.Enabled)
 			{
-				isRegistered = Win32.RegisterHotKey(form.Handle, id,
+				_isRegistered = Win32.RegisterHotKey(_form.Handle, _id,
 													keyCombo.Win32Modifier,
 													keyCombo.Win32KeyCode);
-				if (isRegistered)
+				if (_isRegistered)
 				{
 					hotKeyCombo = keyCombo;
 					// new key combinaton as been succesfully registered as a hotkey
@@ -146,7 +146,7 @@ namespace DMT.Library.HotKeys
 					if (hotKeyCombo.Enabled)
 					{
 						// re-register old key combo to return to the state we were in when called
-						isRegistered = Win32.RegisterHotKey(form.Handle, id,
+						_isRegistered = Win32.RegisterHotKey(_form.Handle, _id,
 													hotKeyCombo.Win32Modifier,
 													hotKeyCombo.Win32KeyCode);
 						// above should not fail 
@@ -161,7 +161,7 @@ namespace DMT.Library.HotKeys
 				// as the key asked to be disabled
 				// isRegistered will be false,
 				// but we return true as we have done what we were asked to do
-				isRegistered = false;
+				_isRegistered = false;
 				hotKeyCombo = keyCombo;
 				return true;
 			}
@@ -172,11 +172,11 @@ namespace DMT.Library.HotKeys
 		/// </summary>
 		public void UnRegisterHotKey()
 		{
-			if (isRegistered)
+			if (_isRegistered)
 			{
-				if (Win32.UnregisterHotKey(form.Handle, id))
+				if (Win32.UnregisterHotKey(_form.Handle, _id))
 				{
-					isRegistered = false;
+					_isRegistered = false;
 				}
 			}
 		}
@@ -191,7 +191,7 @@ namespace DMT.Library.HotKeys
 		{
 			if (m.Msg == Win32.WM_HOTKEY)
 			{
-				if ((int)m.WParam == id)
+				if ((int)m.WParam == _id)
 				{
 					if (HotKeyPressed != null)
 					{

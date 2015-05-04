@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,11 +86,14 @@
     </Compile>
     <Compile Include="Library\HotKeys\VirtualKey.cs" />
     <Compile Include="Library\OsHelper.cs" />
+    <Compile Include="Library\PropertyComparer.cs" />
     <Compile Include="Library\SafeFileWriter.cs" />
     <Compile Include="Library\Scaler.cs" />
     <Compile Include="Library\ScreenHelper.cs" />
     <Compile Include="Library\Settings\BoolSetting.cs" />
     <Compile Include="Library\Settings\IntSetting.cs" />
+    <Compile Include="Library\Settings\UIntSetting.cs" />
+    <Compile Include="Library\SortableBindingList.cs" />
     <Compile Include="Library\Win32.cs" />
     <Compile Include="Library\WindowPicker.cs">
       <SubType>Component</SubType>
@@ -114,6 +118,67 @@
     </Compile>
     <Compile Include="Library\StringUtils.cs" />
     <Compile Include="Modules\IModuleService.cs" />
+    <Compile Include="Modules\Launcher\EntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\EntryForm.Designer.cs">
+      <DependentUpon>EntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherImportOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherImportOptionsPanel.Designer.cs">
+      <DependentUpon>LauncherImportOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherHotKeysOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherHotKeysOptionsPanel.Designer.cs">
+      <DependentUpon>LauncherHotKeysOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncheGeneralOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncheGeneralOptionsPanel.Designer.cs">
+      <DependentUpon>LauncheGeneralOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherMagicWordsOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherMagicWordsOptionsPanel.Designer.cs">
+      <DependentUpon>LauncherMagicWordsOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherModule.cs" />
+    <Compile Include="Modules\Launcher\MagicWord.cs" />
+    <Compile Include="Modules\Launcher\MagicWordExecutable.cs" />
+    <Compile Include="Modules\Launcher\MagicWordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\MagicWordForm.Designer.cs">
+      <DependentUpon>MagicWordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\MagicWordListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\MagicWords.cs" />
+    <Compile Include="Modules\Launcher\ParameterInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\ParameterInputForm.Designer.cs">
+      <DependentUpon>ParameterInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\ParameterMap.cs" />
+    <Compile Include="Modules\Launcher\QrsImporter.cs" />
+    <Compile Include="Modules\Launcher\StartupHandler.cs" />
+    <Compile Include="Modules\Launcher\StartupPosition.cs" />
+    <Compile Include="Modules\Launcher\StartupPositionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\StartupPositionControl.Designer.cs">
+      <DependentUpon>StartupPositionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Launcher\StartupProcess.cs" />
+    <Compile Include="Modules\Launcher\XmlImporter.cs" />
     <Compile Include="Modules\Module.cs" />
     <Compile Include="Modules\ModuleOptionNode.cs" />
     <Compile Include="Modules\ModuleOptionNodeBranch.cs" />
@@ -170,6 +235,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CursorStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\LauncherStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LauncherStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\SwapScreenStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -200,6 +270,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\GeneralOptionsPanel.resx">
       <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\EntryForm.resx">
+      <DependentUpon>EntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\LauncherHotKeysOptionsPanel.resx">
+      <DependentUpon>LauncherHotKeysOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\LauncheGeneralOptionsPanel.resx">
+      <DependentUpon>LauncheGeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\LauncherImportOptionsPanel.resx">
+      <DependentUpon>LauncherImportOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\LauncherMagicWordsOptionsPanel.resx">
+      <DependentUpon>LauncherMagicWordsOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\MagicWordForm.resx">
+      <DependentUpon>MagicWordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\ParameterInputForm.resx">
+      <DependentUpon>ParameterInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\StartupPositionControl.resx">
+      <DependentUpon>StartupPositionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.resx">
       <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>
@@ -237,10 +331,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CursorStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\LauncherStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LauncherStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\SwapScreenStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SwapScreenStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\DMT.Modules.Launcher.MagicWords.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -256,6 +355,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\missing.ico" />
     <None Include="Resources\WinNoCrossHairs.png" />
     <None Include="Resources\WinCrossHairs.png" />
     <None Include="Resources\TargetCursor.png" />

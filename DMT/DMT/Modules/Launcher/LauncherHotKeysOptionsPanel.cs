@@ -19,28 +19,39 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using DMT.Library.HotKeys;
 
-namespace DMT.Library.Settings
+namespace DMT.Modules.Launcher
 {
-	interface ISettingsService
+	partial class LauncherHotKeysOptionsPanel : UserControl
 	{
-		bool SettingExists(string moduleName, string settingName);
+		LauncherModule _launcherModule;
 
-		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, int value);
+		public LauncherHotKeysOptionsPanel(LauncherModule launcherModule)
+		{
+			_launcherModule = launcherModule;
 
-		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, uint value);
+			InitializeComponent();
 
-		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
-		void SetSetting(string moduleName, string settingName, bool set);
+			SetupHotKeys();
+		}
 
-		string GetSetting(string moduleName, string settingName);
-		void SetSetting(string moduleName, string settingName, string settingValue);
+		void SetupHotKeys()
+		{
+			SetupHotKey(hotKeyPanelActivate, _launcherModule.ActivateHotKeyController);
+			SetupHotKey(hotKeyPanelAddMagicWord, _launcherModule.AddMagicWordHotKeyController);
+		}
 
-		void SaveSettings();
+		void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
+		{
+			hotKeyPanel.SetHotKeyController(hotKeyController);
+		}
 	}
 }

@@ -46,13 +46,13 @@ namespace DMT.Library.Settings
 			}
 		}
 
-		public BoolSetting(ISettingsService settingsService, string moduleName, string settingName)
+		public BoolSetting(ISettingsService settingsService, string moduleName, string settingName, bool defaultValue = false)
 		{
 			_settingsService = settingsService;
 			_moduleName = moduleName;
 			_settingName = settingName;
 
-			_value = _settingsService.GetSettingAsBool(_moduleName, _settingName);
+			_value = _settingsService.GetSettingAsBool(_moduleName, _settingName, defaultValue);
 		}
 	}
 }
