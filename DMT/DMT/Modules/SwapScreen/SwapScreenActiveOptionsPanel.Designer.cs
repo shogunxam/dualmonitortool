@@ -59,7 +59,7 @@
 			this.groupBox1.Controls.Add(this.hotKeyPanelNextScreen);
 			this.groupBox1.Location = new System.Drawing.Point(3, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(494, 318);
+			this.groupBox1.Size = new System.Drawing.Size(483, 318);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Hotkeys for Active Window";

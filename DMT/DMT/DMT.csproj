@@ -102,11 +102,17 @@
     <Compile Include="Modules\Cursor\CursorBarrierLower.cs" />
     <Compile Include="Modules\Cursor\CursorBarrierUpper.cs" />
     <Compile Include="Modules\Cursor\CursorModule.cs" />
-    <Compile Include="Modules\Cursor\CursorOptionsPanel.cs">
+    <Compile Include="Modules\Cursor\CursorGeneralOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Modules\Cursor\CursorOptionsPanel.Designer.cs">
-      <DependentUpon>CursorOptionsPanel.cs</DependentUpon>
+    <Compile Include="Modules\Cursor\CursorGeneralOptionsPanel.Designer.cs">
+      <DependentUpon>CursorGeneralOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorRootOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorRootOptionsPanel.Designer.cs">
+      <DependentUpon>CursorRootOptionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\General\AutoStart.cs" />
     <Compile Include="Modules\General\GeneralModule.cs" />
@@ -117,6 +123,12 @@
       <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\StringUtils.cs" />
+    <Compile Include="Modules\General\GeneralRootOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\General\GeneralRootOptionsPanel.Designer.cs">
+      <DependentUpon>GeneralRootOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\IModuleService.cs" />
     <Compile Include="Modules\Launcher\EntryForm.cs">
       <SubType>Form</SubType>
@@ -149,6 +161,12 @@
       <DependentUpon>LauncherMagicWordsOptionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\Launcher\LauncherModule.cs" />
+    <Compile Include="Modules\Launcher\LauncherRootOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\LauncherRootOptionsPanel.Designer.cs">
+      <DependentUpon>LauncherRootOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Launcher\MagicWord.cs" />
     <Compile Include="Modules\Launcher\MagicWordExecutable.cs" />
     <Compile Include="Modules\Launcher\MagicWordForm.cs">
@@ -191,6 +209,12 @@
       <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\SwapScreen\SwapScreenModule.cs" />
+    <Compile Include="Modules\SwapScreen\SwapScreenRootOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenRootOptionsPanel.Designer.cs">
+      <DependentUpon>SwapScreenRootOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\SwapScreen\SwapScreenOtherOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -265,11 +289,17 @@
     <EmbeddedResource Include="Library\HotKeys\KeyComboPanel.resx">
       <DependentUpon>KeyComboPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modules\Cursor\CursorOptionsPanel.resx">
-      <DependentUpon>CursorOptionsPanel.cs</DependentUpon>
+    <EmbeddedResource Include="Modules\Cursor\CursorGeneralOptionsPanel.resx">
+      <DependentUpon>CursorGeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Cursor\CursorRootOptionsPanel.resx">
+      <DependentUpon>CursorRootOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\GeneralOptionsPanel.resx">
       <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\General\GeneralRootOptionsPanel.resx">
+      <DependentUpon>GeneralRootOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Launcher\EntryForm.resx">
       <DependentUpon>EntryForm.cs</DependentUpon>
@@ -286,6 +316,9 @@
     <EmbeddedResource Include="Modules\Launcher\LauncherMagicWordsOptionsPanel.resx">
       <DependentUpon>LauncherMagicWordsOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\LauncherRootOptionsPanel.resx">
+      <DependentUpon>LauncherRootOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\Launcher\MagicWordForm.resx">
       <DependentUpon>MagicWordForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -297,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.resx">
       <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\SwapScreenRootOptionsPanel.resx">
+      <DependentUpon>SwapScreenRootOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenOtherOptionsPanel.resx">
       <DependentUpon>SwapScreenOtherOptionsPanel.cs</DependentUpon>
@@ -355,6 +391,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\dual_48_24.png" />
+    <None Include="Resources\DualLauncher_48_24.png" />
+    <None Include="Resources\cursor_48_24.png" />
+    <None Include="Resources\SwapScreen_48_24.png" />
     <None Include="Resources\missing.ico" />
     <None Include="Resources\WinNoCrossHairs.png" />
     <None Include="Resources\WinCrossHairs.png" />

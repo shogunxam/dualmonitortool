@@ -72,7 +72,7 @@ namespace DMT.Modules.SwapScreen
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen");
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen", new SwapScreenRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Active Window", new SwapScreenActiveOptionsPanel(this)));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("User Defined Areas", new SwapScreenUdaOptionsPanel(this)));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Other Windows", new SwapScreenOtherOptionsPanel(this)));

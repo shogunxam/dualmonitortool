@@ -31,11 +31,11 @@ using DMT.Resources;
 
 namespace DMT.Modules.Cursor
 {
-	partial class CursorOptionsPanel : UserControl
+	partial class CursorGeneralOptionsPanel : UserControl
 	{
 		CursorModule _cursorModule;
 
-		public CursorOptionsPanel(CursorModule cursorModule)
+		public CursorGeneralOptionsPanel(CursorModule cursorModule)
 		{
 			_cursorModule = cursorModule;
 

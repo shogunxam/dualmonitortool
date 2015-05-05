@@ -137,7 +137,7 @@ namespace DMT.Modules.Launcher
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Launcher");
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Launcher", new LauncherRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Magic Words", new LauncherMagicWordsOptionsPanel(this)));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("HotKeys", new LauncherHotKeysOptionsPanel(this)));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new LauncheGeneralOptionsPanel(this)));

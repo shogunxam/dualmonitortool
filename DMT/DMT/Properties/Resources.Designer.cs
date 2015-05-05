@@ -61,12 +61,52 @@ namespace DMT.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cursor_48_24 {
+            get {
+                object obj = ResourceManager.GetObject("cursor_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dual_48_24 {
+            get {
+                object obj = ResourceManager.GetObject("dual_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DualLauncher_48_24 {
+            get {
+                object obj = ResourceManager.GetObject("DualLauncher_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon missingIcon {
             get {
                 object obj = ResourceManager.GetObject("missingIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwapScreen_48_24 {
+            get {
+                object obj = ResourceManager.GetObject("SwapScreen_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

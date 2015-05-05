@@ -1,6 +1,6 @@
 ﻿namespace DMT.Modules.Cursor
 {
-	partial class CursorOptionsPanel
+	partial class CursorGeneralOptionsPanel
 	{
 		/// <summary> 
 		/// Required designer variable.

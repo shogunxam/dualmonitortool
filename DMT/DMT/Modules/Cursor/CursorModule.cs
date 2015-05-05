@@ -118,7 +118,8 @@ namespace DMT.Modules.Cursor
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNode options = new ModuleOptionNodeLeaf("Cursor", new CursorOptionsPanel(this));
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Cursor", new CursorRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new CursorGeneralOptionsPanel(this)));
 
 			return options;
 		}

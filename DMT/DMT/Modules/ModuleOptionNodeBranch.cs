@@ -22,16 +22,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DMT.Modules
 {
 	class ModuleOptionNodeBranch : ModuleOptionNode
 	{
+		public ContainerControl OptionPanel { get; protected set; }
 		public List<ModuleOptionNode> Nodes { get; set; }
 
-		public ModuleOptionNodeBranch(string name)
+		public ModuleOptionNodeBranch(string name, ContainerControl panel = null)
 			: base(name)
 		{
+			OptionPanel = panel;
 			Nodes = new List<ModuleOptionNode>();
 		}
 	}

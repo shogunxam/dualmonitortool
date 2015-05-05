@@ -45,7 +45,7 @@
 			this.groupBox3.Controls.Add(this.buttonImportQrs);
 			this.groupBox3.Location = new System.Drawing.Point(12, 122);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(507, 139);
+			this.groupBox3.Size = new System.Drawing.Size(434, 139);
 			this.groupBox3.TabIndex = 8;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Other Magic Word style file formats";
@@ -75,7 +75,7 @@
 			this.groupBox2.Controls.Add(this.buttonExportXml);
 			this.groupBox2.Location = new System.Drawing.Point(12, 51);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(507, 60);
+			this.groupBox2.Size = new System.Drawing.Size(434, 60);
 			this.groupBox2.TabIndex = 7;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "DualLauncher native file format";
@@ -118,7 +118,7 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonDeleteAll);
 			this.Name = "LauncherImportOptionsPanel";
-			this.Size = new System.Drawing.Size(546, 294);
+			this.Size = new System.Drawing.Size(490, 294);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

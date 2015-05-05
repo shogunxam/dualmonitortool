@@ -38,9 +38,9 @@
 			// 
 			this.treeViewOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+			this.treeViewOptions.HideSelection = false;
 			this.treeViewOptions.Location = new System.Drawing.Point(2, 0);
 			this.treeViewOptions.Name = "treeViewOptions";
-			this.treeViewOptions.ShowLines = false;
 			this.treeViewOptions.Size = new System.Drawing.Size(241, 367);
 			this.treeViewOptions.TabIndex = 0;
 			this.treeViewOptions.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewOptions_AfterSelect);
@@ -50,9 +50,9 @@
 			this.panelPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panelPlaceholder.Location = new System.Drawing.Point(249, 0);
+			this.panelPlaceholder.Location = new System.Drawing.Point(260, 10);
 			this.panelPlaceholder.Name = "panelPlaceholder";
-			this.panelPlaceholder.Size = new System.Drawing.Size(526, 367);
+			this.panelPlaceholder.Size = new System.Drawing.Size(516, 357);
 			this.panelPlaceholder.TabIndex = 1;
 			this.panelPlaceholder.Visible = false;
 			// 

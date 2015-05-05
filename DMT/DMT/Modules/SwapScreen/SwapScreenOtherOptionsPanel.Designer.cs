@@ -61,7 +61,7 @@
 			this.groupBox1.Controls.Add(this.hotKeyPanelMinimiseAllBut);
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(497, 336);
+			this.groupBox1.Size = new System.Drawing.Size(483, 318);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Hotkeys for other Windows";
@@ -114,12 +114,12 @@
 			this.hotKeyPanelMinimiseAllBut.Size = new System.Drawing.Size(465, 23);
 			this.hotKeyPanelMinimiseAllBut.TabIndex = 1;
 			// 
-			// SwapScreenOtherOptionaPanel
+			// SwapScreenOtherOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.groupBox1);
-			this.Name = "SwapScreenOtherOptionaPanel";
+			this.Name = "SwapScreenOtherOptionsPanel";
 			this.Size = new System.Drawing.Size(500, 338);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);

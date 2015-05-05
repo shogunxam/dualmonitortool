@@ -63,10 +63,13 @@ namespace DMT.Modules.General
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
 		{
-			ContainerControl panel = new GeneralOptionsPanel(this);
-			//panel.Parent = form;
-			ModuleOptionNodeLeaf options = new ModuleOptionNodeLeaf("General", panel);
-			
+			//ContainerControl panel = new GeneralOptionsPanel(this);
+			////panel.Parent = form;
+			//ModuleOptionNodeLeaf options = new ModuleOptionNodeLeaf("General", panel);
+
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", new GeneralRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new GeneralOptionsPanel(this)));
+		
 
 			return options;
 		}

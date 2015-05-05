@@ -49,7 +49,7 @@
 			// buttonResetCounts
 			// 
 			this.buttonResetCounts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonResetCounts.Location = new System.Drawing.Point(461, 361);
+			this.buttonResetCounts.Location = new System.Drawing.Point(366, 295);
 			this.buttonResetCounts.Name = "buttonResetCounts";
 			this.buttonResetCounts.Size = new System.Drawing.Size(124, 23);
 			this.buttonResetCounts.TabIndex = 9;
@@ -60,7 +60,7 @@
 			// buttonDelete
 			// 
 			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonDelete.Location = new System.Drawing.Point(168, 361);
+			this.buttonDelete.Location = new System.Drawing.Point(168, 295);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(75, 23);
 			this.buttonDelete.TabIndex = 8;
@@ -71,7 +71,7 @@
 			// buttonEdit
 			// 
 			this.buttonEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonEdit.Location = new System.Drawing.Point(86, 361);
+			this.buttonEdit.Location = new System.Drawing.Point(86, 295);
 			this.buttonEdit.Name = "buttonEdit";
 			this.buttonEdit.Size = new System.Drawing.Size(75, 23);
 			this.buttonEdit.TabIndex = 7;
@@ -82,7 +82,7 @@
 			// buttonAdd
 			// 
 			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAdd.Location = new System.Drawing.Point(4, 361);
+			this.buttonAdd.Location = new System.Drawing.Point(4, 295);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(75, 23);
 			this.buttonAdd.TabIndex = 6;
@@ -118,7 +118,7 @@
 			this.dataGridView.ReadOnly = true;
 			this.dataGridView.RowHeadersVisible = false;
 			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView.Size = new System.Drawing.Size(582, 352);
+			this.dataGridView.Size = new System.Drawing.Size(483, 286);
 			this.dataGridView.TabIndex = 5;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
@@ -187,7 +187,7 @@
 			this.Controls.Add(this.buttonAdd);
 			this.Controls.Add(this.dataGridView);
 			this.Name = "LauncherMagicWordsOptionsPanel";
-			this.Size = new System.Drawing.Size(588, 404);
+			this.Size = new System.Drawing.Size(493, 338);
 			this.Load += new System.EventHandler(this.LauncherMagicWordsOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.magicWordsBindingSource)).EndInit();
