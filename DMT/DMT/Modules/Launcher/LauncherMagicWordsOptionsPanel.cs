@@ -59,7 +59,7 @@ namespace DMT.Modules.Launcher
 		private void buttonAdd_Click(object sender, EventArgs e)
 		{
 			MagicWord newMagicWord = new MagicWord();
-			MagicWordForm dlg = new MagicWordForm(newMagicWord);
+			MagicWordForm dlg = new MagicWordForm(_launcherModule, newMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				// need to add new word
@@ -219,7 +219,7 @@ namespace DMT.Modules.Launcher
 			// we work on a clone of the magic word in case user decides
 			// to cancel edits
 			MagicWord editMagicWord = _launcherModule.MagicWords[rowIndex];
-			MagicWordForm dlg = new MagicWordForm(editMagicWord);
+			MagicWordForm dlg = new MagicWordForm(_launcherModule, editMagicWord);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				// dialog has already updated the MagicWord within MagicWords

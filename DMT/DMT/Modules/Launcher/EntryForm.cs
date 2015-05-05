@@ -114,6 +114,19 @@ namespace DMT.Modules.Launcher
 		{
 			ProcessKeyDown(sender, e);
 		}
+
+		private void magicWordListBox_MouseClick(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				System.Windows.Forms.ListView.SelectedListViewItemCollection selectedItems = magicWordListBox.SelectedItems;
+				if (selectedItems.Count == 1)
+				{
+					string alias = selectedItems[0].Text;
+					ProcessInput(alias, 1);
+				}
+			}
+		}
 		
 		void Input_TextChanged(object sender, EventArgs e)
 		{
@@ -190,7 +203,7 @@ namespace DMT.Modules.Launcher
 		void UpdateIconDisplayStyle()
 		{
 			//this.magicWordListBox.View = Properties.Settings.Default.IconView;
-			this.magicWordListBox.View = System.Windows.Forms.View.LargeIcon;
+			this.magicWordListBox.View = _launcherModule.IconView;
 		}
 
 		private void ProcessKeyDown(object sender, KeyEventArgs e)

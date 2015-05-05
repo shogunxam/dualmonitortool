@@ -29,24 +29,14 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntryForm));
-			this.columnHeaderAlias = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.columnHeaderFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
 			this.textBoxInput = new System.Windows.Forms.TextBox();
 			this.buttonOptions = new System.Windows.Forms.Button();
 			this.magicWordListBox = new DMT.Modules.Launcher.MagicWordListBox();
+			this.columnHeaderAlias = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeaderFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
 			this.SuspendLayout();
-			// 
-			// columnHeaderAlias
-			// 
-			this.columnHeaderAlias.Text = "Magic Word";
-			this.columnHeaderAlias.Width = 120;
-			// 
-			// columnHeaderFilename
-			// 
-			this.columnHeaderFilename.Text = "Filename";
-			this.columnHeaderFilename.Width = 200;
 			// 
 			// pictureBoxIcon
 			// 
@@ -58,6 +48,8 @@
 			// 
 			// textBoxInput
 			// 
+			this.textBoxInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxInput.Location = new System.Drawing.Point(63, 19);
 			this.textBoxInput.Name = "textBoxInput";
 			this.textBoxInput.Size = new System.Drawing.Size(310, 20);
@@ -79,12 +71,26 @@
 			this.magicWordListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.magicWordListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderAlias,
+            this.columnHeaderFilename});
 			this.magicWordListBox.Location = new System.Drawing.Point(12, 50);
 			this.magicWordListBox.Name = "magicWordListBox";
 			this.magicWordListBox.Size = new System.Drawing.Size(391, 169);
 			this.magicWordListBox.TabIndex = 5;
 			this.magicWordListBox.UseCompatibleStateImageBehavior = false;
 			this.magicWordListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.magicWordListBox_KeyDown);
+			this.magicWordListBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.magicWordListBox_MouseClick);
+			// 
+			// columnHeaderAlias
+			// 
+			this.columnHeaderAlias.Text = "Magic Word";
+			this.columnHeaderAlias.Width = 120;
+			// 
+			// columnHeaderFilename
+			// 
+			this.columnHeaderFilename.Text = "Filename";
+			this.columnHeaderFilename.Width = 200;
 			// 
 			// EntryForm
 			// 
@@ -117,5 +123,7 @@
 		private System.Windows.Forms.TextBox textBoxInput;
 		private System.Windows.Forms.Button buttonOptions;
 		private MagicWordListBox magicWordListBox;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
+		private System.Windows.Forms.ColumnHeader columnHeader2;
 	}
 }

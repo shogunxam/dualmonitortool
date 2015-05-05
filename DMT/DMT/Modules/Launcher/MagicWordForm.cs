@@ -33,16 +33,18 @@ using System.Windows.Forms;
 
 namespace DMT.Modules.Launcher
 {
-	public partial class MagicWordForm : Form
+	partial class MagicWordForm : Form
 	{
+		LauncherModule _launcherModule;
 		MagicWord _magicWord;
 		bool _statsReset = false;
 		int _timesUsed;
 		DateTime _lastUsed;
 
-		public MagicWordForm(MagicWord magicWord)
+		public MagicWordForm(LauncherModule launcherModule, MagicWord magicWord)
 		{
-			this._magicWord = magicWord;
+			_launcherModule = launcherModule;
+			_magicWord = magicWord;
 			InitializeComponent();
 		}
 
@@ -216,7 +218,7 @@ namespace DMT.Modules.Launcher
 				StartupPosition startPosition = testMagicWord.GetStartupPosition(positionIndex1);
 				// and try and run it
 				ParameterMap map = new ParameterMap();
-//				bool ok = StartupController.Instance.Launch(testMagicWord, startPosition, map);
+				_launcherModule.Launch(testMagicWord, startPosition, map);
 			}
 		}
 

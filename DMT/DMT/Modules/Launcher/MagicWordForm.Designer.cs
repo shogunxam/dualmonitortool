@@ -88,6 +88,7 @@
 			this.buttonTest.TabIndex = 38;
 			this.buttonTest.Text = "Test the magic word";
 			this.buttonTest.UseVisualStyleBackColor = true;
+			this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
 			// 
 			// groupBox2
 			// 
