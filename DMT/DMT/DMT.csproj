@@ -202,6 +202,30 @@
     <Compile Include="Modules\ModuleOptionNodeBranch.cs" />
     <Compile Include="Modules\ModuleOptionNodeLeaf.cs" />
     <Compile Include="Modules\ModuleRepository.cs" />
+    <Compile Include="Modules\Snap\Snap.cs" />
+    <Compile Include="Modules\Snap\SnapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Snap\SnapForm.Designer.cs">
+      <DependentUpon>SnapForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Snap\SnapHistory.cs" />
+    <Compile Include="Modules\Snap\SnapMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Modules\Snap\SnapModule.cs" />
+    <Compile Include="Modules\Snap\SnapRootOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Snap\SnapRootOptionsPanel.Designer.cs">
+      <DependentUpon>SnapRootOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Snap\SnapGeneralOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Snap\SnapGeneralOptionsPanel.Designer.cs">
+      <DependentUpon>SnapGeneralOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -263,6 +287,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LauncherStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\SnapStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SnapStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\SwapScreenStrings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -328,6 +357,15 @@
     <EmbeddedResource Include="Modules\Launcher\StartupPositionControl.resx">
       <DependentUpon>StartupPositionControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Snap\SnapForm.resx">
+      <DependentUpon>SnapForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Snap\SnapRootOptionsPanel.resx">
+      <DependentUpon>SnapRootOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Snap\SnapGeneralOptionsPanel.resx">
+      <DependentUpon>SnapGeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.resx">
       <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -371,6 +409,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LauncherStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SnapStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SnapStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\SwapScreenStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SwapScreenStrings.Designer.cs</LastGenOutput>
@@ -391,6 +433,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\DualSnap_48_24.png" />
     <None Include="Resources\dual_48_24.png" />
     <None Include="Resources\DualLauncher_48_24.png" />
     <None Include="Resources\cursor_48_24.png" />

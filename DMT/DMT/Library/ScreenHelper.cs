@@ -609,6 +609,23 @@ namespace DMT.Library
 		}
 
 		/// <summary>
+		/// Finds the next screen after the given screen
+		/// </summary>
+		/// <param name="curScreen"></param>
+		/// <returns></returns>
+		public static Screen NextScreen(Screen curScreen)
+		{
+			int curScreenIndex = FindScreenIndex(curScreen);
+			if (curScreenIndex < 0)
+			{
+				// shouldn't happen
+				return Screen.PrimaryScreen;
+			}
+			int nextScreenIndex = (curScreenIndex + 1) % Screen.AllScreens.Length;
+			return Screen.AllScreens[nextScreenIndex];
+		}
+
+		/// <summary>
 		/// Finds the index within Screen.AllScreens[] that the passed screen is on.
 		/// </summary>
 		/// <param name="screen">The screen whoose index we are trying to find</param>
