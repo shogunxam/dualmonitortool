@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library;
+using DMT.Library.GuiUtils;
 using DMT.Library.HotKeys;
 using DMT.Library.Settings;
 using DMT.Resources;

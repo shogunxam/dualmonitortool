@@ -25,6 +25,8 @@ using System.Windows.Forms;
 using DMT.Library.HotKeys;
 using DMT.Library;
 using DMT.Library.Settings;
+using DMT.Library.Utils;
+using DMT.Library.GuiUtils;
 
 namespace DMT.Modules.SwapScreen
 {

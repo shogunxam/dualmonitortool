@@ -26,7 +26,7 @@ using System.Reflection;
 
 using System.Diagnostics;
 
-namespace DMT.Library
+namespace DMT.Library.Binding
 {
 	/// <summary>
 	/// This is a sortable implementation of a BindingList

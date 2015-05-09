@@ -24,9 +24,10 @@ using System.Windows.Forms;
 using System.Text;
 
 using System.Runtime.InteropServices;
+using DMT.Library.PInvoke;
 
 
-namespace DMT.Library
+namespace DMT.Library.GuiUtils
 {
 	/// <summary>
 	/// Utility class to help in handling multiple screens.

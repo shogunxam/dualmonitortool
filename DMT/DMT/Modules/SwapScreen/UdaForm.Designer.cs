@@ -45,7 +45,7 @@
 			this.labelName = new System.Windows.Forms.Label();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonOK = new System.Windows.Forms.Button();
-			this.windowPicker = new DMT.Library.WindowPicker();
+			this.windowPicker = new DMT.Library.GuiUtils.WindowPicker();
 			this.groupBox1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
 			this.SuspendLayout();
@@ -242,6 +242,6 @@
 		private System.Windows.Forms.Label labelName;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.Button buttonOK;
-		private Library.WindowPicker windowPicker;
+		private Library.GuiUtils.WindowPicker windowPicker;
 	}
 }

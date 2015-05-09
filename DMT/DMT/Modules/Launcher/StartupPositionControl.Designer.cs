@@ -39,7 +39,7 @@
 			this.label9 = new System.Windows.Forms.Label();
 			this.textBoxX = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
-			this.windowPicker = new DMT.Library.WindowPicker();
+			this.windowPicker = new DMT.Library.GuiUtils.WindowPicker();
 			((System.ComponentModel.ISupportInitialize)(this.windowPicker)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -184,6 +184,6 @@
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.TextBox textBoxX;
 		private System.Windows.Forms.Label label8;
-		private Library.WindowPicker windowPicker;
+		private Library.GuiUtils.WindowPicker windowPicker;
 	}
 }

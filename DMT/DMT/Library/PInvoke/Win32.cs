@@ -22,13 +22,21 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace DMT.Library
+namespace DMT.Library.PInvoke
 {
 	/// <summary>
 	/// Definitions extracted from winuser.h
 	/// </summary>
 	static class Win32
 	{
+
+		// flags for SystemParametersInfo(uiAction)
+		public static uint SPI_SETDESKWALLPAPER = 20;
+
+		// flags for SystemParametersInfo(fWinIni)
+		public static uint SPIF_UPDATEINIFILE = 0x0001;
+		public static uint SPIF_SENDWININICHANGE = 0x0002;
+
 		// Flags for ShowWindow() and WINDOWPLACEMENT.showCmd
 		public const int SW_HIDE = 0;
 		public const int SW_SHOWNORMAL = 1;
@@ -321,6 +329,9 @@ namespace DMT.Library
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
+
+		[DllImport("user32.dll")]
+		public static extern int SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]

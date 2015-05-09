@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
+using DMT.Library.Environment;
 
 namespace DMT.Library.HotKeys
 {

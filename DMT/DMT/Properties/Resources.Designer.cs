@@ -101,12 +101,42 @@ namespace DMT.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DualWallpaperChanger_48_24 {
+            get {
+                object obj = ResourceManager.GetObject("DualWallpaperChanger_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LocalDiskPlugin {
+            get {
+                object obj = ResourceManager.GetObject("LocalDiskPlugin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon missingIcon {
             get {
                 object obj = ResourceManager.GetObject("missingIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RandomShapesPlugin {
+            get {
+                object obj = ResourceManager.GetObject("RandomShapesPlugin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -126,6 +156,16 @@ namespace DMT.Properties {
         internal static System.Drawing.Bitmap TargetCursor {
             get {
                 object obj = ResourceManager.GetObject("TargetCursor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UnsplashPlugin {
+            get {
+                object obj = ResourceManager.GetObject("UnsplashPlugin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -61,6 +61,10 @@
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controller.cs" />
+    <Compile Include="Library\Environment\ILocalEnvironment.cs" />
+    <Compile Include="Library\Environment\LocalEnvironment.cs" />
+    <Compile Include="Library\Environment\Monitor.cs" />
+    <Compile Include="Library\Environment\Monitors.cs" />
     <Compile Include="Library\HotKeys\HotKey.cs" />
     <Compile Include="Library\HotKeys\HotKeyController.cs" />
     <Compile Include="Library\HotKeys\HotKeyForm.cs">
@@ -85,17 +89,38 @@
       <DependentUpon>KeyComboPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\HotKeys\VirtualKey.cs" />
-    <Compile Include="Library\OsHelper.cs" />
-    <Compile Include="Library\PropertyComparer.cs" />
-    <Compile Include="Library\SafeFileWriter.cs" />
-    <Compile Include="Library\Scaler.cs" />
-    <Compile Include="Library\ScreenHelper.cs" />
+    <Compile Include="Library\Environment\OsHelper.cs" />
+    <Compile Include="Library\Binding\PropertyComparer.cs" />
+    <Compile Include="Library\Html\FakeRequester.cs" />
+    <Compile Include="Library\Html\HtmlElement.cs" />
+    <Compile Include="Library\Html\HtmlReader.cs" />
+    <Compile Include="Library\Html\HttpConnection.cs" />
+    <Compile Include="Library\Html\HttpConnectionManager.cs" />
+    <Compile Include="Library\Html\HttpRequester.cs" />
+    <Compile Include="Library\Html\HttpResponseData.cs" />
+    <Compile Include="Library\Html\IHttpRequester.cs" />
+    <Compile Include="Library\Logging\ILogger.cs" />
+    <Compile Include="Library\Utils\SafeFileWriter.cs" />
+    <Compile Include="Library\Transform\Scaler.cs" />
+    <Compile Include="Library\GuiUtils\ScreenHelper.cs" />
     <Compile Include="Library\Settings\BoolSetting.cs" />
     <Compile Include="Library\Settings\IntSetting.cs" />
     <Compile Include="Library\Settings\UIntSetting.cs" />
-    <Compile Include="Library\SortableBindingList.cs" />
-    <Compile Include="Library\Win32.cs" />
-    <Compile Include="Library\WindowPicker.cs">
+    <Compile Include="Library\Binding\SortableBindingList.cs" />
+    <Compile Include="Library\Transform\ScreenMapping.cs" />
+    <Compile Include="Library\WallpaperPlugin\IDWC_Plugin.cs" />
+    <Compile Include="Library\WallpaperPlugin\IImageProvider.cs" />
+    <Compile Include="Library\WallpaperPlugin\ProviderHelper.cs" />
+    <Compile Include="Library\Wallpaper\IWallpaperCompositor.cs" />
+    <Compile Include="Library\Wallpaper\IWallpaperCompositorFactory.cs" />
+    <Compile Include="Library\Wallpaper\WallpaperCompositor.cs" />
+    <Compile Include="Library\Wallpaper\WallpaperCompositorFactory.cs" />
+    <Compile Include="Library\Wallpaper\WindowsWallpaper.cs" />
+    <Compile Include="Modules\WallpaperChanger\Desktop.cs" />
+    <Compile Include="Library\Wallpaper\StretchType.cs" />
+    <Compile Include="Library\Wallpaper\SwitchType.cs" />
+    <Compile Include="Library\PInvoke\Win32.cs" />
+    <Compile Include="Library\GuiUtils\WindowPicker.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Modules\Cursor\CursorBarrier.cs" />
@@ -122,7 +147,7 @@
     <Compile Include="Modules\General\GeneralOptionsPanel.Designer.cs">
       <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\StringUtils.cs" />
+    <Compile Include="Library\Utils\StringUtils.cs" />
     <Compile Include="Modules\General\GeneralRootOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -265,6 +290,66 @@
     <Compile Include="Modules\SwapScreen\UdaPanel.Designer.cs">
       <DependentUpon>UdaPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\WallpaperChanger\IImageRepository.cs" />
+    <Compile Include="Modules\WallpaperChanger\ImageRepository.cs" />
+    <Compile Include="Modules\WallpaperChanger\IProviderFactory.cs" />
+    <Compile Include="Modules\WallpaperChanger\IProviderPersistence.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskConfig.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.Designer.cs">
+      <DependentUpon>LocalDiskForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskPlugin.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesConfig.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesForm.Designer.cs">
+      <DependentUpon>RandomShapesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesPlugin.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeConfig.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeForm.Designer.cs">
+      <DependentUpon>WebScrapeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapePlugin.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\ProviderFactory.cs" />
+    <Compile Include="Modules\WallpaperChanger\ProviderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\ProviderForm.Designer.cs">
+      <DependentUpon>ProviderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\ProviderPersistence.cs" />
+    <Compile Include="Modules\WallpaperChanger\ProviderReader.cs" />
+    <Compile Include="Modules\WallpaperChanger\ProviderWriter.cs" />
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerGeneralOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerGeneralOptionsPanel.Designer.cs">
+      <DependentUpon>WallpaperChangerGeneralOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerModule.cs" />
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerProvidersOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerProvidersOptionsPanel.Designer.cs">
+      <DependentUpon>WallpaperChangerProvidersOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerRootOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerRootOptionsPanel.Designer.cs">
+      <DependentUpon>WallpaperChangerRootOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="OptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -303,6 +388,11 @@
     <Compile Include="Library\Settings\SettingsReader.cs" />
     <Compile Include="Library\Settings\SettingsRepository.cs" />
     <Compile Include="Library\Settings\SettingsWriter.cs" />
+    <Compile Include="Resources\WallpaperStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WallpaperStrings.resx</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -384,6 +474,27 @@
     <EmbeddedResource Include="Modules\SwapScreen\UdaPanel.resx">
       <DependentUpon>UdaPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.resx">
+      <DependentUpon>LocalDiskForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesForm.resx">
+      <DependentUpon>RandomShapesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeForm.resx">
+      <DependentUpon>WebScrapeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\ProviderForm.resx">
+      <DependentUpon>ProviderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\WallpaperChangerGeneralOptionsPanel.resx">
+      <DependentUpon>WallpaperChangerGeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\WallpaperChangerProvidersOptionsPanel.resx">
+      <DependentUpon>WallpaperChangerProvidersOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\WallpaperChangerRootOptionsPanel.resx">
+      <DependentUpon>WallpaperChangerRootOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="OptionsForm.resx">
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -417,6 +528,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SwapScreenStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\WallpaperStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WallpaperStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="Properties\DataSources\DMT.Modules.Launcher.MagicWords.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -433,6 +548,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\PluginImage2.bmp" />
+    <None Include="Resources\PluginImage1.bmp" />
+    <None Include="Resources\DualWallpaperChanger_48_24.png" />
+    <None Include="Resources\PluginImage.bmp" />
     <None Include="Resources\DualSnap_48_24.png" />
     <None Include="Resources\dual_48_24.png" />
     <None Include="Resources\DualLauncher_48_24.png" />

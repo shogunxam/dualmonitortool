@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Collections.ObjectModel;
 using DMT.Library;
+using DMT.Library.PInvoke;
 
 namespace DMT.Modules.Launcher
 {

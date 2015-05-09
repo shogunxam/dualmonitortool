@@ -24,7 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMT.Library
+namespace DMT.Library.Utils
 {
 	static class StringUtils
 	{

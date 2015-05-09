@@ -18,6 +18,8 @@
 #endregion
 
 using DMT.Library;
+using DMT.Library.GuiUtils;
+using DMT.Library.PInvoke;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

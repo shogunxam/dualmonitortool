@@ -22,8 +22,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using DMT.Library.PInvoke;
 
-namespace DMT.Library
+namespace DMT.Library.GuiUtils
 {
 	/// <summary>
 	/// Control to allow a top level window to be selected

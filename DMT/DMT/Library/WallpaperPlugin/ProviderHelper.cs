@@ -19,60 +19,59 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DMT.Library
+namespace DMT.Library.WallpaperPlugin
 {
-	class SafeFileWriter
+	/// <summary>
+	/// Utility class to help plugins
+	/// </summary>
+	static public class ProviderHelper
 	{
-		string _filename;
-
-		public SafeFileWriter(string filename)
+		public static string ConfigToString(Dictionary<string, string> config, string key, string defaultValue = "")
 		{
-			_filename = filename;
-		}
+			string value;
 
-		public Stream OpenForWriting()
-		{
-			return File.Open(GetTempFilename(), FileMode.Create);
-		}
-
-		public void CompleteWrite()
-		{
-			// assumes stream returned by OpenForWriting() has been closed
-
-			if (File.Exists(_filename))
+			if (config.TryGetValue(key, out value))
 			{
-				// file already exists, so take a backup first
-
-				string backupFilename = GetBackupFilename();
-				if (File.Exists(backupFilename))
-				{
-					// a old backup already exists, so remove this
-					File.Delete(backupFilename);
-				}
-
-				// can rename existing file as the backup file
-				File.Move(_filename, backupFilename);
+				return value;
 			}
 
-			string tempFilename = GetTempFilename();
-
-			// can now rename the newly written temp file to become the new file
-			File.Move(tempFilename, _filename);
+			return defaultValue;
 		}
 
-		string GetTempFilename()
+		public static bool ConfigToBool(Dictionary<string, string> config, string key, bool defaultValue = false)
 		{
-			return Path.ChangeExtension(_filename, "tmp");
+			string value;
+
+			if (config.TryGetValue(key, out value))
+			{
+				bool isTrue;
+				if (bool.TryParse(value, out isTrue))
+				{
+					return isTrue;
+				}
+			}
+
+			return defaultValue;
 		}
 
-		string GetBackupFilename()
+		public static int ConfigToInt(Dictionary<string, string> config, string key, int defaultValue = 0)
 		{
-			return Path.ChangeExtension(_filename, "bak");
+			string value;
+
+			if (config.TryGetValue(key, out value))
+			{
+				int number;
+				if (int.TryParse(value, out number))
+				{
+					return number;
+				}
+			}
+
+			return defaultValue;
 		}
 	}
 }

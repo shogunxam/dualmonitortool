@@ -28,6 +28,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMT.Library;
 using DMT.Resources;
+using DMT.Library.GuiUtils;
+using DMT.Library.PInvoke;
 
 namespace DMT.Modules.Launcher
 {

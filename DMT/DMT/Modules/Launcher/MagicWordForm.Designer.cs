@@ -68,7 +68,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.windowPicker = new DMT.Library.WindowPicker();
+			this.windowPicker = new DMT.Library.GuiUtils.WindowPicker();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
 			this.tabControl.SuspendLayout();
@@ -513,7 +513,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
-		private Library.WindowPicker windowPicker;
+		private Library.GuiUtils.WindowPicker windowPicker;
 		private StartupPositionControl startupPositionControl1;
 		private StartupPositionControl startupPositionControl2;
 		private StartupPositionControl startupPositionControl3;

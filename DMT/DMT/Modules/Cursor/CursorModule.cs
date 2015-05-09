@@ -1,6 +1,8 @@
-﻿using DMT.Library;
+﻿using DMT.Library.GuiUtils;
 using DMT.Library.HotKeys;
+using DMT.Library.PInvoke;
 using DMT.Library.Settings;
+using DMT.Library.Transform;
 using DMT.Resources;
 using System;
 using System.Collections.Generic;

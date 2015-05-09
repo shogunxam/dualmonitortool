@@ -28,6 +28,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Diagnostics;
 using DMT.Library;
+using DMT.Library.Binding;
 
 namespace DMT.Modules.Launcher
 {

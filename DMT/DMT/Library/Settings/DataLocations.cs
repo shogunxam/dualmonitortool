@@ -31,6 +31,7 @@ namespace DMT.Library.Settings
 	{
 		public string SettingsFilename { get; protected set; }
 		public string MagicWordsFilename { get; set; }
+		public string WallpaperProvidersFilename { get; set; }
 
 		#region Singleton support
 		// the single instance of the controller object
@@ -64,6 +65,7 @@ namespace DMT.Library.Settings
 
 			SettingsFilename = Path.Combine(dataDir, "DmtSettings.xml");
 			MagicWordsFilename = Path.Combine(dataDir, "DmtMagicWords.xml");
+			WallpaperProvidersFilename = Path.Combine(dataDir, "DmtWallpaperProviders.xml");
 		}
 	}
 }

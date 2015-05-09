@@ -21,20 +21,58 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DMT.Library
+namespace DMT.Library.Environment
 {
 	/// <summary>
 	/// Utility class to handle O/S specific issues
 	/// </summary>
 	class OsHelper
 	{
+		// 5.0 => 2000
+		// 5.1 => XP
+		// 5.2 => 2003
+		// 6.0 => Vista / 2008
+		// 6.1 => Win 7 / 2008 R2 / 2011
+		// 6.2 => Win 8 / 2012
+		const int _vistaMajor = 6;
+		const int _vistaMinor = 0;
+
+		const int _win7Major = 6;
+		const int _win7Minor = 1;
+
+		const int _win8Major = 6;
+		const int _win8Minor = 2;
+
+		/// <summary>
+		/// Determine if we are running Windows Vista (or later)
+		/// </summary>
+		/// <returns>true if this is Windows Vista or later</returns>
+		public static bool IsVistaOrLater()
+		{
+			return IsLaterThan(_vistaMajor, _vistaMinor);
+		}
+
 		/// <summary>
 		/// Determine if we are running Windows 7 or later
 		/// </summary>
 		/// <returns>true if this is Windows 7 or later</returns>
 		public static bool IsWin7OrLater()
 		{
-			bool isWin7orLater = false;
+			return IsLaterThan(_win7Major, _win7Minor);
+		}
+
+		/// <summary>
+		/// Determine if we are running Windows 8 (or later)
+		/// </summary>
+		/// <returns>true if this is Windows 8 or later</returns>
+		public static bool IsWin8OrLater()
+		{
+			return IsLaterThan(_win8Major, _win8Minor);
+		}
+
+		static bool IsLaterThan(int major, int minor)
+		{
+			bool isLater = false;
 
 			System.OperatingSystem osInfo = System.Environment.OSVersion;
 
@@ -46,22 +84,21 @@ namespace DMT.Library
 				// 6.0 => Vista / 2008
 				// 6.1 => Win 7 / 2008 R2 / 2011
 				// 6.2 => Win 8 / 2012
-				if (osInfo.Version.Major == 6)
+				if (osInfo.Version.Major == major)
 				{
-					if (osInfo.Version.Minor >= 1)
+					if (osInfo.Version.Minor >= minor)
 					{
-						isWin7orLater = true;
+						isLater = true;
 					}
-					// TODO: what about future versions of Windows?
 				}
-				else if (osInfo.Version.Major > 6)
+				else if (osInfo.Version.Major > major)
 				{
-					isWin7orLater = true;
+					isLater = true;
 				}
-
 			}
 
-			return isWin7orLater;
+			return isLater;
+
 		}
 	}
 }

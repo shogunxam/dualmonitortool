@@ -18,7 +18,9 @@
 #endregion
 
 using DMT.Library;
+using DMT.Library.GuiUtils;
 using DMT.Library.HotKeys;
+using DMT.Library.PInvoke;
 using DMT.Resources;
 using System;
 using System.Collections.Generic;

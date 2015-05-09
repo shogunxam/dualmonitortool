@@ -23,7 +23,7 @@ using System.Text;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace DMT.Library
+namespace DMT.Library.Binding
 {
 	/// <summary>
 	/// Compares property values of 2 objects. 
