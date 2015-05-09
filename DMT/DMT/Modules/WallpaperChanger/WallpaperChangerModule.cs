@@ -23,6 +23,7 @@ using DMT.Library.Logging;
 using DMT.Library.Settings;
 using DMT.Library.Wallpaper;
 using DMT.Library.WallpaperPlugin;
+using DMT.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,7 +44,7 @@ namespace DMT.Modules.WallpaperChanger
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
 		ILogger _logger;
-		Form _appForm;
+		AppForm _appForm;
 
 		ILocalEnvironment _localEnvironment;
 		IProviderPersistence _providerPersistence;
@@ -56,6 +57,8 @@ namespace DMT.Modules.WallpaperChanger
 		System.Timers.Timer _timer;
 		bool _paused = false;
 		int _minutesSinceLastChange = 0;
+
+		ToolStripMenuItem _pauseToolStripMenuItem;
 
 		// hotkey to change wallpaper now
 		public HotKeyController ChangeWallpaperHotKeyController { get; protected set; }
@@ -110,7 +113,7 @@ namespace DMT.Modules.WallpaperChanger
 			set { MonitorMappingSetting.Value = (int)value; }
 		}
 
-		public WallpaperChangerModule(ISettingsService settingsService, IHotKeyService hotKeyService, Form appForm)
+		public WallpaperChangerModule(ISettingsService settingsService, IHotKeyService hotKeyService, AppForm appForm)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
@@ -162,6 +165,11 @@ namespace DMT.Modules.WallpaperChanger
 			_timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Tick);
 			_timer.AutoReset = true;
 			UpdateTimeToChange();
+
+			// add our menu items to the notifcation icon
+			_appForm.AddMenuItem(WallpaperStrings.ChangeWallpaperNow, null, changeWallpaperNowToolStripMenuItem_Click);
+			_pauseToolStripMenuItem = _appForm.AddMenuItem(WallpaperStrings.PauseWallpaperChanging, null, pauseWallpaperChangingToolStripMenuItem_Click);
+			_appForm.AddMenuItem("-", null, null);
 		}
 
 		public override void Terminate()
@@ -259,6 +267,21 @@ namespace DMT.Modules.WallpaperChanger
 				_imageRepository.DataSource.Remove(provider);
 			}
 			_imageRepository.Save();
+			UpdateTimeToChange();
+		}
+
+		void changeWallpaperNowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			UpdateWallpaper();
+		}
+
+		void pauseWallpaperChangingToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_paused = !_paused;
+			if (_pauseToolStripMenuItem != null)
+			{
+				_pauseToolStripMenuItem.Checked = _paused;
+			}
 			UpdateTimeToChange();
 		}
 

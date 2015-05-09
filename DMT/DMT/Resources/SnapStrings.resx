@@ -120,11 +120,19 @@
   <data name="DeleteConfirm" xml:space="preserve">
     <value>Are you sure you want to delate all {0} snaps?</value>
   </data>
+  <data name="ShowSnap" xml:space="preserve">
+    <value>Show Snap</value>
+    <comment>menuitem</comment>
+  </data>
   <data name="ShowSnapDescription" xml:space="preserve">
     <value>Toggle display of current snapshot</value>
   </data>
   <data name="SnapMenuItemTooltip" xml:space="preserve">
     <value>Click to show this image.</value>
+  </data>
+  <data name="SnapNow" xml:space="preserve">
+    <value>Snap!</value>
+    <comment>menuitem</comment>
   </data>
   <data name="TakeSnapDescription" xml:space="preserve">
     <value>Take a snapshot of the primary screen</value>

@@ -70,6 +70,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Snap.
+        /// </summary>
+        internal static string ShowSnap {
+            get {
+                return ResourceManager.GetString("ShowSnap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Toggle display of current snapshot.
         /// </summary>
         internal static string ShowSnapDescription {
@@ -84,6 +93,15 @@ namespace DMT.Resources {
         internal static string SnapMenuItemTooltip {
             get {
                 return ResourceManager.GetString("SnapMenuItemTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snap!.
+        /// </summary>
+        internal static string SnapNow {
+            get {
+                return ResourceManager.GetString("SnapNow", resourceCulture);
             }
         }
         

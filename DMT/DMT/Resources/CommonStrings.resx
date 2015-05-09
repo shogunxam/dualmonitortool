@@ -165,4 +165,8 @@ Try another hot key combination.</value>
     <value>Win</value>
     <comment>Used when displaying hotkeys</comment>
   </data>
+  <data name="License" xml:space="preserve">
+    <value>This program comes with ABSOLUTELY NO WARRANTY.
+This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
+  </data>
 </root>

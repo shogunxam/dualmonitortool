@@ -97,6 +97,16 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This program comes with ABSOLUTELY NO WARRANTY.
+        ///This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details..
+        /// </summary>
+        internal static string License {
+            get {
+                return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left Shift Key.
         /// </summary>
         internal static string LShiftKey {

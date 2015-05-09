@@ -42,6 +42,15 @@ namespace DMT
 			InitContextMenu();
 
 			StartController();
+
+			// finish off the menu
+			AddMenuItem("About", null, aboutToolStripMenuItem_Click);
+			AddMenuItem("Exit", null, exitToolStripMenuItem_Click);
+		}
+
+		public ToolStripMenuItem AddMenuItem(string text, Image image, EventHandler eventHandler)
+		{
+			return contextMenuStrip.Items.Add(text, image, eventHandler) as ToolStripMenuItem;
 		}
 
 		void StartController()

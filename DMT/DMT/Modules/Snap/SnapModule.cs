@@ -42,11 +42,12 @@ namespace DMT.Modules.Snap
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		AppForm _appForm;
 
 		SnapForm _snapForm = null;
 		public SnapHistory SnapHistory { get; protected set; }
 
-
+		ToolStripMenuItem _showSnapToolStripMenuItem;
 
 		// hot keys
 		public HotKeyController TakeSnapHotKeyController { get; protected set; }
@@ -67,10 +68,11 @@ namespace DMT.Modules.Snap
 			set { AutoShowSnapSetting.Value = value; }
 		}
 
-		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService)
+		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService, AppForm appForm)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
+			_appForm = appForm;
 
 			Start();
 		}
@@ -98,6 +100,11 @@ namespace DMT.Modules.Snap
 			SnapHistory = new SnapHistory(MaxSnaps);
 
 			GetSnapForm();
+
+			// add our menu items to the notifcation icon
+			_appForm.AddMenuItem(SnapStrings.SnapNow, null, snapNowToolStripMenuItem_Click);
+			_showSnapToolStripMenuItem = _appForm.AddMenuItem(SnapStrings.ShowSnap, null, showSnapToolStripMenuItem_Click);
+			_appForm.AddMenuItem("-", null, null);
 		}
 
 
@@ -176,14 +183,33 @@ namespace DMT.Modules.Snap
 				Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
 				SnapForm snapForm = GetSnapForm();
 				snapForm.ShowAt(secondaryScreen.Bounds);
+				if (_showSnapToolStripMenuItem != null)
+				{
+					_showSnapToolStripMenuItem.Checked = true;
+				}
 			}
 		}
 
-		private void HideLastSnap()
+		void HideLastSnap()
 		{
 			SnapForm snapForm = GetSnapForm();
 			snapForm.HideSnap();
+			if (_showSnapToolStripMenuItem != null)
+			{
+				_showSnapToolStripMenuItem.Checked = false;
+			}
 		}
+
+		void snapNowToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			TakeSnap();
+		}
+
+		void showSnapToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ToggleShowSnap();
+		}
+
 
 		SnapForm GetSnapForm()
 		{

@@ -120,6 +120,10 @@
   <data name="ActivateDescription" xml:space="preserve">
     <value>Activate Magic Word input</value>
   </data>
+  <data name="AddMagicWord" xml:space="preserve">
+    <value>Add New Magic Word...</value>
+    <comment>menuitem</comment>
+  </data>
   <data name="AddMagicWordDescription" xml:space="preserve">
     <value>Add Magic Word for current application</value>
   </data>
@@ -134,6 +138,10 @@
   </data>
   <data name="ConfirmDelAllMW" xml:space="preserve">
     <value>Are you sure you want to delete all MagicWords?</value>
+  </data>
+  <data name="EnterMagicWord" xml:space="preserve">
+    <value>Enter Magic Word...</value>
+    <comment>menuitem</comment>
   </data>
   <data name="InvalidCoOrd" xml:space="preserve">
     <value>Co-ordinate is not valid</value>

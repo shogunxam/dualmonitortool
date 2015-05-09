@@ -70,6 +70,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Wallpaper Now.
+        /// </summary>
+        internal static string ChangeWallpaperNow {
+            get {
+                return ResourceManager.GetString("ChangeWallpaperNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete &apos;{0}&apos;?.
         /// </summary>
         internal static string ConfirmDelProvider {
@@ -138,6 +147,15 @@ namespace DMT.Resources {
         internal static string OverStretch1 {
             get {
                 return ResourceManager.GetString("OverStretch1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pause Wallpaper Changing.
+        /// </summary>
+        internal static string PauseWallpaperChanging {
+            get {
+                return ResourceManager.GetString("PauseWallpaperChanging", resourceCulture);
             }
         }
         

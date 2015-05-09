@@ -548,6 +548,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\dual_96_48.png" />
     <None Include="Resources\PluginImage2.bmp" />
     <None Include="Resources\PluginImage1.bmp" />
     <None Include="Resources\DualWallpaperChanger_48_24.png" />

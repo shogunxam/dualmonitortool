@@ -70,6 +70,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add New Magic Word....
+        /// </summary>
+        internal static string AddMagicWord {
+            get {
+                return ResourceManager.GetString("AddMagicWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Magic Word for current application.
         /// </summary>
         internal static string AddMagicWordDescription {
@@ -111,6 +120,15 @@ namespace DMT.Resources {
         internal static string ConfirmDelAllMW {
             get {
                 return ResourceManager.GetString("ConfirmDelAllMW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Magic Word....
+        /// </summary>
+        internal static string EnterMagicWord {
+            get {
+                return ResourceManager.GetString("EnterMagicWord", resourceCulture);
             }
         }
         

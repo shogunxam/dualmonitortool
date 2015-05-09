@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library.HotKeys;
+using DMT.Library.PInvoke;
 using DMT.Library.Settings;
 using DMT.Library.Utils;
 using DMT.Resources;
@@ -38,7 +39,7 @@ namespace DMT.Modules.Launcher
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
-		Form _appForm;
+		AppForm _appForm;
 		StartupHandler _startupHandler;
 
 		MagicWords _magicWords = null;
@@ -125,7 +126,7 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, Form appForm)
+		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, AppForm appForm)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
@@ -166,6 +167,13 @@ namespace DMT.Modules.Launcher
 			Position2KeySetting = new UIntSetting(_settingsService, _moduleName, "Position2Key", (uint)Keys.F2);
 			Position3KeySetting = new UIntSetting(_settingsService, _moduleName, "Position3Key", (uint)Keys.F3);
 			Position4KeySetting = new UIntSetting(_settingsService, _moduleName, "Position4Key", (uint)Keys.F4);
+
+
+			// add our menu items to the notifcation icon
+			_appForm.AddMenuItem(LauncherStrings.EnterMagicWord, null, enterMagicWordToolStripMenuItem_Click);
+			_appForm.AddMenuItem(LauncherStrings.AddMagicWord, null, addMagicWordToolStripMenuItem_Click);
+			_appForm.AddMenuItem("-", null, null);
+
 
 			if (true)
 			{
@@ -210,17 +218,56 @@ namespace DMT.Modules.Launcher
 			return _hotKeyService.CreateHotKeyController(_moduleName, settingName, description, win7Key, handler);
 		}
 
+		void enterMagicWordToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			ShowEntryForm();
+		}
+
+		void addMagicWordToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			AddNewMagicWord(new MagicWord());
+		}
+
+		void AddNewMagicWordForActiveWindow()
+		{
+			MagicWord newMagicWord = new MagicWord();
+			// get the active window
+			IntPtr hWnd = Win32.GetForegroundWindow();
+
+			if (hWnd != IntPtr.Zero)
+			{
+				// use details from the active window to prefill a new MagicWord
+				MagicWordForm.GetWindowDetails(hWnd, newMagicWord);
+			}
+			AddNewMagicWord(newMagicWord);
+		}
+
+		private void AddNewMagicWord(MagicWord newMagicWord)
+		{
+			// let the user edit the details
+
+			// need to activate, or the MagicWordForm will be hidden under whatever was the active window
+			GetEntryForm().Activate();
+			MagicWordForm dlg = new MagicWordForm(this, newMagicWord);
+			if (dlg.ShowDialog() == DialogResult.OK)
+			{
+				// user wants this word, so insert it
+				MagicWords.Insert(newMagicWord);
+			}
+		}
+
 		void ShowEntryForm()
+		{
+			GetEntryForm().ShowEntryForm();
+		}
+
+		EntryForm GetEntryForm()
 		{
 			if (_entryForm == null)
 			{
 				_entryForm = new EntryForm(this);
 			}
-			_entryForm.ShowEntryForm();
-		}
-
-		void AddNewMagicWordForActiveWindow()
-		{
+			return _entryForm;
 		}
 
 		MagicWords GetMagicWords()

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DMT")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Dual Monitor Tools")]
+[assembly: AssemblyDescription("Tools for users with dual/multi monitor setups.\r\n\r\nThis program incorporates the features previously provided by SwapScreen, DualLauncher, DualSnap and DualWallpaperChanger.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DMT")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("GNE")]
+[assembly: AssemblyProduct("Dual Monitor Tools")]
+[assembly: AssemblyCopyright("Copyright © 2015 Gerald Evans")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

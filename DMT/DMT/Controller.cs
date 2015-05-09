@@ -31,12 +31,12 @@ namespace DMT
 {
 	class Controller
 	{
-		Form _appForm;
+		AppForm _appForm;
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
 		IModuleService _moduleService;
 
-		public Controller(Form appForm)
+		public Controller(AppForm appForm)
 		{
 			_appForm = appForm;
 		}
@@ -51,7 +51,7 @@ namespace DMT
 			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService));
 			_moduleService.AddModule(new DMT.Modules.Cursor.CursorModule(_settingsService, _hotKeyService));
 			_moduleService.AddModule(new DMT.Modules.Launcher.LauncherModule(_settingsService, _hotKeyService, _appForm));
-			_moduleService.AddModule(new DMT.Modules.Snap.SnapModule(_settingsService, _hotKeyService));
+			_moduleService.AddModule(new DMT.Modules.Snap.SnapModule(_settingsService, _hotKeyService, _appForm));
 			_moduleService.AddModule(new DMT.Modules.SwapScreen.SwapScreenModule(_settingsService, _hotKeyService));
 			_moduleService.AddModule(new DMT.Modules.WallpaperChanger.WallpaperChangerModule(_settingsService, _hotKeyService, _appForm));
 		}

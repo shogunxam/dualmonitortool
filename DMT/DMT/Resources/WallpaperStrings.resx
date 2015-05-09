@@ -120,6 +120,10 @@
   <data name="Center" xml:space="preserve">
     <value>Center image without any stretching</value>
   </data>
+  <data name="ChangeWallpaperNow" xml:space="preserve">
+    <value>Change Wallpaper Now</value>
+    <comment>Context menu item</comment>
+  </data>
   <data name="ConfirmDelProvider" xml:space="preserve">
     <value>Are you sure you want to delete '{0}'?</value>
   </data>
@@ -143,6 +147,10 @@
   </data>
   <data name="OverStretch1" xml:space="preserve">
     <value>Over stretch to cover the monitor(s)</value>
+  </data>
+  <data name="PauseWallpaperChanging" xml:space="preserve">
+    <value>Pause Wallpaper Changing</value>
+    <comment>Context menu item</comment>
   </data>
   <data name="PleaseSelectProvider" xml:space="preserve">
     <value>Please select an image provider</value>
