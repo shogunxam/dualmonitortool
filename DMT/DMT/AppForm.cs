@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,6 +46,8 @@ namespace DMT
 
 			// finish off the menu
 			AddMenuItem("About", null, aboutToolStripMenuItem_Click);
+			AddMenuItem("VisitWebSite", null, visitWebSiteToolStripMenuItem_Click);
+			AddMenuItem("-", null, null);
 			AddMenuItem("Exit", null, exitToolStripMenuItem_Click);
 		}
 
@@ -67,6 +70,11 @@ namespace DMT
 		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ShowAbout();
+		}
+
+		private void visitWebSiteToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			VisitWebsite();
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -100,6 +108,18 @@ namespace DMT
 				//_optionsForm = new OptionsForm();
 				_optionsForm = _controller.CreateOptionsForm();
 				_optionsForm.ShowDialog();
+			}
+		}
+
+		void VisitWebsite()
+		{
+			try
+			{
+				System.Diagnostics.Process.Start("http://dualmonitortool.sourceforge.net");
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, CommonStrings.MyTitle);
 			}
 		}
 
