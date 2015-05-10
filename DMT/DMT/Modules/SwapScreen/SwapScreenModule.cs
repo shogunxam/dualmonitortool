@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DMT.Library.GuiUtils;
+using DMT.Library.Logging;
 
 namespace DMT.Modules.SwapScreen
 {
@@ -36,6 +37,7 @@ namespace DMT.Modules.SwapScreen
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		ILogger _logger;
 
 		// Active Window
 		public HotKeyController NextScreenHotKeyController { get; protected set; }
@@ -63,10 +65,11 @@ namespace DMT.Modules.SwapScreen
 		public HotKeyController ShowDesktop4HotKeyController { get; protected set; }
 
 
-		public SwapScreenModule(ISettingsService settingsService, IHotKeyService hotKeyService)
+		public SwapScreenModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
+			_logger = logger;
 
 			Start();
 		}

@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library.HotKeys;
+using DMT.Library.Logging;
 using DMT.Library.PInvoke;
 using DMT.Library.Settings;
 using DMT.Library.Utils;
@@ -39,6 +40,7 @@ namespace DMT.Modules.Launcher
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		ILogger _logger;
 		AppForm _appForm;
 		StartupHandler _startupHandler;
 
@@ -126,11 +128,12 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, AppForm appForm)
+		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
 			_appForm = appForm;
+			_logger = logger;
 
 			Start();
 		}

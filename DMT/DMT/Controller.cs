@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DMT.Library.Logging;
 
 namespace DMT
 {
@@ -35,6 +36,7 @@ namespace DMT
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
 		IModuleService _moduleService;
+		ILogger _logger;
 
 		public Controller(AppForm appForm)
 		{
@@ -46,14 +48,15 @@ namespace DMT
 			_settingsService = new SettingsRepository();
 			_hotKeyService = new HotKeyRepository(_appForm, _settingsService);
 			_moduleService = new ModuleRepository();
+			_logger = new Logger();
 
 			// now add the modules
-			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService));
-			_moduleService.AddModule(new DMT.Modules.Cursor.CursorModule(_settingsService, _hotKeyService));
-			_moduleService.AddModule(new DMT.Modules.Launcher.LauncherModule(_settingsService, _hotKeyService, _appForm));
-			_moduleService.AddModule(new DMT.Modules.Snap.SnapModule(_settingsService, _hotKeyService, _appForm));
-			_moduleService.AddModule(new DMT.Modules.SwapScreen.SwapScreenModule(_settingsService, _hotKeyService));
-			_moduleService.AddModule(new DMT.Modules.WallpaperChanger.WallpaperChangerModule(_settingsService, _hotKeyService, _appForm));
+			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService, _logger));
+			_moduleService.AddModule(new DMT.Modules.Cursor.CursorModule(_settingsService, _hotKeyService, _logger));
+			_moduleService.AddModule(new DMT.Modules.Launcher.LauncherModule(_settingsService, _hotKeyService, _logger, _appForm));
+			_moduleService.AddModule(new DMT.Modules.Snap.SnapModule(_settingsService, _hotKeyService, _logger, _appForm));
+			_moduleService.AddModule(new DMT.Modules.SwapScreen.SwapScreenModule(_settingsService, _hotKeyService, _logger));
+			_moduleService.AddModule(new DMT.Modules.WallpaperChanger.WallpaperChangerModule(_settingsService, _hotKeyService, _logger, _appForm));
 		}
 
 		public void Stop()

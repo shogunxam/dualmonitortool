@@ -1,5 +1,6 @@
 ﻿using DMT.Library.GuiUtils;
 using DMT.Library.HotKeys;
+using DMT.Library.Logging;
 using DMT.Library.PInvoke;
 using DMT.Library.Settings;
 using DMT.Library.Transform;
@@ -22,6 +23,7 @@ namespace DMT.Modules.Cursor
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		ILogger _logger;
 
 		public HotKeyController FreeCursorHotKeyController { get; protected set; }
 		public HotKeyController StickyCursorHotKeyController { get; protected set; }
@@ -106,11 +108,11 @@ namespace DMT.Modules.Cursor
 		}
 
 
-		public CursorModule(ISettingsService settingsService, IHotKeyService hotKeyService)
+		public CursorModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
-
+			_logger = logger;
 
 			llMouseProc = llMouseHookCallback;
 			llKeyboardProc = llKeyboardHookCallback;

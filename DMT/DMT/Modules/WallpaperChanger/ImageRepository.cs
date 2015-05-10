@@ -143,7 +143,7 @@ namespace DMT.Modules.WallpaperChanger
 			if (provider == null)
 			{
 				// shouldn't happen
-				_logger.LogMessage("ImageRepository", "null provider found");
+				_logger.LogError("ImageRepository", "null provider found");
 				return null;
 			}
 

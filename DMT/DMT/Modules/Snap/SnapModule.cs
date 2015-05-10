@@ -20,6 +20,7 @@
 using DMT.Library;
 using DMT.Library.GuiUtils;
 using DMT.Library.HotKeys;
+using DMT.Library.Logging;
 using DMT.Library.Settings;
 using DMT.Resources;
 using System;
@@ -42,6 +43,7 @@ namespace DMT.Modules.Snap
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		ILogger _logger;
 		AppForm _appForm;
 
 		SnapForm _snapForm = null;
@@ -68,13 +70,16 @@ namespace DMT.Modules.Snap
 			set { AutoShowSnapSetting.Value = value; }
 		}
 
-		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService, AppForm appForm)
+		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
+			_logger = logger;
 			_appForm = appForm;
 
 			Start();
+
+			_logger.LogInfo(_moduleName, "Snap started");
 		}
 
 		public override void Terminate()

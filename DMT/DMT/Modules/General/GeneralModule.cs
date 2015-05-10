@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library.HotKeys;
+using DMT.Library.Logging;
 using DMT.Library.Settings;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace DMT.Modules.General
 
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		ILogger _logger;
 
 		public bool StartWhenWindowsStarts
 		{
@@ -55,10 +57,11 @@ namespace DMT.Modules.General
 			}
 		}
 
-		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService)
+		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
 		{
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
+			_logger = logger;
 		}
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
