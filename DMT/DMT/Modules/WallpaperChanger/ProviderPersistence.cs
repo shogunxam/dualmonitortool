@@ -19,6 +19,7 @@
 
 using DMT.Library.Environment;
 using DMT.Library.Settings;
+using DMT.Library.Utils;
 using DMT.Library.Wallpaper;
 using DMT.Library.WallpaperPlugin;
 using System;
@@ -78,11 +79,14 @@ namespace DMT.Modules.WallpaperChanger
 		public void Save(Collection<IImageProvider> providers)
 		{
 			string filename = GetFullFilename();
-			using (Stream stream = File.Open(filename, FileMode.Create))
+
+			SafeFileWriter newFile = new SafeFileWriter(filename);
+			using (Stream stream = newFile.OpenForWriting())
 			{
 				ProviderWriter writer = new ProviderWriter();
 				writer.Write(providers, stream);
 			}
+			newFile.CompleteWrite();
 		}
 
 		string GetFullFilename()
