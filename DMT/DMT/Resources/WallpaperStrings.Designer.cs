@@ -70,6 +70,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Wallpaper.
+        /// </summary>
+        internal static string ChangeWallpaperDescription {
+            get {
+                return ResourceManager.GetString("ChangeWallpaperDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Wallpaper Now.
         /// </summary>
         internal static string ChangeWallpaperNow {

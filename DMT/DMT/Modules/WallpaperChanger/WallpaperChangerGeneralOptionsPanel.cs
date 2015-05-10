@@ -27,6 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMT.Library.Wallpaper;
+using DMT.Library.HotKeys;
 
 namespace DMT.Modules.WallpaperChanger
 {
@@ -39,6 +40,8 @@ namespace DMT.Modules.WallpaperChanger
 			_wallpaperChangerModule = wallpaperChangerModule;
 
 			InitializeComponent();
+
+			SetupHotKeys();
 		}
 
 		private void WallpaperChangerGeneralOptionsPanel_Load(object sender, EventArgs e)
@@ -106,6 +109,16 @@ namespace DMT.Modules.WallpaperChanger
 				// select first item
 				comboBoxMultiMonitor.SelectedIndex = 0;
 			}
+		}
+
+		void SetupHotKeys()
+		{
+			SetupHotKey(hotKeyPanelChangeWallpaper, _wallpaperChangerModule.ChangeWallpaperHotKeyController);
+		}
+
+		void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
+		{
+			hotKeyPanel.SetHotKeyController(hotKeyController);
 		}
 
 		private void checkBoxChangeOnStart_CheckedChanged(object sender, EventArgs e)

@@ -43,14 +43,17 @@
 			this.numericUpDownHours = new System.Windows.Forms.NumericUpDown();
 			this.labelPeriod1 = new System.Windows.Forms.Label();
 			this.checkBoxChangeOnStart = new System.Windows.Forms.CheckBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.hotKeyPanelChangeWallpaper = new DMT.Library.HotKeys.HotKeyPanel();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBackgroundColour)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// labelNextChange
 			// 
-			this.labelNextChange.Location = new System.Drawing.Point(161, 204);
+			this.labelNextChange.Location = new System.Drawing.Point(161, 234);
 			this.labelNextChange.Name = "labelNextChange";
 			this.labelNextChange.Size = new System.Drawing.Size(329, 13);
 			this.labelNextChange.TabIndex = 29;
@@ -58,7 +61,7 @@
 			// 
 			// buttonChangeWallpaper
 			// 
-			this.buttonChangeWallpaper.Location = new System.Drawing.Point(10, 199);
+			this.buttonChangeWallpaper.Location = new System.Drawing.Point(10, 229);
 			this.buttonChangeWallpaper.Name = "buttonChangeWallpaper";
 			this.buttonChangeWallpaper.Size = new System.Drawing.Size(145, 23);
 			this.buttonChangeWallpaper.TabIndex = 27;
@@ -199,10 +202,29 @@
 			this.checkBoxChangeOnStart.UseVisualStyleBackColor = true;
 			this.checkBoxChangeOnStart.CheckedChanged += new System.EventHandler(this.checkBoxChangeOnStart_CheckedChanged);
 			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.hotKeyPanelChangeWallpaper);
+			this.groupBox1.Location = new System.Drawing.Point(10, 167);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(480, 56);
+			this.groupBox1.TabIndex = 30;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "HotKey";
+			// 
+			// hotKeyPanelChangeWallpaper
+			// 
+			this.hotKeyPanelChangeWallpaper.Description = "Description";
+			this.hotKeyPanelChangeWallpaper.Location = new System.Drawing.Point(6, 19);
+			this.hotKeyPanelChangeWallpaper.Name = "hotKeyPanelChangeWallpaper";
+			this.hotKeyPanelChangeWallpaper.Size = new System.Drawing.Size(465, 23);
+			this.hotKeyPanelChangeWallpaper.TabIndex = 1;
+			// 
 			// WallpaperChangerGeneralOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.labelNextChange);
 			this.Controls.Add(this.buttonChangeWallpaper);
 			this.Controls.Add(this.pictureBoxBackgroundColour);
@@ -224,6 +246,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBackgroundColour)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).EndInit();
+			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -246,5 +269,7 @@
 		private System.Windows.Forms.NumericUpDown numericUpDownHours;
 		private System.Windows.Forms.Label labelPeriod1;
 		private System.Windows.Forms.CheckBox checkBoxChangeOnStart;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private Library.HotKeys.HotKeyPanel hotKeyPanelChangeWallpaper;
 	}
 }

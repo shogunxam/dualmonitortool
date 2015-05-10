@@ -141,8 +141,8 @@ namespace DMT.Modules.WallpaperChanger
 
 		void Start()
 		{
-			//// hot keys
-			//ChangeWallpaperHotKeyController = CreateHotKeyController("ChangeWallpaperHotKey", WallpaperChangerStrings.ChangeWallpaperDescription, "", ChangeWallpaper);
+			// hot keys
+			ChangeWallpaperHotKeyController = CreateHotKeyController("ChangeWallpaperHotKey", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
 
 
 			// settings
@@ -268,6 +268,11 @@ namespace DMT.Modules.WallpaperChanger
 			}
 			_imageRepository.Save();
 			UpdateTimeToChange();
+		}
+
+		HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
+		{
+			return _hotKeyService.CreateHotKeyController(_moduleName, settingName, description, win7Key, handler);
 		}
 
 		void changeWallpaperNowToolStripMenuItem_Click(object sender, EventArgs e)

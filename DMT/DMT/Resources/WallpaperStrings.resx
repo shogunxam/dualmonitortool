@@ -120,6 +120,10 @@
   <data name="Center" xml:space="preserve">
     <value>Center image without any stretching</value>
   </data>
+  <data name="ChangeWallpaperDescription" xml:space="preserve">
+    <value>Change Wallpaper</value>
+    <comment>hotkey</comment>
+  </data>
   <data name="ChangeWallpaperNow" xml:space="preserve">
     <value>Change Wallpaper Now</value>
     <comment>Context menu item</comment>
