@@ -97,7 +97,6 @@ namespace DMT
 				{
 					ModuleOptionNodeBranch optionBranch = optionNode as ModuleOptionNodeBranch;
 					TreeNode newTreeNode = treeNodes.Add(optionBranch.Name);
-					// GNE - test
 					newTreeNode.Tag = optionBranch.OptionPanel;
 					AddOptionNodes(optionBranch.Nodes, newTreeNode.Nodes);
 				}

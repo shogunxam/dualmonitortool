@@ -140,6 +140,21 @@
   <data name="ManyToManyInSequence" xml:space="preserve">
     <value>Different image on each monitor (only one changed at a time)</value>
   </data>
+  <data name="MsgIsPaused" xml:space="preserve">
+    <value>Wallpaper changing is paused</value>
+  </data>
+  <data name="MsgNoChanging" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MsgNoProviders" xml:space="preserve">
+    <value>No providers have beed added.  Use the 'Providers' tab to add providers.</value>
+  </data>
+  <data name="MsgTimeToChange1" xml:space="preserve">
+    <value>Next change in under {0} minute</value>
+  </data>
+  <data name="MsgTimeToChange2" xml:space="preserve">
+    <value>Next change in under {0} minutes</value>
+  </data>
   <data name="OneToMany" xml:space="preserve">
     <value>Same image on each monitor</value>
   </data>

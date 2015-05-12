@@ -138,6 +138,11 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
+		private void buttonOptions_Click(object sender, EventArgs e)
+		{
+			_launcherModule.ShowOptions();
+		}
+
 		// This is used to restore the entry forms position to its last known position
 		void SetStartupPosition()
 		{

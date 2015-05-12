@@ -124,6 +124,51 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wallpaper changing is paused.
+        /// </summary>
+        internal static string MsgIsPaused {
+            get {
+                return ResourceManager.GetString("MsgIsPaused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string MsgNoChanging {
+            get {
+                return ResourceManager.GetString("MsgNoChanging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No providers have beed added.  Use the &apos;Providers&apos; tab to add providers..
+        /// </summary>
+        internal static string MsgNoProviders {
+            get {
+                return ResourceManager.GetString("MsgNoProviders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next change in under {0} minute.
+        /// </summary>
+        internal static string MsgTimeToChange1 {
+            get {
+                return ResourceManager.GetString("MsgTimeToChange1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next change in under {0} minutes.
+        /// </summary>
+        internal static string MsgTimeToChange2 {
+            get {
+                return ResourceManager.GetString("MsgTimeToChange2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Same image on each monitor.
         /// </summary>
         internal static string OneToMany {

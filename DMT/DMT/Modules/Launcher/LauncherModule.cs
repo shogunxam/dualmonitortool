@@ -150,6 +150,12 @@ namespace DMT.Modules.Launcher
 			return options;
 		}
 
+		public void ShowOptions()
+		{
+			// TODO: would be nicer if it opened on the launcher root page
+			_appForm.ShowOptions();
+		}
+
 		void Start()
 		{
 			// this handles the actual starting up of applications and moving their windows

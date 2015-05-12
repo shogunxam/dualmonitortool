@@ -97,7 +97,7 @@ namespace DMT
 			ShowOptions();
 		}
 
-		void ShowOptions()
+		public void ShowOptions()
 		{
 			if (_optionsForm != null && _optionsForm.Visible)
 			{

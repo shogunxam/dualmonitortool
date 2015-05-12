@@ -58,6 +58,8 @@ namespace DMT.Modules.WallpaperChanger
 		bool _paused = false;
 		int _minutesSinceLastChange = 0;
 
+		WallpaperChangerGeneralOptionsPanel _generalOptionsPanel;
+
 		ToolStripMenuItem _pauseToolStripMenuItem;
 
 		// hotkey to change wallpaper now
@@ -134,7 +136,8 @@ namespace DMT.Modules.WallpaperChanger
 		public override ModuleOptionNode GetOptionNodes()
 		{
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Wallpaper Changer", new WallpaperChangerRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new WallpaperChangerGeneralOptionsPanel(this)));
+			_generalOptionsPanel = new WallpaperChangerGeneralOptionsPanel(this);
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", _generalOptionsPanel));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Providers", new WallpaperChangerProvidersOptionsPanel(this)));
 
 			return options;
@@ -149,9 +152,9 @@ namespace DMT.Modules.WallpaperChanger
 			// settings
 			IntervalHoursSetting = new IntSetting(_settingsService, _moduleName, "IntervalHours", _defaultIntervalHours);
 			IntervalMinutesSetting = new IntSetting(_settingsService, _moduleName, "IntervalMinutes", _defaultIntervalMinutes);
-			ChangeOnStartupSetting = new BoolSetting(_settingsService, _moduleName, "ChangeOnStartup", true);
-			ChangePeriodicallySetting = new BoolSetting(_settingsService, _moduleName, "ChangePeriodically", true);
-			BackgroundColourSetting = new IntSetting(_settingsService, _moduleName, "BackgroundColour", 0);
+			ChangeOnStartupSetting = new BoolSetting(_settingsService, _moduleName, "ChangeOnStartup", false);
+			ChangePeriodicallySetting = new BoolSetting(_settingsService, _moduleName, "ChangePeriodically", false);
+			BackgroundColourSetting = new IntSetting(_settingsService, _moduleName, "BackgroundColour", Color.Black.ToArgb());
 			FitSetting = new IntSetting(_settingsService, _moduleName, "Fit", (int)StretchType.Fit.OverStretch);
 			MonitorMappingSetting = new IntSetting(_settingsService, _moduleName, "MonitorMapping", (int)SwitchType.ImageToMonitorMapping.OneToOneBig);
 
@@ -165,6 +168,7 @@ namespace DMT.Modules.WallpaperChanger
 			_timer.SynchronizingObject = _appForm;
 			_timer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Tick);
 			_timer.AutoReset = true;
+			_timer.Enabled = true;
 			UpdateTimeToChange();
 
 			// add our menu items to the notifcation icon
@@ -207,6 +211,8 @@ namespace DMT.Modules.WallpaperChanger
 		public void UpdateWallpaper()
 		{
 			_desktop.UpdateWallpaper();
+			_minutesSinceLastChange = 0;
+			UpdateTimeToChange();
 		}
 
 		/// <summary>
@@ -309,9 +315,41 @@ namespace DMT.Modules.WallpaperChanger
 			}
 		}
 
-		void UpdateTimeToChange()
+		public void UpdateTimeToChange()
 		{
-			// TODO
+			string msgText;
+			Color msgColor = SystemColors.ControlText;
+
+			if (_imageRepository.DataSource.Count == 0)
+			{
+				msgText = WallpaperStrings.MsgNoProviders;
+				msgColor = Color.Red;
+			}
+			else if (_paused)
+			{
+				msgText = WallpaperStrings.MsgIsPaused;
+			}
+			else if (ChangePeriodically)
+			{
+				int period = GetMinutesBetweenChanges();
+				int timeLeft = period - _minutesSinceLastChange;
+				// never want to report less than 0 minutes
+				if (timeLeft < 1)
+				{
+					timeLeft = 1;
+				}
+				string formatString = (timeLeft <= 1) ? WallpaperStrings.MsgTimeToChange1 : WallpaperStrings.MsgTimeToChange2;
+				msgText = string.Format(formatString, timeLeft);
+			}
+			else
+			{
+				msgText = WallpaperStrings.MsgNoChanging;
+			}
+
+			if (_generalOptionsPanel != null)
+			{
+				_generalOptionsPanel.ShowNextChange(msgText, msgColor);
+			}
 		}
 
 		int GetMinutesBetweenChanges()

@@ -44,6 +44,15 @@ namespace DMT.Modules.WallpaperChanger
 			SetupHotKeys();
 		}
 
+		public void ShowNextChange(string nextChangeMsg, Color foreColor)
+		{
+			if (labelNextChange != null)
+			{
+				labelNextChange.Text = nextChangeMsg;
+				labelNextChange.ForeColor = ForeColor;
+			}
+		}
+
 		private void WallpaperChangerGeneralOptionsPanel_Load(object sender, EventArgs e)
 		{
 			checkBoxChangeOnStart.Checked = _wallpaperChangerModule.ChangeOnStartup;
@@ -55,6 +64,9 @@ namespace DMT.Modules.WallpaperChanger
 			FillMonitorMappingComboBox();
 
 			pictureBoxBackgroundColour.BackColor = _wallpaperChangerModule.BackgroundColour;
+
+			// ask the module to update time to next change
+			_wallpaperChangerModule.UpdateTimeToChange();
 		}
 
 		/// <summary>

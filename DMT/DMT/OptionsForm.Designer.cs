@@ -76,7 +76,10 @@
 			this.Controls.Add(this.panelPlaceholder);
 			this.Controls.Add(this.treeViewOptions);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Options for Dual Monitor Tools";
 			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.SizeChanged += new System.EventHandler(this.OptionsForm_SizeChanged);

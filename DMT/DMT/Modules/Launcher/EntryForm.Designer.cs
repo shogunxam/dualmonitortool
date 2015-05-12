@@ -65,6 +65,7 @@
 			this.buttonOptions.Size = new System.Drawing.Size(24, 24);
 			this.buttonOptions.TabIndex = 4;
 			this.buttonOptions.UseVisualStyleBackColor = true;
+			this.buttonOptions.Click += new System.EventHandler(this.buttonOptions_Click);
 			// 
 			// magicWordListBox
 			// 
