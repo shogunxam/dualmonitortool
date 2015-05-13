@@ -43,6 +43,7 @@ namespace DMT.Modules.Launcher
 		private void LauncherImportOptionsPanel_Load(object sender, EventArgs e)
 		{
 			checkBoxMru.Checked = _launcherModule.UseMru;
+			checkBoxLoadWordsOnStartup.Checked = _launcherModule.LoadWordsOnStartup;
 			numericUpDownIcons.Value = (decimal)_launcherModule.MaxIcons;
 
 			if (_launcherModule.IconView == View.Details)
@@ -64,6 +65,11 @@ namespace DMT.Modules.Launcher
 		private void checkBoxMru_CheckedChanged(object sender, EventArgs e)
 		{
 			_launcherModule.UseMru = checkBoxMru.Checked;
+		}
+
+		private void checkBoxLoadWordsOnStartup_CheckedChanged(object sender, EventArgs e)
+		{
+			_launcherModule.LoadWordsOnStartup = checkBoxLoadWordsOnStartup.Checked;
 		}
 
 		private void numericUpDownIcons_ValueChanged(object sender, EventArgs e)

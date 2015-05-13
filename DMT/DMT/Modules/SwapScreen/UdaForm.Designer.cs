@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UdaForm));
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.keyComboPanel = new DMT.Library.HotKeys.KeyComboPanel();
 			this.checkBoxEnable = new System.Windows.Forms.CheckBox();
@@ -212,6 +213,7 @@
 			this.Controls.Add(this.labelName);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOK);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "UdaForm";

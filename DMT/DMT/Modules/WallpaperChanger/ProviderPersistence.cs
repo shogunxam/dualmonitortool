@@ -91,7 +91,7 @@ namespace DMT.Modules.WallpaperChanger
 
 		string GetFullFilename()
 		{
-			return DataLocations.Instance.WallpaperProvidersFilename;
+			return FileLocations.Instance.WallpaperProvidersFilename;
 		}
 	}
 }

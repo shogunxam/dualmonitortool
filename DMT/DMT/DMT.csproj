@@ -384,7 +384,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SwapScreenStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Library\Settings\DataLocations.cs" />
+    <Compile Include="Library\Settings\FileLocations.cs" />
     <Compile Include="Library\Settings\ISettingsService.cs" />
     <Compile Include="Library\Settings\SettingsReader.cs" />
     <Compile Include="Library\Settings\SettingsRepository.cs" />
@@ -548,7 +548,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DMT.ico" />
     <None Include="Resources\dual_96_48.png" />
     <None Include="Resources\PluginImage2.bmp" />
     <None Include="Resources\PluginImage1.bmp" />
@@ -564,7 +563,9 @@
     <None Include="Resources\WinCrossHairs.png" />
     <None Include="Resources\TargetCursor.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DMT.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

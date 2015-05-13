@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RandomShapesForm));
 			this.pictureBox = new System.Windows.Forms.PictureBox();
 			this.checkBoxRectangles = new System.Windows.Forms.CheckBox();
 			this.checkBoxEllipses = new System.Windows.Forms.CheckBox();
@@ -238,6 +239,7 @@
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "RandomShapesForm";
 			this.Text = "RandomShapesForm";
 			this.Load += new System.EventHandler(this.RandomShapesForm_Load);

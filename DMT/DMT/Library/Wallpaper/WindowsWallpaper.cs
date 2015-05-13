@@ -29,6 +29,7 @@ using Microsoft.Win32;
 using DMT.Library.Environment;
 using DMT.Library.PInvoke;
 using DMT.Resources;
+using DMT.Library.Settings;
 
 
 namespace DMT.Library.Wallpaper
@@ -100,9 +101,9 @@ namespace DMT.Library.Wallpaper
 
 		private void SetWallpaper(Image wallpaper)
 		{
-			//string dir = Program.MyAppDataDir;
-			string dir = _localEnvironment.AppDataDir;
-			string path = Path.Combine(dir, "DualWallpaperChanger.bmp");
+			//string dir = _localEnvironment.AppDataDir;
+			//string path = Path.Combine(dir, "DualWallpaperChanger.bmp");
+			string path = FileLocations.Instance.WallpaperFilename;
 
 			try
 			{

@@ -46,7 +46,7 @@ namespace DMT
 
 			// finish off the menu
 			AddMenuItem("About", null, aboutToolStripMenuItem_Click);
-			AddMenuItem("VisitWebSite", null, visitWebSiteToolStripMenuItem_Click);
+			AddMenuItem("Visit Website", null, visitWebSiteToolStripMenuItem_Click);
 			AddMenuItem("-", null, null);
 			AddMenuItem("Exit", null, exitToolStripMenuItem_Click);
 		}

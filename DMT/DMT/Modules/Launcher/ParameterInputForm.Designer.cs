@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParameterInputForm));
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.textBoxParameter = new System.Windows.Forms.TextBox();
 			this.labelPrompt = new System.Windows.Forms.Label();
@@ -71,6 +72,7 @@
 			this.Controls.Add(this.buttonOK);
 			this.Controls.Add(this.textBoxParameter);
 			this.Controls.Add(this.labelPrompt);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ParameterInputForm";

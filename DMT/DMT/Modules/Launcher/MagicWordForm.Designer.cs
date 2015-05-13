@@ -458,6 +458,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBoxAlias);
 			this.Controls.Add(this.label1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MagicWordForm";
 			this.Text = "MagicWordForm";
 			this.Load += new System.EventHandler(this.MagicWordForm_Load);

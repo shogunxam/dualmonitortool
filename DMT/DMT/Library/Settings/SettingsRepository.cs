@@ -139,7 +139,7 @@ namespace DMT.Library.Settings
 
 		string GetSettingsFilename()
 		{
-			return DataLocations.Instance.SettingsFilename;
+			return FileLocations.Instance.SettingsFilename;
 
 		}
 

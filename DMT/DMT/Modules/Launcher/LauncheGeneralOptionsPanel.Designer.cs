@@ -38,6 +38,7 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.numericUpDownIcons = new System.Windows.Forms.NumericUpDown();
 			this.checkBoxMru = new System.Windows.Forms.CheckBox();
+			this.checkBoxLoadWordsOnStartup = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).BeginInit();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownIcons)).BeginInit();
@@ -46,7 +47,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(284, 165);
+			this.label6.Location = new System.Drawing.Point(291, 210);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(47, 13);
 			this.label6.TabIndex = 14;
@@ -54,7 +55,7 @@
 			// 
 			// numericUpDownTimeout
 			// 
-			this.numericUpDownTimeout.Location = new System.Drawing.Point(214, 163);
+			this.numericUpDownTimeout.Location = new System.Drawing.Point(221, 208);
 			this.numericUpDownTimeout.Maximum = new decimal(new int[] {
             3600,
             0,
@@ -78,7 +79,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(4, 165);
+			this.label5.Location = new System.Drawing.Point(11, 210);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(204, 13);
 			this.label5.TabIndex = 12;
@@ -89,7 +90,7 @@
 			this.groupBox5.Controls.Add(this.radioButtonIconDetails);
 			this.groupBox5.Controls.Add(this.radioButtonIconList);
 			this.groupBox5.Controls.Add(this.radioButtonIconLargeIcon);
-			this.groupBox5.Location = new System.Drawing.Point(3, 58);
+			this.groupBox5.Location = new System.Drawing.Point(10, 103);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(163, 100);
 			this.groupBox5.TabIndex = 11;
@@ -135,7 +136,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(11, 34);
+			this.label3.Location = new System.Drawing.Point(18, 79);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(159, 13);
 			this.label3.TabIndex = 10;
@@ -143,7 +144,7 @@
 			// 
 			// numericUpDownIcons
 			// 
-			this.numericUpDownIcons.Location = new System.Drawing.Point(196, 32);
+			this.numericUpDownIcons.Location = new System.Drawing.Point(203, 77);
 			this.numericUpDownIcons.Name = "numericUpDownIcons";
 			this.numericUpDownIcons.Size = new System.Drawing.Size(54, 20);
 			this.numericUpDownIcons.TabIndex = 9;
@@ -160,10 +161,22 @@
 			this.checkBoxMru.UseVisualStyleBackColor = true;
 			this.checkBoxMru.CheckedChanged += new System.EventHandler(this.checkBoxMru_CheckedChanged);
 			// 
-			// LauncherImportOptionsPanel
+			// checkBoxLoadWordsOnStartup
+			// 
+			this.checkBoxLoadWordsOnStartup.AutoSize = true;
+			this.checkBoxLoadWordsOnStartup.Location = new System.Drawing.Point(14, 32);
+			this.checkBoxLoadWordsOnStartup.Name = "checkBoxLoadWordsOnStartup";
+			this.checkBoxLoadWordsOnStartup.Size = new System.Drawing.Size(166, 17);
+			this.checkBoxLoadWordsOnStartup.TabIndex = 15;
+			this.checkBoxLoadWordsOnStartup.Text = "Load Magic Words on startup";
+			this.checkBoxLoadWordsOnStartup.UseVisualStyleBackColor = true;
+			this.checkBoxLoadWordsOnStartup.CheckedChanged += new System.EventHandler(this.checkBoxLoadWordsOnStartup_CheckedChanged);
+			// 
+			// LauncheGeneralOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.checkBoxLoadWordsOnStartup);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.numericUpDownTimeout);
 			this.Controls.Add(this.label5);
@@ -171,7 +184,7 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.numericUpDownIcons);
 			this.Controls.Add(this.checkBoxMru);
-			this.Name = "LauncherImportOptionsPanel";
+			this.Name = "LauncheGeneralOptionsPanel";
 			this.Size = new System.Drawing.Size(554, 320);
 			this.Load += new System.EventHandler(this.LauncherImportOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).EndInit();
@@ -195,5 +208,6 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown numericUpDownIcons;
 		private System.Windows.Forms.CheckBox checkBoxMru;
+		private System.Windows.Forms.CheckBox checkBoxLoadWordsOnStartup;
 	}
 }

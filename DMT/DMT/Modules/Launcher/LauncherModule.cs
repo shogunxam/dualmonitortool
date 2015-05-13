@@ -68,6 +68,13 @@ namespace DMT.Modules.Launcher
 			set { UseMruSetting.Value = value; }
 		}
 
+		BoolSetting LoadWordsOnStartupSetting { get; set; }
+		public bool LoadWordsOnStartup
+		{
+			get { return LoadWordsOnStartupSetting.Value; }
+			set { LoadWordsOnStartupSetting.Value = value; }
+		}
+
 		IntSetting IconViewSetting { get; set; }
 		public View IconView
 		{
@@ -169,6 +176,7 @@ namespace DMT.Modules.Launcher
 			// settings
 			MaxIconsSetting = new IntSetting(_settingsService, _moduleName, "MaxIcons", _defaultMaxIcons);
 			UseMruSetting = new BoolSetting(_settingsService, _moduleName, "UseMru");
+			LoadWordsOnStartupSetting = new BoolSetting(_settingsService, _moduleName, "LoadWordsOnStartup");
 			IconViewSetting = new IntSetting(_settingsService, _moduleName, "IconView", (int)View.LargeIcon);
 			StartupTimeoutSetting = new IntSetting(_settingsService, _moduleName, "StartupTimeout", 60);
 
@@ -184,9 +192,10 @@ namespace DMT.Modules.Launcher
 			_appForm.AddMenuItem("-", null, null);
 
 
-			if (true)
+			if (LoadWordsOnStartup)
 			{
 				// load magic words now
+				// (otherwise they will be loaded when first needed)
 				GetMagicWords();
 			}
 		}
@@ -205,7 +214,7 @@ namespace DMT.Modules.Launcher
 		{
 			if (_magicWords != null)
 			{
-				string filename = DataLocations.Instance.MagicWordsFilename;
+				string filename = FileLocations.Instance.MagicWordsFilename;
 				_magicWords.SaveIfDirty(filename);
 			}
 		}
@@ -284,7 +293,7 @@ namespace DMT.Modules.Launcher
 			if (_magicWords == null)
 			{
 				_magicWords = new MagicWords();
-				string filename = DataLocations.Instance.MagicWordsFilename;
+				string filename = FileLocations.Instance.MagicWordsFilename;
 				_magicWords.Load(filename);
 			}
 

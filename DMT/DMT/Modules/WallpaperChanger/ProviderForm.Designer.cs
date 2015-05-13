@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProviderForm));
 			this.dataGridView = new System.Windows.Forms.DataGridView();
 			this.ProviderImage = new System.Windows.Forms.DataGridViewImageColumn();
 			this.ProviderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -117,6 +118,7 @@
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOK);
 			this.Controls.Add(this.label1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ProviderForm";
