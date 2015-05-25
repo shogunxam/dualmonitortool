@@ -460,7 +460,7 @@
 			this.Controls.Add(this.label1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MagicWordForm";
-			this.Text = "MagicWordForm";
+			this.Text = "Magic Word";
 			this.Load += new System.EventHandler(this.MagicWordForm_Load);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();

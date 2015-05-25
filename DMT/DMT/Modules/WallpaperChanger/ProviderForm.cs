@@ -48,7 +48,10 @@ namespace DMT.Modules.WallpaperChanger
 
 		private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
-
+			if (!AcceptSelectedProvider())
+			{
+				MessageBox.Show(WallpaperStrings.PleaseSelectProvider, this.Text);
+			}
 		}
 
 		private void buttonOK_Click(object sender, EventArgs e)

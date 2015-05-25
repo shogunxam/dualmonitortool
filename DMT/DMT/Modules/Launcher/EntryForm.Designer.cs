@@ -102,6 +102,7 @@
 			this.Controls.Add(this.buttonOptions);
 			this.Controls.Add(this.textBoxInput);
 			this.Controls.Add(this.pictureBoxIcon);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "EntryForm";

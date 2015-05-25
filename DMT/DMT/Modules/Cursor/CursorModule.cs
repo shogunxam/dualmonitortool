@@ -315,7 +315,8 @@ namespace DMT.Modules.Cursor
 
 				// check in case returning to (or is already on) primary screen and user wants this to happen freely
 				//bool freelyReturnToPrimary = (Properties.Settings.Default.PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y));
-				bool freelyReturnToPrimary = (_settingsService.GetSettingAsBool(_moduleName, "PrimaryReturnUnhindered") && Screen.PrimaryScreen.Bounds.Contains(x, y));
+				//bool freelyReturnToPrimary = (_settingsService.GetSettingAsBool(_moduleName, "PrimaryReturnUnhindered") && Screen.PrimaryScreen.Bounds.Contains(x, y));
+				bool freelyReturnToPrimary = PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y);
 
 				if (touchEvent || freelyReturnToPrimary)
 				{

@@ -39,9 +39,9 @@
 			this.treeViewOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.treeViewOptions.HideSelection = false;
-			this.treeViewOptions.Location = new System.Drawing.Point(2, 0);
+			this.treeViewOptions.Location = new System.Drawing.Point(12, 10);
 			this.treeViewOptions.Name = "treeViewOptions";
-			this.treeViewOptions.Size = new System.Drawing.Size(241, 367);
+			this.treeViewOptions.Size = new System.Drawing.Size(231, 357);
 			this.treeViewOptions.TabIndex = 0;
 			this.treeViewOptions.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewOptions_AfterSelect);
 			// 
