@@ -69,6 +69,7 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.windowPicker = new DMT.Library.GuiUtils.WindowPicker();
+			this.buttonInternalCommand = new System.Windows.Forms.Button();
 			this.groupBox2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
 			this.tabControl.SuspendLayout();
@@ -433,11 +434,22 @@
 			this.windowPicker.TabIndex = 40;
 			this.windowPicker.TabStop = false;
 			// 
+			// buttonInternalCommand
+			// 
+			this.buttonInternalCommand.Location = new System.Drawing.Point(567, 19);
+			this.buttonInternalCommand.Name = "buttonInternalCommand";
+			this.buttonInternalCommand.Size = new System.Drawing.Size(132, 23);
+			this.buttonInternalCommand.TabIndex = 41;
+			this.buttonInternalCommand.Text = "Internal Command...";
+			this.buttonInternalCommand.UseVisualStyleBackColor = true;
+			this.buttonInternalCommand.Click += new System.EventHandler(this.buttonInternalCommand_Click);
+			// 
 			// MagicWordForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(711, 454);
+			this.Controls.Add(this.buttonInternalCommand);
 			this.Controls.Add(this.windowPicker);
 			this.Controls.Add(this.buttonTest);
 			this.Controls.Add(this.groupBox2);
@@ -519,5 +531,6 @@
 		private StartupPositionControl startupPositionControl2;
 		private StartupPositionControl startupPositionControl3;
 		private StartupPositionControl startupPositionControl4;
+		private System.Windows.Forms.Button buttonInternalCommand;
 	}
 }

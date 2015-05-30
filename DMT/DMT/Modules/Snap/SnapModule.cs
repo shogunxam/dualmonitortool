@@ -36,13 +36,13 @@ namespace DMT.Modules.Snap
 {
 	class SnapModule : Module
 	{
-		const string _moduleName = "Snap";
+		//const string _moduleName = "Snap";
 
 		const int _defaultMaxSnaps = 8;
 		const bool _defaultAutoShowSnap = true;
 
 		ISettingsService _settingsService;
-		IHotKeyService _hotKeyService;
+		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 		AppForm _appForm;
 
@@ -71,15 +71,16 @@ namespace DMT.Modules.Snap
 		}
 
 		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
+			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			_hotKeyService = hotKeyService;
+			//_hotKeyService = hotKeyService;
 			_logger = logger;
 			_appForm = appForm;
 
-			Start();
+			ModuleName = "Snap";
 
-			_logger.LogInfo(_moduleName, "Snap started");
+			Start();
 		}
 
 		public override void Terminate()
@@ -93,13 +94,18 @@ namespace DMT.Modules.Snap
 
 		void Start()
 		{
+			// setup hot keys & commands for magic words
+			TakeSnapHotKeyController = AddCommand("TakeSnap", SnapStrings.TakeSnapDescription, "", TakeSnap);
+			ShowSnapHotKeyController = AddCommand("ShowSnap", SnapStrings.ShowSnapDescription, "", ToggleShowSnap);
+
 			// hot keys
-			TakeSnapHotKeyController = CreateHotKeyController("TakeSnapHotKey", SnapStrings.TakeSnapDescription, "", TakeSnap);
-			ShowSnapHotKeyController = CreateHotKeyController("ShowSnapHotKey", SnapStrings.ShowSnapDescription, "", ToggleShowSnap);
+			//TakeSnapHotKeyController = CreateHotKeyController("TakeSnapHotKey", SnapStrings.TakeSnapDescription, "", TakeSnap);
+			//ShowSnapHotKeyController = CreateHotKeyController("ShowSnapHotKey", SnapStrings.ShowSnapDescription, "", ToggleShowSnap);
+			//base.RegisterHotKeys();
 
 			// settings
-			MaxSnapsSetting = new IntSetting(_settingsService, _moduleName, "MaxSnaps", _defaultMaxSnaps);
-			AutoShowSnapSetting = new BoolSetting(_settingsService, _moduleName, "AutoShowSnap", _defaultAutoShowSnap);
+			MaxSnapsSetting = new IntSetting(_settingsService, ModuleName, "MaxSnaps", _defaultMaxSnaps);
+			AutoShowSnapSetting = new BoolSetting(_settingsService, ModuleName, "AutoShowSnap", _defaultAutoShowSnap);
 
 			// history of snaps taken
 			SnapHistory = new SnapHistory(MaxSnaps);
@@ -121,10 +127,10 @@ namespace DMT.Modules.Snap
 			return options;
 		}
 
-		HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		{
-			return _hotKeyService.CreateHotKeyController(_moduleName, settingName, description, win7Key, handler);
-		}
+		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
+		//{
+		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
+		//}
 
 		public void TakeSnap()
 		{

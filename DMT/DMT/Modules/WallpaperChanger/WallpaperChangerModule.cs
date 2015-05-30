@@ -37,12 +37,12 @@ namespace DMT.Modules.WallpaperChanger
 {
 	class WallpaperChangerModule : Module
 	{
-		const string _moduleName = "WallpaperChanger";
+		//const string _moduleName = "WallpaperChanger";
 		const int _defaultIntervalHours = 1;
 		const int _defaultIntervalMinutes = 0;
 
 		ISettingsService _settingsService;
-		IHotKeyService _hotKeyService;
+		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 		AppForm _appForm;
 
@@ -116,12 +116,14 @@ namespace DMT.Modules.WallpaperChanger
 		}
 
 		public WallpaperChangerModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
+			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			_hotKeyService = hotKeyService;
+			//_hotKeyService = hotKeyService;
 			_logger = logger;
 			_appForm = appForm;
 
+			ModuleName = "WallpaperChanger";
 			_localEnvironment = new LocalEnvironment();
 			_providerFactory = new ProviderFactory();
 			_providerPersistence = new ProviderPersistence(_providerFactory, _localEnvironment);
@@ -146,17 +148,19 @@ namespace DMT.Modules.WallpaperChanger
 		void Start()
 		{
 			// hot keys
-			ChangeWallpaperHotKeyController = CreateHotKeyController("ChangeWallpaperHotKey", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
+			ChangeWallpaperHotKeyController = AddCommand("ChangeWallpaper", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
+
+			//ChangeWallpaperHotKeyController = CreateHotKeyController("ChangeWallpaperHotKey", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
 
 
 			// settings
-			IntervalHoursSetting = new IntSetting(_settingsService, _moduleName, "IntervalHours", _defaultIntervalHours);
-			IntervalMinutesSetting = new IntSetting(_settingsService, _moduleName, "IntervalMinutes", _defaultIntervalMinutes);
-			ChangeOnStartupSetting = new BoolSetting(_settingsService, _moduleName, "ChangeOnStartup", false);
-			ChangePeriodicallySetting = new BoolSetting(_settingsService, _moduleName, "ChangePeriodically", false);
-			BackgroundColourSetting = new IntSetting(_settingsService, _moduleName, "BackgroundColour", Color.Black.ToArgb());
-			FitSetting = new IntSetting(_settingsService, _moduleName, "Fit", (int)StretchType.Fit.OverStretch);
-			MonitorMappingSetting = new IntSetting(_settingsService, _moduleName, "MonitorMapping", (int)SwitchType.ImageToMonitorMapping.OneToOneBig);
+			IntervalHoursSetting = new IntSetting(_settingsService, ModuleName, "IntervalHours", _defaultIntervalHours);
+			IntervalMinutesSetting = new IntSetting(_settingsService, ModuleName, "IntervalMinutes", _defaultIntervalMinutes);
+			ChangeOnStartupSetting = new BoolSetting(_settingsService, ModuleName, "ChangeOnStartup", false);
+			ChangePeriodicallySetting = new BoolSetting(_settingsService, ModuleName, "ChangePeriodically", false);
+			BackgroundColourSetting = new IntSetting(_settingsService, ModuleName, "BackgroundColour", Color.Black.ToArgb());
+			FitSetting = new IntSetting(_settingsService, ModuleName, "Fit", (int)StretchType.Fit.OverStretch);
+			MonitorMappingSetting = new IntSetting(_settingsService, ModuleName, "MonitorMapping", (int)SwitchType.ImageToMonitorMapping.OneToOneBig);
 
 			if (ChangeOnStartup)
 			{
@@ -277,10 +281,10 @@ namespace DMT.Modules.WallpaperChanger
 			UpdateTimeToChange();
 		}
 
-		HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		{
-			return _hotKeyService.CreateHotKeyController(_moduleName, settingName, description, win7Key, handler);
-		}
+		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
+		//{
+		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
+		//}
 
 		void changeWallpaperNowToolStripMenuItem_Click(object sender, EventArgs e)
 		{

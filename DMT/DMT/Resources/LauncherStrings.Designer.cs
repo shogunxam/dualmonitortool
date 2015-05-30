@@ -169,6 +169,24 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Select a Module&gt;.
+        /// </summary>
+        internal static string SelectAModule {
+            get {
+                return ResourceManager.GetString("SelectAModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Select an Action&gt;.
+        /// </summary>
+        internal static string SelectAnAction {
+            get {
+                return ResourceManager.GetString("SelectAnAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Maximised.
         /// </summary>
         internal static string ShowMaximised {

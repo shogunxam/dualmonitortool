@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library;
+using DMT.Library.Command;
 using DMT.Library.GuiUtils;
 using DMT.Library.PInvoke;
 using DMT.Resources;
@@ -39,6 +40,7 @@ namespace DMT.Modules.Launcher
 	{
 		LauncherModule _launcherModule;
 		MagicWord _magicWord;
+		//ICommandRunner _commandRunner;
 		bool _statsReset = false;
 		int _timesUsed;
 		DateTime _lastUsed;
@@ -47,6 +49,7 @@ namespace DMT.Modules.Launcher
 		{
 			_launcherModule = launcherModule;
 			_magicWord = magicWord;
+			//_commandRunner = commandRunner;
 			InitializeComponent();
 		}
 
@@ -192,7 +195,14 @@ namespace DMT.Modules.Launcher
 			{
 				try
 				{
-					fileIcon = Icon.ExtractAssociatedIcon(filename);
+					if (_launcherModule.CommandRunner.IsInternalCommand(filename))
+					{
+						fileIcon = _launcherModule.CommandRunner.GetInternalCommandIcon(filename);
+					}
+					else
+					{
+						fileIcon = Icon.ExtractAssociatedIcon(filename);
+					}
 				}
 				catch (Exception)
 				{
@@ -223,6 +233,26 @@ namespace DMT.Modules.Launcher
 				_launcherModule.Launch(testMagicWord, startPosition, map);
 			}
 		}
+
+
+		private void buttonInternalCommand_Click(object sender, EventArgs e)
+		{
+			InternalCommandForm dlg = new InternalCommandForm(_launcherModule.CommandRunner, textBoxFilename.Text);
+			if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				textBoxFilename.Text = dlg.SelectedCommand;
+
+				if (textBoxAlias.Text.Length == 0)
+				{
+					// if user has not entered an alias, use the action name
+					string moduleName;
+					string actionName;
+					MagicCommand.SplitMagicCommand(dlg.SelectedCommand, out moduleName, out actionName);
+					textBoxAlias.Text = actionName;
+				}
+			}
+		}
+
 
 		//private void textBoxAlias_Validating(object sender, CancelEventArgs e)
 		//{

@@ -49,7 +49,7 @@ namespace DMT.Modules.WallpaperChanger
 			if (labelNextChange != null)
 			{
 				labelNextChange.Text = nextChangeMsg;
-				labelNextChange.ForeColor = ForeColor;
+				labelNextChange.ForeColor = foreColor;
 			}
 		}
 

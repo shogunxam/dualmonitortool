@@ -155,6 +155,12 @@
   <data name="QrsFilter" xml:space="preserve">
     <value>SlickRun data files (*.qrs)|*.qrs|All files (*.*)|*.*</value>
   </data>
+  <data name="SelectAModule" xml:space="preserve">
+    <value>&lt;Select a Module&gt;</value>
+  </data>
+  <data name="SelectAnAction" xml:space="preserve">
+    <value>&lt;Select an Action&gt;</value>
+  </data>
   <data name="ShowMaximised" xml:space="preserve">
     <value>Maximised</value>
   </data>

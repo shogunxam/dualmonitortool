@@ -61,6 +61,16 @@ namespace DMT.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Cursor {
+            get {
+                object obj = ResourceManager.GetObject("Cursor", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap cursor_48_24 {
@@ -121,6 +131,26 @@ namespace DMT.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon General {
+            get {
+                object obj = ResourceManager.GetObject("General", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Launcher {
+            get {
+                object obj = ResourceManager.GetObject("Launcher", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap LocalDiskPlugin {
@@ -151,6 +181,26 @@ namespace DMT.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Snap {
+            get {
+                object obj = ResourceManager.GetObject("Snap", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon SwapScreen {
+            get {
+                object obj = ResourceManager.GetObject("SwapScreen", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap SwapScreen_48_24 {
@@ -177,6 +227,16 @@ namespace DMT.Properties {
             get {
                 object obj = ResourceManager.GetObject("UnsplashPlugin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon WallpaperChanger {
+            get {
+                object obj = ResourceManager.GetObject("WallpaperChanger", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

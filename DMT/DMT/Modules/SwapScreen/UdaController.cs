@@ -33,13 +33,32 @@ namespace DMT.Modules.SwapScreen
 	class UdaController
 	{
 		string _moduleName;
-		int _udaIndex;
+		//int _udaIndex;
+		Command _command;
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
 
 		HotKeyController _hotKeyController;
 
-		public string Description { get; protected set; }
+		string Name
+		{
+			get
+			{
+				return _command.Name;
+			}
+		}
+
+		public string Description 
+		{
+			get
+			{
+				return _command.Description;
+			}
+			protected set
+			{
+				_command.Description = value;
+			}
+		}
 
 		public Rectangle Position { get; protected set; }
 
@@ -62,10 +81,11 @@ namespace DMT.Modules.SwapScreen
 		//	get { return hotKey.HotKeyCombo; }
 		//}
 
-		public UdaController(string moduleName, int idx, ISettingsService settingsService, IHotKeyService hotKeyService)
+		public UdaController(string moduleName, Command command, ISettingsService settingsService, IHotKeyService hotKeyService)
 		{
 			_moduleName = moduleName;
-			_udaIndex = idx;
+			//_udaIndex = idx;
+			_command = command;
 			_settingsService = settingsService;
 			_hotKeyService = hotKeyService;
 
@@ -76,6 +96,7 @@ namespace DMT.Modules.SwapScreen
 
 			string settingName = GetHotKeySettingName();
 			string win7Key = "";
+			_command.Handler = HotKeyHandler;
 			_hotKeyController = hotKeyService.CreateHotKeyController(moduleName, settingName, Description, win7Key, HotKeyHandler);
 		}
 
@@ -146,22 +167,26 @@ namespace DMT.Modules.SwapScreen
 
 		public static string GetUdaMarkerSettingName()
 		{
-			return string.Format("UDA_{0}_Description", 0);
+			//return string.Format("UDA_{0}_Description", 0);
+			return "UDA_0_Description";
 		}
 
 		string GetDescriptionSettingName()
 		{
-			return string.Format("UDA_{0}_Description", _udaIndex);
+			//return string.Format("UDA_{0}_Description", _udaIndex);
+			return Name + "Description";
 		}
 
 		string GetHotKeySettingName()
 		{
-			return string.Format("UDA_{0}_HotKey", _udaIndex);
+			//return string.Format("UDA_{0}_HotKey", _udaIndex);
+			return Name + "HotKey";
 		}
 
 		string GetRectangleSettingName()
 		{
-			return string.Format("UDA_{0}_Rectangle", _udaIndex);
+			//return string.Format("UDA_{0}_Rectangle", _udaIndex);
+			return Name + "Rectangle";
 		}
 
 

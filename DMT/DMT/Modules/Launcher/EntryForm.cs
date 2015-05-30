@@ -33,6 +33,7 @@ namespace DMT.Modules.Launcher
 	partial class EntryForm : Form
 	{
 		LauncherModule _launcherModule;
+		ICommandRunner _commandRunner;
 
 		bool _terminate = false;
 		bool _loaded = false;	// indicates if form has been loaded
@@ -45,9 +46,10 @@ namespace DMT.Modules.Launcher
 		bool _doDel = false;
 
 
-		public EntryForm(LauncherModule launcherModule)
+		public EntryForm(LauncherModule launcherModule, ICommandRunner commandRunner)
 		{
 			_launcherModule = launcherModule;
+			_commandRunner = commandRunner;
 
 			InitializeComponent();
 		}
@@ -66,7 +68,7 @@ namespace DMT.Modules.Launcher
 			//// need to be notified whenever the magic words change
 			//_launcherModule.MagicWords.ListChanged += new ListChangedEventHandler(OnMagicWordsChanged);
 
-			magicWordListBox.InitControl();
+			magicWordListBox.InitControl(_commandRunner);
 
 			// TODO: check this is no longer needed
 			//SetAutoComplete();
@@ -87,7 +89,7 @@ namespace DMT.Modules.Launcher
 
 		private void EntryForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			if (_terminate)
+			if (_terminate || e.CloseReason != CloseReason.UserClosing)
 			{
 				// need to close
 				if (_loaded)
@@ -315,12 +317,12 @@ namespace DMT.Modules.Launcher
 			if (magicWords.Count > 0)
 			{
 				ParameterMap map = new ParameterMap();
+				textBoxInput.Text = "";
+				HideEntryForm();
 				foreach (MagicWord magicWord in magicWords)
 				{
 					StartMagicWord(magicWord, position, map);
 				}
-				textBoxInput.Text = "";
-				HideEntryForm();
 			}
 		}
 
@@ -433,7 +435,7 @@ namespace DMT.Modules.Launcher
 				if (magicWord != null)
 				{
 					ParameterMap map = new ParameterMap();
-					MagicWordExecutable executable = new MagicWordExecutable(magicWord, map);
+					MagicWordExecutable executable = new MagicWordExecutable(magicWord, _commandRunner, map);
 					fileIcon = executable.Icon;
 				}
 			}

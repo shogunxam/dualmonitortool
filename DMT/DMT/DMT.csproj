@@ -62,6 +62,7 @@
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controller.cs" />
+    <Compile Include="Library\Command\MagicCommand.cs" />
     <Compile Include="Library\Environment\ILocalEnvironment.cs" />
     <Compile Include="Library\Environment\LocalEnvironment.cs" />
     <Compile Include="Library\Environment\Monitor.cs" />
@@ -118,6 +119,14 @@
     <Compile Include="Library\Wallpaper\WallpaperCompositor.cs" />
     <Compile Include="Library\Wallpaper\WallpaperCompositorFactory.cs" />
     <Compile Include="Library\Wallpaper\WindowsWallpaper.cs" />
+    <Compile Include="Modules\Command.cs" />
+    <Compile Include="Modules\ICommandRunner.cs" />
+    <Compile Include="Modules\Launcher\InternalCommandForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\Launcher\InternalCommandForm.Designer.cs">
+      <DependentUpon>InternalCommandForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\WallpaperChanger\Desktop.cs" />
     <Compile Include="Library\Wallpaper\StretchType.cs" />
     <Compile Include="Library\Wallpaper\SwitchType.cs" />
@@ -425,6 +434,9 @@
     <EmbeddedResource Include="Modules\Launcher\EntryForm.resx">
       <DependentUpon>EntryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Launcher\InternalCommandForm.resx">
+      <DependentUpon>InternalCommandForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\Launcher\LauncherHotKeysOptionsPanel.resx">
       <DependentUpon>LauncherHotKeysOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -566,6 +578,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\Cursor.ico" />
+    <None Include="Resources\SwapScreen.ico" />
+    <None Include="Resources\WallpaperChanger.ico" />
+    <None Include="Resources\Snap.ico" />
+    <None Include="Resources\Launcher.ico" />
+    <None Include="Resources\General.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

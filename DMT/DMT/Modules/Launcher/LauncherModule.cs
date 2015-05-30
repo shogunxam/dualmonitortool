@@ -35,19 +35,23 @@ namespace DMT.Modules.Launcher
 {
 	class LauncherModule : Module
 	{
-		const string _moduleName = "Launcher";
+		//const string _moduleName = "Launcher";
 		const int _defaultMaxIcons = 8;
 
 		ISettingsService _settingsService;
-		IHotKeyService _hotKeyService;
+		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 		AppForm _appForm;
+		//IModuleService _moduleService;
+		ICommandRunner _commandRunner;
 		StartupHandler _startupHandler;
 
 		MagicWords _magicWords = null;
 		public MagicWords MagicWords { get { return GetMagicWords(); } }
 
 		EntryForm _entryForm = null;
+
+		public ICommandRunner CommandRunner { get { return _commandRunner; } }
 
 		// hotkey to start entry of magic word
 		public HotKeyController ActivateHotKeyController { get; protected set; }
@@ -122,25 +126,29 @@ namespace DMT.Modules.Launcher
 			get
 			{
 				Rectangle rect = new Rectangle(0, 0, 0, 0);
-				if (_settingsService.SettingExists(_moduleName, "EntryFormPosition"))
+				if (_settingsService.SettingExists(ModuleName, "EntryFormPosition"))
 				{
-					rect = StringUtils.ToRectangle(_settingsService.GetSetting(_moduleName, "EntryFormPosition"));
+					rect = StringUtils.ToRectangle(_settingsService.GetSetting(ModuleName, "EntryFormPosition"));
 				}
 				return rect;
 			}
 			set
 			{
 				string settingString = StringUtils.FromRectangle(value);
-				_settingsService.SetSetting(_moduleName, "EntryFormPosition", settingString);
+				_settingsService.SetSetting(ModuleName, "EntryFormPosition", settingString);
 			}
 		}
 
-		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
+		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm, ICommandRunner commandRunner)
+			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			_hotKeyService = hotKeyService;
-			_appForm = appForm;
+			//_hotKeyService = hotKeyService;
 			_logger = logger;
+			_appForm = appForm;
+			_commandRunner = commandRunner;
+
+			ModuleName = "Launcher";
 
 			Start();
 		}
@@ -166,24 +174,28 @@ namespace DMT.Modules.Launcher
 		void Start()
 		{
 			// this handles the actual starting up of applications and moving their windows
-			_startupHandler = new StartupHandler(_appForm);
+			_startupHandler = new StartupHandler(_appForm, _commandRunner);
 
 			// hot keys
-			ActivateHotKeyController = CreateHotKeyController("ActivateHotKey", LauncherStrings.ActivateDescription, "", ShowEntryForm);
-			AddMagicWordHotKeyController = CreateHotKeyController("AddMagicWordHotKey", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
+			// don't want a magic word to show the magic word entry form!
+			ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, "", ShowEntryForm, true, false);
+			AddMagicWordHotKeyController = AddCommand("AddMagicWord", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
+			//ActivateHotKeyController = CreateHotKeyController("ActivateHotKey", LauncherStrings.ActivateDescription, "", ShowEntryForm);
+			//AddMagicWordHotKeyController = CreateHotKeyController("AddMagicWordHotKey", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
+			//base.RegisterHotKeys();
 
 
 			// settings
-			MaxIconsSetting = new IntSetting(_settingsService, _moduleName, "MaxIcons", _defaultMaxIcons);
-			UseMruSetting = new BoolSetting(_settingsService, _moduleName, "UseMru");
-			LoadWordsOnStartupSetting = new BoolSetting(_settingsService, _moduleName, "LoadWordsOnStartup");
-			IconViewSetting = new IntSetting(_settingsService, _moduleName, "IconView", (int)View.LargeIcon);
-			StartupTimeoutSetting = new IntSetting(_settingsService, _moduleName, "StartupTimeout", 60);
+			MaxIconsSetting = new IntSetting(_settingsService, ModuleName, "MaxIcons", _defaultMaxIcons);
+			UseMruSetting = new BoolSetting(_settingsService, ModuleName, "UseMru");
+			LoadWordsOnStartupSetting = new BoolSetting(_settingsService, ModuleName, "LoadWordsOnStartup");
+			IconViewSetting = new IntSetting(_settingsService, ModuleName, "IconView", (int)View.LargeIcon);
+			StartupTimeoutSetting = new IntSetting(_settingsService, ModuleName, "StartupTimeout", 60);
 
-			Position1KeySetting = new UIntSetting(_settingsService, _moduleName, "Position1Key", (uint)Keys.F1);
-			Position2KeySetting = new UIntSetting(_settingsService, _moduleName, "Position2Key", (uint)Keys.F2);
-			Position3KeySetting = new UIntSetting(_settingsService, _moduleName, "Position3Key", (uint)Keys.F3);
-			Position4KeySetting = new UIntSetting(_settingsService, _moduleName, "Position4Key", (uint)Keys.F4);
+			Position1KeySetting = new UIntSetting(_settingsService, ModuleName, "Position1Key", (uint)Keys.F1);
+			Position2KeySetting = new UIntSetting(_settingsService, ModuleName, "Position2Key", (uint)Keys.F2);
+			Position3KeySetting = new UIntSetting(_settingsService, ModuleName, "Position3Key", (uint)Keys.F3);
+			Position4KeySetting = new UIntSetting(_settingsService, ModuleName, "Position4Key", (uint)Keys.F4);
 
 
 			// add our menu items to the notifcation icon
@@ -231,10 +243,10 @@ namespace DMT.Modules.Launcher
 			return _startupHandler.Launch(magicWord, startPosition, map, StartupTimeout);
 		}
 	
-		HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		{
-			return _hotKeyService.CreateHotKeyController(_moduleName, settingName, description, win7Key, handler);
-		}
+		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
+		//{
+		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
+		//}
 
 		void enterMagicWordToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -283,7 +295,7 @@ namespace DMT.Modules.Launcher
 		{
 			if (_entryForm == null)
 			{
-				_entryForm = new EntryForm(this);
+				_entryForm = new EntryForm(this, _commandRunner);
 			}
 			return _entryForm;
 		}

@@ -41,10 +41,14 @@ namespace DMT.Modules.Launcher
 
 		const int _pollInterval = 100;
 
+		ICommandRunner _commandRunner;
+
 		System.Timers.Timer _timer;
 
-		public StartupHandler(Form appForm)
+		public StartupHandler(Form appForm, ICommandRunner commandRunner)
 		{
+			_commandRunner = commandRunner;
+
 			_timer = new System.Timers.Timer(_pollInterval);
 			_timer.SynchronizingObject = appForm;
 			_timer.Elapsed += new ElapsedEventHandler(Poll);
@@ -90,32 +94,40 @@ namespace DMT.Modules.Launcher
 			Win32.PROCESS_INFORMATION pi = new Win32.PROCESS_INFORMATION();
 
 			// get the executable environment for the application
-			MagicWordExecutable executable = new MagicWordExecutable(magicWord, map);
+			MagicWordExecutable executable = new MagicWordExecutable(magicWord, _commandRunner, map);
 
-			if (Win32.CreateProcess(executable.Executable, executable.CommandLine, IntPtr.Zero, IntPtr.Zero,
-				false, dwCreationFlags, IntPtr.Zero,
-				executable.WorkingDirectory,
-				ref si, out pi))
+			if (executable.InternalCommand)
 			{
-				// process has been created (but suspended)
-				AddPendingMove(pi.dwProcessId, magicWord, startPosition, startupTimeout);
-				Win32.ResumeThread(pi.hThread);
-
+				_commandRunner.RunInternalCommand(executable.Executable, "");
 				ret = true;
 			}
 			else
 			{
-				int err = Marshal.GetLastWin32Error();
-				string cmd;
-				if (executable.CommandLine != null)
+				if (Win32.CreateProcess(executable.Executable, executable.CommandLine, IntPtr.Zero, IntPtr.Zero,
+					false, dwCreationFlags, IntPtr.Zero,
+					executable.WorkingDirectory,
+					ref si, out pi))
 				{
-					cmd = executable.CommandLine;
+					// process has been created (but suspended)
+					AddPendingMove(pi.dwProcessId, magicWord, startPosition, startupTimeout);
+					Win32.ResumeThread(pi.hThread);
+
+					ret = true;
 				}
 				else
 				{
-					cmd = executable.Executable;
+					int err = Marshal.GetLastWin32Error();
+					string cmd;
+					if (executable.CommandLine != null)
+					{
+						cmd = executable.CommandLine;
+					}
+					else
+					{
+						cmd = executable.Executable;
+					}
+					//Trace.WriteLine(string.Format("CreateProcess({0}) failed with {1}", cmd, err));
 				}
-				//Trace.WriteLine(string.Format("CreateProcess({0}) failed with {1}", cmd, err));
 			}
 
 			return ret;

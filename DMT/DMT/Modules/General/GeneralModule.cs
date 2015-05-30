@@ -31,11 +31,11 @@ namespace DMT.Modules.General
 {
 	class GeneralModule : Module
 	{
-		const string _moduleName = "General";
+		//const string _moduleName = "General";
 		const string _autoStartKeyName = "GNE_DualMonitorTools";
 
 		ISettingsService _settingsService;
-		IHotKeyService _hotKeyService;
+//		IHotKeyService _hotKeyService;
 		ILogger _logger;
 
 		public bool StartWhenWindowsStarts
@@ -58,10 +58,13 @@ namespace DMT.Modules.General
 		}
 
 		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
+			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			_hotKeyService = hotKeyService;
+//			_hotKeyService = hotKeyService;
 			_logger = logger;
+
+			ModuleName = "General";
 		}
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)

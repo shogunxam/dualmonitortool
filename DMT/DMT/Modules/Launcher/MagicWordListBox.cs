@@ -30,12 +30,16 @@ namespace DMT.Modules.Launcher
 	/// </summary>
 	public class MagicWordListBox : ListView
 	{
+		ICommandRunner _commandRunner;
+
 		/// <summary>
 		/// Performs one time initialisation of the control.
 		/// Should be called from the owners OnLoad()
 		/// </summary>
-		public void InitControl()
+		public void InitControl(ICommandRunner commandRunner)
 		{
+			_commandRunner = commandRunner;
+
 			//this.View = View.LargeIcon;
 			//this.View = View.List;
 			//this.View = View.Details;
@@ -66,7 +70,7 @@ namespace DMT.Modules.Launcher
 				ParameterMap map = new ParameterMap();
 				foreach (MagicWord mw in magicWords)
 				{
-					MagicWordExecutable executable = new MagicWordExecutable(mw, map);
+					MagicWordExecutable executable = new MagicWordExecutable(mw, _commandRunner, map);
 					int imageIndex = 0;	// the default (missing icon)
 					Icon fileIcon = executable.Icon;
 					if (fileIcon != null)

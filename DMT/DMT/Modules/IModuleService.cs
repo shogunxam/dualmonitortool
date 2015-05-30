@@ -29,7 +29,8 @@ namespace DMT.Modules
 	interface IModuleService
 	{
 		void AddModule(Module module);
-		List<ModuleOptionNode> GetOptionNodes(Form form);
+		IEnumerable<Module> GetAllModules();
+		IEnumerable<ModuleOptionNode> GetOptionNodes(Form form);
 		void TerminateAllModules();
 	}
 }

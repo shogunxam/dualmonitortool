@@ -142,7 +142,8 @@ namespace DMT.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No providers have beed added.  Use the &apos;Providers&apos; tab to add providers..
+        ///   Looks up a localized string similar to No providers have beed added.
+        ///Use the &apos;Providers&apos; option panel to add providers..
         /// </summary>
         internal static string MsgNoProviders {
             get {

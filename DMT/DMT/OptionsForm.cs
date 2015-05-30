@@ -33,7 +33,7 @@ namespace DMT
 	partial class OptionsForm : Form
 	{
 		IModuleService _moduleService;
-		List<ModuleOptionNode> _optionNodes;
+		IEnumerable<ModuleOptionNode> _optionNodes;
 		ContainerControl _currentPanel = null;
 
 		public OptionsForm(IModuleService moduleService)
@@ -83,7 +83,7 @@ namespace DMT
 			//}
 		}
 
-		void AddOptionNodes(List<ModuleOptionNode> optionNodes, TreeNodeCollection treeNodes)
+		void AddOptionNodes(IEnumerable<ModuleOptionNode> optionNodes, TreeNodeCollection treeNodes)
 		{
 			foreach (ModuleOptionNode optionNode in optionNodes)
 			{

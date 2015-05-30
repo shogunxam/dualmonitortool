@@ -38,7 +38,9 @@ namespace DMT.Modules.Launcher
 	public class MagicWordExecutable
 	{
 		MagicWord _magicWord;
+		ICommandRunner _commandRunner;
 		ParameterMap _map;
+		bool _internalCommand = false;
 		string _executable = null;
 		string _commandLine = null;
 		string _escapedCommandLine = null;
@@ -53,11 +55,25 @@ namespace DMT.Modules.Launcher
 		/// </summary>
 		/// <param name="magicWord">The MagicWord thet we need executable details for</param>
 		/// <param name="map">The parameter map used to remember named parameters</param>
-		public MagicWordExecutable(MagicWord magicWord, ParameterMap map)
+		public MagicWordExecutable(MagicWord magicWord, ICommandRunner commandRunner, ParameterMap map)
 		{
-			this._magicWord = magicWord;
-			this._map = map;
+			_magicWord = magicWord;
+			_commandRunner = commandRunner;
+			_map = map;
 		}
+
+		public bool InternalCommand
+		{ 
+			get
+			{
+				if (_executable == null)
+				{
+					GetExecutable();
+				}
+				return _internalCommand;
+			}
+		}
+
 
 		/// <summary>
 		/// Readonly full pathname to the executable that is going to be run.
@@ -90,7 +106,14 @@ namespace DMT.Modules.Launcher
 				Icon fileIcon = null;
 				try
 				{
-					fileIcon = Icon.ExtractAssociatedIcon(_executable);
+					if (InternalCommand)
+					{
+						fileIcon = _commandRunner.GetInternalCommandIcon(_executable);
+					}
+					else
+					{
+						fileIcon = Icon.ExtractAssociatedIcon(_executable);
+					}
 				}
 				catch (Exception)
 				{
@@ -136,89 +159,6 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-		// The full path to Windows Explorer
-		private static string ExplorerPath
-		{
-			get 
-			{
-				if (_explorerPath == null)
-				{
-					// TODO: is explorer always in WINDIR?
-					string winDir = Environment.GetEnvironmentVariable("WINDIR");
-					_explorerPath = Path.Combine(winDir, "explorer.exe");
-				}
-				return _explorerPath;
-			}
-		}
-
-		// Determines the type of MagicWord and finds corresponding executable,
-		// command line and working directory. 
-		private void GetExecutable()
-		{
-			string extension = Path.GetExtension(_magicWord.Filename);
-
-			if (File.Exists(_magicWord.Filename))
-			{
-				// looks like a file on the local computer
-				// explicit check for .exe as we know these should be run directly
-				if (string.Compare(extension, ".exe", true) == 0)
-				{
-					// the filename can be executed directly
-					_executable = _magicWord.Filename;
-				}
-				else
-				{
-					_executable = GetAssociatedApp(extension);
-					// I can't see this documented anywhere, but if the extension belongs
-					// to something that can be run directly (.exe, .bat etc.) then "%1"
-					// seems to be returned
-					if (_executable == "%1")
-					{
-						_executable = _magicWord.Filename;
-					}
-					else
-					{
-						_commandLine = string.Format("\"{0}\" \"{1}\"", _executable, _magicWord.Filename);
-					}
-				}
-			}
-			else if (Directory.Exists(_magicWord.Filename))
-			{
-				// looks like a directory - which we will open with Windows Explorer
-				_executable = ExplorerPath;
-				_commandLine = string.Format("\"{0}\" \"{1}\"", _executable, _magicWord.Filename);
-			}
-			else
-			{
-				// assume it is a url to be opened by the browser
-				_executable = GetAssociatedApp(".htm");
-				_commandLine = string.Format("\"{0}\" {1}", _executable, _magicWord.Filename);
-			}
-
-			// make sure we specify a command line
-			if (_commandLine == null)
-			{
-				_commandLine = string.Format("\"{0}\"", _executable);
-			} 
-			
-			// add on any parameters (but don't expand any escapes) to the command line
-			if (_magicWord.Parameters != null && _magicWord.Parameters.Length > 0)
-			{
-				_commandLine += " " + _magicWord.Parameters;
-			}
-
-			// get the working directory for the application
-			if (_magicWord.StartDirectory != null && _magicWord.StartDirectory.Length > 0)
-			{
-				_workingDirectory = _magicWord.StartDirectory;
-			}
-			else
-			{
-				// use directory that the application exists in
-				_workingDirectory = Path.GetDirectoryName(_executable);
-			}
-		}
-
 		/// <summary>
 		/// Gets the application associated with the specified extension.
 		/// </summary>
@@ -240,8 +180,99 @@ namespace DMT.Modules.Launcher
 			return sb.ToString();
 		}
 
+		// The full path to Windows Explorer
+		static string ExplorerPath
+		{
+			get 
+			{
+				if (_explorerPath == null)
+				{
+					// TODO: is explorer always in WINDIR?
+					string winDir = Environment.GetEnvironmentVariable("WINDIR");
+					_explorerPath = Path.Combine(winDir, "explorer.exe");
+				}
+				return _explorerPath;
+			}
+		}
+
+		// Determines the type of MagicWord and finds corresponding executable,
+		// command line and working directory. 
+		void GetExecutable()
+		{
+			if (_commandRunner.IsInternalCommand(_magicWord.Filename))
+			{
+				_internalCommand = true;
+				_executable = _magicWord.Filename;
+			}
+			else
+			{
+				string extension = Path.GetExtension(_magicWord.Filename);
+
+				if (File.Exists(_magicWord.Filename))
+				{
+					// looks like a file on the local computer
+					// explicit check for .exe as we know these should be run directly
+					if (string.Compare(extension, ".exe", true) == 0)
+					{
+						// the filename can be executed directly
+						_executable = _magicWord.Filename;
+					}
+					else
+					{
+						_executable = GetAssociatedApp(extension);
+						// I can't see this documented anywhere, but if the extension belongs
+						// to something that can be run directly (.exe, .bat etc.) then "%1"
+						// seems to be returned
+						if (_executable == "%1")
+						{
+							_executable = _magicWord.Filename;
+						}
+						else
+						{
+							_commandLine = string.Format("\"{0}\" \"{1}\"", _executable, _magicWord.Filename);
+						}
+					}
+				}
+				else if (Directory.Exists(_magicWord.Filename))
+				{
+					// looks like a directory - which we will open with Windows Explorer
+					_executable = ExplorerPath;
+					_commandLine = string.Format("\"{0}\" \"{1}\"", _executable, _magicWord.Filename);
+				}
+				else
+				{
+					// assume it is a url to be opened by the browser
+					_executable = GetAssociatedApp(".htm");
+					_commandLine = string.Format("\"{0}\" {1}", _executable, _magicWord.Filename);
+				}
+
+				// make sure we specify a command line
+				if (_commandLine == null)
+				{
+					_commandLine = string.Format("\"{0}\"", _executable);
+				}
+
+				// add on any parameters (but don't expand any escapes) to the command line
+				if (_magicWord.Parameters != null && _magicWord.Parameters.Length > 0)
+				{
+					_commandLine += " " + _magicWord.Parameters;
+				}
+
+				// get the working directory for the application
+				if (_magicWord.StartDirectory != null && _magicWord.StartDirectory.Length > 0)
+				{
+					_workingDirectory = _magicWord.StartDirectory;
+				}
+				else
+				{
+					// use directory that the application exists in
+					_workingDirectory = Path.GetDirectoryName(_executable);
+				}
+			}
+		}
+
 		// This expands any escapes, requesting user input where required
-		private string ExpandEscapes(string input)
+		string ExpandEscapes(string input)
 		{
 			string output = "";
 			int inputLengthTaken;
@@ -255,7 +286,7 @@ namespace DMT.Modules.Launcher
 			return output;
 		}
 
-		private string GetNextSequence(string input, out int inputLengthTaken)
+		string GetNextSequence(string input, out int inputLengthTaken)
 		{
 			// find start of first escape
 			int dollarIndex = input.IndexOf('$');

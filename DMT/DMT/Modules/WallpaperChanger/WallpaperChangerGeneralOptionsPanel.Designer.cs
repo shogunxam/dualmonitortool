@@ -55,7 +55,7 @@
 			// 
 			this.labelNextChange.Location = new System.Drawing.Point(161, 234);
 			this.labelNextChange.Name = "labelNextChange";
-			this.labelNextChange.Size = new System.Drawing.Size(329, 13);
+			this.labelNextChange.Size = new System.Drawing.Size(329, 41);
 			this.labelNextChange.TabIndex = 29;
 			this.labelNextChange.Text = "Next change in";
 			// 

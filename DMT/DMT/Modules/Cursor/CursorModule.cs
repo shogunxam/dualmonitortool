@@ -19,10 +19,10 @@ namespace DMT.Modules.Cursor
 {
 	class CursorModule : Module
 	{
-		const string _moduleName = "Cursor";
+		//const string _moduleName = "Cursor";
 
 		ISettingsService _settingsService;
-		IHotKeyService _hotKeyService;
+		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 
 		public HotKeyController FreeCursorHotKeyController { get; protected set; }
@@ -109,10 +109,13 @@ namespace DMT.Modules.Cursor
 
 
 		public CursorModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
+			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			_hotKeyService = hotKeyService;
+			//_hotKeyService = hotKeyService;
 			_logger = logger;
+
+			ModuleName = "Cursor";
 
 			llMouseProc = llMouseHookCallback;
 			llKeyboardProc = llKeyboardHookCallback;
@@ -139,36 +142,43 @@ namespace DMT.Modules.Cursor
 		void Start()
 		{
 			// hot keys
-			FreeCursorHotKeyController = CreateHotKeyController("FreeCursorHotKey", CursorStrings.FreeCursorDescription, CursorStrings.FreeCursorWin7, FreeCursor);
-			StickyCursorHotKeyController = CreateHotKeyController("StickyCursorHotKey", CursorStrings.StickyCursorDescription, CursorStrings.StickyCursorWin7, StickyCursor);
-			LockCursorHotKeyController = CreateHotKeyController("LockCursorHotKey", CursorStrings.LockCursorDescription, CursorStrings.LockCursorWin7, LockCursor);
-			CursorNextScreenHotKeyController = CreateHotKeyController("CursorNextScreenHotKey", CursorStrings.CursorNextScreenDescription, CursorStrings.CursorNextScreenWin7, CursorToNextScreen);
-			CursorPrevScreenHotKeyController = CreateHotKeyController("CursorPrevScreenHotKey", CursorStrings.CursorPrevScreenDescription, CursorStrings.CursorPrevScreenWin7, CursorToPrevScreen);
+			FreeCursorHotKeyController = AddCommand("FreeCursor", CursorStrings.FreeCursorDescription, CursorStrings.FreeCursorWin7, FreeCursor);
+			StickyCursorHotKeyController = AddCommand("StickyCursor", CursorStrings.StickyCursorDescription, CursorStrings.StickyCursorWin7, StickyCursor);
+			LockCursorHotKeyController = AddCommand("LockCursor", CursorStrings.LockCursorDescription, CursorStrings.LockCursorWin7, LockCursor);
+			CursorNextScreenHotKeyController = AddCommand("CursorToNextScreen", CursorStrings.CursorNextScreenDescription, CursorStrings.CursorNextScreenWin7, CursorToNextScreen);
+			CursorPrevScreenHotKeyController = AddCommand("CursorToPrevScreen", CursorStrings.CursorPrevScreenDescription, CursorStrings.CursorPrevScreenWin7, CursorToPrevScreen);
+
+			//FreeCursorHotKeyController = CreateHotKeyController("FreeCursorHotKey", CursorStrings.FreeCursorDescription, CursorStrings.FreeCursorWin7, FreeCursor);
+			//StickyCursorHotKeyController = CreateHotKeyController("StickyCursorHotKey", CursorStrings.StickyCursorDescription, CursorStrings.StickyCursorWin7, StickyCursor);
+			//LockCursorHotKeyController = CreateHotKeyController("LockCursorHotKey", CursorStrings.LockCursorDescription, CursorStrings.LockCursorWin7, LockCursor);
+			//CursorNextScreenHotKeyController = CreateHotKeyController("CursorNextScreenHotKey", CursorStrings.CursorNextScreenDescription, CursorStrings.CursorNextScreenWin7, CursorToNextScreen);
+			//CursorPrevScreenHotKeyController = CreateHotKeyController("CursorPrevScreenHotKey", CursorStrings.CursorPrevScreenDescription, CursorStrings.CursorPrevScreenWin7, CursorToPrevScreen);
+			//base.RegisterHotKeys();
 
 			// init the other values from the settings
 
-			MinStickyForceSetting = new IntSetting(_settingsService, _moduleName, "MinStickyForce");
+			MinStickyForceSetting = new IntSetting(_settingsService, ModuleName, "MinStickyForce");
 			//_minForce = _settingsService.GetSettingAsInt(_moduleName, "MinStickyForce");
-			ControlUnhindersCursorSetting = new BoolSetting(_settingsService, _moduleName, "ControlUnhindersCursor");
+			ControlUnhindersCursorSetting = new BoolSetting(_settingsService, ModuleName, "ControlUnhindersCursor");
 			//_controlUnhindersCursor = _settingsService.GetSettingAsBool(_moduleName, "ControlUnhindersCursor");
 
-			PrimaryReturnUnhinderedSetting = new BoolSetting(_settingsService, _moduleName, "PrimaryReturnUnhindered");
+			PrimaryReturnUnhinderedSetting = new BoolSetting(_settingsService, ModuleName, "PrimaryReturnUnhindered");
 			//_primaryReturnUnhindered = _settingsService.GetSettingAsBool(_moduleName, "PrimaryReturnUnhindered");
 
-			FreeMovementKeySetting = new IntSetting(_settingsService, _moduleName, "FreeMovementKey");
+			FreeMovementKeySetting = new IntSetting(_settingsService, ModuleName, "FreeMovementKey");
 			//_freeMovementKey = (Keys)_settingsService.GetSettingAsInt(_moduleName, "FreeMovementKey");
 
-			DefaultCursorModeSetting = new IntSetting(_settingsService, _moduleName, "DefaultCursorMode");
+			DefaultCursorModeSetting = new IntSetting(_settingsService, ModuleName, "DefaultCursorMode");
 			//_defaultCursorMode = (CursorType)_settingsService.GetSettingAsInt(_moduleName, "DefaultCursorMode");
 
 			//InitCursorMode(GetCursorTypeSetting());
 			InitCursorMode(DefaultCursorMode);
 		}
 
-		HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		{
-			return _hotKeyService.CreateHotKeyController(_moduleName, settingName, description, win7Key, handler);
-		}
+		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
+		//{
+		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
+		//}
 
 		//CursorType GetCursorTypeSetting()
 		//{
@@ -220,7 +230,7 @@ namespace DMT.Modules.Cursor
 		public void StickyCursor()
 		{
 			//if (_curCursorType == CursorType.Sticky && !Controller.Instance.FreeCursorHotKeyController.IsEnabled())
-			if (_curCursorType == CursorType.Sticky && !FreeCursorHotKeyController.IsEnabled())
+			if (_curCursorType == CursorType.Sticky && !HaveFreeCursorHotKey())
 			{
 				// force operation to toggle
 				FreeCursor();
@@ -242,7 +252,7 @@ namespace DMT.Modules.Cursor
 		/// </summary>
 		public void LockCursor()
 		{
-			if (_curCursorType == CursorType.Lock && !FreeCursorHotKeyController.IsEnabled())
+			if (_curCursorType == CursorType.Lock && !HaveFreeCursorHotKey())
 			{
 				// force operation to toggle
 				FreeCursor();
@@ -253,6 +263,12 @@ namespace DMT.Modules.Cursor
 				LockCursorToScreen();
 				_curCursorType = CursorType.Lock;
 			}
+		}
+
+		bool HaveFreeCursorHotKey()
+		{
+			// TODO: implement this correctly
+			return true;
 		}
 
 		/// <summary>
