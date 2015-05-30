@@ -172,7 +172,7 @@ namespace DMT.Modules.SwapScreen
 
 		UdaController CreateUdaController(int idx)
 		{
-			string name = string.Format("UDA_{0}_", idx);
+			string name = string.Format("UDA{0}", idx + 1);
 			// set hotKey to false as UdaController is responsible for registering it
 			Command command = new Command(name, "", "", null, false, true);
 			base.AddCommand(command);

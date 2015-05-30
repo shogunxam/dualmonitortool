@@ -168,7 +168,7 @@ namespace DMT.Modules.SwapScreen
 		public static string GetUdaMarkerSettingName()
 		{
 			//return string.Format("UDA_{0}_Description", 0);
-			return "UDA_0_Description";
+			return "UDA1Description";
 		}
 
 		string GetDescriptionSettingName()

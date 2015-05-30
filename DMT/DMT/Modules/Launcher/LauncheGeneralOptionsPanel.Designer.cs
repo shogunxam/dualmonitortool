@@ -138,9 +138,9 @@
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(18, 79);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(159, 13);
+			this.label3.Size = new System.Drawing.Size(179, 13);
 			this.label3.TabIndex = 10;
-			this.label3.Text = "Initial number of icons to display:";
+			this.label3.Text = "Maximum number of icons to display:";
 			// 
 			// numericUpDownIcons
 			// 
