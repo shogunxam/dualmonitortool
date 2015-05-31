@@ -471,7 +471,10 @@
 			this.Controls.Add(this.textBoxAlias);
 			this.Controls.Add(this.label1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "MagicWordForm";
+			this.ShowInTaskbar = false;
 			this.Text = "Magic Word";
 			this.Load += new System.EventHandler(this.MagicWordForm_Load);
 			this.groupBox2.ResumeLayout(false);
