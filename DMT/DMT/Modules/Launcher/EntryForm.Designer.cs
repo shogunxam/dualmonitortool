@@ -77,6 +77,7 @@
             this.columnHeaderFilename});
 			this.magicWordListBox.Location = new System.Drawing.Point(12, 50);
 			this.magicWordListBox.Name = "magicWordListBox";
+			this.magicWordListBox.ShowItemToolTips = true;
 			this.magicWordListBox.Size = new System.Drawing.Size(337, 133);
 			this.magicWordListBox.TabIndex = 5;
 			this.magicWordListBox.UseCompatibleStateImageBehavior = false;

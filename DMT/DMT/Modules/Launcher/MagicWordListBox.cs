@@ -82,6 +82,7 @@ namespace DMT.Modules.Launcher
 
 					ListViewItem listViewItem = new ListViewItem(mw.Alias);
 					listViewItem.ImageIndex = imageIndex;
+					listViewItem.ToolTipText = mw.Comment;
 
 					ListViewItem.ListViewSubItem subItemFilename = new ListViewItem.ListViewSubItem(listViewItem, mw.Filename);
 					listViewItem.SubItems.Add(subItemFilename);

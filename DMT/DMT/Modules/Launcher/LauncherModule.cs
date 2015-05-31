@@ -339,9 +339,10 @@ namespace DMT.Modules.Launcher
 					// make sure this alias hasn't already been defined
 					if (_magicWords.FindByAlias(actionName) == null)
 					{
-						//string description = _commandRunner.GetModuleActionDescription(moduleName, actionName);
+						string description = _commandRunner.GetModuleActionDescription(moduleName, actionName);
 						string magicCommand = MagicCommand.JoinMagicCommand(moduleName, actionName);
 						mw = new MagicWord(actionName, magicCommand);
+						mw.Comment = description;
 						_magicWords.Add(mw);
 					}
 				}
