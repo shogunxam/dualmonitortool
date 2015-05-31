@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Command;
 using DMT.Library.HotKeys;
 using DMT.Library.Logging;
 using DMT.Library.PInvoke;
@@ -136,6 +137,7 @@ namespace DMT.Modules.Launcher
 			{
 				string settingString = StringUtils.FromRectangle(value);
 				_settingsService.SetSetting(ModuleName, "EntryFormPosition", settingString);
+				_settingsService.SaveSettings();
 			}
 		}
 
@@ -149,29 +151,9 @@ namespace DMT.Modules.Launcher
 			_commandRunner = commandRunner;
 
 			ModuleName = "Launcher";
-
-			Start();
 		}
 
-
-		public override ModuleOptionNode GetOptionNodes()
-		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Launcher", new LauncherRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Magic Words", new LauncherMagicWordsOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("HotKeys", new LauncherHotKeysOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new LauncheGeneralOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Import / Export", new LauncherImportOptionsPanel(this)));
-
-			return options;
-		}
-
-		public void ShowOptions()
-		{
-			// TODO: would be nicer if it opened on the launcher root page
-			_appForm.ShowOptions();
-		}
-
-		void Start()
+		public override void Start()
 		{
 			// this handles the actual starting up of applications and moving their windows
 			_startupHandler = new StartupHandler(_appForm, _commandRunner);
@@ -202,8 +184,10 @@ namespace DMT.Modules.Launcher
 			_appForm.AddMenuItem(LauncherStrings.EnterMagicWord, null, enterMagicWordToolStripMenuItem_Click);
 			_appForm.AddMenuItem(LauncherStrings.AddMagicWord, null, addMagicWordToolStripMenuItem_Click);
 			_appForm.AddMenuItem("-", null, null);
+		}
 
-
+		public override void StartUpComplete()
+		{
 			if (LoadWordsOnStartup)
 			{
 				// load magic words now
@@ -220,6 +204,24 @@ namespace DMT.Modules.Launcher
 			}
 
 			SaveMagicWords();
+		}
+
+
+		public override ModuleOptionNode GetOptionNodes()
+		{
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Launcher", new LauncherRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Magic Words", new LauncherMagicWordsOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("HotKeys", new LauncherHotKeysOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new LauncheGeneralOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Import / Export", new LauncherImportOptionsPanel(this)));
+
+			return options;
+		}
+
+		public void ShowOptions()
+		{
+			// TODO: would be nicer if it opened on the launcher root page
+			_appForm.ShowOptions();
 		}
 
 		public void SaveMagicWords()
@@ -306,10 +308,44 @@ namespace DMT.Modules.Launcher
 			{
 				_magicWords = new MagicWords();
 				string filename = FileLocations.Instance.MagicWordsFilename;
-				_magicWords.Load(filename);
+				if (!_magicWords.Load(filename))
+				{
+					// magic word file doesn't exist
+					// generate an initial set
+					GenerateInitialMagicWords();
+				}
 			}
 
 			return _magicWords;
+		}
+
+		void GenerateInitialMagicWords()
+		{
+			MagicWord mw = new MagicWord("Help", "http://dualmonitortool.sourceforge.net");
+			_magicWords.Add(mw);
+
+			AddAllInternalCommands();
+		}
+
+		void AddAllInternalCommands()
+		{
+			MagicWord mw;
+			IEnumerable<string> moduleNames = _commandRunner.GetModuleNames();
+			foreach (string moduleName in moduleNames)
+			{
+				IEnumerable<string> actionNames = _commandRunner.GetModuleCommandNames(moduleName);
+				foreach (string actionName in actionNames)
+				{
+					// make sure this alias hasn't already been defined
+					if (_magicWords.FindByAlias(actionName) == null)
+					{
+						//string description = _commandRunner.GetModuleActionDescription(moduleName, actionName);
+						string magicCommand = MagicCommand.JoinMagicCommand(moduleName, actionName);
+						mw = new MagicWord(actionName, magicCommand);
+						_magicWords.Add(mw);
+					}
+				}
+			}
 		}
 	}
 }

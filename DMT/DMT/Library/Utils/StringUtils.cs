@@ -63,7 +63,7 @@ namespace DMT.Library.Utils
 			{
 				return result;
 			}
-			return 0;
+			return defaultValue;
 		}
 
 		public static Rectangle ToRectangle(string text)

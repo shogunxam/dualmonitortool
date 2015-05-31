@@ -73,23 +73,10 @@ namespace DMT.Modules.SwapScreen
 			_logger = logger;
 
 			ModuleName = "SwapScreen";
-
-			Start();
 		}
 
 
-		public override ModuleOptionNode GetOptionNodes()
-		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen", new SwapScreenRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Active Window", new SwapScreenActiveOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("User Defined Areas", new SwapScreenUdaOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Other Windows", new SwapScreenOtherOptionsPanel(this)));
-
-			return options;
-		}
-
-
-		void Start()
+		public override void Start()
 		{
 			// Active Window
 			NextScreenHotKeyController = AddCommand("NextScreen", SwapScreenStrings.NextScreenDescription, SwapScreenStrings.NextScreenWin7, ScreenHelper.MoveActiveToNextScreen);
@@ -164,6 +151,17 @@ namespace DMT.Modules.SwapScreen
 			//ShowDesktop3HotKeyController = CreateHotKeyController("ShowDesktop3HotKey", SwapScreenStrings.ShowDesktop3Description, SwapScreenStrings.ShowDesktop3Win7, ScreenHelper.ShowDesktop3);
 			//ShowDesktop4HotKeyController = CreateHotKeyController("ShowDesktop4HotKey", SwapScreenStrings.ShowDesktop4Description, SwapScreenStrings.ShowDesktop4Win7, ScreenHelper.ShowDesktop4);
 		}
+
+		public override ModuleOptionNode GetOptionNodes()
+		{
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen", new SwapScreenRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Active Window", new SwapScreenActiveOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("User Defined Areas", new SwapScreenUdaOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Other Windows", new SwapScreenOtherOptionsPanel(this)));
+
+			return options;
+		}
+
 
 		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
 		//{

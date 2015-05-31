@@ -20,6 +20,7 @@
 using DMT.Library.HotKeys;
 using DMT.Library.Logging;
 using DMT.Library.Settings;
+using DMT.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace DMT.Modules.General
 		ISettingsService _settingsService;
 //		IHotKeyService _hotKeyService;
 		ILogger _logger;
+		AppForm _appForm;
 
 		public bool StartWhenWindowsStarts
 		{
@@ -57,14 +59,20 @@ namespace DMT.Modules.General
 			}
 		}
 
-		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
+		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
 //			_hotKeyService = hotKeyService;
 			_logger = logger;
+			_appForm = appForm;
 
 			ModuleName = "General";
+		}
+
+		public override void Start()
+		{
+			AddCommand("Options", GeneralStrings.OptionsDescription, "", ShowOptions, false, true);
 		}
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
@@ -75,9 +83,14 @@ namespace DMT.Modules.General
 
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", new GeneralRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new GeneralOptionsPanel(this)));
-		
 
 			return options;
 		}
+
+		void ShowOptions()
+		{
+			_appForm.ShowOptions();
+		}
+
 	}
 }

@@ -379,6 +379,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CursorStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\GeneralStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GeneralStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\LauncherStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -529,6 +534,10 @@
     <EmbeddedResource Include="Resources\CursorStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CursorStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\GeneralStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\LauncherStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

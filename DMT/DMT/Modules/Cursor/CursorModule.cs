@@ -119,8 +119,6 @@ namespace DMT.Modules.Cursor
 
 			llMouseProc = llMouseHookCallback;
 			llKeyboardProc = llKeyboardHookCallback;
-
-			Start();
 		}
 
 		public override ModuleOptionNode GetOptionNodes()
@@ -131,15 +129,7 @@ namespace DMT.Modules.Cursor
 			return options;
 		}
 
-		public override void Terminate()
-		{
-			// This will release the hooks if they are hooked
-			UnLockCursor();
-			_curCursorType = CursorType.Free;
-		}
-
-
-		void Start()
+		public override void Start()
 		{
 			// hot keys
 			FreeCursorHotKeyController = AddCommand("FreeCursor", CursorStrings.FreeCursorDescription, CursorStrings.FreeCursorWin7, FreeCursor);
@@ -174,6 +164,14 @@ namespace DMT.Modules.Cursor
 			//InitCursorMode(GetCursorTypeSetting());
 			InitCursorMode(DefaultCursorMode);
 		}
+
+		public override void Terminate()
+		{
+			// This will release the hooks if they are hooked
+			UnLockCursor();
+			_curCursorType = CursorType.Free;
+		}
+
 
 		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
 		//{

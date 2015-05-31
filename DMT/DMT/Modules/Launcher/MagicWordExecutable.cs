@@ -243,7 +243,8 @@ namespace DMT.Modules.Launcher
 				{
 					// assume it is a url to be opened by the browser
 					_executable = GetAssociatedApp(".htm");
-					_commandLine = string.Format("\"{0}\" {1}", _executable, _magicWord.Filename);
+					//_commandLine = string.Format("\"{0}\" {1}", _executable, _magicWord.Filename);
+					_commandLine = string.Format("\"{0}\" \"{1}\"", _executable, _magicWord.Filename);
 				}
 
 				// make sure we specify a command line

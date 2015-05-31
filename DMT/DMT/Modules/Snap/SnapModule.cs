@@ -79,20 +79,9 @@ namespace DMT.Modules.Snap
 			_appForm = appForm;
 
 			ModuleName = "Snap";
-
-			Start();
 		}
 
-		public override void Terminate()
-		{
-			if (_snapForm != null)
-			{
-				_snapForm.Terminate();
-			}
-
-		}
-
-		void Start()
+		public override void Start()
 		{
 			// setup hot keys & commands for magic words
 			TakeSnapHotKeyController = AddCommand("TakeSnap", SnapStrings.TakeSnapDescription, "", TakeSnap);
@@ -116,6 +105,15 @@ namespace DMT.Modules.Snap
 			_appForm.AddMenuItem(SnapStrings.SnapNow, null, snapNowToolStripMenuItem_Click);
 			_showSnapToolStripMenuItem = _appForm.AddMenuItem(SnapStrings.ShowSnap, null, showSnapToolStripMenuItem_Click);
 			_appForm.AddMenuItem("-", null, null);
+		}
+
+		public override void Terminate()
+		{
+			if (_snapForm != null)
+			{
+				_snapForm.Terminate();
+			}
+
 		}
 
 

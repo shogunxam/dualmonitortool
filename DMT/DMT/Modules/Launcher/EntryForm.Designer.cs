@@ -52,7 +52,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxInput.Location = new System.Drawing.Point(63, 19);
 			this.textBoxInput.Name = "textBoxInput";
-			this.textBoxInput.Size = new System.Drawing.Size(310, 20);
+			this.textBoxInput.Size = new System.Drawing.Size(256, 20);
 			this.textBoxInput.TabIndex = 3;
 			this.textBoxInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxInput_KeyDown);
 			// 
@@ -60,7 +60,7 @@
 			// 
 			this.buttonOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonOptions.Image = ((System.Drawing.Image)(resources.GetObject("buttonOptions.Image")));
-			this.buttonOptions.Location = new System.Drawing.Point(379, 19);
+			this.buttonOptions.Location = new System.Drawing.Point(325, 20);
 			this.buttonOptions.Name = "buttonOptions";
 			this.buttonOptions.Size = new System.Drawing.Size(24, 24);
 			this.buttonOptions.TabIndex = 4;
@@ -77,7 +77,7 @@
             this.columnHeaderFilename});
 			this.magicWordListBox.Location = new System.Drawing.Point(12, 50);
 			this.magicWordListBox.Name = "magicWordListBox";
-			this.magicWordListBox.Size = new System.Drawing.Size(391, 169);
+			this.magicWordListBox.Size = new System.Drawing.Size(337, 133);
 			this.magicWordListBox.TabIndex = 5;
 			this.magicWordListBox.UseCompatibleStateImageBehavior = false;
 			this.magicWordListBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.magicWordListBox_KeyDown);
@@ -97,7 +97,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(415, 231);
+			this.ClientSize = new System.Drawing.Size(361, 195);
 			this.Controls.Add(this.magicWordListBox);
 			this.Controls.Add(this.buttonOptions);
 			this.Controls.Add(this.textBoxInput);

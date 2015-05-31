@@ -105,25 +105,41 @@ namespace DMT.Modules.Launcher
 		/// <returns>true (always)</returns>
 		public bool Load(string filename)
 		{
-			bool ret = true;
+			bool ret = false;
 
 			magicWords.Clear();
 
 			if (File.Exists(filename))
 			{
 				Merge(XmlImporter.Import(filename));
-			}
-			else
-			{
-				// if file doesn't exist, just add a single magic word for help
-				MagicWord mw = new MagicWord("help", "http://dualmonitortool.sourceforge.net/duallauncher.html");
-				magicWords.Add(mw);
+				ret = true;
 			}
 
 			_isDirty = false;
 
 			return ret;
 		}
+		//public bool Load(string filename)
+		//{
+		//	bool ret = true;
+
+		//	magicWords.Clear();
+
+		//	if (File.Exists(filename))
+		//	{
+		//		Merge(XmlImporter.Import(filename));
+		//	}
+		//	else
+		//	{
+		//		// if file doesn't exist, just add a single magic word for help
+		//		MagicWord mw = new MagicWord("help", "http://dualmonitortool.sourceforge.net/duallauncher.html");
+		//		magicWords.Add(mw);
+		//	}
+
+		//	_isDirty = false;
+
+		//	return ret;
+		//}
 
 		/// <summary>
 		/// Saves the magic words if they have changed.

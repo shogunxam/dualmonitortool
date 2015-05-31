@@ -50,6 +50,14 @@ namespace DMT.Modules
 
 		//public abstract void RunCommand(string commandName, string parameters);
 
+		public virtual void Start()
+		{
+		}
+
+		public virtual void StartUpComplete()
+		{
+		}
+
 		public virtual void Terminate()
 		{
 		}

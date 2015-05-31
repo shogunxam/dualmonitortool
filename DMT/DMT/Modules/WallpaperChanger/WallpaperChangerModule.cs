@@ -130,22 +130,10 @@ namespace DMT.Modules.WallpaperChanger
 			_wallpaperCompositorFactory = new WallpaperCompositorFactory();
 			_imageRepository = new ImageRepository(_providerPersistence, _logger);
 			_desktop = new Desktop(this, _localEnvironment, _imageRepository, _wallpaperCompositorFactory);
-
-			Start();
 		}
 
 
-		public override ModuleOptionNode GetOptionNodes()
-		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Wallpaper Changer", new WallpaperChangerRootOptionsPanel());
-			_generalOptionsPanel = new WallpaperChangerGeneralOptionsPanel(this);
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", _generalOptionsPanel));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Providers", new WallpaperChangerProvidersOptionsPanel(this)));
-
-			return options;
-		}
-
-		void Start()
+		public override void Start()
 		{
 			// hot keys
 			ChangeWallpaperHotKeyController = AddCommand("ChangeWallpaper", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
@@ -179,6 +167,16 @@ namespace DMT.Modules.WallpaperChanger
 			_appForm.AddMenuItem(WallpaperStrings.ChangeWallpaperNow, null, changeWallpaperNowToolStripMenuItem_Click);
 			_pauseToolStripMenuItem = _appForm.AddMenuItem(WallpaperStrings.PauseWallpaperChanging, null, pauseWallpaperChangingToolStripMenuItem_Click);
 			_appForm.AddMenuItem("-", null, null);
+		}
+
+		public override ModuleOptionNode GetOptionNodes()
+		{
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Wallpaper Changer", new WallpaperChangerRootOptionsPanel());
+			_generalOptionsPanel = new WallpaperChangerGeneralOptionsPanel(this);
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", _generalOptionsPanel));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Providers", new WallpaperChangerProvidersOptionsPanel(this)));
+
+			return options;
 		}
 
 		public override void Terminate()

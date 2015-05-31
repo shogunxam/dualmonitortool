@@ -93,6 +93,22 @@ namespace DMT.Modules
 			return optionNodes;
 		}
 
+		public void StartAllModules()
+		{
+			foreach (Module module in _modules)
+			{
+				module.Start();
+			}
+		}
+
+		public void StartUpComplete()
+		{
+			foreach (Module module in _modules)
+			{
+				module.StartUpComplete();
+			}
+		}
+
 		public void TerminateAllModules()
 		{
 			foreach (Module module in _modules)
