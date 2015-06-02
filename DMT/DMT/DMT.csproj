@@ -62,63 +62,6 @@
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controller.cs" />
-    <Compile Include="Library\Command\MagicCommand.cs" />
-    <Compile Include="Library\Environment\ILocalEnvironment.cs" />
-    <Compile Include="Library\Environment\LocalEnvironment.cs" />
-    <Compile Include="Library\Environment\Monitor.cs" />
-    <Compile Include="Library\Environment\Monitors.cs" />
-    <Compile Include="Library\HotKeys\HotKey.cs" />
-    <Compile Include="Library\HotKeys\HotKeyController.cs" />
-    <Compile Include="Library\HotKeys\HotKeyForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Library\HotKeys\HotKeyForm.Designer.cs">
-      <DependentUpon>HotKeyForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\HotKeys\HotKeyPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Library\HotKeys\HotKeyPanel.Designer.cs">
-      <DependentUpon>HotKeyPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\HotKeys\HotKeyRepository.cs" />
-    <Compile Include="Library\HotKeys\IHotKeyService.cs" />
-    <Compile Include="Library\HotKeys\KeyCombo.cs" />
-    <Compile Include="Library\HotKeys\KeyComboPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Library\HotKeys\KeyComboPanel.Designer.cs">
-      <DependentUpon>KeyComboPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Library\HotKeys\VirtualKey.cs" />
-    <Compile Include="Library\Environment\OsHelper.cs" />
-    <Compile Include="Library\Binding\PropertyComparer.cs" />
-    <Compile Include="Library\Html\FakeRequester.cs" />
-    <Compile Include="Library\Html\HtmlElement.cs" />
-    <Compile Include="Library\Html\HtmlReader.cs" />
-    <Compile Include="Library\Html\HttpConnection.cs" />
-    <Compile Include="Library\Html\HttpConnectionManager.cs" />
-    <Compile Include="Library\Html\HttpRequester.cs" />
-    <Compile Include="Library\Html\HttpResponseData.cs" />
-    <Compile Include="Library\Html\IHttpRequester.cs" />
-    <Compile Include="Library\Logging\ILogger.cs" />
-    <Compile Include="Library\Logging\Logger.cs" />
-    <Compile Include="Library\Utils\SafeFileWriter.cs" />
-    <Compile Include="Library\Transform\Scaler.cs" />
-    <Compile Include="Library\GuiUtils\ScreenHelper.cs" />
-    <Compile Include="Library\Settings\BoolSetting.cs" />
-    <Compile Include="Library\Settings\IntSetting.cs" />
-    <Compile Include="Library\Settings\UIntSetting.cs" />
-    <Compile Include="Library\Binding\SortableBindingList.cs" />
-    <Compile Include="Library\Transform\ScreenMapping.cs" />
-    <Compile Include="Library\WallpaperPlugin\IDWC_Plugin.cs" />
-    <Compile Include="Library\WallpaperPlugin\IImageProvider.cs" />
-    <Compile Include="Library\WallpaperPlugin\ProviderHelper.cs" />
-    <Compile Include="Library\Wallpaper\IWallpaperCompositor.cs" />
-    <Compile Include="Library\Wallpaper\IWallpaperCompositorFactory.cs" />
-    <Compile Include="Library\Wallpaper\WallpaperCompositor.cs" />
-    <Compile Include="Library\Wallpaper\WallpaperCompositorFactory.cs" />
-    <Compile Include="Library\Wallpaper\WindowsWallpaper.cs" />
     <Compile Include="Modules\Command.cs" />
     <Compile Include="Modules\ICommandRunner.cs" />
     <Compile Include="Modules\Launcher\InternalCommandForm.cs">
@@ -128,12 +71,6 @@
       <DependentUpon>InternalCommandForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\WallpaperChanger\Desktop.cs" />
-    <Compile Include="Library\Wallpaper\StretchType.cs" />
-    <Compile Include="Library\Wallpaper\SwitchType.cs" />
-    <Compile Include="Library\PInvoke\Win32.cs" />
-    <Compile Include="Library\GuiUtils\WindowPicker.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Modules\Cursor\CursorBarrier.cs" />
     <Compile Include="Modules\Cursor\CursorBarrierLower.cs" />
     <Compile Include="Modules\Cursor\CursorBarrierUpper.cs" />
@@ -158,7 +95,6 @@
     <Compile Include="Modules\General\GeneralOptionsPanel.Designer.cs">
       <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\Utils\StringUtils.cs" />
     <Compile Include="Modules\General\GeneralRootOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -399,11 +335,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SwapScreenStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Library\Settings\FileLocations.cs" />
-    <Compile Include="Library\Settings\ISettingsService.cs" />
-    <Compile Include="Library\Settings\SettingsReader.cs" />
-    <Compile Include="Library\Settings\SettingsRepository.cs" />
-    <Compile Include="Library\Settings\SettingsWriter.cs" />
     <Compile Include="Resources\WallpaperStrings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -414,15 +345,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AppForm.resx">
       <DependentUpon>AppForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\HotKeys\HotKeyForm.resx">
-      <DependentUpon>HotKeyForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\HotKeys\HotKeyPanel.resx">
-      <DependentUpon>HotKeyPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Library\HotKeys\KeyComboPanel.resx">
-      <DependentUpon>KeyComboPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Cursor\CursorGeneralOptionsPanel.resx">
       <DependentUpon>CursorGeneralOptionsPanel.cs</DependentUpon>
@@ -593,6 +515,12 @@
     <None Include="Resources\Snap.ico" />
     <None Include="Resources\Launcher.ico" />
     <None Include="Resources\General.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DMT_Library\DMT_Library.csproj">
+      <Project>{142d41d6-ad85-43e1-a13c-f3f89163c830}</Project>
+      <Name>DMT_Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

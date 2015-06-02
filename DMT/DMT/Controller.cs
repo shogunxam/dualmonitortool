@@ -27,6 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMT.Library.Logging;
+using Microsoft.Win32;
 
 namespace DMT
 {
@@ -54,6 +55,9 @@ namespace DMT
 			_commandRunner = moduleRepository;
 			_logger = new Logger();
 
+			// catch windows shutdown so we can clean up
+			SystemEvents.SessionEnded += SystemEvents_SessionEnded;
+
 			// now add the modules
 			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService, _logger, _appForm));
 			_moduleService.AddModule(new DMT.Modules.Cursor.CursorModule(_settingsService, _hotKeyService, _logger));
@@ -65,6 +69,12 @@ namespace DMT
 			_moduleService.StartAllModules();
 
 			_moduleService.StartUpComplete();
+		}
+
+		void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
+		{
+			SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
+			Stop();
 		}
 
 		public void Stop()

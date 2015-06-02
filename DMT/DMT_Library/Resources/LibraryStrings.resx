@@ -117,30 +117,65 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="LControlKey" xml:space="preserve">
-    <value>Left Control Key</value>
+  <data name="AltModifierKey" xml:space="preserve">
+    <value>Alt</value>
+    <comment>Used when displaying hotkeys</comment>
   </data>
-  <data name="LShiftKey" xml:space="preserve">
-    <value>Left Shift Key</value>
+  <data name="Center" xml:space="preserve">
+    <value>Center image without any stretching</value>
+  </data>
+  <data name="CtrlModifierKey" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Used when displaying hotkeys</comment>
+  </data>
+  <data name="DisabledHotKey" xml:space="preserve">
+    <value>--DISABLED--</value>
+    <comment>Used when displaying hotkeys</comment>
+  </data>
+  <data name="ManyToMany" xml:space="preserve">
+    <value>Different image on each monitor (all changed together)</value>
+  </data>
+  <data name="ManyToManyInSequence" xml:space="preserve">
+    <value>Different image on each monitor (only one changed at a time)</value>
   </data>
   <data name="MyTitle" xml:space="preserve">
     <value>Dual Monitor Tools</value>
-  </data>
-  <data name="RControlKey" xml:space="preserve">
-    <value>Right Control Key</value>
-  </data>
-  <data name="RShiftKey" xml:space="preserve">
-    <value>Right Shift Key</value>
-  </data>
-  <data name="License" xml:space="preserve">
-    <value>This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
+    <comment>This shouldn't really be here</comment>
   </data>
   <data name="NoKey" xml:space="preserve">
     <value>You need to select a key from the drop down box</value>
   </data>
+  <data name="NotWin7" xml:space="preserve">
+    <value>For future combatibility with Windows 7 and later, you may want to use {0} for this function, as this is what Windows 7 uses.</value>
+  </data>
+  <data name="OneToMany" xml:space="preserve">
+    <value>Same image on each monitor</value>
+  </data>
+  <data name="OneToOneBig" xml:space="preserve">
+    <value>One image stretched over all monitors</value>
+  </data>
+  <data name="OverStretch" xml:space="preserve">
+    <value>Over stretch to cover the monitor(s)</value>
+  </data>
   <data name="RegisterFail" xml:space="preserve">
     <value>The registration of this hotkey has failed.
 Try another hot key combination.</value>
+  </data>
+  <data name="ShiftModifierKey" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Used when displaying hotkeys</comment>
+  </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>Stretch image to fill monitor(s) - ignores aspect ratio</value>
+  </data>
+  <data name="UnderStretch" xml:space="preserve">
+    <value>Under stretch so as not to clip image</value>
+  </data>
+  <data name="Win7" xml:space="preserve">
+    <value>This functionality is already provided by Windows 7 using {0}, so there is no need to enable this unless you want SwapScreen to handle it using a different hotkey.</value>
+  </data>
+  <data name="WinModifierKey" xml:space="preserve">
+    <value>Win</value>
+    <comment>Used when displaying hotkeys</comment>
   </data>
 </root>
