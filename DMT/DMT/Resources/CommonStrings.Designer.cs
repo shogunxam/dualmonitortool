@@ -61,6 +61,33 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alt.
+        /// </summary>
+        internal static string AltModifierKey {
+            get {
+                return ResourceManager.GetString("AltModifierKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ctrl.
+        /// </summary>
+        internal static string CtrlModifierKey {
+            get {
+                return ResourceManager.GetString("CtrlModifierKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to --DISABLED--.
+        /// </summary>
+        internal static string DisabledHotKey {
+            get {
+                return ResourceManager.GetString("DisabledHotKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left Control Key.
         /// </summary>
         internal static string LControlKey {
@@ -107,6 +134,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For future combatibility with Windows 7 and later, you may want to use {0} for this function, as this is what Windows 7 uses..
+        /// </summary>
+        internal static string NotWin7 {
+            get {
+                return ResourceManager.GetString("NotWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right Control Key.
         /// </summary>
         internal static string RControlKey {
@@ -131,6 +167,33 @@ namespace DMT.Resources {
         internal static string RShiftKey {
             get {
                 return ResourceManager.GetString("RShiftKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shift.
+        /// </summary>
+        internal static string ShiftModifierKey {
+            get {
+                return ResourceManager.GetString("ShiftModifierKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This functionality is already provided by Windows 7 using {0}, so there is no need to enable this unless you want SwapScreen to handle it using a different hotkey..
+        /// </summary>
+        internal static string Win7 {
+            get {
+                return ResourceManager.GetString("Win7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Win.
+        /// </summary>
+        internal static string WinModifierKey {
+            get {
+                return ResourceManager.GetString("WinModifierKey", resourceCulture);
             }
         }
     }

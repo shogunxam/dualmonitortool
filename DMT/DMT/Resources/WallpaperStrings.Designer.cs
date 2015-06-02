@@ -61,6 +61,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center image without any stretching.
+        /// </summary>
+        internal static string Center {
+            get {
+                return ResourceManager.GetString("Center", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Wallpaper.
         /// </summary>
         internal static string ChangeWallpaperDescription {
@@ -93,6 +102,24 @@ namespace DMT.Resources {
         internal static string ConfirmDelProviders {
             get {
                 return ResourceManager.GetString("ConfirmDelProviders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Different image on each monitor (all changed together).
+        /// </summary>
+        internal static string ManyToMany {
+            get {
+                return ResourceManager.GetString("ManyToMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Different image on each monitor (only one changed at a time).
+        /// </summary>
+        internal static string ManyToManyInSequence {
+            get {
+                return ResourceManager.GetString("ManyToManyInSequence", resourceCulture);
             }
         }
         
@@ -143,6 +170,42 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Same image on each monitor.
+        /// </summary>
+        internal static string OneToMany {
+            get {
+                return ResourceManager.GetString("OneToMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to One image stretched over all monitors.
+        /// </summary>
+        internal static string OneToOneBig {
+            get {
+                return ResourceManager.GetString("OneToOneBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Over stretch to cover the monitor(s).
+        /// </summary>
+        internal static string OverStretch {
+            get {
+                return ResourceManager.GetString("OverStretch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Over stretch to cover the monitor(s).
+        /// </summary>
+        internal static string OverStretch1 {
+            get {
+                return ResourceManager.GetString("OverStretch1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pause Wallpaper Changing.
         /// </summary>
         internal static string PauseWallpaperChanging {
@@ -157,6 +220,24 @@ namespace DMT.Resources {
         internal static string PleaseSelectProvider {
             get {
                 return ResourceManager.GetString("PleaseSelectProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stretch image to fill monitor(s) - ignores aspect ratio.
+        /// </summary>
+        internal static string Stretch {
+            get {
+                return ResourceManager.GetString("Stretch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Under stretch so as not to clip image.
+        /// </summary>
+        internal static string UnderStretch {
+            get {
+                return ResourceManager.GetString("UnderStretch", resourceCulture);
             }
         }
     }
