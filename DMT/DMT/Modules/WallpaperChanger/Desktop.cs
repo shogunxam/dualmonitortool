@@ -157,11 +157,12 @@ namespace DMT.Modules.WallpaperChanger
 
 			if (monitorMapping == SwitchType.ImageToMonitorMapping.ManyToManyInSequence)
 			{
-				if (_lastScreenUpdated < 0)
+				int numScreens = compositor.AllScreens.Count;
+				if (_lastScreenUpdated < 0 || !HaveRememberedAllImages(numScreens))
 				{
 					// first time through or just switched to this mode, 
 					// so redo all screens
-					for (int i = 0; i < compositor.AllScreens.Count; i++)
+					for (int i = 0; i < numScreens; i++)
 					{
 						Image sourceImage = GetRandomImageForScreen(compositor, i);
 						if (sourceImage != null)
@@ -177,7 +178,6 @@ namespace DMT.Modules.WallpaperChanger
 					// just need the one image
 
 					_lastScreenUpdated++;
-					int numScreens = compositor.AllScreens.Count;
 					if (numScreens > 0)
 					{
 						_lastScreenUpdated %= numScreens;
@@ -190,10 +190,16 @@ namespace DMT.Modules.WallpaperChanger
 					}
 				}
 
-				// now add the required for rach screen to the compositor
-				for (int i = 0; i < compositor.AllScreens.Count; i++)
+				// now add the required image for each screen to the compositor
+				for (int i = 0; i < numScreens; i++)
 				{
-					compositor.AddImage(_previousImages[i], ScreenToList(i), stretchType.Type);
+					//compositor.AddImage(_previousImages[i], ScreenToList(i), stretchType.Type);
+					Image image = GetRememberedImage(i);
+					// Should always have an image, but jic
+					if (image != null)
+					{
+						compositor.AddImage(image, ScreenToList(i), stretchType.Type);
+					}
 				}
 
 			}
@@ -203,8 +209,6 @@ namespace DMT.Modules.WallpaperChanger
 				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
 				windowsWallpaper.SetWallpaper();
 			}
-
-
 		}
 
 		Image GetRandomImageForScreen(IWallpaperCompositor compositor, int screenIndex)
@@ -275,6 +279,45 @@ namespace DMT.Modules.WallpaperChanger
 				}
 				_previousImages = null;
 			}
+		}
+
+		Image GetRememberedImage(int screenIndex)
+		{
+			Image ret = null;
+
+			if (_previousImages != null)
+			{
+				if (screenIndex < _previousImages.Count)
+				{
+					ret = _previousImages[screenIndex];
+				}
+			}
+
+			return ret;
+		}
+
+		bool HaveRememberedAllImages(int numMonitors)
+		{
+			if (_previousImages != null)
+			{
+				// make sure we have a slot for each active monitor
+				if (_previousImages.Count < numMonitors)
+				{
+					return false;
+				}
+				// check none of these are empty slots
+				for (int n = 0; n < numMonitors; n++)
+				{
+					if (_previousImages[n] == null)
+					{
+						return false;
+					}
+				}
+				// have an active slot for each active monitor
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
