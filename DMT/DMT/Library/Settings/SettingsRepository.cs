@@ -178,7 +178,7 @@ namespace DMT.Library.Settings
 					}
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 			}
 

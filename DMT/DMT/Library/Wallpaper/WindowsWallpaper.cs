@@ -28,7 +28,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using DMT.Library.Environment;
 using DMT.Library.PInvoke;
-using DMT.Resources;
+//using DMT.Resources;
 using DMT.Library.Settings;
 
 
@@ -120,7 +120,8 @@ namespace DMT.Library.Wallpaper
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, CommonStrings.MyTitle);
+				//MessageBox.Show(ex.Message, CommonStrings.MyTitle);
+				MessageBox.Show(ex.Message);
 			}
 		}
 
@@ -132,7 +133,8 @@ namespace DMT.Library.Wallpaper
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, CommonStrings.MyTitle);
+				//MessageBox.Show(ex.Message, CommonStrings.MyTitle);
+				MessageBox.Show(ex.Message);
 			}
 		}
 

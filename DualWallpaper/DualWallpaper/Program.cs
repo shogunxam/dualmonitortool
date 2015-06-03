@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using DualWallpaper.Properties;
+using DMT.Library.PInvoke;
 
 namespace DualWallpaper
 {
@@ -81,34 +82,5 @@ namespace DualWallpaper
 				return Resources.MyTitle;
 			}
 		}
-
-		private static string myAppDataDir;
-
-		/// <summary>
-		/// Directory to save the wallpaper too
-		/// </summary>
-		public static string MyAppDataDir
-		{
-			get
-			{
-				if (myAppDataDir == null)
-				{
-					// data dir needs to be on a per user per machine basis 
-					// (not roaming as different machines may have different screen layouts etc.)
-					//string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-					string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-
-					// Add the company name to the path
-					appDataDir = Path.Combine(appDataDir, "GNE");
-
-					// Add the program name to the path
-					myAppDataDir = Path.Combine(appDataDir, "DualWallpaper");
-					// make sure the directory exists
-					Directory.CreateDirectory(myAppDataDir);
-				}
-				return myAppDataDir;
-			}
-		}
-
 	}
 }

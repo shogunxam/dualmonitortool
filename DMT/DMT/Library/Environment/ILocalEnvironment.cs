@@ -31,10 +31,8 @@ namespace DMT.Library.Environment
 		Monitors Monitors { get; }
 
 		/// <summary>
-		/// Directory for application to use to save/load data
+		/// Are we running Windows 8 or later
 		/// </summary>
-		string AppDataDir { get; }
-
 		bool IsWin8OrLater();
 	}
 }

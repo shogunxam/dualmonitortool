@@ -17,6 +17,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Environment;
+using DMT.Library.PInvoke;
+using DMT.Library.Wallpaper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -353,7 +356,8 @@ namespace DualWallpaper
 				try
 				{
 					//wallpaper.Save(dlg.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-					WindowsWallpaper windowsWallpaper = new WindowsWallpaper(wallpaper, controller.DesktopRect);
+					ILocalEnvironment localEnvironment = new LocalEnvironment();
+					WindowsWallpaper windowsWallpaper = new WindowsWallpaper(localEnvironment, wallpaper, controller.DesktopRect);
 					windowsWallpaper.SaveWallpaper(dlg.FileName);
 				}
 				catch (Exception ex)
@@ -365,7 +369,8 @@ namespace DualWallpaper
 
 		private void buttonSetWallpaper_Click(object sender, EventArgs e)
 		{
-			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(wallpaper, controller.DesktopRect);
+			ILocalEnvironment localEnvironment = new LocalEnvironment();
+			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(localEnvironment, wallpaper, controller.DesktopRect);
 			windowsWallpaper.SetWallpaper();
 
 		}

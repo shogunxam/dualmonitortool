@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DMT.Library.Environment;
+using DMT.Library.Wallpaper;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -70,7 +72,8 @@ namespace DualWallpaper
 				controller.AddImage(image, stretchType.Type);
 
 				wallpaper = controller.CreateWallpaperImage();
-				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(wallpaper, controller.DesktopRect);
+				ILocalEnvironment localEnvironment = new LocalEnvironment();
+				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(localEnvironment, wallpaper, controller.DesktopRect);
 				windowsWallpaper.SetWallpaper();
 			}
 		}

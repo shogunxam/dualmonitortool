@@ -126,7 +126,5 @@
 		private System.Windows.Forms.TextBox textBoxInput;
 		private System.Windows.Forms.Button buttonOptions;
 		private MagicWordListBox magicWordListBox;
-		private System.Windows.Forms.ColumnHeader columnHeader1;
-		private System.Windows.Forms.ColumnHeader columnHeader2;
 	}
 }

@@ -20,20 +20,23 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+//using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 using System.Xml;
 
 namespace DMT.Library.Settings
 {
 	class FileLocations
 	{
+		public string DataDirectory { get; protected set; }
 		public string SettingsFilename { get; protected set; }
 		public string MagicWordsFilename { get; protected set; }
 		public string WallpaperProvidersFilename { get; protected set; }
 		public string WallpaperFilename { get; protected set; }
+
+		string _homeDirectory;
 
 		#region Singleton support
 		// the single instance of the controller object
@@ -59,26 +62,51 @@ namespace DMT.Library.Settings
 		}
 		#endregion
 
+		//public string Filename(string filename)
+		//{
+		//	return Path.Combine(DataDirectory, filename);
+		//}
+
 		void LoadFileLocations()
 		{
-			string homeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			_homeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			// by default, we use the home directory as the data directory to simplify portable usage
+			DataDirectory = _homeDirectory;
+
+			string fileLocationsFilename = Path.Combine(_homeDirectory, "DmtFileLocations.xml");
+			bool haveLocationsFile = File.Exists(fileLocationsFilename);
+			List<Tuple<string, string>> LocationRemaps = null;
+			if (haveLocationsFile)
+			{
+				// check too see if we are told to pick up anything from anywhere else
+				LocationRemaps = GetLocationRemaps(fileLocationsFilename);
+				Tuple<string, string> directoryRemap = LocationRemaps.Find(m => m.Item1 == "DataDirectory");
+				if (directoryRemap != null)
+				{
+					DataDirectory = directoryRemap.Item2;
+				}
+			}
 
 			// set default locations of files - which are in same directory as executable
-			SettingsFilename = Path.Combine(homeDir, "DmtSettings.xml");
-			MagicWordsFilename = Path.Combine(homeDir, "DmtMagicWords.xml");
-			WallpaperProvidersFilename = Path.Combine(homeDir, "DmtWallpaperProviders.xml");
-			WallpaperFilename = Path.Combine(homeDir, "DmtWallpaper.bmp");
+			SettingsFilename = Path.Combine(DataDirectory, "DmtSettings.xml");
+			MagicWordsFilename = Path.Combine(DataDirectory, "DmtMagicWords.xml");
+			WallpaperProvidersFilename = Path.Combine(DataDirectory, "DmtWallpaperProviders.xml");
+			WallpaperFilename = Path.Combine(DataDirectory, "DmtWallpaper.bmp");
 
-			// allow these values to be overridden by paths in DmtFileLocations.xml
-			string fileLocationsFilename = Path.Combine(homeDir, "DmtFileLocations.xml");
-			if (File.Exists(fileLocationsFilename))
+			if (haveLocationsFile)
 			{
-				LoadLocationsFromFile(fileLocationsFilename);
+				// allow individual locations to be remapped
+				foreach (Tuple<string, string> remap in LocationRemaps)
+				{
+					SetFileLocation(remap.Item1, remap.Item2);
+				}
 			}
 		}
 
-		void LoadLocationsFromFile(string fileLocationsFilename)
+		List<Tuple<string, string>> GetLocationRemaps(string fileLocationsFilename)
 		{
+			List<Tuple<string, string>> LocationRemaps = new List<Tuple<string, string>>();
+
 			try
 			{
 				using (Stream stream = File.Open(fileLocationsFilename, FileMode.Open))
@@ -93,7 +121,7 @@ namespace DMT.Library.Settings
 							{
 								string name = reader.GetAttribute("name");
 								string value = reader.GetAttribute("value");
-								SetFileLocation(name, value);
+								LocationRemaps.Add(new Tuple<string, string>(name, value));
 							}
 						}
 					}
@@ -102,6 +130,8 @@ namespace DMT.Library.Settings
 			catch (Exception)
 			{
 			}
+
+			return LocationRemaps;
 		}
 
 		void SetFileLocation(string name, string value)

@@ -47,34 +47,6 @@ namespace DMT.Library.Environment
 			}
 		}
 
-		string _appDataDir;
-
-		// TODO - need to save the files elsewhere?
-		/// <summary>
-		/// Directory to save the wallpaper too
-		/// </summary>
-		public string AppDataDir
-		{
-			get
-			{
-				if (_appDataDir == null)
-				{
-					// data dir needs to be on a per user per machine basis 
-					// (not roaming as different machines may have different screen layouts etc.)
-					string appDataDir = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
-
-					// Add the company name to the path
-					appDataDir = Path.Combine(appDataDir, "GNE");
-
-					// Add the program name to the path
-					_appDataDir = Path.Combine(appDataDir, "DualWallpaperChanger");
-					// make sure the directory exists
-					Directory.CreateDirectory(_appDataDir);
-				}
-				return _appDataDir;
-			}
-		}
-
 		public bool IsWin8OrLater()
 		{
 			return OsHelper.IsWin8OrLater();

@@ -242,6 +242,9 @@ namespace DMT.Library.PInvoke
 		public static extern uint AssocQueryString(ASSOCF flags, ASSOCSTR str, string pszAssoc, string pszExtra,
 		   [Out] StringBuilder pszOut, [In][Out] ref uint pcchOut);
 
+		[DllImport("kernel32.dll")]
+		public static extern bool AttachConsole(int pid);
+
 		[DllImport("user32.dll")]
 		public static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -260,6 +263,9 @@ namespace DMT.Library.PInvoke
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, uint lParam);
+
+		[DllImport("kernel32")]
+		public static extern bool FreeConsole();
 
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);

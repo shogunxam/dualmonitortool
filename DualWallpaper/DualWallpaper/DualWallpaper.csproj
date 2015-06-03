@@ -16,7 +16,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
   </PropertyGroup>
@@ -49,6 +49,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\DMT\DMT\Library\Environment\ILocalEnvironment.cs">
+      <Link>Library\Environment\ILocalEnvironment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Environment\LocalEnvironment.cs">
+      <Link>Library\Environment\LocalEnvironment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Environment\Monitor.cs">
+      <Link>Library\Environment\Monitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Environment\Monitors.cs">
+      <Link>Library\Environment\Monitors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Environment\OsHelper.cs">
+      <Link>Library\Environment\OsHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\PInvoke\Win32.cs">
+      <Link>Library\PInvoke\Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Settings\FileLocations.cs">
+      <Link>Library\Settings\FileLocations.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Transform\Scaler.cs">
+      <Link>Library\Transform\Scaler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Transform\ScreenMapping.cs">
+      <Link>Library\Transform\ScreenMapping.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\Wallpaper\WindowsWallpaper.cs">
+      <Link>Library\Wallpaper\WindowsWallpaper.cs</Link>
+    </Compile>
     <Compile Include="AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -64,7 +94,6 @@
     </Compile>
     <Compile Include="ConsoleApplication.cs" />
     <Compile Include="Options.cs" />
-    <Compile Include="OsHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutForm.resx">
@@ -96,15 +125,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Scaler.cs" />
-    <Compile Include="ScreenMapping.cs" />
     <Compile Include="StretchType.cs" />
     <Compile Include="SystemMenuHelper.cs" />
-    <Compile Include="Win32.cs" />
-    <Compile Include="WindowsWallpaper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DualWallpaper.ico" />
+    <Content Include="Library\_README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
