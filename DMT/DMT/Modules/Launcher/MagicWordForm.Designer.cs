@@ -114,6 +114,7 @@
 			this.buttonResetTimesUsed.TabIndex = 5;
 			this.buttonResetTimesUsed.Text = "Reset";
 			this.buttonResetTimesUsed.UseVisualStyleBackColor = true;
+			this.buttonResetTimesUsed.Click += new System.EventHandler(this.buttonResetTimesUsed_Click);
 			// 
 			// labelTimesUsed
 			// 
@@ -140,6 +141,7 @@
 			this.buttonResetLastUsed.TabIndex = 2;
 			this.buttonResetLastUsed.Text = "Reset";
 			this.buttonResetLastUsed.UseVisualStyleBackColor = true;
+			this.buttonResetLastUsed.Click += new System.EventHandler(this.buttonResetLastUsed_Click);
 			// 
 			// labelLastUsed
 			// 
@@ -175,6 +177,7 @@
 			this.buttonDirBrowse.Text = "Browse...";
 			this.toolTip.SetToolTip(this.buttonDirBrowse, "Browse for the starting directory.");
 			this.buttonDirBrowse.UseVisualStyleBackColor = true;
+			this.buttonDirBrowse.Click += new System.EventHandler(this.buttonDirBrowse_Click);
 			// 
 			// tabControl
 			// 
@@ -325,6 +328,7 @@
 			this.buttonBrowse.Text = "Browse...";
 			this.toolTip.SetToolTip(this.buttonBrowse, "Browse for the application or document.");
 			this.buttonBrowse.UseVisualStyleBackColor = true;
+			this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
 			// 
 			// textBoxParameters
 			// 

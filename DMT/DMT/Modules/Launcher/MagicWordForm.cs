@@ -407,6 +407,5 @@ namespace DMT.Modules.Launcher
 			}
 		}
 		#endregion
-
 	}
 }

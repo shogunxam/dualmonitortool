@@ -52,6 +52,7 @@
 			this.checkBoxEnable.TabIndex = 33;
 			this.checkBoxEnable.Text = "Position window on startup";
 			this.checkBoxEnable.UseVisualStyleBackColor = true;
+			this.checkBoxEnable.CheckedChanged += new System.EventHandler(this.checkBoxEnable_CheckedChanged);
 			// 
 			// comboBoxWinType
 			// 
