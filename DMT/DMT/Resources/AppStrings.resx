@@ -117,72 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Center" xml:space="preserve">
-    <value>Center image without any stretching</value>
+  <data name="FirstRunText" xml:space="preserve">
+    <value>Dual Monitor Tools is now running in the notification area.
+Double-click on its icon to see the available options.</value>
   </data>
-  <data name="ChangeWallpaperDescription" xml:space="preserve">
-    <value>Change Wallpaper</value>
-    <comment>hotkey</comment>
-  </data>
-  <data name="ChangeWallpaperNow" xml:space="preserve">
-    <value>Change Wallpaper Now</value>
-    <comment>Context menu item</comment>
-  </data>
-  <data name="ConfirmDelProvider" xml:space="preserve">
-    <value>Are you sure you want to delete '{0}'?</value>
-  </data>
-  <data name="ConfirmDelProviders" xml:space="preserve">
-    <value>Are you sure you want to delete all {0} selected providers?</value>
-  </data>
-  <data name="ManyToMany" xml:space="preserve">
-    <value>Different image on each monitor (all changed together)</value>
-  </data>
-  <data name="ManyToManyInSequence" xml:space="preserve">
-    <value>Different image on each monitor (only one changed at a time)</value>
-  </data>
-  <data name="MsgIsPaused" xml:space="preserve">
-    <value>Wallpaper changing is paused</value>
-  </data>
-  <data name="MsgNoChanging" xml:space="preserve">
-    <value />
-  </data>
-  <data name="MsgNoProviders" xml:space="preserve">
-    <value>No providers have beed added.
-Use the 'Providers' option panel to add providers.</value>
-  </data>
-  <data name="MsgTimeToChange1" xml:space="preserve">
-    <value>Next change in under {0} minute</value>
-  </data>
-  <data name="MsgTimeToChange2" xml:space="preserve">
-    <value>Next change in under {0} minutes</value>
-  </data>
-  <data name="OneToMany" xml:space="preserve">
-    <value>Same image on each monitor</value>
-  </data>
-  <data name="OneToOneBig" xml:space="preserve">
-    <value>One image stretched over all monitors</value>
-  </data>
-  <data name="OverStretch" xml:space="preserve">
-    <value>Over stretch to cover the monitor(s)</value>
-  </data>
-  <data name="OverStretch1" xml:space="preserve">
-    <value>Over stretch to cover the monitor(s)</value>
-  </data>
-  <data name="PauseWallpaperChanging" xml:space="preserve">
-    <value>Pause Wallpaper Changing</value>
-    <comment>Context menu item</comment>
-  </data>
-  <data name="PauseWallpaperDescription" xml:space="preserve">
-    <value>Pause Wallpaper Changing</value>
-    <comment>command (/ hotkey)</comment>
-  </data>
-  <data name="PleaseSelectProvider" xml:space="preserve">
-    <value>Please select an image provider</value>
-  </data>
-  <data name="Stretch" xml:space="preserve">
-    <value>Stretch image to fill monitor(s) - ignores aspect ratio</value>
-  </data>
-  <data name="UnderStretch" xml:space="preserve">
-    <value>Under stretch so as not to clip image</value>
+  <data name="FirstRunTitle" xml:space="preserve">
+    <value>Dual Monitor Tools</value>
   </data>
 </root>

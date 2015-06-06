@@ -91,7 +91,12 @@ namespace DMT.Modules.WallpaperChanger
 		public bool ChangePeriodically
 		{
 			get { return ChangePeriodicallySetting.Value; }
-			set { ChangePeriodicallySetting.Value = value; }
+			set 
+			{ 
+				ChangePeriodicallySetting.Value = value;
+				// will need to change time to next change
+				UpdateTimeToChange();
+			}
 		}
 
 		IntSetting BackgroundColourSetting { get; set; }
@@ -137,6 +142,8 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			// hot keys
 			ChangeWallpaperHotKeyController = AddCommand("ChangeWallpaper", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
+			// Pause available as a command only
+			AddCommand("PauseWallpaper", WallpaperStrings.PauseWallpaperDescription, "", PauseWallpaper, false, true);
 
 			//ChangeWallpaperHotKeyController = CreateHotKeyController("ChangeWallpaperHotKey", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
 
@@ -279,6 +286,16 @@ namespace DMT.Modules.WallpaperChanger
 			UpdateTimeToChange();
 		}
 
+		void PauseWallpaper()
+		{
+			_paused = !_paused;
+			if (_pauseToolStripMenuItem != null)
+			{
+				_pauseToolStripMenuItem.Checked = _paused;
+			}
+			UpdateTimeToChange();
+		}
+
 		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
 		//{
 		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
@@ -291,12 +308,7 @@ namespace DMT.Modules.WallpaperChanger
 
 		void pauseWallpaperChangingToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			_paused = !_paused;
-			if (_pauseToolStripMenuItem != null)
-			{
-				_pauseToolStripMenuItem.Checked = _paused;
-			}
-			UpdateTimeToChange();
+			PauseWallpaper();
 		}
 
 		void Timer_Tick(object source, System.Timers.ElapsedEventArgs e)

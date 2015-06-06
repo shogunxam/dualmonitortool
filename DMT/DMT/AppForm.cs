@@ -111,6 +111,14 @@ namespace DMT
 			}
 		}
 
+		public void ShowFirstRun()
+		{
+			notifyIcon.BalloonTipTitle = AppStrings.FirstRunTitle;
+			notifyIcon.BalloonTipText = AppStrings.FirstRunText;
+			notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+			notifyIcon.ShowBalloonTip(5 * 1000);
+		}
+
 		void VisitWebsite()
 		{
 			try

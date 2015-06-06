@@ -140,7 +140,11 @@ namespace DMT.Modules.WallpaperChanger
 
 		private void checkBoxChangePeriodically_CheckedChanged(object sender, EventArgs e)
 		{
+			// save the setting - will also trigger an update of time to next change
 			_wallpaperChangerModule.ChangePeriodically = checkBoxChangePeriodically.Checked;
+
+			// enable/disable hour/minute selection accordingly
+			UpdatePeriodEnableStatus();
 		}
 
 		private void numericUpDownHours_ValueChanged(object sender, EventArgs e)
@@ -186,5 +190,14 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			_wallpaperChangerModule.UpdateWallpaper();
 		}
+
+		void UpdatePeriodEnableStatus()
+		{
+			bool enabled = checkBoxChangePeriodically.Checked;
+			numericUpDownHours.Enabled = enabled;
+			numericUpDownMinutes.Enabled = enabled;
+		}
+
+
 	}
 }

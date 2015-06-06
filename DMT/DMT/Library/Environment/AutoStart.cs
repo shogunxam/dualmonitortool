@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 using Microsoft.Win32;
 
-namespace DMT.Modules.General
+namespace DMT.Library.Environment
 {
 	/// <summary>
 	/// Utility class to assist starting the current app when the user logs in.

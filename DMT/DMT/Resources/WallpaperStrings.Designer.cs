@@ -215,6 +215,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pause Wallpaper Changing.
+        /// </summary>
+        internal static string PauseWallpaperDescription {
+            get {
+                return ResourceManager.GetString("PauseWallpaperDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select an image provider.
         /// </summary>
         internal static string PleaseSelectProvider {

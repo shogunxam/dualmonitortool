@@ -39,6 +39,8 @@ namespace DMT
 		ICommandRunner _commandRunner;
 		ILogger _logger;
 
+		BoolSetting _firstRunSetting;
+
 		public Controller(AppForm appForm)
 		{
 			_appForm = appForm;
@@ -65,6 +67,12 @@ namespace DMT
 			_moduleService.StartAllModules();
 
 			_moduleService.StartUpComplete();
+
+			_firstRunSetting = new BoolSetting(_settingsService, "_", "FirstRun", true);
+			if (_firstRunSetting.Value)
+			{
+				FirstRunProcessing();
+			}
 		}
 
 		public void Stop()
@@ -79,6 +87,12 @@ namespace DMT
 		public OptionsForm CreateOptionsForm()
 		{
 			return new OptionsForm(_moduleService);
+		}
+
+		void FirstRunProcessing()
+		{
+			_appForm.ShowFirstRun();
+			_firstRunSetting.Value = false;
 		}
 	}
 }

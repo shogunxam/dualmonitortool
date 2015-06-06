@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Environment;
 using DMT.Library.HotKeys;
 using DMT.Library.Logging;
 using DMT.Library.Settings;
@@ -32,11 +33,9 @@ namespace DMT.Modules.General
 {
 	class GeneralModule : Module
 	{
-		//const string _moduleName = "General";
 		const string _autoStartKeyName = "GNE_DualMonitorTools";
 
 		ISettingsService _settingsService;
-//		IHotKeyService _hotKeyService;
 		ILogger _logger;
 		AppForm _appForm;
 
@@ -63,7 +62,6 @@ namespace DMT.Modules.General
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-//			_hotKeyService = hotKeyService;
 			_logger = logger;
 			_appForm = appForm;
 
@@ -77,10 +75,6 @@ namespace DMT.Modules.General
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
 		{
-			//ContainerControl panel = new GeneralOptionsPanel(this);
-			////panel.Parent = form;
-			//ModuleOptionNodeLeaf options = new ModuleOptionNodeLeaf("General", panel);
-
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", new GeneralRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new GeneralOptionsPanel(this)));
 
