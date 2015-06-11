@@ -4,88 +4,120 @@ Dual Monitor Tools
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.
 
-Currently the tools available are SwapScreen, DualLauncher, DualWallpaper, 
-DualWallpaperChanger, DisMon and DualSnap.
+Currently the tools available are DMT and DualWallpaper.
+
+For users of previous versions, DMT now provides all of the functionality
+of SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap.
 
 Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
-Release 1.10
+
+Release 2.0
 ------------
 
 The release consists of the following files:
 
-SwapScreen.exe              The swap screen tool
-DualLauncher.exe            Application launcher
-DualWallpaper.exe           The wallpaper setting tool
-DualWallpaperChanger.exe    Wallpaper changer tool
-DWC_Library.dll             Wallpaper changer plugin library
-DWC_LocalDisk.dll           Wallpaper changer plugin to show images from 
-                            local disk
-DWC_RandomShapes.dll        Wallpaper changer plugin to create images from
-                            random shapes
-DWC_Unsplash.dll            Wallpaper changer plugin to download images from 
-                            www.unspash.com
-DisMon.exe                  Disables secondary monitors
-DualSnap.exe                The screen capture tool
+DMT.exe                     The main tool
+DmtFileLocations-sample.xml	Sample of the optional DmtFileLocations.xml
+DualWallpaper.exe           The wallpaper creation tool
 CHANGES.txt                 List of changes
 COPYING.txt                 GPLv3 license
 README.txt                  This file
 THANKS.txt                  Contributors to the project
 
+
 Requirements
 ------------
 
-Dual Monitor Tools should run on any implementation of Windows that has
-.NET 2.0 installed,but DualWallpaperChanger requires .NET 4.5 or later.
-Ideally you need two or more monitors attached to the computer, but tools
-like DualLauncher and DualWallpaperChanger can be useful to users with a
-single monitor.
+Dual Monitor Tools should run on any version of Windows that has
+.NET 4.0 or later installed.
+Ideally you need two or more monitors attached to the computer, but some
+of the features can be useful to users with a single monitor.
+
 
 Installation
 ------------
 
-There is currently no installer, just follow the following steps to 
-manually install:
+There is currently no installer, just download the zip, and unzip the
+files into a suitable directory, and you are then ready to run them.
 
-1) Download DualMonitorTools-1.10.zip to a folder on your computer.
-2) Before unzipping this file, it is recommended that you mark it as safe
-by right-clicking on it, selecting "Properties", click the 'Unblock' button 
-and then 'OK'. This step is not essential, but will save hassle later on
-especially when trying to use DualWallpaperChanger.
-3) Extract the contents of the zip to a suitable folder on your computer.
 
-Then just run the tools that you are interested in.
-
-SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap will all put
-themselves in the Notification Area (System Tray) when run, so if you run them
-and it looks like nothing has happened, you need to look in the Notification
-Area.  These four tools all have an option 'Start when Windows starts' which 
-does what it says.
-
-SwapScreen
+TOOL - DMT
 ----------
 
-This allows you to assign hotkeys for various actions.
-The main hotkey allows you to move the active window to the next screen.
-This will also work if the active window is a maximised window.
-There are also some hotkeys to emulate functionality that is built into
-Windows 7, such as minimising and maximising the active window, so
-users of XP and Vista can also use these.
-Further hotkeys allow all windows on a particular monitor to be minimised
-and to rotate the contents of the monitors.
-This tool also allows you to restrict mouse movement between screens.
+This is the main tool, currently consisting of 5 modules offering the 
+following;
 
-DualLauncher
-------------
+Cursor - Control movement of cursor between monitors.
+        The cursor can be locked to a monitor or made sticky, so extra
+		effort is required to move it between monitors.
 
-Dual Launcher allows you to launch your favourite applications with a 
-few key strokes and to position them at pre-configured positions on any
-of your monitors.
+Launcher - Allows you to launch your favourite applications with a 
+        few key strokes and to position them at pre-configured
+		positions on any of your monitors.  All other DMT commands can
+		also be run this way.
 
-DualWallpaper
--------------
+Snap -  Take snapshot of primary monitor and show on secondary.
+        Previous snapshots can be viewed, saved to a file or copied
+	    to the clipboard.
+
+Swap Screen - Allows easy movement of windows between monitors,
+        and allows Windows to be moved to pre-defined positions.
+
+Wallpaper Changer - Changes wallpaper periodically using a variety of
+        sources and allows you to control how images are shown
+		across your monitors.
+
+When run, it will reside in the Windows Notification Area.
+Double click this icon to see all of the options available.
+'Dual Monitor Tools'->'General' contains an options so start up
+DMT every time Windows starts.
+
+Hotkeys
+-------
+
+Most of the actions are accessible via hotkeys.  You will need to define 
+hotkeys for the actions that you want to use.  Not all key combinations
+are available as Windows reserves quite a few for itself, and each new
+version of Windows grabs more and more of them.
+
+Probably the most important hotkey to define is the 'Activate Magic
+Word input' under Launcher->Hotkeys, as this will then allow all other
+actions to be actioned by the use of this hotkey followed by a magic
+word.  On a UK keyboard Win+<OemPipe> is a good hotkey to use for this
+as it is easy to enter.  For other keyboard layouts, you may need to
+experiment to see what is available and easy to enter.
+
+On the same page is the 'Add Magic Word for current application'
+hotkey.  If you press this hotkey, while running another application,
+it will offer to create a hotkey for it. Win+A is a nice hotkey for
+this, but be aware that Windows 10 now uses this key combination.
+
+Magic Words
+-----------
+
+You can associate applications, websites and DMT commands with a Magic
+Word.  When you hit the launcher hotkey, a dialog box will pop up 
+allowing you to start entering the magic word. This uses auto-completion
+so you won't normally have to type in the whole word.
+
+You can also assign the same Magic Word to multiple applications.
+When you enter the Magic Word, all of the applications will be started.
+
+Importing Magic Words
+---------------------
+
+If you are a user of Dual Launcher, then you can import your existing
+Magic Words into DMT using the options on the 'Import / Export' page.
+Dual Launcher saves it's Magic Words using a path of the form:
+C:\Users\<Your login name>\AppData\Local\GNE\DualLauncher\DualLauncher.xml
+Just press 'Import XML; and select this file to import it.
+
+
+TOOL - DualWallpaper
+--------------------
 
 Dual Wallpaper simplifies the process of using images as wallpaper on 
 multiple monitor setups
@@ -98,75 +130,51 @@ with another image displayed on the third monitor.
 It also correctly sets the wallpaper when your primary monitor is not
 your leftmost or topmost monitor.
 
-DualWallpaperChanger
---------------------
 
-Uses plugins to find images to use as wallpaper and changes the wallpaper
-on a periodic basis and/or at start up. 
+Portable Usage
+--------------
 
-You can select which plugins to use and configure them as required and
-give them different weights.
-3 plugins are available at the moment:
-LocalDisk: takes images from specified directory on your local disk.
-Unspalsh: takes images from www.unsplash.com.
-RandomShapes: creates wallpaper from random shapes.
+The tools are designed to be easy to use in a portable environment, so
+they can be copied to a USB drive and ran direct from there.
 
-If you find that no plugins are available, then the chances are that 
-the DWC_*.dll files are all being blocked by Windows.
-To fix this, right click on each of these files in turn,
-select "Properties", click the 'Unblock' button and then 'OK'.
+When specifying filenames (for the launcher executables and wallpaper
+locations), you may want to make sure that any paths you enter are
+relative paths if they exist on the USB drive to ensure portability.
 
-DisMon (Beta software)
-------
 
-This allows you to change the enabled monitors and/or to change the
-primary monitor while an application is run, with the monitor state
-being restored when the application has finished running.
-The application to run is specified as the first parameter to DisMon.
-Any further parameters are passed onto the application.
-Remember to enclose any paths or parameters within double quotes if
-they contain spaces.
+Data Files
+----------
 
-There is also a GUI to disable monitors and/or change the primary
-monitor manually.
+In a default installation, the tools will write to data files in the
+same directory that the executables are.
+The files written to are:
 
-DualSnap
---------
+DmtMagicWords.xml - Magic words used by the Launcher.
+DmtWallpaperProviders.xml - Specifies wallpaper image source.
+DmtSettings.xml - Any other settings go in here.
+- There will also be .bak versions of these files which are just
+copies of the previous versions of the files.
 
-This allows you to assign a hotkey which when pressed will capture 
-the image on the primary screen and (optionally) display it on the
-secondary screen.
-
-It remembers previous screen captures (up to a configurable number)
-and these may be reviewed later on and either copied to the clipboard
-or saved as PNG files.
+If you want the data files to reside in a different directory, for example
+if you like all of you executables to be under "C:\Program Files (x86)"
+which is a read-only directory, then this can be achieved by using 
+DmtFileLocations.xml.  See DmtFileLocations-sample.xml for more details.
 
 
 Uninstall
 ---------
 
-To uninstall the programs, you will need to remove any shortcuts you
-manually added, remove the files you unzipped and remove the
-configuration and data files.
+If you have set the 'Start when Windows starts' in the options, then you
+will need to turn this off before removing anything.
 
-The configuration and data files for the tools may be found under:
-%LOCALDATA%\GNE.
-Typically this directory is something like C:\Users\<UserName>\AppData\Local. 
-
-If you have nothing else in %LOCALAPPDATA%\GNE that you want to keep,
-then it should be safe to delete this directory.
+Then make sure none of the tools are running, and you can just delete
+the files you unzipped and the data files mentioned above.
 
 
 Known problems
 --------------
 
-If you wish SwapScreen to fully work when you have windows from applications
+If you wish DMT to fully work when you have windows from applications
 that have been 'Run as Administartor', then you will also need to start
-SwapScreen with 'Run as Administrator'.
+DMT with 'Run as Administrator'.
 
-DisMon has problems on Windows 7 when the (initial) primary monitor is
-disabled.  Also on Windows XP, the task bar does not move with the primary
-monitor.
-
-The dll plugin files used by DualWallpaperChanger must be unblocked
-(Properties->Unblock) before they can be used.

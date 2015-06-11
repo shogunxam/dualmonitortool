@@ -35,15 +35,37 @@ namespace DMT.Library.Environment
 			{
 				Rectangle boundingRect = Rectangle.Empty;
 
-				for (int screenIndex = 0; screenIndex < this.Count; screenIndex++)
+				for (int monitorIndex = 0; monitorIndex < this.Count; monitorIndex++)
 				{
-					if (screenIndex == 0)
+					if (monitorIndex == 0)
 					{
-						boundingRect = this[screenIndex].Bounds;
+						boundingRect = this[monitorIndex].Bounds;
 					}
 					else
 					{
-						boundingRect = Rectangle.Union(boundingRect, this[screenIndex].Bounds);
+						boundingRect = Rectangle.Union(boundingRect, this[monitorIndex].Bounds);
+					}
+				}
+
+				return boundingRect;
+			}
+		}
+
+		public Rectangle WorkingArea
+		{
+			get
+			{
+				Rectangle boundingRect = Rectangle.Empty;
+
+				for (int monitorIndex = 0; monitorIndex < this.Count; monitorIndex++)
+				{
+					if (monitorIndex == 0)
+					{
+						boundingRect = this[monitorIndex].WorkingArea;
+					}
+					else
+					{
+						boundingRect = Rectangle.Union(boundingRect, this[monitorIndex].WorkingArea);
 					}
 				}
 

@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Environment;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,15 +30,22 @@ namespace DMT.Modules.SwapScreen
 {
 	static class UdaHelper
 	{
-		public static void GenerateDefaultUdas(List<UdaController> udaControllers)
+		public static void GenerateDefaultUdas(List<UdaController> udaControllers, Monitors allMonitors)
 		{
 			int screens = Screen.AllScreens.Length;
 			int idx = 0;
+			Rectangle rect;
+
+			// start with a supersized screen for idx = 0
+			// this ensures that for the full screens, idx will match the screen number
+			rect = allMonitors.WorkingArea;
+			SetDefaultUda(idx, rect.Left, rect.Top, rect.Width, rect.Height, "Super size", udaControllers);
+			idx++;
 
 			// add full screens
 			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
 			{
-				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
+				rect = allMonitors[screen].WorkingArea;
 
 				string description = string.Format("Screen {0}", screen + 1);
 				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width, rect.Height, description, udaControllers);
@@ -47,7 +55,7 @@ namespace DMT.Modules.SwapScreen
 			// add half screens
 			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
 			{
-				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
+				rect = allMonitors[screen].WorkingArea;
 
 				string description = string.Format("Screen {0} - left half", screen + 1);
 				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width / 2, rect.Height, description, udaControllers);
@@ -61,7 +69,7 @@ namespace DMT.Modules.SwapScreen
 			// add quadrants
 			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
 			{
-				Rectangle rect = Screen.AllScreens[screen].WorkingArea;
+				rect = allMonitors[screen].WorkingArea;
 
 				string description = string.Format("Screen {0} - top left quadrant", screen + 1);
 				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width / 2, rect.Height / 2, description, udaControllers);
@@ -87,12 +95,8 @@ namespace DMT.Modules.SwapScreen
 			{
 				UdaController udaController = udaControllers[idx];
 
-				uint keyCode = 0x0010031;	// Alt+1 - disabled
+				uint keyCode = 0x0010030;	// Alt+0 - disabled
 				keyCode += (uint)idx;
-				if (idx == 9)
-				{
-					keyCode = 0x0010030;	// Alt+0 - disabled
-				}
 
 				Rectangle rectangle = new Rectangle(left, right, width, height);
 				//udaController.InitFromProperty(UdaController.ToPropertyValue(keyCode, rectangle, description));

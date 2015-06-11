@@ -120,16 +120,16 @@ namespace DMT.Modules.WallpaperChanger
 			set { MonitorMappingSetting.Value = (int)value; }
 		}
 
-		public WallpaperChangerModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
+		public WallpaperChangerModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILocalEnvironment localEnvironment, ILogger logger, AppForm appForm)
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
 			//_hotKeyService = hotKeyService;
+			_localEnvironment = localEnvironment;
 			_logger = logger;
 			_appForm = appForm;
 
 			ModuleName = "WallpaperChanger";
-			_localEnvironment = new LocalEnvironment();
 			_providerFactory = new ProviderFactory();
 			_providerPersistence = new ProviderPersistence(_providerFactory, _localEnvironment);
 			_wallpaperCompositorFactory = new WallpaperCompositorFactory();

@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using DMT.Library.GuiUtils;
 using DMT.Library.Logging;
 using System.Drawing;
+using DMT.Library.Environment;
 
 namespace DMT.Modules.SwapScreen
 {
@@ -38,6 +39,7 @@ namespace DMT.Modules.SwapScreen
 
 		ISettingsService _settingsService;
 		//IHotKeyService _hotKeyService;
+		ILocalEnvironment _localEnvironment;
 		ILogger _logger;
 
 		// Active Window
@@ -66,11 +68,12 @@ namespace DMT.Modules.SwapScreen
 		public HotKeyController ShowDesktop4HotKeyController { get; protected set; }
 
 
-		public SwapScreenModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
+		public SwapScreenModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILocalEnvironment localEnvironment, ILogger logger)
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
 			//_hotKeyService = hotKeyService;
+			_localEnvironment = localEnvironment;
 			_logger = logger;
 
 			ModuleName = "SwapScreen";
@@ -110,7 +113,7 @@ namespace DMT.Modules.SwapScreen
 			if (!_settingsService.SettingExists(ModuleName, UdaController.GetUdaMarkerSettingName()))
 			{
 				// no existing UDA settings, so generate some as a starting point for the user
-				UdaHelper.GenerateDefaultUdas(UdaControllers);
+				UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
 				// and make sure these new settings are saved
 				_settingsService.SaveSettings();
 			}
@@ -172,7 +175,10 @@ namespace DMT.Modules.SwapScreen
 
 		UdaController CreateUdaController(int idx)
 		{
-			string name = string.Format("UDA{0}", idx + 1);
+			// idx is zero based.
+			// Unlike DualLauncher, the UDA names are also zero based
+			// this avoids confusion between UDA10 and UDA1 when used as magic words
+			string name = string.Format("UDA{0}", idx);
 			// set hotKey to false as UdaController is responsible for registering it
 			Command command = new Command(name, "", "", null, false, true);
 			base.AddCommand(command);

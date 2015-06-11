@@ -30,6 +30,7 @@ namespace DMT.Library.Environment
  	public class Monitor
 	{
 		public Rectangle Bounds { get; set; }
+		public Rectangle WorkingArea { get; set; }
 		public bool Primary { get; set; }
 	}
 }

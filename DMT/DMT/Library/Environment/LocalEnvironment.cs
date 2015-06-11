@@ -40,6 +40,7 @@ namespace DMT.Library.Environment
 				{
 					Monitor monitor = new Monitor();
 					monitor.Bounds = screen.Bounds;
+					monitor.WorkingArea = screen.WorkingArea;
 					monitor.Primary = screen.Primary;
 					monitors.Add(monitor);
 				}

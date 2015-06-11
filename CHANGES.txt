@@ -1,5 +1,13 @@
 Dual Monitor Tools
 
+Changes from 1.10 to 2.0
+========================
+
+New tool DMT provides the functionality previously provided by SwapScreen, 
+DualLauncher, DualSnap and DualWallpaperChanger together with extra functionality.
+DisMon has been dropped for the time being.
+
+
 Changes from 1.9 to 1.10
 ========================
 

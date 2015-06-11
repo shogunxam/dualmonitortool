@@ -115,7 +115,7 @@ namespace DMT.Library.Settings
 
 			try
 			{
-				using (Stream stream = File.Open(fileLocationsFilename, FileMode.Open))
+				using (Stream stream = File.Open(fileLocationsFilename, FileMode.Open, FileAccess.Read))
 				{
 					XmlTextReader reader = new XmlTextReader(stream);
 					while (reader.Read())
@@ -127,6 +127,8 @@ namespace DMT.Library.Settings
 							{
 								string name = reader.GetAttribute("name");
 								string value = reader.GetAttribute("value");
+								// expand any environment variables like %APPDATA% 
+								value = System.Environment.ExpandEnvironmentVariables(value);
 								LocationRemaps.Add(new Tuple<string, string>(name, value));
 							}
 						}

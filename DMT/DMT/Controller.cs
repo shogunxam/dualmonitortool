@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMT.Library.Logging;
 using Microsoft.Win32;
+using DMT.Library.Environment;
 
 namespace DMT
 {
@@ -36,6 +37,7 @@ namespace DMT
 		AppForm _appForm;
 		ISettingsService _settingsService;
 		IHotKeyService _hotKeyService;
+		ILocalEnvironment _localEnvironment;
 		IModuleService _moduleService;
 		ICommandRunner _commandRunner;
 		ILogger _logger;
@@ -55,6 +57,7 @@ namespace DMT
 		{
 			_settingsService = new SettingsRepository();
 			_hotKeyService = new HotKeyRepository(_appForm, _settingsService);
+			_localEnvironment = new LocalEnvironment();
 			// ModuleRepository provides both IModuleService and ICommandRunner
 			ModuleRepository moduleRepository = new ModuleRepository();
 			_moduleService = moduleRepository;
@@ -75,8 +78,8 @@ namespace DMT
 			_moduleService.AddModule(new DMT.Modules.Cursor.CursorModule(_settingsService, _hotKeyService, _logger));
 			_moduleService.AddModule(new DMT.Modules.Launcher.LauncherModule(_settingsService, _hotKeyService, _logger, _appForm, _commandRunner));
 			_moduleService.AddModule(new DMT.Modules.Snap.SnapModule(_settingsService, _hotKeyService, _logger, _appForm));
-			_moduleService.AddModule(new DMT.Modules.SwapScreen.SwapScreenModule(_settingsService, _hotKeyService, _logger));
-			_moduleService.AddModule(new DMT.Modules.WallpaperChanger.WallpaperChangerModule(_settingsService, _hotKeyService, _logger, _appForm));
+			_moduleService.AddModule(new DMT.Modules.SwapScreen.SwapScreenModule(_settingsService, _hotKeyService, _localEnvironment, _logger));
+			_moduleService.AddModule(new DMT.Modules.WallpaperChanger.WallpaperChangerModule(_settingsService, _hotKeyService, _localEnvironment, _logger, _appForm));
 
 			_moduleService.StartAllModules();
 
