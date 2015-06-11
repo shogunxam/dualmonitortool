@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,8 +32,8 @@ namespace DMT.Modules
 		public ContainerControl OptionPanel { get; protected set; }
 		public List<ModuleOptionNode> Nodes { get; set; }
 
-		public ModuleOptionNodeBranch(string name, ContainerControl panel = null)
-			: base(name)
+		public ModuleOptionNodeBranch(string name, Image image, ContainerControl panel = null)
+			: base(name, image)
 		{
 			OptionPanel = panel;
 			Nodes = new List<ModuleOptionNode>();

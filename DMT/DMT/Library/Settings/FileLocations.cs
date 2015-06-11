@@ -35,6 +35,7 @@ namespace DMT.Library.Settings
 		public string MagicWordsFilename { get; protected set; }
 		public string WallpaperProvidersFilename { get; protected set; }
 		public string WallpaperFilename { get; protected set; }
+		public string LogFilename { get; protected set; }
 
 		string _homeDirectory;
 
@@ -62,10 +63,10 @@ namespace DMT.Library.Settings
 		}
 		#endregion
 
-		//public string Filename(string filename)
-		//{
-		//	return Path.Combine(DataDirectory, filename);
-		//}
+		public string Filename(string filename)
+		{
+			return Path.Combine(DataDirectory, filename);
+		}
 
 		void LoadFileLocations()
 		{
@@ -73,14 +74,16 @@ namespace DMT.Library.Settings
 			// by default, we use the home directory as the data directory to simplify portable usage
 			DataDirectory = _homeDirectory;
 
+			// The Locations file ALWAYS lives in same directory as executable (if it is used)
 			string fileLocationsFilename = Path.Combine(_homeDirectory, "DmtFileLocations.xml");
-			bool haveLocationsFile = File.Exists(fileLocationsFilename);
+			//bool haveLocationsFile = File.Exists(fileLocationsFilename);
 			List<Tuple<string, string>> LocationRemaps = null;
-			if (haveLocationsFile)
+			if (File.Exists(fileLocationsFilename))
 			{
 				// check too see if we are told to pick up anything from anywhere else
 				LocationRemaps = GetLocationRemaps(fileLocationsFilename);
-				Tuple<string, string> directoryRemap = LocationRemaps.Find(m => m.Item1 == "DataDirectory");
+				// check if data directory was specified in the file
+				Tuple<string, string> directoryRemap = LocationRemaps.Find(m => m.Item1 == "datadirectory");
 				if (directoryRemap != null)
 				{
 					DataDirectory = directoryRemap.Item2;
@@ -93,7 +96,10 @@ namespace DMT.Library.Settings
 			WallpaperProvidersFilename = Path.Combine(DataDirectory, "DmtWallpaperProviders.xml");
 			WallpaperFilename = Path.Combine(DataDirectory, "DmtWallpaper.bmp");
 
-			if (haveLocationsFile)
+			// default is to to have no logfile, unless explicitly set
+			LogFilename = null;
+
+			if (LocationRemaps != null)
 			{
 				// allow individual locations to be remapped
 				foreach (Tuple<string, string> remap in LocationRemaps)
@@ -139,19 +145,23 @@ namespace DMT.Library.Settings
 			switch (name.ToLower())
 			{
 				case "settings":
-					SettingsFilename = value;
+					SettingsFilename = Path.Combine(DataDirectory, value);
 					break;
 
 				case "magicwords":
-					MagicWordsFilename = value;
+					MagicWordsFilename = Path.Combine(DataDirectory, value);
 					break;
 
 				case "wallpaperproviders":
-					WallpaperProvidersFilename = value;
+					WallpaperProvidersFilename = Path.Combine(DataDirectory, value);
 					break;
 
 				case "wallpaper":
-					WallpaperFilename = value;
+					WallpaperFilename = Path.Combine(DataDirectory, value);
+					break;
+
+				case "log":
+					LogFilename = Path.Combine(DataDirectory, value);
 					break;
 
 				default:

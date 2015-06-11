@@ -109,6 +109,14 @@ namespace DMT.Modules
 			}
 		}
 
+		public void FlushAllModules()
+		{
+			foreach (Module module in _modules)
+			{
+				module.Flush();
+			}
+		}
+
 		public void TerminateAllModules()
 		{
 			foreach (Module module in _modules)

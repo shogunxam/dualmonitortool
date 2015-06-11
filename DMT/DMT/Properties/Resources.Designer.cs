@@ -61,6 +61,16 @@ namespace DMT.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap blank_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("blank_16_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Cursor {
@@ -73,9 +83,29 @@ namespace DMT.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cursor_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("cursor_16_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cursor_48_24 {
             get {
                 object obj = ResourceManager.GetObject("cursor_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DMT_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("DMT_16_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,6 +133,16 @@ namespace DMT.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DualLauncher_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("DualLauncher_16_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DualLauncher_48_24 {
             get {
                 object obj = ResourceManager.GetObject("DualLauncher_48_24", resourceCulture);
@@ -113,9 +153,29 @@ namespace DMT.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DualSnap_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("DualSnap_16_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap DualSnap_48_24 {
             get {
                 object obj = ResourceManager.GetObject("DualSnap_48_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DualWallpaper_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("DualWallpaper_16_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -197,6 +257,16 @@ namespace DMT.Properties {
             get {
                 object obj = ResourceManager.GetObject("SwapScreen", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwapScreen_16_16 {
+            get {
+                object obj = ResourceManager.GetObject("SwapScreen_16_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

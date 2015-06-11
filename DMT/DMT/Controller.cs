@@ -42,10 +42,14 @@ namespace DMT
 
 		BoolSetting _firstRunSetting;
 
+		public ILogger Logger { get { return _logger; } }
+
 		public Controller(AppForm appForm)
 		{
 			_appForm = appForm;
 		}
+
+		
 
 		public void Start()
 		{
@@ -56,9 +60,15 @@ namespace DMT
 			_moduleService = moduleRepository;
 			_commandRunner = moduleRepository;
 			_logger = new Logger();
+			_logger.LogInfo("Controller", "DMT Starting");
 
-			// catch Windows shutdown so we can clean up
-			SystemEvents.SessionEnded += SystemEvents_SessionEnded;
+			// temp code
+			System.OperatingSystem osInfo = System.Environment.OSVersion;
+			_logger.LogInfo("Controller", "O/S Version Major:{0}, Minor:{1}", osInfo.Version.Major, osInfo.Version.Minor);
+
+			//// catch Windows shutdown so we can clean up
+			//SystemEvents.SessionEnding += SystemEvents_SessionEnding;
+			//SystemEvents.SessionEnded += SystemEvents_SessionEnded;
 
 			// now add the modules
 			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService, _logger, _appForm));
@@ -79,14 +89,30 @@ namespace DMT
 			}
 		}
 
-		void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
+		//void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
+		//{
+		//	_logger.LogInfo("Controller", "SessionEnding Called");
+		//	SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
+		//}
+
+		//void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
+		//{
+		//	_logger.LogInfo("Controller", "SessionEnded Called");
+		//	SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
+		//	_logger.LogInfo("Controller", "SessionEnded processing start");
+		//	Stop();
+		//	_logger.LogInfo("Controller", "SessionEnded processing end");
+		//}
+
+		public void Flush()
 		{
-			SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
-			Stop();
+			_moduleService.FlushAllModules();
 		}
 
 		public void Stop()
 		{
+			Flush();
+
 			// stop each module in turn
 			_moduleService.TerminateAllModules();
 

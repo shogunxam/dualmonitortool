@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DMT.Library.GuiUtils;
 using DMT.Library.Logging;
+using System.Drawing;
 
 namespace DMT.Modules.SwapScreen
 {
@@ -154,10 +155,11 @@ namespace DMT.Modules.SwapScreen
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen", new SwapScreenRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Active Window", new SwapScreenActiveOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("User Defined Areas", new SwapScreenUdaOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Other Windows", new SwapScreenOtherOptionsPanel(this)));
+			Image image = new Bitmap(Properties.Resources.SwapScreen_16_16);
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen", image, new SwapScreenRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Active Window", image, new SwapScreenActiveOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("User Defined Areas", image, new SwapScreenUdaOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Other Windows", image, new SwapScreenOtherOptionsPanel(this)));
 
 			return options;
 		}

@@ -28,12 +28,15 @@ namespace DMT.Library.Environment
 	/// </summary>
 	class OsHelper
 	{
-		// 5.0 => 2000
-		// 5.1 => XP
-		// 5.2 => 2003
-		// 6.0 => Vista / 2008
-		// 6.1 => Win 7 / 2008 R2 / 2011
-		// 6.2 => Win 8 / 2012
+		//  5.0 => 2000
+		//  5.1 => XP
+		//  5.2 => 2003
+		//  6.0 => Vista / 2008
+		//  6.1 => Win 7 / 2008 R2 / 2011
+		//  6.2 => Win 8 / 2012
+		//  6.3 => Win 8.1
+		//  6.4 => Win 10 Technical Preview build 9841
+		// 10.0 => Win 10
 		const int _vistaMajor = 6;
 		const int _vistaMinor = 0;
 
@@ -78,12 +81,6 @@ namespace DMT.Library.Environment
 
 			if (osInfo.Platform == PlatformID.Win32NT)
 			{
-				// 5.0 => 2000
-				// 5.1 => XP
-				// 5.2 => 2003
-				// 6.0 => Vista / 2008
-				// 6.1 => Win 7 / 2008 R2 / 2011
-				// 6.2 => Win 8 / 2012
 				if (osInfo.Version.Major == major)
 				{
 					if (osInfo.Version.Minor >= minor)

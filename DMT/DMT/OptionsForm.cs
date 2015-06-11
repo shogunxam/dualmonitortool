@@ -35,6 +35,8 @@ namespace DMT
 		IModuleService _moduleService;
 		IEnumerable<ModuleOptionNode> _optionNodes;
 		ContainerControl _currentPanel = null;
+		ImageList _optionImageList = null;
+		Dictionary<Image, int> _imageMap = null;
 
 		public OptionsForm(IModuleService moduleService)
 		{
@@ -76,6 +78,7 @@ namespace DMT
 		void FillTree()
 		{
 			treeViewOptions.Nodes.Clear();
+			BuildOptionsImageList(_optionNodes);
 			AddOptionNodes(_optionNodes, treeViewOptions.Nodes);
 			//foreach (ModuleOptionNode optionNode in _optionNodes)
 			//{
@@ -83,20 +86,60 @@ namespace DMT
 			//}
 		}
 
+		void BuildOptionsImageList(IEnumerable<ModuleOptionNode> optionNodes)
+		{
+			_optionImageList = new ImageList();
+			_imageMap = new Dictionary<Image, int>();
+
+			// first add a blank image for when we don't want to display an image
+			Image image = new Bitmap(Properties.Resources.blank_16_16);
+			_optionImageList.Images.Add(image);
+			// no need to add to map
+
+			foreach (ModuleOptionNode optionNode in optionNodes)
+			{
+				image = optionNode.Image;
+				if (image != null)
+				{
+					// check we haven't already added this image
+					int imageIndex;
+					if (!_imageMap.TryGetValue(image, out imageIndex))
+					{
+						// haven't added this image
+						imageIndex = _optionImageList.Images.Count;
+						_optionImageList.Images.Add(image);
+						_imageMap[image] = imageIndex;
+					}
+				}
+			}
+
+			treeViewOptions.ImageList = _optionImageList;
+		}
+
 		void AddOptionNodes(IEnumerable<ModuleOptionNode> optionNodes, TreeNodeCollection treeNodes)
 		{
 			foreach (ModuleOptionNode optionNode in optionNodes)
 			{
+				Image image = optionNode.Image;
+				int imageIndex = 0;
+				if (image != null)
+				{
+					_imageMap.TryGetValue(image, out imageIndex);
+				}
 				if (optionNode is ModuleOptionNodeLeaf)
 				{
 					ModuleOptionNodeLeaf optionLeaf = optionNode as ModuleOptionNodeLeaf;
 					TreeNode newTreeNode = treeNodes.Add(optionLeaf.Name);
+					newTreeNode.ImageIndex = imageIndex;
+					newTreeNode.SelectedImageIndex = imageIndex;
 					newTreeNode.Tag = optionLeaf.OptionPanel;
 				}
 				else if (optionNode is ModuleOptionNodeBranch)
 				{
 					ModuleOptionNodeBranch optionBranch = optionNode as ModuleOptionNodeBranch;
 					TreeNode newTreeNode = treeNodes.Add(optionBranch.Name);
+					newTreeNode.ImageIndex = imageIndex;
+					newTreeNode.SelectedImageIndex = imageIndex;
 					newTreeNode.Tag = optionBranch.OptionPanel;
 					AddOptionNodes(optionBranch.Nodes, newTreeNode.Nodes);
 				}

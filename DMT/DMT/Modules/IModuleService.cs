@@ -33,6 +33,7 @@ namespace DMT.Modules
 		void StartUpComplete();
 		IEnumerable<Module> GetAllModules();
 		IEnumerable<ModuleOptionNode> GetOptionNodes(Form form);
+		void FlushAllModules();
 		void TerminateAllModules();
 	}
 }

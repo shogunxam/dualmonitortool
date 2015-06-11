@@ -24,6 +24,7 @@ using DMT.Library.Settings;
 using DMT.Resources;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,8 +76,9 @@ namespace DMT.Modules.General
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", new GeneralRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new GeneralOptionsPanel(this)));
+			Image image = new Bitmap(Properties.Resources.DMT_16_16);
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", image, new GeneralRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new GeneralOptionsPanel(this)));
 
 			return options;
 		}

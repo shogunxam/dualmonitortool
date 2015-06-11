@@ -113,6 +113,7 @@ namespace DMT.Modules.Launcher
 						dataGridView.Rows.Remove(row);
 					}
 					dataGridView.Refresh();
+					_launcherModule.SaveMagicWords();
 				}
 			}
 		}
@@ -223,6 +224,7 @@ namespace DMT.Modules.Launcher
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				// dialog has already updated the MagicWord within MagicWords
+				_launcherModule.SaveMagicWords();
 			}
 		}
 

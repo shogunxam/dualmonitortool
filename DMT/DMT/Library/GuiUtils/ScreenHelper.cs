@@ -375,7 +375,7 @@ namespace DMT.Library.GuiUtils
 
 		/// <summary>
 		/// Swaps the size/position of the active window and the top level
-		/// window immediatedlt below it (in z-order). 
+		/// window immediately below it (in z-order). 
 		/// </summary>
 		public static void SwapTop2Windows()
 		{

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,12 @@ namespace DMT.Modules
 	{
 		public string Name { get; protected set; }
 
-		public ModuleOptionNode(string name)
+		public Image Image { get; set; }
+
+		public ModuleOptionNode(string name, Image image = null)
 		{
 			Name = name;
+			Image = image;
 		}
 	}
 }

@@ -17,9 +17,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +49,28 @@ namespace DMT.Library.Logging
 		{
 			string logLine = string.Format("{0}|{1}|{2}|{3}", DateTime.Now.ToString("HH:mm:ss"), source, type, message);
 			Trace.TraceError(logLine);
+
+			AddToLogFile(logLine);
+		}
+
+		void AddToLogFile(string logLine)
+		{
+			//string logFnm = FileLocations.Instance.Filename("DMT.log");
+			string logFnm = FileLocations.Instance.LogFilename;
+
+			if (logFnm != null)
+			{
+				try
+				{
+					FileInfo file = new FileInfo(logFnm);
+					StreamWriter writer = file.AppendText();
+					writer.WriteLine(logLine);
+					writer.Close();
+				}
+				catch (Exception)
+				{
+				}
+			}
 		}
 	}
 }

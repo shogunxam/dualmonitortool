@@ -123,8 +123,9 @@ namespace DMT.Modules.Cursor
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Cursor", new CursorRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new CursorGeneralOptionsPanel(this)));
+			Image image = new Bitmap(Properties.Resources.cursor_16_16);
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Cursor", image, new CursorRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new CursorGeneralOptionsPanel(this)));
 
 			return options;
 		}

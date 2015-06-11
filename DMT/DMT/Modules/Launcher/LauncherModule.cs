@@ -196,24 +196,28 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
+		public override void Flush()
+		{
+			SaveMagicWords();
+		}
+
 		public override void Terminate()
 		{
 			if (_entryForm != null)
 			{
 				_entryForm.Terminate();
 			}
-
-			SaveMagicWords();
 		}
 
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Launcher", new LauncherRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Magic Words", new LauncherMagicWordsOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("HotKeys", new LauncherHotKeysOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new LauncheGeneralOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Import / Export", new LauncherImportOptionsPanel(this)));
+			Image image = new Bitmap(Properties.Resources.DualLauncher_16_16);
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Launcher", image, new LauncherRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Magic Words", image, new LauncherMagicWordsOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("HotKeys", image, new LauncherHotKeysOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new LauncheGeneralOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Import / Export", image, new LauncherImportOptionsPanel(this)));
 
 			return options;
 		}
@@ -274,7 +278,7 @@ namespace DMT.Modules.Launcher
 			AddNewMagicWord(newMagicWord);
 		}
 
-		private void AddNewMagicWord(MagicWord newMagicWord)
+		void AddNewMagicWord(MagicWord newMagicWord)
 		{
 			// let the user edit the details
 
@@ -285,6 +289,7 @@ namespace DMT.Modules.Launcher
 			{
 				// user wants this word, so insert it
 				MagicWords.Insert(newMagicWord);
+				SaveMagicWords();
 			}
 		}
 
@@ -306,7 +311,7 @@ namespace DMT.Modules.Launcher
 		{
 			if (_magicWords == null)
 			{
-				_magicWords = new MagicWords();
+				_magicWords = new MagicWords(_logger);
 				string filename = FileLocations.Instance.MagicWordsFilename;
 				if (!_magicWords.Load(filename))
 				{
@@ -322,9 +327,10 @@ namespace DMT.Modules.Launcher
 		void GenerateInitialMagicWords()
 		{
 			MagicWord mw = new MagicWord("Help", "http://dualmonitortool.sourceforge.net");
-			_magicWords.Add(mw);
+			MagicWords.Add(mw);
 
 			AddAllInternalCommands();
+			SaveMagicWords();
 		}
 
 		void AddAllInternalCommands()
@@ -337,13 +343,13 @@ namespace DMT.Modules.Launcher
 				foreach (string actionName in actionNames)
 				{
 					// make sure this alias hasn't already been defined
-					if (_magicWords.FindByAlias(actionName) == null)
+					if (MagicWords.FindByAlias(actionName) == null)
 					{
 						string description = _commandRunner.GetModuleActionDescription(moduleName, actionName);
 						string magicCommand = MagicCommand.JoinMagicCommand(moduleName, actionName);
 						mw = new MagicWord(actionName, magicCommand);
 						mw.Comment = description;
-						_magicWords.Add(mw);
+						MagicWords.Add(mw);
 					}
 				}
 			}

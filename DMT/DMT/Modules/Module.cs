@@ -50,14 +50,33 @@ namespace DMT.Modules
 
 		//public abstract void RunCommand(string commandName, string parameters);
 
+		/// <summary>
+		/// Starts the module up
+		/// </summary>
 		public virtual void Start()
 		{
 		}
 
+		/// <summary>
+		/// Indicates all modules have started, and allows
+		/// individual modules to perform any post startup processing
+		/// that depends on other modules
+		/// </summary>
 		public virtual void StartUpComplete()
 		{
 		}
 
+		/// <summary>
+		/// Gives the module a chance to flush any data out to disk
+		/// Will be called if the app is closing or system about to shutdown
+		/// </summary>
+		public virtual void Flush()
+		{
+		}
+
+		/// <summary>
+		/// Terminates the module
+		/// </summary>
 		public virtual void Terminate()
 		{
 		}

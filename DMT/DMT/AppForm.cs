@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Resources;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,6 +50,24 @@ namespace DMT
 			AddMenuItem("Visit Website", null, visitWebSiteToolStripMenuItem_Click);
 			AddMenuItem("-", null, null);
 			AddMenuItem("Exit", null, exitToolStripMenuItem_Click);
+
+			// handle system events
+			SystemEvents.SessionEnding += SystemEvents_SessionEnding;
+			SystemEvents.SessionEnded += SystemEvents_SessionEnded;
+		}
+
+		void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
+		{
+			_controller.Logger.LogInfo("AppForm", "SessionEnding - in");
+			_controller.Flush();
+			_controller.Logger.LogInfo("AppForm", "SessionEnding - out");
+		}
+
+		void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
+		{
+			_controller.Logger.LogInfo("AppForm", "SessionEnded - in");
+			CleanUp();
+			_controller.Logger.LogInfo("AppForm", "SessionEnded - out");
 		}
 
 		public ToolStripMenuItem AddMenuItem(string text, Image image, EventHandler eventHandler)
@@ -155,6 +174,10 @@ namespace DMT
 		void CleanUp()
 		{
 			_controller.Stop();
+
+			// is this really necessary?
+			//SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
+			//SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
 		}
 	}
 }

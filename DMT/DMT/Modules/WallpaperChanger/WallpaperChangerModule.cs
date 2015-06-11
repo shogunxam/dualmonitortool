@@ -178,10 +178,11 @@ namespace DMT.Modules.WallpaperChanger
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Wallpaper Changer", new WallpaperChangerRootOptionsPanel());
+			Image image = new Bitmap(Properties.Resources.DualWallpaper_16_16);
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Wallpaper Changer", image, new WallpaperChangerRootOptionsPanel());
 			_generalOptionsPanel = new WallpaperChangerGeneralOptionsPanel(this);
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", _generalOptionsPanel));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Providers", new WallpaperChangerProvidersOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, _generalOptionsPanel));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Providers", image, new WallpaperChangerProvidersOptionsPanel(this)));
 
 			return options;
 		}

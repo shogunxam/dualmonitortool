@@ -119,8 +119,9 @@ namespace DMT.Modules.Snap
 
 		public override ModuleOptionNode GetOptionNodes()
 		{
-			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Snap", new SnapRootOptionsPanel());
-			options.Nodes.Add(new ModuleOptionNodeLeaf("General", new SnapGeneralOptionsPanel(this)));
+			Image image = new Bitmap(Properties.Resources.DualSnap_16_16);
+			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Snap", image, new SnapRootOptionsPanel());
+			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new SnapGeneralOptionsPanel(this)));
 
 			return options;
 		}

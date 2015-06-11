@@ -29,6 +29,7 @@ using System.IO;
 using System.Diagnostics;
 using DMT.Library;
 using DMT.Library.Binding;
+using DMT.Library.Logging;
 
 namespace DMT.Modules.Launcher
 {
@@ -67,8 +68,12 @@ namespace DMT.Modules.Launcher
 		//}
 		//#endregion
 
-		public MagicWords()
+		ILogger _logger;
+
+		public MagicWords(ILogger logger)
 		{
+			_logger = logger;
+
 			// this is the default
 			this.ListChanged += new ListChangedEventHandler(MagicWords_ListChanged);
 		}
@@ -150,6 +155,11 @@ namespace DMT.Modules.Launcher
 			if (_isDirty)
 			{
 				Save(filename);
+				_logger.LogInfo("MagicWords", "Saved as dirty");
+			}
+			else
+			{
+				_logger.LogInfo("MagicWords", "Not dirty");
 			}
 		}
 

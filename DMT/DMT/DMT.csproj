@@ -35,6 +35,9 @@
   <PropertyGroup>
     <ApplicationIcon>DMT.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -564,6 +567,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WallpaperStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\DataSources\DMT.Modules.Launcher.MagicWords.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -596,6 +600,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="DMT.ico" />
+    <None Include="Resources\blank_16_16.png" />
+    <Content Include="Resources\cursor_16_16.png" />
+    <Content Include="Resources\DMT_16_16.png" />
+    <Content Include="Resources\DualLauncher_16_16.png" />
+    <Content Include="Resources\DualSnap_16_16.png" />
+    <Content Include="Resources\DualWallpaper_16_16.png" />
+    <Content Include="Resources\SwapScreen_16_16.png" />
     <None Include="Resources\Cursor.ico" />
     <None Include="Resources\SwapScreen.ico" />
     <None Include="Resources\WallpaperChanger.ico" />
