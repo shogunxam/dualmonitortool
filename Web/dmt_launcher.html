@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="Project page for Dual Monitor Tools." />
+<meta name="keywords" content="Dual Monitor Tools, application launcher, multi, display" />
+<meta name="author" content="Gerald Evans" />
+<link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
+<title>Dual Monitor Tools - DMT Launcher</title>
+</head>
+
+<body>
+	
+	<div id="page">
+
+		<div id="header">
+			<div id="header-logo">
+				<a href="index.html">
+					<img src="Images/dual_96_48.png" alt="Dual Monitor Tools" />
+				</a>
+			</div>
+
+			<div id="header-title">
+				<p class="HdrTitleBig">
+				Dual Monitor Tools
+				</p>
+			</div>
+		</div>
+
+		<div id="body">
+		<div id="navigation">
+			<span class="MenuTop"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
+			<a href="dmt.html" class="MenuItem">DMT</a>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<span class="CurPage">DMT - Launcher</span>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<a href="dmt_swapscreen.html" class="MenuItem">DMT - Swap Screen</a>
+			<a href="dmt_wallpaperchanger.html" class="MenuItem">DMT - Wallpaper Changer</a>
+			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
+
+<p class="AppTitle">
+	<img src="Images/dmt_launcher_48_24.png" class="AppLogo" alt="DMT Launcher" />
+	DMT Launcher
+</p>
+
+<p>Launch your favourite applications with a few key strokes and position them at pre-configured positions
+on any of your monitors.</p>
+
+<p>Launcher works by allowing you to associate a 'magic word' with each application you want to be easily able to start.
+You can also specify up to 4 different starting locations for the main window associated with the application</p>
+
+<p>When you want to launch a particular application, you first press the Dual Launcher hotkey and then start typing in the
+'magic word' for that application.  Dual Launcher will try and guess the 'magic word' you are typing so you won't
+normally have to type it all in.  When the correct 'magic word' is displayed, you can press Return or one of the 
+configurable action keys to open it up at a pre-configured location on one of your monitors.</p>
+
+<p>Launcher can also be used to open folders in Windows Explorer, websites in your browser and
+can run any of the operations provided by the modules within DMT.</p>
+
+
+<p class="SubHeading">'Magic Word' Entry</p>
+
+<img src="Images/dmt_launcher_entry.png" alt="Magic word entry" />
+
+<p>If you press the Dual Launcher hotkey,
+then the 'Magic Word' entry form is displayed.</p> 
+<p>Initially this displays icons for the 8 'magic words' that you have used the most, although this
+is configurable.  As you start typing your 'magic word', only the icons for the 'magic words'
+that start with the same letters that you have typed are displayed.  Also the edit box highlights
+the rest of the word that it thinks you are typing.  You can either continue typing until it displays
+the 'magic word' you want or you can use the up and down arrow keys to cycle through the alternatives or you can click on the corresponding
+icon with the mouse.</p>
+
+<p>When ready, just press return on one of the action keys to open the application at the desired location.</p>
+
+<p class="SubHeading">'Magic Words' options</p>
+
+<img src="Images/dmt_launcher_magicwords.png" alt="Magic Words options" />
+
+<p>This shows the 'magic words' that are currently defined and allows you to manage them.</p>
+
+<p class="SubHeading">Add/Edit Magic Word</p>
+
+<p>To edit an existing 'magic word', you can double click on the 'magic word' in the 
+Magic Words options, or use the 'Edit' button.</p>
+
+<p>To add a new 'magic word', you can:
+<ul>
+	<li>Use the context menu of the icon in the notification area.</li>
+	<li>Use the 'Add' button on the main options tab.</li>
+	<li>Press the hotkey for adding the current application.</li>
+</ul>
+</p>
+
+<img src="Images/dmt_launcher_add.png" alt="Add/Edit Magic Word" />
+
+<p>For most applications, the only two fields that need to be filled in are 'Magic word' and 'Filename'.</p>
+<p>'Magic words' are not case sensitive and may contain spaces and other punctuation characters.</p>
+<p>'Filename' can be one of the following:
+<ul>
+	<li>Path including extension to the executable to be run.</li>
+	<li>Path including extension to a document you want opened.</li>
+	<li>Path to a directory, which will get opened in Windows Explorer.</li>
+	<li>A URL to be opened by your default browser.</li>
+	<li>A DMT command.</li>
+</ul>
+</p>
+
+<p>The essential details of this form will be automatically filled out for you if you use any of the following methods:
+<ul>
+	<li>Use the 'Add new Magic Word' hotkey when the application you want to add is the active application.</li>
+	<li>Drag the top crosshair over the window belonging to the application you want to add.</li>
+	<li>Drag the application/document from Windows Explorer onto the Add Magic Word form.</li>
+</ul>
+</p>
+
+<p>The bottom crosshair on the form can be used to select the position and size for any of the 4 locations by dragging
+the crosshair over a window that is at the desired position.  Remember to check the 'Position window on startup'
+if you want the location to be used.</p>
+<p>When entering the magic word in the entry form, if you press <Enter> or <F1>,
+then the application will be started up at position 1, if specified.  Similarly <F2>,<F3> and <F4>
+will open up at Start Position 2/3/4.<p>
+
+
+<p class="SubHeading">'HotKeys' options</p>
+
+<img src="Images/dmt_launcher_hotkeys.png" alt="HotKeys options" />
+
+<p>This allows you to define the hotkey to being up the 'magic word' entry form.</p>
+<p>You can also define a hotkey which will allow you to add a 'magic word' for the current application.</p>
+
+
+<p class="SubHeading">'General' options</p>
+
+<img src="Images/dmt_launcher_general.png" alt="Keys tab" />
+
+
+<p class="SubHeading">'Import / Export' options</p>
+
+<img src="Images/dmt_launcher_import.png" alt="Keys tab" />
+
+<p>These buttons allow you to save/load the 'magic words' to/from a file.</p>
+
+
+
+
+<p class="SubHeading">How the positioning works (and why it sometimes doesn't)</p>
+
+<p>When you launch an application via its 'magic word', Launcher will start waiting for the
+applications window to open.  If an application first launches a splash screen or perhaps some other dialog box first, then it is
+important that Launcher can detect the correct window as being the main window.  To do this you can specify the Window class
+and/or a regular expression to match against the window's caption.  There is a configurable timeout (60 seconds by default)
+after which Dual Launcher will give up looking for the window. In most cases specifying the windows class is the best route, 
+except for applications that use the same window class for the splash screen and the main window, or those that generate
+a different class name every time they run.  A bit of experimentation should reveal the best terms to use.</p>
+
+
+
+<p>Some applications go out of their way to take full control of their startup position, 
+so Launcher will not be able to position all applications.</p>
+
+<p> Also applications which use their own launcher
+to run another application will not work unless you can find the command line used to run the launched application.</p>
+
+</div>
+
+</div>
+	<div id="footer">
+		<div id="footer-left">
+		</div>
+		<div id="footer-right">
+		last updated 13 Jun 2015
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -6,7 +6,7 @@
 <meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, multi, screen, display" />
 <meta name="author" content="Gerald Evans" />
 <link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
-<title>Dual Monitor Tools - Home page</title>
+<title>Dual Monitor Tools - Home</title>
 </head>
 
 <body>
@@ -37,12 +37,13 @@
 			<br />
 
 			<span class="MenuHdr">Tools</span>
-			<a href="swapscreen.html" class="MenuItem">Swap Screen</a>
-			<a href="duallauncher.html" class="MenuItem">Dual Launcher</a>
+			<a href="dmt.html" class="MenuItem">DMT</a>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<a href="dmt_swapscreen.html" class="MenuItem">DMT - Swap Screen</a>
+			<a href="dmt_wallpaperchanger.html" class="MenuItem">DMT - Wallpaper Changer</a>
 			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
-			<a href="dualwallpaperchanger.html" class="MenuItem">Dual Wallpaper Changer</a>
-			<a href="dismon.html" class="MenuItem">DisMon</a>
-			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
 			<br />
 
 			<a href="http://sourceforge.net/projects/dualmonitortool">
@@ -58,33 +59,84 @@
 
 
 <p class="SubHeading">Current status</p>
-<p>The latest release of Dual Monitor Tools is 1.10 and is available for downloading from
+<p>The latest release of Dual Monitor Tools is 2.0 and is available for downloading from
 <a href="http://sourceforge.net/project/platformdownload.php?group_id=252267">SourceForge</a>.</p>
-<p>The tools currently available are:</p>
+
+<p>The major change between this version and the 1.* versions is that the functionality of
+the old Swap Screen, Dual Launcher, Dual Wallpaper Changer and Dual Snap tools has been 
+integrated into a single tool.</p>
+
+<p>The tools/modules currently available are:</p>
 
 <p class="AppTitle">
-	<a href="swapscreen.html" class="AppTitle">
-		<img src="Images/SwapScreen_48_24.png" class="AppLogo" alt="Swap Screen" />
-		Swap Screen
+	<a href="dmt.html" class="AppTitle">
+		<img src="Images/dmt_48_24.png" class="AppLogo" alt="DMT" />
+		DMT
+	</a>
+</p>
+<p>This is now the main tool in the system with support for multiple modules.
+It runs in the notification area and double clicking on it's icon will bring up the
+options for all of the modules it supports.
+</p>
+
+<p class="AppTitle">
+	<a href="dmt_cursor.html" class="AppTitle">
+		<img src="Images/dmt_cursor_48_24.png" class="AppLogo" alt="DMT Cursor" />
+		DMT - Cursor
+	</a>
+</p>
+<p>This is a module within DMT which allows you to restrict cursor movement between monitors.  
+You can lock the cursor to the
+current monitor, or make it sticky so that extra effort is required to move it between
+monitors or the cursor can be completely free to move between monitors.</p>
+
+<p class="AppTitle">
+	<a href="dmt_launcher.html" class="AppTitle">
+		<img src="Images/dmt_launcher_48_24.png" class="AppLogo" alt="DMT Launcher" />
+		DMT - Launcher
+	</a>
+</p>
+<p>This is a module within DMT which allows you to launch your favourite applications with a few key strokes 
+and to position them at pre-configured positions on any of your monitors. 
+You can also use it to launch your favourite websites and to run any of the functionality
+provided by the modules in DMT.</p>
+
+
+<p class="AppTitle">
+	<a href="dmt_snap.html" class="AppTitle">
+		<img src="Images/dmt_snap_48_24.png" class="AppLogo" alt="DMT Snap" />
+		DMT - Snap
+	</a>
+</p>
+<p>This is a module within DMT which allows you to take a snapshot of primary monitor
+and show it on the secondary monitor.
+Previous snapshots can be viewed, saved to a file or copied to the clipboard.</p>
+
+
+<p class="AppTitle">
+	<a href="dmt_swapscreen.html" class="AppTitle">
+		<img src="Images/dmt_swapscreen_48_24.png" class="AppLogo" alt="DMT Swap Screen" />
+		DMT - Swap Screen
 	</a>
 </p>
 
-<p>Provides hotkeys for performing common operations on the windows on your monitors.
+<p>This is a module within DMT which provides hotkeys for performing common operations on the
+windows on your monitors.
 This includes operations like moving the active application window to the next monitor
 or to a pre-configured position, 
 minimising all windows on a single monitor only
-and rotating the contents of all monitors. 
-It also allows you to restrict mouse movement between monitors.</p>
+and rotating the contents of all monitors.</p>
 
 <p class="AppTitle">
-	<a href="duallauncher.html" class="AppTitle">
-		<img src="Images/DualLauncher_48_24.png" class="AppLogo" alt="Dual Launcher" />
-		Dual Launcher
+	<a href="dmt_wallpaperchanger.html" class="AppTitle">
+		<img src="Images/dmt_wallpaperchanger_48_24.png" class="AppLogo" alt="DMT Wallpaper Changer" />
+		DMT - Wallpaper Changer
 	</a>
 </p>
-<p>This allows you to launch your favourite applications with a few key strokes 
-and to position them at pre-configured positions on any of your monitors.</p>
-
+<p>This is a module within DMT which changes the wallpaper at regular intervals and/or at start up.
+Offers similar support for multiple monitors as to that provided by <a href="dualwallpaper.html">Dual Wallpaper</a>.
+Images for wallpaper may come from multiple sources.
+</p>
 
 <p class="AppTitle">
 	<a href="dualwallpaper.html" class="AppTitle">
@@ -92,40 +144,10 @@ and to position them at pre-configured positions on any of your monitors.</p>
 		Dual Wallpaper
 	</a>
 </p>
-<p>This simplifies the process of using existing images as wallpaper on your monitors.
+<p>Standalone tool that simplifies the process of using existing images as wallpaper on your monitors.
 You can either specify a different image on each monitor, 
 or spread an image across two or more monitors
 or if you have enough monitors, a combination of these.</p>
-
-<p class="AppTitle">
-	<a href="dualwallpaperchanger.html" class="AppTitle">
-		<img src="Images/DualWallpaperChanger_48_24.png" class="AppLogo" alt="Dual Wallpaper Changer" />
-		Dual Wallpaper Changer
-	</a>
-</p>
-<p>Changes the wallpaper at regular intervals and/or at start up.
-Offers similar support for multiple monitors as to that provided by <a href="dualwallpaper.html">Dual Wallpaper</a>.
-Uses plugins to find / access images, so further image sources can easily be added.
-</p>
-
-<p class="AppTitle">
-	<a href="dismon.html" class="AppTitle">
-		<img src="Images/DisMon_48_24.png" class="AppLogo" alt="DisMon" />
-		DisMon
-	</a>
-</p>
-<p>This can disable all secondary monitors while another application is run, 
-or it can disable individual monitors and/or change the primary monitor
-and will restore the original state of these monitors when the application has finished.
-This can be quite handy when running certain games which don't scroll correctly if you have more than 1 monitor enabled.</p>
-
-<p class="AppTitle">
-	<a href="dualsnap.html" class="AppTitle">
-		<img src="Images/DualSnap_48_24.png" class="AppLogo" alt="Dual Snap" />
-		Dual Snap
-	</a>
-</p>
-<p>Allows you to capture the current image on the primary monitor and display it on your secondary monitor.</p>
 
 </div>
 
@@ -134,7 +156,7 @@ This can be quite handy when running certain games which don't scroll correctly 
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 6 Feb 2015
+		last updated 13 Jun 2015
 		</div>
 	</div>
 </div>

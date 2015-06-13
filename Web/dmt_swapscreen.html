@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="Project page for Dual Monitor Tools." />
+<meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, multi, display" />
+<meta name="author" content="Gerald Evans" />
+<link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
+<title>Dual Monitor Tools - DMT Swap Screen</title>
+</head>
+
+<body>
+	
+	<div id="page">
+
+		<div id="header">
+			<div id="header-logo">
+				<a href="index.html">
+					<img src="Images/dual_96_48.png" alt="Dual Monitor Tools" />
+				</a>
+			</div>
+
+			<div id="header-title">
+				<p class="HdrTitleBig">
+				Dual Monitor Tools
+				</p>
+			</div>
+		</div>
+
+		<div id="body">
+		<div id="navigation">
+			<span class="MenuTop"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
+			<a href="dmt.html" class="MenuItem">DMT</a>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<span class="CurPage">DMT - Swap Screen</span>
+			<a href="dmt_wallpaperchanger.html" class="MenuItem">DMT - Wallpaper Changer</a>
+			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
+
+<p class="AppTitle">
+	<img src="Images/dmt_swapscreen_48_24.png" class="AppLogo" alt="Swap Screen" />
+	DMT Swap Screen
+</p>
+
+<p>Swap Screen uses hotkeys to simplify the process of handling windows in a multiple monitor setup.</p>
+<p>This includes features such as moving the current window to the next screen and minimising all windows on a single screen only.</p>
+
+
+<p class="SubHeading">'Active Window' options</p>
+
+<img src="Images/dmt_swapscreen_active.png" alt="Active Window" />
+<p>This contains hotkeys which have an impact on the active window only.</p>
+
+<p class="SubHeading2"><a name="NextScreen">Move active window to next screen</a></p>
+<p>This moves the active window onto the next screen, even if it is currently maximised.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+Shift+&lt;Right&gt; hotkey.  If you are happy with this, then you can disable Swap Screen's hotkey for this. However you may find this combination is quite cumbersome in which case you can define your own simpler hotkey.</p>
+
+<p class="SubHeading2"><a name="PrevScreen">Move active window to previous screen</a></p>
+<p>This performs the opposite of <a href="#NextScreen">Move active window to next screen</a>.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+Shift+&lt;Left&gt; hotkey.</p>
+
+<p class="SubHeading2"><a name="Minimise">Minimise active window</a></p>
+<p>If the active window can be minimised, then it is minimised.
+If it is already minimised, then it is restored.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+&lt;Down&gt; hotkey.</p>
+
+<p class="SubHeading2"><a name="Maximise">Maximise active window</a></p>
+<p>If the active window can be maximised, then it is maximised.
+If it is already maximised, then it is restored.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+&lt;Up&gt; hotkey.</p>
+
+<p class="SubHeading2"><a name="Supersize">Supersize active window</a></p>
+<p>If the active window can be resized, then it is made large enough to cover all screens.<br />
+This may mean that part(s) of the window may not be visible if your screens have different resolutions, 
+or if you have a fixed taskbar displayed.<br />
+If you press the hotkey again on a window that has just been supersized, then the window is restored to its
+previous location and size.</p>
+
+<p class="SubHeading2"><a name="SwapTop2">Swap active window with next</a></p>
+<p>Swaps the positions of the top two windows around.</p>
+
+<p class="SubHeading2"><a name="SnapLeft">Snap Left</a></p>
+<p>Moves the active window to the previous half screen (splitting each screen into 2 columns).<br />
+This is similar to the Windows 7 feature using Win+&lt;Left&gt;, except this will
+only cycle through the half screens and not the normal size of the window.
+</p>
+
+<p class="SubHeading2"><a name="SnapRight">Snap Right</a></p>
+<p>Moves the active window to the next half screen (splitting each screen into 2 columns).<br />
+This is similar to the Windows 7 feature using Win+&lt;Right&gt;, except this will
+only cycle through the half screens and not the normal size of the window.
+</p>
+
+<p class="SubHeading2"><a name="SnapUp">Snap Up</a></p>
+<p>Moves the active window to the previous half screen (splitting each screen into 2 rows).
+</p>
+
+<p class="SubHeading2"><a name="SnapDown">Snap Down</a></p>
+<p>Moves the active window to the next half screen (splitting each screen into 2 rows).
+</p>
+
+<p class="SubHeading">'User Defined Areas' options</p>
+
+<img src="Images/dmt_swapscreen_uda.png" alt="Active to UDA Window" />
+<p>These allow you to move the active window to a User Defined Area (UDA).</p>
+
+<p>When first run, 10 default UDA's are generated, but you may change the name, location, size and the hotkey for all of these.</p>
+
+<p class="SubHeading">'Other Windows' options</p>
+
+<img src="Images/dmt_swapscreen_other.png" alt="Other Windows" />
+<p>This contains hotkeys which have an impact on all or multiple windows.</p>
+
+<p class="SubHeading2"><a name="MinimiseAllBut">Minimise all but active window</a></p>
+<p>This will attempt to minimise all windows apart from the active window.<br />
+If you are running Windows 7, then Windows 7 already provides this functionality with the
+Win+&lt;Home&gt; hotkey.</p>
+
+<p class="SubHeading2"><a name="RotateNext">Rotate screens forwards</a></p>
+<p>This will attempt to move every application window onto the next screen from where it is currently displayed.</p>
+
+<p class="SubHeading2"><a name="RotatePrev">Rotate screens backwards</a></p>
+<p>This does the reverse of <a href="#RotateNext">Rotate screens forwards</a>.</p>
+
+<p class="SubHeading2"><a name="ShowDesktop1">Show Desktop 1</a></p>
+<p>This will attempt to minimise all application windows on the first screen.</p>
+
+<p class="SubHeading2"><a name="ShowDesktop1">Show Desktop 2</a></p>
+<p>This will attempt to minimise all application windows on the second screen.</p>
+
+
+
+
+
+<p class="SubHeading">Application windows</p>
+
+<p>Swap Screen attempts to detect those windows which it would not make sense to move and ignores them.</p>
+
+<p>The following windows will not be moved or minimised by SwapScreen:</p>
+<ul>
+	<li>Any window that does not have the WS_VISIBLE attribute set.</li>
+	<li>Any window that has been deliberately positioned off-screen.</li>
+	<li>Any window with the WS_EX_TOOLWINDOW style, 
+	unless this is the active window and you are performing an operation on the active window.</li>
+</ul>
+<p>If the Swap Screen hotkey is used when running a full screen application, normally a game,
+then with some games the image on the primary screen is copied to the next screen, but the game
+continues on the primary screen.  However this does not work with all games.  
+In some cases you may find that you have to press the hotkey again 
+to restore normal operation of the game, and in others it can mess the current game up so use with caution.</p> 
+
+
+</div>
+
+</div>
+	<div id="footer">
+		<div id="footer-left">
+		</div>
+		<div id="footer-right">
+		last updated 13 Jun 2015
+		</div>
+	</div>
+</div>
+</body>
+</html>

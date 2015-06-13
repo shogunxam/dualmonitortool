@@ -37,12 +37,13 @@
 			<br />
 
 			<span class="MenuHdr">Tools</span>
-			<a href="swapscreen.html" class="MenuItem">Swap Screen</a>
-			<a href="duallauncher.html" class="MenuItem">Dual Launcher</a>
+			<a href="dmt.html" class="MenuItem">DMT</a>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<a href="dmt_swapscreen.html" class="MenuItem">DMT - Swap Screen</a>
+			<a href="dmt_wallpaperchanger.html" class="MenuItem">DMT - Wallpaper Changer</a>
 			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
-			<a href="dualwallpaperchanger.html" class="MenuItem">Dual Wallpaper Changer</a>
-			<a href="dismon.html" class="MenuItem">DisMon</a>
-			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
 			<br />
 
 			<a href="http://sourceforge.net/projects/dualmonitortool">
@@ -54,12 +55,11 @@
 
 <p class="SubHeading">Requirements</p>
 
-<p>Dual Monitor Tools will work with any version of Windows that has Microsoft .NET Framework version 2.0 or later installed.
-However, Dual Wallpaper Changer requires .NET Framework version 4.0 or later installed.</p>
+<p>Dual Monitor Tools will work with any version of Windows that has Microsoft .NET Framework version 4.0 or later installed.</p>
 <p>If you do not have a suitable version of .NET installed, then assuming your version of Windows supports it, 
 you can install it from Windows Update.  You should be able to find it in the
 <i>Optional Updates</i> section.</p>
-<p>Dual Monitor Tools has been tested and found to work on XP, Vista and Windows 7 and 8/8.1.</p>
+<p>Dual Monitor Tools has been tested and found to work on XP, Vista, Windows 7 and 8/8.1.</p>
 
 <p class="SubHeading">Download</p>
 
@@ -75,28 +75,25 @@ you want to run it from.</p>
 <p>If you have installed a previous version of Dual Monitor Tools, then you will need
 to make sure that none of these tools are currently running.  
 Remember that SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap run from the notification area of the taskbar, 
-so to close these tools down you will need to right click on the corresponding icon and select Exit.</p>
-
-<p>The .dll files which are used by DualWallpaperChanger may need to be marked as safe to run.
-This can easily be done with Windows Explorer: right click on each file, select "Properties"
-then click the "Unblock" button and then click the "OK" button.</p>
+so to close these tools down you will need to right click on the corresponding icon and select Exit.
+If any of these tools have the 'Start when Windows start' options set, then you will need to untick these first
+as you don't want the old version of these tools running at the same time as DMT which provides the same functionality.</p>
 
 <p class="SubHeading">Running</p>
 
 <p>If when you run any of the tools, you get a message along the lines of
 <i>The dynamic link library mscoree.dll could not be found...</i>
-then this probably means you do not have .NET 2.0 installed.</p>
+then this probably means you do not have .NET 4.0 installed.</p>
 
 <p>See the tool specific pages to see how to use each tool.</p>
 
 <p class="SubHeading">Uninstall</p>
 
-<p>To uninstall the program, you will need to remove any shortcuts you manually added,
-remove the files you unzipped and remove the configuration and data files for any of the tools you have used.</p>
+<p>If you have set the 'Start when Windows starts' in the options, then you
+will need to turn this off before removing anything.</p>
 
-<p>The configuration files for the tools may be found under %LOCALDATA%\GNE.  Typically this directory is something like C:\Users\&lt;UserName&gt;\AppData\Local\GNE.</p>
-
-<p>If you have nothing else in  %LOCALAPPDATA%\GNE, then it should be safe to delete this directory as well.</p>
+<p>Then make sure none of the tools are running, and you can just delete
+the files you unzipped and the data files mentioned above.</p>
 
 
 </div>
@@ -106,7 +103,7 @@ remove the files you unzipped and remove the configuration and data files for an
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 12 Feb 2015
+		last updated 13 Jun 2015
 		</div>
 	</div>
 </div>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="Project page for Dual Monitor Tools." />
+<meta name="keywords" content="Dual Monitor Tools, wallpaper, wall paper, background, multi, display" />
+<meta name="author" content="Gerald Evans" />
+<link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
+<title>Dual Monitor Tools - DMT Wallpaper Changer</title>
+</head>
+
+<body>
+	
+	<div id="page">
+
+		<div id="header">
+			<div id="header-logo">
+				<a href="index.html">
+					<img src="Images/dual_96_48.png" alt="Dual Monitor Tools" />
+				</a>
+			</div>
+
+			<div id="header-title">
+				<p class="HdrTitleBig">
+				Dual Monitor Tools
+				</p>
+			</div>
+		</div>
+
+		<div id="body">
+		<div id="navigation">
+			<span class="MenuTop"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
+			<a href="dmt.html" class="MenuItem">DMT</a>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<a href="dmt_swapscreen.html" class="MenuItem">DMT - Swap Screen</a>
+			<span class="CurPage">DMT - Wallpaper Changer</span>
+			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
+
+<p class="AppTitle">
+	<img src="Images/dmt_wallpaperchanger_48_24.png" class="AppLogo" alt="DMT Wallpaper Changer" />
+	DMT Wallpaper Changer
+</p>
+
+<p>Wallpaper Changer will routinely change your wallpaper using a variety of sources for images.</p>
+
+<p>It uses plugins so further image sources can easily be added.</p>
+
+<p class="SubHeading">'General' options</p>
+
+<img src="Images/dmt_wallpaperchanger_general.png" alt="Wallpaper Changer general" />
+
+<p>The first few items allow you to specify when and how often you want the wallpaper changed.</p>
+<p>'Multi Monitor' allows you to specify how multiple monitors should be treated.  The available options are:</p>
+<ul>
+	<li>One image stretched over all monitors.</li>
+	<li>Same image on each monitor.</li>
+	<li>Different image on each monitor (all changed together).</li>
+	<li>Different image on each monitor (only one changed at a time).
+	Initially this will update the image on all of the monitors, but after that whenever it is time to update the wallpaper,
+	it will just update one monitor at a time in turn.
+	</li>
+</ul>
+
+<p>If the image size is not the same size as the rectangle enclosing all of the selected screens, 
+then the 'Fit' combo box determines any scaling that need to be applied to the image.  The available options are:</p>
+<ul>
+	<li>Over stretch to cover the monitor(s).</li>
+	<li>Under stretch so as not to clip image.  This will result in bars being added.</li>
+	<li>Center image without any stretching.  
+	If your image is larger than the selected monitors, then the image will be clipped.
+	If The image is smaller than the selected monitors, then a border will be displayed around the image.</li>
+	<li>Stretch image to fill monitor(s) - ignores aspect ratio. 
+	This will stretch or shrink so that the whole image is displayed occupying the whole area of the selected monitors.</li>
+</ul>
+
+<p>Initially no providers (of images) are set up, so click on the 'Providers' options to add/edit/delete providers.</p>
+
+<p class="SubHeading">'Providers' options</p>
+
+<img src="Images/dmt_wallpaperchanger_providers.png" alt="Wallpaper Changer providers" />
+
+<p>The weight will indicate the frequency that provider should be used, with the higher the value, the more often it is used.
+So if you have one provider with a weight of 1 and another with a weight of 4, then you are 4 times as likely for an image
+to be chosen from the provider with a weight of 4 than from the provider with a weight of 1.</p>
+
+<p>Three provides are currently supported:</p>
+<ul>
+	<li>Local disk - provides images saved in a folder (with an option to look in sub-folders) on an attached drive.</li>
+	<li>Unspash - provides images from <a href="http://www.unsplash.com" target="_blank">www.unsplash.com</a>.
+	Please see their <a href="https://unsplash.com/terms" target="_blank">terms and conditions</a> on the use of these images
+	and in particular please note that the usage is restricted to persons who are at least 18 years old.</li>
+	<li>Random shapes - generates images composed of random shapes.</li>
+</ul>
+
+<p>If you use a provider that takes images from an external source, please respect any terms and conditions they may have.</p>
+
+
+</div>
+
+</div>
+	<div id="footer">
+		<div id="footer-left">
+		</div>
+		<div id="footer-right">
+		last updated 13 Jun 2015
+		</div>
+	</div>
+</div>
+</body>
+</html>
+

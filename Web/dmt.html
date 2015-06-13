@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="description" content="Project page for Dual Monitor Tools." />
+<meta name="keywords" content="Dual Monitor Tools, swap screen, swapscreen, multi, display" />
+<meta name="author" content="Gerald Evans" />
+<link rel="STYLESHEET" type="text/css" href="DualMonitorTools.css" />
+<title>Dual Monitor Tools - DMT</title>
+</head>
+
+<body>
+	
+	<div id="page">
+
+		<div id="header">
+			<div id="header-logo">
+				<a href="index.html">
+					<img src="Images/dual_96_48.png" alt="Dual Monitor Tools" />
+				</a>
+			</div>
+
+			<div id="header-title">
+				<p class="HdrTitleBig">
+				Dual Monitor Tools
+				</p>
+			</div>
+		</div>
+
+		<div id="body">
+		<div id="navigation">
+			<span class="MenuTop"></span>
+			<a href="index.html" class="MenuItem">Home</a>
+			<a href="history.html" class="MenuItem">History</a>
+			<a href="download.html" class="MenuItem">Download</a>
+			<a href="development.html" class="MenuItem">Development</a>
+			<br />
+
+			<span class="MenuHdr">Tools</span>
+			<span class="CurPage">DMT</span>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<a href="dmt_swapscreen.html" class="MenuItem">DMT - Swap Screen</a>
+			<a href="dmt_wallpaperchanger.html" class="MenuItem">DMT - Wallpaper Changer</a>
+			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
+			<br />
+
+			<a href="http://sourceforge.net/projects/dualmonitortool">
+				<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=252267&amp;type=2" width="125" height="37" alt="SourceForge.net Logo"/>
+			</a>
+		</div>
+
+<div id="content">
+
+<p class="AppTitle">
+	<img src="Images/dmt_48_24.png" class="AppLogo" alt="DMT" />
+	DMT
+</p>
+
+<p>Provides support for the following modules:
+<ul>
+	<li><a href="dmt_cursor.html">Cursor - restricts cursor movement between monitors</a></li>
+	<li><a href="dmt_launcher.html">Launcher - launches and position applications</a></li>
+	<li><a href="dmt_snap.html">Snap - takes snapshot of primary monitor</a></li>
+	<li><a href="dmt_swapscreen.html">Swap Screen - hotkeys to move windows around</a></li>
+	<li><a href="dmt_wallpaperchanger.html">Wallpaper Changer - changes wallpaper</a></li>
+</ul>
+</p>
+
+<p class="SubHeading">Usage</p>
+
+<p>When DMT.exe is run it will put itself into the notification area of the taskbar.</p>
+
+<p>Double click on the <img src="Images/dmt2_16_16.png" /> icon in the notification area to bring up the options.
+Alternatively, you can right click on the icon to bring up it's context menu.</p>
+
+<p class="SubHeading">'General' options</p>
+
+<p class="SubHeading2">Start when Windows starts</p>
+
+<p>If you want DMT to start automatically when your computer boots,
+then just check the 'Start when Windows starts' option.</p>
+
+
+<p class="SubHeading">'Run as Administrator'</p>
+
+<p>Normally, the modules within DMT can not act on any window belonging to applications that have been started 
+using the 'Run as Administrator' option as they will have insufficient permission to do so.
+Also when such a window is the active window, then the mouse/cursor modes do not work.</p>
+<p>If you want DMT to be able to move or minimise such windows and for the mouse/cursor modes to always work, 
+then you will need to run DMT with the 'Run as Administrator' option.</p>
+
+<p class="SubHeading">Portable Mode</p>
+
+<p>DMT has the ability to run from a portable device, such as a USB memory stick.</p>
+<p>By default DMT will save any configuration files to the same directory that it runs from,
+so if you are running it from a portable device, and options set will also be saved to the device.</p>
+<p>If you want the application to reside in a read only directory, then this can be achieved by
+using a DmtFileLocations.xml file.  See the supplied DmtFileLocations-Sample.xml for further details.</p>
+
+</div>
+
+</div>
+	<div id="footer">
+		<div id="footer-left">
+		</div>
+		<div id="footer-right">
+		last updated 13 Jun 2015
+		</div>
+	</div>
+</div>
+</body>
+</html>

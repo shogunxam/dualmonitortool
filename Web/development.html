@@ -36,12 +36,13 @@
 			<br />
 
 			<span class="MenuHdr">Tools</span>
-			<a href="swapscreen.html" class="MenuItem">Swap Screen</a>
-			<a href="duallauncher.html" class="MenuItem">Dual Launcher</a>
+			<a href="dmt.html" class="MenuItem">DMT</a>
+			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
+			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
+			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
+			<a href="dmt_swapscreen.html" class="MenuItem">DMT - Swap Screen</a>
+			<a href="dmt_wallpaperchanger.html" class="MenuItem">DMT - Wallpaper Changer</a>
 			<a href="dualwallpaper.html" class="MenuItem">Dual Wallpaper</a>
-			<a href="dualwallpaperchanger.html" class="MenuItem">Dual Wallpaper Changer</a>
-			<a href="dismon.html" class="MenuItem">DisMon</a>
-			<a href="dualsnap.html" class="MenuItem">Dual Snap</a>
 			<br />
 
 			<a href="http://sourceforge.net/projects/dualmonitortool">
@@ -68,10 +69,10 @@ then you can check out the very latest code with:</p>
 </tt>
 </p>
 
-<p>To check out a particular version, say 1.0, then this can be checked out with:</p>
+<p>To check out a particular version, say 2.0, then this can be checked out with:</p>
 <p>
 <tt>
-	svn co https://dualmonitortool.svn.sourceforge.net/svnroot/dualmonitortool/tags/rel-1.0 DualMonitorTools
+	svn co https://dualmonitortool.svn.sourceforge.net/svnroot/dualmonitortool/tags/rel-2.0 DualMonitorTools
 </tt>
 </p>
 
@@ -89,26 +90,30 @@ then you can check out the very latest code with:</p>
 
 <p class="SubHeading">Directory layout</p>
 <p>The following sub-directories exist in the main project directory:
-<br />(Note: the directories Web and DisMon7 are only available under svn) 
+<br />(Note: the directory Web is only available under svn) 
 </p>
 <dl>
-	<dt>SwapScreen</dt>
-	<dd>Contains the C# source for Swap Screen.</dd>
+	<dt>DMT</dt>
+	<dd>Contains the C# source for DMT.</dd>
 	<dt>DualWallpaper</dt>
 	<dd>Contains the C# source for Dual Wallpaper.</dd>
-	<dt>DualWallpaperChanger</dt>
-	<dd>Contains the C# source for Dual Wallpaper Changer.</dd>
-	<dt>DisMon</dt>
-	<dd>Contains the C# source for DisMon.</dd>
-	<dt>DisMon7</dt>
-	<dd>Contains the C++ source for the now defunct DisMon7.</dd>
-	<dt>DualSnap</dt>
-	<dd>Contains the C# source for Dual Snap.</dd>
 	<dt>Web</dt>
 	<dd>Contains this web site.</dd>
 </dl>
 
-<p>Note there is currently some duplication of code between the tools.  At some point in the future, either a common library will be used for this code, or possibly the tools could be merged into one.</p>
+<p>The following directories can also be found under svn for retired tools:</p>
+<dl>
+	<dt>SwapScreen</dt>
+	<dd>Contains the C# source for Swap Screen.</dd>
+	<dt>DualWallpaperChanger</dt>
+	<dd>Contains the C# source forDual Wallpaper Changer.</dd>
+	<dt>DisMon</dt>
+	<dd>Contains the C# source for DisMon.</dd>
+	<dt>DisMon7</dt>
+	<dd>Contains the C++ source for DisMon7.</dd>
+	<dt>DualSnap</dt>
+	<dd>Contains the C# source for Dual Snap.</dd>
+</dl>
 
 
 
@@ -125,7 +130,7 @@ to convert these to HTML viewable documentation.</p>
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 6 Feb 2015
+		last updated 13 Jun 2015
 		</div>
 	</div>
 </div>
