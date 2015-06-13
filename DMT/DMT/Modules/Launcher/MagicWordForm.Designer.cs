@@ -450,6 +450,7 @@
 			// 
 			// MagicWordForm
 			// 
+			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(711, 454);
@@ -481,6 +482,8 @@
 			this.ShowInTaskbar = false;
 			this.Text = "Magic Word";
 			this.Load += new System.EventHandler(this.MagicWordForm_Load);
+			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MagicWordForm_DragDrop);
+			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MagicWordForm_DragEnter);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();

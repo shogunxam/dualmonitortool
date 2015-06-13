@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Environment;
 using DMT.Library.HotKeys;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace DMT.Modules.Launcher
 	{
 		LauncherModule _launcherModule;
 		ICommandRunner _commandRunner;
+		ILocalEnvironment _localEnvironment;
 
 		bool _terminate = false;
 		bool _loaded = false;	// indicates if form has been loaded
@@ -46,10 +48,11 @@ namespace DMT.Modules.Launcher
 		bool _doDel = false;
 
 
-		public EntryForm(LauncherModule launcherModule, ICommandRunner commandRunner)
+		public EntryForm(LauncherModule launcherModule, ICommandRunner commandRunner, ILocalEnvironment localEnvironment)
 		{
 			_launcherModule = launcherModule;
 			_commandRunner = commandRunner;
+			_localEnvironment = localEnvironment;
 
 			InitializeComponent();
 		}
@@ -319,6 +322,18 @@ namespace DMT.Modules.Launcher
 				ParameterMap map = new ParameterMap();
 				textBoxInput.Text = "";
 				HideEntryForm();
+				if (_localEnvironment.IsWin10OrLater())
+				{
+					// Prior to Win 10, setting the form visibility to false
+					// was sufficient to stop it from being picked up by Win32.GetForegroundWindow(),
+					// which is important if we are running an internal command to say,
+					// move the active window to the next monitor.
+					// However Win 10 still thinks that the window we have just hidden 
+					// is still the foreground window.
+
+					// a quick yield seems to fix the problem
+					System.Threading.Thread.Sleep(0);
+				}
 				foreach (MagicWord magicWord in magicWords)
 				{
 					StartMagicWord(magicWord, position, map);

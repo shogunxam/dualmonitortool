@@ -53,5 +53,10 @@ namespace DMT.Library.Environment
 			return OsHelper.IsWin8OrLater();
 		}
 
+		public bool IsWin10OrLater()
+		{
+			return OsHelper.IsWin10OrLater();
+		}
+
 	}
 }

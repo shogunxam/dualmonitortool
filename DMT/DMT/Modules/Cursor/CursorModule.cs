@@ -266,8 +266,7 @@ namespace DMT.Modules.Cursor
 
 		bool HaveFreeCursorHotKey()
 		{
-			// TODO: implement this correctly
-			return true;
+			return FreeCursorHotKeyController.IsEnabled();
 		}
 
 		/// <summary>

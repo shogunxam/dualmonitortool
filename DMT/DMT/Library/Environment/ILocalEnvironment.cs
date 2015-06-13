@@ -34,5 +34,10 @@ namespace DMT.Library.Environment
 		/// Are we running Windows 8 or later
 		/// </summary>
 		bool IsWin8OrLater();
+
+		/// <summary>
+		/// Are we running Windows 10 or later
+		/// </summary>
+		bool IsWin10OrLater();
 	}
 }

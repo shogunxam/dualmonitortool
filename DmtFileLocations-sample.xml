@@ -16,11 +16,17 @@
 	 Environment variables may be used in the paths below, or you can use
 	 the explicit pathnames.
 	 -->
+
 <filelocations>
 	<!-- datadirectory specifies the default home directory
 		 for all file locations that are not explicitly set below.
+		 This must be a full path, but may include environment variables.
 		 You will need to make sure that the directory exists before running DMT. -->
 	<filelocation name="datadirectory" value="%APPDATA%/DMT" />
+
+	<!-- Individual file locations may be the full or relative path.
+		 If a relative path is used, then this will be relative to datadirectory if specified,
+		 otherwise it will be relative the location of DMT.exe -->
 
 	<!-- Location for generic settings -->
 	<!-- <filelocation name="settings" value="DmtSettings.xml" /> -->
@@ -35,8 +41,6 @@
 	<!-- <filelocation name="wallpaper" value="DmtWallpaper.bmp" /> -->
 
 	<!-- Location for log file (for debugging).
-		 If not specified, then no log file will be used.
-		 Any location specified will be relative to the application
-		 directory and not the datadirectory specified above. -->
+		 If not specified, then no log file will be used. -->
 	<!-- <filelocation name="log" value="Dmt.log" /> -->
 </filelocations>

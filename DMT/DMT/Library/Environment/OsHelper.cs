@@ -46,6 +46,9 @@ namespace DMT.Library.Environment
 		const int _win8Major = 6;
 		const int _win8Minor = 2;
 
+		const int _win10Major = 10;
+		const int _win10Minor = 0;
+
 		/// <summary>
 		/// Determine if we are running Windows Vista (or later)
 		/// </summary>
@@ -71,6 +74,15 @@ namespace DMT.Library.Environment
 		public static bool IsWin8OrLater()
 		{
 			return IsLaterThan(_win8Major, _win8Minor);
+		}
+
+		/// <summary>
+		/// Determine if we are running Windows 10 (or later)
+		/// </summary>
+		/// <returns>true if this is Windows 10 or later</returns>
+		public static bool IsWin10OrLater()
+		{
+			return IsLaterThan(_win10Major, _win10Minor);
 		}
 
 		static bool IsLaterThan(int major, int minor)

@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library.Command;
+using DMT.Library.Environment;
 using DMT.Library.HotKeys;
 using DMT.Library.Logging;
 using DMT.Library.PInvoke;
@@ -41,6 +42,7 @@ namespace DMT.Modules.Launcher
 
 		ISettingsService _settingsService;
 		//IHotKeyService _hotKeyService;
+		ILocalEnvironment _localEnvironment;
 		ILogger _logger;
 		AppForm _appForm;
 		//IModuleService _moduleService;
@@ -141,11 +143,12 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm, ICommandRunner commandRunner)
+		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILocalEnvironment localEnvironment, ILogger logger, AppForm appForm, ICommandRunner commandRunner)
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
 			//_hotKeyService = hotKeyService;
+			_localEnvironment = localEnvironment;
 			_logger = logger;
 			_appForm = appForm;
 			_commandRunner = commandRunner;
@@ -302,7 +305,7 @@ namespace DMT.Modules.Launcher
 		{
 			if (_entryForm == null)
 			{
-				_entryForm = new EntryForm(this, _commandRunner);
+				_entryForm = new EntryForm(this, _commandRunner, _localEnvironment);
 			}
 			return _entryForm;
 		}
