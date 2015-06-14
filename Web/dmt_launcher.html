@@ -62,12 +62,12 @@
 on any of your monitors.</p>
 
 <p>Launcher works by allowing you to associate a 'magic word' with each application you want to be easily able to start.
-You can also specify up to 4 different starting locations for the main window associated with the application</p>
+You can also specify up to 4 different starting locations for the main window associated with the application.</p>
 
-<p>When you want to launch a particular application, you first press the Dual Launcher hotkey and then start typing in the
-'magic word' for that application.  Dual Launcher will try and guess the 'magic word' you are typing so you won't
-normally have to type it all in.  When the correct 'magic word' is displayed, you can press Return or one of the 
-configurable action keys to open it up at a pre-configured location on one of your monitors.</p>
+<p>When you want to launch a particular application, you first press the Launcher hotkey and then start typing in the
+'magic word' for that application.  Launcher will try and guess the 'magic word' you are typing so you won't
+normally have to type it all in.  
+When the correct 'magic word' is displayed, you can press &lt;Return&gt;, &lt;F1&gt;, &lt;F2&gt;, &lt;F3&gt; or &lt;F4&gt; to open it up at a pre-configured location on one of your monitors.</p>
 
 <p>Launcher can also be used to open folders in Windows Explorer, websites in your browser and
 can run any of the operations provided by the modules within DMT.</p>
@@ -77,7 +77,7 @@ can run any of the operations provided by the modules within DMT.</p>
 
 <img src="Images/dmt_launcher_entry.png" alt="Magic word entry" />
 
-<p>If you press the Dual Launcher hotkey,
+<p>If you press the Launcher hotkey,
 then the 'Magic Word' entry form is displayed.</p> 
 <p>Initially this displays icons for the 8 'magic words' that you have used the most, although this
 is configurable.  As you start typing your 'magic word', only the icons for the 'magic words'
@@ -86,7 +86,7 @@ the rest of the word that it thinks you are typing.  You can either continue typ
 the 'magic word' you want or you can use the up and down arrow keys to cycle through the alternatives or you can click on the corresponding
 icon with the mouse.</p>
 
-<p>When ready, just press return on one of the action keys to open the application at the desired location.</p>
+<p>When ready, just press &lt;Return&gt;, &lt;F1&gt;, &lt;F2&gt;, &lt;F3&gt; or &lt;F4&gt; to open the application at the desired location.</p>
 
 <p class="SubHeading">'Magic Words' options</p>
 
@@ -102,7 +102,7 @@ Magic Words options, or use the 'Edit' button.</p>
 <p>To add a new 'magic word', you can:
 <ul>
 	<li>Use the context menu of the icon in the notification area.</li>
-	<li>Use the 'Add' button on the main options tab.</li>
+	<li>Use the 'Add' button in the 'Magic Words' options.</li>
 	<li>Press the hotkey for adding the current application.</li>
 </ul>
 </p>
@@ -117,7 +117,7 @@ Magic Words options, or use the 'Edit' button.</p>
 	<li>Path including extension to a document you want opened.</li>
 	<li>Path to a directory, which will get opened in Windows Explorer.</li>
 	<li>A URL to be opened by your default browser.</li>
-	<li>A DMT command.</li>
+	<li>A DMT command - use the "Internal Command" button for this.</li>
 </ul>
 </p>
 
@@ -132,8 +132,8 @@ Magic Words options, or use the 'Edit' button.</p>
 <p>The bottom crosshair on the form can be used to select the position and size for any of the 4 locations by dragging
 the crosshair over a window that is at the desired position.  Remember to check the 'Position window on startup'
 if you want the location to be used.</p>
-<p>When entering the magic word in the entry form, if you press <Enter> or <F1>,
-then the application will be started up at position 1, if specified.  Similarly <F2>,<F3> and <F4>
+<p>When entering the magic word in the entry form, if you press &lt;Return&gt; or &lt;F1&gt;,
+then the application will be started up at position 1, if specified.  Similarly &lt;F2&gt;,&lt;F3&gt; and &lt;F4&gt;
 will open up at Start Position 2/3/4.<p>
 
 
@@ -141,14 +141,44 @@ will open up at Start Position 2/3/4.<p>
 
 <img src="Images/dmt_launcher_hotkeys.png" alt="HotKeys options" />
 
-<p>This allows you to define the hotkey to being up the 'magic word' entry form.</p>
-<p>You can also define a hotkey which will allow you to add a 'magic word' for the current application.</p>
+<p class="SubHeading2"><a name="ActivateInput">Activate Magic Word input</a></p>
 
+<p>This allows you to define the hotkey to being up the 'magic word' entry form.</p>
+
+<p class="SubHeading2"><a name="AddMagicWord">Add Magic Word for current application</a></p>
+
+<p>This defines a hotkey which will allow you to add a 'magic word' for the current application.</p>
 
 <p class="SubHeading">'General' options</p>
 
 <img src="Images/dmt_launcher_general.png" alt="Keys tab" />
 
+<p class="SubHeading2">Use most recently used in auto completion (instead of most used)</p>
+
+<p>Determines how the auto completion works in the 'magic word' entry form.</p>
+
+<p class="SubHeading2">Load Magic Words on startup</p>
+
+<p>Normally your magic words are not loaded until they are first needed.
+Selecting this means the magic words will be loaded when DMT first starts up.  
+This may make starting up a bit slower, 
+but the first time you try to enter a magic word,
+it should be a bit more responsive.</p>
+
+
+<p class="SubHeading2">Maximum number of icons to display</p>
+
+<p>This is the number of icons to display in the magic word entry form.</p>
+
+<p class="SubHeading2">Display Icons in</p>
+
+<p>Allows you to change the way icons are displayed in the magic word entry form.</p>
+
+
+<p class="SubHeading2">Timeout for application window to appear</p>
+
+<p>Changes how long to wait until the application window appears.
+See <a href="#HowWorks">How the positioning works</a> for further details.</p>
 
 <p class="SubHeading">'Import / Export' options</p>
 
@@ -158,14 +188,26 @@ will open up at Start Position 2/3/4.<p>
 
 
 
+<p class="SubHeading">Starting up multiple applications at the same time</p>
 
-<p class="SubHeading">How the positioning works (and why it sometimes doesn't)</p>
+<p>It is possible to have multiple applications with the same 'magic word' so that when that 'magic word' is entered they are all started up at the same time.  Also the same application can be added multiple times with different 'magic words'.</p>
+
+
+<p class="SubHeading">Internal Commands</p>
+
+<p>When first run, Launcher will generate magic words for all of the internal commands available within DMT.
+For example the magic word "NextScreen" will be added to move the active window to the next screen.
+</p>
+
+
+
+<p class="SubHeading"><a name="HowWorks">How the positioning works (and why it sometimes doesn't)</a></p>
 
 <p>When you launch an application via its 'magic word', Launcher will start waiting for the
 applications window to open.  If an application first launches a splash screen or perhaps some other dialog box first, then it is
 important that Launcher can detect the correct window as being the main window.  To do this you can specify the Window class
 and/or a regular expression to match against the window's caption.  There is a configurable timeout (60 seconds by default)
-after which Dual Launcher will give up looking for the window. In most cases specifying the windows class is the best route, 
+after which Launcher will give up looking for the window. In most cases specifying the windows class is the best route, 
 except for applications that use the same window class for the splash screen and the main window, or those that generate
 a different class name every time they run.  A bit of experimentation should reveal the best terms to use.</p>
 
@@ -184,7 +226,7 @@ to run another application will not work unless you can find the command line us
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 13 Jun 2015
+		last updated 14 Jun 2015
 		</div>
 	</div>
 </div>
