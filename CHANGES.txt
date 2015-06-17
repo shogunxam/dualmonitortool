@@ -5,6 +5,8 @@ Changes from 1.10 to 2.0
 
 New tool DMT provides the functionality previously provided by SwapScreen, 
 DualLauncher, DualSnap and DualWallpaperChanger together with extra functionality.
+DMT now easier to use from a portable device.
+All features within DMT can be launched with 'Magic Words'.
 DisMon has been dropped for the time being.
 
 
