@@ -20,7 +20,7 @@ Release 2.0
 The release consists of the following files:
 
 DMT.exe                     The main tool
-DmtFileLocations-sample.xml	Sample of the optional DmtFileLocations.xml
+DmtFileLocations-sample.xml Sample of the optional DmtFileLocations.xml
 DualWallpaper.exe           The wallpaper creation tool
 CHANGES.txt                 List of changes
 COPYING.txt                 GPLv3 license
@@ -52,27 +52,27 @@ following;
 
 Cursor - Control movement of cursor between monitors.
         The cursor can be locked to a monitor or made sticky, so extra
-		effort is required to move it between monitors.
+        effort is required to move it between monitors.
 
 Launcher - Allows you to launch your favourite applications with a 
         few key strokes and to position them at pre-configured
-		positions on any of your monitors.  All other DMT commands can
-		also be run this way.
+        positions on any of your monitors.  All other DMT commands can
+        also be run this way.
 
 Snap -  Take snapshot of primary monitor and show on secondary.
         Previous snapshots can be viewed, saved to a file or copied
-	    to the clipboard.
+        to the clipboard.
 
 Swap Screen - Allows easy movement of windows between monitors,
         and allows Windows to be moved to pre-defined positions.
 
 Wallpaper Changer - Changes wallpaper periodically using a variety of
         sources and allows you to control how images are shown
-		across your monitors.
+        across your monitors.
 
 When run, it will reside in the Windows Notification Area.
 Double click this icon to see all of the options available.
-'Dual Monitor Tools'->'General' contains an options so start up
+'Dual Monitor Tools'->'General' contains an option so start up
 DMT every time Windows starts.
 
 Hotkeys
@@ -153,7 +153,7 @@ DmtMagicWords.xml - Magic words used by the Launcher.
 DmtWallpaperProviders.xml - Specifies wallpaper image source.
 DmtSettings.xml - Any other settings go in here.
 - There will also be .bak versions of these files which are just
-copies of the previous versions of the files.
+backup copies of the previous versions of the files.
 
 If you want the data files to reside in a different directory, for example
 if you like all of you executables to be under "C:\Program Files (x86)"
@@ -175,6 +175,6 @@ Known problems
 --------------
 
 If you wish DMT to fully work when you have windows from applications
-that have been 'Run as Administartor', then you will also need to start
+that have been 'Run as Administrator', then you will also need to start
 DMT with 'Run as Administrator'.
 
