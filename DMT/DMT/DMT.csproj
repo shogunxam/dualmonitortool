@@ -64,7 +64,9 @@
     <Compile Include="AppForm.Designer.cs">
       <DependentUpon>AppForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConsoleApplication.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Library\Command\CommandMessaging.cs" />
     <Compile Include="Library\Command\MagicCommand.cs" />
     <Compile Include="Library\Environment\ILocalEnvironment.cs" />
     <Compile Include="Library\Environment\LocalEnvironment.cs" />
@@ -371,6 +373,7 @@
       <DependentUpon>OptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="ProgramOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppStrings.Designer.cs">
       <AutoGen>True</AutoGen>

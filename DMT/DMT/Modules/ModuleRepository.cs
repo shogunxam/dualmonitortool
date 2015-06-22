@@ -126,7 +126,7 @@ namespace DMT.Modules
 		}
 
 		#region ICommandRunner support
-		public void RunInternalCommand(string command, string parameters)
+		public bool RunInternalCommand(string command, string parameters)
 		{
 			string moduleName;
 			string commandName;
@@ -135,9 +135,11 @@ namespace DMT.Modules
 				Module module = FindModule(moduleName);
 				if (module != null)
 				{
-					module.RunCommand(commandName, parameters);
+					return module.RunCommand(commandName, parameters);
 				}
 			}
+
+			return false;
 		}
 
 		public bool IsInternalCommand(string command)

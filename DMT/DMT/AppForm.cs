@@ -17,6 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Command;
+using DMT.Library.PInvoke;
 using DMT.Resources;
 using Microsoft.Win32;
 using System;
@@ -25,6 +27,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,10 +39,15 @@ namespace DMT
 		Controller _controller;
 		OptionsForm _optionsForm = null;
 		AboutForm _aboutForm = null;
+		//uint _commandMessage;
 
 		public AppForm()
 		{
 			InitializeComponent();
+
+			//// register message to receive commands
+			//CommandMessaging commandMessaging = new CommandMessaging();
+			//_commandMessage = commandMessaging.GetCommandMessage();
 
 			InitContextMenu();
 
@@ -81,6 +89,39 @@ namespace DMT
 			_controller.Start();
 		}
 
+
+		protected override void WndProc(ref Message m)
+		{
+			//if (m.Msg == _commandMessage)
+			//{
+			//	string command = Marshal.PtrToStringUni(m.LParam);
+			//	string parameters = null;
+			//	_controller.RunInternalCommand(command, parameters);
+
+			//}
+			if (m.Msg == Win32.WM_COPYDATA)
+			{
+				Win32.COPYDATASTRUCT cds = (Win32.COPYDATASTRUCT)m.GetLParam(typeof(Win32.COPYDATASTRUCT));
+
+				if (cds.dwData == (IntPtr)CommandMessaging.DmtCommandMessage)
+				{
+					string command = Marshal.PtrToStringAnsi(cds.lpData);
+					string parameters = null;
+					if (!_controller.RunInternalCommand(command, parameters))
+					{
+						// indicate an error
+						m.Result = (IntPtr)1;
+					}
+				}
+			}
+			else
+			{
+
+				base.WndProc(ref m);
+			}
+		}
+
+
 		private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ShowOptions();
@@ -100,6 +141,8 @@ namespace DMT
 		{
 			ShutDown();
 		}
+
+
 
 		// dynamically add any needed menu items to the context menu
 		void InitContextMenu()

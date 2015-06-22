@@ -135,9 +135,11 @@ namespace DMT.Modules
 			return _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
 		}
 
-		public void RunCommand(string commandName, string parameters)
+		public bool RunCommand(string commandName, string parameters)
 		{
 			// 'parameters' not currently used, but may have a use for them in the future
+
+			bool commandRan = false;
 
 			foreach (Command command in _commands)
 			{
@@ -146,9 +148,12 @@ namespace DMT.Modules
 					if (string.Compare(commandName, command.Name, true) == 0)
 					{
 						command.Handler();
+						commandRan = true;
 					}
 				}
 			}
+
+			return commandRan;
 		}
 
 		public IEnumerable<string> GetActions()

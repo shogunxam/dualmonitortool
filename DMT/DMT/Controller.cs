@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using DMT.Library.Logging;
 using Microsoft.Win32;
 using DMT.Library.Environment;
+using DMT.Library.Command;
 
 namespace DMT
 {
@@ -126,6 +127,16 @@ namespace DMT
 		public OptionsForm CreateOptionsForm()
 		{
 			return new OptionsForm(_moduleService);
+		}
+
+		public bool RunInternalCommand(string command, string parameters)
+		{
+			return _commandRunner.RunInternalCommand(command, parameters);
+		}
+
+		bool ProcessCommand(string moduleName, string actionName)
+		{
+			return false;
 		}
 
 		void FirstRunProcessing()

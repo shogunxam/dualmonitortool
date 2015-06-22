@@ -12,6 +12,8 @@ namespace DMT.Library.Command
 	{
 		const string _magicCommandPrefix = "DMT:";
 
+		public static string MagicCommandPrefix  { get { return _magicCommandPrefix; } }
+
 		public static bool SplitMagicCommand(string command, out string moduleName, out string actionName)
 		{
 			if (command.StartsWith(_magicCommandPrefix))

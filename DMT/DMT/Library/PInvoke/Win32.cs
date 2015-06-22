@@ -101,6 +101,7 @@ namespace DMT.Library.PInvoke
 		public const uint NORMAL_PRIORITY_CLASS = 0x00000020;
 
 		// Windows messages
+		public const int WM_COPYDATA = 0x004A;
 		public const int WM_KEYDOWN = 0x0100;
 		public const int WM_KEYUP = 0x0101;
 		public const int WM_SYSCOMMAND = 0x0112;
@@ -144,6 +145,14 @@ namespace DMT.Library.PInvoke
 			ASSOCSTR_DROPTARGET,
 			ASSOCSTR_DELEGATEEXECUTE,
 			ASSOCSTR_MAX
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct COPYDATASTRUCT
+		{
+			public IntPtr dwData;
+			public int cbData;
+			public IntPtr lpData;
 		}
 
 		public struct MSLLHOOKSTRUCT
@@ -264,6 +273,9 @@ namespace DMT.Library.PInvoke
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, uint lParam);
 
+		[DllImport("user32.dll")]
+		public static extern IntPtr FindWindow(string lpClassName, String lpWindowName);    
+
 		[DllImport("kernel32")]
 		public static extern bool FreeConsole();
 
@@ -319,8 +331,14 @@ namespace DMT.Library.PInvoke
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
 
+		[DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern uint RegisterWindowMessage(string lpString);
+
 		[DllImport("kernel32.dll")]
 		public static extern uint ResumeThread(IntPtr hThread);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetForegroundWindow(IntPtr hWnd);

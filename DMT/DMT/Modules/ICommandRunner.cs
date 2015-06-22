@@ -8,7 +8,7 @@ namespace DMT.Modules
 {
 	public interface ICommandRunner
 	{
-		void RunInternalCommand(string command, string parameters);
+		bool RunInternalCommand(string command, string parameters);
 		bool IsInternalCommand(string command);
 		Icon GetInternalCommandIcon(string command);
 		IEnumerable<string> GetModuleNames();

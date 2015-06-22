@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.PInvoke;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,37 @@ namespace DMT
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
-		static void Main()
+		static void Main(string[] args)
+		{
+			ProgramOptions programOptions = new ProgramOptions(args);
+
+			if (programOptions.CmdMode)
+			{
+				ConsoleMain(programOptions);
+			}
+			else
+			{
+				GuiMain(programOptions);
+			}
+		}
+
+
+		static void ConsoleMain(ProgramOptions programOptions)
+		{
+			Win32.AttachConsole(-1);
+			ConsoleApplication consoleApplication = new ConsoleApplication(programOptions);
+			consoleApplication.Run();
+			Win32.FreeConsole();
+		}
+
+		static void GuiMain(ProgramOptions programOptions)
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			AppForm appForm = new AppForm();
 			Application.Run();
 		}
+
+
 	}
 }

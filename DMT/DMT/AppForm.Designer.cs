@@ -72,7 +72,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Name = "AppForm";
-			this.Text = "AppForm";
+			this.Text = "DMT_GUI_WINDOW";
 			this.contextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
