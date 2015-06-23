@@ -108,6 +108,7 @@
     <Compile Include="Library\Html\IHttpRequester.cs" />
     <Compile Include="Library\Logging\ILogger.cs" />
     <Compile Include="Library\Logging\Logger.cs" />
+    <Compile Include="Library\PInvoke\ActiveDesktop.cs" />
     <Compile Include="Library\Utils\SafeFileWriter.cs" />
     <Compile Include="Library\Transform\Scaler.cs" />
     <Compile Include="Library\GuiUtils\ScreenHelper.cs" />

@@ -147,6 +147,11 @@ namespace DMT.Modules.WallpaperChanger
 			UpdatePeriodEnableStatus();
 		}
 
+		private void checkBoxFade_CheckedChanged(object sender, EventArgs e)
+		{
+			_wallpaperChangerModule.SmoothFade = checkBoxFade.Checked;
+		}
+
 		private void numericUpDownHours_ValueChanged(object sender, EventArgs e)
 		{
 			_wallpaperChangerModule.IntervalHours = (int)numericUpDownHours.Value;

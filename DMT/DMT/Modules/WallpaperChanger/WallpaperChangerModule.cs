@@ -99,6 +99,13 @@ namespace DMT.Modules.WallpaperChanger
 			}
 		}
 
+		BoolSetting SmoothFadeSetting { get; set; }
+		public bool SmoothFade
+		{
+			get { return SmoothFadeSetting.Value; }
+			set { SmoothFadeSetting.Value = value; }
+		}
+
 		IntSetting BackgroundColourSetting { get; set; }
 		public Color BackgroundColour
 		{
@@ -153,6 +160,7 @@ namespace DMT.Modules.WallpaperChanger
 			IntervalMinutesSetting = new IntSetting(_settingsService, ModuleName, "IntervalMinutes", _defaultIntervalMinutes);
 			ChangeOnStartupSetting = new BoolSetting(_settingsService, ModuleName, "ChangeOnStartup", false);
 			ChangePeriodicallySetting = new BoolSetting(_settingsService, ModuleName, "ChangePeriodically", false);
+			SmoothFadeSetting = new BoolSetting(_settingsService, ModuleName, "SmoothFade", false);
 			BackgroundColourSetting = new IntSetting(_settingsService, ModuleName, "BackgroundColour", Color.Black.ToArgb());
 			FitSetting = new IntSetting(_settingsService, ModuleName, "Fit", (int)StretchType.Fit.OverStretch);
 			MonitorMappingSetting = new IntSetting(_settingsService, ModuleName, "MonitorMapping", (int)SwitchType.ImageToMonitorMapping.OneToOneBig);

@@ -30,6 +30,7 @@ using DMT.Library.Environment;
 using DMT.Library.PInvoke;
 //using DMT.Resources;
 using DMT.Library.Settings;
+using System.Threading;
 
 
 namespace DMT.Library.Wallpaper
@@ -67,12 +68,12 @@ namespace DMT.Library.Wallpaper
 		/// This will create a new image if the primary monitor
 		/// is not both the leftmost and topmost monitor.
 		/// </summary>
-		public void SetWallpaper()
+		public void SetWallpaper(bool useFade)
 		{
 			bool wrapped;
 			Image image = WrapImage(out wrapped);
 
-			SetWallpaper(image);
+			SetWallpaper(image, useFade);
 
 			if (wrapped)
 			{
@@ -99,7 +100,7 @@ namespace DMT.Library.Wallpaper
 			}
 		}
 
-		private void SetWallpaper(Image wallpaper)
+		void SetWallpaper(Image wallpaper, bool useFade)
 		{
 			//string dir = _localEnvironment.AppDataDir;
 			//string path = Path.Combine(dir, "DualWallpaperChanger.bmp");
@@ -108,15 +109,15 @@ namespace DMT.Library.Wallpaper
 			try
 			{
 				wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
-				// make sure image is tiled
-				using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
-				{
-					key.SetValue("TileWallpaper", "1");
-					key.SetValue("WallpaperStyle", "0");
-				}
 
-				// now set the wallpaper
-				Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
+				if (useFade)
+				{
+					SetActiveDesktopWallpaper(path);
+				}
+				else
+				{
+					SetDesktopWallpaper(path);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -124,6 +125,55 @@ namespace DMT.Library.Wallpaper
 				MessageBox.Show(ex.Message);
 			}
 		}
+
+		void SetDesktopWallpaper(string path)
+		{
+			// make sure image is tiled
+			using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
+			{
+				key.SetValue("TileWallpaper", "1");
+				key.SetValue("WallpaperStyle", "0");
+			}
+
+			// now set the wallpaper
+			Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
+		}
+
+		#region ActiveDesktop support
+
+		void SetActiveDesktopWallpaper(string path)
+		{
+			//EnableActiveDesktop();
+
+			//SetActiveDesktopWallpaperThread(path);
+			Thread thread = new Thread(() => SetActiveDesktopWallpaperThread(path));
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+			// don't see any need to wait for the thread to complete
+		}
+
+		static void SetActiveDesktopWallpaperThread(string path)
+		{
+			EnableActiveDesktop();
+			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
+			activeDesktop.SetWallpaper(path, 0);
+			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
+		}
+
+		static void EnableActiveDesktop()
+		{
+			IntPtr hWndProgman = Win32.FindWindow("Progman", null);
+			uint msg = 0x52C;	// TODO: need a const in Win32
+			IntPtr wParam = IntPtr.Zero;
+			IntPtr lParam = IntPtr.Zero;
+			uint fuFlags = 0; // SMTO_NORMAL // TODO: need a const in Win32
+			uint uTimeout = 500;	// in ms
+			IntPtr lpdwResult = IntPtr.Zero;
+			Win32.SendMessageTimeout(hWndProgman, msg, wParam, lParam, fuFlags, uTimeout, out lpdwResult);
+		}
+
+
+		#endregion ActiveDesktop support
 
 		private void SaveWallpaper(Image wallpaper, string fnm)
 		{

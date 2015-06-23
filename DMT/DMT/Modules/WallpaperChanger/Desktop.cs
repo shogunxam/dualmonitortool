@@ -140,7 +140,7 @@ namespace DMT.Modules.WallpaperChanger
 			using (Image wallpaper = compositor.CreateWallpaperImage())
 			{
 				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
-				windowsWallpaper.SetWallpaper();
+				windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
 			}
 
 			// must dispose of the images
@@ -207,7 +207,7 @@ namespace DMT.Modules.WallpaperChanger
 			using (Image wallpaper = compositor.CreateWallpaperImage())
 			{
 				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
-				windowsWallpaper.SetWallpaper();
+				windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
 			}
 		}
 

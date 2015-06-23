@@ -340,6 +340,9 @@ namespace DMT.Library.PInvoke
 		[DllImport("user32.dll", SetLastError = true)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint fuFlags, uint uTimeout, out IntPtr lpdwResult);
+
 		[DllImport("user32.dll")]
 		public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
 
