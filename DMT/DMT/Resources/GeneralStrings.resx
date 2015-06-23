@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FileNotUsed" xml:space="preserve">
+    <value>&lt;Not used&gt;</value>
+    <comment>used when showing File Locations to user, if file not used</comment>
+  </data>
   <data name="OptionsDescription" xml:space="preserve">
     <value>Show Options</value>
   </data>

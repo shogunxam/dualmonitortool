@@ -61,6 +61,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Not used&gt;.
+        /// </summary>
+        internal static string FileNotUsed {
+            get {
+                return ResourceManager.GetString("FileNotUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Options.
         /// </summary>
         internal static string OptionsDescription {

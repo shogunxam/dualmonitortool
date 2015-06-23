@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DMT.Library.Settings;
 
 namespace DMT.Modules.General
 {
@@ -40,7 +41,24 @@ namespace DMT.Modules.General
 			InitializeComponent();
 
 			checkBoxAutoStart.Checked = _generalModule.StartWhenWindowsStarts;
+
+			textBoxSettings.Text = CleanFileLocation(FileLocations.Instance.SettingsFilename);
+			textBoxMagicWords.Text = CleanFileLocation(FileLocations.Instance.MagicWordsFilename);
+			textBoxWallpaperProviders.Text = CleanFileLocation(FileLocations.Instance.WallpaperProvidersFilename);
+			textBoxLog.Text = CleanFileLocation(FileLocations.Instance.LogFilename);
 		}
+
+		string CleanFileLocation(string fileLocation)
+		{
+			// This hould only apply to the log file
+			if (string.IsNullOrEmpty(fileLocation))
+			{
+				return Resources.GeneralStrings.FileNotUsed;
+			}
+
+			return fileLocation;
+		}
+
 
 		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
 		{
