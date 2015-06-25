@@ -62,8 +62,10 @@ namespace DMT.Modules.Cursor
 		void InitOtherOptions()
 		{
 			scrollBarSticky.Value = _cursorModule.MinStickyForce;
-			checkBoxControlUnhindersCursor.Checked = _cursorModule.ControlUnhindersCursor;
+			checkBoxControlUnhindersCursor.Checked = _cursorModule.AllowFreeMovementKey;
 			InitFreMovementKey();
+			checkBoxAllowButton.Checked = _cursorModule.AllowFreeMovementButton;
+			InitFreMovementButton();
 			checkBoxPrimaryReturnUnhindered.Checked = _cursorModule.PrimaryReturnUnhindered;
 			InitDefaultCursorMode();
 		}
@@ -79,6 +81,20 @@ namespace DMT.Modules.Cursor
 			comboBoxFreeMovementKey.Items.Add(CommonStrings.RShiftKey);
 			comboBoxFreeMovementKey.SelectedItem = FreeMovementKeyToString(_cursorModule.FreeMovementKey);
 			comboBoxFreeMovementKey.EndUpdate();
+		}
+
+		void InitFreMovementButton()
+		{
+			// add available buttons to the listbox
+			comboBoxFreeMovementButton.BeginUpdate();
+			comboBoxFreeMovementButton.Items.Clear();
+			comboBoxFreeMovementButton.Items.Add(CommonStrings.LeftMouseButton);
+			comboBoxFreeMovementButton.Items.Add(CommonStrings.MidMouseButton);
+			comboBoxFreeMovementButton.Items.Add(CommonStrings.RightMouseButton);
+			comboBoxFreeMovementButton.Items.Add(CommonStrings.X1MouseButton);
+			comboBoxFreeMovementButton.Items.Add(CommonStrings.X2MouseButton);
+			comboBoxFreeMovementButton.SelectedItem = FreeMovementButtonToString(_cursorModule.FreeMovementButton);
+			comboBoxFreeMovementButton.EndUpdate();
 		}
 
 		void InitDefaultCursorMode()
@@ -99,12 +115,22 @@ namespace DMT.Modules.Cursor
 
 		private void checkBoxControlUnhindersCursor_CheckedChanged(object sender, EventArgs e)
 		{
-			_cursorModule.ControlUnhindersCursor = checkBoxControlUnhindersCursor.Checked;
+			_cursorModule.AllowFreeMovementKey = checkBoxControlUnhindersCursor.Checked;
 		}
 
 		private void comboBoxFreeMovementKey_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			_cursorModule.FreeMovementKey = FreeMovementKeyFromString(comboBoxFreeMovementKey.SelectedItem.ToString());
+		}
+
+		private void checkBoxAllowButton_CheckedChanged(object sender, EventArgs e)
+		{
+			_cursorModule.AllowFreeMovementButton = checkBoxAllowButton.Checked;
+		}
+
+		private void comboBoxFreeMovementButton_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			_cursorModule.FreeMovementButton = FreeMovementButtonFromString(comboBoxFreeMovementButton.SelectedItem.ToString());
 		}
 
 		private void checkBoxPrimaryReturnUnhindered_CheckedChanged(object sender, EventArgs e)
@@ -154,6 +180,53 @@ namespace DMT.Modules.Cursor
 
 			return Keys.LControlKey;
 		}
+
+		static string FreeMovementButtonToString(MouseButtons mouseButton)
+		{
+			if (mouseButton == MouseButtons.Middle)
+			{
+				return CommonStrings.MidMouseButton;
+			}
+			else if (mouseButton == MouseButtons.Right)
+			{
+				return CommonStrings.RightMouseButton;
+			}
+			else if (mouseButton == MouseButtons.XButton1)
+			{
+				return CommonStrings.X1MouseButton;
+			}
+			else if (mouseButton == MouseButtons.XButton2)
+			{
+				return CommonStrings.X2MouseButton;
+			}
+			// else if (mouseButton == MouseButtons.Left) - default case
+
+			return CommonStrings.LeftMouseButton;
+		}
+
+		static MouseButtons FreeMovementButtonFromString(string buttonName)
+		{
+			if (buttonName == CommonStrings.MidMouseButton)
+			{
+				return MouseButtons.Middle;
+			}
+			else if (buttonName == CommonStrings.RightMouseButton)
+			{
+				return MouseButtons.Right;
+			}
+			else if (buttonName == CommonStrings.X1MouseButton)
+			{
+				return MouseButtons.XButton1;
+			}
+			else if (buttonName == CommonStrings.X2MouseButton)
+			{
+				return MouseButtons.XButton2;
+			}
+			//else -  anything else - leave as left mouse button
+
+			return MouseButtons.Left;
+		}
+
 
 		static string CursorModeToString(CursorModule.CursorType cursorMode)
 		{

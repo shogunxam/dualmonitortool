@@ -100,11 +100,23 @@ namespace DMT.Library.PInvoke
 		public const uint CREATE_SUSPENDED = 0x00000004;
 		public const uint NORMAL_PRIORITY_CLASS = 0x00000020;
 
+		// flags for MSLLHOOKSTRUCT.mouseData for X buttons
+		public const uint XBUTTON1 = 0x0001;
+		public const uint XBUTTON2 = 0x0002;
+
 		// Windows messages
 		public const int WM_COPYDATA = 0x004A;
 		public const int WM_KEYDOWN = 0x0100;
 		public const int WM_KEYUP = 0x0101;
 		public const int WM_SYSCOMMAND = 0x0112;
+		public const int WM_LBUTTONDOWN = 0x0201;
+		public const int WM_LBUTTONUP = 0x0202;
+		public const int WM_RBUTTONDOWN = 0x0204;
+		public const int WM_RBUTTONUP = 0x0205;
+		public const int WM_MBUTTONDOWN = 0x0207;
+		public const int WM_MBUTTONUP = 0x0208;
+		public const int WM_XBUTTONDOWN = 0x020B;
+		public const int WM_XBUTTONUP = 0x020C;
 		public const int WM_HOTKEY = 0x0312;
 
 		[Flags]

@@ -19,10 +19,7 @@ namespace DMT.Modules.Cursor
 {
 	class CursorModule : Module
 	{
-		//const string _moduleName = "Cursor";
-
 		ISettingsService _settingsService;
-		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 
 		public HotKeyController FreeCursorHotKeyController { get; protected set; }
@@ -33,6 +30,8 @@ namespace DMT.Modules.Cursor
 
 		public enum CursorType { Free = 0, Sticky = 1, Lock = 2 };
 
+		//public enum MouseButton { None = 0, Left = 1, Middle = 2, Right = 3, X1 = 4, X2 = 5 };
+
 		CursorType _curCursorType = CursorType.Free;
 
 		// Barriers which constrain the cursor movement
@@ -42,7 +41,8 @@ namespace DMT.Modules.Cursor
 		CursorBarrierUpper bottomBarrier = new CursorBarrierUpper(false, 0, 0);
 
 		int _minForce;
-		bool _disableLocking;
+		bool _freeMovementKeyPressed;
+		bool _freeMovementButtonPressed;
 
 		// Win32 low level mouse hook
 		Win32.HookProc llMouseProc; // = llMouseHookCallback;
@@ -57,8 +57,6 @@ namespace DMT.Modules.Cursor
 		{
 			get { return llMouseHook != IntPtr.Zero; }
 		}
-
-		// GNE - new fields - TODO: should be able to remove some of above
 
 		IntSetting MinStickyForceSetting { get; set; }
 		public int MinStickyForce
@@ -78,11 +76,18 @@ namespace DMT.Modules.Cursor
 		}
 
 
-		BoolSetting ControlUnhindersCursorSetting { get; set; }
-		public bool ControlUnhindersCursor
+		BoolSetting AllowFreeMovementKeySetting { get; set; }
+		public bool AllowFreeMovementKey
 		{
-			get { return ControlUnhindersCursorSetting.Value; }
-			set{ ControlUnhindersCursorSetting.Value = value; }
+			get { return AllowFreeMovementKeySetting.Value; }
+			set{ AllowFreeMovementKeySetting.Value = value; }
+		}
+
+		BoolSetting AllowFreeMovementButtonSetting { get; set; }
+		public bool AllowFreeMovementButton
+		{
+			get { return AllowFreeMovementButtonSetting.Value; }
+			set { AllowFreeMovementButtonSetting.Value = value; }
 		}
 
 
@@ -98,6 +103,13 @@ namespace DMT.Modules.Cursor
 		{
 			get { return (Keys)FreeMovementKeySetting.Value; }
 			set { FreeMovementKeySetting.Value = (int)value; }
+		}
+
+		UIntSetting FreeMovementButtonSetting { get; set; }
+		public MouseButtons FreeMovementButton
+		{
+			get { return (MouseButtons)FreeMovementButtonSetting.Value; }
+			set { FreeMovementButtonSetting.Value = (uint)value; }
 		}
 
 		IntSetting DefaultCursorModeSetting { get; set; }
@@ -139,30 +151,21 @@ namespace DMT.Modules.Cursor
 			CursorNextScreenHotKeyController = AddCommand("CursorToNextScreen", CursorStrings.CursorNextScreenDescription, CursorStrings.CursorNextScreenWin7, CursorToNextScreen);
 			CursorPrevScreenHotKeyController = AddCommand("CursorToPrevScreen", CursorStrings.CursorPrevScreenDescription, CursorStrings.CursorPrevScreenWin7, CursorToPrevScreen);
 
-			//FreeCursorHotKeyController = CreateHotKeyController("FreeCursorHotKey", CursorStrings.FreeCursorDescription, CursorStrings.FreeCursorWin7, FreeCursor);
-			//StickyCursorHotKeyController = CreateHotKeyController("StickyCursorHotKey", CursorStrings.StickyCursorDescription, CursorStrings.StickyCursorWin7, StickyCursor);
-			//LockCursorHotKeyController = CreateHotKeyController("LockCursorHotKey", CursorStrings.LockCursorDescription, CursorStrings.LockCursorWin7, LockCursor);
-			//CursorNextScreenHotKeyController = CreateHotKeyController("CursorNextScreenHotKey", CursorStrings.CursorNextScreenDescription, CursorStrings.CursorNextScreenWin7, CursorToNextScreen);
-			//CursorPrevScreenHotKeyController = CreateHotKeyController("CursorPrevScreenHotKey", CursorStrings.CursorPrevScreenDescription, CursorStrings.CursorPrevScreenWin7, CursorToPrevScreen);
-			//base.RegisterHotKeys();
-
 			// init the other values from the settings
 
 			MinStickyForceSetting = new IntSetting(_settingsService, ModuleName, "MinStickyForce");
-			//_minForce = _settingsService.GetSettingAsInt(_moduleName, "MinStickyForce");
-			ControlUnhindersCursorSetting = new BoolSetting(_settingsService, ModuleName, "ControlUnhindersCursor");
-			//_controlUnhindersCursor = _settingsService.GetSettingAsBool(_moduleName, "ControlUnhindersCursor");
+
+			// The setting value for this should have been "AllowFreeMovement"
+			AllowFreeMovementKeySetting = new BoolSetting(_settingsService, ModuleName, "ControlUnhindersCursor");
+			FreeMovementKeySetting = new IntSetting(_settingsService, ModuleName, "FreeMovementKey");
+
+			AllowFreeMovementButtonSetting = new BoolSetting(_settingsService, ModuleName, "AllowFreeMovementButton");
+			FreeMovementButtonSetting = new UIntSetting(_settingsService, ModuleName, "FreeMovementButton");
 
 			PrimaryReturnUnhinderedSetting = new BoolSetting(_settingsService, ModuleName, "PrimaryReturnUnhindered");
-			//_primaryReturnUnhindered = _settingsService.GetSettingAsBool(_moduleName, "PrimaryReturnUnhindered");
-
-			FreeMovementKeySetting = new IntSetting(_settingsService, ModuleName, "FreeMovementKey");
-			//_freeMovementKey = (Keys)_settingsService.GetSettingAsInt(_moduleName, "FreeMovementKey");
 
 			DefaultCursorModeSetting = new IntSetting(_settingsService, ModuleName, "DefaultCursorMode");
-			//_defaultCursorMode = (CursorType)_settingsService.GetSettingAsInt(_moduleName, "DefaultCursorMode");
 
-			//InitCursorMode(GetCursorTypeSetting());
 			InitCursorMode(DefaultCursorMode);
 		}
 
@@ -173,28 +176,10 @@ namespace DMT.Modules.Cursor
 			_curCursorType = CursorType.Free;
 		}
 
-
-		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		//{
-		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
-		//}
-
-		//CursorType GetCursorTypeSetting()
-		//{
-		//	return (CursorType)_settingsService.GetSettingAsInt(_moduleName, "DefaultCursorType");
-		//}
-
-		//void SetCursorTypeSetting(CursorType cursorType)
-		//{
-		//	_settingsService.SetSetting(_moduleName, "DefaultCursorType", (int)cursorType);
-		//}
-
 		void InitCursorMode(CursorType initCursorType)
 		{
 			// put everything in a fixed state (with a free cursor)
 			_curCursorType = CursorType.Free;
-			//////_minForce = _settingsService.GetSettingAsInt(_moduleName, "MinStickyForce");
-			//////_enableDisableLocking = _settingsService.GetSettingAsBool(_moduleName, "ControlUnhindersCursor");
 
 			// now set the initial cursor mode
 			if (initCursorType == CursorType.Sticky)
@@ -228,7 +213,6 @@ namespace DMT.Modules.Cursor
 		/// </summary>
 		public void StickyCursor()
 		{
-			//if (_curCursorType == CursorType.Sticky && !Controller.Instance.FreeCursorHotKeyController.IsEnabled())
 			if (_curCursorType == CursorType.Sticky && !HaveFreeCursorHotKey())
 			{
 				// force operation to toggle
@@ -236,7 +220,6 @@ namespace DMT.Modules.Cursor
 			}
 			else
 			{
-				//_minForce = _settingsService.GetSettingAsInt(_moduleName, "MinStickyForce");
 				_minForce = MinStickyForce;
 				LockCursorToScreen();
 				_curCursorType = CursorType.Sticky;
@@ -305,90 +288,160 @@ namespace DMT.Modules.Cursor
 		// as it can be called very frequently.
 		public int llMouseHookCallback(int nCode, IntPtr wParam, IntPtr lParam)
 		{
-			if (nCode >= 0 && !_disableLocking)
+			if (nCode >= 0)
 			{
 				// lParam is a pointer to a MSLLHOOKSTRUCT, 
-
-				//// so normally we would do:
-				//// Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
-				//// but we only want the cursor position from this which are the first 2 ints, 
-				//// so instead of marshalling the entire structure
-				//// we just marshal the first 2 ints to minimise any performance hit 
-				//int originalX = Marshal.ReadInt32(lParam);
-				//int originalY = Marshal.ReadInt32(lParam, 4);
-
 				Win32.MSLLHOOKSTRUCT msllHookStruct = (Win32.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(Win32.MSLLHOOKSTRUCT));
 				int originalX = msllHookStruct.pt.x;
 				int originalY = msllHookStruct.pt.y;
 				int x = originalX;
 				int y = originalY;
 
-				// If this message was generated by a touch event
-				// then we want to allow the cursor to move un-hindered
-				bool touchEvent = ((msllHookStruct.dwExtraInfo & Win32.MOUSEEVENTF_FROMTOUCH) == Win32.MOUSEEVENTF_FROMTOUCH);
-
-				// check in case returning to (or is already on) primary screen and user wants this to happen freely
-				//bool freelyReturnToPrimary = (Properties.Settings.Default.PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y));
-				//bool freelyReturnToPrimary = (_settingsService.GetSettingAsBool(_moduleName, "PrimaryReturnUnhindered") && Screen.PrimaryScreen.Bounds.Contains(x, y));
-				bool freelyReturnToPrimary = PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y);
-
-				if (touchEvent || freelyReturnToPrimary)
+				if (AllowFreeMovementButton)
 				{
-					// allow cursor to move freely
-					// still need to check if we have moved outside of the current screen
-					// so that we can rebuild the barriers for the new screen
-					bool outside = leftBarrier.Outside(x);
-					if (rightBarrier.Outside(x))
+					MouseButtons mouseButton = MouseButtons.None;
+					bool buttonDown = false;
+					int msg = (int)wParam;
+					switch(msg)
 					{
-						outside = true;
-					}
-					if (topBarrier.Outside(y))
-					{
-						outside = true;
-					}
-					if (bottomBarrier.Outside(y))
-					{
-						outside = true;
+						case Win32.WM_LBUTTONDOWN:
+							mouseButton = MouseButtons.Left;
+							buttonDown= true;
+							break;
+
+						case Win32.WM_LBUTTONUP:
+							mouseButton = MouseButtons.Left;
+							break;
+
+						case Win32.WM_MBUTTONDOWN:
+							mouseButton = MouseButtons.Middle;
+							buttonDown= true;
+							break;
+
+						case Win32.WM_MBUTTONUP:
+							mouseButton = MouseButtons.Middle;
+							break;
+
+						case Win32.WM_RBUTTONDOWN:
+							mouseButton = MouseButtons.Right;
+							buttonDown= true;
+							break;
+
+						case Win32.WM_RBUTTONUP:
+							mouseButton = MouseButtons.Right;
+							break;
+
+						case Win32.WM_XBUTTONDOWN:
+							mouseButton = GetXButton(msllHookStruct);
+							buttonDown = true;
+							break;
+
+						case Win32.WM_XBUTTONUP:
+							mouseButton = GetXButton(msllHookStruct);
+							break;
 					}
 
-					if (outside)
+					if (mouseButton != MouseButtons.None && mouseButton == FreeMovementButton)
 					{
-						ReBuildBarriers(new Point(x, y));
+						if (buttonDown)
+						{
+							_freeMovementButtonPressed = true;
+						}
+						else
+						{
+							_freeMovementButtonPressed = false;
+							// must also rebuild the barriers as the cursor may now be on a different screen
+							ReBuildBarriers();
+						}
 					}
 				}
-				else
+
+				if (!_freeMovementKeyPressed && !_freeMovementButtonPressed)
 				{
-					// check if the cursor has moved from one screen to another
-					// and if so add the required amount of stickiness to the cursor
-					// restraining it to the current screen if necessary
 
-					bool brokenThrough = leftBarrier.BrokenThrough(ref x);
-					if (rightBarrier.BrokenThrough(ref x))
-					{
-						brokenThrough = true;
-					}
-					if (topBarrier.BrokenThrough(ref y))
-					{
-						brokenThrough = true;
-					}
-					if (bottomBarrier.BrokenThrough(ref y))
-					{
-						brokenThrough = true;
-					}
+					// If this message was generated by a touch event
+					// then we want to allow the cursor to move un-hindered
+					bool touchEvent = ((msllHookStruct.dwExtraInfo & Win32.MOUSEEVENTF_FROMTOUCH) == Win32.MOUSEEVENTF_FROMTOUCH);
 
-					if (brokenThrough)
+					// check in case returning to (or is already on) primary screen and user wants this to happen freely
+					bool freelyReturnToPrimary = PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y);
+
+					if (touchEvent || freelyReturnToPrimary)
 					{
-						ReBuildBarriers(new Point(x, y));
+						// allow cursor to move freely
+						// still need to check if we have moved outside of the current screen
+						// so that we can rebuild the barriers for the new screen
+						bool outside = leftBarrier.Outside(x);
+						if (rightBarrier.Outside(x))
+						{
+							outside = true;
+						}
+						if (topBarrier.Outside(y))
+						{
+							outside = true;
+						}
+						if (bottomBarrier.Outside(y))
+						{
+							outside = true;
+						}
+
+						if (outside)
+						{
+							ReBuildBarriers(new Point(x, y));
+						}
 					}
-					if (x != originalX || y != originalY)
+					else
 					{
-						// override the position that Windows wants to place the cursor
-						System.Windows.Forms.Cursor.Position = new Point(x, y);
-						return 1;
+						// check if the cursor has moved from one screen to another
+						// and if so add the required amount of stickiness to the cursor
+						// restraining it to the current screen if necessary
+
+						bool brokenThrough = leftBarrier.BrokenThrough(ref x);
+						if (rightBarrier.BrokenThrough(ref x))
+						{
+							brokenThrough = true;
+						}
+						if (topBarrier.BrokenThrough(ref y))
+						{
+							brokenThrough = true;
+						}
+						if (bottomBarrier.BrokenThrough(ref y))
+						{
+							brokenThrough = true;
+						}
+
+						if (brokenThrough)
+						{
+							ReBuildBarriers(new Point(x, y));
+						}
+						if (x != originalX || y != originalY)
+						{
+							// override the position that Windows wants to place the cursor
+							System.Windows.Forms.Cursor.Position = new Point(x, y);
+							return 1;
+						}
 					}
 				}
 			}
 			return Win32.CallNextHookEx(llMouseHook, nCode, wParam, lParam);
+		}
+
+		MouseButtons GetXButton(Win32.MSLLHOOKSTRUCT msllHookStruct)
+		{
+			uint mouseDataHiWord = msllHookStruct.mouseData >> 16;
+
+			if (mouseDataHiWord == Win32.XBUTTON1)
+			{
+				return MouseButtons.XButton1;
+			}
+			else if (mouseDataHiWord == Win32.XBUTTON2)
+			{
+				return MouseButtons.XButton2;
+			}
+			else
+			{
+				return MouseButtons.None;
+			}
 		}
 
 		// This is the low level Keyboard hook callback
@@ -405,22 +458,19 @@ namespace DMT.Modules.Cursor
 				uint vkCode = (uint)Marshal.ReadInt32(lParam);
 				Keys key = (Keys)vkCode;
 
-				//if (key == Keys.LControlKey)
-				//if (key == (Keys)Properties.Settings.Default.FreeCursorMovementKey)
-				//if (key == (Keys)_settingsService.GetSettingAsInt(_moduleName, "FreeCursorMovementKey"))
 				if (key == FreeMovementKey)
 				{
 					//if (enableDisableLocking)
-					if (ControlUnhindersCursor)
+					if (AllowFreeMovementKey)
 					{
 						int msg = (int)wParam;
 						if (msg == Win32.WM_KEYDOWN)
 						{
-							_disableLocking = true;
+							_freeMovementKeyPressed = true;
 						}
 						else if (msg == Win32.WM_KEYUP)
 						{
-							_disableLocking = false;
+							_freeMovementKeyPressed = false;
 							// must also rebuild the barriers as the cursor may now be on a different screen
 							ReBuildBarriers();
 						}
@@ -573,6 +623,5 @@ namespace DMT.Modules.Cursor
 				bottomBarrier.ChangeBarrier(false, 0, 0);
 			}
 		}
-
 	}
 }

@@ -97,6 +97,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left Mouse Button.
+        /// </summary>
+        internal static string LeftMouseButton {
+            get {
+                return ResourceManager.GetString("LeftMouseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This program comes with ABSOLUTELY NO WARRANTY.
         ///This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details..
         /// </summary>
@@ -112,6 +121,15 @@ namespace DMT.Resources {
         internal static string LShiftKey {
             get {
                 return ResourceManager.GetString("LShiftKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Middle Mouse Button.
+        /// </summary>
+        internal static string MidMouseButton {
+            get {
+                return ResourceManager.GetString("MidMouseButton", resourceCulture);
             }
         }
         
@@ -162,6 +180,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Right Mouse Button.
+        /// </summary>
+        internal static string RightMouseButton {
+            get {
+                return ResourceManager.GetString("RightMouseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Right Shift Key.
         /// </summary>
         internal static string RShiftKey {
@@ -194,6 +221,24 @@ namespace DMT.Resources {
         internal static string WinModifierKey {
             get {
                 return ResourceManager.GetString("WinModifierKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to X1 Mouse Button.
+        /// </summary>
+        internal static string X1MouseButton {
+            get {
+                return ResourceManager.GetString("X1MouseButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to X2 Mouse Button.
+        /// </summary>
+        internal static string X2MouseButton {
+            get {
+                return ResourceManager.GetString("X2MouseButton", resourceCulture);
             }
         }
     }

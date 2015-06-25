@@ -44,6 +44,8 @@
 			this.hotKeyPanelLockCursor = new DMT.Library.HotKeys.HotKeyPanel();
 			this.hotKeyPanelStickyCursor = new DMT.Library.HotKeys.HotKeyPanel();
 			this.hotKeyPanelFreeCursor = new DMT.Library.HotKeys.HotKeyPanel();
+			this.checkBoxAllowButton = new System.Windows.Forms.CheckBox();
+			this.comboBoxFreeMovementButton = new System.Windows.Forms.ComboBox();
 			this.groupBox4.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
@@ -52,16 +54,16 @@
 			// 
 			this.comboBoxFreeMovementKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxFreeMovementKey.FormattingEnabled = true;
-			this.comboBoxFreeMovementKey.Location = new System.Drawing.Point(271, 224);
+			this.comboBoxFreeMovementKey.Location = new System.Drawing.Point(279, 222);
 			this.comboBoxFreeMovementKey.Name = "comboBoxFreeMovementKey";
-			this.comboBoxFreeMovementKey.Size = new System.Drawing.Size(121, 21);
+			this.comboBoxFreeMovementKey.Size = new System.Drawing.Size(194, 21);
 			this.comboBoxFreeMovementKey.TabIndex = 52;
 			this.comboBoxFreeMovementKey.SelectedIndexChanged += new System.EventHandler(this.comboBoxFreeMovementKey_SelectedIndexChanged);
 			// 
 			// checkBoxPrimaryReturnUnhindered
 			// 
 			this.checkBoxPrimaryReturnUnhindered.AutoSize = true;
-			this.checkBoxPrimaryReturnUnhindered.Location = new System.Drawing.Point(11, 250);
+			this.checkBoxPrimaryReturnUnhindered.Location = new System.Drawing.Point(10, 272);
 			this.checkBoxPrimaryReturnUnhindered.Name = "checkBoxPrimaryReturnUnhindered";
 			this.checkBoxPrimaryReturnUnhindered.Size = new System.Drawing.Size(254, 17);
 			this.checkBoxPrimaryReturnUnhindered.TabIndex = 51;
@@ -73,7 +75,7 @@
 			// 
 			this.comboBoxCursorMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxCursorMode.FormattingEnabled = true;
-			this.comboBoxCursorMode.Location = new System.Drawing.Point(173, 272);
+			this.comboBoxCursorMode.Location = new System.Drawing.Point(174, 289);
 			this.comboBoxCursorMode.Name = "comboBoxCursorMode";
 			this.comboBoxCursorMode.Size = new System.Drawing.Size(300, 21);
 			this.comboBoxCursorMode.TabIndex = 50;
@@ -82,7 +84,7 @@
 			// label15
 			// 
 			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(11, 274);
+			this.label15.Location = new System.Drawing.Point(10, 292);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(155, 13);
 			this.label15.TabIndex = 49;
@@ -204,10 +206,33 @@
 			this.hotKeyPanelFreeCursor.Size = new System.Drawing.Size(465, 23);
 			this.hotKeyPanelFreeCursor.TabIndex = 0;
 			// 
-			// CursorOptionsPanel
+			// checkBoxAllowButton
+			// 
+			this.checkBoxAllowButton.AutoSize = true;
+			this.checkBoxAllowButton.Location = new System.Drawing.Point(11, 249);
+			this.checkBoxAllowButton.Name = "checkBoxAllowButton";
+			this.checkBoxAllowButton.Size = new System.Drawing.Size(262, 17);
+			this.checkBoxAllowButton.TabIndex = 53;
+			this.checkBoxAllowButton.Text = "Allow cursor to move freely if this button is pressed";
+			this.checkBoxAllowButton.UseVisualStyleBackColor = true;
+			this.checkBoxAllowButton.CheckedChanged += new System.EventHandler(this.checkBoxAllowButton_CheckedChanged);
+			// 
+			// comboBoxFreeMovementButton
+			// 
+			this.comboBoxFreeMovementButton.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxFreeMovementButton.FormattingEnabled = true;
+			this.comboBoxFreeMovementButton.Location = new System.Drawing.Point(279, 247);
+			this.comboBoxFreeMovementButton.Name = "comboBoxFreeMovementButton";
+			this.comboBoxFreeMovementButton.Size = new System.Drawing.Size(194, 21);
+			this.comboBoxFreeMovementButton.TabIndex = 54;
+			this.comboBoxFreeMovementButton.SelectedIndexChanged += new System.EventHandler(this.comboBoxFreeMovementButton_SelectedIndexChanged);
+			// 
+			// CursorGeneralOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.comboBoxFreeMovementButton);
+			this.Controls.Add(this.checkBoxAllowButton);
 			this.Controls.Add(this.comboBoxFreeMovementKey);
 			this.Controls.Add(this.checkBoxPrimaryReturnUnhindered);
 			this.Controls.Add(this.comboBoxCursorMode);
@@ -215,8 +240,8 @@
 			this.Controls.Add(this.checkBoxControlUnhindersCursor);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.groupBox3);
-			this.Name = "CursorOptionsPanel";
-			this.Size = new System.Drawing.Size(491, 305);
+			this.Name = "CursorGeneralOptionsPanel";
+			this.Size = new System.Drawing.Size(500, 338);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
@@ -243,6 +268,8 @@
 		private Library.HotKeys.HotKeyPanel hotKeyPanelLockCursor;
 		private Library.HotKeys.HotKeyPanel hotKeyPanelStickyCursor;
 		private Library.HotKeys.HotKeyPanel hotKeyPanelFreeCursor;
+		private System.Windows.Forms.CheckBox checkBoxAllowButton;
+		private System.Windows.Forms.ComboBox comboBoxFreeMovementButton;
 
 	}
 }

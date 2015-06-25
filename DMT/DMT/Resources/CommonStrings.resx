@@ -169,4 +169,19 @@ Try another hot key combination.</value>
     <value>This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
   </data>
+  <data name="LeftMouseButton" xml:space="preserve">
+    <value>Left Mouse Button</value>
+  </data>
+  <data name="MidMouseButton" xml:space="preserve">
+    <value>Middle Mouse Button</value>
+  </data>
+  <data name="RightMouseButton" xml:space="preserve">
+    <value>Right Mouse Button</value>
+  </data>
+  <data name="X1MouseButton" xml:space="preserve">
+    <value>X1 Mouse Button</value>
+  </data>
+  <data name="X2MouseButton" xml:space="preserve">
+    <value>X2 Mouse Button</value>
+  </data>
 </root>
