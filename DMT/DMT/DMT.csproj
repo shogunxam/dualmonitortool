@@ -345,6 +345,7 @@
     <Compile Include="Modules\WallpaperChanger\ProviderForm.Designer.cs">
       <DependentUpon>ProviderForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Library\WallpaperPlugin\ProviderImage.cs" />
     <Compile Include="Modules\WallpaperChanger\ProviderPersistence.cs" />
     <Compile Include="Modules\WallpaperChanger\ProviderReader.cs" />
     <Compile Include="Modules\WallpaperChanger\ProviderWriter.cs" />

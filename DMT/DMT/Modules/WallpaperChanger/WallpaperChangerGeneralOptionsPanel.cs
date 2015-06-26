@@ -57,6 +57,7 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			checkBoxChangeOnStart.Checked = _wallpaperChangerModule.ChangeOnStartup;
 			checkBoxChangePeriodically.Checked = _wallpaperChangerModule.ChangePeriodically;
+			checkBoxFade.Checked = _wallpaperChangerModule.SmoothFade;
 			numericUpDownHours.Value = (decimal)_wallpaperChangerModule.IntervalHours;
 			numericUpDownMinutes.Value = (decimal)_wallpaperChangerModule.IntervalMinutes;
 

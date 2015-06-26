@@ -75,9 +75,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return null;
 		}
 
-		public Image GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize)
 		{
-			Image image = null;
+			ProviderImage providerImage = null;
 
 			string url = "https://unsplash.com/";
 			HttpConnection homeConnection;
@@ -109,11 +109,13 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			{
 				// choose a random image
 				int index = _random.Next(imageUrls.Count);
-				string imageUrl =imageUrls[index];
-				image = GetImage(imageUrl, randomPageConnection);
+				string imageUrl = imageUrls[index];
+				providerImage = new ProviderImage(GetImage(imageUrl, randomPageConnection));
+				providerImage.Provider = ProviderName;
+				providerImage.Source = imageUrl;
 			}
 
-			return image;
+			return providerImage;
 		}
 
 		string GetRandomPageUrl(string homePage)

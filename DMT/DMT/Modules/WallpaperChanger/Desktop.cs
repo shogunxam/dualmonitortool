@@ -19,6 +19,7 @@
 
 using DMT.Library.Environment;
 using DMT.Library.Wallpaper;
+using DMT.Library.WallpaperPlugin;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,7 +36,7 @@ namespace DMT.Modules.WallpaperChanger
 	class Desktop
 	{
 		int _lastScreenUpdated = -1;
-		List<Image> _previousImages = null;
+		List<ProviderImage> _previousImages = null;
 
 		WallpaperChangerModule _wallpaperChangerModule;
 		ILocalEnvironment _localEnvironment;
@@ -58,7 +59,7 @@ namespace DMT.Modules.WallpaperChanger
 			// Need to create a new one each time as the screens (count/sizes) may have changed
 			IWallpaperCompositor compositor = _compositorFactory.Create(_localEnvironment.Monitors);
 
-			List<Image> generatedImages = new List<Image>();
+			//List<Image> generatedImages = new List<Image>();
 
 			compositor.DesktopRectBackColor = _wallpaperChangerModule.BackgroundColour;
 
@@ -77,7 +78,7 @@ namespace DMT.Modules.WallpaperChanger
 
 		void UpdateFullWallpaper(SwitchType.ImageToMonitorMapping monitorMapping, IWallpaperCompositor compositor)
 		{
-			List<Image> generatedImages = new List<Image>();
+			List<ProviderImage> generatedImages = new List<ProviderImage>();
 			List<int> selectedScreens = new List<int>();
 			//StretchType stretchType = new StretchType((StretchType.Fit)Settings.Default.Fit);
 			StretchType stretchType = new StretchType(_wallpaperChangerModule.Fit);
@@ -89,10 +90,10 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				for (int i = 0; i < compositor.AllScreens.Count; i++)
 				{
-					Image sourceImage = GetRandomImageForScreen(compositor, i);
+					ProviderImage sourceImage = GetRandomImageForScreen(compositor, i);
 					if (sourceImage != null)
 					{
-						compositor.AddImage(sourceImage, ScreenToList(i), stretchType.Type);
+						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
 						generatedImages.Add(sourceImage);
 					}
 				}
@@ -113,13 +114,13 @@ namespace DMT.Modules.WallpaperChanger
 						optimumSize.Height = compositor.AllScreens[i].ScreenRect.Height;
 					}
 				}
-				Image sourceImage = GetRandomImage(optimumSize);
+				ProviderImage sourceImage = GetRandomImage(optimumSize);
 				if (sourceImage != null)
 				{
 					// add image to each monitor
 					for (int i = 0; i < compositor.AllScreens.Count; i++)
 					{
-						compositor.AddImage(sourceImage, ScreenToList(i), stretchType.Type);
+						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
 					}
 					generatedImages.Add(sourceImage);
 				}
@@ -128,11 +129,11 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				// default: single image covers all monitors
 				Size optimumSize = compositor.DesktopRect.Size;
-				Image sourceImage = GetRandomImage(optimumSize);
+				ProviderImage sourceImage = GetRandomImage(optimumSize);
 				if (sourceImage != null)
 				{
 					selectedScreens = GetAllScreenIndexes(compositor);
-					compositor.AddImage(sourceImage, selectedScreens, stretchType.Type); 
+					compositor.AddImage(sourceImage.Image, selectedScreens, stretchType.Type); 
 					generatedImages.Add(sourceImage);
 				}
 			}
@@ -144,9 +145,9 @@ namespace DMT.Modules.WallpaperChanger
 			}
 
 			// must dispose of the images
-			foreach (Image image in generatedImages)
+			foreach (ProviderImage providerImage in generatedImages)
 			{
-				image.Dispose();
+				providerImage.Dispose();
 			}
 		}
 
@@ -164,7 +165,7 @@ namespace DMT.Modules.WallpaperChanger
 					// so redo all screens
 					for (int i = 0; i < numScreens; i++)
 					{
-						Image sourceImage = GetRandomImageForScreen(compositor, i);
+						ProviderImage sourceImage = GetRandomImageForScreen(compositor, i);
 						if (sourceImage != null)
 						{
 							RememberImage(sourceImage, i);
@@ -183,7 +184,7 @@ namespace DMT.Modules.WallpaperChanger
 						_lastScreenUpdated %= numScreens;
 					}
 
-					Image sourceImage = GetRandomImageForScreen(compositor, _lastScreenUpdated);
+					ProviderImage sourceImage = GetRandomImageForScreen(compositor, _lastScreenUpdated);
 					if (sourceImage != null)
 					{
 						RememberImage(sourceImage, _lastScreenUpdated);
@@ -194,11 +195,11 @@ namespace DMT.Modules.WallpaperChanger
 				for (int i = 0; i < numScreens; i++)
 				{
 					//compositor.AddImage(_previousImages[i], ScreenToList(i), stretchType.Type);
-					Image image = GetRememberedImage(i);
+					ProviderImage providerImage = GetRememberedImage(i);
 					// Should always have an image, but jic
-					if (image != null)
+					if (providerImage != null)
 					{
-						compositor.AddImage(image, ScreenToList(i), stretchType.Type);
+						compositor.AddImage(providerImage.Image, ScreenToList(i), stretchType.Type);
 					}
 				}
 
@@ -211,13 +212,13 @@ namespace DMT.Modules.WallpaperChanger
 			}
 		}
 
-		Image GetRandomImageForScreen(IWallpaperCompositor compositor, int screenIndex)
+		ProviderImage GetRandomImageForScreen(IWallpaperCompositor compositor, int screenIndex)
 		{
 			Size optimumSize = compositor.AllScreens[screenIndex].ScreenRect.Size;
 			return GetRandomImage(optimumSize);
 		}
 
-		Image GetRandomImage(Size optimumSize)
+		ProviderImage GetRandomImage(Size optimumSize)
 		{
 			//return ImageRepository.Instance.GetRandomImage();
 			return _imageRepository.GetRandomImage(optimumSize);
@@ -245,12 +246,12 @@ namespace DMT.Modules.WallpaperChanger
 			return allScreens;
 		}
 
-		void RememberImage(Image image, int screenIndex)
+		void RememberImage(ProviderImage providerImage, int screenIndex)
 		{
 			// controller does this for us
 			if (_previousImages == null)
 			{
-				_previousImages = new List<Image>();
+				_previousImages = new List<ProviderImage>();
 			}
 
 			// grow the array if needed
@@ -263,27 +264,27 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				_previousImages[screenIndex].Dispose();
 			}
-			_previousImages[screenIndex] = image;
+			_previousImages[screenIndex] = providerImage;
 		}
 
 		void ForgetRememberedImages()
 		{
 			if (_previousImages != null)
 			{
-				foreach (Image image in _previousImages)
+				foreach (ProviderImage providerImage in _previousImages)
 				{
-					if (image != null)
+					if (providerImage != null)
 					{
-						image.Dispose();
+						providerImage.Dispose();
 					}
 				}
 				_previousImages = null;
 			}
 		}
 
-		Image GetRememberedImage(int screenIndex)
+		ProviderImage GetRememberedImage(int screenIndex)
 		{
-			Image ret = null;
+			ProviderImage ret = null;
 
 			if (_previousImages != null)
 			{

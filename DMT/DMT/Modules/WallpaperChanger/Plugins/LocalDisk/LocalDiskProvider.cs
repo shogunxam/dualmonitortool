@@ -75,9 +75,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			return null;
 		}
 
-		public Image GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize)
 		{
-			Image image = null;
+			ProviderImage providerImage = null;
 
 			// if user has changed configuration, since we last built _candidateFilenames
  			// we need to rebuild if
@@ -107,7 +107,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 				string filename = _candidateFilenames[index];
 				try
 				{
-					image = Image.FromFile(filename);
+					providerImage = new ProviderImage(Image.FromFile(filename));
+					providerImage.Provider = ProviderName;
+					providerImage.Source = filename;
 				}
 				catch (Exception)
 				{
@@ -122,7 +124,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 				_candidateFilenames = null;
 			}
 
-			return image;
+			return providerImage;
 		}
 
 		List<string> GetCandidateFilenames(string baseDirectory, bool recursive)

@@ -98,7 +98,7 @@ namespace DMT.Modules.WallpaperChanger
 		/// </summary>
 		/// <param name="optimumSize">Optimum size for the image. - may be ignored by the provider</param>
 		/// <returns></returns>
-		public Image GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize)
 		{
 			// first choose a provider
 			int totalWeight = 0;
@@ -138,7 +138,7 @@ namespace DMT.Modules.WallpaperChanger
 			return null;
 		}
 
-		Image GetRandomImageFromProvider(Size optimumSize, IImageProvider provider)
+		ProviderImage GetRandomImageFromProvider(Size optimumSize, IImageProvider provider)
 		{
 			if (provider == null)
 			{

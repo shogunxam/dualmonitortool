@@ -67,11 +67,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			return null;
 		}
 
-		public Image GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize)
 		{
-			Image image = new Bitmap(optimumSize.Width, optimumSize.Height);
+			ProviderImage providerImage = new ProviderImage(new Bitmap(optimumSize.Width, optimumSize.Height));
+			providerImage.Provider = ProviderName;
 
-			using (Graphics g = Graphics.FromImage(image))
+			using (Graphics g = Graphics.FromImage(providerImage.Image))
 			{
 				if (_config.RandomBackground)
 				{
@@ -97,7 +98,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 				}
 			}
 
-			return image;
+			return providerImage;
 		}
 
 		void AddShape(Graphics g, Rectangle rect, Brush brush)
