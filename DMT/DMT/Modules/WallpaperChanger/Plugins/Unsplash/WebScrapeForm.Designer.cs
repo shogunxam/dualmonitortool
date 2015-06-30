@@ -143,8 +143,11 @@
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.pictureBox1);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "WebScrapeForm";
-			this.Text = "WebScrapeForm";
+			this.ShowInTaskbar = false;
+			this.Text = "Unsplash";
 			this.Load += new System.EventHandler(this.WebScrapeForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

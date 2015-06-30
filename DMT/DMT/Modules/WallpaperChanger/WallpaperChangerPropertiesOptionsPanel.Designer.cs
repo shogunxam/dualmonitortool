@@ -77,10 +77,8 @@
 			this.linkLabelProvider.AutoSize = true;
 			this.linkLabelProvider.Location = new System.Drawing.Point(127, 18);
 			this.linkLabelProvider.Name = "linkLabelProvider";
-			this.linkLabelProvider.Size = new System.Drawing.Size(55, 13);
+			this.linkLabelProvider.Size = new System.Drawing.Size(0, 13);
 			this.linkLabelProvider.TabIndex = 8;
-			this.linkLabelProvider.TabStop = true;
-			this.linkLabelProvider.Text = "linkLabel1";
 			this.linkLabelProvider.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
 			// 
 			// linkLabelDetails
@@ -88,10 +86,8 @@
 			this.linkLabelDetails.AutoSize = true;
 			this.linkLabelDetails.Location = new System.Drawing.Point(127, 72);
 			this.linkLabelDetails.Name = "linkLabelDetails";
-			this.linkLabelDetails.Size = new System.Drawing.Size(55, 13);
+			this.linkLabelDetails.Size = new System.Drawing.Size(0, 13);
 			this.linkLabelDetails.TabIndex = 7;
-			this.linkLabelDetails.TabStop = true;
-			this.linkLabelDetails.Text = "linkLabel1";
 			this.linkLabelDetails.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
 			// 
 			// label4
@@ -108,10 +104,8 @@
 			this.linkLabelPhotographer.AutoSize = true;
 			this.linkLabelPhotographer.Location = new System.Drawing.Point(127, 54);
 			this.linkLabelPhotographer.Name = "linkLabelPhotographer";
-			this.linkLabelPhotographer.Size = new System.Drawing.Size(55, 13);
+			this.linkLabelPhotographer.Size = new System.Drawing.Size(0, 13);
 			this.linkLabelPhotographer.TabIndex = 5;
-			this.linkLabelPhotographer.TabStop = true;
-			this.linkLabelPhotographer.Text = "linkLabel1";
 			this.linkLabelPhotographer.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
 			// 
 			// label3
@@ -128,10 +122,8 @@
 			this.linkLabelSource.AutoSize = true;
 			this.linkLabelSource.Location = new System.Drawing.Point(127, 36);
 			this.linkLabelSource.Name = "linkLabelSource";
-			this.linkLabelSource.Size = new System.Drawing.Size(55, 13);
+			this.linkLabelSource.Size = new System.Drawing.Size(0, 13);
 			this.linkLabelSource.TabIndex = 3;
-			this.linkLabelSource.TabStop = true;
-			this.linkLabelSource.Text = "linkLabel1";
 			this.linkLabelSource.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
 			// 
 			// label2
