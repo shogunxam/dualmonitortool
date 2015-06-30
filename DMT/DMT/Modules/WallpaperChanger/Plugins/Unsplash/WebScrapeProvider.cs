@@ -102,17 +102,30 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 				randomPage = GetPage(randomPageUrl, homeConnection, "UnsplashHome", out randomPageConnection);
 			}
 
-			IList<string> imageUrls;
+			IList<PhotoDetails> imageUrls;
 			imageUrls = ParseImagesOnPage(randomPage);
 
 			if (imageUrls.Count > 0)
 			{
 				// choose a random image
 				int index = _random.Next(imageUrls.Count);
-				string imageUrl = imageUrls[index];
+				PhotoDetails photoDetails = imageUrls[index];
+
+				// expand the links before performing any requests
+				string photographerUrl = GetFullUrl(photoDetails.PhotographerUrl, randomPageConnection);
+
+				string imageUrl = imageUrls[index].DownloadUrl;
 				providerImage = new ProviderImage(GetImage(imageUrl, randomPageConnection));
 				providerImage.Provider = ProviderName;
-				providerImage.Source = imageUrl;
+				providerImage.ProviderUrl = "www.unsplash.com";
+
+				// for image source, return url that responded in case of 302's
+				Uri uri = _httpRequester.LastResponseUri;
+				providerImage.Source = uri.ToString();
+				providerImage.SourceUrl = uri.ToString();
+
+				providerImage.Photographer = photoDetails.Photographer;
+				providerImage.PhotographerUrl = photographerUrl;
 			}
 
 			return providerImage;
@@ -137,12 +150,15 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return url;
 		}
 
-		IList<string> ParseImagesOnPage(string page)
+		IList<PhotoDetails> ParseImagesOnPage(string page)
 		{
-			List<string> images = new List<string>();
+			List<PhotoDetails> images = new List<PhotoDetails>();
 
 			string aHref = string.Empty;
 			string aInnerText = string.Empty;
+			//bool inH2 = false;
+
+			PhotoDetails photoDetails = new PhotoDetails();
 
 			HtmlReader htmlReader = new HtmlReader(page);
 			while (htmlReader.Read())
@@ -150,7 +166,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 				if (htmlReader.NodeType == HtmlNodeType.Element)
 				{
 					HtmlElement element = new HtmlElement(htmlReader.Value);
-					if (element.GetElementName() == "a")
+					if (element.GetElementName() == "h2")
+					{
+						//inH2 = true;
+						photoDetails.Clear();
+					}
+					else if (element.GetElementName() == "a")
 					{
 						aHref = element.GetAttribute("href");
 					}
@@ -164,11 +185,28 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 						{
 							if (!string.IsNullOrEmpty(aHref))
 							{
-								images.Add(aHref);
+								photoDetails.DownloadUrl = aHref;
+							}
+						}
+						else
+						{
+							photoDetails.Photographer = aInnerText;
+							if (!string.IsNullOrEmpty(aHref))
+							{
+								photoDetails.PhotographerUrl = aHref;
 							}
 						}
 						aInnerText = string.Empty;
 						aHref = string.Empty;
+					}
+					else if (element.GetElementName() == "h2")
+					{
+						if (!string.IsNullOrEmpty(photoDetails.DownloadUrl))
+						{
+							images.Add(photoDetails);
+							photoDetails = new PhotoDetails();
+						}
+						//inH2 = false;
 					}
 				}
 				else if (htmlReader.NodeType == HtmlNodeType.Text)
@@ -250,6 +288,17 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			HttpConnection connection = _connectionManager.GetConnection(uri);
 
 			return _httpRequester.GetImage(connection, uri);
+		}
+
+		// user to expand PhotographerUrl - which could be missing
+		string GetFullUrl(string relativeUrl, HttpConnection parentConnection)
+		{
+			if (string.IsNullOrEmpty(relativeUrl))
+			{
+				return "";
+			}
+			Uri uri = GetFullUri(relativeUrl, parentConnection);
+			return uri.ToString();
 		}
 
 		Uri GetFullUri(string relativeUrl, HttpConnection parentConnection)

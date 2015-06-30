@@ -33,6 +33,8 @@ namespace DMT.Library.Html
 	/// </summary>
 	public class HttpRequester : IHttpRequester
 	{
+		public Uri LastResponseUri { get; protected set; }
+
 		public string GetPage(HttpConnection connection, Uri uri, string testPage)
 		{
 			string pageData = string.Empty;
@@ -42,6 +44,7 @@ namespace DMT.Library.Html
 			if (responseData.StatusCode == HttpStatusCode.OK)
 			{
 				pageData = responseData.EncodeAsString();
+				LastResponseUri = webRequest.Address;
 			}
 
 			return pageData;
@@ -59,6 +62,7 @@ namespace DMT.Library.Html
 			if (responseData.StatusCode == HttpStatusCode.OK)
 			{
 				image = responseData.EncodeAsImage();
+				LastResponseUri = webRequest.Address;
 			}
 
 			return image;

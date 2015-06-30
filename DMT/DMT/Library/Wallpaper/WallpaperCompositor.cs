@@ -59,7 +59,6 @@ namespace DMT.Library.Wallpaper
         /// <summary>
         /// The background color of the rectangle that covers all of the screens
         /// </summary>
-
         public Color DesktopRectBackColor
         {
             get { return _desktopRectBackColor; }

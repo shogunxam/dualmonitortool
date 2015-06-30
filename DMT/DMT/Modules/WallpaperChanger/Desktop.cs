@@ -36,7 +36,12 @@ namespace DMT.Modules.WallpaperChanger
 	class Desktop
 	{
 		int _lastScreenUpdated = -1;
-		List<ProviderImage> _previousImages = null;
+		List<ProviderImage> _currentImages = null;
+		IWallpaperCompositor _compositor = null;
+		Image _currentWallpaperImage = null;
+
+		public Image CurrentWallpaperImage { get { return _currentWallpaperImage; } }
+		public IWallpaperCompositor CurrentCompositor { get { return _compositor; } }
 
 		WallpaperChangerModule _wallpaperChangerModule;
 		ILocalEnvironment _localEnvironment;
@@ -56,45 +61,47 @@ namespace DMT.Modules.WallpaperChanger
 		/// </summary>
 		public void UpdateWallpaper()
 		{
-			// Need to create a new one each time as the screens (count/sizes) may have changed
-			IWallpaperCompositor compositor = _compositorFactory.Create(_localEnvironment.Monitors);
+			// Need to create a new compositor each time as the screens (count/sizes) may have changed
+			_compositor = _compositorFactory.Create(_localEnvironment.Monitors);
+			_compositor.DesktopRectBackColor = _wallpaperChangerModule.BackgroundColour;
 
-			//List<Image> generatedImages = new List<Image>();
-
-			compositor.DesktopRectBackColor = _wallpaperChangerModule.BackgroundColour;
-
-			//SwitchType.ImageToMonitorMapping monitorMapping = (SwitchType.ImageToMonitorMapping)Settings.Default.MultiMonitors;
 			SwitchType.ImageToMonitorMapping monitorMapping = _wallpaperChangerModule.MonitorMapping;
 
 			if (monitorMapping == SwitchType.ImageToMonitorMapping.ManyToManyInSequence)
 			{
-				UpdatePartialWallpaper(monitorMapping, compositor);
+				UpdatePartialWallpaper(monitorMapping, _compositor);
 			}
 			else
 			{
-				UpdateFullWallpaper(monitorMapping, compositor);
+				UpdateFullWallpaper(monitorMapping, _compositor);
 			}
+		}
+
+		public ProviderImage GetProviderImage(int screenIndex)
+		{
+			return GetRememberedImage(screenIndex);
 		}
 
 		void UpdateFullWallpaper(SwitchType.ImageToMonitorMapping monitorMapping, IWallpaperCompositor compositor)
 		{
-			List<ProviderImage> generatedImages = new List<ProviderImage>();
+			//List<ProviderImage> generatedImages = new List<ProviderImage>();
 			List<int> selectedScreens = new List<int>();
-			//StretchType stretchType = new StretchType((StretchType.Fit)Settings.Default.Fit);
 			StretchType stretchType = new StretchType(_wallpaperChangerModule.Fit);
 
-			// don't need to remember images between calls, so make sure these have been disposed of
+			// will be replacing all existing images, so dispose of any remembered from before
 			ForgetRememberedImages();
 
 			if (monitorMapping == SwitchType.ImageToMonitorMapping.ManyToMany)
 			{
 				for (int i = 0; i < compositor.AllScreens.Count; i++)
 				{
+					// different image on each screen
 					ProviderImage sourceImage = GetRandomImageForScreen(compositor, i);
 					if (sourceImage != null)
 					{
 						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
-						generatedImages.Add(sourceImage);
+						//generatedImages.Add(sourceImage);
+						RememberImage(sourceImage, i);
 					}
 				}
 			}
@@ -122,7 +129,8 @@ namespace DMT.Modules.WallpaperChanger
 					{
 						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
 					}
-					generatedImages.Add(sourceImage);
+					//generatedImages.Add(sourceImage);
+					RememberImage(sourceImage, 0);
 				}
 			}
 			else
@@ -134,26 +142,29 @@ namespace DMT.Modules.WallpaperChanger
 				{
 					selectedScreens = GetAllScreenIndexes(compositor);
 					compositor.AddImage(sourceImage.Image, selectedScreens, stretchType.Type); 
-					generatedImages.Add(sourceImage);
+					//generatedImages.Add(sourceImage);
+					RememberImage(sourceImage, 0);
 				}
 			}
 
-			using (Image wallpaper = compositor.CreateWallpaperImage())
-			{
-				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
-				windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
-			}
+			//using (Image wallpaper = compositor.CreateWallpaperImage())
+			//{
+			//	WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
+			//	windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
+			//}
+			CreateWallpaperImage();
+			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, _currentWallpaperImage, _compositor.DesktopRect);
+			windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
 
-			// must dispose of the images
-			foreach (ProviderImage providerImage in generatedImages)
-			{
-				providerImage.Dispose();
-			}
+			//// must dispose of the images
+			//foreach (ProviderImage providerImage in generatedImages)
+			//{
+			//	providerImage.Dispose();
+			//}
 		}
 
 		void UpdatePartialWallpaper(SwitchType.ImageToMonitorMapping monitorMapping, IWallpaperCompositor compositor)
 		{
-			//StretchType stretchType = new StretchType((StretchType.Fit)Settings.Default.Fit);
 			StretchType stretchType = new StretchType(_wallpaperChangerModule.Fit);
 
 			if (monitorMapping == SwitchType.ImageToMonitorMapping.ManyToManyInSequence)
@@ -205,11 +216,25 @@ namespace DMT.Modules.WallpaperChanger
 
 			}
 
-			using (Image wallpaper = compositor.CreateWallpaperImage())
+			//using (Image wallpaper = compositor.CreateWallpaperImage())
+			//{
+			//	WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
+			//	windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
+			//}
+			CreateWallpaperImage();
+			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, _currentWallpaperImage, _compositor.DesktopRect);
+			windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
+		}
+
+		void CreateWallpaperImage()
+		{
+			Image wallpaper = _compositor.CreateWallpaperImage();
+
+			if (_currentWallpaperImage != null)
 			{
-				WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
-				windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
+				_currentWallpaperImage.Dispose();
 			}
+			_currentWallpaperImage = wallpaper;
 		}
 
 		ProviderImage GetRandomImageForScreen(IWallpaperCompositor compositor, int screenIndex)
@@ -249,36 +274,36 @@ namespace DMT.Modules.WallpaperChanger
 		void RememberImage(ProviderImage providerImage, int screenIndex)
 		{
 			// controller does this for us
-			if (_previousImages == null)
+			if (_currentImages == null)
 			{
-				_previousImages = new List<ProviderImage>();
+				_currentImages = new List<ProviderImage>();
 			}
 
 			// grow the array if needed
-			while (_previousImages.Count <= screenIndex)
+			while (_currentImages.Count <= screenIndex)
 			{
-				_previousImages.Add(null);
+				_currentImages.Add(null);
 			}
 
-			if (_previousImages[screenIndex] != null)
+			if (_currentImages[screenIndex] != null)
 			{
-				_previousImages[screenIndex].Dispose();
+				_currentImages[screenIndex].Dispose();
 			}
-			_previousImages[screenIndex] = providerImage;
+			_currentImages[screenIndex] = providerImage;
 		}
 
 		void ForgetRememberedImages()
 		{
-			if (_previousImages != null)
+			if (_currentImages != null)
 			{
-				foreach (ProviderImage providerImage in _previousImages)
+				foreach (ProviderImage providerImage in _currentImages)
 				{
 					if (providerImage != null)
 					{
 						providerImage.Dispose();
 					}
 				}
-				_previousImages = null;
+				_currentImages = null;
 			}
 		}
 
@@ -286,11 +311,11 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			ProviderImage ret = null;
 
-			if (_previousImages != null)
+			if (_currentImages != null)
 			{
-				if (screenIndex < _previousImages.Count)
+				if (screenIndex < _currentImages.Count)
 				{
-					ret = _previousImages[screenIndex];
+					ret = _currentImages[screenIndex];
 				}
 			}
 
@@ -299,17 +324,17 @@ namespace DMT.Modules.WallpaperChanger
 
 		bool HaveRememberedAllImages(int numMonitors)
 		{
-			if (_previousImages != null)
+			if (_currentImages != null)
 			{
 				// make sure we have a slot for each active monitor
-				if (_previousImages.Count < numMonitors)
+				if (_currentImages.Count < numMonitors)
 				{
 					return false;
 				}
 				// check none of these are empty slots
 				for (int n = 0; n < numMonitors; n++)
 				{
-					if (_previousImages[n] == null)
+					if (_currentImages[n] == null)
 					{
 						return false;
 					}

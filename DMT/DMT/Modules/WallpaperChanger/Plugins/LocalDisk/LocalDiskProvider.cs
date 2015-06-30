@@ -110,6 +110,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 					providerImage = new ProviderImage(Image.FromFile(filename));
 					providerImage.Provider = ProviderName;
 					providerImage.Source = filename;
+					providerImage.SourceUrl = filename;
 				}
 				catch (Exception)
 				{

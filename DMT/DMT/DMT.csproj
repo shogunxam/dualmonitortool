@@ -329,6 +329,7 @@
     </Compile>
     <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesPlugin.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\PhotoDetails.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeConfig.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeForm.cs">
       <SubType>Form</SubType>
@@ -356,6 +357,12 @@
       <DependentUpon>WallpaperChangerGeneralOptionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\WallpaperChanger\WallpaperChangerModule.cs" />
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerPropertiesOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\WallpaperChangerPropertiesOptionsPanel.Designer.cs">
+      <DependentUpon>WallpaperChangerPropertiesOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\WallpaperChanger\WallpaperChangerProvidersOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -520,6 +527,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\WallpaperChangerGeneralOptionsPanel.resx">
       <DependentUpon>WallpaperChangerGeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\WallpaperChangerPropertiesOptionsPanel.resx">
+      <DependentUpon>WallpaperChangerPropertiesOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\WallpaperChangerProvidersOptionsPanel.resx">
       <DependentUpon>WallpaperChangerProvidersOptionsPanel.cs</DependentUpon>

@@ -9,10 +9,18 @@ namespace DMT.Library.WallpaperPlugin
 	public class ProviderImage : IDisposable
 	{
 		public Image Image { get; protected set; }
+
 		public string Provider { get; set; }
+		public string ProviderUrl { get; set; }
+
 		public string Source { get; set; }
+		public string SourceUrl { get; set; }
+
 		public string Photographer { get; set; }
+		public string PhotographerUrl { get; set; }
+
 		public string MoreInfo { get; set; }
+		public string MoreInfoUrl { get; set; }
 
 		public ProviderImage(Image image)
 		{

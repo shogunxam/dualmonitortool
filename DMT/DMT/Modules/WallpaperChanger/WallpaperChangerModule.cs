@@ -53,12 +53,15 @@ namespace DMT.Modules.WallpaperChanger
 		IImageRepository _imageRepository;
 		Desktop _desktop;
 
+		public Desktop Desktop { get { return _desktop; } }
+
 		// for periodically updating the wallpaper
 		System.Timers.Timer _timer;
 		bool _paused = false;
 		int _minutesSinceLastChange = 0;
 
 		WallpaperChangerGeneralOptionsPanel _generalOptionsPanel;
+		WallpaperChangerPropertiesOptionsPanel _propertiesOptionsPanel;
 
 		ToolStripMenuItem _pauseToolStripMenuItem;
 
@@ -190,6 +193,8 @@ namespace DMT.Modules.WallpaperChanger
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Wallpaper Changer", image, new WallpaperChangerRootOptionsPanel());
 			_generalOptionsPanel = new WallpaperChangerGeneralOptionsPanel(this);
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, _generalOptionsPanel));
+			_propertiesOptionsPanel = new WallpaperChangerPropertiesOptionsPanel(this);
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Properties", image, _propertiesOptionsPanel));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Providers", image, new WallpaperChangerProvidersOptionsPanel(this)));
 
 			return options;
@@ -231,6 +236,7 @@ namespace DMT.Modules.WallpaperChanger
 			_desktop.UpdateWallpaper();
 			_minutesSinceLastChange = 0;
 			UpdateTimeToChange();
+			UpdateWallpaperPreview();
 		}
 
 		/// <summary>
@@ -372,6 +378,21 @@ namespace DMT.Modules.WallpaperChanger
 			if (_generalOptionsPanel != null)
 			{
 				_generalOptionsPanel.ShowNextChange(msgText, msgColor);
+			}
+
+
+			if (_propertiesOptionsPanel != null)
+			{
+				_propertiesOptionsPanel.ShowNextChange(msgText, msgColor);
+			}
+
+		}
+
+		void UpdateWallpaperPreview()
+		{
+			if (_propertiesOptionsPanel != null)
+			{
+				_propertiesOptionsPanel.ShowNewWallpaper();
 			}
 		}
 

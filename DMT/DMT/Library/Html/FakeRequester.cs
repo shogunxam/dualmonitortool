@@ -34,6 +34,8 @@ namespace DMT.Library.Html
 	/// </summary>
 	public class FakeRequester : IHttpRequester
 	{
+		public Uri LastResponseUri { get; protected set; }
+
 		public string GetPage(HttpConnection connection, Uri uri, string testPage)
 		{
 			string pageData = string.Empty;
@@ -41,6 +43,7 @@ namespace DMT.Library.Html
 			connection.LastUri = uri;
 			string testPath = @"..\..\..\MockData\" + testPage + ".htm";
 			pageData = File.ReadAllText(testPath, Encoding.UTF8);
+			LastResponseUri = uri;
 
 			return pageData;
 		}
@@ -50,7 +53,7 @@ namespace DMT.Library.Html
 			Image image = null;
 
 			image = Image.FromFile(@"..\..\..\MockData\image.jpg");
-
+			LastResponseUri = uri;
 
 			return image;
 		}
