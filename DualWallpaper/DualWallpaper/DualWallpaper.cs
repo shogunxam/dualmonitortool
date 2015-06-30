@@ -371,7 +371,7 @@ namespace DualWallpaper
 		{
 			ILocalEnvironment localEnvironment = new LocalEnvironment();
 			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(localEnvironment, wallpaper, controller.DesktopRect);
-			windowsWallpaper.SetWallpaper();
+			windowsWallpaper.SetWallpaper(false);
 
 		}
 
