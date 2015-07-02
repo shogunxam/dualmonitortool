@@ -17,31 +17,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Settings;
+using DMT.Library.WallpaperPlugin;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DMT.Library.Settings
+namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
-	public interface ISettingsService
+	public class FlickrPlugin : IDWC_Plugin
 	{
-		bool SettingExists(string moduleName, string settingName);
+		const string _pluginName = "flickr";
+		public const string PluginVersion = "0.0";
 
-		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, int value);
+		ISettingsService _settingsService;
 
-		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, uint value);
+		public static string PluginName { get { return _pluginName; } }
+		public static Image PluginImage { get { return Properties.Resources.FlickrPlugin; } }
 
-		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
-		void SetSetting(string moduleName, string settingName, bool set);
+		public string Name { get { return PluginName; } }
+		public Image Image { get { return PluginImage; } }
 
-		string GetSettingAsString(string moduleName, string settingName, string defaultValue = "");
-		string GetSetting(string moduleName, string settingName);
-		void SetSetting(string moduleName, string settingName, string settingValue);
+		StringSetting _apiKeySetting;
 
-		void SaveSettings();
+		public FlickrPlugin(ISettingsService settingsService)
+		{
+			_settingsService = settingsService;
+			_apiKeySetting = new StringSetting(_settingsService, "WallpaperChanger", "FlickrApiKey");
+		}
+
+		public IImageProvider CreateProvider(Dictionary<string, string> config)
+		{
+			return new FlickrProvider(config, _apiKeySetting);
+		}
 	}
 }

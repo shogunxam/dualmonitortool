@@ -21,27 +21,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DMT.Library.Settings
+namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
-	public interface ISettingsService
+	class FlickrQuery
 	{
-		bool SettingExists(string moduleName, string settingName);
+		StringBuilder _query;
 
-		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, int value);
+		public FlickrQuery(string method, string apiKey)
+		{
+			_query = new StringBuilder();
+			Add("method", method);
+			Add("api_key", apiKey);
+		}
 
-		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, uint value);
+		public void Add(string name, string value)
+		{
+			if (_query.Length > 0)
+			{
+				_query.Append("&");
+			}
 
-		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
-		void SetSetting(string moduleName, string settingName, bool set);
+			_query.Append(HttpUtility.UrlEncode(name));
+			if (value != null)
+			{
+				_query.Append("=");
+				_query.Append(HttpUtility.UrlEncode(value));
+			}
+		}
 
-		string GetSettingAsString(string moduleName, string settingName, string defaultValue = "");
-		string GetSetting(string moduleName, string settingName);
-		void SetSetting(string moduleName, string settingName, string settingValue);
-
-		void SaveSettings();
+		public override string ToString()
+		{
+			return _query.ToString();
+		}
 	}
 }

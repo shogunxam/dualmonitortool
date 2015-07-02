@@ -49,7 +49,7 @@
 			this.linkLabel.Size = new System.Drawing.Size(473, 13);
 			this.linkLabel.TabIndex = 15;
 			this.linkLabel.TabStop = true;
-			this.linkLabel.Text = "Plugin for DualWallpaperChanger to get images from ";
+			this.linkLabel.Text = "Image provider to get images from ";
 			this.linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
 			// 
 			// checkBoxFirstPageOnly

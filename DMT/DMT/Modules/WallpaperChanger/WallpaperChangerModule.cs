@@ -140,7 +140,7 @@ namespace DMT.Modules.WallpaperChanger
 			_appForm = appForm;
 
 			ModuleName = "WallpaperChanger";
-			_providerFactory = new ProviderFactory();
+			_providerFactory = new ProviderFactory(_settingsService);
 			_providerPersistence = new ProviderPersistence(_providerFactory, _localEnvironment);
 			_wallpaperCompositorFactory = new WallpaperCompositorFactory();
 			_imageRepository = new ImageRepository(_providerPersistence, _logger);

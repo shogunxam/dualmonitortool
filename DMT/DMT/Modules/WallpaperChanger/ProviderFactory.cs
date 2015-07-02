@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Settings;
 using DMT.Library.Wallpaper;
 using DMT.Library.WallpaperPlugin;
 using System;
@@ -40,11 +41,14 @@ namespace DMT.Modules.WallpaperChanger
 		//[ImportMany(typeof(IDWC_Plugin))]
 		//public IEnumerable<Lazy<IDWC_Plugin, IImageProviderData>> Plugins { get; set; }
 
+		ISettingsService _settingsService;
+
 		List<IDWC_Plugin> Plugins { get; set; }
 
 
-		public ProviderFactory()
+		public ProviderFactory(ISettingsService settingsService)
 		{
+			_settingsService = settingsService;
 			GetPlugins();
 		}
 
@@ -73,6 +77,7 @@ namespace DMT.Modules.WallpaperChanger
 			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.LocalDisk.LocalDiskPlugin());
 			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.RandomShapes.RandomShapesPlugin());
 			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Unsplash.WebScrapePlugin());
+			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Flickr.FlickrPlugin(_settingsService));
 		}
 
 		/// <summary>

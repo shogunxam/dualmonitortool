@@ -109,6 +109,7 @@
     <Compile Include="Library\Logging\ILogger.cs" />
     <Compile Include="Library\Logging\Logger.cs" />
     <Compile Include="Library\PInvoke\ActiveDesktop.cs" />
+    <Compile Include="Library\Settings\StringSetting.cs" />
     <Compile Include="Library\Utils\SafeFileWriter.cs" />
     <Compile Include="Library\Transform\Scaler.cs" />
     <Compile Include="Library\GuiUtils\ScreenHelper.cs" />
@@ -311,6 +312,16 @@
     <Compile Include="Modules\WallpaperChanger\ImageRepository.cs" />
     <Compile Include="Modules\WallpaperChanger\IProviderFactory.cs" />
     <Compile Include="Modules\WallpaperChanger\IProviderPersistence.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrConfig.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrForm.Designer.cs">
+      <DependentUpon>FlickrForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrPlugin.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrQuery.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskConfig.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.cs">
       <SubType>Form</SubType>
@@ -513,6 +524,9 @@
     <EmbeddedResource Include="Modules\SwapScreen\UdaPanel.resx">
       <DependentUpon>UdaPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrForm.resx">
+      <DependentUpon>FlickrForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.resx">
       <DependentUpon>LocalDiskForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -621,6 +635,7 @@
     <Content Include="Resources\DualLauncher_16_16.png" />
     <Content Include="Resources\DualSnap_16_16.png" />
     <Content Include="Resources\DualWallpaper_16_16.png" />
+    <None Include="Resources\FlickrPlugin.bmp" />
     <Content Include="Resources\SwapScreen_16_16.png" />
     <None Include="Resources\Cursor.ico" />
     <None Include="Resources\SwapScreen.ico" />

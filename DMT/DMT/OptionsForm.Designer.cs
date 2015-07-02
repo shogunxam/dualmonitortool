@@ -79,7 +79,6 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsForm";
-			this.ShowInTaskbar = false;
 			this.Text = "Options for Dual Monitor Tools";
 			this.Load += new System.EventHandler(this.OptionsForm_Load);
 			this.SizeChanged += new System.EventHandler(this.OptionsForm_SizeChanged);

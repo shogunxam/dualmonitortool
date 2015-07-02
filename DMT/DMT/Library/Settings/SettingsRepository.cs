@@ -116,14 +116,19 @@ namespace DMT.Library.Settings
 		#endregion
 
 		#region string settings
-		public string GetSetting(string moduleName, string settingName)
+		public string GetSettingAsString(string moduleName, string settingName, string defaultValue)
 		{
 			string value;
 			if (_settings.TryGetValue(GetDictionaryName(moduleName, settingName), out value))
 			{
 				return value;
 			}
-			return "";
+			return defaultValue;
+		}
+
+		public string GetSetting(string moduleName, string settingName)
+		{
+			return GetSettingAsString(moduleName, settingName, "");
 		}
 
 		public void SetSetting(string moduleName, string settingName, string settingValue)

@@ -21,27 +21,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DMT.Library.Settings
 {
-	public interface ISettingsService
+	class StringSetting
 	{
-		bool SettingExists(string moduleName, string settingName);
+		ISettingsService _settingsService;
+		string _moduleName;
+		string _settingName;
 
-		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, int value);
+		string _value;
+		public string Value
+		{
+			get
+			{
+				return _value;
+			}
+			set
+			{
+				_value = value;
+				_settingsService.SetSetting(_moduleName, _settingName, value);
+				_settingsService.SaveSettings();
+			}
+		}
 
-		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
-		void SetSetting(string moduleName, string settingName, uint value);
+		public StringSetting(ISettingsService settingsService, string moduleName, string settingName, string defaultValue = "")
+		{
+			_settingsService = settingsService;
+			_moduleName = moduleName;
+			_settingName = settingName;
 
-		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
-		void SetSetting(string moduleName, string settingName, bool set);
-
-		string GetSettingAsString(string moduleName, string settingName, string defaultValue = "");
-		string GetSetting(string moduleName, string settingName);
-		void SetSetting(string moduleName, string settingName, string settingValue);
-
-		void SaveSettings();
+			_value = _settingsService.GetSettingAsString(_moduleName, _settingName, defaultValue);
+		}
 	}
 }
