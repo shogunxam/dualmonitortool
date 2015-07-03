@@ -21,6 +21,7 @@ using DMT.Library.Html;
 using DMT.Library.Settings;
 using DMT.Library.Utils;
 using DMT.Library.WallpaperPlugin;
+using DMT.Resources;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -71,7 +72,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 
 		public Dictionary<string, string> ShowUserOptions()
 		{
-			FlickrForm dlg = new FlickrForm(_config);
+			FlickrForm dlg = new FlickrForm(_config, this);
 			dlg.textBoxApiKey.Text = _apiKeySetting.Value;
 			if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
@@ -88,9 +89,26 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		{
 			ProviderImage providerImage = null;
 
-			FlickrQuery searchQuery = GetSearchQuery();
+			FlickrQuery searchQuery = GetSearchQuery(ApiKey, _config);
 
 			string hitsPageData = GetPage(searchQuery, "flickrHits1");
+
+			if (_config.RandomPage)
+			{
+				// instead of taking the first page (which contains the most recently added photos)
+				// we want to choose a random page
+				int numPages = ParseHitsPageForNumPages(hitsPageData);
+				if (numPages > 1)
+				{
+					int randomPage = _random.Next(1, numPages + 1);   // (inclusive, exclusive)
+					if (randomPage > 1)	// if 1, we already have that page
+					{
+						searchQuery = GetSearchQuery(ApiKey, _config, randomPage);
+						hitsPageData = GetPage(searchQuery, "flickrHits2");
+					}
+				}
+			}
+
 			List<string> photoIds = ParseHitsPageForPhotos(hitsPageData);
 
 			// choose a photoid at random
@@ -123,6 +141,28 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return providerImage;
 		}
 
+		public string Validate(string apiKey, FlickrConfig config)
+		{
+			string msg;
+
+			FlickrQuery searchQuery = GetSearchQuery(apiKey, config);
+
+			string hitsPageData = GetPage(searchQuery, "flickrHits1");
+			int numHits;
+			string errMsg;
+			bool isValid = ParseHitsPageForNumHits(hitsPageData, out numHits, out errMsg);
+
+			if (isValid)
+			{
+				msg = string.Format(WallpaperStrings.MsgNumHits, numHits);
+			}
+			else
+			{
+				msg = errMsg;
+			}
+			return msg;
+		}
+
 		string GetPage(FlickrQuery query, string testPage)
 		{
 			Uri uri = GetUri(query);
@@ -145,41 +185,46 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return uriBuilder.Uri;
 		}
 
-		FlickrQuery GetSearchQuery(int pageNum = -1)
+		FlickrQuery GetSearchQuery(string apiKey, FlickrConfig config, int pageNum = -1)
 		{
 			// flickr wants us to use .getRecent for parameterless searches
-			if (string.IsNullOrWhiteSpace(_config.UserId)
-				&& string.IsNullOrWhiteSpace(_config.Tags)
-				&& string.IsNullOrWhiteSpace(_config.Text)
-				&& string.IsNullOrWhiteSpace(_config.GroupId))
+			if (string.IsNullOrWhiteSpace(config.UserId)
+				&& string.IsNullOrWhiteSpace(config.Tags)
+				&& string.IsNullOrWhiteSpace(config.Text)
+				&& string.IsNullOrWhiteSpace(config.GroupId))
 			{
-				return new FlickrQuery("flickr.photos.getRecent", ApiKey);
+				return new FlickrQuery("flickr.photos.getRecent", apiKey);
 			}
 
-			FlickrQuery query = new FlickrQuery("flickr.photos.search", ApiKey);
+			FlickrQuery query = new FlickrQuery("flickr.photos.search", apiKey);
 
-			if (!string.IsNullOrEmpty(_config.UserId))
+			if (!string.IsNullOrEmpty(config.UserId))
 			{
-				query.Add("user_id", _config.UserId);
+				query.Add("user_id", config.UserId);
 			}
 
-			if (!string.IsNullOrEmpty(_config.Tags))
+			if (!string.IsNullOrEmpty(config.Tags))
 			{
-				query.Add("tags", _config.Tags);
-				if (_config.TagModeAll)
+				query.Add("tags", config.Tags);
+				if (config.TagModeAll)
 				{
 					query.Add("tag_mode", "all");
 				}
 			}
 
-			if (!string.IsNullOrEmpty(_config.Text))
+			if (!string.IsNullOrEmpty(config.Text))
 			{
-				query.Add("text", _config.Text);
+				query.Add("text", config.Text);
 			}
 
-			if (!string.IsNullOrEmpty(_config.GroupId))
+			if (!string.IsNullOrEmpty(config.GroupId))
 			{
-				query.Add("group_id", _config.GroupId);
+				query.Add("group_id", config.GroupId);
+			}
+
+			if (pageNum > 0)	// This is 1 based
+			{
+				query.Add("page", pageNum.ToString());
 			}
 
 			return query;
@@ -221,6 +266,71 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			}
 
 			return photoIds;
+		}
+
+		int ParseHitsPageForNumPages(string hitsPageData)
+		{
+			int numPages = 0;
+
+			XmlReader xmlReader = XmlReader.Create(new StringReader(hitsPageData));
+			while (xmlReader.Read())
+			{
+				if (xmlReader.NodeType == XmlNodeType.Element)
+				{
+					if (xmlReader.LocalName == "photos")
+					{
+						while (xmlReader.MoveToNextAttribute())
+						{
+							if (xmlReader.Name == "pages")
+							{
+								numPages = StringUtils.ToInt(xmlReader.Value);
+							}
+						}
+					}
+				}
+			}
+
+			return numPages;
+		}
+
+		bool ParseHitsPageForNumHits(string hitsPageData, out int numHits, out string errMsg)
+		{
+			bool ret = false;
+			numHits = 0;
+			errMsg = "";
+
+			XmlReader xmlReader = XmlReader.Create(new StringReader(hitsPageData));
+			while (xmlReader.Read())
+			{
+				if (xmlReader.NodeType == XmlNodeType.Element)
+				{
+					if (xmlReader.LocalName == "rsp")
+					{
+						string status = xmlReader.GetAttribute("stat");
+						if (status == "ok")
+						{
+							ret = true;
+						}
+					}
+					if (xmlReader.LocalName == "err")
+					{
+						errMsg = xmlReader.GetAttribute("msg") ?? "";
+					}
+
+					if (xmlReader.LocalName == "photos")
+					{
+						while (xmlReader.MoveToNextAttribute())
+						{
+							if (xmlReader.Name == "total")
+							{
+								numHits = StringUtils.ToInt(xmlReader.Value);
+							}
+						}
+					}
+				}
+			}
+
+			return ret;
 		}
 
 		string ParseSizesForBest(string sizesPageData, Size optimumSize)

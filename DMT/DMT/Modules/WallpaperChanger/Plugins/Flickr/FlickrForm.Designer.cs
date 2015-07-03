@@ -47,6 +47,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.linkLabel = new System.Windows.Forms.LinkLabel();
 			this.checkBoxRandomPage = new System.Windows.Forms.CheckBox();
 			this.buttonCancel = new System.Windows.Forms.Button();
@@ -67,6 +68,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxGroupId = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
 			this.textBoxApiKey = new System.Windows.Forms.TextBox();
+			this.buttonTest = new System.Windows.Forms.Button();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
@@ -172,6 +175,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxTags.Name = "textBoxTags";
 			this.textBoxTags.Size = new System.Drawing.Size(470, 20);
 			this.textBoxTags.TabIndex = 35;
+			this.toolTip.SetToolTip(this.textBoxTags, "Comma separated list of tags");
 			// 
 			// checkBoxTagMode
 			// 
@@ -246,6 +250,17 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxApiKey.Name = "textBoxApiKey";
 			this.textBoxApiKey.Size = new System.Drawing.Size(470, 20);
 			this.textBoxApiKey.TabIndex = 44;
+			this.toolTip.SetToolTip(this.textBoxApiKey, "This needs to be obtained from flickr");
+			// 
+			// buttonTest
+			// 
+			this.buttonTest.Location = new System.Drawing.Point(12, 350);
+			this.buttonTest.Name = "buttonTest";
+			this.buttonTest.Size = new System.Drawing.Size(128, 23);
+			this.buttonTest.TabIndex = 45;
+			this.buttonTest.Text = "Test Search Criteria";
+			this.buttonTest.UseVisualStyleBackColor = true;
+			this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
 			// 
 			// FlickrForm
 			// 
@@ -254,6 +269,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(622, 385);
+			this.Controls.Add(this.buttonTest);
 			this.Controls.Add(this.textBoxApiKey);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.textBoxGroupId);
@@ -309,5 +325,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		private System.Windows.Forms.TextBox textBoxGroupId;
 		private System.Windows.Forms.Label label7;
 		public System.Windows.Forms.TextBox textBoxApiKey;
+		private System.Windows.Forms.Button buttonTest;
+		private System.Windows.Forms.ToolTip toolTip;
 	}
 }

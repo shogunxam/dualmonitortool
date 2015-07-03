@@ -30,12 +30,14 @@ using System.Windows.Forms;
 
 namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
-	public partial class FlickrForm : Form
+	partial class FlickrForm : Form
 	{
+		FlickrProvider _flickrProvider;
 		const string HomePageUrl = "www.flickr.com";
 
-		public FlickrForm(FlickrConfig config)
+		public FlickrForm(FlickrConfig config, FlickrProvider flickrProvider)
 		{
+			_flickrProvider = flickrProvider;
 			//_apiKeySetting = apiKeySetting;
 
 			InitializeComponent();
@@ -84,8 +86,40 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		{
 			//_apiKeySetting.Value = textBoxApiKey.Text;
 
+			if (string.IsNullOrWhiteSpace(textBoxApiKey.Text))
+			{
+				ShowNoApiKeyMsg();
+				return;
+			}
 			DialogResult = DialogResult.OK;
 			Close();
+		}
+
+		private void buttonTest_Click(object sender, EventArgs e)
+		{
+			FlickrConfig config = GetConfig();
+			string apiKey = textBoxApiKey.Text;
+
+			if (string.IsNullOrWhiteSpace(apiKey))
+			{
+				ShowNoApiKeyMsg();
+				return;
+			}
+
+			//int hits;
+			//string errMsg;
+			//bool valid = _flickrProvider.Validate(apiKey, config, out hits, out errMsg);
+			//if (valid)
+			//{
+			string msg = _flickrProvider.Validate(apiKey, config);
+			MessageBox.Show(msg);
+
+		}
+
+		void ShowNoApiKeyMsg()
+		{
+			NoFlickrApiKeyForm dlg = new NoFlickrApiKeyForm();
+			dlg.ShowDialog();
 		}
 	}
 }

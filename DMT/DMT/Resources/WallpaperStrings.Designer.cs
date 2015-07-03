@@ -152,6 +152,15 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} Images found matching your search criteria..
+        /// </summary>
+        internal static string MsgNumHits {
+            get {
+                return ResourceManager.GetString("MsgNumHits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next change in under {0} minute.
         /// </summary>
         internal static string MsgTimeToChange1 {

@@ -150,6 +150,9 @@
     <value>No providers have beed added.
 Use the 'Providers' option panel to add providers.</value>
   </data>
+  <data name="MsgNumHits" xml:space="preserve">
+    <value>{0} Images found matching your search criteria.</value>
+  </data>
   <data name="MsgTimeToChange1" xml:space="preserve">
     <value>Next change in under {0} minute</value>
   </data>

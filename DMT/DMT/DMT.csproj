@@ -322,6 +322,12 @@
     <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrPlugin.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrProvider.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrQuery.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\NoFlickrApiKeyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\NoFlickrApiKeyForm.Designer.cs">
+      <DependentUpon>NoFlickrApiKeyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskConfig.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.cs">
       <SubType>Form</SubType>
@@ -526,6 +532,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrForm.resx">
       <DependentUpon>FlickrForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Flickr\NoFlickrApiKeyForm.resx">
+      <DependentUpon>NoFlickrApiKeyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.resx">
       <DependentUpon>LocalDiskForm.cs</DependentUpon>
