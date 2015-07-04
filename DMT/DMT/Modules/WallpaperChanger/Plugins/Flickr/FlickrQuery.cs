@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Html;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,11 +44,13 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				_query.Append("&");
 			}
 
-			_query.Append(HttpUtility.UrlEncode(name));
+			//_query.Append(HttpUtility.UrlEncode(name));
+			_query.Append(HttpHelper.UrlEncode(name));
 			if (value != null)
 			{
 				_query.Append("=");
-				_query.Append(HttpUtility.UrlEncode(value));
+				//_query.Append(HttpUtility.UrlEncode(value));
+				_query.Append(HttpHelper.UrlEncode(value));
 			}
 		}
 

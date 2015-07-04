@@ -60,7 +60,7 @@
 			this.dataGridView.RowHeadersVisible = false;
 			this.dataGridView.RowTemplate.Height = 56;
 			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView.Size = new System.Drawing.Size(460, 226);
+			this.dataGridView.Size = new System.Drawing.Size(460, 327);
 			this.dataGridView.TabIndex = 8;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			// 
@@ -82,8 +82,9 @@
 			// 
 			// buttonCancel
 			// 
+			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(232, 264);
+			this.buttonCancel.Location = new System.Drawing.Point(232, 363);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(79, 23);
 			this.buttonCancel.TabIndex = 7;
@@ -92,7 +93,8 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(147, 264);
+			this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonOK.Location = new System.Drawing.Point(147, 363);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(79, 23);
 			this.buttonOK.TabIndex = 6;
@@ -113,7 +115,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(484, 299);
+			this.ClientSize = new System.Drawing.Size(484, 400);
 			this.Controls.Add(this.dataGridView);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOK);

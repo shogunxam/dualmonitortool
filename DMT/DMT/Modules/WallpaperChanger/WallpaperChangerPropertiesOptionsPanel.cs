@@ -28,6 +28,7 @@ using System.Windows.Forms;
 using DMT.Library.Wallpaper;
 using DMT.Library.WallpaperPlugin;
 using System.Diagnostics;
+using DMT.Resources;
 
 namespace DMT.Modules.WallpaperChanger
 {
@@ -79,6 +80,9 @@ namespace DMT.Modules.WallpaperChanger
 					// now indicate the positions of the monitors
 					DisplayMonitors(compositor, g);
 					ShowSourceImageInfo();
+
+					// change label to indicate properties actually shown
+					labelProperties.Text = WallpaperStrings.WallpaperPropertiesDescription;
 				}
 
 				// display preview

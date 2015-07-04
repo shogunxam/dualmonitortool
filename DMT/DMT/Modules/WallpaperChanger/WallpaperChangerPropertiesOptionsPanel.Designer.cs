@@ -40,13 +40,14 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.labelProperties = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// picPreview
 			// 
-			this.picPreview.Location = new System.Drawing.Point(3, 3);
+			this.picPreview.Location = new System.Drawing.Point(3, 24);
 			this.picPreview.Name = "picPreview";
 			this.picPreview.Size = new System.Drawing.Size(494, 161);
 			this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -67,7 +68,7 @@
 			this.groupBox1.Controls.Add(this.linkLabelSource);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.label1);
-			this.groupBox1.Location = new System.Drawing.Point(3, 170);
+			this.groupBox1.Location = new System.Drawing.Point(3, 191);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(494, 101);
 			this.groupBox1.TabIndex = 1;
@@ -146,10 +147,19 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Provider:";
 			// 
+			// labelProperties
+			// 
+			this.labelProperties.Location = new System.Drawing.Point(3, 0);
+			this.labelProperties.Name = "labelProperties";
+			this.labelProperties.Size = new System.Drawing.Size(494, 13);
+			this.labelProperties.TabIndex = 2;
+			this.labelProperties.Text = "Details will appear here when DMT creates a wallpaper";
+			// 
 			// WallpaperChangerPropertiesOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.labelProperties);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.picPreview);
 			this.Name = "WallpaperChangerPropertiesOptionsPanel";
@@ -175,5 +185,6 @@
 		private System.Windows.Forms.LinkLabel linkLabelSource;
 		private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.LinkLabel linkLabelProvider;
+		private System.Windows.Forms.Label labelProperties;
 	}
 }

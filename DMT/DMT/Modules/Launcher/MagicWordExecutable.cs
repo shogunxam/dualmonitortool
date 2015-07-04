@@ -26,6 +26,8 @@ using System.Web;
 using System.Windows.Forms;
 using DMT.Library;
 using DMT.Library.PInvoke;
+using System.Net;
+using DMT.Library.Html;
 
 namespace DMT.Modules.Launcher
 {
@@ -366,7 +368,8 @@ namespace DMT.Modules.Launcher
 
 			if (parameterType == 'W')
 			{
-				return HttpUtility.UrlEncode(parameterValue);
+				//return HttpUtility.UrlEncode(parameterValue);
+				return HttpHelper.UrlEncode(parameterValue);
 			}
 			else // if (parameterType == 'I')
 			{

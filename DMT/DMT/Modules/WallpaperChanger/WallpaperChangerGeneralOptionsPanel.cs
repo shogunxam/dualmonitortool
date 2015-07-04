@@ -68,6 +68,8 @@ namespace DMT.Modules.WallpaperChanger
 
 			// ask the module to update time to next change
 			_wallpaperChangerModule.UpdateTimeToChange();
+
+			UpdatePeriodEnableStatus();
 		}
 
 		/// <summary>

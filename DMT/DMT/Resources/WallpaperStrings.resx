@@ -188,4 +188,7 @@ Use the 'Providers' option panel to add providers.</value>
   <data name="UnderStretch" xml:space="preserve">
     <value>Under stretch so as not to clip image</value>
   </data>
+  <data name="WallpaperPropertiesDescription" xml:space="preserve">
+    <value>Properties of the last wallpaper created by DMT</value>
+  </data>
 </root>

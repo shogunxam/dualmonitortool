@@ -158,11 +158,13 @@ namespace DMT.Library.Html
 				{
 					sb.Append("&");
 				}
-				sb.Append(HttpUtility.UrlEncode(postParameter.Item1, urlEncoding));
+				//sb.Append(HttpUtility.UrlEncode(postParameter.Item1, urlEncoding));
+				sb.Append(HttpHelper.UrlEncode(postParameter.Item1, urlEncoding));
 				if (postParameter.Item2 != null)
 				{
 					sb.Append("=");
-					sb.Append(HttpUtility.UrlEncode(postParameter.Item2, urlEncoding));
+					//sb.Append(HttpUtility.UrlEncode(postParameter.Item2, urlEncoding));
+					sb.Append(HttpHelper.UrlEncode(postParameter.Item2, urlEncoding));
 				}
 			}
 

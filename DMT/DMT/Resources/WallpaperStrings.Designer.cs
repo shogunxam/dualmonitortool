@@ -258,5 +258,14 @@ namespace DMT.Resources {
                 return ResourceManager.GetString("UnderStretch", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Properties of the last wallpaper created by DMT.
+        /// </summary>
+        internal static string WallpaperPropertiesDescription {
+            get {
+                return ResourceManager.GetString("WallpaperPropertiesDescription", resourceCulture);
+            }
+        }
     }
 }
