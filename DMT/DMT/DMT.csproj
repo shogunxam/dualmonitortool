@@ -105,6 +105,7 @@
     <Compile Include="Library\Html\HttpHelper.cs" />
     <Compile Include="Library\Html\HttpRequester.cs" />
     <Compile Include="Library\Html\HttpResponseData.cs" />
+    <Compile Include="Library\Html\IHttpConnectionManager.cs" />
     <Compile Include="Library\Html\IHttpRequester.cs" />
     <Compile Include="Library\Logging\ILogger.cs" />
     <Compile Include="Library\Logging\Logger.cs" />
