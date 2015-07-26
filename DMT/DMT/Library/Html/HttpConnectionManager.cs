@@ -28,7 +28,7 @@ namespace DMT.Library.Html
 	/// <summary>
 	/// Handles re-use of connections
 	/// </summary>
-	public class HttpConnectionManager
+	public class HttpConnectionManager : IHttpConnectionManager
 	{
 		List<HttpConnection> _connections = new List<HttpConnection>();
 
