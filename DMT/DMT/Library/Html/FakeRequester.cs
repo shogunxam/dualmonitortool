@@ -36,19 +36,20 @@ namespace DMT.Library.Html
 	{
 		public Uri LastResponseUri { get; protected set; }
 
-		public string GetPage(HttpConnection connection, Uri uri, string testPage)
+		public string GetPage(Uri uri, string testPage, out HttpConnection repliedConnection)
 		{
 			string pageData = string.Empty;
 
-			connection.LastUri = uri;
+			//connection.LastUri = uri;
 			string testPath = @"..\..\..\MockData\" + testPage + ".htm";
 			pageData = File.ReadAllText(testPath, Encoding.UTF8);
 			LastResponseUri = uri;
+			repliedConnection = null;
 
 			return pageData;
 		}
 
-		public Image GetImage(HttpConnection connection, Uri uri)
+		public Image GetImage(Uri uri)
 		{
 			Image image = null;
 

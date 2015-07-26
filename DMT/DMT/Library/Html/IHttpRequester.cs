@@ -29,7 +29,9 @@ namespace DMT.Library.Html
 	public interface IHttpRequester
 	{
 		Uri LastResponseUri { get; }
-		string GetPage(HttpConnection connection, Uri uri, string testPage);
-		Image GetImage(HttpConnection connection, Uri uri);
+		//string GetPage(HttpConnection connection, Uri uri, string testPage);
+		//Image GetImage(HttpConnection connection, Uri uri);
+		string GetPage(Uri uri, string testPage, out HttpConnection repliedConnection);
+		Image GetImage(Uri uri);
 	}
 }
