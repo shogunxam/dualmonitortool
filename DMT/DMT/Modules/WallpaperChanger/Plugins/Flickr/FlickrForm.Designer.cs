@@ -89,9 +89,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.checkBoxRandomPage.AutoSize = true;
 			this.checkBoxRandomPage.Location = new System.Drawing.Point(112, 258);
 			this.checkBoxRandomPage.Name = "checkBoxRandomPage";
-			this.checkBoxRandomPage.Size = new System.Drawing.Size(399, 17);
+			this.checkBoxRandomPage.Size = new System.Drawing.Size(405, 17);
 			this.checkBoxRandomPage.TabIndex = 30;
-			this.checkBoxRandomPage.Text = "Take image from random page (rather than page containig latest added photos)";
+			this.checkBoxRandomPage.Text = "Take image from random page (rather than page containing latest added photos)";
 			this.checkBoxRandomPage.UseVisualStyleBackColor = true;
 			// 
 			// buttonCancel

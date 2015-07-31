@@ -58,8 +58,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 
 		static Random _random = new Random();
 
-		HttpConnectionManager _connectionManager = new HttpConnectionManager();
-
+		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
 
 		public FlickrProvider(Dictionary<string, string> config, StringSetting apiKeySetting)
@@ -67,7 +66,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			_config = new FlickrConfig(config);
 			_apiKeySetting = apiKeySetting;
 
-			_httpRequester = new HttpRequester();
+			_connectionManager = new HttpConnectionManager();
+			_httpRequester = new HttpRequester(_connectionManager);
 		}
 
 		public Dictionary<string, string> ShowUserOptions()
@@ -122,20 +122,24 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				string sizesPageData = GetPage(sizesQuery, "flickrSizes");
 				string url = ParseSizesForBest(sizesPageData, optimumSize);
 
-				providerImage = new ProviderImage(GetImage(url));
-				providerImage.Provider = ProviderName;
-				providerImage.ProviderUrl = FlickrHome;
+				Image image = GetImage(url);
+				if (image != null)
+				{
+					providerImage = new ProviderImage(image);
+					providerImage.Provider = ProviderName;
+					providerImage.ProviderUrl = FlickrHome;
 
-				// get details of the image
-				FlickrQuery photoInfoQuery = GetPhotoInfoQuery(photoId);
-				string photoInfoPageData = GetPage(photoInfoQuery, "flickrPhotoInfo");
-				string photographerUserId;
-				ParsePhotoInfo(photoInfoPageData, providerImage, out photographerUserId);
+					// get details of the image
+					FlickrQuery photoInfoQuery = GetPhotoInfoQuery(photoId);
+					string photoInfoPageData = GetPage(photoInfoQuery, "flickrPhotoInfo");
+					string photographerUserId;
+					ParsePhotoInfo(photoInfoPageData, providerImage, out photographerUserId);
 
-				// get details of the photographer - already have name, but want their page
-				FlickrQuery peopleInfoQuery = GetPeopleInfoQuery(photographerUserId);
-				string peopleInfoPageData = GetPage(peopleInfoQuery, "flickrPeopleInfo");
-				ParsePeopleInfo(peopleInfoPageData, providerImage);
+					// get details of the photographer - already have name, but want their page
+					FlickrQuery peopleInfoQuery = GetPeopleInfoQuery(photographerUserId);
+					string peopleInfoPageData = GetPage(peopleInfoQuery, "flickrPeopleInfo");
+					ParsePeopleInfo(peopleInfoPageData, providerImage);
+				}
 			}
 
 			return providerImage;
@@ -166,16 +170,14 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		string GetPage(FlickrQuery query, string testPage)
 		{
 			Uri uri = GetUri(query);
-			HttpConnection connection = _connectionManager .GetConnection(uri);
-
-			return _httpRequester.GetPage(connection, uri, testPage);
+			HttpConnection repliedConnection;
+			return _httpRequester.GetPage(uri, testPage, out repliedConnection);
 		}
 
 		Image GetImage(string url)
 		{
 			Uri uri = new Uri(url);
-			HttpConnection connection = _connectionManager.GetConnection(uri);
-			return _httpRequester.GetImage(connection, uri);
+			return _httpRequester.GetImage(uri);
 		}
 
 		Uri GetUri(FlickrQuery query)

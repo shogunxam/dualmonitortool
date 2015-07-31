@@ -51,15 +51,15 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 		static Random _random = new Random();
 
-		HttpConnectionManager _connectionManager = new HttpConnectionManager();
-
+		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
 
 		public WebScrapeProvider(Dictionary<string, string> config)
 		{
 			_config = new WebScrapeConfig(config);
 
-			_httpRequester = new HttpRequester();
+			_connectionManager = new HttpConnectionManager();
+			_httpRequester = new HttpRequester(_connectionManager);
 		}
 
 		public Dictionary<string, string> ShowUserOptions()
@@ -115,17 +115,21 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 				string photographerUrl = GetFullUrl(photoDetails.PhotographerUrl, randomPageConnection);
 
 				string imageUrl = imageUrls[index].DownloadUrl;
-				providerImage = new ProviderImage(GetImage(imageUrl, randomPageConnection));
-				providerImage.Provider = ProviderName;
-				providerImage.ProviderUrl = "www.unsplash.com";
+				Image image = GetImage(imageUrl, randomPageConnection);
+				if (image != null)
+				{
+					providerImage = new ProviderImage(image);
+					providerImage.Provider = ProviderName;
+					providerImage.ProviderUrl = "www.unsplash.com";
 
-				// for image source, return url that responded in case of 302's
-				Uri uri = _httpRequester.LastResponseUri;
-				providerImage.Source = uri.ToString();
-				providerImage.SourceUrl = uri.ToString();
+					// for image source, return url that responded in case of 302's
+					Uri uri = _httpRequester.LastResponseUri;
+					providerImage.Source = uri.ToString();
+					providerImage.SourceUrl = uri.ToString();
 
-				providerImage.Photographer = photoDetails.Photographer;
-				providerImage.PhotographerUrl = photographerUrl;
+					providerImage.Photographer = photoDetails.Photographer;
+					providerImage.PhotographerUrl = photographerUrl;
+				}
 			}
 
 			return providerImage;
@@ -274,23 +278,20 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return maxPageNum;
 		}
 
-		string GetPage(string relativeUrl, HttpConnection parentConnection, string testPage, out HttpConnection connection)
+		string GetPage(string relativeUrl, HttpConnection parentConnection, string testPage, out HttpConnection repliedConnection)
 		{
 			Uri uri = GetFullUri(relativeUrl, parentConnection);
-			connection = _connectionManager.GetConnection(uri);
 
-			return _httpRequester.GetPage(connection, uri, testPage);
+			return _httpRequester.GetPage(uri, testPage, out repliedConnection);
 		}
 
 		Image GetImage(string relativeUrl, HttpConnection parentConnection)
 		{
 			Uri uri = GetFullUri(relativeUrl, parentConnection);
-			HttpConnection connection = _connectionManager.GetConnection(uri);
 
-			return _httpRequester.GetImage(connection, uri);
+			return _httpRequester.GetImage(uri);
 		}
 
-		// user to expand PhotographerUrl - which could be missing
 		string GetFullUrl(string relativeUrl, HttpConnection parentConnection)
 		{
 			if (string.IsNullOrEmpty(relativeUrl))

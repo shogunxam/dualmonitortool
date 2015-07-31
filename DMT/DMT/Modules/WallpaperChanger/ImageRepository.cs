@@ -124,7 +124,7 @@ namespace DMT.Modules.WallpaperChanger
 					if (weight > 0)
 					{
 						index -= weight;
-						if (index <= 0)
+						if (index < 0)
 						{
 							// use this provider
 							//return provider.GetRandomImage(optimumSize);

@@ -99,6 +99,193 @@ so if you are running it from a portable device, any options set will also be sa
 <p>If you want the application to reside in a read only directory, then this can be achieved by
 using a DmtFileLocations.xml file.  See the supplied DmtFileLocations-Sample.xml for further details.</p>
 
+<p class="SubHeading">Internal Commands</p>
+
+<p>Most of the commands within DMT can be run using a hotkey, a Magic Word or from the command line.</p>
+
+<p>To use with a Magic Word, when you are <a href="dmt_launcher.html#EditMagicWord">adding a magic word</a>,
+enter one of the commands mentioned below for the filename field. 
+Alternatively, and easier, use the "Internal Command" button on the same dialog to select a command
+from the drop down boxes.</p>
+
+<p>To use from the command line or in a batch file, specify the internal command as the parameter to DMT. 
+Note: There must be an existing instance of DMT running in the system notification area for this to work. 
+For example to change the wallpaper from a batch file, 
+you would add the following command to the batch file:</p>
+
+<p>DMT DMT:WallpaperChanger:ChangeWallpaper</p>
+
+<p>You may need to specify the full path to DMT.exe, if the location is not on your path.</p>
+
+<p>The following commands are available:</p>
+<table>
+	<tr>
+		<th>Command</th>
+		<th>Description</th>
+	</tr>
+	<tr>
+		<td>DMT:General:Options</td>
+		<td>Show options dialog.</td>
+	</tr>
+
+	<tr>
+		<td>DMT:Cursor:FreeCursor</td>
+		<td>Make cursor free to move between monitors.</td>
+	</tr>
+	<tr>
+		<td>DMT:Cursor:StickyCursor</td>
+		<td>Make cursor movement between monitors sticky.</td>
+	</tr>
+	<tr>
+		<td>DMT:Cursor:LockCursor</td>
+		<td>Locks the cursor to the current monitor.</td>
+	</tr>
+	<tr>
+		<td>DMT:Cursor:CursorToNextScreen</td>
+		<td>Moves the cursor to the next screen.</td>
+	</tr>
+	<tr>
+		<td>DMT:Cursor:CursorToPrevScreen</td>
+		<td>Moves the cursor to the previous screen.</td>
+	</tr>
+
+	<tr>
+		<td>DMT:Launcher:Activate</td>
+		<td>Show the Magic Word entry dialog. This is not available for use from a magic word.</td>
+	</tr>
+	<tr>
+		<td>DMT:Launcher:AddMagicWord</td>
+		<td>Show the 'Add Magic Word' dialog.</td>
+	</tr>
+
+	<tr>
+		<td>DMT:Snap:TakeSnap</td>
+		<td>Take a snap of the primary monitor.</td>
+	</tr>
+	<tr>
+		<td>DMT:Snap:ShowSnap</td>
+		<td>Toggle display of current snap.</td>
+	</tr>
+
+	<tr>
+		<td>DMT:SwapScreen:NextScreen</td>
+		<td>Move active window to next screen.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:PrevScreen</td>
+		<td>Move active window to previous screen.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:Minimise</td>
+		<td>Minimize the active window.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:Maximise</td>
+		<td>Maximize the active window.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:Supersize</td>
+		<td>Supersize the active window.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:SwapTop2</td>
+		<td>Swap position and size of the top 2 windows.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:SnapLeft</td>
+		<td>Moves the active window to the half screen position to its left.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:SnapRight</td>
+		<td>Moves the active window to the half screen position to its right.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:SnapUp</td>
+		<td>Moves the active window to the half screen position above it.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:SnapDown</td>
+		<td>Moves the active window to the half screen position below it.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:MinimiseAllBut</td>
+		<td>Minimize all windows apart from the active window.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:RotateNext</td>
+		<td>Move every window to its next screen.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:RotatePrev</td>
+		<td>Move every window to its previous screen.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:ShowDesktop1</td>
+		<td>Minimize all windows on monitor 1.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:ShowDesktop2</td>
+		<td>Minimize all windows on monitor 2.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:ShowDesktop3</td>
+		<td>Minimize all windows on monitor 3.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:ShowDesktop4</td>
+		<td>Minimize all windows on monitor 4.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA0</td>
+		<td>Move the active window to User Defined Area 0.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA1</td>
+		<td>Move the active window to User Defined Area 1.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA2</td>
+		<td>Move the active window to User Defined Area 2.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA3</td>
+		<td>Move the active window to User Defined Area 3.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA4</td>
+		<td>Move the active window to User Defined Area 4.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA5</td>
+		<td>Move the active window to User Defined Area 5.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA6</td>
+		<td>Move the active window to User Defined Area 6.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA7</td>
+		<td>Move the active window to User Defined Area 7.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA8</td>
+		<td>Move the active window to User Defined Area 8.</td>
+	</tr>
+	<tr>
+		<td>DMT:SwapScreen:UDA9</td>
+		<td>Move the active window to User Defined Area 9.</td>
+	</tr>
+	<tr>
+		<td>DMT:WallpaperChanger:ChangeWallpaper</td>
+		<td>Change the wallpaper now.</td>
+	</tr>
+	<tr>
+		<td>DMT:WallpaperChanger:PauseWallpaper</td>
+		<td>Pause changing wallpaper.  Works as a toggle.</td>
+	</tr>
+
+
+</table>
 </div>
 
 </div>
@@ -106,7 +293,7 @@ using a DmtFileLocations.xml file.  See the supplied DmtFileLocations-Sample.xml
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 14 Jun 2015
+		last updated 14 Jul 2015
 		</div>
 	</div>
 </div>
