@@ -90,6 +90,12 @@ then the 'Fit' combo box determines any scaling that need to be applied to the i
 
 <p>Initially no providers (of images) are set up, so click on the 'Providers' options to add/edit/delete providers.</p>
 
+<p class="SubHeading">'Properties' options</p>
+
+<img src="Images/dmt_wallpaperchanger_properties.png" alt="Wallpaper Changer properties" />
+
+<p>Once DMT has generated a wallpaper, this will show the source and any available details of the image(s) used.</p>
+
 <p class="SubHeading">'Providers' options</p>
 
 <img src="Images/dmt_wallpaperchanger_providers.png" alt="Wallpaper Changer providers" />
@@ -101,6 +107,8 @@ to be chosen from the provider with a weight of 4 than from the provider with a 
 <p>Three provides are currently supported:</p>
 <ul>
 	<li>Local disk - provides images saved in a folder (with an option to look in sub-folders) on an attached drive.</li>
+	<li>Flickr - provides images from <a href="https://www.flickr.com/" target="_blank">www.flickr.com</a>.
+	You will need an API key from flickr for this.  See below for more details.</li>
 	<li>Unspash - provides images from <a href="http://www.unsplash.com" target="_blank">www.unsplash.com</a>.
 	Please see their <a href="https://unsplash.com/terms" target="_blank">terms and conditions</a> on the use of these images
 	and in particular please note that the usage is restricted to persons who are at least 18 years old.</li>
@@ -108,6 +116,18 @@ to be chosen from the provider with a weight of 4 than from the provider with a 
 </ul>
 
 <p>If you use a provider that takes images from an external source, please respect any terms and conditions they may have.</p>
+
+<p class="SubHeading">Flickr API Key</p>
+
+<p>To download images from Flickr, you will need to obtain an API Key from Flickr.</p>
+
+<p>To obtain the API key, visit <a href="https://www.flickr.com/services/api/misc.api_keys.html" target="_blank">https://www.flickr.com/services/api/misc.api_keys.html</a>
+and click on the "Apply for your key online now" link.  You will need a Flickr or Yahoo account to do this.
+Then click on the "APPLY FOR A NON-COMMERCIAL KEY" button. For the name of the app, enter "DMT" and for the details enter "For use with the Dual Monitor Tools open source application".
+When you have the key, you can select flickr as a provider from DMT's list of providers and paste the key into last field of the dialog:</p>
+
+<img src="Images/dmt_wallpaperchanger_flickr.png" alt="Flickr provider form" />
+
 
 
 </div>
@@ -117,7 +137,7 @@ to be chosen from the provider with a weight of 4 than from the provider with a 
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 14 Jun 2015
+		last updated 17 Aug 2015
 		</div>
 	</div>
 </div>
