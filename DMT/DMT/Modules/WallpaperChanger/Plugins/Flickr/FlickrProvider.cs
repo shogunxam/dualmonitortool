@@ -133,7 +133,20 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 					FlickrQuery photoInfoQuery = GetPhotoInfoQuery(photoId);
 					string photoInfoPageData = GetPage(photoInfoQuery, "flickrPhotoInfo");
 					string photographerUserId;
-					ParsePhotoInfo(photoInfoPageData, providerImage, out photographerUserId);
+					int rotation = ParsePhotoInfo(photoInfoPageData, providerImage, out photographerUserId);
+
+					if (rotation == 90)
+					{
+						providerImage.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+					}
+					else if (rotation == -90 || rotation == 270)
+					{
+						providerImage.Image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+					}
+					else if (rotation == 180)
+					{
+						providerImage.Image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+					}
 
 					// get details of the photographer - already have name, but want their page
 					FlickrQuery peopleInfoQuery = GetPeopleInfoQuery(photographerUserId);
@@ -375,7 +388,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 							}
 						}
 						// don't want original, as this doesn't reflect any possible rotation of the image
-						if (string.Compare(label, "Original", true) != 0)
+						//if (string.Compare(label, "Original", true) != 0)
 						{
 							if (IsBetterSize(width, height, optimumSize, bestWidth, bestHeight))
 							{
@@ -429,16 +442,27 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return query;
 		}
 
-		void ParsePhotoInfo(string photoInfoPageData, ProviderImage providerImage, out string userId)
+		int ParsePhotoInfo(string photoInfoPageData, ProviderImage providerImage, out string userId)
 		{
 			userId = "";
+			int rotation = 0;
 
 			XmlReader xmlReader = XmlReader.Create(new StringReader(photoInfoPageData));
 			while (xmlReader.Read())
 			{
 				if (xmlReader.NodeType == XmlNodeType.Element)
 				{
-					if (xmlReader.LocalName == "owner")
+					if (xmlReader.LocalName == "photo")
+					{
+						while (xmlReader.MoveToNextAttribute())
+						{
+							if (xmlReader.Name == "rotation")
+							{
+								int.TryParse(xmlReader.Value, out rotation);
+							}
+						}
+					}
+					else if (xmlReader.LocalName == "owner")
 					{
 						string userName = null;
 						string realName = null;
@@ -481,6 +505,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 					}
 				}
 			}
+
+			return rotation;
 		}
 
 		string ChooseName(string userName, string realName)
