@@ -56,6 +56,7 @@ namespace DMT.Modules.WallpaperChanger
 		private void WallpaperChangerGeneralOptionsPanel_Load(object sender, EventArgs e)
 		{
 			checkBoxChangeOnStart.Checked = _wallpaperChangerModule.ChangeOnStartup;
+			checkBoxChangeOnResolutionChange.Checked = _wallpaperChangerModule.ChangeOnResolutionChange;
 			checkBoxChangePeriodically.Checked = _wallpaperChangerModule.ChangePeriodically;
 			checkBoxFade.Checked = _wallpaperChangerModule.SmoothFade;
 			numericUpDownHours.Value = (decimal)_wallpaperChangerModule.IntervalHours;
@@ -139,6 +140,11 @@ namespace DMT.Modules.WallpaperChanger
 		private void checkBoxChangeOnStart_CheckedChanged(object sender, EventArgs e)
 		{
 			_wallpaperChangerModule.ChangeOnStartup = checkBoxChangeOnStart.Checked;
+		}
+
+		private void checkBoxChangeOnResolutionChange_CheckedChanged(object sender, EventArgs e)
+		{
+			_wallpaperChangerModule.ChangeOnResolutionChange = checkBoxChangeOnResolutionChange.Checked;
 		}
 
 		private void checkBoxChangePeriodically_CheckedChanged(object sender, EventArgs e)

@@ -176,6 +176,11 @@ namespace DMT.Modules.Cursor
 			_curCursorType = CursorType.Free;
 		}
 
+		public override void DisplayResolutionChanged()
+		{
+			ReBuildBarriers();
+		}
+
 		void InitCursorMode(CursorType initCursorType)
 		{
 			// put everything in a fixed state (with a free cursor)
@@ -571,6 +576,8 @@ namespace DMT.Modules.Cursor
 		// to the screen that it is currently on.
 		// This can be called by the low level mouse hook callback,
 		// so needs to be reasonably efficient.
+		//
+		// Note: no locking is currently employed so need to be carefull of the order in which things are done
 		private void ReBuildBarriers(Point pt)
 		{
 			Screen curScreen = Screen.FromPoint(pt);

@@ -63,10 +63,20 @@ namespace DMT.Modules.Cursor
 		/// we allow the cursor to break through the barrier.</param>
 		public void ChangeBarrier(bool active, int limit, int minForce)
 		{
-			this.active = active;
+			// as no locking is performed 
+			// if state goes from !active -> active - do this at the end
+			// if state goes from active -> !active - do this at the start
+			if (!active)
+			{
+				this.active = active;
+			}
 			this.limit = limit;
 			this.minForce = minForce;
 			this.totalForce = 0;
+			if (active)
+			{
+				this.active = active;
+			}
 		}
 	}
 }

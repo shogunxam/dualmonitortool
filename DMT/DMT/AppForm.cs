@@ -60,8 +60,9 @@ namespace DMT
 			AddMenuItem("Exit", null, exitToolStripMenuItem_Click);
 
 			// handle system events
-			SystemEvents.SessionEnding += SystemEvents_SessionEnding;
-			SystemEvents.SessionEnded += SystemEvents_SessionEnded;
+			SystemEvents.SessionEnding += new SessionEndingEventHandler(SystemEvents_SessionEnding);
+			SystemEvents.SessionEnded += new SessionEndedEventHandler(SystemEvents_SessionEnded);
+			SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
 		}
 
 		void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
@@ -76,6 +77,14 @@ namespace DMT
 			_controller.Logger.LogInfo("AppForm", "SessionEnded - in");
 			CleanUp();
 			_controller.Logger.LogInfo("AppForm", "SessionEnded - out");
+		}
+
+		void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
+		{
+			if (_controller != null)
+			{
+				_controller.DisplayResolutionChanged();
+			}
 		}
 
 		public ToolStripMenuItem AddMenuItem(string text, Image image, EventHandler eventHandler)
@@ -142,6 +151,11 @@ namespace DMT
 			ShutDown();
 		}
 
+
+		private void AppForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+
+		}
 
 
 		// dynamically add any needed menu items to the context menu
@@ -218,9 +232,10 @@ namespace DMT
 		{
 			_controller.Stop();
 
-			// is this really necessary?
-			//SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
-			//SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
+			// is this really necessary if called from SessionEnded ?
+			SystemEvents.DisplaySettingsChanged -= new EventHandler(SystemEvents_DisplaySettingsChanged);
+			SystemEvents.SessionEnding -= new SessionEndingEventHandler( SystemEvents_SessionEnding);
+			SystemEvents.SessionEnded -= new SessionEndedEventHandler(SystemEvents_SessionEnded);
 		}
 	}
 }

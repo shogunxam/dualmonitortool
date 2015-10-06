@@ -67,6 +67,13 @@ namespace DMT.Modules
 		}
 
 		/// <summary>
+		/// Called when the display resolution changes
+		/// </summary>
+		public virtual void DisplayResolutionChanged()
+		{
+		}
+
+		/// <summary>
 		/// Gives the module a chance to flush any data out to disk
 		/// Will be called if the app is closing or system about to shutdown
 		/// </summary>

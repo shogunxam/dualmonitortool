@@ -73,6 +73,7 @@
 			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Name = "AppForm";
 			this.Text = "DMT_GUI_WINDOW";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AppForm_FormClosing);
 			this.contextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 

@@ -31,45 +31,10 @@ namespace DMT.Modules
 	class ModuleRepository : IModuleService, ICommandRunner
 	{
 		List<Module> _modules = new List<Module>();
-		//const string _internalCommandPrefix = "DMT:";
-
-		//#region Singleton support
-		//// the single instance of this object
-		//static readonly ModuleRepository instance = new ModuleRepository();
-
-		//// Explicit static constructor to tell C# compiler
-		//// not to mark type as beforefieldinit
-		//static ModuleRepository()
-		//{
-		//}
-
-		//ModuleRepository()
-		//{
-		//	InitModuleList();
-		//}
-
-		//public static ModuleRepository Instance
-		//{
-		//	get
-		//	{
-		//		return instance;
-		//	}
-		//}
-		//#endregion
 
 		public ModuleRepository()
 		{
-			//InitModuleList();
 		}
-
-		//void InitModuleList()
-		//{
-		//	_modules = new List<Module>();
-
-		//	_modules.Add(new GeneralModule());
-		//	_modules.Add(new SwapScreen.SwapScreenModule());
-		//	_modules.Add(new Cursor.CursorModule());
-		//}
 
 		public void AddModule(Module module)
 		{
@@ -80,7 +45,6 @@ namespace DMT.Modules
 		{
 			return _modules;
 		}
-
 
 		public IEnumerable<ModuleOptionNode> GetOptionNodes(Form form)
 		{
@@ -106,6 +70,14 @@ namespace DMT.Modules
 			foreach (Module module in _modules)
 			{
 				module.StartUpComplete();
+			}
+		}
+
+		public void DisplayResolutionChanged()
+		{
+			foreach (Module module in _modules)
+			{
+				module.DisplayResolutionChanged();
 			}
 		}
 
@@ -163,28 +135,6 @@ namespace DMT.Modules
 			}
 			return null;
 		}
-
-		//bool SplitInternalCommand(string command, out string moduleName, out string commandName)
-		//{
-		//	if (command.StartsWith(_internalCommandPrefix))
-		//	{
-		//		string moduleAction = command.Substring(_internalCommandPrefix.Length);
-
-		//		// split what's left into the module name and the action to be performed
-		//		int idx = moduleAction.IndexOf(':');
-		//		if (idx > 0)
-		//		{
-		//			moduleName = moduleAction.Substring(0, idx);
-		//			commandName = moduleAction.Substring(idx + 1);
-
-		//			return true;
-		//		}
-		//	}
-
-		//	moduleName = null;
-		//	commandName = null;
-		//	return false;
-		//}
 
 		Module FindModule(string moduleName)
 		{

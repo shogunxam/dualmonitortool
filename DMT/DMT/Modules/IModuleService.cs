@@ -31,6 +31,7 @@ namespace DMT.Modules
 		void AddModule(Module module);
 		void StartAllModules();
 		void StartUpComplete();
+		void DisplayResolutionChanged();
 		IEnumerable<Module> GetAllModules();
 		IEnumerable<ModuleOptionNode> GetOptionNodes(Form form);
 		void FlushAllModules();

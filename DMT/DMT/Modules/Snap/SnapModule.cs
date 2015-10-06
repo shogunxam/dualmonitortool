@@ -113,9 +113,17 @@ namespace DMT.Modules.Snap
 			{
 				_snapForm.Terminate();
 			}
-
 		}
 
+		public override void DisplayResolutionChanged()
+		{
+			// if resolution of secondary monitor changes, 
+			// we need to re-position the window
+			if (_snapForm != null && _snapForm.Visible)
+			{
+				ShowLastSnap();
+			}
+		}
 
 		public override ModuleOptionNode GetOptionNodes()
 		{

@@ -108,6 +108,14 @@ namespace DMT
 		//	_logger.LogInfo("Controller", "SessionEnded processing end");
 		//}
 
+		public void DisplayResolutionChanged()
+		{
+			if (_moduleService != null)
+			{
+				_moduleService.DisplayResolutionChanged();
+			}
+		}
+
 		public void Flush()
 		{
 			_moduleService.FlushAllModules();

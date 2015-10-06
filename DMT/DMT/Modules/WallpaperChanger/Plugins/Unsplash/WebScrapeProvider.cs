@@ -160,9 +160,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 			string aHref = string.Empty;
 			string aInnerText = string.Empty;
-			//bool inH2 = false;
-
-			PhotoDetails photoDetails = new PhotoDetails();
+			string photoUrl = string.Empty;
+			bool inH2 = false;
 
 			HtmlReader htmlReader = new HtmlReader(page);
 			while (htmlReader.Read())
@@ -172,12 +171,16 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 					HtmlElement element = new HtmlElement(htmlReader.Value);
 					if (element.GetElementName() == "h2")
 					{
-						//inH2 = true;
-						photoDetails.Clear();
+						inH2 = true;
 					}
 					else if (element.GetElementName() == "a")
 					{
 						aHref = element.GetAttribute("href");
+						string title = element.GetAttribute("title");
+						if (title != null && title.StartsWith("Download the high"))
+						{
+							photoUrl = aHref;
+						}
 					}
 				}
 				else if (htmlReader.NodeType == HtmlNodeType.EndElement)
@@ -185,19 +188,21 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 					HtmlElement element = new HtmlElement(htmlReader.Value);
 					if (element.GetElementName() == "a")
 					{
-						if (string.Compare(aInnerText, "Download", true) == 0)
+						if (inH2)
 						{
-							if (!string.IsNullOrEmpty(aHref))
+							// h2 now only used around author
+							if (!string.IsNullOrEmpty(photoUrl))
 							{
-								photoDetails.DownloadUrl = aHref;
-							}
-						}
-						else
-						{
-							photoDetails.Photographer = aInnerText;
-							if (!string.IsNullOrEmpty(aHref))
-							{
-								photoDetails.PhotographerUrl = aHref;
+								// should now have all the details we need
+								PhotoDetails photoDetails = new PhotoDetails();
+								photoDetails.Photographer = aInnerText;
+								if (!string.IsNullOrEmpty(aHref))
+								{
+									photoDetails.PhotographerUrl = aHref;
+								}
+								photoDetails.DownloadUrl = photoUrl;
+								images.Add(photoDetails);
+								photoUrl = string.Empty;
 							}
 						}
 						aInnerText = string.Empty;
@@ -205,16 +210,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 					}
 					else if (element.GetElementName() == "h2")
 					{
-						if (!string.IsNullOrEmpty(photoDetails.DownloadUrl))
-						{
-							images.Add(photoDetails);
-							photoDetails = new PhotoDetails();
-						}
-						//inH2 = false;
+						inH2 = false;
 					}
 				}
 				else if (htmlReader.NodeType == HtmlNodeType.Text)
 				{
+					// NOTE: only remembers last text string
 					aInnerText = htmlReader.Value;
 				}
 			}

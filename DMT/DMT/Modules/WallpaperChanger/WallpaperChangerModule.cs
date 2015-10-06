@@ -65,6 +65,8 @@ namespace DMT.Modules.WallpaperChanger
 
 		ToolStripMenuItem _pauseToolStripMenuItem;
 
+		bool _started = false;
+
 		// hotkey to change wallpaper now
 		public HotKeyController ChangeWallpaperHotKeyController { get; protected set; }
 
@@ -81,6 +83,13 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			get { return IntervalMinutesSetting.Value; }
 			set { IntervalMinutesSetting.Value = value; }
+		}
+
+		BoolSetting ChangeOnResolutionChangeSetting { get; set; }
+		public bool ChangeOnResolutionChange
+		{
+			get { return ChangeOnResolutionChangeSetting.Value; }
+			set { ChangeOnResolutionChangeSetting.Value = value; }
 		}
 
 		BoolSetting ChangeOnStartupSetting { get; set; }
@@ -162,6 +171,7 @@ namespace DMT.Modules.WallpaperChanger
 			IntervalHoursSetting = new IntSetting(_settingsService, ModuleName, "IntervalHours", _defaultIntervalHours);
 			IntervalMinutesSetting = new IntSetting(_settingsService, ModuleName, "IntervalMinutes", _defaultIntervalMinutes);
 			ChangeOnStartupSetting = new BoolSetting(_settingsService, ModuleName, "ChangeOnStartup", false);
+			ChangeOnResolutionChangeSetting = new BoolSetting(_settingsService, ModuleName, "ChangeOnResolutionChange", false);
 			ChangePeriodicallySetting = new BoolSetting(_settingsService, ModuleName, "ChangePeriodically", false);
 			SmoothFadeSetting = new BoolSetting(_settingsService, ModuleName, "SmoothFade", false);
 			BackgroundColourSetting = new IntSetting(_settingsService, ModuleName, "BackgroundColour", Color.Black.ToArgb());
@@ -185,6 +195,8 @@ namespace DMT.Modules.WallpaperChanger
 			_appForm.AddMenuItem(WallpaperStrings.ChangeWallpaperNow, null, changeWallpaperNowToolStripMenuItem_Click);
 			_pauseToolStripMenuItem = _appForm.AddMenuItem(WallpaperStrings.PauseWallpaperChanging, null, pauseWallpaperChangingToolStripMenuItem_Click);
 			_appForm.AddMenuItem("-", null, null);
+
+			_started = true;
 		}
 
 		public override ModuleOptionNode GetOptionNodes()
@@ -207,6 +219,19 @@ namespace DMT.Modules.WallpaperChanger
 			//	_entryForm.Terminate();
 			//}
 
+		}
+
+		public override void DisplayResolutionChanged()
+		{
+			//if (_started)
+			{
+				// may be worth checking if there is a mismatch between current resolutions
+				// and those used when we last generated the wallpaper?
+				if (ChangeOnResolutionChange)
+				{
+					UpdateWallpaper();
+				}
+			}
 		}
 
 		/// <summary>
