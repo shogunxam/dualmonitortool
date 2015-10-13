@@ -77,7 +77,7 @@ namespace DMT.Modules.WallpaperChanger
 			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.LocalDisk.LocalDiskPlugin());
 			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.RandomShapes.RandomShapesPlugin());
 			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Unsplash.WebScrapePlugin());
-			//Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Flickr.FlickrPlugin(_settingsService));
+			Plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Flickr.FlickrPlugin(_settingsService));
 		}
 
 		/// <summary>

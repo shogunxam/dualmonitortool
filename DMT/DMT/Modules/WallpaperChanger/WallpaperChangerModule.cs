@@ -30,6 +30,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -223,7 +224,7 @@ namespace DMT.Modules.WallpaperChanger
 
 		public override void DisplayResolutionChanged()
 		{
-			//if (_started)
+			if (_started)
 			{
 				// may be worth checking if there is a mismatch between current resolutions
 				// and those used when we last generated the wallpaper?
@@ -258,7 +259,32 @@ namespace DMT.Modules.WallpaperChanger
 		/// </summary>
 		public void UpdateWallpaper()
 		{
+			//_desktop.UpdateWallpaper();
+			//_minutesSinceLastChange = 0;
+			//UpdateTimeToChange();
+			//UpdateWallpaperPreview();
+
+
+			Thread t = new Thread(new ThreadStart(UpdateWallpaperThread));
+			t.IsBackground = true;
+			t.Start();
+		}
+
+		void UpdateWallpaperThread()
+		{
 			_desktop.UpdateWallpaper();
+
+			// inform UI that wallpaper has now been updated
+			WallpaperUpdatedEvent();
+		}
+
+		void WallpaperUpdatedEvent()
+		{
+			if (_appForm.InvokeRequired)
+			{
+				_appForm.BeginInvoke(new Action(WallpaperUpdatedEvent));
+				return;
+			}
 			_minutesSinceLastChange = 0;
 			UpdateTimeToChange();
 			UpdateWallpaperPreview();
@@ -374,7 +400,7 @@ namespace DMT.Modules.WallpaperChanger
 			string msgText;
 			Color msgColor = SystemColors.ControlText;
 
-			if (_imageRepository.DataSource.Count == 0)
+			if (_imageRepository.DataSource == null || _imageRepository.DataSource.Count == 0)
 			{
 				msgText = WallpaperStrings.MsgNoProviders;
 				msgColor = Color.Red;

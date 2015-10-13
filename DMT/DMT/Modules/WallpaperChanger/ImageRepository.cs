@@ -50,12 +50,12 @@ namespace DMT.Modules.WallpaperChanger
 			_logger = logger;
 
 			LoadProviders();
-			_providers.ListChanged += new ListChangedEventHandler(Providers_ListChanged);
+			//_providers.ListChanged += new ListChangedEventHandler(Providers_ListChanged);
 		}
 
-		private void Providers_ListChanged(object sender, ListChangedEventArgs e)
-		{
-		}
+		//private void Providers_ListChanged(object sender, ListChangedEventArgs e)
+		//{
+		//}
 
 		/// <summary>
 		/// Savs the current list of providers together with their configuration
