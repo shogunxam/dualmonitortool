@@ -111,6 +111,7 @@
     <Compile Include="Library\Logging\Logger.cs" />
     <Compile Include="Library\PInvoke\ActiveDesktop.cs" />
     <Compile Include="Library\Settings\StringSetting.cs" />
+    <Compile Include="Library\Utils\RNG.cs" />
     <Compile Include="Library\Utils\SafeFileWriter.cs" />
     <Compile Include="Library\Transform\Scaler.cs" />
     <Compile Include="Library\GuiUtils\ScreenHelper.cs" />

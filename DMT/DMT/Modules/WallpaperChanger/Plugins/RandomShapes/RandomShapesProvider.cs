@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Utils;
 using DMT.Library.WallpaperPlugin;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 
 		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
 
-		static Random _random = new Random();
+		//static Random _random = new Random();
 
 		public RandomShapesProvider(Dictionary<string, string> config)
 		{
@@ -109,7 +110,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			if (drawRectangle && drawEllipse)
 			{
 				// need to choose one or the other
-				if (_random.Next(0, 2) == 0)
+				//if (_random.Next(0, 2) == 0)
+				if (RNG.Next(0, 2) == 0)
 				{
 					drawRectangle = false;
 				}
@@ -148,10 +150,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 
 		Color GetRandomColor(bool useAlpha)
 		{
-			int alpha = useAlpha ? _random.Next(256) : 255;
-			int red = _random.Next(256);
-			int green = _random.Next(256);
-			int blue = _random.Next(256);
+			int alpha = useAlpha ? RNG.Next(256) : 255;
+			int red = RNG.Next(256);
+			int green = RNG.Next(256);
+			int blue = RNG.Next(256);
 			Color color = Color.FromArgb(alpha, red, green, blue);
 			return color;
 		}
@@ -166,11 +168,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			int maxWidth = maximumSize.Width / 10 + maximumSize.Width * 9 * multiplier / (totalNum * 10);
 			int maxHeight = maximumSize.Height / 10 + maximumSize.Height * 9 * multiplier / (totalNum * 10);
 
-			width = _random.Next(maximumSize.Width / 10, maxWidth);
-			height = _random.Next(maximumSize.Height / 10, maxHeight);
+			width = RNG.Next(maximumSize.Width / 10, maxWidth);
+			height = RNG.Next(maximumSize.Height / 10, maxHeight);
 
-			int x = _random.Next(-width, maximumSize.Width);
-			int y = _random.Next(-height, maximumSize.Height);
+			int x = RNG.Next(-width, maximumSize.Width);
+			int y = RNG.Next(-height, maximumSize.Height);
 
 			return new Rectangle(x, y, width, height);
 		}

@@ -56,7 +56,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 
 		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
 
-		static Random _random = new Random();
+		//static Random _random = new Random();
 
 		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
@@ -100,7 +100,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				int numPages = ParseHitsPageForNumPages(hitsPageData);
 				if (numPages > 1)
 				{
-					int randomPage = _random.Next(1, numPages + 1);   // (inclusive, exclusive)
+					//int randomPage = _random.Next(1, numPages + 1);   // (inclusive, exclusive)
+					int randomPage = RNG.Next(1, numPages + 1);   // (inclusive, exclusive)
 					if (randomPage > 1)	// if 1, we already have that page
 					{
 						searchQuery = GetSearchQuery(ApiKey, _config, randomPage);
@@ -114,7 +115,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			// choose a photoid at random
 			if (photoIds.Count > 0)
 			{
-				int rand = _random.Next(0, photoIds.Count);  // (inclusive, exclusive)
+				//int rand = _random.Next(0, photoIds.Count);  // (inclusive, exclusive)
+				int rand = RNG.Next(0, photoIds.Count);  // (inclusive, exclusive)
 				string photoId = photoIds[rand];
 
 				// get available sizes

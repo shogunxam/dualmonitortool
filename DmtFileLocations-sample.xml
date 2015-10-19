@@ -37,7 +37,7 @@
 	<!-- Location for saved wallpaper providers -->
 	<!-- <filelocation name="wallpaperproviders" value="DmtWallpaperProviders.xml" /> -->
 
-	<!-- Location for image to be used as Windows wallpaper -->
+	<!-- Location for image to be used when creating Windows wallpaper -->
 	<!-- <filelocation name="wallpaper" value="DmtWallpaper.bmp" /> -->
 
 	<!-- Location for log file (for debugging).

@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library.Html;
+using DMT.Library.Utils;
 using DMT.Library.WallpaperPlugin;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
 
-		static Random _random = new Random();
+		//static Random _random = new Random();
 
 		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
@@ -108,7 +109,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			if (imageUrls.Count > 0)
 			{
 				// choose a random image
-				int index = _random.Next(imageUrls.Count);
+				//int index = _random.Next(imageUrls.Count);
+				int index = RNG.Next(imageUrls.Count);
 				PhotoDetails photoDetails = imageUrls[index];
 
 				// expand the links before performing any requests
@@ -143,7 +145,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			int maxPages = ParseNumPagesOnPage(homePage);
 			if (maxPages > 0)
 			{
-				int randomPage = _random.Next(1, maxPages + 1); // (inclusive, exclusive)
+				//int randomPage = _random.Next(1, maxPages + 1); // (inclusive, exclusive)
+				int randomPage = RNG.Next(1, maxPages + 1); // (inclusive, exclusive)
 				// don't ask for the first page again
 				if (randomPage > 1)
 				{

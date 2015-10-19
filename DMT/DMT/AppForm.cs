@@ -18,6 +18,7 @@
 #endregion
 
 using DMT.Library.Command;
+using DMT.Library.Logging;
 using DMT.Library.PInvoke;
 using DMT.Resources;
 using Microsoft.Win32;
@@ -36,18 +37,13 @@ namespace DMT
 {
 	public partial class AppForm : Form
 	{
-		Controller _controller;
+		Controller _controller = null;
 		OptionsForm _optionsForm = null;
 		AboutForm _aboutForm = null;
-		//uint _commandMessage;
 
 		public AppForm()
 		{
 			InitializeComponent();
-
-			//// register message to receive commands
-			//CommandMessaging commandMessaging = new CommandMessaging();
-			//_commandMessage = commandMessaging.GetCommandMessage();
 
 			InitContextMenu();
 
@@ -67,16 +63,19 @@ namespace DMT
 
 		void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
 		{
-			_controller.Logger.LogInfo("AppForm", "SessionEnding - in");
-			_controller.Flush();
-			_controller.Logger.LogInfo("AppForm", "SessionEnding - out");
+			LogInfo("SessionEnding - in");
+			if (_controller != null)
+			{
+				_controller.Flush();
+			}
+			LogInfo("SessionEnding - out");
 		}
 
 		void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
 		{
-			_controller.Logger.LogInfo("AppForm", "SessionEnded - in");
+			LogInfo("SessionEnded - in");
 			CleanUp();
-			_controller.Logger.LogInfo("AppForm", "SessionEnded - out");
+			LogInfo("SessionEnded - out");
 		}
 
 		void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -101,13 +100,6 @@ namespace DMT
 
 		protected override void WndProc(ref Message m)
 		{
-			//if (m.Msg == _commandMessage)
-			//{
-			//	string command = Marshal.PtrToStringUni(m.LParam);
-			//	string parameters = null;
-			//	_controller.RunInternalCommand(command, parameters);
-
-			//}
 			if (m.Msg == Win32.WM_COPYDATA)
 			{
 				Win32.COPYDATASTRUCT cds = (Win32.COPYDATASTRUCT)m.GetLParam(typeof(Win32.COPYDATASTRUCT));
@@ -230,12 +222,29 @@ namespace DMT
 		// This is what we do just before we exit
 		void CleanUp()
 		{
-			_controller.Stop();
+			if (_controller != null)
+			{
+				_controller.Stop();
+			}
 
 			// is this really necessary if called from SessionEnded ?
 			SystemEvents.DisplaySettingsChanged -= new EventHandler(SystemEvents_DisplaySettingsChanged);
 			SystemEvents.SessionEnding -= new SessionEndingEventHandler( SystemEvents_SessionEnding);
 			SystemEvents.SessionEnded -= new SessionEndedEventHandler(SystemEvents_SessionEnded);
+		}
+
+		void LogInfo(string format, params object[] formatParams)
+		{
+			ILogger logger = null;
+			//if (_controller != null)
+			//{
+			//	logger = _controller.Logger;
+			//}
+			//else
+			{
+				logger = new Logger();
+			}
+			logger.LogInfo("AppForm", format, formatParams);
 		}
 	}
 }

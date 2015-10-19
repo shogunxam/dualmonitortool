@@ -19,6 +19,7 @@
 
 using DMT.Library.Binding;
 using DMT.Library.Logging;
+using DMT.Library.Utils;
 using DMT.Library.Wallpaper;
 using DMT.Library.WallpaperPlugin;
 using System;
@@ -41,7 +42,7 @@ namespace DMT.Modules.WallpaperChanger
 		IProviderPersistence _providerPersistence;
 		ILogger _logger;
 
-		static Random _random = new Random();
+		//static Random _random = new Random();
 
 
 		public ImageRepository(IProviderPersistence providerPersistence, ILogger logger)
@@ -115,7 +116,8 @@ namespace DMT.Modules.WallpaperChanger
 			if (totalWeight > 0)
 			{
 				//Random random = new Random();
-				int index = _random.Next(totalWeight);
+				//int index = _random.Next(totalWeight);
+				int index = RNG.Next(totalWeight);
 
 				foreach (IImageProvider provider in _providers)
 				{

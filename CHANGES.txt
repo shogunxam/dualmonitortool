@@ -1,5 +1,17 @@
 Dual Monitor Tools
 
+Changes from 2.0 to 2.1
+========================
+
+Now just needs the client profile subset of the .NET 4 framework, rather than the full version
+DMT Actions can now be performed from the command line / batch files
+DMT File locations are shown in options for troubleshooting
+DMT:Cursor Option to allow mouse buttons to be used to cross cursor boundaries
+DMT:WallpaperChanger has crossfade option for changing wallpaper
+DMT:WallpaperChanger shows details of images used in wallpaper
+DMT:WallpaperChanger Flickr added as an image provider
+
+
 Changes from 1.10 to 2.0
 ========================
 

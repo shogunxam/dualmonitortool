@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 
 //using DualMonitorTools.DualWallpaperChanger;
 using DMT.Library.WallpaperPlugin;
+using DMT.Library.Utils;
 
 namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 {
@@ -50,7 +51,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
 
-		static Random _random = new Random();
+		//static Random _random = new Random();
 
 		List<string> _candidateFilenames = null;
 		string _lastDirectory = null;
@@ -102,7 +103,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			{
 				// choose random file
 				int max = _candidateFilenames.Count;
-				int index = _random.Next(max);
+				//int index = _random.Next(max);
+				int index = RNG.Next(max);
 				Trace.WriteLine(string.Format("Rnd: {0} Max: {1}", index, max));
 				string filename = _candidateFilenames[index];
 				try

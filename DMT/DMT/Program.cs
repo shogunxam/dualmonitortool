@@ -17,9 +17,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Logging;
 using DMT.Library.PInvoke;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,6 +36,21 @@ namespace DMT
 		[STAThread]
 		static void Main(string[] args)
 		{
+#if DEBUG
+			try
+			{
+				FileInfo file = new FileInfo(@"C:\Temp\dmt.log");
+				StreamWriter writer = file.AppendText();
+				writer.WriteLine(string.Format("{0}: {1}", DateTime.Now.ToString("HH:mm:ss"), "DMT loaded"));
+				writer.Close();
+			}
+			catch (Exception)
+			{
+			}
+#endif
+
+
+
 			ProgramOptions programOptions = new ProgramOptions(args);
 
 			if (programOptions.CmdMode)

@@ -6,7 +6,7 @@ monitor setups on Windows.
 
 Currently the tools available are DMT and DualWallpaper.
 
-For users of previous versions, DMT now provides all of the functionality
+For users of the 1.* versions, DMT now provides all of the functionality
 of SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap.
 
 Dual Monitor Tools is free and has been released under the GPLv3 license.
@@ -14,7 +14,7 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
 
-Release 2.0
+Release 2.1
 ------------
 
 The release consists of the following files:
