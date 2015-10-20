@@ -53,8 +53,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 		//static Random _random = new Random();
 
-		List<string> _candidateFilenames = null;
-		string _lastDirectory = null;
+		List<string> _candidateLandscapeFilenames = null;
+		List<string> _candidatePortraitFilenames = null;
+		string _lastLandscapeDirectory = null;
+		string _lastPortraitDirectory = null;
 		bool _lastRecusrive = false;
 
 
@@ -82,31 +84,27 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 			// if user has changed configuration, since we last built _candidateFilenames
  			// we need to rebuild if
-			if (_config.Directory != _lastDirectory || _config.Recursive != _lastRecusrive)
+			if (_config.LandscapeDirectory != _lastLandscapeDirectory 
+				|| _config.Recursive != _lastRecusrive)
 			{
-				_candidateFilenames = null;
+				_candidateLandscapeFilenames = null;
 			}
+			if (_config.PortraitDirectory != _lastPortraitDirectory
+				|| _config.Recursive != _lastRecusrive)
+			{
+				_candidatePortraitFilenames = null;
+			}
+
 			if (_config.Rescan)
 			{
 				// this is needed in case user has set this option since the last scan
-				_candidateFilenames = null;
+				_candidateLandscapeFilenames = null;
+				_candidatePortraitFilenames = null;
 			}
 
-			if (_candidateFilenames == null)
+			string filename = GetRandomImageFilename(optimumSize);
+			if (filename != null)
 			{
-				_candidateFilenames = GetCandidateFilenames(_config.Directory, _config.Recursive);
-				_lastDirectory = _config.Directory;
-				_lastRecusrive = _config.Recursive;
-			}
-
-			if (_candidateFilenames.Count > 0)
-			{
-				// choose random file
-				int max = _candidateFilenames.Count;
-				//int index = _random.Next(max);
-				int index = RNG.Next(max);
-				Trace.WriteLine(string.Format("Rnd: {0} Max: {1}", index, max));
-				string filename = _candidateFilenames[index];
 				try
 				{
 					providerImage = new ProviderImage(Image.FromFile(filename));
@@ -123,18 +121,65 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			if (_config.Rescan)
 			{
 				// we will rescan the folders every time we need a new image
-				// so allow the current list to be garbage collected
-				_candidateFilenames = null;
+				// so allow any current lists to be garbage collected
+				_candidateLandscapeFilenames = null;
+				_candidatePortraitFilenames = null;
 			}
 
 			return providerImage;
+		}
+
+		string GetRandomImageFilename(Size optimumSize)
+		{
+			if (optimumSize.Height > optimumSize.Width)
+			{
+				// ideally want a portrait image
+
+				if (_candidatePortraitFilenames == null)
+				{
+					// need to scan the portrait directory
+					_candidatePortraitFilenames = GetCandidateFilenames(_config.PortraitDirectory, _config.Recursive);
+					_lastPortraitDirectory = _config.PortraitDirectory;
+					_lastRecusrive = _config.Recursive;
+				}
+
+				if (_candidatePortraitFilenames.Count > 0)
+				{
+					// have a selection of portrait files
+					// choose one at random
+					int index = RNG.Next(_candidatePortraitFilenames.Count);
+					return _candidatePortraitFilenames[index];
+				}
+			}
+
+			// landscape / default
+
+			if (_candidateLandscapeFilenames == null)
+			{
+				_candidateLandscapeFilenames = GetCandidateFilenames(_config.LandscapeDirectory, _config.Recursive);
+				_lastLandscapeDirectory = _config.LandscapeDirectory;
+				_lastRecusrive = _config.Recursive;
+			}
+
+			if (_candidateLandscapeFilenames.Count > 0)
+			{
+				// choose one at random
+				int index = RNG.Next(_candidateLandscapeFilenames.Count);
+				return _candidateLandscapeFilenames[index];
+			}
+
+			// could not find an image
+			return null;
 		}
 
 		List<string> GetCandidateFilenames(string baseDirectory, bool recursive)
 		{
 			List<string> candidateFilenames = new List<string>();
 
-			AddCandidateFilenames(baseDirectory, recursive, candidateFilenames);
+			if (!string.IsNullOrEmpty(baseDirectory))
+			{
+				AddCandidateFilenames(baseDirectory, recursive, candidateFilenames);
+			}
 
 			return candidateFilenames;
 		}

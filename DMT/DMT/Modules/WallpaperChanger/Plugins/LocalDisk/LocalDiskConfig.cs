@@ -39,14 +39,16 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		{
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Windows Wallpaper from local disk");
-			Directory = ProviderHelper.ConfigToString(configDictionary, "directory", @"C:\Windows\Web\Wallpaper");
+			LandscapeDirectory = ProviderHelper.ConfigToString(configDictionary, "directory", @"C:\Windows\Web\Wallpaper");
+			PortraitDirectory = ProviderHelper.ConfigToString(configDictionary, "portraitDirectory", "");
 			Recursive = ProviderHelper.ConfigToBool(configDictionary, "recursive", true);
 			Rescan = ProviderHelper.ConfigToBool(configDictionary, "rescan", false);
 		}
 
 		public int Weight { get; set; }
 		public string Description { get; set; }
-		public string Directory { get; set; }
+		public string LandscapeDirectory { get; set; }	// default/landscape
+		public string PortraitDirectory { get; set; }
 		public bool Recursive { get; set; }
 		public bool Rescan { get; set; }
 
@@ -55,7 +57,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
-			configDictionary["directory"] = Directory;
+			configDictionary["directory"] = LandscapeDirectory;
+			configDictionary["portraitDirectory"] = PortraitDirectory;
 			configDictionary["recursive"] = Recursive.ToString();
 			configDictionary["rescan"] = Rescan.ToString();
 			return configDictionary;

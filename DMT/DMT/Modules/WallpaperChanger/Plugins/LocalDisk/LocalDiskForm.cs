@@ -40,7 +40,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
-			textBoxDirectory.Text = config.Directory;
+			textBoxDirectory.Text = config.LandscapeDirectory;
+			textBoxPortraitDirectory.Text = config.PortraitDirectory;
 			checkBoxRecursive.Checked = config.Recursive;
 			checkBoxRescan.Checked = config.Rescan;
 		}
@@ -51,7 +52,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			LocalDiskConfig config = new LocalDiskConfig();
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
-			config.Directory = textBoxDirectory.Text;
+			config.LandscapeDirectory = textBoxDirectory.Text;
+			config.PortraitDirectory = textBoxPortraitDirectory.Text;
 			config.Recursive = checkBoxRecursive.Checked;
 			config.Rescan = checkBoxRescan.Checked;
 
@@ -65,6 +67,16 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
 			{
 				textBoxDirectory.Text = folderBrowserDialog.SelectedPath;
+			}
+		}
+
+		private void buttonBrowsePortrait_Click(object sender, EventArgs e)
+		{
+			folderBrowserDialog.RootFolder = Environment.SpecialFolder.Desktop;
+			folderBrowserDialog.SelectedPath = textBoxPortraitDirectory.Text;
+			if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
+			{
+				textBoxPortraitDirectory.Text = folderBrowserDialog.SelectedPath;
 			}
 		}
 

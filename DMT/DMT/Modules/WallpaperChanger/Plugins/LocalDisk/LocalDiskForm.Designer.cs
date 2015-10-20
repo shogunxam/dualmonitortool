@@ -43,6 +43,9 @@
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.checkBoxRescan = new System.Windows.Forms.CheckBox();
 			this.checkBoxRecursive = new System.Windows.Forms.CheckBox();
+			this.buttonBrowsePortrait = new System.Windows.Forms.Button();
+			this.textBoxPortraitDirectory = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
@@ -59,9 +62,9 @@
 			// 
 			// textBoxDirectory
 			// 
-			this.textBoxDirectory.Location = new System.Drawing.Point(110, 138);
+			this.textBoxDirectory.Location = new System.Drawing.Point(158, 138);
 			this.textBoxDirectory.Name = "textBoxDirectory";
-			this.textBoxDirectory.Size = new System.Drawing.Size(470, 20);
+			this.textBoxDirectory.Size = new System.Drawing.Size(422, 20);
 			this.textBoxDirectory.TabIndex = 20;
 			// 
 			// label3
@@ -69,15 +72,15 @@
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(9, 141);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(39, 13);
+			this.label3.Size = new System.Drawing.Size(137, 13);
 			this.label3.TabIndex = 19;
-			this.label3.Text = "Folder:";
+			this.label3.Text = "Landscapes/default Folder:";
 			// 
 			// textBoxDescription
 			// 
-			this.textBoxDescription.Location = new System.Drawing.Point(110, 112);
+			this.textBoxDescription.Location = new System.Drawing.Point(158, 112);
 			this.textBoxDescription.Name = "textBoxDescription";
-			this.textBoxDescription.Size = new System.Drawing.Size(470, 20);
+			this.textBoxDescription.Size = new System.Drawing.Size(422, 20);
 			this.textBoxDescription.TabIndex = 18;
 			// 
 			// label2
@@ -91,7 +94,7 @@
 			// 
 			// numericUpDownWeight
 			// 
-			this.numericUpDownWeight.Location = new System.Drawing.Point(110, 86);
+			this.numericUpDownWeight.Location = new System.Drawing.Point(158, 86);
 			this.numericUpDownWeight.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -135,7 +138,7 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(368, 219);
+			this.buttonCancel.Location = new System.Drawing.Point(368, 251);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 26;
@@ -145,7 +148,7 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(222, 219);
+			this.buttonOK.Location = new System.Drawing.Point(222, 251);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
 			this.buttonOK.TabIndex = 25;
@@ -156,7 +159,7 @@
 			// checkBoxRescan
 			// 
 			this.checkBoxRescan.AutoSize = true;
-			this.checkBoxRescan.Location = new System.Drawing.Point(12, 187);
+			this.checkBoxRescan.Location = new System.Drawing.Point(12, 219);
 			this.checkBoxRescan.Name = "checkBoxRescan";
 			this.checkBoxRescan.Size = new System.Drawing.Size(229, 17);
 			this.checkBoxRescan.TabIndex = 23;
@@ -166,18 +169,47 @@
 			// checkBoxRecursive
 			// 
 			this.checkBoxRecursive.AutoSize = true;
-			this.checkBoxRecursive.Location = new System.Drawing.Point(12, 164);
+			this.checkBoxRecursive.Location = new System.Drawing.Point(12, 196);
 			this.checkBoxRecursive.Name = "checkBoxRecursive";
 			this.checkBoxRecursive.Size = new System.Drawing.Size(115, 17);
 			this.checkBoxRecursive.TabIndex = 22;
 			this.checkBoxRecursive.Text = "Look in sub-folders";
 			this.checkBoxRecursive.UseVisualStyleBackColor = true;
 			// 
+			// buttonBrowsePortrait
+			// 
+			this.buttonBrowsePortrait.Location = new System.Drawing.Point(586, 163);
+			this.buttonBrowsePortrait.Name = "buttonBrowsePortrait";
+			this.buttonBrowsePortrait.Size = new System.Drawing.Size(75, 23);
+			this.buttonBrowsePortrait.TabIndex = 30;
+			this.buttonBrowsePortrait.Text = "Browse...";
+			this.buttonBrowsePortrait.UseVisualStyleBackColor = true;
+			this.buttonBrowsePortrait.Click += new System.EventHandler(this.buttonBrowsePortrait_Click);
+			// 
+			// textBoxPortraitDirectory
+			// 
+			this.textBoxPortraitDirectory.Location = new System.Drawing.Point(158, 165);
+			this.textBoxPortraitDirectory.Name = "textBoxPortraitDirectory";
+			this.textBoxPortraitDirectory.Size = new System.Drawing.Size(422, 20);
+			this.textBoxPortraitDirectory.TabIndex = 29;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(9, 168);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(80, 13);
+			this.label5.TabIndex = 28;
+			this.label5.Text = "Portraits Folder:";
+			// 
 			// LocalDiskForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(692, 261);
+			this.ClientSize = new System.Drawing.Size(692, 283);
+			this.Controls.Add(this.buttonBrowsePortrait);
+			this.Controls.Add(this.textBoxPortraitDirectory);
+			this.Controls.Add(this.label5);
 			this.Controls.Add(this.buttonBrowse);
 			this.Controls.Add(this.textBoxDirectory);
 			this.Controls.Add(this.label3);
@@ -220,5 +252,8 @@
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.CheckBox checkBoxRescan;
 		private System.Windows.Forms.CheckBox checkBoxRecursive;
+		private System.Windows.Forms.Button buttonBrowsePortrait;
+		private System.Windows.Forms.TextBox textBoxPortraitDirectory;
+		private System.Windows.Forms.Label label5;
 	}
 }
