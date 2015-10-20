@@ -129,6 +129,12 @@
   <data name="CursorPrevScreenWin7" xml:space="preserve">
     <value />
   </data>
+  <data name="CursorToPrimaryScreenDescription" xml:space="preserve">
+    <value>Center cursor on primary screen</value>
+  </data>
+  <data name="CursorToPrimaryScreenWin7" xml:space="preserve">
+    <value />
+  </data>
   <data name="FreeCursorDescription" xml:space="preserve">
     <value>Cursor free to move between screens</value>
   </data>

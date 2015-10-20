@@ -97,6 +97,24 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Center cursor on primary screen.
+        /// </summary>
+        internal static string CursorToPrimaryScreenDescription {
+            get {
+                return ResourceManager.GetString("CursorToPrimaryScreenDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string CursorToPrimaryScreenWin7 {
+            get {
+                return ResourceManager.GetString("CursorToPrimaryScreenWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cursor free to move between screens.
         /// </summary>
         internal static string FreeCursorDescription {

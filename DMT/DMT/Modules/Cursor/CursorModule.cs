@@ -27,6 +27,7 @@ namespace DMT.Modules.Cursor
 		public HotKeyController LockCursorHotKeyController { get; protected set; }
 		public HotKeyController CursorNextScreenHotKeyController { get; protected set; }
 		public HotKeyController CursorPrevScreenHotKeyController { get; protected set; }
+		public HotKeyController CursorToPrimaryScreenHotKeyController { get; protected set; }
 
 		public enum CursorType { Free = 0, Sticky = 1, Lock = 2 };
 
@@ -150,6 +151,7 @@ namespace DMT.Modules.Cursor
 			LockCursorHotKeyController = AddCommand("LockCursor", CursorStrings.LockCursorDescription, CursorStrings.LockCursorWin7, LockCursor);
 			CursorNextScreenHotKeyController = AddCommand("CursorToNextScreen", CursorStrings.CursorNextScreenDescription, CursorStrings.CursorNextScreenWin7, CursorToNextScreen);
 			CursorPrevScreenHotKeyController = AddCommand("CursorToPrevScreen", CursorStrings.CursorPrevScreenDescription, CursorStrings.CursorPrevScreenWin7, CursorToPrevScreen);
+			CursorToPrimaryScreenHotKeyController = AddCommand("CursorToPrimaryScreen", CursorStrings.CursorToPrimaryScreenDescription, CursorStrings.CursorToPrimaryScreenWin7, CursorToPrimaryScreen);
 
 			// init the other values from the settings
 
@@ -275,6 +277,27 @@ namespace DMT.Modules.Cursor
 		void CursorToPrevScreen()
 		{
 			CursorToDeltaScreen(-1);
+		}
+
+		/// <summary>
+		/// Move the cursor to the primary screen and position it in the center.
+		/// </summary>
+		void CursorToPrimaryScreen()
+		{
+			bool wasLocked = CursorLocked;
+
+			// find primary monitor
+			Screen primaryScreen = Screen.PrimaryScreen;
+			Point newCursorPosition = new Point(primaryScreen.Bounds.Width / 2, primaryScreen.Bounds.Height / 2);
+			if (wasLocked)
+			{
+				UnLockCursor();
+			}
+			System.Windows.Forms.Cursor.Position = newCursorPosition;
+			if (wasLocked)
+			{
+				LockCursorToScreen();
+			}
 		}
 
 		/// <summary>

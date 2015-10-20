@@ -52,6 +52,7 @@ namespace DMT.Modules.Cursor
 			InitHotKey(hotKeyPanelLockCursor, _cursorModule.LockCursorHotKeyController);
 			InitHotKey(hotKeyPanelCursorNextScreen, _cursorModule.CursorNextScreenHotKeyController);
 			InitHotKey(hotKeyPanelCursorPrevScreen, _cursorModule.CursorPrevScreenHotKeyController);
+			InitHotKey(hotKeyPanelCursorToPrimaryScreen, _cursorModule.CursorToPrimaryScreenHotKeyController);
 		}
 
 		void InitHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
