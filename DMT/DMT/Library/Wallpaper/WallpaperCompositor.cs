@@ -35,7 +35,7 @@ namespace DMT.Library.Wallpaper
 	{
 		Monitors _monitors;
 
-		private List<ScreenMapping> _allScreens = new List<ScreenMapping>();
+		List<ScreenMapping> _allScreens = new List<ScreenMapping>();
 		/// <summary>
 		/// List of all of the screens available
 		/// </summary>
@@ -44,18 +44,18 @@ namespace DMT.Library.Wallpaper
 			get { return _allScreens; }
 		}
 
-		private List<ScreenMapping> _activeScreens = new List<ScreenMapping>();
+		List<ScreenMapping> _activeScreens = new List<ScreenMapping>();
 
-		private Rectangle desktopRect;
+		Rectangle _desktopRect;
 		/// <summary>
 		/// The rectangle that covers all of the screens
 		/// </summary>
 		public Rectangle DesktopRect
 		{
-			get { return desktopRect; }
+			get { return _desktopRect; }
 		}
 
-        private Color _desktopRectBackColor = Color.Black;
+        Color _desktopRectBackColor = Color.Black;
         /// <summary>
         /// The background color of the rectangle that covers all of the screens
         /// </summary>
@@ -78,7 +78,7 @@ namespace DMT.Library.Wallpaper
 		/// Sets which screens are currently active
 		/// </summary>
 		/// <param name="screenIndexes">List of zero based screen indexes</param>
-		public void SetActiveScreens(List<int> screenIndexes)
+		void SetActiveScreens(List<int> screenIndexes)
 		{
 			_activeScreens.Clear();
 			foreach (int screenIndex in screenIndexes)
@@ -88,18 +88,19 @@ namespace DMT.Library.Wallpaper
 			}
 		}
 
+		//public void AddImage(Image image, StretchType.Fit fit)
+		//{
+		//	Debug.Assert(_activeScreens.Count > 0);
+		//	GenerateMappings(image, fit);
+		//}
+
 		/// <summary>
-		/// Adds the specified image to cover all active screens
+		/// Adds the specified image to cover the specified screens
 		/// </summary>
 		/// <param name="image">The image to add</param>
+		/// <param name="image">Screens image is to cover</param>
 		/// <param name="fit">What to do if the image size and rectangle covering all the
 		/// active screens have different aspect ratios.</param>
-		public void AddImage(Image image, StretchType.Fit fit)
-		{
-			Debug.Assert(_activeScreens.Count > 0);
-			GenerateMappings(image, fit);
-		}
-
 		public void AddImage(Image image, List<int> screenIndexes, StretchType.Fit fit)
 		{
 			SetActiveScreens(screenIndexes);
@@ -115,7 +116,7 @@ namespace DMT.Library.Wallpaper
 		/// <returns>Image containing the wallpaper</returns>
 		public Image CreateWallpaperImage()
 		{
-			Bitmap image = new Bitmap(desktopRect.Width, desktopRect.Height);
+			Bitmap image = new Bitmap(_desktopRect.Width, _desktopRect.Height);
 
 			using (Graphics g = Graphics.FromImage(image))
 			{
@@ -130,7 +131,7 @@ namespace DMT.Library.Wallpaper
 						// but screen co-ords do not necessarily start at (0,0)
 						// so determine destination rectangle based on (0,0)
 						Rectangle destRect = screenMapping.DestRect;
-						Point offset = new Point(-desktopRect.Left, -desktopRect.Top);
+						Point offset = new Point(-_desktopRect.Left, -_desktopRect.Top);
 						destRect.Offset(offset);
 						g.DrawImage(screenMapping.SourceImage,
 									destRect,
@@ -191,12 +192,12 @@ namespace DMT.Library.Wallpaper
 			ZoomActiveScreens(factor);
 		}
 
-		private void GenerateMappings(Image image, StretchType.Fit fit)
+		void GenerateMappings(Image image, StretchType.Fit fit)
 		{
 			Debug.Assert(_activeScreens.Count > 0);
 			Rectangle boundingRect = GetBoundingRect(_activeScreens);
 
-			Rectangle imageRect = new Rectangle(new Point(0, 0), image.Size);
+			//Rectangle imageRect = new Rectangle(new Point(0, 0), image.Size);
 			Rectangle virtualDestRect = GetvirtualDestRect(image, fit, boundingRect);
 
 			// imageRect gets mapped to virtualDestRect
@@ -248,7 +249,7 @@ namespace DMT.Library.Wallpaper
 			return new Point(x, y);
 		}
 
-		private static int ScaleDest(int s1, int s2, int d1, int d2, int s3)
+		static int ScaleDest(int s1, int s2, int d1, int d2, int s3)
 		{
 			// TODO: use Scaler
 			int srcDelta = s2 - s1;
@@ -259,7 +260,7 @@ namespace DMT.Library.Wallpaper
 			return d3;
 		}
 
-		private Rectangle GetvirtualDestRect(Image image, StretchType.Fit fit, Rectangle boundingRect)
+		Rectangle GetvirtualDestRect(Image image, StretchType.Fit fit, Rectangle boundingRect)
 		{
 			Rectangle virtualDestRect = Rectangle.Empty;
 
@@ -396,7 +397,7 @@ namespace DMT.Library.Wallpaper
 			return rect;
 		}
 
-		private void Init()
+		void Init()
 		{
 			//foreach (Screen screen in Screen.AllScreens)
 			//{
@@ -411,10 +412,10 @@ namespace DMT.Library.Wallpaper
 
 
 			//desktopRect = GetBoundingRect(allScreens);
-			desktopRect = _monitors.Bounds;
+			_desktopRect = _monitors.Bounds;
 		}
 
-		private Rectangle GetBoundingRect(List<ScreenMapping> screenMappingList)
+		Rectangle GetBoundingRect(List<ScreenMapping> screenMappingList)
 		{
 			Rectangle boundingRect = Rectangle.Empty;
 

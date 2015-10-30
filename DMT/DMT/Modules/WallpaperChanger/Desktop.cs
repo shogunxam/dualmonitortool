@@ -97,7 +97,7 @@ namespace DMT.Modules.WallpaperChanger
 				{
 					// different image on each screen
 					ProviderImage sourceImage = GetRandomImageForScreen(compositor, i);
-					if (sourceImage != null)
+					if (sourceImage != null && sourceImage.Image != null)
 					{
 						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
 						//generatedImages.Add(sourceImage);
@@ -122,7 +122,7 @@ namespace DMT.Modules.WallpaperChanger
 					}
 				}
 				ProviderImage sourceImage = GetRandomImage(optimumSize);
-				if (sourceImage != null)
+				if (sourceImage != null && sourceImage.Image != null)
 				{
 					// add image to each monitor
 					for (int i = 0; i < compositor.AllScreens.Count; i++)
@@ -138,7 +138,7 @@ namespace DMT.Modules.WallpaperChanger
 				// default: single image covers all monitors
 				Size optimumSize = compositor.DesktopRect.Size;
 				ProviderImage sourceImage = GetRandomImage(optimumSize);
-				if (sourceImage != null)
+				if (sourceImage != null && sourceImage.Image != null)
 				{
 					selectedScreens = GetAllScreenIndexes(compositor);
 					compositor.AddImage(sourceImage.Image, selectedScreens, stretchType.Type); 

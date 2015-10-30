@@ -68,6 +68,9 @@ namespace DMT.Modules.WallpaperChanger
 
 		bool _started = false;
 
+		// delegate for when thread completed
+		public delegate void WallpaperUpdatedDelegate(bool ok, string errMsg);
+
 		// hotkey to change wallpaper now
 		public HotKeyController ChangeWallpaperHotKeyController { get; protected set; }
 
@@ -270,25 +273,64 @@ namespace DMT.Modules.WallpaperChanger
 			t.Start();
 		}
 
+		//void UpdateWallpaperThread()
+		//{
+		//	_desktop.UpdateWallpaper();
+
+		//	// inform UI that wallpaper has now been updated
+		//	WallpaperUpdatedEvent();
+		//}
+
+		//void WallpaperUpdatedEvent()
+		//{
+		//	if (_appForm.InvokeRequired)
+		//	{
+		//		_appForm.BeginInvoke(new Action(WallpaperUpdatedEvent));
+		//		return;
+		//	}
+		//	_minutesSinceLastChange = 0;
+		//	UpdateTimeToChange();
+		//	UpdateWallpaperPreview();
+		//}
+
+
 		void UpdateWallpaperThread()
 		{
-			_desktop.UpdateWallpaper();
+			bool ok = true;
+			string errMsg = null;
+
+			try
+			{
+				_desktop.UpdateWallpaper();
+			}
+			catch (Exception ex)
+			{
+				ok = false;
+				errMsg = ex.Message;
+			}
 
 			// inform UI that wallpaper has now been updated
-			WallpaperUpdatedEvent();
+			WallpaperUpdatedEvent(ok, errMsg);
 		}
 
-		void WallpaperUpdatedEvent()
+		void WallpaperUpdatedEvent(bool ok, string errMsg)
 		{
 			if (_appForm.InvokeRequired)
 			{
-				_appForm.BeginInvoke(new Action(WallpaperUpdatedEvent));
+				_appForm.BeginInvoke(new WallpaperUpdatedDelegate(WallpaperUpdatedEvent), new object[] { ok, errMsg } );
 				return;
+			}
+			if (!ok)
+			{
+				_logger.LogError("WallpaperChanger", errMsg);
+				// note: we still allow the 'time to change' and preview to be updated
 			}
 			_minutesSinceLastChange = 0;
 			UpdateTimeToChange();
 			UpdateWallpaperPreview();
 		}
+
+
 
 		/// <summary>
 		/// Allows the user to add a new provider.
