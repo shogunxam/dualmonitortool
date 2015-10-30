@@ -115,8 +115,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 				// expand the links before performing any requests
 				string photographerUrl = GetFullUrl(photoDetails.PhotographerUrl, randomPageConnection);
+				string photoUrl = GetFullUrl(photoDetails.PhotoDetailsUrl, randomPageConnection);
 
-				string imageUrl = imageUrls[index].DownloadUrl;
+				//string imageUrl = imageUrls[index].PhotoDetailsUrl;
+				string imageUrl = imageUrls[index].ImageUrl;
+				imageUrl = CleanImageUrl(imageUrl, optimumSize);
 				Image image = GetImage(imageUrl, randomPageConnection);
 				if (image != null)
 				{
@@ -127,7 +130,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 					// for image source, return url that responded in case of 302's
 					Uri uri = _httpRequester.LastResponseUri;
 					providerImage.Source = uri.ToString();
-					providerImage.SourceUrl = uri.ToString();
+					providerImage.SourceUrl = photoUrl;
 
 					providerImage.Photographer = photoDetails.Photographer;
 					providerImage.PhotographerUrl = photographerUrl;
@@ -135,6 +138,19 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			}
 
 			return providerImage;
+		}
+
+		string CleanImageUrl(string imageUrl, Size optimumSize)
+		{
+			// The url is HTML encoded, so first undo this
+			string newUrl = imageUrl.Replace("&amp;", "&");
+
+			// default width is 1080
+			// change this to match required width
+			string requiredWidth = string.Format("w={0}", optimumSize.Width);
+			newUrl = newUrl.Replace("w=1080", requiredWidth);
+
+			return newUrl;
 		}
 
 		string GetRandomPageUrl(string homePage)
@@ -157,6 +173,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return url;
 		}
 
+#if OLD_CODE
 		IList<PhotoDetails> ParseImagesOnPage(string page)
 		{
 			List<PhotoDetails> images = new List<PhotoDetails>();
@@ -225,6 +242,90 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 			return images;
 		}
+#else
+
+		IList<PhotoDetails> ParseImagesOnPage(string page)
+		{
+			List<PhotoDetails> images = new List<PhotoDetails>();
+
+			string aHref = string.Empty;
+			string aInnerText = string.Empty;
+			string photoDetailsUrl = string.Empty;
+			string photoUrl = string.Empty;
+			bool inH2 = false;
+			bool inPhotoA = false;	// within <a title="View the photo..."> </a>
+
+			HtmlReader htmlReader = new HtmlReader(page);
+			while (htmlReader.Read())
+			{
+				if (htmlReader.NodeType == HtmlNodeType.Element)
+				{
+					HtmlElement element = new HtmlElement(htmlReader.Value);
+					if (element.GetElementName() == "h2")
+					{
+						inH2 = true;
+					}
+					else if (element.GetElementName() == "a")
+					{
+						aHref = element.GetAttribute("href");
+						string title = element.GetAttribute("title");
+						if (title != null && title.StartsWith("View the photo By"))
+						{
+							photoDetailsUrl = aHref;
+							inPhotoA = true;
+						}
+					}
+					else if (element.GetElementName() == "img")
+					{
+						if (inPhotoA)
+						{
+							photoUrl = element.GetAttribute("src");
+						}
+					}
+				}
+				else if (htmlReader.NodeType == HtmlNodeType.EndElement)
+				{
+					HtmlElement element = new HtmlElement(htmlReader.Value);
+					if (element.GetElementName() == "a")
+					{
+						if (inH2)
+						{
+							// h2 now only used around author
+							if (!string.IsNullOrEmpty(photoDetailsUrl))
+							{
+								// should now have all the details we need
+								PhotoDetails photoDetails = new PhotoDetails();
+								photoDetails.Photographer = aInnerText;
+								if (!string.IsNullOrEmpty(aHref))
+								{
+									photoDetails.PhotographerUrl = aHref;
+								}
+								photoDetails.PhotoDetailsUrl = photoDetailsUrl;
+								photoDetails.ImageUrl = photoUrl;
+								images.Add(photoDetails);
+								photoDetailsUrl = string.Empty;
+							}
+						}
+						aInnerText = string.Empty;
+						aHref = string.Empty;
+						inPhotoA = false;
+					}
+					else if (element.GetElementName() == "h2")
+					{
+						inH2 = false;
+					}
+				}
+				else if (htmlReader.NodeType == HtmlNodeType.Text)
+				{
+					// NOTE: only remembers last text string
+					aInnerText = htmlReader.Value;
+				}
+			}
+
+			return images;
+		}
+
+#endif
 
 		int ParseNumPagesOnPage(string page)
 		{
