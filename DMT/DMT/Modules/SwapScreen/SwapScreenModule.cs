@@ -84,7 +84,7 @@ namespace DMT.Modules.SwapScreen
 		{
 			// Active Window
 			NextScreenHotKeyController = AddCommand("NextScreen", SwapScreenStrings.NextScreenDescription, SwapScreenStrings.NextScreenWin7, ScreenHelper.MoveActiveToNextScreen);
-			PrevScreenHotKeyController = AddCommand("PrevScreen", SwapScreenStrings.PrevScreenDescription, SwapScreenStrings.PrevScreenWin7, ScreenHelper.MoveActiveToNextScreen);
+			PrevScreenHotKeyController = AddCommand("PrevScreen", SwapScreenStrings.PrevScreenDescription, SwapScreenStrings.PrevScreenWin7, ScreenHelper.MoveActiveToPrevScreen);
 			MinimiseHotKeyController = AddCommand("Minimise", SwapScreenStrings.MinimiseDescription, SwapScreenStrings.MinimiseWin7, ScreenHelper.MinimiseActive);
 			MaximiseHotKeyController = AddCommand("Maximise", SwapScreenStrings.MaximiseDescription, SwapScreenStrings.MaximiseWin7, ScreenHelper.MaximiseActive);
 			SupersizeHotKeyController = AddCommand("Supersize", SwapScreenStrings.SupersizeDescription, SwapScreenStrings.SupersizeWin7, ScreenHelper.SupersizeActive);
