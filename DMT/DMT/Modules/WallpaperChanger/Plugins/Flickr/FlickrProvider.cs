@@ -34,6 +34,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
 	class FlickrProvider : IImageProvider
 	{
+		// Flickr only returns the first 4000 hits (100 / page by default)
+		const int MaxFlickrHitPages = 40;
+
 		FlickrConfig _config;
 		StringSetting _apiKeySetting;
 
@@ -100,6 +103,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				int numPages = ParseHitsPageForNumPages(hitsPageData);
 				if (numPages > 1)
 				{
+					// Only the first 4000 hits are available
+					// if we ask for a page after this, we seem to just get the 40'th page
+					if (numPages > MaxFlickrHitPages)
+					{
+						numPages = MaxFlickrHitPages;
+					}
 					//int randomPage = _random.Next(1, numPages + 1);   // (inclusive, exclusive)
 					int randomPage = RNG.Next(1, numPages + 1);   // (inclusive, exclusive)
 					if (randomPage > 1)	// if 1, we already have that page
