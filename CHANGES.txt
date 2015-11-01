@@ -7,9 +7,13 @@ Now just needs the client profile subset of the .NET 4 framework, rather than th
 DMT Actions can now be performed from the command line / batch files
 DMT File locations are shown in options for troubleshooting
 DMT:Cursor Option to allow mouse buttons to be used to cross cursor boundaries
+DMT:Cursor Added hotkey to move cursor to center of primary monitor
+DMT:SwapScreen fixed hotkey to move active window to previous monitor
 DMT:WallpaperChanger has crossfade option for changing wallpaper
 DMT:WallpaperChanger shows details of images used in wallpaper
 DMT:WallpaperChanger Flickr added as an image provider
+DMT:WallpaperChanger Can choose different local disk folder for monitors in portrait orientation
+DMT:WallpaperChanger Unsplash provider updated for changes to their website
 
 
 Changes from 1.10 to 2.0

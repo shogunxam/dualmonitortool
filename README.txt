@@ -92,7 +92,8 @@ experiment to see what is available and easy to enter.
 
 On the same page is the 'Add Magic Word for current application'
 hotkey.  If you press this hotkey, while running another application,
-it will offer to create a hotkey for it. Win+A is a nice hotkey for
+it will offer to create a magic word which you can then use in the future
+as a quick wat of starting that application. Win+A is a nice hotkey for
 this, but be aware that Windows 10 now uses this key combination.
 
 Magic Words
@@ -157,7 +158,7 @@ backup copies of the previous versions of the files.
 
 If you want the data files to reside in a different directory, for example
 if you like all of you executables to be under "C:\Program Files (x86)"
-which is a read-only directory, then this can be achieved by using 
+which has restricted write access, then this can be achieved by using 
 DmtFileLocations.xml.  See DmtFileLocations-sample.xml for more details.
 
 
