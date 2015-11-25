@@ -162,8 +162,9 @@ namespace DMT.Modules.Launcher
 			_startupHandler = new StartupHandler(_appForm, _commandRunner);
 
 			// hot keys
-			// don't want a magic word to show the magic word entry form!
-			ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, "", ShowEntryForm, true, false);
+			//// don't want a magic word to show the magic word entry form!
+			//ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, "", ShowEntryForm, true, false);
+			ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, "", ShowEntryForm, ActivateMagicWord);
 			AddMagicWordHotKeyController = AddCommand("AddMagicWord", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
 			//ActivateHotKeyController = CreateHotKeyController("ActivateHotKey", LauncherStrings.ActivateDescription, "", ShowEntryForm);
 			//AddMagicWordHotKeyController = CreateHotKeyController("AddMagicWordHotKey", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
@@ -240,6 +241,26 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
+		public void StartMagicWords(List<MagicWord> magicWords, int position)
+		{
+			ParameterMap map = new ParameterMap();
+			foreach (MagicWord magicWord in magicWords)
+			{
+				StartMagicWord(magicWord, position, map);
+			}
+		}
+
+		void StartMagicWord(MagicWord magicWord, int positionIndex1, ParameterMap map)
+		{
+			if (magicWord != null)
+			{
+				magicWord.UseCount++;
+				magicWord.LastUsed = DateTime.Now;
+				StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
+				Launch(magicWord, startPosition, map);
+			}
+		}
+
 		/// <summary>
 		/// Starts a new process
 		/// </summary>
@@ -296,9 +317,25 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
+		/// <summary>
+		/// Handler for Activate - when no parameters
+		/// Will show the entry form
+		/// </summary>
 		void ShowEntryForm()
 		{
 			GetEntryForm().ShowEntryForm();
+		}
+
+		/// <summary>
+		/// Handlet for Activate - when there are parameters
+		/// Will treat the parameter as a magic word and try and run it
+		/// </summary>
+		/// <param name="parameters"></param>
+		void ActivateMagicWord(string parameters)
+		{
+			List<MagicWord> magicWords = MagicWords.FindAllByAlias(parameters);
+			int position = 1;	// could parse from parameters, but just use default position for now
+			StartMagicWords(magicWords, position);
 		}
 
 		EntryForm GetEntryForm()

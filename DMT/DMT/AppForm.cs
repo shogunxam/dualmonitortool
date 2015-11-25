@@ -108,6 +108,13 @@ namespace DMT
 				{
 					string command = Marshal.PtrToStringAnsi(cds.lpData);
 					string parameters = null;
+					// if there is a space in the command, the first such space separates the command from the parameters
+					int index = command.IndexOf(' ');
+					if (index > 0)
+					{
+						parameters = command.Substring(index + 1).Trim();
+						command = command.Substring(0, index);
+					}
 					if (!_controller.RunInternalCommand(command, parameters))
 					{
 						// indicate an error

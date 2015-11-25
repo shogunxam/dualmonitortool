@@ -120,6 +120,14 @@ namespace DMT.Modules
 			return AddCommand(command);
 		}
 
+		protected HotKeyController AddCommand(string name, string description, string win7Key, 
+			HotKey.HotKeyHandler handler, Command.CommandHandlerWithParameters handlerWithParameters, 
+			bool hotKey = true, bool magicWord = true)
+		{
+			Command command = new Command(name, description, win7Key, handler, handlerWithParameters, hotKey, magicWord);
+			return AddCommand(command);
+		}
+
 		protected HotKeyController AddCommand(Command command)
 		{
 			if (command.RegisterMagicWord)
@@ -144,8 +152,6 @@ namespace DMT.Modules
 
 		public bool RunCommand(string commandName, string parameters)
 		{
-			// 'parameters' not currently used, but may have a use for them in the future
-
 			bool commandRan = false;
 
 			foreach (Command command in _commands)
@@ -154,8 +160,22 @@ namespace DMT.Modules
 				{
 					if (string.Compare(commandName, command.Name, true) == 0)
 					{
-						command.Handler();
-						commandRan = true;
+						if (string.IsNullOrWhiteSpace(parameters))
+						{
+							if (command.Handler != null)
+							{
+								command.Handler();
+								commandRan = true;
+							}
+						}
+						else
+						{
+							if (command.HandlerWithParameters != null)
+							{
+								command.HandlerWithParameters(parameters);
+								commandRan = true;
+							}
+						}
 					}
 				}
 			}

@@ -12,10 +12,14 @@ namespace DMT.Modules
 	/// </summary>
 	class Command
 	{
+		// TODO: moved definition of HotKey.HotKeyHandler into here -> CommandHandler
+		public delegate void CommandHandlerWithParameters(string parameters);
+
 		public string Name { get; protected set; }
 		public string Description { get; set; }	// can be changed dynamically for UDAs
 		public string Win7Key { get; protected set; }
 		public HotKey.HotKeyHandler Handler { get; set; }	// needs to be set by UDA
+		public CommandHandlerWithParameters HandlerWithParameters { get; set; }
 		public bool RegisterHotKey { get; set; }
 		public bool RegisterMagicWord { get; set; }
 
@@ -24,8 +28,20 @@ namespace DMT.Modules
 			Name = name;
 			Description = description;
 			Handler = handler;
+			HandlerWithParameters = null;
 			RegisterHotKey = hotKey;
 			RegisterMagicWord = magicWord;
 		}
+
+		public Command(string name, string description, string win7Key, HotKey.HotKeyHandler handler, CommandHandlerWithParameters handlerWithParams, bool hotKey = true, bool magicWord = true)
+		{
+			Name = name;
+			Description = description;
+			Handler = handler;
+			HandlerWithParameters = handlerWithParams;
+			RegisterHotKey = hotKey;
+			RegisterMagicWord = magicWord;
+		}
+
 	}
 }

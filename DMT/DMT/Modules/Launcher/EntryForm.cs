@@ -319,7 +319,7 @@ namespace DMT.Modules.Launcher
 
 			if (magicWords.Count > 0)
 			{
-				ParameterMap map = new ParameterMap();
+				//ParameterMap map = new ParameterMap();
 				textBoxInput.Text = "";
 				HideEntryForm();
 				if (_localEnvironment.IsWin10OrLater())
@@ -334,25 +334,26 @@ namespace DMT.Modules.Launcher
 					// a quick yield seems to fix the problem
 					System.Threading.Thread.Sleep(0);
 				}
-				foreach (MagicWord magicWord in magicWords)
-				{
-					StartMagicWord(magicWord, position, map);
-				}
+				//foreach (MagicWord magicWord in magicWords)
+				//{
+				//	StartMagicWord(magicWord, position, map);
+				//}
+				_launcherModule.StartMagicWords(magicWords, position);
 			}
 		}
 
-		private void StartMagicWord(MagicWord magicWord, int positionIndex1, ParameterMap map)
-		{
-			if (magicWord != null)
-			{
-				magicWord.UseCount++;
-				magicWord.LastUsed = DateTime.Now;
-				StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
-				_launcherModule.Launch(magicWord, startPosition, map);
-				//Input.Text = "";
-				//HideEntryForm();
-			}
-		}
+		//private void StartMagicWord(MagicWord magicWord, int positionIndex1, ParameterMap map)
+		//{
+		//	if (magicWord != null)
+		//	{
+		//		magicWord.UseCount++;
+		//		magicWord.LastUsed = DateTime.Now;
+		//		StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
+		//		_launcherModule.Launch(magicWord, startPosition, map);
+		//		//Input.Text = "";
+		//		//HideEntryForm();
+		//	}
+		//}
 
 
 		void DoAutoComplete()
