@@ -70,6 +70,24 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scale Snap to fit.
+        /// </summary>
+        internal static string ScaleSnap {
+            get {
+                return ResourceManager.GetString("ScaleSnap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle if to scale the snapshot to fill the second screed.
+        /// </summary>
+        internal static string ScaleSnapDescription {
+            get {
+                return ResourceManager.GetString("ScaleSnapDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Snap.
         /// </summary>
         internal static string ShowSnap {
@@ -111,6 +129,15 @@ namespace DMT.Resources {
         internal static string TakeSnapDescription {
             get {
                 return ResourceManager.GetString("TakeSnapDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Take a snapshot of the active window.
+        /// </summary>
+        internal static string TakeWinSnapDescription {
+            get {
+                return ResourceManager.GetString("TakeWinSnapDescription", resourceCulture);
             }
         }
     }

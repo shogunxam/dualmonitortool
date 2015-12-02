@@ -40,10 +40,26 @@ namespace DMT.Modules.Snap
 			_snapModule.AutoShowSnap = checkBoxShowSnap.Checked;
 		}
 
+		private void checkBoxExpandSnap_CheckedChanged(object sender, EventArgs e)
+		{
+			_snapModule.ExpandSnap = checkBoxExpandSnap.Checked;
+		}
+
+		private void checkBoxShrinkSnap_CheckedChanged(object sender, EventArgs e)
+		{
+			_snapModule.ShrinkSnap = checkBoxShrinkSnap.Checked;
+		}
+
+		private void checkBoxMaintainAspectRatio_CheckedChanged(object sender, EventArgs e)
+		{
+			_snapModule.MaintainAspectRatio = checkBoxMaintainAspectRatio.Checked;
+		}
+
 		void SetupHotKeys()
 		{
 			SetupHotKey(hotKeyPanelShowSnap, _snapModule.ShowSnapHotKeyController);
-			SetupHotKey(hotKeyPanelTakeSnap, _snapModule.TakeSnapHotKeyController);
+			SetupHotKey(hotKeyPanelTakeSnap, _snapModule.TakeScreenSnapHotKeyController);
+			SetupHotKey(hotKeyPanelTakeWinSnap, _snapModule.TakeWindowSnapHotKeyController);
 		}
 
 		void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)

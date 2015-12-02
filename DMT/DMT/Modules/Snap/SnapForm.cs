@@ -1,4 +1,5 @@
-﻿using DMT.Resources;
+﻿using DMT.Library.Transform;
+using DMT.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,14 +17,24 @@ namespace DMT.Modules.Snap
 	{
 		SnapModule _snapModule;
 		bool _terminate = false;
+		bool _expandSnap;
+		bool _shrinkSnap;
+		bool _maintainAspectRatio;
 
 		public SnapForm(SnapModule snapModule)
 		{
 			_snapModule = snapModule;
 
+			// copy initial settings from the module settings
+			_expandSnap = _snapModule.ExpandSnap;
+			_shrinkSnap = _snapModule.ShrinkSnap;
+			_maintainAspectRatio = _snapModule.MaintainAspectRatio;
+
 			InitializeComponent();
 
 			InitContextMenu();
+
+			UpdateScaleMenuItems();
 		}
 
 		public void Terminate()
@@ -35,6 +46,9 @@ namespace DMT.Modules.Snap
 		public void ShowImage(Image image)
 		{
 			pictureBox.Image = image;
+
+			//pictureBox.Location = new Point(0, 0);
+			//pictureBox.Size = image.Size;
 		}
 
 		public void ShowAt(Rectangle rectangle)
@@ -49,6 +63,8 @@ namespace DMT.Modules.Snap
 			this.TopMost = true;
 			this.Visible = true;
 			this.showSnapToolStripMenuItem.Checked = true;
+
+			ReScalePictureBox();
 		}
 
 		public void HideSnap()
@@ -84,7 +100,7 @@ namespace DMT.Modules.Snap
 
 		private void snapToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			_snapModule.TakeSnap();
+			_snapModule.TakePrimaryScreenSnap();
 		}
 
 		private void showSnapToolStripMenuItem_Click(object sender, EventArgs e)
@@ -130,6 +146,24 @@ namespace DMT.Modules.Snap
 
 			pictureBox.Image = snap.Image;
 			_snapModule.ShowLastSnap();
+		}
+
+		private void expandToFillScreenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_expandSnap = expandToFillScreenToolStripMenuItem.Checked;
+			ReScalePictureBox();
+		}
+
+		private void shrinkToFitScreenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_shrinkSnap = shrinkToFitScreenToolStripMenuItem.Checked;
+			ReScalePictureBox();
+		}
+
+		private void maintainAspectRatioToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			_maintainAspectRatio = maintainAspectRatioToolStripMenuItem.Checked;
+			ReScalePictureBox();
 		}
 
 		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -227,6 +261,79 @@ namespace DMT.Modules.Snap
 		{
 			snapsToolStripMenuItem.DropDown.AutoSize = false;
 			snapsToolStripMenuItem.DropDown.Width = 128;
+		}
+
+		// make sure correct scaling menu items are checked
+		void UpdateScaleMenuItems()
+		{
+			expandToFillScreenToolStripMenuItem.Checked = _expandSnap;
+			shrinkToFitScreenToolStripMenuItem.Checked = _shrinkSnap;
+			maintainAspectRatioToolStripMenuItem.Checked = _maintainAspectRatio;
+		}
+
+		void ReScalePictureBox()
+		{
+			// The default is for the picture box size to be the same as the source image
+			// so it would get displayed without any scaling
+			Size targetSize = pictureBox.Image.Size;
+
+			Size windowSize = this.Size;
+
+			// 
+			if (_expandSnap)
+			{
+				if (_maintainAspectRatio)
+				{
+					if (targetSize.Width < windowSize.Width && targetSize.Height < windowSize.Height)
+					{
+						// increase size while still maintaining aspect ratio
+						// to maximum the image size
+						targetSize = ScaleHelper.UnderScale(targetSize, windowSize);
+					}
+				}
+				else
+				{
+					if (targetSize.Width < windowSize.Width)
+					{
+						targetSize.Width = windowSize.Width;
+					}
+					if (targetSize.Height < windowSize.Height)
+					{
+						targetSize.Height = windowSize.Height;
+					}
+				}
+			}
+
+			//
+			if (_shrinkSnap)
+			{
+				if (_maintainAspectRatio)
+				{
+					if (targetSize.Width > windowSize.Width || targetSize.Height > windowSize.Height)
+					{
+						// need to decrease size while still maintaining aspect ratio
+						// so that all of the image will be visible
+						targetSize = ScaleHelper.UnderScale(targetSize, windowSize);
+					}
+				}
+				else
+				{
+					if (targetSize.Width > windowSize.Width)
+					{
+						targetSize.Width = windowSize.Width;
+					}
+					if (targetSize.Height > windowSize.Height)
+					{
+						targetSize.Height = windowSize.Height;
+					}
+				}
+
+			}
+
+			pictureBox.Location = new Point(0, 0);
+			pictureBox.Size = targetSize;
+
+
 		}
 
 	}

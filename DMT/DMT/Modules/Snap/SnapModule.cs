@@ -21,6 +21,7 @@ using DMT.Library;
 using DMT.Library.GuiUtils;
 using DMT.Library.HotKeys;
 using DMT.Library.Logging;
+using DMT.Library.PInvoke;
 using DMT.Library.Settings;
 using DMT.Resources;
 using System;
@@ -40,6 +41,9 @@ namespace DMT.Modules.Snap
 
 		const int _defaultMaxSnaps = 8;
 		const bool _defaultAutoShowSnap = true;
+		const bool _defaultExpandSnap = false;
+		const bool _defaultShrinkSnap = false;
+		const bool _defaultMaintainAspectRatio = true;
 
 		ISettingsService _settingsService;
 		//IHotKeyService _hotKeyService;
@@ -52,7 +56,8 @@ namespace DMT.Modules.Snap
 		ToolStripMenuItem _showSnapToolStripMenuItem;
 
 		// hot keys
-		public HotKeyController TakeSnapHotKeyController { get; protected set; }
+		public HotKeyController TakeScreenSnapHotKeyController { get; protected set; }
+		public HotKeyController TakeWindowSnapHotKeyController { get; protected set; }
 		public HotKeyController ShowSnapHotKeyController { get; protected set; }
 
 		// settings
@@ -70,6 +75,30 @@ namespace DMT.Modules.Snap
 			set { AutoShowSnapSetting.Value = value; }
 		}
 
+		// ExpandSnap, ShrinkSnap and MaintainAspectRatio are the initial values used
+		// when we startup.
+		// Afer the window is created, it will use its own values which are distinct from these.
+		BoolSetting ExpandSnapSetting { get; set; }
+		public bool ExpandSnap
+		{
+			get { return ExpandSnapSetting.Value; }
+			set { ExpandSnapSetting.Value = value; }
+		}
+
+		BoolSetting ShrinkSnapSetting { get; set; }
+		public bool ShrinkSnap
+		{
+			get { return ShrinkSnapSetting.Value; }
+			set { ShrinkSnapSetting.Value = value; }
+		}
+
+		BoolSetting MaintainAspectRatioSetting { get; set; }
+		public bool MaintainAspectRatio
+		{
+			get { return MaintainAspectRatioSetting.Value; }
+			set { MaintainAspectRatioSetting.Value = value; }
+		}
+
 		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
 			: base(hotKeyService)
 		{
@@ -84,17 +113,16 @@ namespace DMT.Modules.Snap
 		public override void Start()
 		{
 			// setup hot keys & commands for magic words
-			TakeSnapHotKeyController = AddCommand("TakeSnap", SnapStrings.TakeSnapDescription, "", TakeSnap);
+			TakeScreenSnapHotKeyController = AddCommand("TakeSnap", SnapStrings.TakeSnapDescription, "", TakePrimaryScreenSnap);
+			TakeWindowSnapHotKeyController = AddCommand("TakeWinSnap", SnapStrings.TakeWinSnapDescription, "", TakeActiveWindowSnap);
 			ShowSnapHotKeyController = AddCommand("ShowSnap", SnapStrings.ShowSnapDescription, "", ToggleShowSnap);
-
-			// hot keys
-			//TakeSnapHotKeyController = CreateHotKeyController("TakeSnapHotKey", SnapStrings.TakeSnapDescription, "", TakeSnap);
-			//ShowSnapHotKeyController = CreateHotKeyController("ShowSnapHotKey", SnapStrings.ShowSnapDescription, "", ToggleShowSnap);
-			//base.RegisterHotKeys();
 
 			// settings
 			MaxSnapsSetting = new IntSetting(_settingsService, ModuleName, "MaxSnaps", _defaultMaxSnaps);
 			AutoShowSnapSetting = new BoolSetting(_settingsService, ModuleName, "AutoShowSnap", _defaultAutoShowSnap);
+			ExpandSnapSetting = new BoolSetting(_settingsService, ModuleName, "ExpandSnap", _defaultExpandSnap);
+			ShrinkSnapSetting = new BoolSetting(_settingsService, ModuleName, "ShrinkSnap", _defaultShrinkSnap);
+			MaintainAspectRatioSetting = new BoolSetting(_settingsService, ModuleName, "MaintainAspectRatio", _defaultMaintainAspectRatio);
 
 			// history of snaps taken
 			SnapHistory = new SnapHistory(MaxSnaps);
@@ -139,19 +167,54 @@ namespace DMT.Modules.Snap
 		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
 		//}
 
-		public void TakeSnap()
+		public void TakePrimaryScreenSnap()
 		{
 			Rectangle r = Screen.PrimaryScreen.Bounds;
 
-			Bitmap primaryScreenImage = new Bitmap(r.Width, r.Height, GetPixelFormat());
-			using (Graphics g = Graphics.FromImage(primaryScreenImage))
+			TakeSnap(r);
+
+			//Bitmap primaryScreenImage = new Bitmap(r.Width, r.Height, GetPixelFormat());
+			//using (Graphics g = Graphics.FromImage(primaryScreenImage))
+			//{
+			//	g.CopyFromScreen(r.Location, new Point(0, 0), r.Size, CopyPixelOperation.SourceCopy);
+			//}
+			//SnapForm snapForm = GetSnapForm();
+			//snapForm.ShowImage(primaryScreenImage);
+
+			//Snap snap = new Snap(primaryScreenImage);
+			//SnapHistory.Add(snap);
+
+			//if (AutoShowSnap)
+			//{
+			//	ShowLastSnap();
+			//}
+		}
+
+		public void TakeActiveWindowSnap()
+		{
+			IntPtr hWnd = Win32.GetForegroundWindow();
+			if (hWnd != null)
 			{
-				g.CopyFromScreen(r.Location, new Point(0, 0), r.Size, CopyPixelOperation.SourceCopy);
+				Win32.RECT rect;
+				if (Win32.GetWindowRect(hWnd, out rect))
+				{
+					Rectangle r = ScreenHelper.RectToRectangle(ref rect);
+					TakeSnap(r);
+				}
+			}
+		}
+
+		void TakeSnap(Rectangle sourceRectangle)
+		{
+			Bitmap snappedImage = new Bitmap(sourceRectangle.Width, sourceRectangle.Height, GetPixelFormat());
+			using (Graphics g = Graphics.FromImage(snappedImage))
+			{
+				g.CopyFromScreen(sourceRectangle.Location, new Point(0, 0), sourceRectangle.Size, CopyPixelOperation.SourceCopy);
 			}
 			SnapForm snapForm = GetSnapForm();
-			snapForm.ShowImage(primaryScreenImage);
+			snapForm.ShowImage(snappedImage);
 
-			Snap snap = new Snap(primaryScreenImage);
+			Snap snap = new Snap(snappedImage);
 			SnapHistory.Add(snap);
 
 			if (AutoShowSnap)
@@ -220,7 +283,7 @@ namespace DMT.Modules.Snap
 
 		void snapNowToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TakeSnap();
+			TakePrimaryScreenSnap();
 		}
 
 		void showSnapToolStripMenuItem_Click(object sender, EventArgs e)

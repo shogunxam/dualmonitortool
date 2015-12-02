@@ -120,6 +120,13 @@
   <data name="DeleteConfirm" xml:space="preserve">
     <value>Are you sure you want to delate all {0} snaps?</value>
   </data>
+  <data name="ScaleSnap" xml:space="preserve">
+    <value>Scale Snap to fit</value>
+    <comment>menuitem</comment>
+  </data>
+  <data name="ScaleSnapDescription" xml:space="preserve">
+    <value>Toggle if to scale the snapshot to fill the second screed</value>
+  </data>
   <data name="ShowSnap" xml:space="preserve">
     <value>Show Snap</value>
     <comment>menuitem</comment>
@@ -136,5 +143,8 @@
   </data>
   <data name="TakeSnapDescription" xml:space="preserve">
     <value>Take a snapshot of the primary screen</value>
+  </data>
+  <data name="TakeWinSnapDescription" xml:space="preserve">
+    <value>Take a snapshot of the active window</value>
   </data>
 </root>
