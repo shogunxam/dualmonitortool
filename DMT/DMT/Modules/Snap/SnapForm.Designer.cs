@@ -60,6 +60,8 @@
 			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox.TabIndex = 0;
 			this.pictureBox.TabStop = false;
+			this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+			this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
 			// 
 			// contextMenuStrip
 			// 
@@ -185,7 +187,6 @@
 			this.panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.panel.AutoScroll = true;
 			this.panel.BackColor = System.Drawing.Color.Black;
 			this.panel.Controls.Add(this.pictureBox);
 			this.panel.Location = new System.Drawing.Point(0, 0);

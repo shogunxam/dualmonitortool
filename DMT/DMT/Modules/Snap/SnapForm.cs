@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace DMT.Modules.Snap
@@ -20,6 +21,8 @@ namespace DMT.Modules.Snap
 		bool _expandSnap;
 		bool _shrinkSnap;
 		bool _maintainAspectRatio;
+		Point _lastMousePosn;	// used for detecting drag movements on the snap
+
 
 		public SnapForm(SnapModule snapModule)
 		{
@@ -333,7 +336,73 @@ namespace DMT.Modules.Snap
 			pictureBox.Location = new Point(0, 0);
 			pictureBox.Size = targetSize;
 
+			if (CanScrollSnap())
+			{
+				pictureBox.Cursor = Cursors.NoMove2D;
+			}
+			else
+			{
+				pictureBox.Cursor = Cursors.Default;
+			}
+		}
 
+		private void pictureBox_MouseDown(object sender, MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			_lastMousePosn = pictureBox.PointToScreen(e.Location);
+			// no need/advantage to capture mouse?
+		}
+
+		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+
+			if (e.Button == MouseButtons.Left)
+			{
+				if (CanScrollSnap())
+				{
+					// calculate delta movement
+					Point newMousePosn = pictureBox.PointToScreen(e.Location);
+					int deltaX = newMousePosn.X - _lastMousePosn.X;
+					int deltaY = newMousePosn.Y - _lastMousePosn.Y;
+					_lastMousePosn = newMousePosn;
+
+					int newX = pictureBox.Location.X;
+					int newY = pictureBox.Location.Y;
+					// move the origin of the image (wrt the window)
+					newX += deltaX;
+					newY += deltaY;
+
+					// make sure the new origin is within bounds
+					if (newX > 0)
+					{
+						newX = 0;
+					}
+					else if (newX < this.Size.Width - pictureBox.Width)
+					{
+						newX = this.Size.Width - pictureBox.Width;
+					}
+					if (newY > 0)
+					{
+						newY = 0;
+					}
+					else if (newY < this.Size.Height - pictureBox.Height)
+					{
+						newY = this.Size.Height - pictureBox.Height;
+					}
+
+					pictureBox.Location = new Point(newX, newY);
+				}
+			}
+		}
+
+		bool CanScrollSnap()
+		{
+			Size windowSize = this.Size;
+			Size picBoxSize = pictureBox.Size;
+
+			return (picBoxSize.Width > windowSize.Width || picBoxSize.Height > windowSize.Height);
 		}
 
 	}
