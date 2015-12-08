@@ -39,6 +39,6 @@ namespace DMT.Library.WallpaperPlugin
 		Dictionary<string, string> Config { get; }
 
 		Dictionary<string, string> ShowUserOptions();
-		ProviderImage GetRandomImage(Size optimumSize);
+		ProviderImage GetRandomImage(Size optimumSize, int screenIndex);
 	}
 }

@@ -71,6 +71,7 @@
     <Compile Include="Library\Environment\LocalEnvironment.cs" />
     <Compile Include="Library\Environment\Monitor.cs" />
     <Compile Include="Library\Environment\Monitors.cs" />
+    <Compile Include="Library\GuiUtils\FileSelectionHelper.cs" />
     <Compile Include="Library\HotKeys\HotKey.cs" />
     <Compile Include="Library\HotKeys\HotKeyController.cs" />
     <Compile Include="Library\HotKeys\HotKeyForm.cs">
@@ -331,6 +332,7 @@
     <Compile Include="Modules\WallpaperChanger\Plugins\Flickr\NoFlickrApiKeyForm.Designer.cs">
       <DependentUpon>NoFlickrApiKeyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\CandidateFilenames.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskConfig.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskForm.cs">
       <SubType>Form</SubType>

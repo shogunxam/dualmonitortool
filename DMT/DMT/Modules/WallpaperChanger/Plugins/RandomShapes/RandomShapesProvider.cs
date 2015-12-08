@@ -68,7 +68,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			return null;
 		}
 
-		public ProviderImage GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = new ProviderImage(new Bitmap(optimumSize.Width, optimumSize.Height));
 			providerImage.Provider = ProviderName;

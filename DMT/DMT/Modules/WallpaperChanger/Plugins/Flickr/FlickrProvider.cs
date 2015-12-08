@@ -88,7 +88,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return null;
 		}
 
-		public ProviderImage GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = null;
 

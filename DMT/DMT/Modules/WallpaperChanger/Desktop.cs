@@ -240,13 +240,13 @@ namespace DMT.Modules.WallpaperChanger
 		ProviderImage GetRandomImageForScreen(IWallpaperCompositor compositor, int screenIndex)
 		{
 			Size optimumSize = compositor.AllScreens[screenIndex].ScreenRect.Size;
-			return GetRandomImage(optimumSize);
+			return GetRandomImage(optimumSize, screenIndex);
 		}
 
-		ProviderImage GetRandomImage(Size optimumSize)
+		ProviderImage GetRandomImage(Size optimumSize, int screenIndex = -1)
 		{
 			//return ImageRepository.Instance.GetRandomImage();
-			return _imageRepository.GetRandomImage(optimumSize);
+			return _imageRepository.GetRandomImage(optimumSize, screenIndex);
 		}
 
 

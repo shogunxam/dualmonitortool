@@ -156,19 +156,20 @@ namespace DMT.Modules.Launcher
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Filter = LauncherStrings.BrowseExeFilter;
 			string fileName = textBoxFilename.Text;
-			dlg.FileName = fileName;
-			if (fileName.Length > 0)
-			{
-				try
-				{
-					string dir = Path.GetDirectoryName(textBoxFilename.Text);
-					dlg.InitialDirectory = dir;
-					dlg.FileName = Path.GetFileName(textBoxFilename.Text);
-				}
-				catch (Exception)
-				{
-				}
-			}
+			//dlg.FileName = fileName;
+			//if (fileName.Length > 0)
+			//{
+			//	try
+			//	{
+			//		string dir = Path.GetDirectoryName(textBoxFilename.Text);
+			//		dlg.InitialDirectory = dir;
+			//		dlg.FileName = Path.GetFileName(textBoxFilename.Text);
+			//	}
+			//	catch (Exception)
+			//	{
+			//	}
+			//}
+			FileSelectionHelper.SetInitialFileNameInDialog(dlg, fileName);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				// if this is directly put into the control then it gets lost

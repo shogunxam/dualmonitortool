@@ -165,6 +165,9 @@ Use the 'Providers' option panel to add providers.</value>
   <data name="OneToOneBig" xml:space="preserve">
     <value>One image stretched over all monitors</value>
   </data>
+  <data name="OpenImageFilter" xml:space="preserve">
+    <value>Image Files (*.bmp, *.jpg, *.jpeg, *.png, *.gif)|*.bmp;*.jpg;*.jpeg;*.png;*.gif</value>
+  </data>
   <data name="OverStretch" xml:space="preserve">
     <value>Over stretch to cover the monitor(s)</value>
   </data>

@@ -39,16 +39,24 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		{
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Windows Wallpaper from local disk");
-			LandscapeDirectory = ProviderHelper.ConfigToString(configDictionary, "directory", @"C:\Windows\Web\Wallpaper");
+			Monitor1Directory = ProviderHelper.ConfigToString(configDictionary, "monitor1Directory", "");
+			Monitor2Directory = ProviderHelper.ConfigToString(configDictionary, "monitor2Directory", "");
+			Monitor3Directory = ProviderHelper.ConfigToString(configDictionary, "monitor3Directory", "");
+			Monitor4Directory = ProviderHelper.ConfigToString(configDictionary, "monitor4Directory", "");
 			PortraitDirectory = ProviderHelper.ConfigToString(configDictionary, "portraitDirectory", "");
+			DefaultDirectory = ProviderHelper.ConfigToString(configDictionary, "directory", @"C:\Windows\Web\Wallpaper");
 			Recursive = ProviderHelper.ConfigToBool(configDictionary, "recursive", true);
 			Rescan = ProviderHelper.ConfigToBool(configDictionary, "rescan", false);
 		}
 
 		public int Weight { get; set; }
 		public string Description { get; set; }
-		public string LandscapeDirectory { get; set; }	// default/landscape
+		public string Monitor1Directory { get; set; }
+		public string Monitor2Directory { get; set; }
+		public string Monitor3Directory { get; set; }
+		public string Monitor4Directory { get; set; }
 		public string PortraitDirectory { get; set; }
+		public string DefaultDirectory { get; set; }	// default/landscape
 		public bool Recursive { get; set; }
 		public bool Rescan { get; set; }
 
@@ -57,8 +65,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
-			configDictionary["directory"] = LandscapeDirectory;
+			configDictionary["monitor1Directory"] = Monitor1Directory;
+			configDictionary["monitor2Directory"] = Monitor2Directory;
+			configDictionary["monitor3Directory"] = Monitor3Directory;
+			configDictionary["monitor4Directory"] = Monitor4Directory;
 			configDictionary["portraitDirectory"] = PortraitDirectory;
+			configDictionary["directory"] = DefaultDirectory;
 			configDictionary["recursive"] = Recursive.ToString();
 			configDictionary["rescan"] = Rescan.ToString();
 			return configDictionary;

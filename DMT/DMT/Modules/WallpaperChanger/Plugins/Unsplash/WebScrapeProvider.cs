@@ -76,7 +76,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return null;
 		}
 
-		public ProviderImage GetRandomImage(Size optimumSize)
+		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = null;
 

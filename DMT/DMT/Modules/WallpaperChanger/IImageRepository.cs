@@ -31,6 +31,6 @@ namespace DMT.Modules.WallpaperChanger
 	{
 		BindingList<IImageProvider> DataSource { get; }
 		bool Save();
-		ProviderImage GetRandomImage(Size optimumSize);
+		ProviderImage GetRandomImage(Size optimumSize, int screenIndex);
 	}
 }

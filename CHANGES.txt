@@ -1,5 +1,15 @@
 Dual Monitor Tools
 
+
+Changes from 2.1 to 2.2
+========================
+
+Magic words can be run from a batch file with: DMT "DMT:Launcher:Activate magic-word"
+DMT:Snap hotkey added to snap active window
+DMT:Snap snap shown same size (pixel basis) as original with options to scale
+DMT:WallpaperChanger LocalDisk can specify different directories for each monitor
+DMT:WallpaperChanger LocalDisk can specify a single image rather than a directory
+
 Changes from 2.0 to 2.1
 ========================
 
