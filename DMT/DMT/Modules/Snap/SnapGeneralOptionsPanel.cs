@@ -28,6 +28,9 @@ namespace DMT.Modules.Snap
 		{
 			numericUpDownSnaps.Value = (decimal)_snapModule.MaxSnaps;
 			checkBoxShowSnap.Checked = _snapModule.AutoShowSnap;
+			checkBoxExpandSnap.Checked = _snapModule.ExpandSnap;
+			checkBoxShrinkSnap.Checked = _snapModule.ShrinkSnap;
+			checkBoxMaintainAspectRatio.Checked = _snapModule.MaintainAspectRatio;
 		}
 
 		private void numericUpDownSnaps_ValueChanged(object sender, EventArgs e)
