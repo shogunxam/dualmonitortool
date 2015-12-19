@@ -14,7 +14,7 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
 
-Release 2.1
+Release 2.2
 ------------
 
 The release consists of the following files:

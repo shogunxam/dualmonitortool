@@ -58,7 +58,7 @@
 	DMT Snap
 </p>
 
-<p>Snap allows you to capture the image on the primary monitor and display it on the secondary monitor by the use of a user defined hotkey. 
+<p>Snap allows you to capture the image on the primary monitor or of the active window and display it on the secondary monitor by the use of user defined hotkeys. 
 This works with both normal window applications and some full screen applications like games.</p>
 <p>You can take multiple snapshots and review them later and copy them to the clipboard or save them as PNG files.</p>
 
@@ -67,9 +67,39 @@ This works with both normal window applications and some full screen application
 
 <img src="Images/dmt_snap_general.png" alt="Snap" />
 
-<p>Amongst these options is the option to allow you to specify a hotkey to take the snap.</p>
+<p class="SubHeading2"><a name="SnapPrimary">Take a snapshot of the primary screen</a></p>
 
 <p>Pressing the hotkey at any time will capture the image on the primary monitor and display it on your second monitor, assuming you have the <i>Show snap on second screen when taken</i> checked in the options dialog.</p>
+
+<p class="SubHeading2"><a name="SnapActive">Take a snapshot of the active window</a></p>
+
+<p>Pressing the hotkey at any time will capture the image of the active window and display it on your second monitor, assuming you have the <i>Show snap on second screen when taken</i> checked in the options dialog.</p>
+
+<p class="SubHeading2"><a name="ToggleShowSnap">Toggle display of current snapshot</a></p>
+
+<p>Pressing the hotkey will toggle the display of the current snapshot on the second monitor.</p>
+
+<p class="SubHeading2"><a name="SnapHistory">Max remembered snaps</a></p>
+
+<p>This is the maximum number of snaps that will be remembered. You can view any of the previous remembered snaps by using the context menu on the snap screen when it is shown.</p>
+
+<p class="SubHeading2"><a name="ShowSnap">Show snap on second screen when taken</a></p>
+
+<p>If selected, then when when a snap is taken, then the snap window will also be shown on the second screen if it is not already shown.</p>
+
+<p class="SubHeading2"><a name="ExpandSnap">Expand snap to fill screen</a></p>
+
+<p>If the size of the snap is smaller than the size of your second screen, then this will allow it to grow to fill the second screen.</p>
+
+<p class="SubHeading2"><a name="ShrinkSnap">Shrink snap to fit screen</a></p>
+
+<p>If the size of the snap is bigger than the size of your second screen, then this will shrink it so that it is all visible.
+If this is not selected and the snap is larger than your second screen, then you can use the cursor to drag the image around to view it all.</p>
+
+<p class="SubHeading2"><a name="MaintainAspectRatio">Maintain aspect ratio</a></p>
+
+<p>This is used with the above 2 options to know if the aspect ratio should be maintained when shrinking/expanding the image.</p>
+
 
 <p class="SubHeading">The Snap</p>
 
@@ -81,7 +111,7 @@ until the snap is hidden.</p>
 	<li>Show Snap - This is a checked item which allows you to display/hide the current snap on the second monitor.</li>
 	<li>Snaps - Shows a list of your previous snaps.  Clicking on one will make it the current snap and display it on the second monitor.
 	The most recent snap will be at the top of the list.</li>
-	<li>Copy - Copies the current snap to the clipboard.</li>
+	<li>Copy - Copies the current snap to the clipboard.</li><F12>
 	<li>Save As - Saves the current snap to a PNG file.</li>
 </ul>
 
@@ -100,7 +130,7 @@ until the snap is hidden.</p>
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 15 Jun 2015
+		last updated 12 Dec 2015
 		</div>
 	</div>
 </div>

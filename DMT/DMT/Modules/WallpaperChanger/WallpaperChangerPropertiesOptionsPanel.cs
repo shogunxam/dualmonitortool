@@ -144,17 +144,25 @@ namespace DMT.Modules.WallpaperChanger
 		void ShowSourceImageInfo()
 		{
 			ProviderImage providerImage = _wallpaperChangerModule.Desktop.GetProviderImage(_selectedScreenIndex);
-			if (providerImage != null)
+			if (providerImage == null)
+			{
+				// remove any existing info
+				ClearLink(linkLabelProvider);
+				ClearLink(linkLabelSource);
+				ClearLink(linkLabelPhotographer);
+				ClearLink(linkLabelDetails);
+			}
+			else
 			{
 				ShowLink(linkLabelProvider, providerImage.Provider, providerImage.ProviderUrl);
 				ShowLink(linkLabelSource, providerImage.Source, providerImage.SourceUrl);
 				ShowLink(linkLabelPhotographer, providerImage.Photographer, providerImage.PhotographerUrl);
 				ShowLink(linkLabelDetails, providerImage.MoreInfo, providerImage.MoreInfoUrl);
 
-				linkLabelProvider.Text = providerImage.Provider;
-				linkLabelSource.Text = providerImage.Source;
-				linkLabelPhotographer.Text = providerImage.Photographer;
-				linkLabelDetails.Text = providerImage.MoreInfo;
+				//linkLabelProvider.Text = providerImage.Provider;
+				//linkLabelSource.Text = providerImage.Source;
+				//linkLabelPhotographer.Text = providerImage.Photographer;
+				//linkLabelDetails.Text = providerImage.MoreInfo;
 			}
 		}
 
@@ -166,6 +174,12 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				linkLabel.Links.Add(0, text.Length, url);
 			}
+		}
+
+		void ClearLink(LinkLabel linkLabel)
+		{
+			linkLabel.Links.Clear();
+			linkLabel.Text = "";
 		}
 
 		private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

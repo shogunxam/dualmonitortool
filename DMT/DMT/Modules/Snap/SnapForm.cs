@@ -54,6 +54,14 @@ namespace DMT.Modules.Snap
 			//pictureBox.Size = image.Size;
 		}
 
+		public void SetScaling(bool expandSnap, bool shrinkSnap, bool maintainAspectRatio)
+		{
+			_expandSnap = expandSnap;
+			_shrinkSnap = shrinkSnap;
+			_maintainAspectRatio = maintainAspectRatio;
+			UpdateScaleMenuItems();
+		}
+
 		public void ShowAt(Rectangle rectangle)
 		{
 			this.WindowState = FormWindowState.Normal;	// necessary, or Location won't work

@@ -214,10 +214,14 @@ namespace DMT.Modules.Snap
 			SnapForm snapForm = GetSnapForm();
 			snapForm.ShowImage(snappedImage);
 
+			// whenever we take a snap, we reset the snap zooming to match our settings
+			// TODO: it can get a bit confusing have 2 copies of the settings.  Should they be permanently linked? 
+			snapForm.SetScaling(ExpandSnap, ShrinkSnap, MaintainAspectRatio);
+
 			Snap snap = new Snap(snappedImage);
 			SnapHistory.Add(snap);
 
-			if (AutoShowSnap)
+			if (AutoShowSnap || snapForm.Visible)
 			{
 				ShowLastSnap();
 			}
