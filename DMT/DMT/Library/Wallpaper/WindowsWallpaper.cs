@@ -110,6 +110,9 @@ namespace DMT.Library.Wallpaper
 			{
 				wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
 
+				// make sure image is tiled (must do this for both normal and ActiveDesktop wallpaper)
+				SetTiledWallpaper();
+
 				if (useFade)
 				{
 					SetActiveDesktopWallpaper(path);
@@ -126,14 +129,17 @@ namespace DMT.Library.Wallpaper
 			}
 		}
 
-		void SetDesktopWallpaper(string path)
+		void SetTiledWallpaper()
 		{
-			// make sure image is tiled
 			using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true))
 			{
 				key.SetValue("TileWallpaper", "1");
 				key.SetValue("WallpaperStyle", "0");
 			}
+		}
+
+		void SetDesktopWallpaper(string path)
+		{
 
 			// now set the wallpaper
 			Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
@@ -143,9 +149,6 @@ namespace DMT.Library.Wallpaper
 
 		void SetActiveDesktopWallpaper(string path)
 		{
-			//EnableActiveDesktop();
-
-			//SetActiveDesktopWallpaperThread(path);
 			Thread thread = new Thread(() => SetActiveDesktopWallpaperThread(path));
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
