@@ -154,7 +154,8 @@ namespace DMT.Library.GuiUtils
 		public static void MinimiseActive()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				// toggle the minimised state of the window
 				//MinimiseWindow(hWnd);
@@ -203,7 +204,8 @@ namespace DMT.Library.GuiUtils
 		public static void MaximiseActive()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				MaximiseWindow(hWnd);
 			}
@@ -239,7 +241,8 @@ namespace DMT.Library.GuiUtils
 		public static void SupersizeActive()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				SupersizeWindow(hWnd);
 			}
@@ -295,7 +298,8 @@ namespace DMT.Library.GuiUtils
 		public static void MoveActiveToNextScreen()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				MoveWindowToNext(hWnd, +1);
 			}
@@ -307,7 +311,8 @@ namespace DMT.Library.GuiUtils
 		public static void MoveActiveToPrevScreen()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				MoveWindowToNext(hWnd, -1);
 			}
@@ -319,7 +324,8 @@ namespace DMT.Library.GuiUtils
 		public static void SnapActiveLeft()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowLeftRight(hWnd, -1);
 			}
@@ -331,7 +337,8 @@ namespace DMT.Library.GuiUtils
 		public static void SnapActiveRight()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowLeftRight(hWnd, 1);
 			}
@@ -343,7 +350,8 @@ namespace DMT.Library.GuiUtils
 		public static void SnapActiveUp()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowUpDown(hWnd, -1);
 			}
@@ -355,7 +363,8 @@ namespace DMT.Library.GuiUtils
 		public static void SnapActiveDown()
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowUpDown(hWnd, 1);
 			}
@@ -367,7 +376,8 @@ namespace DMT.Library.GuiUtils
 		public static void MoveActiveToRectangle(Rectangle rectangle)
 		{
 			IntPtr hWnd = Win32.GetForegroundWindow();
-			if (hWnd != null)
+			//if (hWnd != null)
+			if (!IsNullHandle(hWnd))
 			{
 				MoveWindow(hWnd, rectangle);
 			}
@@ -380,8 +390,9 @@ namespace DMT.Library.GuiUtils
 		public static void SwapTop2Windows()
 		{
 			IntPtr hWndTop = Win32.GetForegroundWindow();
-			if (hWndTop != null)
-			{
+			//if (hWndTop != null)
+			if (!IsNullHandle(hWndTop))
+				{
 				//IntPtr hWndNext = hWndTop;
 				//do
 				//{
@@ -390,12 +401,14 @@ namespace DMT.Library.GuiUtils
 
 				// less efficient, but easier to read
 				IntPtr hWndNext = Win32.GetWindow(hWndTop, Win32.GW_HWNDNEXT);
-				while (hWndNext != null && !IsCandidateForMoving(hWndNext))
+				//while (hWndNext != null && !IsCandidateForMoving(hWndNext))
+				while (!IsNullHandle(hWndNext) && !IsCandidateForMoving(hWndNext))
 				{
 					hWndNext = Win32.GetWindow(hWndNext, Win32.GW_HWNDNEXT);
 				}
 
-				if (hWndNext != null)
+				//if (hWndNext != null)
+				if (!IsNullHandle(hWndNext))
 				{
 					SwapWindows(hWndTop, hWndNext);
 
@@ -901,6 +914,16 @@ namespace DMT.Library.GuiUtils
 				newPlacement.showCmd = windowPlacement.showCmd;
 				Win32.SetWindowPlacement(hWnd, ref newPlacement);
 			}
+		}
+
+		/// <summary>
+		/// Tests for a NULL handle value in the WIN32 sense
+		/// rather than a .NET null value
+		/// </summary>
+		/// <param name="hWnd"></param>
+		static bool IsNullHandle(IntPtr hWnd)
+		{
+			return (hWnd == IntPtr.Zero);
 		}
 
 		#endregion
