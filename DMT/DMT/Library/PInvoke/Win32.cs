@@ -291,6 +291,9 @@ namespace DMT.Library.PInvoke
 		[DllImport("kernel32")]
 		public static extern bool FreeConsole();
 
+		[DllImport("user32.dll")]
+		public static extern short GetAsyncKeyState(int vKey);
+
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 

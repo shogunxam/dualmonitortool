@@ -384,6 +384,25 @@ namespace DMT.Modules.Cursor
 					}
 				}
 
+				if (_freeMovementKeyPressed)
+				{
+					// If the free movement key is Control (left or right)
+					// and that key is pressed when Ctrl-Alt-Del (and some other combinations)
+					// we don't see the control key being released, so we think it is still pressed.
+					// So we double check here that the key is still really pressed.
+					//
+					// Note: we could remove the keyboard hook and just always call GetAsyncKeyState() here in the mouse hook
+					// to determine the state of the key, but this would add extra load to every mouse movement message
+					// so we only call this if we think the free movement key is already pressed.
+					ushort keyFlags = (ushort)Win32.GetAsyncKeyState((int)FreeMovementKey);
+					// most sig bit of the 16 bit value will be set if key is currently pressed
+					if ((keyFlags & 0x8000) == 0)
+					{
+						// key is no longer pressed
+						_freeMovementKeyPressed = false;
+					}
+				}
+
 				if (!_freeMovementKeyPressed && !_freeMovementButtonPressed)
 				{
 
@@ -608,6 +627,8 @@ namespace DMT.Modules.Cursor
 			// possible for the mouse to move over each of the borders
 			// of the current screen.
 			Rectangle vitrualDesktopRect = ScreenHelper.GetVitrualDesktopRect();
+
+			//System.Diagnostics.Debug.WriteLine("{0}: curScreen: {1}, desktop: {2}", DateTime.Now.ToLongTimeString(), curScreen.Bounds, vitrualDesktopRect);
 
 			// left of current screen
 			if (curScreen.Bounds.Left > vitrualDesktopRect.Left)
