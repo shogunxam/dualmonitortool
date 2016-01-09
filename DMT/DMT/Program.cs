@@ -17,6 +17,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Command;
 using DMT.Library.Logging;
 using DMT.Library.PInvoke;
 using System;
@@ -50,8 +51,6 @@ namespace DMT
 			}
 #endif
 
-
-
 			ProgramOptions programOptions = new ProgramOptions(args);
 
 			if (programOptions.CmdMode)
@@ -60,8 +59,24 @@ namespace DMT
 			}
 			else
 			{
+				// Make sure the GUI isn't already running.
+				// If it is, we activate it and exit silently.
+				if (ActivateExistingGui())
+				{
+					// Yes it is already running, so lets not start up a second instance
+					return;
+				}
+				// doesn't look like we are currently running
 				GuiMain(programOptions);
 			}
+		}
+
+		static bool ActivateExistingGui()
+		{
+			CommandMessaging commandMessaging = new CommandMessaging();
+			string magicCommand = "DMT:General:Options";
+			CommandMessaging.EMsgResult msgResult = commandMessaging.SendCommandMessage(magicCommand);
+			return (msgResult == CommandMessaging.EMsgResult.OK);
 		}
 
 
