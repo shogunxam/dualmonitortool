@@ -87,6 +87,20 @@ namespace DMT.Library.Settings
 				if (directoryRemap != null)
 				{
 					DataDirectory = directoryRemap.Item2;
+
+					// If this is the first time user has run the app, this directory may not exist
+					// so we make sure it does.
+					try
+					{
+						if (!Directory.Exists(DataDirectory))
+						{
+							Directory.CreateDirectory(DataDirectory);
+						}
+					}
+					catch (Exception)
+					{
+						// an exception will get thrown later when we try to do something with this directory
+					}
 				}
 			}
 
