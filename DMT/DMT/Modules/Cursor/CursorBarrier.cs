@@ -31,10 +31,10 @@ namespace DMT.Modules.Cursor
 	/// </summary>
 	class CursorBarrier
 	{
-		protected bool active;
-		protected int limit;
-		protected int minForce;
-		protected int totalForce;
+		protected bool _active;
+		protected int _limit;
+		protected int _minForce;
+		protected int _totalForce;
 
 		/// <summary>
 		/// Constructs the barrier.
@@ -68,14 +68,14 @@ namespace DMT.Modules.Cursor
 			// if state goes from active -> !active - do this at the start
 			if (!active)
 			{
-				this.active = active;
+				_active = active;
 			}
-			this.limit = limit;
-			this.minForce = minForce;
-			this.totalForce = 0;
+			_limit = limit;
+			_minForce = minForce;
+			_totalForce = 0;
 			if (active)
 			{
-				this.active = active;
+				_active = active;
 			}
 		}
 	}

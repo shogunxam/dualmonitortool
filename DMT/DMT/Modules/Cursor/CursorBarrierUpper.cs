@@ -56,33 +56,33 @@ namespace DMT.Modules.Cursor
 		public bool BrokenThrough(ref int newValue)
 		{
 			bool brokenThrough = false;
-			if (active)
+			if (_active)
 			{
-				if (newValue > limit)
+				if (newValue > _limit)
 				{
-					if (minForce == Int32.MaxValue)
+					if (_minForce == Int32.MaxValue)
 					{
 						// not allowed to break through barrier
-						newValue = limit;
+						newValue = _limit;
 					}
 					else
 					{
-						totalForce += newValue - limit;
-						if (totalForce > minForce)
+						_totalForce += newValue - _limit;
+						if (_totalForce > _minForce)
 						{
 							// cursor has broken through barrier
-							newValue = limit + totalForce - minForce;
+							newValue = _limit + _totalForce - _minForce;
 							brokenThrough = true;
 						}
 						else
 						{
-							newValue = limit;
+							newValue = _limit;
 						}
 					}
 				}
 				else
 				{
-					totalForce = 0;
+					_totalForce = 0;
 				}
 			}
 
@@ -98,9 +98,9 @@ namespace DMT.Modules.Cursor
 		public bool Outside(int newValue)
 		{
 			bool outside = false;
-			if (active)
+			if (_active)
 			{
-				if (newValue > limit)
+				if (newValue > _limit)
 				{
 					outside = true;
 				}

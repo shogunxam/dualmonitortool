@@ -36,10 +36,10 @@ namespace DMT.Modules.Cursor
 		CursorType _curCursorType = CursorType.Free;
 
 		// Barriers which constrain the cursor movement
-		CursorBarrierLower leftBarrier = new CursorBarrierLower(false, 0, 0);
-		CursorBarrierUpper rightBarrier = new CursorBarrierUpper(false, 0, 0);
-		CursorBarrierLower topBarrier = new CursorBarrierLower(false, 0, 0);
-		CursorBarrierUpper bottomBarrier = new CursorBarrierUpper(false, 0, 0);
+		CursorBarrierLower _leftBarrier = new CursorBarrierLower(false, 0, 0);
+		CursorBarrierUpper _rightBarrier = new CursorBarrierUpper(false, 0, 0);
+		CursorBarrierLower _topBarrier = new CursorBarrierLower(false, 0, 0);
+		CursorBarrierUpper _bottomBarrier = new CursorBarrierUpper(false, 0, 0);
 
 		int _minForce;
 		bool _freeMovementKeyPressed;
@@ -75,7 +75,6 @@ namespace DMT.Modules.Cursor
 				}
 			}
 		}
-
 
 		BoolSetting AllowFreeMovementKeySetting { get; set; }
 		public bool AllowFreeMovementKey
@@ -119,7 +118,6 @@ namespace DMT.Modules.Cursor
 			get { return (CursorType)DefaultCursorModeSetting.Value; }
 			set { DefaultCursorModeSetting.Value = (int)value; /* TODO */ }
 		}
-
 
 		public CursorModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger)
 			: base(hotKeyService)
@@ -418,16 +416,16 @@ namespace DMT.Modules.Cursor
 						// allow cursor to move freely
 						// still need to check if we have moved outside of the current screen
 						// so that we can rebuild the barriers for the new screen
-						bool outside = leftBarrier.Outside(x);
-						if (rightBarrier.Outside(x))
+						bool outside = _leftBarrier.Outside(x);
+						if (_rightBarrier.Outside(x))
 						{
 							outside = true;
 						}
-						if (topBarrier.Outside(y))
+						if (_topBarrier.Outside(y))
 						{
 							outside = true;
 						}
-						if (bottomBarrier.Outside(y))
+						if (_bottomBarrier.Outside(y))
 						{
 							outside = true;
 						}
@@ -443,16 +441,16 @@ namespace DMT.Modules.Cursor
 						// and if so add the required amount of stickiness to the cursor
 						// restraining it to the current screen if necessary
 
-						bool brokenThrough = leftBarrier.BrokenThrough(ref x);
-						if (rightBarrier.BrokenThrough(ref x))
+						bool brokenThrough = _leftBarrier.BrokenThrough(ref x);
+						if (_rightBarrier.BrokenThrough(ref x))
 						{
 							brokenThrough = true;
 						}
-						if (topBarrier.BrokenThrough(ref y))
+						if (_topBarrier.BrokenThrough(ref y))
 						{
 							brokenThrough = true;
 						}
-						if (bottomBarrier.BrokenThrough(ref y))
+						if (_bottomBarrier.BrokenThrough(ref y))
 						{
 							brokenThrough = true;
 						}
@@ -633,45 +631,45 @@ namespace DMT.Modules.Cursor
 			// left of current screen
 			if (curScreen.Bounds.Left > vitrualDesktopRect.Left)
 			{
-				leftBarrier.ChangeBarrier(true, curScreen.Bounds.Left, _minForce);
+				_leftBarrier.ChangeBarrier(true, curScreen.Bounds.Left, _minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				leftBarrier.ChangeBarrier(false, 0, 0);
+				_leftBarrier.ChangeBarrier(false, 0, 0);
 			}
 
 			// right of current screen
 			if (curScreen.Bounds.Right < vitrualDesktopRect.Right)
 			{
-				rightBarrier.ChangeBarrier(true, curScreen.Bounds.Right - 1, _minForce);
+				_rightBarrier.ChangeBarrier(true, curScreen.Bounds.Right - 1, _minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				rightBarrier.ChangeBarrier(false, 0, 0);
+				_rightBarrier.ChangeBarrier(false, 0, 0);
 			}
 
 			// top of current screen
 			if (curScreen.Bounds.Top > vitrualDesktopRect.Top)
 			{
-				topBarrier.ChangeBarrier(true, curScreen.Bounds.Top, _minForce);
+				_topBarrier.ChangeBarrier(true, curScreen.Bounds.Top, _minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				topBarrier.ChangeBarrier(false, 0, 0);
+				_topBarrier.ChangeBarrier(false, 0, 0);
 			}
 
 			// bottom of current screen
 			if (curScreen.Bounds.Bottom < vitrualDesktopRect.Bottom)
 			{
-				bottomBarrier.ChangeBarrier(true, curScreen.Bounds.Bottom - 1, _minForce);
+				_bottomBarrier.ChangeBarrier(true, curScreen.Bounds.Bottom - 1, _minForce);
 			}
 			else
 			{
 				// not possible for mouse to move here, so fully disable barrier to improve efficiency
-				bottomBarrier.ChangeBarrier(false, 0, 0);
+				_bottomBarrier.ChangeBarrier(false, 0, 0);
 			}
 		}
 	}
