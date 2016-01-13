@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+	 xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+	<Product Id="*"
+	         Name="Dual Monitor Tools"
+	         UpgradeCode="9aec1ab7-2dea-473d-80e4-d794a5176629"
+			 Language="1033" 
+			 Version="2.2.0.0" 
+	         Manufacturer="GNE">
+
+		<Package InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>
+
+		<PropertyRef Id="NETFRAMEWORK40CLIENT"/>
+		<Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
+			 <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>
+		</Condition>
+
+		<Media Id="1" Cabinet="DualMonitorTools.cab" EmbedCab="yes" />
+
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="APPLICATIONROOTDIRECTORY" Name="Dual Monitor Tools" />
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="Dual Monitor Tools" />
+			</Directory>
+		</Directory>
+
+
+		<DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+			 <Component Id="dmt.exe" Guid="ac8acb03-f948-40ce-9c35-297ff94c7c35">
+				<File Id="dmt.exe" Name="DMT.exe"
+					Source="..\DMT\DMT\bin\Release\DMT.exe" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+			 <Component Id="DualWallpaper.exe" Guid="eae2fdaa-172e-4321-987f-2ee40dd4cb26">
+				<File Id="DualWallpaper.exe" Name="DualWallpaper.exe"
+					  Source="..\DualWallpaper\DualWallpaper\bin\Release\DualWallpaper.exe" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+			 <Component Id="FileLocations.xml" Guid="a652924f-b277-4a7c-8b78-fa1d6f9f43fe">
+				<File Id="FileLocations.xml" Name="DmtFileLocations.xml"
+					  Source="..\DmtFileLocations.xml" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+		</DirectoryRef>
+
+        <DirectoryRef Id="ApplicationProgramsFolder">
+            <Component Id="DmtShortcut" Guid="a33388cb-2ee0-42f0-a692-2db06400c0b5">
+                <Shortcut Id="DmtStartMenuShortcut" 
+                     Name="DMT" 
+                   Description="DMT"
+                    Target="[#dmt.exe]"
+                          WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+                <Shortcut Id="DualWallpaperStartMenuShortcut" 
+                     Name="DualWallpaper" 
+                   Description="Dual Wallpaper"
+                    Target="[#DualWallpaper.exe]"
+					WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+
+                <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+                <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+           </Component>
+        </DirectoryRef>
+		<Feature Id="Complete" Level="1">
+			<ComponentRef Id="dmt.exe" />
+			<ComponentRef Id="DualWallpaper.exe" />
+			<ComponentRef Id="FileLocations.xml" />
+			<ComponentRef Id="DmtShortcut" />
+		</Feature>
+
+
+	</Product>
+</Wix>
