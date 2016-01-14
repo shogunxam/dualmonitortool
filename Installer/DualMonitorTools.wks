@@ -23,7 +23,7 @@
 				<Directory Id="APPLICATIONROOTDIRECTORY" Name="Dual Monitor Tools" />
 			</Directory>
 			<Directory Id="ProgramMenuFolder">
-				<Directory Id="ApplicationProgramsFolder" Name="Dual Monitor Tools" />
+				<Directory Id="ApplicationMenuFolder" Name="Dual Monitor Tools" />
 			</Directory>
 		</Directory>
 
@@ -44,32 +44,62 @@
 					  Source="..\DmtFileLocations.xml" Vital="yes" KeyPath="yes">
 				</File>
 			</Component>
+
+			 <Component Id="Changes.txt" Guid="8da20c33-ee30-4e16-be4d-4a1b40c469bd">
+				<File Id="Changes.txt" Name="CHANGES.txt"
+					  Source="..\CHANGES.txt" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+			 <Component Id="Copying.txt" Guid="027947fe-8219-4233-9998-63aedc347da0">
+				<File Id="Copying.txt" Name="COPYING.txt"
+					  Source="..\COPYING.txt" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+			 <Component Id="Readme.txt" Guid="f1855f05-c3de-4a29-857f-be0c66424bee">
+				<File Id="Readme.txt" Name="README.txt"
+					  Source="..\README.txt" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+			 <Component Id="Thanks.txt" Guid="b7c9e53f-ba59-4b22-8fff-4877e7031e9f">
+				<File Id="Thanks.txt" Name="THANKS.txt"
+					  Source="..\THANKS.txt" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
 		</DirectoryRef>
 
-        <DirectoryRef Id="ApplicationProgramsFolder">
-            <Component Id="DmtShortcut" Guid="a33388cb-2ee0-42f0-a692-2db06400c0b5">
-                <Shortcut Id="DmtStartMenuShortcut" 
-                     Name="DMT" 
-                   Description="DMT"
-                    Target="[#dmt.exe]"
-                          WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
-                <Shortcut Id="DualWallpaperStartMenuShortcut" 
-                     Name="DualWallpaper" 
-                   Description="Dual Wallpaper"
-                    Target="[#DualWallpaper.exe]"
+		<DirectoryRef Id="ApplicationMenuFolder">
+			<Component Id="DmtShortcut" Guid="a33388cb-2ee0-42f0-a692-2db06400c0b5">
+				<Shortcut Id="DmtStartMenuShortcut" 
+					 Name="DMT" 
+				   Description="DMT"
+					Target="[#dmt.exe]"
+						  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+				<Shortcut Id="DualWallpaperStartMenuShortcut" 
+					 Name="DualWallpaper" 
+				   Description="Dual Wallpaper"
+					Target="[#DualWallpaper.exe]"
 					WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
 
-                <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
-                <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-           </Component>
-        </DirectoryRef>
+				<RemoveFolder Id="ApplicationMenuFolder" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+		   </Component>
+		</DirectoryRef>
 		<Feature Id="Complete" Level="1">
 			<ComponentRef Id="dmt.exe" />
 			<ComponentRef Id="DualWallpaper.exe" />
 			<ComponentRef Id="FileLocations.xml" />
+			<ComponentRef Id="Changes.txt" />
+			<ComponentRef Id="Copying.txt" />
+			<ComponentRef Id="Readme.txt" />
+			<ComponentRef Id="Thanks.txt" />
 			<ComponentRef Id="DmtShortcut" />
 		</Feature>
 
+		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
+		<UIRef Id="WixUI_InstallDir" />
+		<WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
 	</Product>
 </Wix>
