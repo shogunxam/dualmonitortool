@@ -15,8 +15,9 @@
 			 <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>
 		</Condition>
 
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    
 		<Media Id="1" Cabinet="DualMonitorTools.cab" EmbedCab="yes" />
-
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
@@ -81,9 +82,10 @@
 					WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
 
 				<RemoveFolder Id="ApplicationMenuFolder" On="uninstall"/>
-				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+				<RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 		   </Component>
 		</DirectoryRef>
+
 		<Feature Id="Complete" Level="1">
 			<ComponentRef Id="dmt.exe" />
 			<ComponentRef Id="DualWallpaper.exe" />
@@ -100,6 +102,13 @@
 		<WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
 		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+
+		<CustomAction Id="StartAppOnExit" FileKey="dmt.exe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch DMT when setup exits." />
+		<UI>
+			<Publish Dialog="ExitDialog" Control="Finish" Order="1" Event="DoAction" Value="StartAppOnExit">WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT</Publish>
+		</UI>
 
 	</Product>
 </Wix>
