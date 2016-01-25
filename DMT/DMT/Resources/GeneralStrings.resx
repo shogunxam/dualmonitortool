@@ -121,7 +121,13 @@
     <value>&lt;Not used&gt;</value>
     <comment>used when showing File Locations to user, if file not used</comment>
   </data>
+  <data name="MsiInstall" xml:space="preserve">
+    <value>MSI installation</value>
+  </data>
   <data name="OptionsDescription" xml:space="preserve">
     <value>Show Options</value>
+  </data>
+  <data name="PortableInstall" xml:space="preserve">
+    <value>Portable installation</value>
   </data>
 </root>

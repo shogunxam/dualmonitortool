@@ -10,6 +10,8 @@
 
 		<Package InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>
 
+		<Condition Message="You need to be an administrator to install this product.">Privileged</Condition>
+
 		<PropertyRef Id="NETFRAMEWORK40CLIENT"/>
 		<Condition Message="This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.">
 			 <![CDATA[Installed OR NETFRAMEWORK40CLIENT]]>

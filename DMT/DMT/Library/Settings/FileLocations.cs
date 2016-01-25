@@ -30,6 +30,7 @@ namespace DMT.Library.Settings
 {
 	class FileLocations
 	{
+		public string ExecutableFilename { get; protected set; }
 		public string DataDirectory { get; protected set; }
 		public string SettingsFilename { get; protected set; }
 		public string MagicWordsFilename { get; protected set; }
@@ -70,6 +71,7 @@ namespace DMT.Library.Settings
 
 		void LoadFileLocations()
 		{
+			ExecutableFilename = Assembly.GetExecutingAssembly().Location;
 			_homeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			// by default, we use the home directory as the data directory to simplify portable usage
 			DataDirectory = _homeDirectory;

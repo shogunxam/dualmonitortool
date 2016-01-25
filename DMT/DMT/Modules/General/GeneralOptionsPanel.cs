@@ -42,6 +42,12 @@ namespace DMT.Modules.General
 
 			checkBoxAutoStart.Checked = _generalModule.StartWhenWindowsStarts;
 
+			// "Installed version" group
+			labelVersion.Text = generalModule.Version;
+			labelInstallType.Text = generalModule.IsMsiInstall ? Resources.GeneralStrings.MsiInstall : Resources.GeneralStrings.PortableInstall;
+
+			// "File locations" group
+			textBoxExecutable.Text = CleanFileLocation(FileLocations.Instance.ExecutableFilename);
 			textBoxSettings.Text = CleanFileLocation(FileLocations.Instance.SettingsFilename);
 			textBoxMagicWords.Text = CleanFileLocation(FileLocations.Instance.MagicWordsFilename);
 			textBoxWallpaperProviders.Text = CleanFileLocation(FileLocations.Instance.WallpaperProvidersFilename);
@@ -63,6 +69,11 @@ namespace DMT.Modules.General
 		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
 		{
 			_generalModule.StartWhenWindowsStarts = checkBoxAutoStart.Checked;
+		}
+
+		private void buttonCheckUpdates_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

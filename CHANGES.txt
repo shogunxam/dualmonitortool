@@ -1,6 +1,16 @@
 Dual Monitor Tools
 
 
+Changes from 2.2 to 2.3
+========================
+
+Installer now available.
+DMT:SwapScreen fix for when swapping top 2 windows
+DMT:WallpaperChanger makes sure correct wallpaper mode used if using smooth
+changes
+DMT:Cursor fix for cursor not sticky after Ctrl-Alt-Del
+DMT no longer allows multiple instances of its GUI interface to be run
+
 Changes from 2.1 to 2.2
 ========================
 

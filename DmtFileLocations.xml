@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Sample of the DmtFileLocations.xml file
+
+	 You only need a DmtFileLocations.xml if you want the data files
+	 to reside in a directory other than the one where DMT.exe lives.
+
+	 This file needs to be named "DmtFileLocations.xml" and to reside
+	 in the same directory as DMT.exe.  It will not be written to, so
+	 is safe to reside under "C:\Program Files (x86)".
+
+	 Normally you would just need to change the location for "datadirectory",
+	 unless you wanted finer control over the filenames, or wanted to
+	 enable the log file.
+
+	 Environment variables may be used in the paths below, or you can use
+	 the explicit pathnames.
+	 -->
+
+<filelocations>
+	<!-- datadirectory specifies the default home directory
+		 for all file locations that are not explicitly set below.
+		 This must be a full path, but may include environment variables.
+		 You will need to make sure that the directory exists before running DMT. -->
+	<filelocation name="datadirectory" value="%APPDATA%\Dual Monitor Tools" />
+
+	<!-- Individual file locations may be the full or relative path.
+		 If a relative path is used, then this will be relative to datadirectory if specified,
+		 otherwise it will be relative the location of DMT.exe -->
+
+	<!-- Location for generic settings -->
+	<!-- <filelocation name="settings" value="DmtSettings.xml" /> -->
+
+	<!-- Location for saved magic words -->
+	<!-- <filelocation name="magicwords" value="DmtMagicWords.xml" /> -->
+
+	<!-- Location for saved wallpaper providers -->
+	<!-- <filelocation name="wallpaperproviders" value="DmtWallpaperProviders.xml" /> -->
+
+	<!-- Location for image to be used when creating Windows wallpaper -->
+	<!-- <filelocation name="wallpaper" value="DmtWallpaper.bmp" /> -->
+
+	<!-- Location for log file (for debugging).
+		 If not specified, then no log file will be used. -->
+	<!-- <filelocation name="log" value="Dmt.log" /> -->
+</filelocations>

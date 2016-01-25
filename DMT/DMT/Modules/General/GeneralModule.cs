@@ -22,10 +22,12 @@ using DMT.Library.HotKeys;
 using DMT.Library.Logging;
 using DMT.Library.Settings;
 using DMT.Resources;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -34,7 +36,10 @@ namespace DMT.Modules.General
 {
 	class GeneralModule : Module
 	{
-		const string _autoStartKeyName = "GNE_DualMonitorTools";
+		const string AutoStartKeyName = "GNE_DualMonitorTools";
+		const string InstalledKeyName = @"SOFTWARE\GNE\Dual Monitor Tools";
+		const string Installed6432KeyName = @"SOFTWARE\WOW6432Node\GNE\Dual Monitor Tools";
+		const string InstalledValueName = "installed";
 
 		ISettingsService _settingsService;
 		ILogger _logger;
@@ -44,18 +49,49 @@ namespace DMT.Modules.General
 		{
 			get
 			{
-				return AutoStart.IsAutoStart(_autoStartKeyName);
+				return AutoStart.IsAutoStart(AutoStartKeyName);
 			}
 			set
 			{
 				if (value)
 				{
-					AutoStart.SetAutoStart(_autoStartKeyName);
+					AutoStart.SetAutoStart(AutoStartKeyName);
 				}
 				else
 				{
-					AutoStart.UnsetAutoStart(_autoStartKeyName);
+					AutoStart.UnsetAutoStart(AutoStartKeyName);
 				}
+			}
+		}
+
+		public string Version
+		{
+			get
+			{
+				return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+			}
+		}
+
+		public bool IsMsiInstall
+		{
+			get
+			{
+				object keyValue = null;
+				try
+				{
+					keyValue = Registry.LocalMachine.GetValue(InstalledKeyName, InstalledValueName);
+					if (keyValue == null)
+					{
+						// installer is 32bit, but we could be running on a 64 bit O/S
+						keyValue = Registry.LocalMachine.GetValue(Installed6432KeyName, InstalledValueName);
+					}
+				}
+				catch (Exception)
+				{
+					// if we can't read the registry, assume this is a portable install.
+					keyValue = null;
+				}
+				return (keyValue != null);
 			}
 		}
 
