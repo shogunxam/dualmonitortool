@@ -95,6 +95,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			FlickrQuery searchQuery = GetSearchQuery(ApiKey, _config);
 
 			string hitsPageData = GetPage(searchQuery, "flickrHits1");
+			string originalHitsPageData = hitsPageData;
 
 			if (_config.RandomPage)
 			{
@@ -120,6 +121,15 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			}
 
 			List<string> photoIds = ParseHitsPageForPhotos(hitsPageData);
+
+			// hack for when flickr don't give us a proper non-first page
+			if (photoIds.Count == 0)
+			{
+				if (hitsPageData != originalHitsPageData)
+				{
+					photoIds = ParseHitsPageForPhotos(originalHitsPageData);
+				}
+			}
 
 			// choose a photoid at random
 			if (photoIds.Count > 0)

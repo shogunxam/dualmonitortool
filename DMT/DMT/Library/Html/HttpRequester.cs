@@ -83,6 +83,22 @@ namespace DMT.Library.Html
 			return image;
 		}
 
+		public HttpStatusCode GetData(Uri uri, ref byte[] data)
+		{
+			data = null;
+			HttpConnection connection = _connectionManager.GetConnection(uri);
+			HttpWebRequest webRequest = CreateGetRequest(connection, uri);
+			HttpConnection repliedConnection;
+			HttpResponseData responseData = GetResponse(connection, webRequest, out repliedConnection);
+			if (responseData.StatusCode == HttpStatusCode.OK)
+			{
+				data = responseData.RawData;
+				LastResponseUri = webRequest.Address;
+			}
+
+			return responseData.StatusCode;
+		}
+
 		#region Request creation
 
 		HttpWebRequest CreateGetRequest(HttpConnection connection, Uri uri)

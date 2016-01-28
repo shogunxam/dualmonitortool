@@ -39,7 +39,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 		{
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Random shapes");
-			ShapeCount = ProviderHelper.ConfigToInt(configDictionary, "shapeCount", 100);
+			ShapeCount = ProviderHelper.ConfigToInt(configDictionary, "shapeCount", 10);
 			RandomBackground = ProviderHelper.ConfigToBool(configDictionary, "randomBackground", true);
 			UseRectangles = ProviderHelper.ConfigToBool(configDictionary, "useRectangles", true);
 			UseEllipses = ProviderHelper.ConfigToBool(configDictionary, "useEllipses", true);

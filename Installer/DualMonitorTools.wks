@@ -5,7 +5,7 @@
 	         Name="Dual Monitor Tools"
 	         UpgradeCode="9aec1ab7-2dea-473d-80e4-d794a5176629"
 			 Language="1033" 
-			 Version="2.2.0.0" 
+			 Version="2.2.1.0" 
 	         Manufacturer="GNE">
 
 		<Package InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>

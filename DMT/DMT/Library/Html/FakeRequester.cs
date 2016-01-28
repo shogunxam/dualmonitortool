@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -57,6 +58,14 @@ namespace DMT.Library.Html
 			LastResponseUri = uri;
 
 			return image;
+		}
+
+		public HttpStatusCode GetData(Uri uri, ref byte[] data)
+		{
+			data = File.ReadAllBytes(@"..\..\..\MockData\data.tst");
+			LastResponseUri = uri;
+
+			return HttpStatusCode.OK;
 		}
 	}
 }

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,5 +34,6 @@ namespace DMT.Library.Html
 		//Image GetImage(HttpConnection connection, Uri uri);
 		string GetPage(Uri uri, string testPage, out HttpConnection repliedConnection);
 		Image GetImage(Uri uri);
+		HttpStatusCode GetData(Uri uri, ref byte[] data);
 	}
 }

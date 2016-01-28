@@ -61,11 +61,47 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string CloseButtonText {
+            get {
+                return ResourceManager.GetString("CloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Not used&gt;.
         /// </summary>
         internal static string FileNotUsed {
             get {
                 return ResourceManager.GetString("FileNotUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A new version ({0}) is available for download..
+        /// </summary>
+        internal static string LatestVersionAvailable {
+            get {
+                return ResourceManager.GetString("LatestVersionAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You already have the latest version..
+        /// </summary>
+        internal static string LatestVersionHave {
+            get {
+                return ResourceManager.GetString("LatestVersionHave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to get latest version ({0}).  Please try again later..
+        /// </summary>
+        internal static string LatestVersionUnavailable {
+            get {
+                return ResourceManager.GetString("LatestVersionUnavailable", resourceCulture);
             }
         }
         

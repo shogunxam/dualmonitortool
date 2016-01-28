@@ -27,6 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DMT.Library.Settings;
+using DMT.Library.Utils;
 
 namespace DMT.Modules.General
 {
@@ -43,7 +44,7 @@ namespace DMT.Modules.General
 			checkBoxAutoStart.Checked = _generalModule.StartWhenWindowsStarts;
 
 			// "Installed version" group
-			labelVersion.Text = generalModule.Version;
+			labelVersion.Text = generalModule.Version.ToString();
 			labelInstallType.Text = generalModule.IsMsiInstall ? Resources.GeneralStrings.MsiInstall : Resources.GeneralStrings.PortableInstall;
 
 			// "File locations" group
@@ -73,7 +74,8 @@ namespace DMT.Modules.General
 
 		private void buttonCheckUpdates_Click(object sender, EventArgs e)
 		{
-
+			CheckUpdatesForm dlg = new CheckUpdatesForm(_generalModule);
+			dlg.ShowDialog(this);
 		}
 	}
 }

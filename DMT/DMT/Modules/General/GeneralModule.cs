@@ -26,6 +26,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -64,11 +65,11 @@ namespace DMT.Modules.General
 			}
 		}
 
-		public string Version
+		public Version Version
 		{
 			get
 			{
-				return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+				return Assembly.GetExecutingAssembly().GetName().Version;
 			}
 		}
 
@@ -95,6 +96,14 @@ namespace DMT.Modules.General
 			}
 		}
 
+		public string TempMsiInstallPath
+		{
+			get
+			{
+				return Path.Combine(Path.GetTempPath(), "DualMonitorTools.msi");
+			}
+		}
+
 		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
 			: base(hotKeyService)
 		{
@@ -108,6 +117,12 @@ namespace DMT.Modules.General
 		public override void Start()
 		{
 			AddCommand("Options", GeneralStrings.OptionsDescription, "", ShowOptions, false, true);
+		}
+
+		public void StartShutdown()
+		{
+			//_appForm.Close();
+			Application.Exit();
 		}
 
 		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
