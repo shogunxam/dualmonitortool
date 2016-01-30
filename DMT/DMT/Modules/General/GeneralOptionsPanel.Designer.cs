@@ -86,7 +86,7 @@
 			// 
 			this.textBoxExecutable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxExecutable.Location = new System.Drawing.Point(117, 17);
+			this.textBoxExecutable.Location = new System.Drawing.Point(117, 16);
 			this.textBoxExecutable.Name = "textBoxExecutable";
 			this.textBoxExecutable.ReadOnly = true;
 			this.textBoxExecutable.Size = new System.Drawing.Size(348, 20);
@@ -105,7 +105,7 @@
 			// 
 			this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxLog.Location = new System.Drawing.Point(117, 121);
+			this.textBoxLog.Location = new System.Drawing.Point(117, 120);
 			this.textBoxLog.Name = "textBoxLog";
 			this.textBoxLog.ReadOnly = true;
 			this.textBoxLog.Size = new System.Drawing.Size(348, 20);
@@ -124,7 +124,7 @@
 			// 
 			this.textBoxWallpaperProviders.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxWallpaperProviders.Location = new System.Drawing.Point(117, 95);
+			this.textBoxWallpaperProviders.Location = new System.Drawing.Point(117, 94);
 			this.textBoxWallpaperProviders.Name = "textBoxWallpaperProviders";
 			this.textBoxWallpaperProviders.ReadOnly = true;
 			this.textBoxWallpaperProviders.Size = new System.Drawing.Size(348, 20);
@@ -143,7 +143,7 @@
 			// 
 			this.textBoxMagicWords.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxMagicWords.Location = new System.Drawing.Point(117, 69);
+			this.textBoxMagicWords.Location = new System.Drawing.Point(117, 68);
 			this.textBoxMagicWords.Name = "textBoxMagicWords";
 			this.textBoxMagicWords.ReadOnly = true;
 			this.textBoxMagicWords.Size = new System.Drawing.Size(348, 20);
@@ -162,7 +162,7 @@
 			// 
 			this.textBoxSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSettings.Location = new System.Drawing.Point(117, 43);
+			this.textBoxSettings.Location = new System.Drawing.Point(117, 42);
 			this.textBoxSettings.Name = "textBoxSettings";
 			this.textBoxSettings.ReadOnly = true;
 			this.textBoxSettings.Size = new System.Drawing.Size(348, 20);
@@ -179,6 +179,8 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.buttonCheckUpdates);
 			this.groupBox2.Controls.Add(this.labelInstallType);
 			this.groupBox2.Controls.Add(this.label8);
@@ -203,7 +205,9 @@
 			// 
 			// labelInstallType
 			// 
-			this.labelInstallType.Location = new System.Drawing.Point(114, 46);
+			this.labelInstallType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.labelInstallType.Location = new System.Drawing.Point(114, 43);
 			this.labelInstallType.Name = "labelInstallType";
 			this.labelInstallType.Size = new System.Drawing.Size(351, 13);
 			this.labelInstallType.TabIndex = 3;
@@ -212,7 +216,7 @@
 			// label8
 			// 
 			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(6, 46);
+			this.label8.Location = new System.Drawing.Point(6, 43);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(64, 13);
 			this.label8.TabIndex = 2;
@@ -220,7 +224,9 @@
 			// 
 			// labelVersion
 			// 
-			this.labelVersion.Location = new System.Drawing.Point(114, 20);
+			this.labelVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.labelVersion.Location = new System.Drawing.Point(114, 21);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(351, 13);
 			this.labelVersion.TabIndex = 1;
@@ -229,7 +235,7 @@
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 20);
+			this.label6.Location = new System.Drawing.Point(6, 21);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(45, 13);
 			this.label6.TabIndex = 0;

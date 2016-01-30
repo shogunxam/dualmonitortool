@@ -1,5 +1,5 @@
-Dual Monitor Tools
-------------------
+Dual Monitor Tools v2.3
+-----------------------
 
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.
@@ -14,18 +14,15 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
 
-Release 2.2
-------------
+Changes in version 2.3
+----------------------
 
-The release consists of the following files:
-
-DMT.exe                     The main tool
-DmtFileLocations-sample.xml Sample of the optional DmtFileLocations.xml
-DualWallpaper.exe           The wallpaper creation tool
-CHANGES.txt                 List of changes
-COPYING.txt                 GPLv3 license
-README.txt                  This file
-THANKS.txt                  Contributors to the project
+Installer now available.
+DMT:SwapScreen fix for when swapping top 2 windows
+DMT:WallpaperChanger makes sure correct wallpaper mode used if using smooth
+changes
+DMT:Cursor fix for cursor not sticky after Ctrl-Alt-Del
+DMT no longer allows multiple instances of its GUI interface to be run
 
 
 Requirements
@@ -40,8 +37,55 @@ of the features can be useful to users with a single monitor.
 Installation
 ------------
 
-There is currently no installer, just download the zip, and unzip the
-files into a suitable directory, and you are then ready to run them.
+There are 2 choices for installation:
+1) Use the msi installer - this is the simplest method and will make
+installing any future versions even easier.
+2) Download the zip, and unzip the files wherever you want them.
+This gives you the most flexibility and is the route to use if you
+are installing to a portable device.
+
+
+Msi Installation for new users
+------------------------------
+
+Just download DualMonitorTools-2.3.msi and run it.
+
+
+Msi installation for existing/portable users
+--------------------------------------------
+
+With a msi installation, the executable and configuration files will live
+in different locations, so there are some extra steps that you need to go
+through:
+1) In your existing version of DMT, make sure "Start when Windows starts"
+   (found in Options->Dual Monitor Tools->General) is not ticked.
+2) Make sure DMT is not currently running.
+3) Make sure you have a backup copy of the following configuration files:
+   DmtMagicWords.xml
+   DmtSettings.xml
+   DmtWallpaperProviders.xml
+   These would normally be in the same directory that you previously installed
+   Dual Monitor Tools too.
+4) Download and run the new msi installer.
+5) Double click on DMT in the notification area
+6) Select the 'General' page under 'Dual Monitor Tools'.
+   This will show the location where the configuration files now live.
+   The files will be in the '%appdata%\Dual Monitor Tools' folder, which should
+   be something like:
+   'C:\Users\<your login name>\AppData\Roaming\Dual Monitor Tools'
+7) Copy the 3 xml files into the above location.
+8) Start DMT. There should be an option in the Start menu to do this.
+9) Don't forget to tick the "Start when Windows starts" option if required. 
+
+Note: future updates will be much simpler as then can be performed from within
+DMT.
+
+
+Portable installation
+---------------------
+
+Just download the zip, and unzip the files into a suitable directory,
+and you are then ready to run them.
 
 
 TOOL - DMT
@@ -75,6 +119,7 @@ Double click this icon to see all of the options available.
 'Dual Monitor Tools'->'General' contains an option so start up
 DMT every time Windows starts.
 
+
 Hotkeys
 -------
 
@@ -96,6 +141,7 @@ it will offer to create a magic word which you can then use in the future
 as a quick wat of starting that application. Win+A is a nice hotkey for
 this, but be aware that Windows 10 now uses this key combination.
 
+
 Magic Words
 -----------
 
@@ -106,6 +152,7 @@ so you won't normally have to type in the whole word.
 
 You can also assign the same Magic Word to multiple applications.
 When you enter the Magic Word, all of the applications will be started.
+
 
 Importing Magic Words
 ---------------------
@@ -137,6 +184,7 @@ Portable Usage
 
 The tools are designed to be easy to use in a portable environment, so
 they can be copied to a USB drive and ran direct from there.
+Make sure you install from the zip file and not from the msi installer.
 
 When specifying filenames (for the launcher executables and wallpaper
 locations), you may want to make sure that any paths you enter are
@@ -146,7 +194,7 @@ relative paths if they exist on the USB drive to ensure portability.
 Data Files
 ----------
 
-In a default installation, the tools will write to data files in the
+In a portable installation, the tools will write to data files in the
 same directory that the executables are.
 The files written to are:
 
@@ -156,14 +204,19 @@ DmtSettings.xml - Any other settings go in here.
 - There will also be .bak versions of these files which are just
 backup copies of the previous versions of the files.
 
-If you want the data files to reside in a different directory, for example
-if you like all of you executables to be under "C:\Program Files (x86)"
-which has restricted write access, then this can be achieved by using 
-DmtFileLocations.xml.  See DmtFileLocations-sample.xml for more details.
+In a msi installation, there will be a DmtFileLocations.xml in this 
+directory that will specify where the other xml files live which would be in
+"%APPDATA%\Dual Monitor Tools".
 
 
-Uninstall
----------
+Uninstall of msi install
+------------------------
+
+You can uninstall from within Windows installed application list.
+
+
+Uninstall of portable install
+-----------------------------
 
 If you have set the 'Start when Windows starts' in the options, then you
 will need to turn this off before removing anything.

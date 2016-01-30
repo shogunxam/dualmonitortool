@@ -80,11 +80,19 @@ namespace DMT.Modules.General
 				object keyValue = null;
 				try
 				{
-					keyValue = Registry.LocalMachine.GetValue(InstalledKeyName, InstalledValueName);
+					RegistryKey key = Registry.LocalMachine.OpenSubKey(InstalledKeyName);
+					if (key != null)
+					{
+						keyValue = key.GetValue(InstalledValueName);
+					}
 					if (keyValue == null)
 					{
 						// installer is 32bit, but we could be running on a 64 bit O/S
-						keyValue = Registry.LocalMachine.GetValue(Installed6432KeyName, InstalledValueName);
+						key = Registry.LocalMachine.OpenSubKey(Installed6432KeyName);
+						if (key != null)
+						{
+							keyValue = key.GetValue(InstalledValueName);
+						}
 					}
 				}
 				catch (Exception)
