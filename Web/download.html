@@ -68,16 +68,67 @@ may be downloaded from <a href="http://sourceforge.net/project/platformdownload.
 
 <p class="SubHeading">Installation</p>
 
-<p>There is currently no installer for Dual Monitor Tools, 
-so you will need to unzip the file you downloaded into the directory
-you want to run the tools from.</p>
+<p>There are 2 choices for installation:
+<ul>
+	<li>Use the msi installer.  This is the simplest method and will make
+	installing any future versions even easier.</li>
+	<li>Portable install.
+This involves more work but gives you the most flexibility and is the route to use if you
+are installing to a portable device.</li>
+</ul>
+</p>
 
-<p>If you have installed a previous version of Dual Monitor Tools, then you will need
-to make sure that none of these tools are currently running.  
-Remember that SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap run from the notification area of the taskbar, 
-so to close these tools down you will need to right click on the corresponding icon and select Exit.
-If any of these tools have the 'Start when Windows start' options set, then you will need to untick these first
-as you don't want the old version of these tools running at the same time as DMT which provides the same functionality.</p>
+
+<p class="SubHeading">Msi Installation for new users</p>
+
+<p>Just download the latest msi file and run it.</p>
+
+
+<p class="SubHeading">Msi installation for existing/portable users</p>
+
+<p>With a msi installation, the executable and configuration files will live
+in different locations, so there are some extra steps that you need to go
+through if you wish to keep your existing configuration:
+<ol>
+	<li>In your existing version of DMT, make sure "Start when Windows starts"
+    (found in Options-&gt;Dual Monitor Tools-&gt;General) is not ticked.</li>
+	<li>Make sure DMT is not currently running.</li>
+	<li>Make sure you have a backup copy of the following configuration files:
+	<i>DmtMagicWords.xml</i>,
+	<i>DmtSettings.xml</i> and
+	<i>DmtWallpaperProviders.xml</i>.
+    These would normally be in the same directory that you previously installed
+    Dual Monitor Tools too.</li>
+	<li>Download and run the new msi installer.</li>
+	<li>Double click on DMT in the notification area.</li>
+	<li>Select the 'General' page under 'Dual Monitor Tools'.
+    This will show the location where the configuration files now live.
+    The files will be in the '%appdata%\Dual Monitor Tools' folder, which should
+    be something like:
+    'C:\Users\&lt;your login name&gt;\AppData\Roaming\Dual Monitor Tools'</li>
+	<li>Stop DMT.</li>
+	<li>Copy the 3 xml files into the above location.</li>
+	<li>Start DMT. There should be an option in the Start menu to do this.</li>
+	<li>Don't forget to tick the "Start when Windows starts" option if required.</li>
+</ol>
+
+Note: future updates will be much simpler as they can be performed from within
+DMT.
+</p>
+
+<p class="SubHeading">Portable installation</p>
+
+<p>
+<ol>
+	<li>Download the zip file.</li>
+	<li>If you are already running the files from a previous version, then stop
+    them.</li>
+	<li>Unzip the zip file to your desired location.</li>
+	<li>The tools are now ready to run.  You may need to give Windows permission
+    to run the files as they were downloaded from the internet.</li>
+</ol>
+</p>
+
 
 <p class="SubHeading">Running</p>
 
@@ -87,7 +138,12 @@ then this probably means you do not have .NET 4.0 installed.</p>
 
 <p>See the tool specific pages to see how to use each tool.</p>
 
-<p class="SubHeading">Uninstall</p>
+<p class="SubHeading">Uninstall of msi installation</p>
+
+<p>You can uninstall from within Windows installed application list.</p>
+
+
+<p class="SubHeading">Uninstall of portable installation</p>
 
 <p>If you have set the 'Start when Windows starts' in the options, then you
 will need to turn this off before removing anything.</p>
@@ -103,7 +159,7 @@ the tools and their data files.</p>
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 12 Dec 2015
+		last updated 2 Feb 2016
 		</div>
 	</div>
 </div>

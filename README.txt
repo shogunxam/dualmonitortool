@@ -40,9 +40,8 @@ Installation
 There are 2 choices for installation:
 1) Use the msi installer - this is the simplest method and will make
 installing any future versions even easier.
-2) Download the zip, and unzip the files wherever you want them.
-This gives you the most flexibility and is the route to use if you
-are installing to a portable device.
+2) Portable install - this gives you the most flexibility and is the
+route to use if you are installing to a portable device.
 
 
 Msi Installation for new users
@@ -56,36 +55,41 @@ Msi installation for existing/portable users
 
 With a msi installation, the executable and configuration files will live
 in different locations, so there are some extra steps that you need to go
-through:
-1) In your existing version of DMT, make sure "Start when Windows starts"
-   (found in Options->Dual Monitor Tools->General) is not ticked.
-2) Make sure DMT is not currently running.
-3) Make sure you have a backup copy of the following configuration files:
-   DmtMagicWords.xml
-   DmtSettings.xml
-   DmtWallpaperProviders.xml
-   These would normally be in the same directory that you previously installed
-   Dual Monitor Tools too.
-4) Download and run the new msi installer.
-5) Double click on DMT in the notification area
-6) Select the 'General' page under 'Dual Monitor Tools'.
-   This will show the location where the configuration files now live.
-   The files will be in the '%appdata%\Dual Monitor Tools' folder, which should
-   be something like:
-   'C:\Users\<your login name>\AppData\Roaming\Dual Monitor Tools'
-7) Copy the 3 xml files into the above location.
-8) Start DMT. There should be an option in the Start menu to do this.
-9) Don't forget to tick the "Start when Windows starts" option if required. 
+through if you wish to keep your existing configuration:
+1)  In your existing version of DMT, make sure "Start when Windows starts"
+    (found in Options->Dual Monitor Tools->General) is not ticked.
+2)  Make sure DMT is not currently running.
+3)  Make sure you have a backup copy of the following configuration files:
+    DmtMagicWords.xml
+    DmtSettings.xml
+    DmtWallpaperProviders.xml
+    These would normally be in the same directory that you previously installed
+    Dual Monitor Tools too.
+4)  Download and run the new msi installer.
+5)  Double click on DMT in the notification area.
+6)  Select the 'General' page under 'Dual Monitor Tools'.
+    This will show the location where the configuration files now live.
+    The files will be in the '%appdata%\Dual Monitor Tools' folder, which should
+    be something like:
+    'C:\Users\<your login name>\AppData\Roaming\Dual Monitor Tools'
+7)  Stop DMT.
+8)  Copy the 3 xml files into the above location.
+9)  Start DMT. There should be an option in the Start menu to do this.
+10) Don't forget to tick the "Start when Windows starts" option if required. 
 
-Note: future updates will be much simpler as then can be performed from within
+Note: future updates will be much simpler as they can be performed from within
 DMT.
 
 
 Portable installation
 ---------------------
 
-Just download the zip, and unzip the files into a suitable directory,
-and you are then ready to run them.
+1)  Download the zip file.
+2)  If you are already running the files from a previous version, then stop
+    them.
+3)  Unzip the zip file to your desired location.
+4)  The tools are now ready to run.  You may need to give Windows permission
+    to run the files as they were downloaded from the internet.
 
 
 TOOL - DMT
@@ -209,14 +213,14 @@ directory that will specify where the other xml files live which would be in
 "%APPDATA%\Dual Monitor Tools".
 
 
-Uninstall of msi install
-------------------------
+Uninstall of msi installation
+-----------------------------
 
 You can uninstall from within Windows installed application list.
 
 
-Uninstall of portable install
------------------------------
+Uninstall of portable installation
+----------------------------------
 
 If you have set the 'Start when Windows starts' in the options, then you
 will need to turn this off before removing anything.
