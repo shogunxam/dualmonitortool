@@ -38,8 +38,8 @@ namespace DualWallpaper
 		/// <param name="form">Form containing the system menu.</param>
 		public static void AppendSeparator(Form form)
 		{
-			int hMenu = Win32.GetSystemMenu(form.Handle, 0);
-			Win32.AppendMenu(hMenu, Win32.MF_SEPARATOR, 0, null);
+			int hMenu = NativeMethods.GetSystemMenu(form.Handle, 0);
+			NativeMethods.AppendMenu(hMenu, NativeMethods.MF_SEPARATOR, 0, null);
 		}
 
 		/// <summary>
@@ -50,8 +50,8 @@ namespace DualWallpaper
 		/// <param name="newItem">Text for the new menu item.</param>
 		public static void Append(Form form, int idNewItem, string newItem)
 		{
-			int hMenu = Win32.GetSystemMenu(form.Handle, 0);
-			Win32.AppendMenu(hMenu, Win32.MF_STRING, idNewItem, newItem);
+			int hMenu = NativeMethods.GetSystemMenu(form.Handle, 0);
+			NativeMethods.AppendMenu(hMenu, NativeMethods.MF_STRING, idNewItem, newItem);
 		}
 	}
 }

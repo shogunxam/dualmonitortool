@@ -67,8 +67,8 @@
     <Compile Include="..\..\DMT\DMT\Library\PInvoke\ActiveDesktop.cs">
       <Link>Library\PInvoke\ActiveDesktop.cs</Link>
     </Compile>
-    <Compile Include="..\..\DMT\DMT\Library\PInvoke\Win32.cs">
-      <Link>Library\PInvoke\Win32.cs</Link>
+    <Compile Include="..\..\DMT\DMT\Library\PInvoke\NativeMethods.cs">
+      <Link>Library\PInvoke\NativeMethods.cs</Link>
     </Compile>
     <Compile Include="..\..\DMT\DMT\Library\Settings\FileLocations.cs">
       <Link>Library\Settings\FileLocations.cs</Link>

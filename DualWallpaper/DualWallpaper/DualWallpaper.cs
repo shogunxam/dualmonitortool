@@ -498,7 +498,7 @@ namespace DualWallpaper
 
 		protected override void WndProc(ref Message m)
 		{
-			if (m.Msg == Win32.WM_SYSCOMMAND)
+			if (m.Msg == NativeMethods.WM_SYSCOMMAND)
 			{
 				if (m.WParam.ToInt32() == IDM_ABOUTBOX)
 				{

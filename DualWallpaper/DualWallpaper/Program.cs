@@ -55,10 +55,10 @@ namespace DualWallpaper
 
 		static void ConsoleMain(Options options)
 		{
-			Win32.AttachConsole(-1);
+			NativeMethods.AttachConsole(-1);
 			ConsoleApplication consoleApplication = new ConsoleApplication(options);
 			consoleApplication.Run();
-			Win32.FreeConsole();
+			NativeMethods.FreeConsole();
 		}
 
 		static void GuiMain(Options options)
