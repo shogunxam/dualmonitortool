@@ -17,28 +17,62 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.WallpaperPlugin
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
-	/// Interface for a provider
+	/// Interface for an image provider
 	/// </summary>
 	public interface IImageProvider
 	{
+		/// <summary>
+		/// Gets the version of the provider
+		/// </summary>
 		string Version { get; }		// Don't think this is needed?
+
+		/// <summary>
+		/// Gets the provider name
+		/// </summary>
 		string ProviderName { get; }
+
+		/// <summary>
+		/// Gets the image for the provider
+		/// </summary>
 		Image ProviderImage { get; }
+
+		/// <summary>
+		/// Gets the description for this provider
+		/// </summary>
 		string Description { get; }
+
+		/// <summary>
+		/// Gets the weight for this provider
+		/// </summary>
 		int Weight { get; }
+
+		/// <summary>
+		/// Gets the configuration for this provider
+		/// </summary>
 		Dictionary<string, string> Config { get; }
 
+		/// <summary>
+		/// Shows the configuration dialog and returns chosen options
+		/// </summary>
+		/// <returns>Chosen options</returns>
 		Dictionary<string, string> ShowUserOptions();
+
+		/// <summary>
+		/// Gets a random image from the provider
+		/// </summary>
+		/// <param name="optimumSize">Optimum size of image</param>
+		/// <param name="screenIndex">The screen index the image is for</param>
+		/// <returns>Random image</returns>
 		ProviderImage GetRandomImage(Size optimumSize, int screenIndex);
 	}
 }

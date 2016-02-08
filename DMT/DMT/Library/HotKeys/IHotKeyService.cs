@@ -17,17 +17,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.HotKeys
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	/// <summary>
+	/// Interface for a repository for all hotkeys
+	/// </summary>
 	interface IHotKeyService
 	{
+		/// <summary>
+		/// Creates a controller for a new hotkey
+		/// </summary>
+		/// <param name="moduleName">Module to own the hotkey</param>
+		/// <param name="settingName">Setting name to save hotkey</param>
+		/// <param name="description">Description of the hotkey</param>
+		/// <param name="win7Key">Windows 7 description of the hotkey</param>
+		/// <param name="handler">Hotkey handler</param>
+		/// <returns>Controller for the hotkey</returns>
 		HotKeyController CreateHotKeyController(string moduleName, string settingName, string description, string win7Key, HotKey.HotKeyHandler handler);
+
+		/// <summary>
+		/// Stops and clears all hotkeys
+		/// </summary>
 		void Stop();
 	}
 }

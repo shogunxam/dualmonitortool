@@ -17,36 +17,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
 namespace DMT.Modules.Snap
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+
 	/// <summary>
 	/// A single snapshot of the screen
 	/// </summary>
 	public class Snap
 	{
-		private Bitmap image;
-
 		/// <summary>
-		/// Provides read access to the snapshot image as a Bitmap
-		/// </summary>
-		public Bitmap Image
-		{
-			get { return image; }
-			//set { image = value; }
-		}
-
-		/// <summary>
-		/// Constraucts the Snap object using a Bitmap of the screen
+		/// Initialises a new instance of the <see cref="Snap" /> class.
 		/// </summary>
 		/// <param name="image">Bitmap containing the screen image</param>
 		public Snap(Bitmap image)
 		{
-			this.image = image;
+			Image = image;
 		}
+
+		/// <summary>
+		/// Gets  the snapshot image as a Bitmap
+		/// </summary>
+		public Bitmap Image { get; private set; }
 	}
 }

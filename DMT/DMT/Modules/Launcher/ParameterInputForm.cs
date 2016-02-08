@@ -17,57 +17,41 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Dialog to enter a parameter required by a magic word
+	/// </summary>
 	public partial class ParameterInputForm : Form
 	{
-		//private string parameterPrompt;
-		///// <summary>
-		///// Prompt for the parameter
-		///// </summary>
-		//public string ParameterPrompt
-		//{
-		//	//get { return parameterPrompt; }
-		//	set { parameterPrompt = value; }
-		//}
-
 		/// <summary>
-		/// Prompt for the parameter
+		/// Initialises a new instance of the <see cref="ParameterInputForm" /> class.
 		/// </summary>
-		public string ParameterPrompt { get; set; }
-
-		//private string parameterValue;
-		///// <summary>
-		///// Value user entered for the parameter
-		///// </summary>
-		//public string ParameterValue
-		//{
-		//	get { return parameterValue; }
-		//	//set { parameterValue = value; }
-		//}
-	
-
-		/// <summary>
-		/// Value user entered for the parameter
-		/// </summary>
-		public string ParameterValue { get; protected set; }
-
-	
 		public ParameterInputForm()
 		{
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Gets or sets the prompt for the parameter
+		/// </summary>
+		public string ParameterPrompt { get; set; }
+
+		/// <summary>
+		/// Gets or sets the value the user entered for the parameter
+		/// </summary>
+		public string ParameterValue { get; protected set; }
+	
 		private void ParameterInputForm_Load(object sender, EventArgs e)
 		{
 			labelPrompt.Text = ParameterPrompt + ":";

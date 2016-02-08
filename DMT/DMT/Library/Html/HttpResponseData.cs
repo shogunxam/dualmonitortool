@@ -17,26 +17,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Net;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
 	/// Response received from a HTTP request
 	/// </summary>
 	public class HttpResponseData
 	{
-		public HttpStatusCode StatusCode { get; set; }
-		public byte[] RawData { get; private set; }
-		public string ContentType { get; private set; }
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="HttpResponseData" /> class.
+		/// </summary>
+		/// <param name="statusCode">The response status code</param>
+		/// <param name="rawData">The response raw data</param>
+		/// <param name="contentType">The response content type</param>
 		public HttpResponseData(HttpStatusCode statusCode, byte[] rawData, string contentType)
 		{
 			StatusCode = statusCode;
@@ -44,6 +46,25 @@ namespace DMT.Library.Html
 			ContentType = contentType;
 		}
 
+		/// <summary>
+		/// Gets or sets the response HTTP status code
+		/// </summary>
+		public HttpStatusCode StatusCode { get; set; }
+
+		/// <summary>
+		/// Gets the raw data received in the response
+		/// </summary>
+		public byte[] RawData { get; private set; }
+
+		/// <summary>
+		/// Gets the content type of the response
+		/// </summary>
+		public string ContentType { get; private set; }
+
+		/// <summary>
+		/// Returns the response data as a string
+		/// </summary>
+		/// <returns>The returned content</returns>
 		public string EncodeAsString()
 		{
 			// assume response is always UTF-8 for now
@@ -59,6 +80,10 @@ namespace DMT.Library.Html
 			return pageData;
 		}
 
+		/// <summary>
+		/// Returns the response data as an image
+		/// </summary>
+		/// <returns>The returned content</returns>
 		public Image EncodeAsImage()
 		{
 			Image image = null;

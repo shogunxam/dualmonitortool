@@ -17,31 +17,106 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Settings
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	/// <summary>
+	/// Interface for a settings service that can provide read/write access to settings
+	/// </summary>
 	public interface ISettingsService
 	{
+		/// <summary>
+		/// Checks if the setting currently exists for the module
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <returns>True if it exists</returns>
 		bool SettingExists(string moduleName, string settingName);
 
+		/// <summary>
+		/// Gets the setting value as an integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if setting doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0);
+
+		/// <summary>
+		/// Sets the setting value as an integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="value">Value for the setting</param>
 		void SetSetting(string moduleName, string settingName, int value);
 
+		/// <summary>
+		/// Gets the setting value as an unsigned integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if setting doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0);
+
+		/// <summary>
+		/// Sets the setting value as an unsigned integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="value">Value for the setting</param>
 		void SetSetting(string moduleName, string settingName, uint value);
 
+		/// <summary>
+		/// Gets the setting value as a boolean
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if setting doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false);
+
+		/// <summary>
+		/// Sets the setting value as a boolean
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="set">Value for the setting</param>
 		void SetSetting(string moduleName, string settingName, bool set);
 
+		/// <summary>
+		/// Gets the setting value as a string
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if setting doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		string GetSettingAsString(string moduleName, string settingName, string defaultValue = "");
+
+		/// <summary>
+		/// Gets the setting value as a string
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <returns>The value of the setting</returns>
 		string GetSetting(string moduleName, string settingName);
+
+		/// <summary>
+		/// Sets the setting value as a string
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="settingValue">Value for the setting</param>
 		void SetSetting(string moduleName, string settingName, string settingValue);
 
+		/// <summary>
+		/// Saves the current settings
+		/// </summary>
 		void SaveSettings();
 	}
 }

@@ -17,23 +17,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Wallpaper;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.WallpaperPlugin
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	using DMT.Library.Wallpaper;
+
 	/// <summary>
 	/// Interface that needs to be implemented by a plugin
 	/// </summary>
 	public interface IDWC_Plugin
 	{
+		/// <summary>
+		/// Gets the name of the plugin
+		/// </summary>
 		string Name { get; }
+
+		/// <summary>
+		/// Gets the image for the plugin
+		/// </summary>
 		Image Image { get; }
+
+		/// <summary>
+		/// Creates a provider from the plugin
+		/// </summary>
+		/// <param name="config">Configuration to use for the provider</param>
+		/// <returns>The image provider</returns>
 		IImageProvider CreateProvider(Dictionary<string, string> config);
 	}
 }

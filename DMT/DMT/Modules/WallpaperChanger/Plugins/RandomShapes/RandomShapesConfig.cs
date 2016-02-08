@@ -17,24 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Configuration required for each provider from the RandomShapes plugin
 	/// </summary>
 	public class RandomShapesConfig
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="RandomShapesConfig" /> class.
+		/// </summary>
 		public RandomShapesConfig()
 		{
 		}
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="RandomShapesConfig" /> class.
+		/// </summary>
+		/// <param name="configDictionary">Configuration as a dictionary</param>
 		public RandomShapesConfig(Dictionary<string, string> configDictionary)
 		{
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
@@ -47,15 +54,50 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			UseAlpha = ProviderHelper.ConfigToBool(configDictionary, "useAlpha", true);
 		}
 
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
 		public int Weight { get; set; }
+
+		/// <summary>
+		/// Gets or sets the description for this provider
+		/// </summary>
 		public string Description { get; set; }
+
+		/// <summary>
+		/// Gets or sets the number of shapes to draw
+		/// </summary>
 		public int ShapeCount { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the background should be a random colour
+		/// </summary>
 		public bool RandomBackground { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to draw rectangles
+		/// </summary>
 		public bool UseRectangles { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to draw ellipses
+		/// </summary>
 		public bool UseEllipses { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to use colour gradients
+		/// </summary>
 		public bool UseGradients { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the shapes should be opaque
+		/// </summary>
 		public bool UseAlpha { get; set; }
 
+		/// <summary>
+		/// Gets the configuration as a dictionary ready for saving to disk
+		/// </summary>
+		/// <returns>Dictionary representation of configuration</returns>
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();

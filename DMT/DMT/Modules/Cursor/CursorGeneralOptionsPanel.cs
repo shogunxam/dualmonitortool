@@ -17,24 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.HotKeys;
-using DMT.Resources;
-
 namespace DMT.Modules.Cursor
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.HotKeys;
+	using DMT.Resources;
+
+	/// <summary>
+	/// General options panel for the cursor module
+	/// </summary>
 	partial class CursorGeneralOptionsPanel : UserControl
 	{
 		CursorModule _cursorModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="CursorGeneralOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="cursorModule">The cursor module</param>
 		public CursorGeneralOptionsPanel(CursorModule cursorModule)
 		{
 			_cursorModule = cursorModule;
@@ -43,6 +51,120 @@ namespace DMT.Modules.Cursor
 
 			InitHotKeys();
 			InitOtherOptions();
+		}
+
+		static string FreeMovementKeyToString(Keys key)
+		{
+			if (key == Keys.RControlKey)
+			{
+				return CommonStrings.RControlKey;
+			}
+			else if (key == Keys.RControlKey)
+			{
+				return CommonStrings.LShiftKey;
+			}
+			else if (key == Keys.LShiftKey)
+			{
+				return CommonStrings.RShiftKey;
+			}
+
+			// else if (key == Keys.LControlKey) - default case
+			return CommonStrings.LControlKey;
+		}
+
+		static Keys FreeMovementKeyFromString(string keyName)
+		{
+			if (keyName == CommonStrings.RControlKey)
+			{
+				return Keys.RControlKey;
+			}
+			else if (keyName == CommonStrings.LShiftKey)
+			{
+				return Keys.LShiftKey;
+			}
+			else if (keyName == CommonStrings.RShiftKey)
+			{
+				return Keys.RShiftKey;
+			}
+
+			// else -  anything else - leave as left control
+			return Keys.LControlKey;
+		}
+
+		static string FreeMovementButtonToString(MouseButtons mouseButton)
+		{
+			if (mouseButton == MouseButtons.Middle)
+			{
+				return CommonStrings.MidMouseButton;
+			}
+			else if (mouseButton == MouseButtons.Right)
+			{
+				return CommonStrings.RightMouseButton;
+			}
+			else if (mouseButton == MouseButtons.XButton1)
+			{
+				return CommonStrings.X1MouseButton;
+			}
+			else if (mouseButton == MouseButtons.XButton2)
+			{
+				return CommonStrings.X2MouseButton;
+			}
+
+			// else if (mouseButton == MouseButtons.Left) - default case
+			return CommonStrings.LeftMouseButton;
+		}
+
+		static MouseButtons FreeMovementButtonFromString(string buttonName)
+		{
+			if (buttonName == CommonStrings.MidMouseButton)
+			{
+				return MouseButtons.Middle;
+			}
+			else if (buttonName == CommonStrings.RightMouseButton)
+			{
+				return MouseButtons.Right;
+			}
+			else if (buttonName == CommonStrings.X1MouseButton)
+			{
+				return MouseButtons.XButton1;
+			}
+			else if (buttonName == CommonStrings.X2MouseButton)
+			{
+				return MouseButtons.XButton2;
+			}
+
+			// else -  anything else - leave as left mouse button
+			return MouseButtons.Left;
+		}
+
+		static string CursorModeToString(CursorModule.CursorType cursorMode)
+		{
+			if (cursorMode == CursorModule.CursorType.Sticky)
+			{
+				return CursorStrings.StickyCursorDescription;
+			}
+			else if (cursorMode == CursorModule.CursorType.Lock)
+			{
+				return CursorStrings.LockCursorDescription;
+			}
+
+			// else if (cursorMode == CursorModule.CursorType.Free) - default case
+			return CursorStrings.FreeCursorDescription;
+		}
+
+		static CursorModule.CursorType CursorModeFromString(string cursorModeName)
+		{
+			if (cursorModeName == CursorStrings.StickyCursorDescription)
+			{
+				return CursorModule.CursorType.Sticky;
+			}
+			else if (cursorModeName == CursorStrings.LockCursorDescription)
+			{
+				return CursorModule.CursorType.Lock;
+			}
+
+			// else -  anything else - leave as free
+			return CursorModule.CursorType.Free;
 		}
 
 		void InitHotKeys()
@@ -142,121 +264,6 @@ namespace DMT.Modules.Cursor
 		private void comboBoxCursorMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			_cursorModule.DefaultCursorMode = CursorModeFromString(comboBoxCursorMode.SelectedItem.ToString());
-		}
-
-		static string FreeMovementKeyToString(Keys key)
-		{
-			if (key == Keys.RControlKey)
-			{
-				return CommonStrings.RControlKey;
-			}
-			else if (key == Keys.RControlKey)
-			{
-				return CommonStrings.LShiftKey;
-			}
-			else if (key == Keys.LShiftKey)
-			{
-				return CommonStrings.RShiftKey;
-			}
-			// else if (key == Keys.LControlKey) - default case
-
-			return CommonStrings.LControlKey;
-		}
-
-		static Keys FreeMovementKeyFromString(string keyName)
-		{
-			if (keyName == CommonStrings.RControlKey)
-			{
-				return Keys.RControlKey;
-			}
-			else if (keyName == CommonStrings.LShiftKey)
-			{
-				return Keys.LShiftKey;
-			}
-			else if (keyName == CommonStrings.RShiftKey)
-			{
-				return Keys.RShiftKey;
-			}
-			//else -  anything else - leave as left control
-
-			return Keys.LControlKey;
-		}
-
-		static string FreeMovementButtonToString(MouseButtons mouseButton)
-		{
-			if (mouseButton == MouseButtons.Middle)
-			{
-				return CommonStrings.MidMouseButton;
-			}
-			else if (mouseButton == MouseButtons.Right)
-			{
-				return CommonStrings.RightMouseButton;
-			}
-			else if (mouseButton == MouseButtons.XButton1)
-			{
-				return CommonStrings.X1MouseButton;
-			}
-			else if (mouseButton == MouseButtons.XButton2)
-			{
-				return CommonStrings.X2MouseButton;
-			}
-			// else if (mouseButton == MouseButtons.Left) - default case
-
-			return CommonStrings.LeftMouseButton;
-		}
-
-		static MouseButtons FreeMovementButtonFromString(string buttonName)
-		{
-			if (buttonName == CommonStrings.MidMouseButton)
-			{
-				return MouseButtons.Middle;
-			}
-			else if (buttonName == CommonStrings.RightMouseButton)
-			{
-				return MouseButtons.Right;
-			}
-			else if (buttonName == CommonStrings.X1MouseButton)
-			{
-				return MouseButtons.XButton1;
-			}
-			else if (buttonName == CommonStrings.X2MouseButton)
-			{
-				return MouseButtons.XButton2;
-			}
-			//else -  anything else - leave as left mouse button
-
-			return MouseButtons.Left;
-		}
-
-
-		static string CursorModeToString(CursorModule.CursorType cursorMode)
-		{
-			if (cursorMode == CursorModule.CursorType.Sticky)
-			{
-				return CursorStrings.StickyCursorDescription;
-			}
-			else if (cursorMode == CursorModule.CursorType.Lock)
-			{
-				return CursorStrings.LockCursorDescription;
-			}
-			// else if (cursorMode == CursorModule.CursorType.Free) - default case
-
-			return CursorStrings.FreeCursorDescription;
-		}
-
-		static CursorModule.CursorType CursorModeFromString(string cursorModeName)
-		{
-			if (cursorModeName == CursorStrings.StickyCursorDescription)
-			{
-				return CursorModule.CursorType.Sticky;
-			}
-			else if (cursorModeName == CursorStrings.LockCursorDescription)
-			{
-				return CursorModule.CursorType.Lock;
-			}
-			//else -  anything else - leave as free
-
-			return CursorModule.CursorType.Free;
 		}
 	}
 }

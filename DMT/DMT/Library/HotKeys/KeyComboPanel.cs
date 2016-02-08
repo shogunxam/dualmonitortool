@@ -17,22 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Library.HotKeys
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Panel that allows editing of a key combination
+	/// (normally for a hotkey)
+	/// </summary>
 	public partial class KeyComboPanel : UserControl
 	{
 		/// <summary>
-		/// Constructor which initialises the panel
+		/// Initialises a new instance of the <see cref="KeyComboPanel" /> class.
 		/// </summary>
 		public KeyComboPanel()
 		{
@@ -41,8 +45,8 @@ namespace DMT.Library.HotKeys
 		}
 
 		/// <summary>
-		/// Used to show a KeyCombo in the panel,
-		/// or to retieve the KeyCombo currently shown in the panel.
+		/// Gets or sets the KeyCombo in the panel,
+		/// or to retrieve the KeyCombo currently shown in the panel.
 		/// </summary>
 		public KeyCombo KeyCombo
 		{
@@ -50,6 +54,7 @@ namespace DMT.Library.HotKeys
 			{
 				return KeyComboFromPanel();
 			}
+
 			set
 			{
 				KeyComboToPanel(value);
@@ -57,12 +62,15 @@ namespace DMT.Library.HotKeys
 		}
 
 		/// <summary>
-		/// Writeable value indicating if the Win modifier key is allowed
+		/// Sets a value indicating whether the Win modifier key is allowed
 		/// </summary>
 		public bool AllowWin
 		{
 			// TODO: use Enabled or Visible?
-			set { chkWin.Enabled = value; }
+			set 
+			{ 
+				chkWin.Enabled = value; 
+			}
 		}
 
 		private KeyCombo KeyComboFromPanel()
@@ -96,13 +104,12 @@ namespace DMT.Library.HotKeys
 		{
 			comboKey.BeginUpdate();
 			comboKey.Items.Clear();
-			//foreach (VirtualKey virtualKey in virtualKeys)
 			foreach (VirtualKey virtualKey in VirtualKey.AllVirtualKeys)
 			{
 				comboKey.Items.Add(virtualKey.Name);
 			}
+
 			comboKey.EndUpdate();
 		}
 	}
 }
-

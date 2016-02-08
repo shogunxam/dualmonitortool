@@ -17,26 +17,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Library.HotKeys
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Resources;
+
+	/// <summary>
+	/// Dialog for editing a hotkey
+	/// </summary>
 	public partial class HotKeyForm : Form
 	{
 		// hotkey being edited
-		private HotKey _hotKey;
+		HotKey _hotKey;
 
 		/// <summary>
-		/// Ctor for the form
+		/// Initialises a new instance of the <see cref="HotKeyForm" /> class.
 		/// </summary>
 		/// <param name="hotKey">The hotkey to edit</param>
 		/// <param name="decription">A short description of the function of the hotkey.</param>
@@ -57,6 +61,7 @@ namespace DMT.Library.HotKeys
 			{
 				HideNoteBox();
 			}
+
 			this._hotKey = hotKey;
 			keyComboPanel.KeyCombo = hotKey.HotKeyCombo;
 			checkBoxEnable.Checked = hotKey.HotKeyCombo.Enabled;
@@ -65,7 +70,6 @@ namespace DMT.Library.HotKeys
 
 		private void HotKeyForm_Load(object sender, EventArgs e)
 		{
-
 		}
 
 		// Hides the (yellow) box where we would normally display the note
@@ -107,24 +111,17 @@ namespace DMT.Library.HotKeys
 			}
 
 			// hotkey is OK
-
-			//// save it to the config file
-			//Properties.Settings.Default.HotKeyValue = keyComboPanel.KeyCombo.ToPropertyValue();
-			//Properties.Settings.Default.Save();
-
 			DialogResult = DialogResult.OK;
 			Close();
 		}
 
 		private void buttonCancel_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		private void UpdateEnableStatus()
 		{
 			keyComboPanel.Enabled = checkBoxEnable.Checked;
 		}
-
 	}
 }

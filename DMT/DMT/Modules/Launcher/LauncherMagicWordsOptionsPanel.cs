@@ -17,30 +17,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Resources;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Resources;
+
+	/// <summary>
+	/// Options panel for editing the launcher's magic words
+	/// </summary>
 	partial class LauncherMagicWordsOptionsPanel : UserControl
 	{
 		LauncherModule _launcherModule;
 		BindingSource _bindingSource;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LauncherMagicWordsOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="launcherModule">Launcher module</param>
 		public LauncherMagicWordsOptionsPanel(LauncherModule launcherModule)
 		{
 			_launcherModule = launcherModule;
 
 			InitializeComponent();
-
 		}
 
 		private void LauncherMagicWordsOptionsPanel_Load(object sender, EventArgs e)
@@ -88,7 +95,7 @@ namespace DMT.Modules.Launcher
 					// get the magic word being deleted
 					string alias = "?";
 					DataGridViewRow row = selectedRows[0];
-					Object rowObject = row.DataBoundItem;
+					object rowObject = row.DataBoundItem;
 					MagicWord curMagicWord = rowObject as MagicWord;
 					if (curMagicWord != null)
 					{
@@ -102,7 +109,8 @@ namespace DMT.Modules.Launcher
 					msg = string.Format(LauncherStrings.ConfirmDel2MW, selectedRows.Count);
 				}
 
-				if (MessageBox.Show(msg,
+				if (MessageBox.Show(
+					msg,
 					CommonStrings.MyTitle,
 					MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question,
@@ -112,6 +120,7 @@ namespace DMT.Modules.Launcher
 					{
 						dataGridView.Rows.Remove(row);
 					}
+
 					dataGridView.Refresh();
 					_launcherModule.SaveMagicWords();
 				}
@@ -140,6 +149,7 @@ namespace DMT.Modules.Launcher
 			string keyChar = e.KeyChar.ToString();
 
 			int totalRows = dataGridView.Rows.Count;
+
 			// no point in doing anything if no rows
 			if (totalRows > 0)
 			{
@@ -151,11 +161,12 @@ namespace DMT.Modules.Launcher
 					// but if something is selected, we start from the next row after the first selected item
 					curRowIndex = (selectedRows[0].Index + 1) % totalRows;
 				}
+
 				int newRowIndex = curRowIndex;
 				do
 				{
 					DataGridViewRow row = dataGridView.Rows[newRowIndex];
-					Object rowObject = row.DataBoundItem;
+					object rowObject = row.DataBoundItem;
 					MagicWord magicWord = rowObject as MagicWord;
 					if (magicWord != null)
 					{
@@ -167,14 +178,18 @@ namespace DMT.Modules.Launcher
 							{
 								selectedRow.Selected = false;
 							}
+
 							// select the new row
 							dataGridView.Rows[newRowIndex].Selected = true;
+
 							// and make sure it is scrolled into view
 							dataGridView.CurrentCell = dataGridView.Rows[newRowIndex].Cells[0];
 							break;
 						}
 					}
+
 					newRowIndex++;
+
 					// make sure we wrap around at the end (we already know totalRows is not zero)
 					newRowIndex %= totalRows;
 				}
@@ -187,19 +202,15 @@ namespace DMT.Modules.Launcher
 			UpdateMagicWordButtons();
 		}
 
-
-
 		void InitGrid()
 		{
 			// first make sure magic words are initially sorted (by alias ascending)
 			PropertyDescriptor property = TypeDescriptor.GetProperties(typeof(MagicWord)).Find("Alias", false);
-			//Debug.Assert(property != null);
 			_launcherModule.MagicWords.Sort(property, ListSortDirection.Ascending);
 
 			// bind the magic word list
-			//dataGridView.DataSource = MagicWords.Instance.IList;
 			_bindingSource = new BindingSource();
-			_bindingSource.DataSource =_launcherModule. MagicWords.DataSource;
+			_bindingSource.DataSource = _launcherModule.MagicWords.DataSource;
 			dataGridView.DataSource = _bindingSource;
 
 			UpdateMagicWordButtons();
@@ -207,16 +218,6 @@ namespace DMT.Modules.Launcher
 
 		void EditMagicWord(int rowIndex)
 		{
-			//// we work on a clone of the magic word in case user decides
-			//// to cancel edits
-			//MagicWord editMagicWord = MagicWords.Instance[rowIndex].Clone();
-			//MagicWordForm dlg = new MagicWordForm(editMagicWord);
-			//if (dlg.ShowDialog() == DialogResult.OK)
-			//{
-			//    // update...
-			//    MagicWords.Instance[rowIndex] = editMagicWord;
-			//}
-
 			// we work on a clone of the magic word in case user decides
 			// to cancel edits
 			MagicWord editMagicWord = _launcherModule.MagicWords[rowIndex];
@@ -231,12 +232,10 @@ namespace DMT.Modules.Launcher
 		void UpdateMagicWordButtons()
 		{
 			// can only edit if one and only one row is selected
-			buttonEdit.Enabled = (dataGridView.SelectedRows.Count == 1);
+			buttonEdit.Enabled = dataGridView.SelectedRows.Count == 1;
 
 			// can delete if one or more rows are selected
-			buttonDelete.Enabled = (dataGridView.SelectedRows.Count > 0);
+			buttonDelete.Enabled = dataGridView.SelectedRows.Count > 0;
 		}
-
-
 	}
 }

@@ -17,31 +17,74 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-//using System.ComponentModel.Composition;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
 
-	//[Export(typeof(IDWC_Plugin))]
-	//[ExportMetadata("Name", LocalDiskPlugin._pluginName)]
+	using DMT.Library.WallpaperPlugin;
+
+	/// <summary>
+	/// Plugin for images from local disk
+	/// </summary>
 	public class LocalDiskPlugin : IDWC_Plugin
 	{
-		const string _pluginName = "Local disk";
 		public const string PluginVersion = "0.0";
+		const string MyPluginName = "Local disk";
 
-		public static string PluginName { get { return _pluginName; } }
-		public static Image PluginImage { get { return Properties.Resources.LocalDiskPlugin; } }
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
+		public static string PluginName
+		{
+			get
+			{
+				return MyPluginName;
+			}
+		}
 
-		public string Name { get { return PluginName; } }
-		public Image Image { get { return PluginImage; } }
+		/// <summary>
+		/// Gets the plugin image
+		/// </summary>
+		public static Image PluginImage
+		{
+			get
+			{
+				return Properties.Resources.LocalDiskPlugin;
+			}
+		}
 
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
+		public string Name
+		{
+			get
+			{
+				return PluginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin image
+		/// </summary>
+		public Image Image
+		{
+			get
+			{
+				return PluginImage;
+			}
+		}
+
+		/// <summary>
+		/// Creates a provider from the plugin
+		/// </summary>
+		/// <param name="config">Configuration to use for the provider</param>
+		/// <returns>The image provider</returns>
 		public IImageProvider CreateProvider(Dictionary<string, string> config)
 		{
 			return new LocalDiskProvider(config);

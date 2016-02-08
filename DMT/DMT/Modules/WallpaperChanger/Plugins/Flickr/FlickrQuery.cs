@@ -17,19 +17,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Html;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Web;
+
+	using DMT.Library.Html;
+	
+	/// <summary>
+	/// Query to be sent to the Flickr API site
+	/// </summary>
 	class FlickrQuery
 	{
 		StringBuilder _query;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="FlickrQuery" /> class.
+		/// </summary>
+		/// <param name="method">Flickr API method</param>
+		/// <param name="apiKey">Flickr API key</param>
 		public FlickrQuery(string method, string apiKey)
 		{
 			_query = new StringBuilder();
@@ -37,6 +46,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			Add("api_key", apiKey);
 		}
 
+		/// <summary>
+		/// Adds a parameter to the query
+		/// </summary>
+		/// <param name="name">Name of parameter to add</param>
+		/// <param name="value">Value of parameter to add</param>
 		public void Add(string name, string value)
 		{
 			if (_query.Length > 0)
@@ -44,16 +58,18 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				_query.Append("&");
 			}
 
-			//_query.Append(HttpUtility.UrlEncode(name));
 			_query.Append(HttpHelper.UrlEncode(name));
 			if (value != null)
 			{
 				_query.Append("=");
-				//_query.Append(HttpUtility.UrlEncode(value));
 				_query.Append(HttpHelper.UrlEncode(value));
 			}
 		}
 
+		/// <summary>
+		/// String representation of query ready to send to Flickr
+		/// </summary>
+		/// <returns>Query as a string</returns>
 		public override string ToString()
 		{
 			return _query.ToString();

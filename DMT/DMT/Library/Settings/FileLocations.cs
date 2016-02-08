@@ -17,32 +17,60 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-//using System.Linq;
-using System.Reflection;
-using System.Text;
-//using System.Threading.Tasks;
-using System.Xml;
-
 namespace DMT.Library.Settings
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Reflection;
+	using System.Text;
+	using System.Xml;
+
+	/// <summary>
+	/// Singleton that provides access to the configuration file locations
+	/// </summary>
 	class FileLocations
 	{
-		public string ExecutableFilename { get; protected set; }
-		public string DataDirectory { get; protected set; }
-		public string SettingsFilename { get; protected set; }
-		public string MagicWordsFilename { get; protected set; }
-		public string WallpaperProvidersFilename { get; protected set; }
-		public string WallpaperFilename { get; protected set; }
-		public string LogFilename { get; protected set; }
-
 		string _homeDirectory;
+
+		/// <summary>
+		/// Gets or sets the location of the executable file
+		/// </summary>
+		public string ExecutableFilename { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the default directory used for the configuration files
+		/// </summary>
+		public string DataDirectory { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the location of the file containing the settings
+		/// </summary>
+		public string SettingsFilename { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the location of the file containing the magic words
+		/// </summary>
+		public string MagicWordsFilename { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the location of the file containing the wallpaper providers
+		/// </summary>
+		public string WallpaperProvidersFilename { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the location of the file to save the generated wallpaper to
+		/// </summary>
+		public string WallpaperFilename { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the location of the log file
+		/// </summary>
+		public string LogFilename { get; protected set; }
 
 		#region Singleton support
 		// the single instance of the controller object
-		static readonly FileLocations instance = new FileLocations();
+		static readonly FileLocations SingleInstance = new FileLocations();
 
 		// Explicit static constructor to tell C# compiler
 		// not to mark type as beforefieldinit
@@ -55,15 +83,23 @@ namespace DMT.Library.Settings
 			LoadFileLocations();
 		}
 
+		/// <summary>
+		/// Gets the singleton instance of the class
+		/// </summary>
 		public static FileLocations Instance
 		{
 			get
 			{
-				return instance;
+				return SingleInstance;
 			}
 		}
 		#endregion
 
+		/// <summary>
+		/// Gets the full path for the given filename
+		/// </summary>
+		/// <param name="filename">One of the configuration files</param>
+		/// <returns>Full path</returns>
 		public string Filename(string filename)
 		{
 			return Path.Combine(DataDirectory, filename);
@@ -73,19 +109,20 @@ namespace DMT.Library.Settings
 		{
 			ExecutableFilename = Assembly.GetExecutingAssembly().Location;
 			_homeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
 			// by default, we use the home directory as the data directory to simplify portable usage
 			DataDirectory = _homeDirectory;
 
 			// The Locations file ALWAYS lives in same directory as executable (if it is used)
 			string fileLocationsFilename = Path.Combine(_homeDirectory, "DmtFileLocations.xml");
-			//bool haveLocationsFile = File.Exists(fileLocationsFilename);
-			List<Tuple<string, string>> LocationRemaps = null;
+			List<Tuple<string, string>> locationRemaps = null;
 			if (File.Exists(fileLocationsFilename))
 			{
 				// check too see if we are told to pick up anything from anywhere else
-				LocationRemaps = GetLocationRemaps(fileLocationsFilename);
+				locationRemaps = GetLocationRemaps(fileLocationsFilename);
+
 				// check if data directory was specified in the file
-				Tuple<string, string> directoryRemap = LocationRemaps.Find(m => m.Item1 == "datadirectory");
+				Tuple<string, string> directoryRemap = locationRemaps.Find(m => m.Item1 == "datadirectory");
 				if (directoryRemap != null)
 				{
 					DataDirectory = directoryRemap.Item2;
@@ -115,10 +152,10 @@ namespace DMT.Library.Settings
 			// default is to to have no logfile, unless explicitly set
 			LogFilename = null;
 
-			if (LocationRemaps != null)
+			if (locationRemaps != null)
 			{
 				// allow individual locations to be remapped
-				foreach (Tuple<string, string> remap in LocationRemaps)
+				foreach (Tuple<string, string> remap in locationRemaps)
 				{
 					SetFileLocation(remap.Item1, remap.Item2);
 				}
@@ -127,7 +164,7 @@ namespace DMT.Library.Settings
 
 		List<Tuple<string, string>> GetLocationRemaps(string fileLocationsFilename)
 		{
-			List<Tuple<string, string>> LocationRemaps = new List<Tuple<string, string>>();
+			List<Tuple<string, string>> locationRemaps = new List<Tuple<string, string>>();
 
 			try
 			{
@@ -143,9 +180,10 @@ namespace DMT.Library.Settings
 							{
 								string name = reader.GetAttribute("name");
 								string value = reader.GetAttribute("value");
+
 								// expand any environment variables like %APPDATA% 
 								value = System.Environment.ExpandEnvironmentVariables(value);
-								LocationRemaps.Add(new Tuple<string, string>(name, value));
+								locationRemaps.Add(new Tuple<string, string>(name, value));
 							}
 						}
 					}
@@ -155,7 +193,7 @@ namespace DMT.Library.Settings
 			{
 			}
 
-			return LocationRemaps;
+			return locationRemaps;
 		}
 
 		void SetFileLocation(string name, string value)

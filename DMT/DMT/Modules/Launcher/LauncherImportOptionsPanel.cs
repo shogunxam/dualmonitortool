@@ -17,24 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Resources;
-using System.Collections.ObjectModel;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Resources;
+
+	/// <summary>
+	/// Option panel for Launcher's import options
+	/// </summary>
 	partial class LauncherImportOptionsPanel : UserControl
 	{
 		LauncherModule _launcherModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LauncherImportOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="launcherModule">Launcher module</param>
 		public LauncherImportOptionsPanel(LauncherModule launcherModule)
 		{
 			_launcherModule = launcherModule;
@@ -46,14 +54,14 @@ namespace DMT.Modules.Launcher
 		{
 			if (_launcherModule.MagicWords.Count > 0)
 			{
-				if (MessageBox.Show(LauncherStrings.ConfirmDelAllMW,
+				if (MessageBox.Show(
+					LauncherStrings.ConfirmDelAllMW,
 					CommonStrings.MyTitle,
 					MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question,
 					MessageBoxDefaultButton.Button2) == DialogResult.Yes)
 				{
 					_launcherModule.MagicWords.Clear();
-					//dataGridView.Refresh();
 				}
 			}
 		}

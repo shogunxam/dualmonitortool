@@ -17,26 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.GuiUtils;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.GuiUtils;
+	using DMT.Resources;
+
 	/// <summary>
-	/// Configuration form for a single provider from the Local Disk plugin
+	/// This is used to edit the configuration of a local disk provider.
 	/// </summary>
 	public partial class LocalDiskForm : Form
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LocalDiskForm" /> class.
+		/// </summary>
+		/// <param name="config">Configuration to be edited</param>
 		public LocalDiskForm(LocalDiskConfig config)
 		{
 			InitializeComponent();
@@ -53,6 +58,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			checkBoxRescan.Checked = config.Rescan;
 		}
 
+		/// <summary>
+		/// Gets the current (possibly edited) configuration
+		/// </summary>
+		/// <returns>Edited configuration</returns>
 		public LocalDiskConfig GetConfig()
 		{
 			// ALT: could save original config and update it directly
@@ -127,7 +136,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 		private void buttonAbout_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		private void buttonOK_Click(object sender, EventArgs e)
@@ -140,7 +148,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 		private void buttonCancel_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		string SelectFolder(string initialFolder)
@@ -197,7 +204,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			else
 			{
 				// use FolderBrowserDialog to select a folder
-
 				FolderBrowserDialog dlg = new FolderBrowserDialog();
 				dlg.RootFolder = Environment.SpecialFolder.Desktop;
 				dlg.SelectedPath = initialFolder;

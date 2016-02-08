@@ -17,17 +17,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Xml.Serialization;
-using System.IO;
-using DMT.Library;
-using DMT.Library.Utils;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.IO;
+	using System.Text;
+	using System.Xml.Serialization;
+
+	using DMT.Library;
+	using DMT.Library.Utils;
+
 	/// <summary>
 	/// Native import/export of DualLauncher files
 	/// </summary>
@@ -36,8 +37,8 @@ namespace DMT.Modules.Launcher
 		/// <summary>
 		/// Static method to read the MagicWords from an xml file
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
+		/// <param name="filename">Name of file to read from</param>
+		/// <returns>List of magic words read</returns>
 		public static Collection<MagicWord> Import(string filename)
 		{
 			Collection<MagicWord> magicWords = new Collection<MagicWord>();
@@ -54,16 +55,10 @@ namespace DMT.Modules.Launcher
 		/// <summary>
 		/// Static method to save MagicWords to an xml file
 		/// </summary>
-		/// <param name="magicWords"></param>
-		/// <param name="filename"></param>
+		/// <param name="magicWords">List of magic words to save</param>
+		/// <param name="filename">Name of file to save them to</param>
 		public static void Export(Collection<MagicWord> magicWords, string filename)
 		{
-			//using (StreamWriter streamWriter = new StreamWriter(filename))
-			//{
-			//	XmlSerializer xmlSerializer = new XmlSerializer(typeof(Collection<MagicWord>));
-			//	xmlSerializer.Serialize(streamWriter, magicWords);
-			//}
-
 			SafeFileWriter newFile = new SafeFileWriter(filename);
 			using (Stream stream = newFile.OpenForWriting())
 			{
@@ -73,6 +68,7 @@ namespace DMT.Modules.Launcher
 					xmlSerializer.Serialize(streamWriter, magicWords);
 				}
 			}
+
 			newFile.CompleteWrite();
 		}
 	}

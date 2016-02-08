@@ -17,42 +17,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using DMT.Library.PInvoke;
-
 namespace DMT.Library.GuiUtils
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using DMT.Library.PInvoke;
+
 	/// <summary>
 	/// Control to allow a top level window to be selected
 	/// </summary>
 	public class WindowPicker : PictureBox
 	{
-		private Cursor trackingCursor;
-		private Cursor oldCursor;
+		Cursor trackingCursor;
+		Cursor oldCursor;
 
-		private Bitmap imageNoCursor;
-		private Bitmap imageWithCursor;
+		Bitmap imageNoCursor;
+		Bitmap imageWithCursor;
 
-		private IntPtr hWndLastEvent;
+		IntPtr hWndLastEvent;
 
 		/// <summary>
 		/// Definition required for delegates that want to be notified 
 		/// of the window we are hovering over.
 		/// </summary>
+		/// <param name="hWnd">Handle of window being hovered over</param>
 		public delegate void HoverHandler(IntPtr hWnd);
 
 		/// <summary>
 		/// Event that will be fired when we hover over a different window.
 		/// </summary>
 		public event HoverHandler HoveredWindowChanged;
-
-		public WindowPicker()
-		{
-		}
 
 		/// <summary>
 		/// One time initialisation 
@@ -69,6 +67,7 @@ namespace DMT.Library.GuiUtils
 
 			// save the bitmaps to use as images for the control
 			this.imageNoCursor = imageNoCursor;
+
 			// TODO: this could be dynamically generated from imageNoCursor and cursorBitmap
 			this.imageWithCursor = imageWithCursor;
 
@@ -76,6 +75,10 @@ namespace DMT.Library.GuiUtils
 			this.Image = this.imageWithCursor;
 		}
 
+		/// <summary>
+		/// Handles the mouse down event
+		/// </summary>
+		/// <param name="e">Mouse event arguments</param>
 		protected override void OnMouseDown(MouseEventArgs e)
 		{
 			base.OnMouseDown(e);
@@ -91,6 +94,10 @@ namespace DMT.Library.GuiUtils
 			this.Image = imageNoCursor;
 		}
 
+		/// <summary>
+		/// Handles the mouse move event
+		/// </summary>
+		/// <param name="e">Mouse event arguments</param>
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
@@ -100,17 +107,17 @@ namespace DMT.Library.GuiUtils
 				// convert client co-ords to screen co-ords
 				Point point = this.PointToScreen(e.Location);
 
-				Win32.POINT win32pt = new Win32.POINT();
+				NativeMethods.POINT win32pt = new NativeMethods.POINT();
 				win32pt.x = point.X;
 				win32pt.y = point.Y;
-				IntPtr hWnd = Win32.WindowFromPoint(win32pt);
+				IntPtr hWnd = NativeMethods.WindowFromPoint(win32pt);
 
 				// find the top level window that this window belongs to
 				IntPtr hWndParent = hWnd;
 				while (hWndParent != IntPtr.Zero)
 				{
 					hWnd = hWndParent;
-					hWndParent = Win32.GetParent(hWnd);
+					hWndParent = NativeMethods.GetParent(hWnd);
 				}
 
 				// only report if different from last event
@@ -126,6 +133,10 @@ namespace DMT.Library.GuiUtils
 			}
 		}
 
+		/// <summary>
+		/// Handles the mouse up event
+		/// </summary>
+		/// <param name="e">Mouse event arguments</param>
 		protected override void OnMouseUp(MouseEventArgs e)
 		{
 			base.OnMouseUp(e);

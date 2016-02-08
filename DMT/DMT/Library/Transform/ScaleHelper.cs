@@ -1,21 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2015  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
 
 namespace DMT.Library.Transform
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+
+	/// <summary>
+	/// Utility class to help with scaling co-ordinates
+	/// </summary>
 	public static class ScaleHelper
 	{
 		/// <summary>
-		/// Scales the src size so that it will be as large as possible
+		/// Scales the source size so that it will be as large as possible
 		/// and still fit within the target size
 		/// while maintaining aspect ratio
 		/// </summary>
-		/// <param name="src"></param>
-		/// <param name="target"></param>
-		/// <returns></returns>
+		/// <param name="src">Source size</param>
+		/// <param name="target">Target size</param>
+		/// <returns>Scaled size</returns>
 		public static Size UnderScale(Size src, Size target)
 		{
 			Size dest = target;

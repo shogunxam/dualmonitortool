@@ -17,20 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Root options panel for the wallpaper changer module
+	/// </summary>
 	public partial class WallpaperChangerRootOptionsPanel : UserControl
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WallpaperChangerRootOptionsPanel" /> class.
+		/// </summary>
 		public WallpaperChangerRootOptionsPanel()
 		{
 			InitializeComponent();

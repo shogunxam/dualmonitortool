@@ -17,20 +17,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// This is used to edit the configuration of a random shapes provider.
+	/// </summary>
 	public partial class RandomShapesForm : Form
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="RandomShapesForm" /> class.
+		/// </summary>
+		/// <param name="config">Configuration to be edited</param>
 		public RandomShapesForm(RandomShapesConfig config)
 		{
 			InitializeComponent();
@@ -45,25 +52,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			checkBoxUseAlpha.Checked = config.UseAlpha;
 		}
 
-		private void RandomShapesForm_Load(object sender, EventArgs e)
-		{
-
-		}
-
-		private void buttonOK_Click(object sender, EventArgs e)
-		{
-			// TODO: validation
-			if (!checkBoxRectangles.Checked && !checkBoxEllipses.Checked)
-			{
-				MessageBox.Show("At least one of 'Rectangles' or 'Ellipses' must be selected", this.Text);
-				return;
-			}
-
-			DialogResult = DialogResult.OK;
-			Close();
-		}
-
-
+		/// <summary>
+		/// Gets the current (possibly edited) configuration
+		/// </summary>
+		/// <returns>Edited configuration</returns>
 		public RandomShapesConfig GetConfig()
 		{
 			// ALT: could save original config and update it directly
@@ -78,6 +70,23 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			config.UseAlpha = checkBoxUseAlpha.Checked;
 
 			return config;
+		}
+
+		private void RandomShapesForm_Load(object sender, EventArgs e)
+		{
+		}
+
+		private void buttonOK_Click(object sender, EventArgs e)
+		{
+			// TODO: validation
+			if (!checkBoxRectangles.Checked && !checkBoxEllipses.Checked)
+			{
+				MessageBox.Show("At least one of 'Rectangles' or 'Ellipses' must be selected", this.Text);
+				return;
+			}
+
+			DialogResult = DialogResult.OK;
+			Close();
 		}
 	}
 }

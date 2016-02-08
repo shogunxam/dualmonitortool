@@ -17,16 +17,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Library.Logging
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
+	/// <summary>
+	/// Interface to logger
+	/// </summary>
 	public interface ILogger
 	{
+		/// <summary>
+		/// Log an exception
+		/// </summary>
+		/// <param name="source">Source or module name requesting the log</param>
+		/// <param name="ex">Exception to log</param>
 		void LogException(string source, Exception ex);
+
+		/// <summary>
+		/// Log an information message
+		/// </summary>
+		/// <param name="source">Source or module name requesting the log</param>
+		/// <param name="format">Format string</param>
+		/// <param name="formatParams">Parameters for format string</param>
 		void LogInfo(string source, string format, params object[] formatParams);
+
+		/// <summary>
+		/// Log an error message
+		/// </summary>
+		/// <param name="source">Source or module name requesting the log</param>
+		/// <param name="format">Format string</param>
+		/// <param name="formatParams">Parameters for format string</param>
 		void LogError(string source, string format, params object[] formatParams);
 	}
 }

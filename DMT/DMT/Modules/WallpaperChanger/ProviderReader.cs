@@ -17,17 +17,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
-using System.Xml;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.IO;
+	using System.Text;
+	using System.Xml;
+
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Reads the users providers from an XML formatted stream.
 	/// This is the reverse of ProviderWriter.
@@ -36,12 +37,20 @@ namespace DMT.Modules.WallpaperChanger
 	{
 		IProviderFactory _providerFactory;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ProviderReader" /> class.
+		/// </summary>
+		/// <param name="providerFactory">Factory to create instances of the providers</param>
 		public ProviderReader(IProviderFactory providerFactory)
 		{
 			_providerFactory = providerFactory;
 		}
 
-
+		/// <summary>
+		/// Reads the providers from a stream
+		/// </summary>
+		/// <param name="stream">Stream to read providers from</param>
+		/// <returns>Providers read</returns>
 		public Collection<IImageProvider> Read(Stream stream)
 		{
 			Collection<IImageProvider> providers = new Collection<IImageProvider>();
@@ -83,6 +92,7 @@ namespace DMT.Modules.WallpaperChanger
 						{
 							providers.Add(provider);
 						}
+
 						curName = null;
 						curConfig = null;
 					}

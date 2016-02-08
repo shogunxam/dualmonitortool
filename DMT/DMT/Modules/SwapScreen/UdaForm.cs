@@ -17,27 +17,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library;
-using DMT.Library.GuiUtils;
-using DMT.Library.HotKeys;
-using DMT.Library.PInvoke;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.SwapScreen
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library;
+	using DMT.Library.GuiUtils;
+	using DMT.Library.HotKeys;
+	using DMT.Library.PInvoke;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Dialog for editing an user defined area
+	/// </summary>
 	partial class UdaForm : Form
 	{
 		UdaController _udaController;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="UdaForm" /> class.
+		/// </summary>
+		/// <param name="udaController">Controller for the user defined area</param>
 		public UdaForm(UdaController udaController)
 		{
 			_udaController = udaController;
@@ -52,7 +60,8 @@ namespace DMT.Modules.SwapScreen
 		void InitWindowPicker()
 		{
 			// initialise the window picker
-			windowPicker.InitControl(Properties.Resources.TargetCursor,
+			windowPicker.InitControl(
+				Properties.Resources.TargetCursor,
 				Properties.Resources.WinNoCrossHairs,
 				Properties.Resources.WinCrossHairs);
 
@@ -61,8 +70,8 @@ namespace DMT.Modules.SwapScreen
 
 		private void windowPicker_HoveredWindowChanged(IntPtr hWnd)
 		{
-			Win32.RECT rect;
-			if (Win32.GetWindowRect(hWnd, out rect))
+			NativeMethods.RECT rect;
+			if (NativeMethods.GetWindowRect(hWnd, out rect))
 			{
 				Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
 				SetWindowRect(rectangle);
@@ -72,7 +81,7 @@ namespace DMT.Modules.SwapScreen
 		/// <summary>
 		/// Changes the displayed rectangle
 		/// </summary>
-		/// <param name="rectangle"></param>
+		/// <param name="rectangle">Updates panel to use this rectangle</param>
 		void SetWindowRect(Rectangle rectangle)
 		{
 			textBoxX.Text = rectangle.X.ToString();
@@ -130,6 +139,7 @@ namespace DMT.Modules.SwapScreen
 			{
 				isValid = false;
 			}
+
 			if (height < 0)
 			{
 				isValid = false;
@@ -171,7 +181,6 @@ namespace DMT.Modules.SwapScreen
 			}
 
 			// hotkey is OK
-
 			DialogResult = DialogResult.OK;
 			Close();
 		}
@@ -200,11 +209,11 @@ namespace DMT.Modules.SwapScreen
 				{
 					control.Focus();
 				}
+
 				isValid = false;
 			}
 
 			return ret;
 		}
-
 	}
 }

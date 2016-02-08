@@ -17,25 +17,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using DMT.Library.HotKeys;
-using DMT.Library.Logging;
-using DMT.Library.Settings;
-using DMT.Resources;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.General
 {
-	class GeneralModule : Module
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Reflection;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Environment;
+	using DMT.Library.HotKeys;
+	using DMT.Library.Logging;
+	using DMT.Library.Settings;
+	using DMT.Resources;
+
+	using Microsoft.Win32;
+
+	/// <summary>
+	/// The general module
+	/// </summary>
+	class GeneralModule : DMT.Modules.Module
 	{
 		const string AutoStartKeyName = "GNE_DualMonitorTools";
 		const string InstalledKeyName = @"SOFTWARE\GNE\Dual Monitor Tools";
@@ -46,12 +51,33 @@ namespace DMT.Modules.General
 		ILogger _logger;
 		AppForm _appForm;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="GeneralModule" /> class.
+		/// </summary>
+		/// <param name="settingsService">The settings service</param>
+		/// <param name="hotKeyService">The hotkey service</param>
+		/// <param name="logger">Application logger</param>
+		/// <param name="appForm">Application (hidden) window</param>
+		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
+			: base(hotKeyService)
+		{
+			_settingsService = settingsService;
+			_logger = logger;
+			_appForm = appForm;
+
+			ModuleName = "General";
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether DMT to start when windows starts
+		/// </summary>
 		public bool StartWhenWindowsStarts
 		{
 			get
 			{
 				return AutoStart.IsAutoStart(AutoStartKeyName);
 			}
+
 			set
 			{
 				if (value)
@@ -65,6 +91,9 @@ namespace DMT.Modules.General
 			}
 		}
 
+		/// <summary>
+		/// Gets the version number currently running
+		/// </summary>
 		public Version Version
 		{
 			get
@@ -73,6 +102,9 @@ namespace DMT.Modules.General
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this version was installed with an msi installer
+		/// </summary>
 		public bool IsMsiInstall
 		{
 			get
@@ -85,6 +117,7 @@ namespace DMT.Modules.General
 					{
 						keyValue = key.GetValue(InstalledValueName);
 					}
+
 					if (keyValue == null)
 					{
 						// installer is 32bit, but we could be running on a 64 bit O/S
@@ -100,10 +133,14 @@ namespace DMT.Modules.General
 					// if we can't read the registry, assume this is a portable install.
 					keyValue = null;
 				}
-				return (keyValue != null);
+
+				return keyValue != null;
 			}
 		}
 
+		/// <summary>
+		/// Gets a temporary path to save the msi installer to
+		/// </summary>
 		public string TempMsiInstallPath
 		{
 			get
@@ -112,28 +149,27 @@ namespace DMT.Modules.General
 			}
 		}
 
-		public GeneralModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
-			: base(hotKeyService)
-		{
-			_settingsService = settingsService;
-			_logger = logger;
-			_appForm = appForm;
-
-			ModuleName = "General";
-		}
-
+		/// <summary>
+		/// Starts the module up
+		/// </summary>
 		public override void Start()
 		{
-			AddCommand("Options", GeneralStrings.OptionsDescription, "", ShowOptions, false, true);
+			AddCommand("Options", GeneralStrings.OptionsDescription, string.Empty, ShowOptions, false, true);
 		}
 
+		/// <summary>
+		/// Starts the process of shutting DMT down
+		/// </summary>
 		public void StartShutdown()
 		{
-			//_appForm.Close();
 			Application.Exit();
 		}
 
-		public override ModuleOptionNode GetOptionNodes(/*Form form*/)
+		/// <summary>
+		/// Gets the option nodes for this module
+		/// </summary>
+		/// <returns>The root node</returns>
+		public override ModuleOptionNode GetOptionNodes()
 		{
 			Image image = new Bitmap(Properties.Resources.DMT_16_16);
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", image, new GeneralRootOptionsPanel());
@@ -146,6 +182,5 @@ namespace DMT.Modules.General
 		{
 			_appForm.ShowOptions();
 		}
-
 	}
 }

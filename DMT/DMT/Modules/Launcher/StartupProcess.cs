@@ -17,12 +17,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
 	/// <summary>
 	/// This is a process that is being started up.
 	/// This object holds information to allow us to detect the main window
@@ -30,65 +30,17 @@ namespace DMT.Modules.Launcher
 	/// </summary>
 	public class StartupProcess
 	{
-		//private StartupPosition startupPosition;
 		/// <summary>
-		/// The position we want the applications main window to start at
+		/// Initialises a new instance of the <see cref="StartupProcess" /> class.
 		/// </summary>
-		public StartupPosition StartupPosition { get; protected set; }
-		//{
-		//	get { return startupPosition; }
-		//	set { startupPosition = value; }
-		//}
-
-		//private uint pid;
-		/// <summary>
-		/// The PID of the process
-		/// </summary>
-		public uint Pid { get; protected set; }
-		//{
-		//	get { return pid; }
-		//	set { pid = value; }
-		//}
-
-		//private string captionRegExpr;
-		/// <summary>
-		/// Regular expression to detect if the caption of a window is the window we are after
-		/// </summary>
-		public string CaptionRegExpr { get; protected set; }
-		//{
-		//	get { return captionRegExpr; }
-		//	set { captionRegExpr = value; }
-		//}
-
-		//private string windowClass;
-		/// <summary>
-		/// Window class of the window that we are after
-		/// </summary>
-		public string WindowClass { get; protected set; }
-		//{
-		//	get { return windowClass; }
-		//	set { windowClass = value; }
-		//}
-
-		//private DateTime expiryTime;
-		/// <summary>
-		/// This is the time after which this object is deemed to be of no further use
-		/// </summary>
-		public DateTime ExpiryTime { get; protected set; }
-		//{
-		//	get { return expiryTime; }
-		//	set { expiryTime = value; }
-		//}
-	
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		/// <param name="pid"></param>
-		/// <param name="magicWord"></param>
-		/// <param name="startPosition"></param>
+		/// <param name="pid">Process id of process started</param>
+		/// <param name="magicWord">Magic word that launched process</param>
+		/// <param name="startPosition">The required starting location for the main window of the process</param>
+		/// <param name="startupTimeout">Timeout to wait for process to show it's window</param>
 		public StartupProcess(uint pid, MagicWord magicWord, StartupPosition startPosition, int startupTimeout)
 		{
 			Pid = pid;
+
 			// want own copy of the position
 			StartupPosition = startPosition.Clone();
 			CaptionRegExpr = magicWord.CaptionRegExpr;
@@ -96,5 +48,30 @@ namespace DMT.Modules.Launcher
 
 			ExpiryTime = DateTime.Now.AddSeconds((double)startupTimeout);
 		}
+
+		/// <summary>
+		/// Gets the position we want the applications main window to start at
+		/// </summary>
+		public StartupPosition StartupPosition { get; private set; }
+
+		/// <summary>
+		/// Gets the PID of the process
+		/// </summary>
+		public uint Pid { get; private set; }
+
+		/// <summary>
+		/// Gets the regular expression to detect if the caption of a window is the window we are after
+		/// </summary>
+		public string CaptionRegExpr { get; private set; }
+
+		/// <summary>
+		/// Gets the window class of the window that we are after
+		/// </summary>
+		public string WindowClass { get; private set; }
+
+		/// <summary>
+		/// Gets the time after which this object is deemed to be of no further use
+		/// </summary>
+		public DateTime ExpiryTime { get; private set; }
 	}
 }

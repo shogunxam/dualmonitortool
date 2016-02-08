@@ -17,18 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
 namespace DMT.Library.Settings
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Xml;
+
+	/// <summary>
+	/// Reads settings from a stream
+	/// </summary>
 	class SettingsReader
 	{
+		/// <summary>
+		/// Reads all of the settings from a stream
+		/// </summary>
+		/// <param name="stream">Stream to read from</param>
+		/// <returns>The settings</returns>
 		public Dictionary<string, string> Read(Stream stream)
 		{
 			Dictionary<string, string> settings = new Dictionary<string, string>();

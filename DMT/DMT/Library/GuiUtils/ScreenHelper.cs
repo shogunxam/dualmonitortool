@@ -17,23 +17,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Text;
-
-using System.Runtime.InteropServices;
-using DMT.Library.PInvoke;
-
-
 namespace DMT.Library.GuiUtils
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Runtime.InteropServices;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using DMT.Library.PInvoke;
+
 	/// <summary>
 	/// Utility class to help in handling multiple screens.
 	/// </summary>
 	static class ScreenHelper
 	{
+		static IntPtr _lastSupersizeHwnd = (IntPtr)0;
+		static Rectangle _lastSupersizeRect = new Rectangle();
+
 		/// <summary>
 		/// Attempts to minimize all visible application windows on
 		/// the first screen.
@@ -88,15 +90,15 @@ namespace DMT.Library.GuiUtils
 			// for each visible application window...
 			foreach (IntPtr hWnd in hWndList)
 			{
-				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
 				if (windowRectangle.IntersectsWith(curScreen.Bounds))
 				{
 					// this window does exist (maybe partially) on this screen
 					// so lets minimise it
-					windowPlacement.showCmd = Win32.SW_SHOWMINIMIZED;
-					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+					windowPlacement.showCmd = NativeMethods.SW_SHOWMINIMIZED;
+					NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 				}
 			}
 		}
@@ -106,7 +108,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void MinimiseAllButActive()
 		{
-			IntPtr hWndActive = Win32.GetForegroundWindow();
+			IntPtr hWndActive = NativeMethods.GetForegroundWindow();
 			List<IntPtr> hWndList = GetVisibleApplicationWindows();
 
 			// for each visible application window...
@@ -153,12 +155,10 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void MinimiseActive()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				// toggle the minimised state of the window
-				//MinimiseWindow(hWnd);
 				ToggleMinimiseWindow(hWnd);
 			}
 		}
@@ -169,21 +169,23 @@ namespace DMT.Library.GuiUtils
 		/// <param name="hWnd">HWND of window to minimise</param>
 		public static void ToggleMinimiseWindow(IntPtr hWnd)
 		{
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
+			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+
 			// check if the window is already minimised
-			if ((style & Win32.WS_MINIMIZE) == 0)
+			if ((style & NativeMethods.WS_MINIMIZE) == 0)
 			{
 				// not minimised - so minimise
-				windowPlacement.showCmd = Win32.SW_SHOWMINIMIZED;
+				windowPlacement.showCmd = NativeMethods.SW_SHOWMINIMIZED;
 			}
 			else
 			{
 				// already minimised, so restore
-				windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+				windowPlacement.showCmd = NativeMethods.SW_SHOWNORMAL;
 			}
-			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+
+			NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
 
 		/// <summary>
@@ -192,10 +194,10 @@ namespace DMT.Library.GuiUtils
 		/// <param name="hWnd">HWND of window to minimise</param>
 		public static void MinimiseWindow(IntPtr hWnd)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			windowPlacement.showCmd = Win32.SW_SHOWMINIMIZED;
-			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			windowPlacement.showCmd = NativeMethods.SW_SHOWMINIMIZED;
+			NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
 
 		/// <summary>
@@ -203,8 +205,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void MaximiseActive()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				MaximiseWindow(hWnd);
@@ -218,62 +219,66 @@ namespace DMT.Library.GuiUtils
 		public static void MaximiseWindow(IntPtr hWnd)
 		{
 			// only allow the window to be maximised if it has a maximise box
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
-			if ((style & Win32.WS_MAXIMIZEBOX) != 0)
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
+			if ((style & NativeMethods.WS_MAXIMIZEBOX) != 0)
 			{
-				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+
 				// check if the window is already maximised
-				if ((style & Win32.WS_MAXIMIZE) == 0)
+				if ((style & NativeMethods.WS_MAXIMIZE) == 0)
 				{
 					// not maximised - so maximise
-					windowPlacement.showCmd = Win32.SW_SHOWMAXIMIZED;
+					windowPlacement.showCmd = NativeMethods.SW_SHOWMAXIMIZED;
 				}
 				else
 				{
 					// already maximised, so restore
-					windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
+					windowPlacement.showCmd = NativeMethods.SW_SHOWNORMAL;
 				}
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 		}
 
+		/// <summary>
+		/// Supersizes the active window
+		/// </summary>
 		public static void SupersizeActive()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				SupersizeWindow(hWnd);
 			}
 		}
 
-		private static IntPtr lastSupersizeHwnd = (IntPtr)0;
-		private static Rectangle lastSupersizeRect = new Rectangle();
-
+		/// <summary>
+		/// Supersizes the window
+		/// </summary>
+		/// <param name="hWnd">Windows to supersize</param>
 		public static void SupersizeWindow(IntPtr hWnd)
 		{
 			// only supersize the window if it has a sizing border,
 			// otherwise the user would not be able to restore its size
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
-			if ((style & Win32.WS_THICKFRAME) != 0)
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
+			if ((style & NativeMethods.WS_THICKFRAME) != 0)
 			{
 				// This used to use the entire VirtualDesktop, but now uses the entire
 				// WorkingDesktop as we need the area where we can place windows.
 				// This only makes a difference when the taskbar is placed at the edge of
 				// the total bounded area and stretches right across it. Eg. when the taskbar
 				// is on the left side of the left most screen when screens positioned as left and right.
-				//Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
 				Rectangle vitrualWorkingRect = GetVitrualWorkingRect();
-				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 
-				if (hWnd == lastSupersizeHwnd && curRect == vitrualWorkingRect)
+				if (hWnd == _lastSupersizeHwnd && curRect == vitrualWorkingRect)
 				{
 					// this window has already been supersized, 
 					// so we need to return it to its previous (restored) size
-					windowPlacement.rcNormalPosition = RectangleToRect(ref lastSupersizeRect);
+					windowPlacement.rcNormalPosition = RectangleToRect(ref _lastSupersizeRect);
 				}
 				else
 				{
@@ -281,15 +286,15 @@ namespace DMT.Library.GuiUtils
 					windowPlacement.rcNormalPosition = RectangleToRect(ref vitrualWorkingRect);
 
 					// and remember it, so we can undo it
-					lastSupersizeHwnd = hWnd;
-					lastSupersizeRect = curRect;
+					_lastSupersizeHwnd = hWnd;
+					_lastSupersizeRect = curRect;
 				}
-				windowPlacement.showCmd = Win32.SW_SHOWNORMAL;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+
+				windowPlacement.showCmd = NativeMethods.SW_SHOWNORMAL;
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 		}
 		#endregion
-
 
 		#region Individual Window movement
 		/// <summary>
@@ -297,8 +302,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void MoveActiveToNextScreen()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				MoveWindowToNext(hWnd, +1);
@@ -310,8 +314,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void MoveActiveToPrevScreen()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				MoveWindowToNext(hWnd, -1);
@@ -323,8 +326,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void SnapActiveLeft()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowLeftRight(hWnd, -1);
@@ -336,8 +338,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void SnapActiveRight()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowLeftRight(hWnd, 1);
@@ -349,8 +350,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void SnapActiveUp()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowUpDown(hWnd, -1);
@@ -362,8 +362,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void SnapActiveDown()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				SnapWindowUpDown(hWnd, 1);
@@ -373,10 +372,10 @@ namespace DMT.Library.GuiUtils
 		/// <summary>
 		/// Moves the active window to the given rectangle
 		/// </summary>
+		/// <param name="rectangle">Location to move window to</param>
 		public static void MoveActiveToRectangle(Rectangle rectangle)
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
-			//if (hWnd != null)
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
 				MoveWindow(hWnd, rectangle);
@@ -389,34 +388,30 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		public static void SwapTop2Windows()
 		{
-			IntPtr hWndTop = Win32.GetForegroundWindow();
-			//if (hWndTop != null)
+			IntPtr hWndTop = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWndTop))
-				{
-				//IntPtr hWndNext = hWndTop;
-				//do
-				//{
-				//    hWndNext = Win32.GetWindow(hWndNext, Win32.GW_HWNDNEXT);
-				//} while (hWndNext != null && !IsCandidateForMoving(hWndNext));
+			{
+				////IntPtr hWndNext = hWndTop;
+				////do
+				////{
+				////    hWndNext = Win32.GetWindow(hWndNext, Win32.GW_HWNDNEXT);
+				////} while (hWndNext != null && !IsCandidateForMoving(hWndNext));
 
 				// less efficient, but easier to read
-				IntPtr hWndNext = Win32.GetWindow(hWndTop, Win32.GW_HWNDNEXT);
-				//while (hWndNext != null && !IsCandidateForMoving(hWndNext))
+				IntPtr hWndNext = NativeMethods.GetWindow(hWndTop, NativeMethods.GW_HWNDNEXT);
 				while (!IsNullHandle(hWndNext) && !IsCandidateForMoving(hWndNext))
 				{
-					hWndNext = Win32.GetWindow(hWndNext, Win32.GW_HWNDNEXT);
+					hWndNext = NativeMethods.GetWindow(hWndNext, NativeMethods.GW_HWNDNEXT);
 				}
 
-				//if (hWndNext != null)
 				if (!IsNullHandle(hWndNext))
 				{
 					SwapWindows(hWndTop, hWndNext);
 
 					// now make the old next the active window
-					Win32.SetForegroundWindow(hWndNext);
+					NativeMethods.SetForegroundWindow(hWndNext);
 				}
 			}
-			//DumpZWindows();
 		}
 		#endregion
 
@@ -426,7 +421,7 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		/// <param name="rect">Win 32 RECT</param>
 		/// <returns>.NET Rectangle</returns>
-		public static Rectangle RectToRectangle(ref Win32.RECT rect)
+		public static Rectangle RectToRectangle(ref NativeMethods.RECT rect)
 		{
 			Rectangle rectangle = new Rectangle(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top);
 
@@ -438,9 +433,9 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		/// <param name="rectangle">.NET Rectangle</param>
 		/// <returns>Win32 RECT</returns>
-		public static Win32.RECT RectangleToRect(ref Rectangle rectangle)
+		public static NativeMethods.RECT RectangleToRect(ref Rectangle rectangle)
 		{
-			Win32.RECT rect = new Win32.RECT(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
+			NativeMethods.RECT rect = new NativeMethods.RECT(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
 
 			return rect;
 		}
@@ -450,28 +445,28 @@ namespace DMT.Library.GuiUtils
 		/// to be moved between screens.
 		/// </summary>
 		/// <returns>List of HWND's belonging to application windows.</returns>
-		private static List<IntPtr> GetVisibleApplicationWindows()
+		static List<IntPtr> GetVisibleApplicationWindows()
 		{
 			// TODO: rewrite using IsCandidateForMoving()
 			List<IntPtr> hWndList = new List<IntPtr>();
-			IntPtr hWndShell = Win32.GetShellWindow();
+			IntPtr hWndShell = NativeMethods.GetShellWindow();
 			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
 
 			// use anonymous method to simplify access to the windows list
-			Win32.EnumWindowsProc windowVisiter = delegate(IntPtr hWnd, uint lParam)
+			NativeMethods.EnumWindowsProc windowVisiter = delegate(IntPtr hWnd, uint lParam)
 			{
 				if (hWnd == hWndShell)
 				{
 					// ignore the shell (Program Manager) window
 				}
-				else if (!Win32.IsWindowVisible(hWnd))
+				else if (!NativeMethods.IsWindowVisible(hWnd))
 				{
 					// ignore any windows without WS_VISIBLE
 				}
 				else
 				{
-					Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-					Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+					NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+					NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 					Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
 					if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
 					{
@@ -479,8 +474,8 @@ namespace DMT.Library.GuiUtils
 					}
 					else
 					{
-						int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
-						if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
+						int exStyle = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_EXSTYLE);
+						if ((exStyle & NativeMethods.WS_EX_TOOLWINDOW) != 0)
 						{
 							// This is a tool window - leave alone
 						}
@@ -491,29 +486,30 @@ namespace DMT.Library.GuiUtils
 						}
 					}
 				}
+
 				return true;
 			};
-			Win32.EnumWindows(windowVisiter, 0);
+			NativeMethods.EnumWindows(windowVisiter, 0);
 
 			return hWndList;
 		}
 
-		private static bool IsCandidateForMoving(IntPtr hWnd)
+		static bool IsCandidateForMoving(IntPtr hWnd)
 		{
 			bool isCandidate = false;
 
-			if (hWnd == Win32.GetShellWindow())
+			if (hWnd == NativeMethods.GetShellWindow())
 			{
 				// ignore the shell (Program Manager) window
 			}
-			else if (!Win32.IsWindowVisible(hWnd))
+			else if (!NativeMethods.IsWindowVisible(hWnd))
 			{
 				// ignore any windows without WS_VISIBLE
 			}
 			else
 			{
-				Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-				Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
 				Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
 				if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
@@ -522,8 +518,8 @@ namespace DMT.Library.GuiUtils
 				}
 				else
 				{
-					int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
-					if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
+					int exStyle = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_EXSTYLE);
+					if ((exStyle & NativeMethods.WS_EX_TOOLWINDOW) != 0)
 					{
 						// This is a tool window - leave alone
 					}
@@ -541,7 +537,7 @@ namespace DMT.Library.GuiUtils
 		/// <summary>
 		/// Get the bounding rectangle that covers the working area of all screens
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Bounding rectangle</returns>
 		public static Rectangle GetVitrualWorkingRect()
 		{
 			Rectangle boundingRect = new Rectangle();
@@ -563,7 +559,7 @@ namespace DMT.Library.GuiUtils
 		/// <summary>
 		/// Get the bounding rectangle that covers all areas of all screens
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Virtual desktop rectangle</returns>
 		public static Rectangle GetVitrualDesktopRect()
 		{
 			Rectangle boundingRect = new Rectangle();
@@ -588,8 +584,8 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		/// <param name="curRect">Rectangle to be moved</param>
 		/// <param name="deltaScreenIndex">+1 for next screen -1 for previous screen</param>
-		/// <returns></returns>
-		private static Rectangle TransfromRectToOtherScreen(ref Rectangle curRect, int deltaScreenIndex)
+		/// <returns>Rectangle on target screen</returns>
+		static Rectangle TransfromRectToOtherScreen(ref Rectangle curRect, int deltaScreenIndex)
 		{
 			Rectangle otherRect = new Rectangle();
 			otherRect = curRect;
@@ -603,14 +599,21 @@ namespace DMT.Library.GuiUtils
 				{
 					// keep TLHC in next screen same as current screen (relative to the working araea)
 					Screen otherScreen = Screen.AllScreens[otherScreenIndex];
-					otherRect.Offset(otherScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
-									 otherScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
+					otherRect.Offset(
+						otherScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
+						otherScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
 				}
 			}
 
 			return otherRect;
 		}
 
+		/// <summary>
+		/// Calculate the screen index that is a displacement from specified screen index
+		/// </summary>
+		/// <param name="screenIndex">Starting screen index</param>
+		/// <param name="deltaScreenIndex">Displacement, either positive or negative</param>
+		/// <returns>Target screen index</returns>
 		public static int DeltaScreenIndex(int screenIndex, int deltaScreenIndex)
 		{
 			int newScreenIndex = (screenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
@@ -625,8 +628,8 @@ namespace DMT.Library.GuiUtils
 		/// <summary>
 		/// Finds the next screen after the given screen
 		/// </summary>
-		/// <param name="curScreen"></param>
-		/// <returns></returns>
+		/// <param name="curScreen">Current screen</param>
+		/// <returns>Next screen after specified screen</returns>
 		public static Screen NextScreen(Screen curScreen)
 		{
 			int curScreenIndex = FindScreenIndex(curScreen);
@@ -635,6 +638,7 @@ namespace DMT.Library.GuiUtils
 				// shouldn't happen
 				return Screen.PrimaryScreen;
 			}
+
 			int nextScreenIndex = (curScreenIndex + 1) % Screen.AllScreens.Length;
 			return Screen.AllScreens[nextScreenIndex];
 		}
@@ -642,9 +646,8 @@ namespace DMT.Library.GuiUtils
 		/// <summary>
 		/// Finds the index within Screen.AllScreens[] that the passed screen is on.
 		/// </summary>
-		/// <param name="screen">The screen whoose index we are trying to find</param>
+		/// <param name="screen">The screen whose index we are trying to find</param>
 		/// <returns>Zero based screen index, or -1 if screen not found</returns>
-		//private static int FindScreenIndex(Screen screen)
 		public static int FindScreenIndex(Screen screen)
 		{
 			int screenIndex = -1;
@@ -672,30 +675,31 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		/// <param name="hWnd">HWND of window to move.</param>
 		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
-		private static void MoveWindowToNext(IntPtr hWnd, int deltaScreenIndex)
+		static void MoveWindowToNext(IntPtr hWnd, int deltaScreenIndex)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			Rectangle newRect = TransfromRectToOtherScreen(ref curRect, deltaScreenIndex);
 			uint oldShowCmd = windowPlacement.showCmd;
-			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 			{
 				// need to restore window before moving it
-				windowPlacement.showCmd = Win32.SW_RESTORE;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
-				windowPlacement.showCmd = Win32.SW_SHOW;
+				windowPlacement.showCmd = NativeMethods.SW_RESTORE;
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
+				windowPlacement.showCmd = NativeMethods.SW_SHOW;
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
+
 				// now minimise/maximise it
 				windowPlacement.showCmd = oldShowCmd;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 			else
 			{
 				// normal window - not minimised or maximised
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 		}
 
@@ -704,12 +708,12 @@ namespace DMT.Library.GuiUtils
 		/// to the left/right half screen.
 		/// </summary>
 		/// <param name="hWnd">HWND of window to move.</param>
-		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
-		private static void SnapWindowLeftRight(IntPtr hWnd, int delta)
+		/// <param name="delta">Number of screens to move right.</param>
+		static void SnapWindowLeftRight(IntPtr hWnd, int delta)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			uint oldShowCmd = windowPlacement.showCmd;
 
@@ -723,12 +727,13 @@ namespace DMT.Library.GuiUtils
 				Rectangle newRect;
 				int newWidth = screenRect.Width / 2;
 				int newHeight = screenRect.Height;
-				if ((style & Win32.WS_THICKFRAME) == 0)
+				if ((style & NativeMethods.WS_THICKFRAME) == 0)
 				{
 					// the window can't be resized, so keep its size the same
 					newWidth = curRect.Width;
 					newHeight = curRect.Height;
 				}
+
 				if ((newHalf % 2) == 0)
 				{
 					// left half
@@ -739,15 +744,17 @@ namespace DMT.Library.GuiUtils
 					// right half
 					newRect = new Rectangle(screenRect.Left + screenRect.Width / 2, screenRect.Top, newWidth, newHeight);
 				}
-				if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+
+				if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 				{
 					// need to restore window before moving it
-					windowPlacement.showCmd = Win32.SW_RESTORE;
-					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+					windowPlacement.showCmd = NativeMethods.SW_RESTORE;
+					NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 				}
-				windowPlacement.showCmd = Win32.SW_SHOW;
+
+				windowPlacement.showCmd = NativeMethods.SW_SHOW;
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 		}
 
@@ -756,12 +763,12 @@ namespace DMT.Library.GuiUtils
 		/// to the top/bottom half screen.
 		/// </summary>
 		/// <param name="hWnd">HWND of window to move.</param>
-		/// <param name="deltaScreenIndex">Number of screens to move right.</param>
-		private static void SnapWindowUpDown(IntPtr hWnd, int delta)
+		/// <param name="delta">Number of screens to move right.</param>
+		static void SnapWindowUpDown(IntPtr hWnd, int delta)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
+			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			uint oldShowCmd = windowPlacement.showCmd;
 
@@ -775,12 +782,13 @@ namespace DMT.Library.GuiUtils
 				Rectangle newRect;
 				int newWidth = screenRect.Width;
 				int newHeight = screenRect.Height / 2;
-				if ((style & Win32.WS_THICKFRAME) == 0)
+				if ((style & NativeMethods.WS_THICKFRAME) == 0)
 				{
 					// the window can't be resized, so keep its size the same
 					newWidth = curRect.Width;
 					newHeight = curRect.Height;
 				}
+
 				if ((newHalf % 2) == 0)
 				{
 					// top half
@@ -791,19 +799,21 @@ namespace DMT.Library.GuiUtils
 					// bottom half
 					newRect = new Rectangle(screenRect.Left, screenRect.Top + screenRect.Height / 2, newWidth, newHeight);
 				}
-				if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+
+				if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 				{
 					// need to restore window before moving it
-					windowPlacement.showCmd = Win32.SW_RESTORE;
-					Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+					windowPlacement.showCmd = NativeMethods.SW_RESTORE;
+					NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 				}
-				windowPlacement.showCmd = Win32.SW_SHOW;
+
+				windowPlacement.showCmd = NativeMethods.SW_SHOW;
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
 		}
 
-		private static int AdvanceHalfScreen(int curScreenIndex, int screenStart, int screenEnd, int winStart, int delta)
+		static int AdvanceHalfScreen(int curScreenIndex, int screenStart, int screenEnd, int winStart, int delta)
 		{
 			if (delta < 0)
 			{
@@ -839,22 +849,23 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		/// <param name="hWnd">HWND of window to move.</param>
 		/// <param name="newRect">Rectangle the window is being moved too.</param>
-		private static void MoveWindow(IntPtr hWnd, Rectangle newRect)
+		static void MoveWindow(IntPtr hWnd, Rectangle newRect)
 		{
-			Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 			uint oldShowCmd = windowPlacement.showCmd;
-			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 			{
 				// need to restore window before moving it
-				windowPlacement.showCmd = Win32.SW_RESTORE;
-				Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+				windowPlacement.showCmd = NativeMethods.SW_RESTORE;
+				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
+
 				// make sure window will be shown normally
-				windowPlacement.showCmd = Win32.SW_SHOW;
+				windowPlacement.showCmd = NativeMethods.SW_SHOW;
 			}
 
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
-			if ((style & Win32.WS_THICKFRAME) == 0)
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
+			if ((style & NativeMethods.WS_THICKFRAME) == 0)
 			{
 				// the window can't be resized, so keep its size the same
 				newRect.Width = windowPlacement.rcNormalPosition.right - windowPlacement.rcNormalPosition.left;
@@ -862,42 +873,42 @@ namespace DMT.Library.GuiUtils
 			}
 
 			windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
-			Win32.SetWindowPlacement(hWnd, ref windowPlacement);
+			NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
 
-		private static void SwapWindows(IntPtr hWndTop, IntPtr hWndNext)
+		static void SwapWindows(IntPtr hWndTop, IntPtr hWndNext)
 		{
 			// get the current window positions
-			Win32.WINDOWPLACEMENT topPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWndTop, ref topPlacement);
-			Win32.WINDOWPLACEMENT nextPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWndNext, ref nextPlacement);
+			NativeMethods.WINDOWPLACEMENT topPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWndTop, ref topPlacement);
+			NativeMethods.WINDOWPLACEMENT nextPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWndNext, ref nextPlacement);
 
 			// swap the positions
 			MoveWindowToPlacement(hWndTop, nextPlacement);
 			MoveWindowToPlacement(hWndNext, topPlacement);
 		}
 
-		private static void MoveWindowToPlacement(IntPtr hWnd, Win32.WINDOWPLACEMENT windowPlacement)
+		static void MoveWindowToPlacement(IntPtr hWnd, NativeMethods.WINDOWPLACEMENT windowPlacement)
 		{
-			Win32.WINDOWPLACEMENT oldPlacement = new Win32.WINDOWPLACEMENT();
-			Win32.GetWindowPlacement(hWnd, ref oldPlacement);
+			NativeMethods.WINDOWPLACEMENT oldPlacement = new NativeMethods.WINDOWPLACEMENT();
+			NativeMethods.GetWindowPlacement(hWnd, ref oldPlacement);
 			uint oldShowCmd = oldPlacement.showCmd;
-			if (oldShowCmd == Win32.SW_SHOWMINIMIZED || oldShowCmd == Win32.SW_SHOWMAXIMIZED)
+			if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 			{
 				// need to restore window before moving it
-				oldPlacement.showCmd = Win32.SW_RESTORE;
-				Win32.SetWindowPlacement(hWnd, ref oldPlacement);
+				oldPlacement.showCmd = NativeMethods.SW_RESTORE;
+				NativeMethods.SetWindowPlacement(hWnd, ref oldPlacement);
 			}
 
 			// take copy of new windowPlacement (structure so copying values)
-			Win32.WINDOWPLACEMENT newPlacement = windowPlacement;
+			NativeMethods.WINDOWPLACEMENT newPlacement = windowPlacement;
 
 			// make sure window will initially be shown normally
-			newPlacement.showCmd = Win32.SW_SHOW;
+			newPlacement.showCmd = NativeMethods.SW_SHOW;
 
-			int style = Win32.GetWindowLong(hWnd, Win32.GWL_STYLE);
-			if ((style & Win32.WS_THICKFRAME) == 0)
+			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
+			if ((style & NativeMethods.WS_THICKFRAME) == 0)
 			{
 				// the window can't be resized, so keep its size the same
 				int fixedWidth = oldPlacement.rcNormalPosition.right - oldPlacement.rcNormalPosition.left;
@@ -906,13 +917,13 @@ namespace DMT.Library.GuiUtils
 				newPlacement.rcNormalPosition.bottom = newPlacement.rcNormalPosition.top + fixedHeight;
 			}
 
-			Win32.SetWindowPlacement(hWnd, ref newPlacement);
+			NativeMethods.SetWindowPlacement(hWnd, ref newPlacement);
 
-			if (windowPlacement.showCmd == Win32.SW_SHOWMINIMIZED || windowPlacement.showCmd == Win32.SW_SHOWMAXIMIZED)
+			if (windowPlacement.showCmd == NativeMethods.SW_SHOWMINIMIZED || windowPlacement.showCmd == NativeMethods.SW_SHOWMAXIMIZED)
 			{
 				// set minimised or maximised as required
 				newPlacement.showCmd = windowPlacement.showCmd;
-				Win32.SetWindowPlacement(hWnd, ref newPlacement);
+				NativeMethods.SetWindowPlacement(hWnd, ref newPlacement);
 			}
 		}
 
@@ -920,244 +931,243 @@ namespace DMT.Library.GuiUtils
 		/// Tests for a NULL handle value in the WIN32 sense
 		/// rather than a .NET null value
 		/// </summary>
-		/// <param name="hWnd"></param>
+		/// <param name="hWnd">Window handle to test</param>
+		/// <returns>True if it is a null handle</returns>
 		static bool IsNullHandle(IntPtr hWnd)
 		{
-			return (hWnd == IntPtr.Zero);
+			return hWnd == IntPtr.Zero;
 		}
 
 		#endregion
 
-		//#region Debugging helpers
+		////#region Debugging helpers
 
-		//// Not suitable for XP
-		//[DllImport("user32.dll", SetLastError = true)]
-		//static extern IntPtr OpenInputDesktop(uint dwFlags, bool fInherit, uint dwDesiredAccess);
-		//const int DESKTOP_READOBJECTS = 1;
+		////// Not suitable for XP
+		////[DllImport("user32.dll", SetLastError = true)]
+		////static extern IntPtr OpenInputDesktop(uint dwFlags, bool fInherit, uint dwDesiredAccess);
+		////const int DESKTOP_READOBJECTS = 1;
 
-		//[DllImport("user32.dll", SetLastError = true)]
-		//static extern bool GetUserObjectInformation(IntPtr hObj, int nIndex, StringBuilder lpString, int nLength, out int lpnLengthNeeded);
-		//const int UOI_NAME = 2;
+		////[DllImport("user32.dll", SetLastError = true)]
+		////static extern bool GetUserObjectInformation(IntPtr hObj, int nIndex, StringBuilder lpString, int nLength, out int lpnLengthNeeded);
+		////const int UOI_NAME = 2;
 
-		//[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		//static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
-		//const uint WM_DISPLAYCHANGE = 0x7E;
-		//private static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
+		////[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		////static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+		////const uint WM_DISPLAYCHANGE = 0x7E;
+		////private static IntPtr HWND_BROADCAST = new IntPtr(0xffff);
 
+		////public static void DumpDesktopInfo(Form mainForm)
+		////{
+		////	List<string> log = new List<string>();
 
-		//public static void DumpDesktopInfo(Form mainForm)
-		//{
-		//	List<string> log = new List<string>();
+		////	IntPtr hDesk = OpenInputDesktop(0, false, DESKTOP_READOBJECTS);
+		////	if (hDesk != IntPtr.Zero)
+		////	{
+		////		log.Add("Opened desktop");
 
-		//	IntPtr hDesk = OpenInputDesktop(0, false, DESKTOP_READOBJECTS);
-		//	if (hDesk != IntPtr.Zero)
-		//	{
-		//		log.Add("Opened desktop");
+		////		int stringLength = 0;
+		////		StringBuilder lpString = new StringBuilder();
+		////		GetUserObjectInformation(hDesk, UOI_NAME, lpString, stringLength, out stringLength);
+		////		if (GetUserObjectInformation(hDesk, UOI_NAME, lpString, stringLength, out stringLength))
+		////		{
+		////			log.Add("Desktop name: " + lpString.ToString());
+		////		}
+		////		// CloseInputDesktop?
+		////	}
 
-		//		int stringLength = 0;
-		//		StringBuilder lpString = new StringBuilder();
-		//		GetUserObjectInformation(hDesk, UOI_NAME, lpString, stringLength, out stringLength);
-		//		if (GetUserObjectInformation(hDesk, UOI_NAME, lpString, stringLength, out stringLength))
-		//		{
-		//			log.Add("Desktop name: " + lpString.ToString());
-		//		}
-		//		// CloseInputDesktop?
-		//	}
+		////	int monitorCount = System.Windows.Forms.SystemInformation.MonitorCount;
+		////	log.Add(string.Format("Monitor count is {0}", monitorCount));
 
-		//	int monitorCount = System.Windows.Forms.SystemInformation.MonitorCount;
-		//	log.Add(string.Format("Monitor count is {0}", monitorCount));
+		////	for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+		////	{
+		////		Rectangle rect = Screen.AllScreens[screenIndex].WorkingArea;
+		////		log.Add(string.Format("screen {0}: ({1}, {2}) - ({3}, {4})", screenIndex, rect.Left, rect.Top, rect.Right, rect.Bottom));
+		////	}
 
+		////	//Form myForm = null;//Form.ActiveForm;
+		////	//log.Add(string.Format("There are {0} open forms", Application.OpenForms.Count));
+		////	//if (Application.OpenForms.Count > 0)
+		////	//{
+		////	//	myForm = Application.OpenForms[0];
+		////	//}
+		////	if (mainForm != null)
+		////	{
+		////		log.Add("Sending WM_DISPLAYCHANGE");
+		////		log.Add(string.Format("to {0:x}", mainForm.Handle));
+		////		SendMessage(mainForm.Handle, WM_DISPLAYCHANGE, IntPtr.Zero, IntPtr.Zero);
+		////		//SendMessage(HWND_BROADCAST, WM_DISPLAYCHANGE, IntPtr.Zero, IntPtr.Zero);
 
-		//	for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
-		//	{
-		//		Rectangle rect = Screen.AllScreens[screenIndex].WorkingArea;
-		//		log.Add(string.Format("screen {0}: ({1}, {2}) - ({3}, {4})", screenIndex, rect.Left, rect.Top, rect.Right, rect.Bottom));
-		//	}
+		////		//System.Reflection.FieldInfo fieldInfo = typeof(Screen).GetField("AllScreens", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+		////		//fieldInfo.SetValue(null, null);
 
-		//	//Form myForm = null;//Form.ActiveForm;
-		//	//log.Add(string.Format("There are {0} open forms", Application.OpenForms.Count));
-		//	//if (Application.OpenForms.Count > 0)
-		//	//{
-		//	//	myForm = Application.OpenForms[0];
-		//	//}
-		//	if (mainForm != null)
-		//	{
-		//		log.Add("Sending WM_DISPLAYCHANGE");
-		//		log.Add(string.Format("to {0:x}", mainForm.Handle));
-		//		SendMessage(mainForm.Handle, WM_DISPLAYCHANGE, IntPtr.Zero, IntPtr.Zero);
-		//		//SendMessage(HWND_BROADCAST, WM_DISPLAYCHANGE, IntPtr.Zero, IntPtr.Zero);
+		////		System.Reflection.ConstructorInfo ctorInfo = typeof(Screen).GetConstructor(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic, null, new Type[0], null);
+		////		log.Add(string.Format("ctorInfo {0}", ctorInfo));
+		////		ctorInfo.Invoke(null, null);
+		////	}
 
-		//		//System.Reflection.FieldInfo fieldInfo = typeof(Screen).GetField("AllScreens", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-		//		//fieldInfo.SetValue(null, null);
+		////	for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+		////	{
+		////		Rectangle rect = Screen.AllScreens[screenIndex].WorkingArea;
+		////		log.Add(string.Format("screen {0}: ({1}, {2}) - ({3}, {4})", screenIndex, rect.Left, rect.Top, rect.Right, rect.Bottom));
+		////	}
 
-		//		System.Reflection.ConstructorInfo ctorInfo = typeof(Screen).GetConstructor(System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic, null, new Type[0], null);
-		//		log.Add(string.Format("ctorInfo {0}", ctorInfo));
-		//		ctorInfo.Invoke(null, null);
-		//	}
+		////	LogForm dlg = new LogForm(log);
+		////	dlg.ShowDialog();
+		////}
 
-		//	for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
-		//	{
-		//		Rectangle rect = Screen.AllScreens[screenIndex].WorkingArea;
-		//		log.Add(string.Format("screen {0}: ({1}, {2}) - ({3}, {4})", screenIndex, rect.Left, rect.Top, rect.Right, rect.Bottom));
-		//	}
+		////public static void DumpAllWindows()
+		////{
+		////	List<IntPtr> hWndList = GetVisibleApplicationWindows();
 
-		//	LogForm dlg = new LogForm(log);
-		//	dlg.ShowDialog();
-		//}
+		////	List<string> log = new List<string>();
 
-		//public static void DumpAllWindows()
-		//{
-		//	List<IntPtr> hWndList = GetVisibleApplicationWindows();
+		////	// for each application window...
+		////	foreach (IntPtr hWnd in hWndList)
+		////	{
+		////		log.Add(DumpWindowInfo(hWnd));
+		////	}
 
-		//	List<string> log = new List<string>();
+		////	LogForm dlg = new LogForm(log);
+		////	dlg.ShowDialog();
+		////}
 
-		//	// for each application window...
-		//	foreach (IntPtr hWnd in hWndList)
-		//	{
-		//		log.Add(DumpWindowInfo(hWnd));
-		//	}
+		////public static void DumpZWindows()
+		////{
+		////	int maxWindows = 50;
+		////	List<string> log = new List<string>();
 
-		//	LogForm dlg = new LogForm(log);
-		//	dlg.ShowDialog();
-		//}
+		////	IntPtr hWnd = Win32.GetForegroundWindow();
+		////	//IntPtr hWnd = Win32.GetWindow((IntPtr)0, 0);
+		////	if (hWnd != null)
+		////	{
+		////		do
+		////		{
+		////			log.Add(DumpWindowInfo(hWnd));
 
-		//public static void DumpZWindows()
-		//{
-		//	int maxWindows = 50;
-		//	List<string> log = new List<string>();
+		////			hWnd = Win32.GetWindow(hWnd, Win32.GW_HWNDNEXT);
+		////			//hWnd = Win32.GetWindow(hWnd, 3);
+		////		} while (hWnd != null && maxWindows-- > 0);
+		////	}
 
-		//	IntPtr hWnd = Win32.GetForegroundWindow();
-		//	//IntPtr hWnd = Win32.GetWindow((IntPtr)0, 0);
-		//	if (hWnd != null)
-		//	{
-		//		do
-		//		{
-		//			log.Add(DumpWindowInfo(hWnd));
+		////	LogForm dlg = new LogForm(log);
+		////	dlg.ShowDialog();
+		////}
 
-		//			hWnd = Win32.GetWindow(hWnd, Win32.GW_HWNDNEXT);
-		//			//hWnd = Win32.GetWindow(hWnd, 3);
-		//		} while (hWnd != null && maxWindows-- > 0);
-		//	}
+		////public static string DumpWindowInfo(IntPtr hWnd)
+		////{
+		////	Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
+		////	Win32.GetWindowPlacement(hWnd, ref windowPlacement);
 
-		//	LogForm dlg = new LogForm(log);
-		//	dlg.ShowDialog();
-		//}
+		////	string windowText = "";
+		////	int textLen = Win32.GetWindowTextLength(hWnd);
+		////	if (textLen > 0)
+		////	{
+		////		StringBuilder sb = new StringBuilder(textLen + 1);
+		////		Win32.GetWindowText(hWnd, sb, sb.Capacity);
+		////		windowText = sb.ToString();
+		////	}
 
-		//public static string DumpWindowInfo(IntPtr hWnd)
-		//{
-		//	Win32.WINDOWPLACEMENT windowPlacement = new Win32.WINDOWPLACEMENT();
-		//	Win32.GetWindowPlacement(hWnd, ref windowPlacement);
+		////	int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
+		////	string style = DumpExStyle(exStyle);
 
-		//	string windowText = "";
-		//	int textLen = Win32.GetWindowTextLength(hWnd);
-		//	if (textLen > 0)
-		//	{
-		//		StringBuilder sb = new StringBuilder(textLen + 1);
-		//		Win32.GetWindowText(hWnd, sb, sb.Capacity);
-		//		windowText = sb.ToString();
-		//	}
+		////	string visible = "";
+		////	if (Win32.IsWindowVisible(hWnd))
+		////	{
+		////		visible = "VISIBLE";
+		////	}
 
-		//	int exStyle = Win32.GetWindowLong(hWnd, Win32.GWL_EXSTYLE);
-		//	string style = DumpExStyle(exStyle);
+		////	return string.Format("hWnd:{0} {1} \"{2}\" {3} {4}", hWnd, DumpWindowPlacement(windowPlacement), windowText, style, visible);
+		////}
 
-		//	string visible = "";
-		//	if (Win32.IsWindowVisible(hWnd))
-		//	{
-		//		visible = "VISIBLE";
-		//	}
+		////public static string DumpWindowPlacement(Win32.WINDOWPLACEMENT windowPlacement)
+		////{
+		////	string ret;
+		////	string flags = "";
+		////	string showCmd = "";
+		////	string minPos = "";
+		////	string maxPos = "";
+		////	string normalPos = "";
 
-		//	return string.Format("hWnd:{0} {1} \"{2}\" {3} {4}", hWnd, DumpWindowPlacement(windowPlacement), windowText, style, visible);
-		//}
+		////	if ((windowPlacement.flags & Win32.WPF_SETMINPOSITION) != 0)
+		////	{
+		////		flags += " WPF_SETMINPOSITION";
+		////	}
+		////	if ((windowPlacement.flags & Win32.WPF_RESTORETOMAXIMIZED) != 0)
+		////	{
+		////		flags += " WPF_RESTORETOMAXIMIZED";
+		////	}
 
-		//public static string DumpWindowPlacement(Win32.WINDOWPLACEMENT windowPlacement)
-		//{
-		//	string ret;
-		//	string flags = "";
-		//	string showCmd = "";
-		//	string minPos = "";
-		//	string maxPos = "";
-		//	string normalPos = "";
+		////	switch (windowPlacement.showCmd)
+		////	{
+		////		case Win32.SW_HIDE:
+		////			showCmd = "SW_HIDE";
+		////			break;
+		////		case Win32.SW_MINIMIZE:
+		////			showCmd = "SW_MINIMIZE";
+		////			break;
+		////		case Win32.SW_RESTORE:
+		////			showCmd = "SW_RESTORE";
+		////			break;
+		////		case Win32.SW_SHOW:
+		////			showCmd = "SW_SHOW";
+		////			break;
+		////		case Win32.SW_SHOWMAXIMIZED:
+		////			showCmd = "SW_SHOWMAXIMIZED";
+		////			break;
+		////		case Win32.SW_SHOWMINIMIZED:
+		////			showCmd = "SW_SHOWMINIMIZED";
+		////			break;
+		////		case Win32.SW_SHOWMINNOACTIVE:
+		////			showCmd = "SW_SHOWMINNOACTIVE";
+		////			break;
+		////		case Win32.SW_SHOWNA:
+		////			showCmd = "SW_SHOWNA";
+		////			break;
+		////		case Win32.SW_SHOWNOACTIVATE:
+		////			showCmd = "SW_SHOWNOACTIVATE";
+		////			break;
+		////		case Win32.SW_SHOWNORMAL:
+		////			showCmd = "SW_SHOWNORMAL";
+		////			break;
+		////		default:
+		////			showCmd = "???";
+		////			break;
+		////	}
 
-		//	if ((windowPlacement.flags & Win32.WPF_SETMINPOSITION) != 0)
-		//	{
-		//		flags += " WPF_SETMINPOSITION";
-		//	}
-		//	if ((windowPlacement.flags & Win32.WPF_RESTORETOMAXIMIZED) != 0)
-		//	{
-		//		flags += " WPF_RESTORETOMAXIMIZED";
-		//	}
+		////	minPos = string.Format("({0}, {1})", windowPlacement.ptMinPosition.x, windowPlacement.ptMinPosition.y);
+		////	maxPos = string.Format("({0}, {1})", windowPlacement.ptMaxPosition.x, windowPlacement.ptMaxPosition.y);
+		////	normalPos = string.Format("({0}, {1}) - ({2}, {3})",
+		////		windowPlacement.rcNormalPosition.left, windowPlacement.rcNormalPosition.top,
+		////		windowPlacement.rcNormalPosition.right, windowPlacement.rcNormalPosition.bottom);
 
-		//	switch (windowPlacement.showCmd)
-		//	{
-		//		case Win32.SW_HIDE:
-		//			showCmd = "SW_HIDE";
-		//			break;
-		//		case Win32.SW_MINIMIZE:
-		//			showCmd = "SW_MINIMIZE";
-		//			break;
-		//		case Win32.SW_RESTORE:
-		//			showCmd = "SW_RESTORE";
-		//			break;
-		//		case Win32.SW_SHOW:
-		//			showCmd = "SW_SHOW";
-		//			break;
-		//		case Win32.SW_SHOWMAXIMIZED:
-		//			showCmd = "SW_SHOWMAXIMIZED";
-		//			break;
-		//		case Win32.SW_SHOWMINIMIZED:
-		//			showCmd = "SW_SHOWMINIMIZED";
-		//			break;
-		//		case Win32.SW_SHOWMINNOACTIVE:
-		//			showCmd = "SW_SHOWMINNOACTIVE";
-		//			break;
-		//		case Win32.SW_SHOWNA:
-		//			showCmd = "SW_SHOWNA";
-		//			break;
-		//		case Win32.SW_SHOWNOACTIVATE:
-		//			showCmd = "SW_SHOWNOACTIVATE";
-		//			break;
-		//		case Win32.SW_SHOWNORMAL:
-		//			showCmd = "SW_SHOWNORMAL";
-		//			break;
-		//		default:
-		//			showCmd = "???";
-		//			break;
-		//	}
+		////	ret = string.Format("flags:{0}, showCmd:{1}, minPos:{2}, maxPos:{3}, normalPos:{4}",
+		////		flags, showCmd, minPos, maxPos, normalPos);
 
-		//	minPos = string.Format("({0}, {1})", windowPlacement.ptMinPosition.x, windowPlacement.ptMinPosition.y);
-		//	maxPos = string.Format("({0}, {1})", windowPlacement.ptMaxPosition.x, windowPlacement.ptMaxPosition.y);
-		//	normalPos = string.Format("({0}, {1}) - ({2}, {3})",
-		//		windowPlacement.rcNormalPosition.left, windowPlacement.rcNormalPosition.top,
-		//		windowPlacement.rcNormalPosition.right, windowPlacement.rcNormalPosition.bottom);
+		////	return ret;
+		////}
 
-		//	ret = string.Format("flags:{0}, showCmd:{1}, minPos:{2}, maxPos:{3}, normalPos:{4}",
-		//		flags, showCmd, minPos, maxPos, normalPos);
+		////private static string DumpExStyle(int exStyle)
+		////{
+		////	string style = "";
+		////	if ((exStyle & Win32.WS_EX_TOPMOST) != 0)
+		////	{
+		////		style += " WS_EX_TOPMOST";
+		////	}
+		////	if ((exStyle & Win32.WS_EX_TRANSPARENT) != 0)
+		////	{
+		////		style += " WS_EX_TRANSPARENT";
+		////	}
+		////	if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
+		////	{
+		////		style += " WS_EX_TOOLWINDOW";
+		////	}
+		////	if ((exStyle & Win32.WS_EX_APPWINDOW) != 0)
+		////	{
+		////		style += " WS_EX_APPWINDOW";
+		////	}
 
-		//	return ret;
-		//}
-
-		//private static string DumpExStyle(int exStyle)
-		//{
-		//	string style = "";
-		//	if ((exStyle & Win32.WS_EX_TOPMOST) != 0)
-		//	{
-		//		style += " WS_EX_TOPMOST";
-		//	}
-		//	if ((exStyle & Win32.WS_EX_TRANSPARENT) != 0)
-		//	{
-		//		style += " WS_EX_TRANSPARENT";
-		//	}
-		//	if ((exStyle & Win32.WS_EX_TOOLWINDOW) != 0)
-		//	{
-		//		style += " WS_EX_TOOLWINDOW";
-		//	}
-		//	if ((exStyle & Win32.WS_EX_APPWINDOW) != 0)
-		//	{
-		//		style += " WS_EX_APPWINDOW";
-		//	}
-
-		//	return style;
-		//}
-		//#endregion
+		////	return style;
+		////}
+		////#endregion
 	}
 }

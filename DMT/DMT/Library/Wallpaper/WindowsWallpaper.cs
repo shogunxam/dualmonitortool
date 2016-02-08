@@ -17,24 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
-using DMT.Library.Environment;
-using DMT.Library.PInvoke;
-//using DMT.Resources;
-using DMT.Library.Settings;
-using System.Threading;
-
-
 namespace DMT.Library.Wallpaper
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.IO;
+	using System.Text;
+	using System.Threading;
+	using System.Windows.Forms;
+
+	using DMT.Library.Environment;
+	using DMT.Library.PInvoke;
+	using DMT.Library.Settings;
+	using Microsoft.Win32;
+
 	/// <summary>
 	/// This handles Windows specific aspects of wallpaper.
 	/// This includes handling the case where you have a monitor to the left
@@ -48,17 +46,19 @@ namespace DMT.Library.Wallpaper
 		private Rectangle virtualDesktop;
 
 		/// <summary>
-		/// ctor which takes the virtual desktop rectangle and
+		/// Initialises a new instance of the <see cref="WindowsWallpaper" /> class.
+		/// Takes the virtual desktop rectangle and
 		/// an image which is laid out corresponding to the virtual desktop,
 		/// so the TLHC of the image corresponds to the TLHC of the virtual desktop
 		/// which may not be the same as the TLHC of the primary monitor.
 		/// </summary>
-		/// <param name="srcImage">image</param>
+		/// <param name="localEnvironment">The local environment</param>
+		/// <param name="srcImage">image for the wallpaper</param>
 		/// <param name="virtualDesktop">virtual desktop rectangle</param>
 		public WindowsWallpaper(ILocalEnvironment localEnvironment, Image srcImage, Rectangle virtualDesktop)
 		{
 			_localEnvironment = localEnvironment;
-			Debug.Assert(srcImage.Size == virtualDesktop.Size);
+			Debug.Assert(srcImage.Size == virtualDesktop.Size, "Image size is wrong");
 			this.srcImage = srcImage;
 			this.virtualDesktop = virtualDesktop;
 		}
@@ -68,6 +68,7 @@ namespace DMT.Library.Wallpaper
 		/// This will create a new image if the primary monitor
 		/// is not both the leftmost and topmost monitor.
 		/// </summary>
+		/// <param name="useFade">If true, tries to use a smooth fade between wallpapers</param>
 		public void SetWallpaper(bool useFade)
 		{
 			bool wrapped;
@@ -86,6 +87,7 @@ namespace DMT.Library.Wallpaper
 		/// automatic screen changers.
 		/// This will create a new image if the primary monitor
 		/// is not both the leftmost and topmost monitor.
+		/// </summary>
 		/// <param name="fnm">Filename to save the wallpaper too</param>
 		public void SaveWallpaper(string fnm)
 		{
@@ -100,10 +102,28 @@ namespace DMT.Library.Wallpaper
 			}
 		}
 
+		static void SetActiveDesktopWallpaperThread(string path)
+		{
+			EnableActiveDesktop();
+			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
+			activeDesktop.SetWallpaper(path, 0);
+			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
+		}
+
+		static void EnableActiveDesktop()
+		{
+			IntPtr hWndProgman = NativeMethods.FindWindow("Progman", null);
+			uint msg = 0x52C;	// TODO: need a const in Win32
+			IntPtr wParam = IntPtr.Zero;
+			IntPtr lParam = IntPtr.Zero;
+			uint fuFlags = 0; // SMTO_NORMAL // TODO: need a const in Win32
+			uint uTimeout = 500;	// in ms
+			IntPtr lpdwResult = IntPtr.Zero;
+			NativeMethods.SendMessageTimeout(hWndProgman, msg, wParam, lParam, fuFlags, uTimeout, out lpdwResult);
+		}
+
 		void SetWallpaper(Image wallpaper, bool useFade)
 		{
-			//string dir = _localEnvironment.AppDataDir;
-			//string path = Path.Combine(dir, "DualWallpaperChanger.bmp");
 			string path = FileLocations.Instance.WallpaperFilename;
 
 			try
@@ -124,7 +144,6 @@ namespace DMT.Library.Wallpaper
 			}
 			catch (Exception ex)
 			{
-				//MessageBox.Show(ex.Message, CommonStrings.MyTitle);
 				MessageBox.Show(ex.Message);
 			}
 		}
@@ -140,43 +159,18 @@ namespace DMT.Library.Wallpaper
 
 		void SetDesktopWallpaper(string path)
 		{
-
 			// now set the wallpaper
-			Win32.SystemParametersInfo(Win32.SPI_SETDESKWALLPAPER, 0, path, Win32.SPIF_UPDATEINIFILE | Win32.SPIF_SENDWININICHANGE);
+			NativeMethods.SystemParametersInfo(NativeMethods.SPI_SETDESKWALLPAPER, 0, path, NativeMethods.SPIF_UPDATEINIFILE | NativeMethods.SPIF_SENDWININICHANGE);
 		}
-
-		#region ActiveDesktop support
 
 		void SetActiveDesktopWallpaper(string path)
 		{
 			Thread thread = new Thread(() => SetActiveDesktopWallpaperThread(path));
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
 			// don't see any need to wait for the thread to complete
 		}
-
-		static void SetActiveDesktopWallpaperThread(string path)
-		{
-			EnableActiveDesktop();
-			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
-			activeDesktop.SetWallpaper(path, 0);
-			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
-		}
-
-		static void EnableActiveDesktop()
-		{
-			IntPtr hWndProgman = Win32.FindWindow("Progman", null);
-			uint msg = 0x52C;	// TODO: need a const in Win32
-			IntPtr wParam = IntPtr.Zero;
-			IntPtr lParam = IntPtr.Zero;
-			uint fuFlags = 0; // SMTO_NORMAL // TODO: need a const in Win32
-			uint uTimeout = 500;	// in ms
-			IntPtr lpdwResult = IntPtr.Zero;
-			Win32.SendMessageTimeout(hWndProgman, msg, wParam, lParam, fuFlags, uTimeout, out lpdwResult);
-		}
-
-
-		#endregion ActiveDesktop support
 
 		private void SaveWallpaper(Image wallpaper, string fnm)
 		{
@@ -186,14 +180,12 @@ namespace DMT.Library.Wallpaper
 			}
 			catch (Exception ex)
 			{
-				//MessageBox.Show(ex.Message, CommonStrings.MyTitle);
 				MessageBox.Show(ex.Message);
 			}
 		}
 
 		private Image WrapImage(out bool wrapped)
 		{
-			//if (virtualDesktop.Left < 0 || virtualDesktop.Top < 0)
 			if (NeedsWrapping())
 			{
 				// must wrap image
@@ -212,41 +204,47 @@ namespace DMT.Library.Wallpaper
 
 				using (Graphics g = Graphics.FromImage(image))
 				{
-
 					// quadrant a
 					if (xWrap > 0 && yWrap > 0)
 					{
-						g.DrawImage(srcImage,
-									new Rectangle(xNotWrap, yNotWrap, xWrap, yWrap),
-									new Rectangle(0, 0, xWrap, yWrap),
-									GraphicsUnit.Pixel);
+						g.DrawImage(
+							srcImage,
+							new Rectangle(xNotWrap, yNotWrap, xWrap, yWrap),
+							new Rectangle(0, 0, xWrap, yWrap),
+							GraphicsUnit.Pixel);
 					}
+
 					// quadrant b
 					if (yWrap > 0 && xNotWrap > 0)
 					{
-						g.DrawImage(srcImage,
-									new Rectangle(0, yNotWrap, xNotWrap, yWrap),
-									new Rectangle(xWrap, 0, xNotWrap, yWrap),
-									GraphicsUnit.Pixel);
+						g.DrawImage(
+							srcImage,
+							new Rectangle(0, yNotWrap, xNotWrap, yWrap),
+							new Rectangle(xWrap, 0, xNotWrap, yWrap),
+							GraphicsUnit.Pixel);
 					}
+
 					// quadrant c
 					if (xWrap > 0 && yNotWrap > 0)
 					{
-						g.DrawImage(srcImage,
-									new Rectangle(xNotWrap, 0, xWrap, yNotWrap),
-									new Rectangle(0, yWrap, xWrap, yNotWrap),
-									GraphicsUnit.Pixel);
+						g.DrawImage(
+							srcImage,
+							new Rectangle(xNotWrap, 0, xWrap, yNotWrap),
+							new Rectangle(0, yWrap, xWrap, yNotWrap),
+							GraphicsUnit.Pixel);
 					}
+
 					// quadrant d
-					Debug.Assert(xNotWrap > 0 && yNotWrap > 0);
 					if (xNotWrap > 0 && yNotWrap > 0)
 					{
-						g.DrawImage(srcImage,
-									new Rectangle(0, 0, xNotWrap, yNotWrap),
-									new Rectangle(xWrap, yWrap, xNotWrap, yNotWrap),
-									GraphicsUnit.Pixel);
+						g.DrawImage(
+							srcImage,
+							new Rectangle(0, 0, xNotWrap, yNotWrap),
+							new Rectangle(xWrap, yWrap, xNotWrap, yNotWrap),
+							GraphicsUnit.Pixel);
 					}
 				}
+
 				wrapped = true;
 				return image;
 			}
@@ -262,13 +260,9 @@ namespace DMT.Library.Wallpaper
 		{
 			// On Windows versions prior to 8, (0,0) in the wallpaper corresponds to (0,0) on your primary monitor
 			// On 8 (0,0) in the wallpaper corresponds to the TLHC of your monitors
-
 			if (virtualDesktop.Left < 0 || virtualDesktop.Top < 0)
 			{
 				// TLHC is not (0,0)
-				//OperatingSystem osInfo = Environment.OSVersion;
-
-				//if (OsHelper.IsWin8OrLater())
 				if (_localEnvironment.IsWin8OrLater())
 				{
 					// Win 8 and later want a direct mapping
@@ -285,7 +279,6 @@ namespace DMT.Library.Wallpaper
 				// TLHC is (0,0) so direct mapping
 				return false;
 			}
-
 		}
 	}
 }

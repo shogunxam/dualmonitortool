@@ -17,30 +17,78 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-//using System.ComponentModel.Composition;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 {
-//	[Export(typeof(IDWC_Plugin))]
-//	[ExportMetadata("Name", RandomShapesPlugin._pluginName)]
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	using DMT.Library.WallpaperPlugin;
+
+	/// <summary>
+	/// Plugin for random shapes
+	/// </summary>
 	public class RandomShapesPlugin : IDWC_Plugin
 	{
-		const string _pluginName = "Random shapes";
+		/// <summary>
+		/// The plugin version
+		/// </summary>
 		public const string PluginVersion = "0.0";
 
-		public static string PluginName { get { return _pluginName; } }
-		public static Image PluginImage { get { return Properties.Resources.RandomShapesPlugin; } }
-		
-		public string Name { get { return PluginName; } }
-		public Image Image { get { return PluginImage; } }
+		const string MyPuginName = "Random shapes";
 
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
+		public static string PluginName
+		{
+			get
+			{
+				return MyPuginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin image
+		/// </summary>
+		public static Image PluginImage
+		{
+			get
+			{
+				return Properties.Resources.RandomShapesPlugin;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
+		public string Name
+		{
+			get
+			{
+				return PluginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin image
+		/// </summary>
+		public Image Image
+		{
+			get
+			{
+				return PluginImage;
+			}
+		}
+
+		/// <summary>
+		/// Creates a provider from the plugin
+		/// </summary>
+		/// <param name="config">Configuration to use for the provider</param>
+		/// <returns>The image provider</returns>
 		public IImageProvider CreateProvider(Dictionary<string, string> config)
 		{
 			return new RandomShapesProvider(config);

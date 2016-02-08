@@ -17,61 +17,67 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Library.Transform
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
 	/// <summary>
 	/// Class to assist in scaling values between 2 co-ordinate spaces.
 	/// This works in a single dimension, so you will need 2 instances for x and y.
-	/// 
+	/// <para />
 	/// Class copied from Dual Wallpaper and simplified.
 	/// </summary>
 	class Scaler
 	{
-		// 2 co-ords from first space
-		private int s1;
-		private int s2;
-		// corresponding 2 co-ords from second space
-		private int d1;
-		private int d2;
+		// 2 co-ordinates from first space
+		int _src1;
+		int _src2;
 
-		private double zoom;
+		// corresponding 2 co-ordinates from second space
+		int _dest1;
+		int _dest2;
+
+		double _zoom;
 
 		/// <summary>
-		/// Ctor takes 2 1D co-rdinates in one space
+		/// Initialises a new instance of the <see cref="Scaler" /> class.
+		/// Takes 2 1D co-ordinates in one space
 		/// that map to the given co-ordinates in the other space
 		/// </summary>
-		/// <param name="s1">First co-ord in first space</param>
-		/// <param name="s2">Second co-ord in first space</param>
-		/// <param name="d1">What s1 maps to in the second space</param>
-		/// <param name="d2">What s2 maps to in the second space</param>
-		public Scaler(int s1, int s2, int d1, int d2)
+		/// <param name="src1">First co-ordinate in first space</param>
+		/// <param name="src2">Second co-ordinate in first space</param>
+		/// <param name="dest1">What s1 maps to in the second space</param>
+		/// <param name="dest2">What s2 maps to in the second space</param>
+		public Scaler(int src1, int src2, int dest1, int dest2)
 		{
-			this.s1 = s1;
-			this.s2 = s2;
-			this.d1 = d1;
-			this.d2 = d2;
-			this.zoom = 1.0;
+			_src1 = src1;
+			_src2 = src2;
+			_dest1 = dest1;
+			_dest2 = dest2;
+			_zoom = 1.0;
 		}
 
 		/// <summary>
-		/// Specifies an extra displacement to apply to the co-ords in the second space
+		/// Specifies an extra displacement to apply to the co-ordinates in the second space
 		/// </summary>
-		/// <param name="displacement">Extra amount to displace the second space co-ords by</param>
+		/// <param name="displacement">Extra amount to displace the second space co-ordinates by</param>
 		public void Displace(int displacement)
 		{
-			//offset += displacement;
-			d1 += displacement;
-			d2 += displacement;
+			_dest1 += displacement;
+			_dest2 += displacement;
 		}
 
+		/// <summary>
+		/// Specifies a zoom factor
+		/// </summary>
+		/// <param name="center">The origin that doesn't move during a zoom</param>
+		/// <param name="factor">The zoom factor</param>
 		public void Zoom(int center, double factor)
 		{
 			// update the total zoom, but limit to 10X in or out
-			double newZoom = zoom * factor;
+			double newZoom = _zoom * factor;
 			if (newZoom < 0.1)
 			{
 				newZoom = 0.1;
@@ -81,56 +87,56 @@ namespace DMT.Library.Transform
 				newZoom = 10.0;
 			}
 
-			if (newZoom != zoom)
+			if (newZoom != _zoom)
 			{
-				double realFactor = newZoom / zoom;
+				double realFactor = newZoom / _zoom;
 
-				int range = (d2 - d1) / 2;
+				int range = (_dest2 - _dest1) / 2;
 				int newRange = Convert.ToInt32(Math.Round(range * realFactor));
 				if (newRange > 0)
 				{
 					int delta = newRange - range;
 
 					// need to offset image so that we zoom around center
-					int offset = (center - (d1 + d2) / 2) * delta / range;
-					d1 -= offset;
-					d2 -= offset;
+					int offset = (center - (_dest1 + _dest2) / 2) * delta / range;
+					_dest1 -= offset;
+					_dest2 -= offset;
 
 					// now zoom in/out
-					d1 -= delta;
-					d2 += delta;
+					_dest1 -= delta;
+					_dest2 += delta;
 				}
-				zoom = newZoom;
-			}
 
+				_zoom = newZoom;
+			}
 		}
 
 		/// <summary>
-		/// Given a co-ord in first space, returns corresponding co-ord in second space.
+		/// Given a co-ordinate in first space, returns corresponding co-ordinate in second space.
 		/// </summary>
-		/// <param name="s3">co-ord in first space</param>
-		/// <returns>corresponding co-ord in second space</returns>
+		/// <param name="s3">co-ordinate in first space</param>
+		/// <returns>corresponding co-ordinate in second space</returns>
 		public int DestFromSrc(int s3)
 		{
-			int srcDelta = s2 - s1;
+			int srcDelta = _src2 - _src1;
 
 			// + destDelta / 2 to minimise rounding errors
-			int d3 = d1 + ((s3 - s1) * (d2 - d1) + srcDelta / 2) / srcDelta;
+			int d3 = _dest1 + ((s3 - _src1) * (_dest2 - _dest1) + srcDelta / 2) / srcDelta;
 
 			return d3;
 		}
 
 		/// <summary>
-		/// Given a co-ord in second space, returns corresponding co-ord in first space.
+		/// Given a co-ordinate in second space, returns corresponding co-ordinate in first space.
 		/// </summary>
-		/// <param name="d3">co-ord in second space</param>
-		/// <returns>corresponding co-ord in first space</returns>
+		/// <param name="d3">co-ordinate in second space</param>
+		/// <returns>corresponding co-ordinate in first space</returns>
 		public int SrcFromDest(int d3)
 		{
-			int destDelta = d2 - d1;
+			int destDelta = _dest2 - _dest1;
 
 			// + destDelta / 2 to minimise rounding errors
-			int s3 = s1 + ((d3 - d1) * (s2 - s1) + destDelta / 2) / destDelta;
+			int s3 = _src1 + ((d3 - _dest1) * (_src2 - _src1) + destDelta / 2) / destDelta;
 
 			return s3;
 		}

@@ -17,17 +17,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Net;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
 	/// Fake HttpRequester which retrieves HTML pages from the MockData directory.
 	/// Allows testing out screen scraping with pre-cached copy of pages
@@ -35,13 +35,22 @@ namespace DMT.Library.Html
 	/// </summary>
 	public class FakeRequester : IHttpRequester
 	{
+		/// <summary>
+		/// Gets or sets the last Uri that responded
+		/// </summary>
 		public Uri LastResponseUri { get; protected set; }
 
+		/// <summary>
+		/// Gets the page
+		/// </summary>
+		/// <param name="uri">Location of page</param>
+		/// <param name="testPage">Page name - used for fake requests only</param>
+		/// <param name="repliedConnection">The connection that the response came in on</param>
+		/// <returns>The contents of the page</returns>
 		public string GetPage(Uri uri, string testPage, out HttpConnection repliedConnection)
 		{
 			string pageData = string.Empty;
 
-			//connection.LastUri = uri;
 			string testPath = @"..\..\..\MockData\" + testPage + ".htm";
 			pageData = File.ReadAllText(testPath, Encoding.UTF8);
 			LastResponseUri = uri;
@@ -50,6 +59,11 @@ namespace DMT.Library.Html
 			return pageData;
 		}
 
+		/// <summary>
+		/// Gets the image
+		/// </summary>
+		/// <param name="uri">Location of image</param>
+		/// <returns>The image</returns>
 		public Image GetImage(Uri uri)
 		{
 			Image image = null;
@@ -60,6 +74,12 @@ namespace DMT.Library.Html
 			return image;
 		}
 
+		/// <summary>
+		/// Gets the binary data
+		/// </summary>
+		/// <param name="uri">Location of data</param>
+		/// <param name="data">Returned data</param>
+		/// <returns>HTTP status code</returns>
 		public HttpStatusCode GetData(Uri uri, ref byte[] data)
 		{
 			data = File.ReadAllBytes(@"..\..\..\MockData\data.tst");

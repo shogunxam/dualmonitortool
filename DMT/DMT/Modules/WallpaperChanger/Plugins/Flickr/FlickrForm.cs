@@ -17,28 +17,36 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Settings;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using DMT.Library.Settings;
+	
+	/// <summary>
+	/// This is used to edit the configuration of a Flickr provider.
+	/// </summary>
 	partial class FlickrForm : Form
 	{
-		FlickrProvider _flickrProvider;
 		const string HomePageUrl = "www.flickr.com";
+		FlickrProvider _flickrProvider;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="FlickrForm" /> class.
+		/// </summary>
+		/// <param name="config">Configuration to be edited</param>
+		/// <param name="flickrProvider">Provider we are editing the configuration for</param>
 		public FlickrForm(FlickrConfig config, FlickrProvider flickrProvider)
 		{
 			_flickrProvider = flickrProvider;
-			//_apiKeySetting = apiKeySetting;
 
 			InitializeComponent();
 
@@ -50,23 +58,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			textBoxUserId.Text = config.UserId;
 			textBoxGroupId.Text = config.GroupId;
 			checkBoxRandomPage.Checked = config.RandomPage;
-
-			//textBoxApiKey.Text = _apiKeySetting.Value;
 		}
 
-		private void FlickrForm_Load(object sender, EventArgs e)
-		{
-			int startOfLink = linkLabel.Text.Length;
-			linkLabel.Text += HomePageUrl;
-			linkLabel.Links.Add(startOfLink, HomePageUrl.Length, HomePageUrl);
-		}
-
-		private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			ProcessStartInfo sInfo = new ProcessStartInfo(e.Link.LinkData.ToString());
-			Process.Start(sInfo);
-		}
-
+		/// <summary>
+		/// Gets the current (possibly edited) configuration
+		/// </summary>
+		/// <returns>Edited configuration</returns>
 		public FlickrConfig GetConfig()
 		{
 			FlickrConfig config = new FlickrConfig();
@@ -82,15 +79,27 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return config;
 		}
 
+		private void FlickrForm_Load(object sender, EventArgs e)
+		{
+			int startOfLink = linkLabel.Text.Length;
+			linkLabel.Text += HomePageUrl;
+			linkLabel.Links.Add(startOfLink, HomePageUrl.Length, HomePageUrl);
+		}
+
+		private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			ProcessStartInfo startInfo = new ProcessStartInfo(e.Link.LinkData.ToString());
+			Process.Start(startInfo);
+		}
+
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
-			//_apiKeySetting.Value = textBoxApiKey.Text;
-
 			if (string.IsNullOrWhiteSpace(textBoxApiKey.Text))
 			{
 				ShowNoApiKeyMsg();
 				return;
 			}
+
 			DialogResult = DialogResult.OK;
 			Close();
 		}
@@ -106,14 +115,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				return;
 			}
 
-			//int hits;
-			//string errMsg;
-			//bool valid = _flickrProvider.Validate(apiKey, config, out hits, out errMsg);
-			//if (valid)
-			//{
 			string msg = _flickrProvider.Validate(apiKey, config);
 			MessageBox.Show(msg);
-
 		}
 
 		void ShowNoApiKeyMsg()

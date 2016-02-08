@@ -17,85 +17,69 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Windows.Forms;
-
 namespace DMT.Library.Transform
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+	using System.Windows.Forms;
+
 	/// <summary>
 	/// Provides a mapping between a rectangle within a source image and a rectangle on a single screen.
 	/// By adjusting this mapping it is possible to show different parts of the source image.
 	/// </summary>
 	public class ScreenMapping
 	{
-		private Image sourceImage;
-		/// <summary>
-		/// The source image that we want to display
-		/// </summary>
-		public Image SourceImage
-		{
-			get { return sourceImage; }
-			set { sourceImage = value; }
-		}
+		Scaler scaleX = null;
+		Scaler scaleY = null;
 
-		private Rectangle sourceRect;
 		/// <summary>
-		/// The rectangle within the source image that we will be displaying
-		/// </summary>
-		public Rectangle SourceRect
-		{
-			get { return sourceRect; }
-			set { sourceRect = value; }
-		}
-
-		private Rectangle destRect;
-		/// <summary>
-		/// The rectangle on the desktop that will display the SourceRect region of the source image
-		/// </summary>
-		public Rectangle DestRect
-		{
-			get { return destRect; }
-			set { destRect = value; }
-		}
-
-		private Rectangle screenRect;
-		/// <summary>
-		/// The bounding rectangle for the screen
-		/// </summary>
-		public Rectangle ScreenRect
-		{
-			get { return screenRect; }
-			set { screenRect = value; }
-		}
-
-		private bool primary;
-		/// <summary>
-		/// Indicates if this is the primary monitor
-		/// </summary>
-		public bool Primary
-		{
-			get { return primary; }
-			set { primary = value; }
-		}
-
-		private Scaler scaleX = null;
-		private Scaler scaleY = null;
-	
-		/// <summary>
-		/// Constructs an empty screen mapping for a particular screen
+		/// Initialises a new instance of the <see cref="ScreenMapping" /> class.
+		/// This is an empty screen mapping for a particular screen.
 		/// </summary>
 		/// <param name="screenRect">Bounding rectangle of the screen</param>
 		/// <param name="primary">Indicates if this is the primary monitor</param>
 		public ScreenMapping(Rectangle screenRect, bool primary)
 		{
-			this.sourceImage = null;
-			this.sourceRect = Rectangle.Empty;
-			this.destRect = Rectangle.Empty;
-			this.ScreenRect = screenRect;
-			this.primary = primary;
+			SourceImage = null;
+			SourceRect = Rectangle.Empty;
+			DestRect = Rectangle.Empty;
+			ScreenRect = screenRect;
+			Primary = primary;
+		}
+
+		/// <summary>
+		/// Gets or sets the source image that we want to display
+		/// </summary>
+		public Image SourceImage { get; set; }
+
+		/// <summary>
+		/// Gets or sets the rectangle within the source image that we will be displaying
+		/// </summary>
+		public Rectangle SourceRect { get; set; }
+
+		/// <summary>
+		/// Gets or sets the rectangle on the desktop that will display the source rectangle region of the source image
+		/// </summary>
+		public Rectangle DestRect { get; set; }
+
+		/// <summary>
+		/// Gets or sets the bounding rectangle for the screen
+		/// </summary>
+		public Rectangle ScreenRect { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this is the primary monitor
+		/// </summary>
+		public bool Primary { get; set; }
+
+		Rectangle ImageRect
+		{
+			get 
+			{ 
+				return new Rectangle(new Point(0, 0), SourceImage.Size); 
+			}
 		}
 
 		/// <summary>
@@ -106,12 +90,12 @@ namespace DMT.Library.Transform
 		/// <param name="virtualDestRect">The rectangle that the whole of the image maps to</param>
 		public void GenerateMapping(Image image, Rectangle virtualDestRect)
 		{
-			this.sourceImage = image;
+			SourceImage = image;
 
 			Rectangle imageRect = new Rectangle(new Point(0, 0), image.Size);
 
 			// if we are adding bars then we need to reduce screenRect accordingly
-			destRect = Rectangle.Intersect(screenRect, virtualDestRect);
+			DestRect = Rectangle.Intersect(ScreenRect, virtualDestRect);
 
 			// imageRect maps to virtualDestRect,
 			GenerateScalers(imageRect, virtualDestRect);
@@ -150,6 +134,11 @@ namespace DMT.Library.Transform
 			}
 		}
 
+		/// <summary>
+		/// Zoom the mapping
+		/// </summary>
+		/// <param name="center">Point to zoom around</param>
+		/// <param name="factor">Zoom factor with 1.0 being a no op</param>
 		public void Zoom(Point center, double factor)
 		{
 			if (scaleX != null && scaleY != null)
@@ -163,13 +152,13 @@ namespace DMT.Library.Transform
 			}
 		}
 
-		private void RecalcSrcAndDest()
+		void RecalcSrcAndDest()
 		{
 			// we start with the destination which is the screen rect
-			int destLeft = screenRect.Left;
-			int destRight = screenRect.Right;
-			int destTop = screenRect.Top;
-			int destBottom = screenRect.Bottom;
+			int destLeft = ScreenRect.Left;
+			int destRight = ScreenRect.Right;
+			int destTop = ScreenRect.Top;
+			int destBottom = ScreenRect.Bottom;
 
 			// we now determine what src rect is required to fill the dest rect
 			int srcLeft = scaleX.SrcFromDest(destLeft);
@@ -185,16 +174,19 @@ namespace DMT.Library.Transform
 				srcLeft = 0;
 				destLeft = scaleX.DestFromSrc(srcLeft);
 			}
+
 			if (srcRight > ImageRect.Width)
 			{
 				srcRight = ImageRect.Width;
 				destRight = scaleX.DestFromSrc(srcRight);
 			}
+
 			if (srcTop < 0)
 			{
 				srcTop = 0;
 				destTop = scaleY.DestFromSrc(srcTop);
 			}
+
 			if (srcBottom > ImageRect.Width)
 			{
 				srcBottom = ImageRect.Height;
@@ -202,29 +194,24 @@ namespace DMT.Library.Transform
 			}
 
 			// Note: this is ok if width or height <= 0
-			sourceRect = new Rectangle(srcLeft, srcTop, srcRight - srcLeft, srcBottom - srcTop);
-			destRect = new Rectangle(destLeft, destTop, destRight - destLeft, destBottom - destTop);
+			SourceRect = new Rectangle(srcLeft, srcTop, srcRight - srcLeft, srcBottom - srcTop);
+			DestRect = new Rectangle(destLeft, destTop, destRight - destLeft, destBottom - destTop);
 		}
 
-		private void GenerateScalers(Rectangle imageRect, Rectangle virtualDestRect)
+		void GenerateScalers(Rectangle imageRect, Rectangle virtualDestRect)
 		{
 			scaleX = new Scaler(imageRect.Left, imageRect.Right, virtualDestRect.Left, virtualDestRect.Right);
 			scaleY = new Scaler(imageRect.Top, imageRect.Bottom, virtualDestRect.Top, virtualDestRect.Bottom);
 		}
 
-		private void CalcSourceRect()
+		void CalcSourceRect()
 		{
-			int left = scaleX.SrcFromDest(destRect.Left);
-			int right = scaleX.SrcFromDest(destRect.Right);
-			int top = scaleY.SrcFromDest(destRect.Top);
-			int bottom = scaleY.SrcFromDest(destRect.Bottom);
+			int left = scaleX.SrcFromDest(DestRect.Left);
+			int right = scaleX.SrcFromDest(DestRect.Right);
+			int top = scaleY.SrcFromDest(DestRect.Top);
+			int bottom = scaleY.SrcFromDest(DestRect.Bottom);
 
-			sourceRect = new Rectangle(left, top, right - left, bottom - top);
-		}
-
-		private Rectangle ImageRect
-		{
-			get { return new Rectangle(new Point(0, 0), sourceImage.Size); }
+			SourceRect = new Rectangle(left, top, right - left, bottom - top);
 		}
 	}
 }

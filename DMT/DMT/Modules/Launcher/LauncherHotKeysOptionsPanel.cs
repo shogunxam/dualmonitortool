@@ -17,23 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.HotKeys;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.HotKeys;
+
+	/// <summary>
+	/// Options panel for the launchers hot keys to be edited
+	/// </summary>
 	partial class LauncherHotKeysOptionsPanel : UserControl
 	{
 		LauncherModule _launcherModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LauncherHotKeysOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="launcherModule">Launcher module</param>
 		public LauncherHotKeysOptionsPanel(LauncherModule launcherModule)
 		{
 			_launcherModule = launcherModule;

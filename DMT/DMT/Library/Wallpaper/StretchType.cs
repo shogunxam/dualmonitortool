@@ -17,21 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Library.Wallpaper
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
+	using DMT.Resources;
+
 	/// <summary>
-	/// Specifies the stretch type to fit an image onto a sreen (or screens)
+	/// Specifies the stretch type to fit an image onto a screen (or screens)
 	/// </summary>
 	public class StretchType
 	{
 		/// <summary>
-		/// Enum specifying how to fit an image where the aspect ratio 
-		/// of the source and destionation may be different
+		/// Initialises a new instance of the <see cref="StretchType" /> class.
+		/// </summary>
+		/// <param name="type">initial stretch type</param>
+		public StretchType(Fit type)
+		{
+			Type = type;
+		}
+
+		/// <summary>
+		/// Enumeration specifying how to fit an image where the aspect ratio 
+		/// of the source and destination may be different
 		/// </summary>
 		public enum Fit
 		{
@@ -41,53 +51,56 @@ namespace DMT.Library.Wallpaper
 			/// ('fill' in Win 8 terminology)
 			/// </summary>
 			OverStretch = 0,
+
 			/// <summary>
 			/// Stretch maintaining aspect ratio, so that the image fits within the virtual rectangle
-			/// cobering all screens.
+			/// covering all screens.
 			/// Bars will be added using chosen background colour if needed.
 			/// ('fit' in Win 8 terminology)
 			/// </summary>
 			UnderStretch = 1,
+
 			/// <summary>
-			/// center the image with each pixel on the dispaly corresponding to a pixel in the image,
+			/// Centre the image with each pixel on the display corresponding to a pixel in the image,
 			/// so it isn't stretched or shrunk
 			/// </summary>
 			Center = 2,
+
 			/// <summary>
 			/// stretch both X and Y to fit exactly, 
-			/// which may resut in the aspect ratio changing
+			/// which may result in the aspect ratio changing
 			/// </summary>
 			StretchToFit = 3
-		};
-
-		private Fit type;
-		/// <summary>
-		/// The type of fit
-		/// </summary>
-		public Fit Type
-		{
-			get { return type; }
-			set { type = value; }
 		}
 
 		/// <summary>
-		/// ctor 
+		/// Gets or sets the type of fit
 		/// </summary>
-		/// <param name="type">initial stretch type</param>
-		public StretchType(Fit type)
+		public Fit Type { get; set; }
+
+		/// <summary>
+		/// Gets all available fit types
+		/// </summary>
+		/// <returns>List of all fit types</returns>
+		public static List<StretchType> AllTypes()
 		{
-			this.type = type;
+			List<StretchType> allTypes = new List<StretchType>();
+			allTypes.Add(new StretchType(StretchType.Fit.OverStretch));
+			allTypes.Add(new StretchType(StretchType.Fit.UnderStretch));
+			allTypes.Add(new StretchType(StretchType.Fit.Center));
+			allTypes.Add(new StretchType(StretchType.Fit.StretchToFit));
+			return allTypes;
 		}
 
 		/// <summary>
 		/// Converts the stretch type to a displayable string
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Displayable string</returns>
 		public override string ToString()
 		{
 			string ret;
 
-			switch (type)
+			switch (Type)
 			{
 				case Fit.OverStretch:
 					ret = WallpaperStrings.OverStretch;
@@ -111,16 +124,6 @@ namespace DMT.Library.Wallpaper
 			}
 
 			return ret;
-		}
-
-		public static List<StretchType> AllTypes()
-		{
-			List<StretchType> allTypes = new List<StretchType>();
-			allTypes.Add(new StretchType(StretchType.Fit.OverStretch));
-			allTypes.Add(new StretchType(StretchType.Fit.UnderStretch));
-			allTypes.Add(new StretchType(StretchType.Fit.Center));
-			allTypes.Add(new StretchType(StretchType.Fit.StretchToFit));
-			return allTypes;
 		}
 	}
 }

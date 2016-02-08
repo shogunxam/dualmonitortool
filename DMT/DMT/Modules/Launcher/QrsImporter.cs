@@ -17,17 +17,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Collections.ObjectModel;
-using DMT.Library;
-using DMT.Library.PInvoke;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.IO;
+	using System.Text;
+	using System.Text.RegularExpressions;
+
+	using DMT.Library;
+	using DMT.Library.PInvoke;
+
 	/// <summary>
 	/// Class to import qrs (SlickRun) files
 	/// </summary>
@@ -39,8 +40,8 @@ namespace DMT.Modules.Launcher
 		/// <summary>
 		/// Static method to read and return all magic words in a QRS file
 		/// </summary>
-		/// <param name="filename"></param>
-		/// <returns></returns>
+		/// <param name="filename">Name of file containing the magic words</param>
+		/// <returns>Magic words read from the file</returns>
 		public static Collection<MagicWord> Import(string filename)
 		{
 			Collection<MagicWord> magicWords = new Collection<MagicWord>();
@@ -49,7 +50,7 @@ namespace DMT.Modules.Launcher
 
 			using (StreamReader streamReader = new StreamReader(filename))
 			{
-				while (! streamReader.EndOfStream)
+				while (!streamReader.EndOfStream)
 				{
 					string curLine = streamReader.ReadLine();
 
@@ -62,6 +63,7 @@ namespace DMT.Modules.Launcher
 							// save previous magic word
 							magicWords.Add(curMagicWord);
 						}
+
 						curMagicWord = new MagicWord();
 						curMagicWord.Alias = match.Groups[1].Value;
 					}
@@ -72,9 +74,10 @@ namespace DMT.Modules.Launcher
 						if (match.Success)
 						{
 							string field = match.Groups[1].Value;
-							if (String.Compare(field, "Filename", true) == 0)
+							if (string.Compare(field, "Filename", true) == 0)
 							{
 								curMagicWord.Filename = FieldToString(match.Groups[2].Value);
+
 								// SlickRun tends to use just "iexplore" for Internet explorer,
 								// but we need the full pathname
 								if (string.Compare(curMagicWord.Filename, "iexplore", true) == 0)
@@ -82,21 +85,21 @@ namespace DMT.Modules.Launcher
 									curMagicWord.Filename = MagicWordExecutable.GetAssociatedApp(".htm");
 								}
 							}
-							else if (String.Compare(field, "Path", true) == 0)
+							else if (string.Compare(field, "Path", true) == 0)
 							{
 								curMagicWord.StartDirectory = FieldToString(match.Groups[2].Value);
 							}
-							else if (String.Compare(field, "Params", true) == 0)
+							else if (string.Compare(field, "Params", true) == 0)
 							{
 								curMagicWord.Parameters = FieldToString(match.Groups[2].Value);
 							}
-							else if (String.Compare(field, "Notes", true) == 0)
+							else if (string.Compare(field, "Notes", true) == 0)
 							{
 								curMagicWord.Comment = FieldToString(match.Groups[2].Value);
 							}
-							else if (String.Compare(field, "StartMode", true) == 0)
+							else if (string.Compare(field, "StartMode", true) == 0)
 							{
-								int showCmd = Win32.SW_SHOW;
+								int showCmd = NativeMethods.SW_SHOW;
 								try
 								{
 									showCmd = Convert.ToInt32(FieldToString(match.Groups[2].Value));
@@ -104,12 +107,14 @@ namespace DMT.Modules.Launcher
 								catch (Exception)
 								{
 								}
+
 								curMagicWord.StartupPosition1 = new StartupPosition();
 								curMagicWord.StartupPosition1.ShowCmd = showCmd;
 							}
 						}
 					}
 				}
+
 				if (curMagicWord != null)
 				{
 					// flush out final word

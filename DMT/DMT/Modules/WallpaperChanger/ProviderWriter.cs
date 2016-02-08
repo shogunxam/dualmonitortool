@@ -17,17 +17,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
-using System.Xml;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.IO;
+	using System.Text;
+	using System.Xml;
+
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Saves the users providers to a stream in XML format
 	/// This is the reverse of ProviderReader.
@@ -36,6 +37,11 @@ namespace DMT.Modules.WallpaperChanger
 	{
 		XmlWriter _writer;
 
+		/// <summary>
+		/// Writes the providers to a stream
+		/// </summary>
+		/// <param name="providers">Providers to write</param>
+		/// <param name="stream">Stream to write them to</param>
 		public void Write(Collection<IImageProvider> providers, Stream stream)
 		{
 			XmlWriterSettings settings = new XmlWriterSettings();

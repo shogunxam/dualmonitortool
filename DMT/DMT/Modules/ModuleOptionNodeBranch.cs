@@ -17,26 +17,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Branch option node,
+	/// one with it's own panel and further child nodes below itself
+	/// </summary>
 	class ModuleOptionNodeBranch : ModuleOptionNode
 	{
-		public ContainerControl OptionPanel { get; protected set; }
-		public List<ModuleOptionNode> Nodes { get; set; }
-
-		public ModuleOptionNodeBranch(string name, Image image, ContainerControl panel = null)
-			: base(name, image)
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ModuleOptionNodeBranch" /> class.
+		/// </summary>
+		/// <param name="name">Display name of node</param>
+		/// <param name="image">Image to display for node</param>
+		/// <param name="panel">Panel to display when node selected</param>
+		public ModuleOptionNodeBranch(string name, Image image, ContainerControl panel)
+			: base(name, image, panel)
 		{
-			OptionPanel = panel;
 			Nodes = new List<ModuleOptionNode>();
 		}
+
+		/// <summary>
+		/// Gets the list of child nodes under this node
+		/// </summary>
+		public List<ModuleOptionNode> Nodes { get; private set; }
 	}
 }

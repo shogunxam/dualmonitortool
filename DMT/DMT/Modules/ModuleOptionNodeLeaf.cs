@@ -17,24 +17,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Leaf (end node) option node 
+	/// </summary>
 	class ModuleOptionNodeLeaf : ModuleOptionNode
 	{
-		public ContainerControl OptionPanel { get; protected set; }
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ModuleOptionNodeLeaf" /> class.
+		/// </summary>
+		/// <param name="name">Display name of node</param>
+		/// <param name="image">Image to display for node</param>
+		/// <param name="panel">Panel to display when node selected</param>
 		public ModuleOptionNodeLeaf(string name, Image image, ContainerControl panel)
-			: base(name, image)
+			: base(name, image, panel)
 		{
-			OptionPanel = panel;
 		}
 	}
 }

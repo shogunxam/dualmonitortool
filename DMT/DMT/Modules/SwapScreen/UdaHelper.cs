@@ -17,19 +17,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.SwapScreen
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Environment;
+
+	/// <summary>
+	/// Helper class for user defined areas
+	/// </summary>
 	static class UdaHelper
 	{
+		/// <summary>
+		/// Genertaes default user defined areas
+		/// </summary>
+		/// <param name="udaControllers">Controllers for the user defined areas</param>
+		/// <param name="allMonitors">All monitors</param>
 		public static void GenerateDefaultUdas(List<UdaController> udaControllers, Monitors allMonitors)
 		{
 			int screens = Screen.AllScreens.Length;
@@ -99,7 +108,6 @@ namespace DMT.Modules.SwapScreen
 				keyCode += (uint)idx;
 
 				Rectangle rectangle = new Rectangle(left, right, width, height);
-				//udaController.InitFromProperty(UdaController.ToPropertyValue(keyCode, rectangle, description));
 
 				// update the controller for the new values
 				udaController.SetValues(keyCode, rectangle, description);

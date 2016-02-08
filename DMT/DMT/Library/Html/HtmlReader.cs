@@ -17,36 +17,69 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
-	public enum HtmlNodeType { None = 0, Element = 1, EndElement = 2, Text = 3, Comment = 4, Instruction = 5 };
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	/// <summary>
+	/// Type of node
+	/// </summary>
+	public enum HtmlNodeType 
+	{ 
+		/// <summary>
+		/// No node / default value
+		/// </summary>
+		None = 0, 
+
+		/// <summary>
+		/// Start element node
+		/// </summary>
+		Element = 1, 
+
+		/// <summary>
+		/// End element node
+		/// </summary>
+		EndElement = 2, 
+
+		/// <summary>
+		/// Text node
+		/// </summary>
+		Text = 3, 
+
+		/// <summary>
+		/// Comment node
+		/// </summary>
+		Comment = 4, 
+
+		/// <summary>
+		/// Instruction node
+		/// </summary>
+		Instruction = 5 
+	}
 
 	/// <summary>
 	/// A (very) simple parser to parse HTML.
 	/// </summary>
 	public class HtmlReader
 	{
-		public HtmlNodeType NodeType { get; private set; }
-		//public string Name { get; private set; }
-		public string Value { get; private set; }
-
+		const string StartComment = "<!--";
+		const string EndComment = "-->";
 
 		string _html;
 		int _curIndex;
 
-		const string StartComment = "<!--";
-		const string EndComment = "-->";
-
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="HtmlReader" /> class.
+		/// </summary>
+		/// <param name="html">HTML to read</param>
 		public HtmlReader(string html)
 		{
 			_html = html;
+
 			// handle null without the need to continually test for it in Read()
 			if (_html == null)
 			{
@@ -54,10 +87,23 @@ namespace DMT.Library.Html
 			}
 		}
 
+		/// <summary>
+		/// Gets the node type
+		/// </summary>
+		public HtmlNodeType NodeType { get; private set; }
+
+		/// <summary>
+		/// Gets the node value
+		/// </summary>
+		public string Value { get; private set; }
+
+		/// <summary>
+		/// Reads the next node from the input
+		/// </summary>
+		/// <returns>True if a node has been read</returns>
 		public bool Read()
 		{
 			NodeType = HtmlNodeType.None;
-			//Name = string.Empty;
 			Value = string.Empty;
 
 			if (CharAvailable(0))
@@ -90,6 +136,7 @@ namespace DMT.Library.Html
 					// text 
 					TakeText();
 				}
+
 				return true;
 			}
 
@@ -113,24 +160,24 @@ namespace DMT.Library.Html
 				{
 					length = RemainingLength();
 				}
+
 				Value += _html.Substring(_curIndex, length);
 				_curIndex += length;
-
 
 				NodeType = HtmlNodeType.Comment;
 				return true;
 			}
+
 			return false;
 		}
 
 		bool TakeElement()
 		{
 			// take everything between '<' and '>' (inclusive)
-
 			if (CharAvailable(2) && TakeString("<"))
 			{
-				StringBuilder sbValue = new StringBuilder();
-				sbValue.Append("<");
+				StringBuilder nodeValue = new StringBuilder();
+				nodeValue.Append("<");
 				char ch = PeekChar(0);
 				if (ch == '/')
 				{
@@ -145,17 +192,17 @@ namespace DMT.Library.Html
 					NodeType = HtmlNodeType.Element;
 				}
 
-				char chCurQuote = '\0';
+				char curQuoteChar = '\0';
 				while (TakeAnyChar(out ch))
 				{
-					sbValue.Append(ch);
-					if (chCurQuote != '\0')
+					nodeValue.Append(ch);
+					if (curQuoteChar != '\0')
 					{
 						// within quotes -looking for matching end quote
-						if (ch == chCurQuote)
+						if (ch == curQuoteChar)
 						{
 							// found matching quote
-							chCurQuote = '\0';
+							curQuoteChar = '\0';
 						}
 					}
 					else
@@ -163,17 +210,16 @@ namespace DMT.Library.Html
 						// not within quotes
 						if (ch == '\'' || ch == '"')
 						{
-							chCurQuote = ch;
+							curQuoteChar = ch;
 						}
 						else if (ch == '>')
 						{
 							break;
 						}
-
 					}
 				}
 
-				Value = sbValue.ToString();
+				Value = nodeValue.ToString();
 
 				return true;
 			}
@@ -198,8 +244,9 @@ namespace DMT.Library.Html
 					_curIndex++;
 				}
 			}
+
 			Value = sb.ToString();
-			return (Value.Length > 0);
+			return Value.Length > 0;
 		}
 
 		bool TakeAnyChar(out char ch)
@@ -222,6 +269,7 @@ namespace DMT.Library.Html
 				_curIndex += match.Length;
 				return true;
 			}
+
 			return false;
 		}
 
@@ -264,7 +312,7 @@ namespace DMT.Library.Html
 
 		bool CharAvailable(int offset)
 		{
-			return (_curIndex + offset < _html.Length);
+			return _curIndex + offset < _html.Length;
 		}
 
 		int RemainingLength()
@@ -275,12 +323,7 @@ namespace DMT.Library.Html
 		char PeekChar(int offset)
 		{
 			// it's the callers responsibility to make sure not past end of string
-			//if (_curIndex + offset < _html.Length)
-			//{
-				return _html[_curIndex + offset];
-			//}
-
-			//return '\0';
+			return _html[_curIndex + offset];
 		}
 	}
 }

@@ -17,49 +17,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace DMT
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+
+	/// <summary>
+	/// The program options
+	/// </summary>
 	class ProgramOptions
 	{
-
 		/// <summary>
-		/// Indicates if running in command line mode
-		/// </summary>
-		public bool CmdMode { get; protected set; }
-
-		/// <summary>
-		/// Show usage and exit
-		/// </summary>
-		public bool ShowUsage { get; protected set; }
-
-		/// <summary>
-		/// Show version and exit
-		/// </summary>
-		public bool ShowVersion { get; protected set; }
-
-		/// <summary>
-		/// Set if command should be run by local instance of DMT
-		/// - NOT IMPLEMENTED YET
-		/// </summary>
-		public bool RunCommandLocally { get; set; }
-
-		/// <summary>
-		/// Command to run
-		/// </summary>
-		public List<string> Commands { get; set; }
-
-		/// <summary>
-		/// Option specification errors
-		/// </summary>
-		public List<string> Errors { get; protected set; }
-
-				/// <summary>
-		/// Ctor that takes the list of command line arguments passed into us
+		/// Initialises a new instance of the <see cref="ProgramOptions" /> class.
+		/// Parses the list of command line arguments passed into us
 		/// </summary>
 		/// <param name="args">Command line arguments</param>
 		public ProgramOptions(string[] args)
@@ -108,5 +80,35 @@ namespace DMT
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether to run in command line mode or not
+		/// </summary>
+		public bool CmdMode { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether we just need to show usage and exit
+		/// </summary>
+		public bool ShowUsage { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether we just need to show version and exit
+		/// </summary>
+		public bool ShowVersion { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the command should be run by local instance of DMT
+		/// - NOT IMPLEMENTED YET
+		/// </summary>
+		public bool RunCommandLocally { get; set; }
+
+		/// <summary>
+		/// Gets or sets the commands to run
+		/// </summary>
+		public List<string> Commands { get; set; }
+
+		/// <summary>
+		/// Gets or sets the option specification errors
+		/// </summary>
+		public List<string> Errors { get; protected set; }
 	}
 }

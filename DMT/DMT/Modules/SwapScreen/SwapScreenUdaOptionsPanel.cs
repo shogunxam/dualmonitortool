@@ -17,22 +17,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.SwapScreen
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Options panel for swap screen user defined areas
+	/// </summary>
 	partial class SwapScreenUdaOptionsPanel : UserControl
 	{
 		SwapScreenModule _swapScreenModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SwapScreenUdaOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="swapScreenModule">Swap screen module</param>
 		public SwapScreenUdaOptionsPanel(SwapScreenModule swapScreenModule)
 		{
 			_swapScreenModule = swapScreenModule;
@@ -79,6 +86,5 @@ namespace DMT.Modules.SwapScreen
 
 			return null;
 		}
-
 	}
 }

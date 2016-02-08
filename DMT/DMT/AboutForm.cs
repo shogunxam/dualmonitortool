@@ -17,31 +17,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Reflection;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Resources;
+
+	/// <summary>
+	/// The 'About' dialog
+	/// </summary>
 	public partial class AboutForm : Form
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="AboutForm" /> class.
+		/// </summary>
 		public AboutForm()
 		{
 			InitializeComponent();
-			//  Initialize the AboutBox to display the product information from the assembly information.
-			//  Change assembly information settings for your application through either:
-			//  - Project->Properties->Application->Assembly Information
-			//  - AssemblyInfo.cs
-			this.Text = String.Format("About {0}", AssemblyTitle);
-			this.labelProductName.Text = String.Format("{0}  -  Version {1}", AssemblyTitle, AssemblyVersion);
+
+			// Initialize the AboutBox to display the product information from the assembly information.
+			// Change assembly information settings for your application through either:
+			// - Project->Properties->Application->Assembly Information
+			// - AssemblyInfo.cs
+			this.Text = string.Format("About {0}", AssemblyTitle);
+			this.labelProductName.Text = string.Format("{0}  -  Version {1}", AssemblyTitle, AssemblyVersion);
 			this.labelCopyright.Text = AssemblyCopyright;
 			this.labelLicense.Text = CommonStrings.License;
 			this.labelDescription.Text = AssemblyDescription;
@@ -49,6 +57,9 @@ namespace DMT
 
 		#region Assembly Attribute Accessors
 
+		/// <summary>
+		/// Gets our name ("Dual Monitor Tools")
+		/// </summary>
 		public string AssemblyTitle
 		{
 			get
@@ -57,6 +68,9 @@ namespace DMT
 			}
 		}
 
+		/// <summary>
+		/// Gets our current version as a a string
+		/// </summary>
 		public string AssemblyVersion
 		{
 			get
@@ -65,43 +79,64 @@ namespace DMT
 			}
 		}
 
+		/// <summary>
+		/// Gets a short description of DMT
+		/// </summary>
 		public string AssemblyDescription
 		{
 			get
 			{
 				// Get all Description attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+
 				// If there aren't any Description attributes, return an empty string
 				if (attributes.Length == 0)
-					return "";
+				{
+					return string.Empty;
+				}
+
 				// If there is a Description attribute, return its value
 				return ((AssemblyDescriptionAttribute)attributes[0]).Description;
 			}
 		}
 
+		/// <summary>
+		/// Gets the copyright notice
+		/// </summary>
 		public string AssemblyCopyright
 		{
 			get
 			{
 				// Get all Copyright attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+
 				// If there aren't any Copyright attributes, return an empty string
 				if (attributes.Length == 0)
-					return "";
+				{
+					return string.Empty;
+				}
+
 				// If there is a Copyright attribute, return its value
 				return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
 			}
 		}
 
+		/// <summary>
+		/// Gets our company name
+		/// </summary>
 		public string AssemblyCompany
 		{
 			get
 			{
 				// Get all Company attributes on this assembly
 				object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+
 				// If there aren't any Company attributes, return an empty string
 				if (attributes.Length == 0)
-					return "";
+				{
+					return string.Empty;
+				}
+
 				// If there is a Company attribute, return its value
 				return ((AssemblyCompanyAttribute)attributes[0]).Company;
 			}

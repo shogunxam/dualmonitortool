@@ -17,23 +17,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Command;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace DMT
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+
+	using DMT.Library.Command;
+
+	/// <summary>
+	/// Runs DMT as a console application.
+	/// </summary>
 	class ConsoleApplication
 	{
 		ProgramOptions _programOptions;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ConsoleApplication" /> class.
+		/// </summary>
+		/// <param name="programOptions">Options to use (after being parsed from command line)</param>
 		public ConsoleApplication(ProgramOptions programOptions)
 		{
 			_programOptions = programOptions;
 		}
 
+		/// <summary>
+		/// Allows the DMT console application to do it's processing
+		/// </summary>
 		public void Run()
 		{
 			if (_programOptions.Errors.Count > 0)
@@ -42,6 +53,7 @@ namespace DMT
 				{
 					Console.WriteLine(error);
 				}
+
 				ShowUsage();
 			}
 			else if (_programOptions.ShowUsage)
@@ -103,11 +115,11 @@ namespace DMT
 			Console.WriteLine(" Without any options or commands, runs Dual Monitor Tools as a GUI application");
 			Console.WriteLine(" in the notification area");
 			Console.WriteLine(" If commands are specified, DMT must already be running as a GUI application");
-			Console.WriteLine("");
+			Console.WriteLine();
 			Console.WriteLine("Options:");
 			Console.WriteLine("  -?   show usage");
 			Console.WriteLine("  -v   show version");
-			Console.WriteLine("");
+			Console.WriteLine();
 			Console.WriteLine("Commands:");
 			Console.WriteLine("  General:Options       Show Options");
 			Console.WriteLine("  Cursor:FreeCursor     Cursor free to move between screens");

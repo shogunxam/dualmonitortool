@@ -17,12 +17,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Modules.Cursor
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
 	/// <summary>
 	/// Represents a lower barrier for cursor movement.
 	/// This is for 1D only, so 2 of these classes will be needed
@@ -31,7 +31,7 @@ namespace DMT.Modules.Cursor
 	class CursorBarrierLower : CursorBarrier
 	{
 		/// <summary>
-		/// Constructs the lower barrier.
+		/// Initialises a new instance of the <see cref="CursorBarrierLower" /> class.
 		/// </summary>
 		/// <param name="active">Indicates if the barrier is active.  If false, the other parameters are ignored.</param>
 		/// <param name="limit">This is the lower limit which we try to keep the cursor above. 
@@ -56,34 +56,34 @@ namespace DMT.Modules.Cursor
 		public bool BrokenThrough(ref int newValue)
 		{
 			bool brokenThrough = false;
-			if (_active)
+			if (Active)
 			{
-				if (newValue < _limit)
+				if (newValue < Limit)
 				{
-					if (_minForce == Int32.MaxValue)
+					if (MinForce == int.MaxValue)
 					{
 						// not allowed to break through barrier
-						newValue = _limit;
+						newValue = Limit;
 					}
 					else
 					{
 						// remember we are moveing in negative direction
-						_totalForce += _limit - newValue;
-						if (_totalForce > _minForce)
+						TotalForce += Limit - newValue;
+						if (TotalForce > MinForce)
 						{
 							// cursor has broken through barrier
-							newValue = _limit - _totalForce + _minForce;
+							newValue = Limit - TotalForce + MinForce;
 							brokenThrough = true;
 						}
 						else
 						{
-							newValue = _limit;
+							newValue = Limit;
 						}
 					}
 				}
 				else
 				{
-					_totalForce = 0;
+					TotalForce = 0;
 				}
 			}
 
@@ -99,9 +99,9 @@ namespace DMT.Modules.Cursor
 		public bool Outside(int newValue)
 		{
 			bool outside = false;
-			if (_active)
+			if (Active)
 			{
-				if (newValue < _limit)
+				if (newValue < Limit)
 				{
 					outside = true;
 				}

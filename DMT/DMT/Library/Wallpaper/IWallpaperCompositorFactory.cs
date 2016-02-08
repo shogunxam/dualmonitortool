@@ -17,15 +17,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Library.Wallpaper
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
+	using DMT.Library.Environment;
+
+	/// <summary>
+	/// Interface for a wallpaper compositor factory
+	/// </summary>
 	public interface IWallpaperCompositorFactory
 	{
+		/// <summary>
+		/// Creates a wallpaper compositor
+		/// </summary>
+		/// <param name="monitors">Monitors to create the compositor for</param>
+		/// <returns>A wallpaper compositor</returns>
 		IWallpaperCompositor Create(Monitors monitors);
 	}
 }

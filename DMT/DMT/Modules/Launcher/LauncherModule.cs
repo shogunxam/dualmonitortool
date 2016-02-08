@@ -17,113 +17,236 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Command;
-using DMT.Library.Environment;
-using DMT.Library.HotKeys;
-using DMT.Library.Logging;
-using DMT.Library.PInvoke;
-using DMT.Library.Settings;
-using DMT.Library.Utils;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Command;
+	using DMT.Library.Environment;
+	using DMT.Library.HotKeys;
+	using DMT.Library.Logging;
+	using DMT.Library.PInvoke;
+	using DMT.Library.Settings;
+	using DMT.Library.Utils;
+	using DMT.Resources;
+
+	/// <summary>
+	/// The launcher module
+	/// </summary>
 	class LauncherModule : Module
 	{
-		//const string _moduleName = "Launcher";
-		const int _defaultMaxIcons = 8;
+		const int DefaultMaxIcons = 8;
 
 		ISettingsService _settingsService;
-		//IHotKeyService _hotKeyService;
 		ILocalEnvironment _localEnvironment;
 		ILogger _logger;
 		AppForm _appForm;
-		//IModuleService _moduleService;
-		ICommandRunner _commandRunner;
 		StartupHandler _startupHandler;
-
 		MagicWords _magicWords = null;
-		public MagicWords MagicWords { get { return GetMagicWords(); } }
-
 		EntryForm _entryForm = null;
 
-		public ICommandRunner CommandRunner { get { return _commandRunner; } }
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LauncherModule" /> class.
+		/// </summary>
+		/// <param name="settingsService">Settings repository</param>
+		/// <param name="hotKeyService">Service to register hot keys</param>
+		/// <param name="localEnvironment">Local environment</param>
+		/// <param name="logger">Application logger</param>
+		/// <param name="appForm">Application (hidden) window</param>
+		/// <param name="commandRunner">Command running service</param>
+		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILocalEnvironment localEnvironment, ILogger logger, AppForm appForm, ICommandRunner commandRunner)
+			: base(hotKeyService)
+		{
+			_settingsService = settingsService;
+			_localEnvironment = localEnvironment;
+			_logger = logger;
+			_appForm = appForm;
+			CommandRunner = commandRunner;
 
-		// hotkey to start entry of magic word
-		public HotKeyController ActivateHotKeyController { get; protected set; }
-		// hotkey to create a magic word for application that started the current window
-		public HotKeyController AddMagicWordHotKeyController { get; protected set; }
+			ModuleName = "Launcher";
+		}
 
-		IntSetting MaxIconsSetting { get; set; }
+		/// <summary>
+		/// Gets the list of magic words
+		/// </summary>
+		public MagicWords MagicWords 
+		{ 
+			get 
+			{ 
+				return GetMagicWords(); 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the command runner
+		/// </summary>
+		public ICommandRunner CommandRunner { get; private set; }
+
+		/// <summary>
+		/// Gets the controller for the 'Activate magic word entry' hot key
+		/// </summary>
+		public HotKeyController ActivateHotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets the controller for the 'Add magic word for active window' hot key
+		/// </summary>
+		public HotKeyController AddMagicWordHotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the maximum number of icons to display in the magic word entry dialog
+		/// </summary>
 		public int MaxIcons 
 		{
-			get { return MaxIconsSetting.Value; }
-			set { MaxIconsSetting.Value = value; }
+			get 
+			{ 
+				return MaxIconsSetting.Value; 
+			}
+
+			set 
+			{ 
+				MaxIconsSetting.Value = value; 
+			}
 		}
 
-		BoolSetting UseMruSetting { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether to sort icons by most recently used.
+		/// If false, sorts by last used
+		/// </summary>
 		public bool UseMru
 		{
-			get { return UseMruSetting.Value; }
-			set { UseMruSetting.Value = value; }
+			get 
+			{ 
+				return UseMruSetting.Value; 
+			}
+
+			set 
+			{ 
+				UseMruSetting.Value = value; 
+			}
 		}
 
-		BoolSetting LoadWordsOnStartupSetting { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether magic words should be loaded as soon as we start
+		/// </summary>
 		public bool LoadWordsOnStartup
 		{
-			get { return LoadWordsOnStartupSetting.Value; }
-			set { LoadWordsOnStartupSetting.Value = value; }
+			get 
+			{ 
+				return LoadWordsOnStartupSetting.Value; 
+			}
+
+			set 
+			{ 
+				LoadWordsOnStartupSetting.Value = value; 
+			}
 		}
 
-		IntSetting IconViewSetting { get; set; }
+		/// <summary>
+		/// Gets or sets the type of view to use for the magic words entry dialog
+		/// </summary>
 		public View IconView
 		{
-			get { return (View)IconViewSetting.Value; }
-			set { IconViewSetting.Value = (int)value; }
+			get 
+			{ 
+				return (View)IconViewSetting.Value; 
+			}
+
+			set 
+			{ 
+				IconViewSetting.Value = (int)value; 
+			}
 		}
 
-		IntSetting StartupTimeoutSetting { get; set; }
+		/// <summary>
+		/// Gets or sets the timeout in seconds to wait for an applications
+		/// main window appears in order that we can move it to the desired location
+		/// </summary>
 		public int StartupTimeout
 		{
-			get { return StartupTimeoutSetting.Value; }
-			set { StartupTimeoutSetting.Value = value; }
+			get 
+			{ 
+				return StartupTimeoutSetting.Value; 
+			}
+
+			set 
+			{ 
+				StartupTimeoutSetting.Value = value; 
+			}
 		}
 
-		UIntSetting Position1KeySetting { get; set; }
+		/// <summary>
+		/// Gets or sets the key to indicate that the user wants the application to appear at position 1
+		/// </summary>
 		public uint Position1Key
 		{
-			get { return Position1KeySetting.Value; }
-			set { Position1KeySetting.Value = value; }
+			get 
+			{ 
+				return Position1KeySetting.Value; 
+			}
+
+			set 
+			{ 
+				Position1KeySetting.Value = value; 
+			}
 		}
 
-		UIntSetting Position2KeySetting { get; set; }
+		/// <summary>
+		/// Gets or sets the key to indicate that the user wants the application to appear at position 2
+		/// </summary>
 		public uint Position2Key
 		{
-			get { return Position2KeySetting.Value; }
-			set { Position2KeySetting.Value = value; }
+			get 
+			{ 
+				return Position2KeySetting.Value; 
+			}
+
+			set 
+			{ 
+				Position2KeySetting.Value = value; 
+			}
 		}
 
-		UIntSetting Position3KeySetting { get; set; }
+		/// <summary>
+		/// Gets or sets the key to indicate that the user wants the application to appear at position 3
+		/// </summary>
 		public uint Position3Key
 		{
-			get { return Position3KeySetting.Value; }
-			set { Position3KeySetting.Value = value; }
+			get 
+			{ 
+				return Position3KeySetting.Value; 
+			}
+
+			set 
+			{ 
+				Position3KeySetting.Value = value; 
+			}
 		}
 
-		UIntSetting Position4KeySetting { get; set; }
+		/// <summary>
+		/// Gets or sets the key to indicate that the user wants the application to appear at position 4
+		/// </summary>
 		public uint Position4Key
 		{
-			get { return Position4KeySetting.Value; }
-			set { Position4KeySetting.Value = value; }
+			get 
+			{ 
+				return Position4KeySetting.Value; 
+			}
+
+			set 
+			{ 
+				Position4KeySetting.Value = value; 
+			}
 		}
 
+		/// <summary>
+		/// Gets or sets the location for the magic word entry dialog
+		/// </summary>
 		public Rectangle EntryFormPosition
 		{
 			get
@@ -133,8 +256,10 @@ namespace DMT.Modules.Launcher
 				{
 					rect = StringUtils.ToRectangle(_settingsService.GetSetting(ModuleName, "EntryFormPosition"));
 				}
+
 				return rect;
 			}
+
 			set
 			{
 				string settingString = StringUtils.FromRectangle(value);
@@ -143,36 +268,39 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-		public LauncherModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILocalEnvironment localEnvironment, ILogger logger, AppForm appForm, ICommandRunner commandRunner)
-			: base(hotKeyService)
-		{
-			_settingsService = settingsService;
-			//_hotKeyService = hotKeyService;
-			_localEnvironment = localEnvironment;
-			_logger = logger;
-			_appForm = appForm;
-			_commandRunner = commandRunner;
+		IntSetting MaxIconsSetting { get; set; }
 
-			ModuleName = "Launcher";
-		}
+		BoolSetting UseMruSetting { get; set; }
 
+		BoolSetting LoadWordsOnStartupSetting { get; set; }
+
+		IntSetting IconViewSetting { get; set; }
+
+		IntSetting StartupTimeoutSetting { get; set; }
+
+		UIntSetting Position1KeySetting { get; set; }
+
+		UIntSetting Position2KeySetting { get; set; }
+
+		UIntSetting Position3KeySetting { get; set; }
+
+		UIntSetting Position4KeySetting { get; set; }
+
+		/// <summary>
+		/// Starts the module up
+		/// </summary>
 		public override void Start()
 		{
 			// this handles the actual starting up of applications and moving their windows
-			_startupHandler = new StartupHandler(_appForm, _commandRunner);
+			_startupHandler = new StartupHandler(_appForm, CommandRunner);
 
 			// hot keys
 			//// don't want a magic word to show the magic word entry form!
-			//ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, "", ShowEntryForm, true, false);
-			ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, "", ShowEntryForm, ActivateMagicWord);
-			AddMagicWordHotKeyController = AddCommand("AddMagicWord", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
-			//ActivateHotKeyController = CreateHotKeyController("ActivateHotKey", LauncherStrings.ActivateDescription, "", ShowEntryForm);
-			//AddMagicWordHotKeyController = CreateHotKeyController("AddMagicWordHotKey", LauncherStrings.AddMagicWordDescription, "", AddNewMagicWordForActiveWindow);
-			//base.RegisterHotKeys();
-
+			ActivateHotKeyController = AddCommand("Activate", LauncherStrings.ActivateDescription, string.Empty, ShowEntryForm, ActivateMagicWord);
+			AddMagicWordHotKeyController = AddCommand("AddMagicWord", LauncherStrings.AddMagicWordDescription, string.Empty, AddNewMagicWordForActiveWindow);
 
 			// settings
-			MaxIconsSetting = new IntSetting(_settingsService, ModuleName, "MaxIcons", _defaultMaxIcons);
+			MaxIconsSetting = new IntSetting(_settingsService, ModuleName, "MaxIcons", DefaultMaxIcons);
 			UseMruSetting = new BoolSetting(_settingsService, ModuleName, "UseMru");
 			LoadWordsOnStartupSetting = new BoolSetting(_settingsService, ModuleName, "LoadWordsOnStartup");
 			IconViewSetting = new IntSetting(_settingsService, ModuleName, "IconView", (int)View.LargeIcon);
@@ -183,13 +311,17 @@ namespace DMT.Modules.Launcher
 			Position3KeySetting = new UIntSetting(_settingsService, ModuleName, "Position3Key", (uint)Keys.F3);
 			Position4KeySetting = new UIntSetting(_settingsService, ModuleName, "Position4Key", (uint)Keys.F4);
 
-
 			// add our menu items to the notifcation icon
 			_appForm.AddMenuItem(LauncherStrings.EnterMagicWord, null, enterMagicWordToolStripMenuItem_Click);
 			_appForm.AddMenuItem(LauncherStrings.AddMagicWord, null, addMagicWordToolStripMenuItem_Click);
 			_appForm.AddMenuItem("-", null, null);
 		}
 
+		/// <summary>
+		/// Indicates all modules have started, and allows
+		/// individual modules to perform any post start up processing
+		/// that depends on other modules
+		/// </summary>
 		public override void StartUpComplete()
 		{
 			if (LoadWordsOnStartup)
@@ -200,11 +332,18 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
+		/// <summary>
+		/// Gives the module a chance to flush any data out to disk
+		/// Will be called if the app is closing or system about to shutdown
+		/// </summary>
 		public override void Flush()
 		{
 			SaveMagicWords();
 		}
 
+		/// <summary>
+		/// Terminates the module
+		/// </summary>
 		public override void Terminate()
 		{
 			if (_entryForm != null)
@@ -213,7 +352,10 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-
+		/// <summary>
+		/// Gets the option nodes for this module
+		/// </summary>
+		/// <returns>The root node</returns>
 		public override ModuleOptionNode GetOptionNodes()
 		{
 			Image image = new Bitmap(Properties.Resources.DualLauncher_16_16);
@@ -226,12 +368,18 @@ namespace DMT.Modules.Launcher
 			return options;
 		}
 
+		/// <summary>
+		/// Shows the options for this module
+		/// </summary>
 		public void ShowOptions()
 		{
 			// TODO: would be nicer if it opened on the launcher root page
 			_appForm.ShowOptions();
 		}
 
+		/// <summary>
+		/// Makes sure the magic words have been saved
+		/// </summary>
 		public void SaveMagicWords()
 		{
 			if (_magicWords != null)
@@ -241,6 +389,11 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
+		/// <summary>
+		/// Launch the specified magic words
+		/// </summary>
+		/// <param name="magicWords">Magic words to start</param>
+		/// <param name="position">Which of the 4 positions to use</param>
 		public void StartMagicWords(List<MagicWord> magicWords, int position)
 		{
 			ParameterMap map = new ParameterMap();
@@ -248,6 +401,18 @@ namespace DMT.Modules.Launcher
 			{
 				StartMagicWord(magicWord, position, map);
 			}
+		}
+
+		/// <summary>
+		/// Starts a new process
+		/// </summary>
+		/// <param name="magicWord">The magic word being started</param>
+		/// <param name="startPosition">The Start up position to use</param>
+		/// <param name="map">A ParameterMap to use for any dynamic input</param>
+		/// <returns>true if application started</returns>
+		public bool Launch(MagicWord magicWord, StartupPosition startPosition, ParameterMap map)
+		{
+			return _startupHandler.Launch(magicWord, startPosition, map, StartupTimeout);
 		}
 
 		void StartMagicWord(MagicWord magicWord, int positionIndex1, ParameterMap map)
@@ -260,23 +425,6 @@ namespace DMT.Modules.Launcher
 				Launch(magicWord, startPosition, map);
 			}
 		}
-
-		/// <summary>
-		/// Starts a new process
-		/// </summary>
-		/// <param name="magicWord">The magic word being started</param>
-		/// <param name="startPosition">The StartupPosition to use</param>
-		/// <param name="map">A ParameterMap to use for any dynamic input</param>
-		/// <returns>true if application started</returns>
-		public bool Launch(MagicWord magicWord, StartupPosition startPosition, ParameterMap map)
-		{
-			return _startupHandler.Launch(magicWord, startPosition, map, StartupTimeout);
-		}
-	
-		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		//{
-		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
-		//}
 
 		void enterMagicWordToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -291,14 +439,16 @@ namespace DMT.Modules.Launcher
 		void AddNewMagicWordForActiveWindow()
 		{
 			MagicWord newMagicWord = new MagicWord();
+
 			// get the active window
-			IntPtr hWnd = Win32.GetForegroundWindow();
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 
 			if (hWnd != IntPtr.Zero)
 			{
 				// use details from the active window to prefill a new MagicWord
 				MagicWordForm.GetWindowDetails(hWnd, newMagicWord);
 			}
+
 			AddNewMagicWord(newMagicWord);
 		}
 
@@ -327,10 +477,10 @@ namespace DMT.Modules.Launcher
 		}
 
 		/// <summary>
-		/// Handlet for Activate - when there are parameters
+		/// Handler for Activate - when there are parameters
 		/// Will treat the parameter as a magic word and try and run it
 		/// </summary>
-		/// <param name="parameters"></param>
+		/// <param name="parameters">Parameters for magic word</param>
 		void ActivateMagicWord(string parameters)
 		{
 			List<MagicWord> magicWords = MagicWords.FindAllByAlias(parameters);
@@ -342,8 +492,9 @@ namespace DMT.Modules.Launcher
 		{
 			if (_entryForm == null)
 			{
-				_entryForm = new EntryForm(this, _commandRunner, _localEnvironment);
+				_entryForm = new EntryForm(this, CommandRunner, _localEnvironment);
 			}
+
 			return _entryForm;
 		}
 
@@ -376,16 +527,16 @@ namespace DMT.Modules.Launcher
 		void AddAllInternalCommands()
 		{
 			MagicWord mw;
-			IEnumerable<string> moduleNames = _commandRunner.GetModuleNames();
+			IEnumerable<string> moduleNames = CommandRunner.GetModuleNames();
 			foreach (string moduleName in moduleNames)
 			{
-				IEnumerable<string> actionNames = _commandRunner.GetModuleCommandNames(moduleName);
+				IEnumerable<string> actionNames = CommandRunner.GetModuleCommandNames(moduleName);
 				foreach (string actionName in actionNames)
 				{
 					// make sure this alias hasn't already been defined
 					if (MagicWords.FindByAlias(actionName) == null)
 					{
-						string description = _commandRunner.GetModuleActionDescription(moduleName, actionName);
+						string description = CommandRunner.GetModuleActionDescription(moduleName, actionName);
 						string magicCommand = MagicCommand.JoinMagicCommand(moduleName, actionName);
 						mw = new MagicWord(actionName, magicCommand);
 						mw.Comment = description;

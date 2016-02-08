@@ -17,23 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.HotKeys;
-
 namespace DMT.Modules.SwapScreen
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.HotKeys;
+
+	/// <summary>
+	/// Options panel for swap screen other windows
+	/// </summary>
 	partial class SwapScreenOtherOptionsPanel : UserControl
 	{
 		SwapScreenModule _swapScreenModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SwapScreenOtherOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="swapScreenModule">Swap screen module</param>
 		public SwapScreenOtherOptionsPanel(SwapScreenModule swapScreenModule)
 		{
 			_swapScreenModule = swapScreenModule;

@@ -17,18 +17,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
 namespace DMT.Library.Environment
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+
 	/// <summary>
 	/// Represents all monitors
 	/// </summary>
 	public class Monitors : List<Monitor>
 	{
+		/// <summary>
+		/// Gets the bounds rectangle for the union of all monitors
+		/// </summary>
 		public Rectangle Bounds
 		{
 			get
@@ -51,6 +54,9 @@ namespace DMT.Library.Environment
 			}
 		}
 
+		/// <summary>
+		/// Gets the working area rectangle for the union of all monitors
+		/// </summary>
 		public Rectangle WorkingArea
 		{
 			get

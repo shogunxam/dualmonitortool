@@ -17,35 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Settings
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	/// <summary>
+	/// A setting that has an integer value
+	/// </summary>
 	class IntSetting
 	{
 		ISettingsService _settingsService;
 		string _moduleName;
 		string _settingName;
-
 		int _value;
-		public int Value
-		{
-			get
-			{
-				return _value;
-			}
-			set
-			{
-				_value = value;
-				_settingsService.SetSetting(_moduleName, _settingName, value);
-				_settingsService.SaveSettings();
-			}
-		}
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="IntSetting" /> class.
+		/// </summary>
+		/// <param name="settingsService">A settings repository</param>
+		/// <param name="moduleName">The module name</param>
+		/// <param name="settingName">The setting name</param>
+		/// <param name="defaultValue">Default value to use if setting not currently set</param>
 		public IntSetting(ISettingsService settingsService, string moduleName, string settingName, int defaultValue = 0)
 		{
 			_settingsService = settingsService;
@@ -53,6 +49,24 @@ namespace DMT.Library.Settings
 			_settingName = settingName;
 
 			_value = _settingsService.GetSettingAsInt(_moduleName, _settingName, defaultValue);
+		}
+
+		/// <summary>
+		/// Gets or sets the value of the setting
+		/// </summary>
+		public int Value
+		{
+			get
+			{
+				return _value;
+			}
+
+			set
+			{
+				_value = value;
+				_settingsService.SetSetting(_moduleName, _settingName, value);
+				_settingsService.SaveSettings();
+			}
 		}
 	}
 }

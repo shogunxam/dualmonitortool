@@ -17,14 +17,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
 	/// Represents an HTML element (tag) and allows access to its attributes
 	/// </summary>
@@ -33,17 +33,20 @@ namespace DMT.Library.Html
 		string _elementText;
 		List<Tuple<string, string>> _attributes;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="HtmlElement" /> class.
+		/// </summary>
+		/// <param name="allElementText">Full text of element including opening and closing angle brackets</param>
 		public HtmlElement(string allElementText)
 		{
 			if (allElementText == null)
 			{
 				// shouldn't get here, but jic
-				allElementText = "";
+				allElementText = string.Empty;
 			}
 
 			// strip of the leading "<" or "</"
  			// and trailing ">" "/>"
-
 			int offset = 0;
 			int len = allElementText.Length;
 			if (len >= 1 && allElementText[len - 1] == '>')
@@ -54,6 +57,7 @@ namespace DMT.Library.Html
 					len--;
 				}
 			}
+
 			if (len >= 1 && allElementText[0] == '<')
 			{
 				offset++;
@@ -63,10 +67,15 @@ namespace DMT.Library.Html
 					offset++;
 				}
 			}
+
 			_elementText = allElementText.Substring(offset, len).Trim();
 			_attributes = null;	// we parse these only if required
 		}
 
+		/// <summary>
+		/// Gets the element name
+		/// </summary>
+		/// <returns>Element name</returns>
 		public string GetElementName()
 		{
 			// returns the first word in the element text
@@ -77,21 +86,31 @@ namespace DMT.Library.Html
 			{
 				if (IsElementNameChar(ch))
 				{
-					sb.Append(Char.ToLower(ch));
+					sb.Append(char.ToLower(ch));
 				}
 				else
 				{
 					break;
 				}
 			}
+
 			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Gets a list of all of the attributes
+		/// </summary>
+		/// <returns>List of attributes</returns>
 		public List<Tuple<string, string>> GetAllAttributes()
 		{
 			return GetAttributes();
 		}
 
+		/// <summary>
+		/// Gets a particular attribute
+		/// </summary>
+		/// <param name="attributeName">Name of attribute to get</param>
+		/// <returns>Attribute value, or null if missing</returns>
 		public string GetAttribute(string attributeName)
 		{
 			List<Tuple<string, string>> attributes = GetAttributes();
@@ -99,7 +118,7 @@ namespace DMT.Library.Html
 			{
 				if (pair.Item1 == attributeName)
 				{
-					return  pair.Item2;
+					return pair.Item2;
 				}
 			}
 
@@ -113,6 +132,7 @@ namespace DMT.Library.Html
 				_attributes = new List<Tuple<string, string>>();
 
 				int index = 0;
+
 				// skip over element name
 				while (index < _elementText.Length && IsElementNameChar(_elementText[index]))
 				{
@@ -122,7 +142,7 @@ namespace DMT.Library.Html
 				while (index < _elementText.Length)
 				{
 					// skip over spaces
-					while (index < _elementText.Length && Char.IsWhiteSpace(_elementText[index]))
+					while (index < _elementText.Length && char.IsWhiteSpace(_elementText[index]))
 					{
 						index++;
 					}
@@ -133,20 +153,21 @@ namespace DMT.Library.Html
 					{
 						index++;
 					}
+
 					string attributeName = _elementText.Substring(attributeNameIndex, index - attributeNameIndex).ToLower();
 
 					if (attributeName.Length == 0)
 					{
 						// looks like we have rubbish here,
 						// so pick up and dispose of any garbage we find here
-						while (index < _elementText.Length && !Char.IsWhiteSpace(_elementText[index]) && _elementText[index] != '=')
+						while (index < _elementText.Length && !char.IsWhiteSpace(_elementText[index]) && _elementText[index] != '=')
 						{
 							index++;
 						}
 					}
 
 					// skip over spaces
-					while (index < _elementText.Length && Char.IsWhiteSpace(_elementText[index]))
+					while (index < _elementText.Length && char.IsWhiteSpace(_elementText[index]))
 					{
 						index++;
 					}
@@ -158,31 +179,32 @@ namespace DMT.Library.Html
 						index++;
 
 						// skip over spaces
-						while (index < _elementText.Length && Char.IsWhiteSpace(_elementText[index]))
+						while (index < _elementText.Length && char.IsWhiteSpace(_elementText[index]))
 						{
 							index++;
 						}
 
 						// need to handle quoted strings
-						char chQuote = '\0';
+						char quoteChar = '\0';
 						if (index < _elementText.Length && IsQuote(_elementText[index]))
 						{
-							chQuote = _elementText[index];
+							quoteChar = _elementText[index];
 							index++;
 						}
 
 						// TODO: shoudl really handle escapes as well
-						while (index < _elementText.Length && _elementText[index] != chQuote)
+						while (index < _elementText.Length && _elementText[index] != quoteChar)
 						{
-							if (chQuote == '\0' && Char.IsWhiteSpace(_elementText[index]))
+							if (quoteChar == '\0' && char.IsWhiteSpace(_elementText[index]))
 							{
 								break;
 							}
+
 							attributeValue.Append(_elementText[index]);
 							index++;
 						}
 
-						if (index < _elementText.Length && _elementText[index] == chQuote)
+						if (index < _elementText.Length && _elementText[index] == quoteChar)
 						{
 							index++;
 						}
@@ -201,17 +223,17 @@ namespace DMT.Library.Html
 
 		bool IsElementNameChar(char ch)
 		{
-			return (Char.IsLetterOrDigit(ch) || ch == '-');
+			return char.IsLetterOrDigit(ch) || ch == '-';
 		}
 
 		bool IsAttributeNameChar(char ch)
 		{
-			return (Char.IsLetterOrDigit(ch) || ch == '-');
+			return char.IsLetterOrDigit(ch) || ch == '-';
 		}
 
 		bool IsQuote(char ch)
 		{
-			return (ch == '\'' || ch == '\"');
+			return ch == '\'' || ch == '\"';
 		}
 	}
 }

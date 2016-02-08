@@ -17,24 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.Settings;
-using DMT.Library.Utils;
-
 namespace DMT.Modules.General
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Settings;
+	using DMT.Library.Utils;
+
+	/// <summary>
+	/// Options panel for the general options for DMT
+	/// </summary>
 	partial class GeneralOptionsPanel : UserControl
 	{
 		GeneralModule _generalModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="GeneralOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="generalModule">The general module</param>
 		public GeneralOptionsPanel(GeneralModule generalModule)
 		{
 			_generalModule = generalModule;
@@ -65,7 +73,6 @@ namespace DMT.Modules.General
 
 			return fileLocation;
 		}
-
 
 		private void checkBoxAutoStart_CheckedChanged(object sender, EventArgs e)
 		{

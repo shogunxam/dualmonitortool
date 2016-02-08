@@ -17,19 +17,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Utils;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-//using System.ComponentModel.Composition;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Drawing.Drawing2D;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	using DMT.Library.Utils;
+	using DMT.Library.WallpaperPlugin;
+	
 	/// <summary>
 	/// An instance of a provider from the Random Shapes plugin
 	/// </summary>
@@ -37,24 +37,85 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 	{
 		RandomShapesConfig _config;
 
-		// these relate to the provider type
-		public string ProviderName { get { return RandomShapesPlugin.PluginName; } }
-		public Image ProviderImage { get { return RandomShapesPlugin.PluginImage; } }
-		public string Version { get { return RandomShapesPlugin.PluginVersion; } }
-
-		// these relate to the provider instance
-		public string Description { get { return _config.Description; } }
-		public int Weight { get { return _config.Weight; } }
-
-		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
-
-		//static Random _random = new Random();
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="RandomShapesProvider" /> class.
+		/// </summary>
+		/// <param name="config">Configuration for unsplash scraper</param>
 		public RandomShapesProvider(Dictionary<string, string> config)
 		{
 			_config = new RandomShapesConfig(config);
 		}
 
+		/// <summary>
+		/// Gets the provider name - same for all instances of this class
+		/// </summary>
+		public string ProviderName
+		{
+			get
+			{
+				return RandomShapesPlugin.PluginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the provider image - same for all instances of this class
+		/// </summary>
+		public Image ProviderImage
+		{
+			get
+			{
+				return RandomShapesPlugin.PluginImage;
+			}
+		}
+
+		/// <summary>
+		/// Gets the provider version - same for all instances of this class
+		/// </summary>
+		public string Version
+		{
+			get
+			{
+				return RandomShapesPlugin.PluginVersion;
+			}
+		}
+
+		/// <summary>
+		/// Gets the description for this instance of the provider
+		/// </summary>
+		public string Description
+		{
+			get
+			{
+				return _config.Description;
+			}
+		}
+
+		/// <summary>
+		/// Gets the weight for this instance of the provider
+		/// </summary>
+		public int Weight
+		{
+			get
+			{
+				return _config.Weight;
+			}
+		}
+
+		/// <summary>
+		/// Gets the configuration 
+		/// </summary>
+		public Dictionary<string, string> Config
+		{
+			get
+			{
+				return _config.ToDictionary();
+			}
+		}
+
+		/// <summary>
+		/// Allows the user to update the configuration 
+		/// </summary>
+		/// <returns>New configuration, or null if no changes</returns>
 		public Dictionary<string, string> ShowUserOptions()
 		{
 			RandomShapesForm dlg = new RandomShapesForm(_config);
@@ -68,6 +129,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			return null;
 		}
 
+		/// <summary>
+		/// Returns a random image
+		/// </summary>
+		/// <param name="optimumSize">Optimum image size</param>
+		/// <param name="screenIndex">Screen index image is for</param>
+		/// <returns>Randomly generated image</returns>
 		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = new ProviderImage(new Bitmap(optimumSize.Width, optimumSize.Height));
@@ -87,7 +154,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 					}
 				}
 
-
 				for (int i = 0; i < _config.ShapeCount; i++)
 				{
 					Rectangle rect = GetRandomRectangle(optimumSize, i, _config.ShapeCount);
@@ -95,7 +161,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 					{
 						AddShape(g, rect, brush);
 					}
-					
 				}
 			}
 
@@ -110,7 +175,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			if (drawRectangle && drawEllipse)
 			{
 				// need to choose one or the other
-				//if (_random.Next(0, 2) == 0)
 				if (RNG.Next(0, 2) == 0)
 				{
 					drawRectangle = false;
@@ -120,6 +184,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 					drawEllipse = false;
 				}
 			}
+
 			if (drawRectangle)
 			{
 				g.FillRectangle(brush, rect);
@@ -176,6 +241,5 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 
 			return new Rectangle(x, y, width, height);
 		}
-
 	}
 }

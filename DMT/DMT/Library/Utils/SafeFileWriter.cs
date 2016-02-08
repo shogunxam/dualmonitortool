@@ -17,37 +17,49 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Utils
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	/// <summary>
+	/// Helper class to write files safely with a backup
+	/// </summary>
 	class SafeFileWriter
 	{
 		string _filename;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SafeFileWriter" /> class.
+		/// </summary>
+		/// <param name="filename">Filename to write to</param>
 		public SafeFileWriter(string filename)
 		{
 			_filename = filename;
 		}
 
+		/// <summary>
+		/// Opens the file for writing
+		/// </summary>
+		/// <returns>The stream we can write to</returns>
 		public Stream OpenForWriting()
 		{
 			return File.Open(GetTempFilename(), FileMode.Create);
 		}
 
+		/// <summary>
+		/// Finishes the process of writing to the file
+		/// </summary>
 		public void CompleteWrite()
 		{
 			// assumes stream returned by OpenForWriting() has been closed
-
 			if (File.Exists(_filename))
 			{
 				// file already exists, so take a backup first
-
 				string backupFilename = GetBackupFilename();
 				if (File.Exists(backupFilename))
 				{

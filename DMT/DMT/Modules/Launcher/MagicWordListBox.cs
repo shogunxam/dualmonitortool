@@ -17,14 +17,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+	using System.Windows.Forms;
+
 	/// <summary>
 	/// Control to display a selection of MagicWords
 	/// </summary>
@@ -36,21 +36,18 @@ namespace DMT.Modules.Launcher
 		/// Performs one time initialisation of the control.
 		/// Should be called from the owners OnLoad()
 		/// </summary>
+		/// <param name="commandRunner">Used to run the command for the magic word</param>
 		public void InitControl(ICommandRunner commandRunner)
 		{
 			_commandRunner = commandRunner;
 
-			//this.View = View.LargeIcon;
-			//this.View = View.List;
-			//this.View = View.Details;
-			//this.View = Properties.Settings.Default.IconView;
 			this.View = System.Windows.Forms.View.LargeIcon;
 		}
 
 		/// <summary>
 		/// Sets the list of MagicWords that are to be displayed in the control
 		/// </summary>
-		/// <param name="magicWords"></param>
+		/// <param name="magicWords">The list of magic words</param>
 		public void SetMagicWords(List<MagicWord> magicWords)
 		{
 			this.BeginUpdate();
@@ -86,9 +83,6 @@ namespace DMT.Modules.Launcher
 
 					ListViewItem.ListViewSubItem subItemFilename = new ListViewItem.ListViewSubItem(listViewItem, mw.Filename);
 					listViewItem.SubItems.Add(subItemFilename);
-
-					//ListViewItem.ListViewSubItem subItemComment = new ListViewItem.ListViewSubItem(listViewItem, mw.Comment);
-					//listViewItem.SubItems.Add(subItemComment);
 
 					this.Items.Add(listViewItem);
 				}

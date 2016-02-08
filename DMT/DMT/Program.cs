@@ -17,23 +17,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Command;
-using DMT.Library.Logging;
-using DMT.Library.PInvoke;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Command;
+	using DMT.Library.Logging;
+	using DMT.Library.PInvoke;
+
+	/// <summary>
+	/// Top level program
+	/// </summary>
 	static class Program
 	{
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
+		/// <param name="args">Command line arguments</param>
 		[STAThread]
 		static void Main(string[] args)
 		{
@@ -66,6 +71,7 @@ namespace DMT
 					// Yes it is already running, so lets not start up a second instance
 					return;
 				}
+
 				// doesn't look like we are currently running
 				GuiMain(programOptions);
 			}
@@ -76,16 +82,15 @@ namespace DMT
 			CommandMessaging commandMessaging = new CommandMessaging();
 			string magicCommand = "DMT:General:Options";
 			CommandMessaging.EMsgResult msgResult = commandMessaging.SendCommandMessage(magicCommand);
-			return (msgResult == CommandMessaging.EMsgResult.OK);
+			return msgResult == CommandMessaging.EMsgResult.OK;
 		}
-
 
 		static void ConsoleMain(ProgramOptions programOptions)
 		{
-			Win32.AttachConsole(-1);
+			NativeMethods.AttachConsole(-1);
 			ConsoleApplication consoleApplication = new ConsoleApplication(programOptions);
 			consoleApplication.Run();
-			Win32.FreeConsole();
+			NativeMethods.FreeConsole();
 		}
 
 		static void GuiMain(ProgramOptions programOptions)
@@ -108,7 +113,5 @@ namespace DMT
 		{
 			MessageBox.Show(e.Exception.Message, "DMT - Unhandled UI Thread Exception");
 		}
-
-
 	}
 }

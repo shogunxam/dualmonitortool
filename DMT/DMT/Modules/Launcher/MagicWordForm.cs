@@ -17,45 +17,102 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library;
-using DMT.Library.Command;
-using DMT.Library.GuiUtils;
-using DMT.Library.PInvoke;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library;
+	using DMT.Library.Command;
+	using DMT.Library.GuiUtils;
+	using DMT.Library.PInvoke;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Dialog for editing a magic word
+	/// </summary>
 	partial class MagicWordForm : Form
 	{
 		LauncherModule _launcherModule;
 		MagicWord _magicWord;
-		//ICommandRunner _commandRunner;
 		bool _statsReset = false;
 		int _timesUsed;
 		DateTime _lastUsed;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="MagicWordForm" /> class.
+		/// </summary>
+		/// <param name="launcherModule">Launcher module</param>
+		/// <param name="magicWord">Magic word being edited</param>
 		public MagicWordForm(LauncherModule launcherModule, MagicWord magicWord)
 		{
 			_launcherModule = launcherModule;
 			_magicWord = magicWord;
-			//_commandRunner = commandRunner;
 			InitializeComponent();
+		}
+
+		// TODO: probably not the best place for this function to live
+		/// <summary>
+		/// Fills the MagicWord with details extracted from the given window
+		/// </summary>
+		/// <param name="hWnd">Handle of window get details from</param>
+		/// <param name="magicWord">Magic word to fill in</param>
+		/// <returns>True if details were extracted</returns>
+		public static bool GetWindowDetails(IntPtr hWnd, MagicWord magicWord)
+		{
+			bool ret = true;
+
+			StringBuilder sb = new StringBuilder(128);
+			if (NativeMethods.GetClassName(hWnd, sb, sb.Capacity) > 0)
+			{
+				magicWord.WindowClass = sb.ToString();
+			}
+
+			NativeMethods.RECT rect;
+			if (NativeMethods.GetWindowRect(hWnd, out rect))
+			{
+				Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
+				if (magicWord.StartupPosition1 == null)
+				{
+					magicWord.StartupPosition1 = new StartupPosition();
+				}
+
+				magicWord.StartupPosition1.Position = rectangle;
+			}
+
+			uint pid = 0;
+			if (NativeMethods.GetWindowThreadProcessId(hWnd, out pid) != 0)
+			{
+				try
+				{
+					Process p = Process.GetProcessById((int)pid);
+					magicWord.Filename = p.MainModule.FileName;
+
+					// use the name without path or extension as the default for the alias
+					magicWord.Alias = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
+				}
+				catch (Exception)
+				{
+					// the process could have just died
+				}
+			}
+
+			return ret;
 		}
 
 		private void MagicWordForm_Load(object sender, EventArgs e)
 		{
-			// could use binding, but sometimes it's simpler to do it the old way!
+			// could use binding, 
+			// but sometimes it's simpler to do it the old way!
 
 			textBoxFilename.TextChanged += new EventHandler(textBoxFilename_TextChanged);
 
@@ -67,7 +124,8 @@ namespace DMT.Modules.Launcher
 			textBoxWindowClass.Text = _magicWord.WindowClass;
 			textBoxCaption.Text = _magicWord.CaptionRegExpr;
 
-			this.windowPicker.InitControl(Properties.Resources.TargetCursor,
+			this.windowPicker.InitControl(
+				Properties.Resources.TargetCursor,
 				Properties.Resources.WinNoCrossHairs,
 				Properties.Resources.WinCrossHairs);
 
@@ -98,57 +156,10 @@ namespace DMT.Modules.Launcher
 				{
 					startupPositionControl1.SetWindowRect(tempMagicWord.StartupPosition1.Position);
 				}
+
 				textBoxFilename.Text = tempMagicWord.Filename;
 				textBoxAlias.Text = tempMagicWord.Alias;
 			}
-		}
-
-		// TODO: probably not the best place for this function to live
-		/// <summary>
-		/// Fills the MagicWord with details extracted from the given window
-		/// </summary>
-		/// <param name="hWnd"></param>
-		/// <param name="magicWord"></param>
-		/// <returns></returns>
-		public static bool GetWindowDetails(IntPtr hWnd, MagicWord magicWord)
-		{
-			bool ret = true;
-
-			StringBuilder sb = new StringBuilder(128);
-			if (Win32.GetClassName(hWnd, sb, sb.Capacity) > 0)
-			{
-				magicWord.WindowClass = sb.ToString();
-			}
-
-			Win32.RECT rect;
-			if (Win32.GetWindowRect(hWnd, out rect))
-			{
-				Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
-				if (magicWord.StartupPosition1 == null)
-				{
-					magicWord.StartupPosition1 = new StartupPosition();
-				}
-				magicWord.StartupPosition1.Position = rectangle;
-			}
-
-			uint pid = 0;
-			if (Win32.GetWindowThreadProcessId(hWnd, out pid) != 0)
-			{
-				try
-				{
-					Process p = Process.GetProcessById((int)pid);
-					magicWord.Filename = p.MainModule.FileName;
-
-					// use the name without path or extension as the default for the alias
-					magicWord.Alias = Path.GetFileNameWithoutExtension(p.MainModule.FileName);
-				}
-				catch (Exception)
-				{
-					// the process could have just died
-				}
-			}
-
-			return ret;
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -156,19 +167,7 @@ namespace DMT.Modules.Launcher
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Filter = LauncherStrings.BrowseExeFilter;
 			string fileName = textBoxFilename.Text;
-			//dlg.FileName = fileName;
-			//if (fileName.Length > 0)
-			//{
-			//	try
-			//	{
-			//		string dir = Path.GetDirectoryName(textBoxFilename.Text);
-			//		dlg.InitialDirectory = dir;
-			//		dlg.FileName = Path.GetFileName(textBoxFilename.Text);
-			//	}
-			//	catch (Exception)
-			//	{
-			//	}
-			//}
+
 			FileSelectionHelper.SetInitialFileNameInDialog(dlg, fileName);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
@@ -209,6 +208,7 @@ namespace DMT.Modules.Launcher
 				{
 				}
 			}
+
 			if (fileIcon != null)
 			{
 				pictureBoxIcon.Image = fileIcon.ToBitmap();
@@ -229,12 +229,12 @@ namespace DMT.Modules.Launcher
 				// check which tab is currently selected to determine corresponding position
 				int positionIndex1 = this.tabControl.SelectedIndex + 1;
 				StartupPosition startPosition = testMagicWord.GetStartupPosition(positionIndex1);
+
 				// and try and run it
 				ParameterMap map = new ParameterMap();
 				_launcherModule.Launch(testMagicWord, startPosition, map);
 			}
 		}
-
 
 		private void buttonInternalCommand_Click(object sender, EventArgs e)
 		{
@@ -253,25 +253,6 @@ namespace DMT.Modules.Launcher
 				}
 			}
 		}
-
-
-		//private void textBoxAlias_Validating(object sender, CancelEventArgs e)
-		//{
-		//    if (textBoxAlias.Text.Length == 0)
-		//    {
-		//        MessageBox.Show(Properties.Resources.NoAlias, Program.MyTitle);
-		//        e.Cancel = true;
-		//    }
-		//}
-
-		//private void textBoxFilename_Validating(object sender, CancelEventArgs e)
-		//{
-		//    if (textBoxFilename.Text.Length == 0)
-		//    {
-		//        MessageBox.Show(Properties.Resources.NoFilename, Program.MyTitle);
-		//        e.Cancel = true;
-		//    }
-		//}
 
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
@@ -303,6 +284,7 @@ namespace DMT.Modules.Launcher
 				MessageBox.Show(LauncherStrings.InvalidCoOrd, CommonStrings.MyTitle);
 				return false;
 			}
+
 			if (textBoxAlias.Text.Length == 0)
 			{
 				this.DialogResult = DialogResult.None;
@@ -310,6 +292,7 @@ namespace DMT.Modules.Launcher
 				MessageBox.Show(LauncherStrings.NoAlias, CommonStrings.MyTitle);
 				return false;
 			}
+
 			if (textBoxFilename.Text.Length == 0)
 			{
 				this.DialogResult = DialogResult.None;
@@ -377,8 +360,9 @@ namespace DMT.Modules.Launcher
 			}
 			else
 			{
-				labelLastUsed.Text = "";
+				labelLastUsed.Text = string.Empty;
 			}
+
 			labelTimesUsed.Text = _timesUsed.ToString();
 		}
 

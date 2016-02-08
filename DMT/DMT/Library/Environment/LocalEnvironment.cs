@@ -17,19 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
-
 namespace DMT.Library.Environment
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Text;
+	using System.Windows.Forms;
+
 	/// <summary>
 	/// Provides access to the environment
 	/// </summary>
 	public class LocalEnvironment : ILocalEnvironment
 	{
+		/// <summary>
+		/// Gets the current monitors
+		/// </summary>
 		public Monitors Monitors
 		{
 			get
@@ -44,19 +47,27 @@ namespace DMT.Library.Environment
 					monitor.Primary = screen.Primary;
 					monitors.Add(monitor);
 				}
+
 				return monitors;
 			}
 		}
 
+		/// <summary>
+		/// Are we running Windows 8 or later
+		/// </summary>
+		/// <returns>True if running Windows 8 or later</returns>
 		public bool IsWin8OrLater()
 		{
 			return OsHelper.IsWin8OrLater();
 		}
 
+		/// <summary>
+		/// Are we running Windows 10 or later
+		/// </summary>
+		/// <returns>True if running Windows 10 or later</returns>
 		public bool IsWin10OrLater()
 		{
 			return OsHelper.IsWin10OrLater();
 		}
-
 	}
 }

@@ -17,54 +17,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Resources;
-using DMT.Library.Settings;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Windows.Forms;
-using DMT.Library.Environment;
-
 namespace DMT.Library.HotKeys
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using DMT.Library.Environment;
+	using DMT.Library.Settings;
+	using DMT.Resources;
+
 	/// <summary>
 	/// This is a small wrapper for the HotKey which links the
 	/// Hotkey itself with the form to edit it and the property
-	/// required to make its key combination persistant.
+	/// required to make its key combination persistent.
 	/// </summary>
 	class HotKeyController : IDisposable
 	{
 		ISettingsService _settingsService;
-
-		// The HotKey does the real work
-		public HotKey HotKey { get; protected set; }
-
-		//// The name used in Properties.Settings.Default. to persist
-		//// the value of the hotkey between sessions.
-		//// Note: we cannot use a reference direct to the setting as it is
-		//// a property.  This means we have no compile time checks that
-		//// the name is spelt correctly or the type is correct as we would
-		//// have if we use the property directly.
-		//private string propertyName;
-
 		string _moduleName;
 		string _settingName;
-
-		// short description of the hotkey
-		public string Description { get; protected set; }
 
 		// displayable string representing the hotkey that Windows 7
 		// uses for this hotkey operation.  Leave empty if Windows 7 does
 		// not have such a key.
-		private string _win7Key;
+		string _win7Key;
 
 		/// <summary>
-		/// Ctor
+		/// Initialises a new instance of the <see cref="HotKeyController" /> class.
 		/// </summary>
 		/// <param name="form">Form to receive hotkey notifications</param>
 		/// <param name="id">Unique identifier for this hotkey</param>
-		/// <param name="propertyName">Name within Properties.Settings used to persist the hotkey combo</param>
+		/// <param name="settingsService">Settings repository</param>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
 		/// <param name="description">Short description of the hotkey 
 		/// - used when editing the hotkey to remind the user what they are changing.</param>
 		/// <param name="win7Key">String representation of what Windows 7 uses for this hotkey 
@@ -90,22 +78,27 @@ namespace DMT.Library.HotKeys
 			Dispose(false);
 		}
 
+		/// <summary>
+		/// Gets or sets the hotkey that does the real work
+		/// </summary>
+		public HotKey HotKey { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the short description of the hotkey
+		/// </summary>
+		public string Description { get; protected set; }
+
+		/// <summary>
+		/// Disposes of the object
+		/// </summary>
 		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
-		private void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				HotKey.Dispose();
-			}
-		}
-
 		/// <summary>
-		/// Show the HotKeyFrom to allow the hotkey to be chnaged.
+		/// Show the HotKeyFrom to allow the hotkey to be changed.
 		/// </summary>
 		/// <returns>true if user OK'd the HotKeyForm</returns>
 		public bool Edit()
@@ -116,7 +109,7 @@ namespace DMT.Library.HotKeys
 			// then we display a note to the user about it.
 			// The content of the note will depend on whether they
 			// are running Windows 7 or not.
-			string note = "";
+			string note = string.Empty;
 			if (_win7Key != null && _win7Key.Length > 0)
 			{
 				if (OsHelper.IsWin7OrLater())
@@ -128,16 +121,13 @@ namespace DMT.Library.HotKeys
 					note = string.Format(CommonStrings.NotWin7, _win7Key);
 				}
 			}
+
 			HotKeyForm dlg = new HotKeyForm(HotKey, Description, note);
 			if (dlg.ShowDialog() == DialogResult.OK)
 			{
 				// persist the new value
 				SaveKeyCombo();
-				//// and commit it now
-				////Properties.Settings.Default.Save();
-				//Controller.Instance.SaveSettings();
-				////// update display
-				////lbl.Text = hotKey.HotKeyCombo.ToString();
+
 				// indicate OK has been pressed
 				edited = true;
 			}
@@ -151,46 +141,7 @@ namespace DMT.Library.HotKeys
 		/// <returns>true if the hotkey is in use</returns>
 		public bool IsEnabled()
 		{
-			//return hotKey.HotKeyCombo.ToPropertyValue() != KeyCombo.DisabledComboValue;
 			return HotKey.HotKeyCombo.Enabled;
-		}
-
-		// Gets the HotKey combo value from the persisted value in Poperties.Settings
-		private KeyCombo GetSavedKeyCombo()
-		{
-			KeyCombo keyCombo = new KeyCombo();
-			// if we have any trouble accessing the saved value of the KeyCombo
-			// we default to disabling it
-			uint hotKeyValue = KeyCombo.DisabledComboValue;
-			try
-			{
-				//hotKeyValue = (uint)Properties.Settings.Default[propertyName];
-				hotKeyValue = _settingsService.GetSettingAsUInt(_moduleName, _settingName);
-			}
-			catch (Exception ex)
-			{
-				// looks like the property name is mis-spelt or the wrong type
-				Debug.Assert(true, ex.Message);
-			}
-			keyCombo.FromPropertyValue(hotKeyValue);
-			return keyCombo;
-		}
-
-		// Persists the hotkey combo value to Properties.Settings
-		private void SaveKeyCombo()
-		{
-			uint hotKeyValue = HotKey.HotKeyCombo.ToPropertyValue();
-			try
-			{
-				//Properties.Settings.Default[propertyName] = hotKeyValue;
-				_settingsService.SetSetting(_moduleName, _settingName, hotKeyValue);
-				_settingsService.SaveSettings();
-			}
-			catch (Exception ex)
-			{
-				// looks like the property name is mis-spelt or the wrong type
-				Debug.Assert(true, ex.Message);
-			}
 		}
 
 		/// <summary>
@@ -202,5 +153,50 @@ namespace DMT.Library.HotKeys
 			return HotKey.HotKeyCombo.ToString();
 		}
 
+		// Gets the HotKey combo value from the persisted value in Poperties.Settings
+		private KeyCombo GetSavedKeyCombo()
+		{
+			KeyCombo keyCombo = new KeyCombo();
+
+			// if we have any trouble accessing the saved value of the KeyCombo
+			// we default to disabling it
+			uint hotKeyValue = KeyCombo.DisabledComboValue;
+			try
+			{
+				hotKeyValue = _settingsService.GetSettingAsUInt(_moduleName, _settingName);
+			}
+			catch (Exception ex)
+			{
+				// looks like the property name is mis-spelt or the wrong type
+				Debug.Assert(true, ex.Message);
+			}
+
+			keyCombo.FromPropertyValue(hotKeyValue);
+			return keyCombo;
+		}
+
+		// Persists the hotkey combo value to Properties.Settings
+		private void SaveKeyCombo()
+		{
+			uint hotKeyValue = HotKey.HotKeyCombo.ToPropertyValue();
+			try
+			{
+				_settingsService.SetSetting(_moduleName, _settingName, hotKeyValue);
+				_settingsService.SaveSettings();
+			}
+			catch (Exception ex)
+			{
+				// looks like the property name is mis-spelt or the wrong type
+				Debug.Assert(true, ex.Message);
+			}
+		}
+
+		private void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				HotKey.Dispose();
+			}
+		}
 	}
 }

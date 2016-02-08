@@ -17,20 +17,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using DMT.Library.HotKeys;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Environment;
+	using DMT.Library.HotKeys;
+
+	/// <summary>
+	/// Magic word entry dialog
+	/// </summary>
 	partial class EntryForm : Form
 	{
 		LauncherModule _launcherModule;
@@ -40,14 +44,18 @@ namespace DMT.Modules.Launcher
 		bool _terminate = false;
 		bool _loaded = false;	// indicates if form has been loaded
 
-
-		string _curBase = "";
+		string _curBase = string.Empty;
 		List<MagicWord> _curMagicWords = new List<MagicWord>();
 		int _curIndex = 0;
 		bool _doAutoComplete = false;
 		bool _doDel = false;
 
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="EntryForm" /> class.
+		/// </summary>
+		/// <param name="launcherModule">The launcher module</param>
+		/// <param name="commandRunner">Runs the command</param>
+		/// <param name="localEnvironment">Local environment</param>
 		public EntryForm(LauncherModule launcherModule, ICommandRunner commandRunner, ILocalEnvironment localEnvironment)
 		{
 			_launcherModule = launcherModule;
@@ -57,10 +65,25 @@ namespace DMT.Modules.Launcher
 			InitializeComponent();
 		}
 
+		/// <summary>
+		/// Terminates the use (permanently) of the entry form.
+		/// </summary>
 		public void Terminate()
 		{
 			_terminate = true;
 			Close();
+		}
+
+		/// <summary>
+		/// Show the magic word entry dialog
+		/// </summary>
+		public void ShowEntryForm()
+		{
+			Visible = true;
+			Activate();
+			textBoxInput.Focus();
+			UpdateIconDisplayStyle();
+			DoAutoComplete();
 		}
 
 		private void EntryForm_Load(object sender, EventArgs e)
@@ -69,12 +92,12 @@ namespace DMT.Modules.Launcher
 
 			// TODO: check this is no longer needed
 			//// need to be notified whenever the magic words change
-			//_launcherModule.MagicWords.ListChanged += new ListChangedEventHandler(OnMagicWordsChanged);
+			////_launcherModule.MagicWords.ListChanged += new ListChangedEventHandler(OnMagicWordsChanged);
 
 			magicWordListBox.InitControl(_commandRunner);
 
 			// TODO: check this is no longer needed
-			//SetAutoComplete();
+			////SetAutoComplete();
 			HideEntryForm();
 
 			textBoxInput.TextChanged += new EventHandler(Input_TextChanged);
@@ -109,7 +132,6 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-
 		private void textBoxInput_KeyDown(object sender, KeyEventArgs e)
 		{
 			ProcessKeyDown(sender, e);
@@ -138,7 +160,6 @@ namespace DMT.Modules.Launcher
 			if (_doAutoComplete)
 			{
 				_doAutoComplete = false;
-				//DoAutoComplete(Input.Text);
 				DoAutoComplete();
 			}
 		}
@@ -174,14 +195,14 @@ namespace DMT.Modules.Launcher
 
 			//// TODO: this is a bit over zealous as it doesn't allow the window to be a fractionaly
 			//// outside of the working area or split over screens
-			//foreach (Screen screen in Screen.AllScreens)
-			//{
-			//    if (screen.WorkingArea.Contains(rectangle))
-			//    {
-			//        return true;
-			//    }
-			//}
-			//return false;
+			////foreach (Screen screen in Screen.AllScreens)
+			////{
+			////    if (screen.WorkingArea.Contains(rectangle))
+			////    {
+			////        return true;
+			////    }
+			////}
+			////return false;
 
 			// find closest screen
 			Screen screen = Screen.FromRectangle(rectangle);
@@ -189,19 +210,11 @@ namespace DMT.Modules.Launcher
 			{
 				return false;
 			}
+
 			// TODO: push the rectangle onto the screen?
 
 			// should at least be able to see some of the window, so allow
 			return true;
-		}
-
-		public void ShowEntryForm()
-		{
-			Visible = true;
-			Activate();
-			textBoxInput.Focus();
-			UpdateIconDisplayStyle();
-			DoAutoComplete();
 		}
 
 		void HideEntryForm()
@@ -209,10 +222,8 @@ namespace DMT.Modules.Launcher
 			Visible = false;
 		}
 
-
 		void UpdateIconDisplayStyle()
 		{
-			//this.magicWordListBox.View = Properties.Settings.Default.IconView;
 			this.magicWordListBox.View = _launcherModule.IconView;
 		}
 
@@ -223,26 +234,26 @@ namespace DMT.Modules.Launcher
 				ProcessInput(1);
 				e.SuppressKeyPress = true;	// stop the annoying beep when this gets passed to textbox
 			}
-			else if (CompareKeys(e, _launcherModule.Position1Key)) //Keys.F1)
+			else if (CompareKeys(e, _launcherModule.Position1Key))
 			{
 				ProcessInput(1);
 			}
-			else if (CompareKeys(e, _launcherModule.Position2Key)) //Keys.F2)
+			else if (CompareKeys(e, _launcherModule.Position2Key))
 			{
 				ProcessInput(2);
 			}
-			else if (CompareKeys(e, _launcherModule.Position3Key)) //Keys.F3)
+			else if (CompareKeys(e, _launcherModule.Position3Key))
 			{
 				ProcessInput(3);
 			}
-			else if (CompareKeys(e, _launcherModule.Position4Key)) //Keys.F4)
+			else if (CompareKeys(e, _launcherModule.Position4Key))
 			{
 				ProcessInput(4);
 			}
 			else if (e.KeyCode == Keys.Escape)
 			{
 				// clear text and hide
-				textBoxInput.Text = "";
+				textBoxInput.Text = string.Empty;
 				HideEntryForm();
 				e.SuppressKeyPress = true;	// stop the annoying beep when this gets passed to textbox
 			}
@@ -271,13 +282,11 @@ namespace DMT.Modules.Launcher
 			return ret;
 		}
 
-		private void ProcessAutoCompleteKeyDown(object sender, KeyEventArgs e)
+		void ProcessAutoCompleteKeyDown(object sender, KeyEventArgs e)
 		{
 			_doAutoComplete = true;
 			_doDel = false;
 
-			//Trace.WriteLine(string.Format("ProcessAutoCompleteKeyDown KeyCode: {0} KeyValue: {1} KeyData: {2}",
-			//	e.KeyCode, e.KeyValue, e.KeyData));
 			if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
 			{
 				// TODO: check user hasn't changed selection
@@ -308,19 +317,18 @@ namespace DMT.Modules.Launcher
 			}
 		}
 
-		private void ProcessInput(int position)
+		void ProcessInput(int position)
 		{
 			ProcessInput(textBoxInput.Text, position);
 		}
 
-		private void ProcessInput(string alias, int position)
+		void ProcessInput(string alias, int position)
 		{
 			List<MagicWord> magicWords = _launcherModule.MagicWords.FindAllByAlias(alias);
 
 			if (magicWords.Count > 0)
 			{
-				//ParameterMap map = new ParameterMap();
-				textBoxInput.Text = "";
+				textBoxInput.Text = string.Empty;
 				HideEntryForm();
 				if (_localEnvironment.IsWin10OrLater())
 				{
@@ -334,33 +342,15 @@ namespace DMT.Modules.Launcher
 					// a quick yield seems to fix the problem
 					System.Threading.Thread.Sleep(0);
 				}
-				//foreach (MagicWord magicWord in magicWords)
-				//{
-				//	StartMagicWord(magicWord, position, map);
-				//}
+
 				_launcherModule.StartMagicWords(magicWords, position);
 			}
 		}
-
-		//private void StartMagicWord(MagicWord magicWord, int positionIndex1, ParameterMap map)
-		//{
-		//	if (magicWord != null)
-		//	{
-		//		magicWord.UseCount++;
-		//		magicWord.LastUsed = DateTime.Now;
-		//		StartupPosition startPosition = magicWord.GetStartupPosition(positionIndex1);
-		//		_launcherModule.Launch(magicWord, startPosition, map);
-		//		//Input.Text = "";
-		//		//HideEntryForm();
-		//	}
-		//}
-
 
 		void DoAutoComplete()
 		{
 			if (_doDel && _curBase.Length > 0)
 			{
-				//Trace.WriteLine(string.Format("DoAutoComplete: deleting char"));
 				_doDel = false;
 				_curBase = _curBase.Substring(0, _curBase.Length - 1);
 			}
@@ -369,8 +359,6 @@ namespace DMT.Modules.Launcher
 				_curBase = textBoxInput.Text;
 			}
 
-			//Trace.WriteLine(string.Format("DoAutoComplete: curBase: {0}", curBase));
-			//int maxMostUsedSize = Properties.Settings.Default.MaxMostUsedSize;
 			int maxMostUsedSize = _launcherModule.MaxIcons;
 
 			// if user doesn't want most used icons when no text
@@ -378,7 +366,6 @@ namespace DMT.Modules.Launcher
 			if (_curBase.Length > 0 || maxMostUsedSize > 0)
 			{
 				// get magic words that match the current alias prefix
-				//curMagicWords = MagicWords.Instance.GetAutoCompleteWords(curBase);
 				_curMagicWords = _launcherModule.MagicWords.GetAutoCompleteWords(_curBase);
 				SortMagicWords(_curMagicWords);
 				_curIndex = 0;
@@ -392,10 +379,10 @@ namespace DMT.Modules.Launcher
 					}
 				}
 			}
+
 			ShowAutoCompleteText();
 			ShowAutoCompleteList();
 		}
-
 
 		void SortMagicWords(List<MagicWord> magicWords)
 		{
@@ -413,12 +400,10 @@ namespace DMT.Modules.Launcher
 
 		void ShowAutoCompleteText()
 		{
-			//Trace.WriteLine(string.Format("ShowAutoCompleteText: curBase: {0}", curBase));
 			if (_curBase.Length > 0 && _curMagicWords.Count > 0)
 			{
-				System.Diagnostics.Debug.Assert(_curIndex >= 0 && _curIndex < _curMagicWords.Count);
+				System.Diagnostics.Debug.Assert(_curIndex >= 0 && _curIndex < _curMagicWords.Count, "cur index is invalid");
 				string curWord = _curMagicWords[_curIndex].Alias;
-				//Trace.WriteLine(string.Format("ShowAutoCompleteText: curWord: {0}", curWord));
 				textBoxInput.Text = curWord;
 				textBoxInput.SelectionStart = _curBase.Length;
 				textBoxInput.SelectionLength = curWord.Length - _curBase.Length;
@@ -440,7 +425,7 @@ namespace DMT.Modules.Launcher
 		}
 
 		// shows icon corresponding to alias in text box
-		private void ShowAliasIcon()
+		void ShowAliasIcon()
 		{
 			Icon fileIcon = null;
 			string alias = textBoxInput.Text;
@@ -455,6 +440,7 @@ namespace DMT.Modules.Launcher
 					fileIcon = executable.Icon;
 				}
 			}
+
 			if (fileIcon != null)
 			{
 				pictureBoxIcon.Image = fileIcon.ToBitmap();
@@ -464,6 +450,5 @@ namespace DMT.Modules.Launcher
 				pictureBoxIcon.Image = null;
 			}
 		}
-
 	}
 }

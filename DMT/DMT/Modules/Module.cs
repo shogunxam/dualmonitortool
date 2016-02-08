@@ -17,28 +17,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.HotKeys;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.HotKeys;
+		
+	/// <summary>
+	/// base class for all modules
+	/// </summary>
 	abstract class Module
 	{
+		/// <summary>
+		/// Hot key service
+		/// </summary>
 		protected IHotKeyService _hotKeyService;
 
-		public bool Enabled { get; set; }
-		public string ModuleName { get; protected set; }
-		Icon _icon;
+		/// <summary>
+		/// Commands handled by this module
+		/// </summary>
 		protected List<Command> _commands = new List<Command>();
+
+		Icon _icon;
 		List<HotKeyController> _hotKeyControllers = new List<HotKeyController>();
 
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="Module" /> class.
+		/// </summary>
+		/// <param name="hotKeyService">Service for registering hot keys</param>
 		public Module(IHotKeyService hotKeyService)
 		{
 			_hotKeyService = hotKeyService;
@@ -46,9 +58,21 @@ namespace DMT.Modules
 			_icon = null;
 		}
 
-		public abstract ModuleOptionNode GetOptionNodes(/*Form form*/ );
+		/// <summary>
+		/// Gets or sets a value indicating whether the module is enabled
+		/// </summary>
+		public bool Enabled { get; set; }
 
-		//public abstract void RunCommand(string commandName, string parameters);
+		/// <summary>
+		/// Gets or sets the module name
+		/// </summary>
+		public string ModuleName { get; protected set; }
+
+		/// <summary>
+		/// Gets the option nodes for this module
+		/// </summary>
+		/// <returns>The root node</returns>
+		public abstract ModuleOptionNode GetOptionNodes();
 
 		/// <summary>
 		/// Starts the module up
@@ -88,6 +112,10 @@ namespace DMT.Modules
 		{
 		}
 
+		/// <summary>
+		/// Gets the icon for the module
+		/// </summary>
+		/// <returns></returns>
 		public Icon GetModuleIcon()
 		{
 			// these are loaded on demand to minimise startup time
@@ -98,58 +126,12 @@ namespace DMT.Modules
 
 			return _icon;
 		}
-
-		//protected void RegisterHotKeys()
-		//{
-		//	foreach (Command command in _commands)
-		//	{
-		//		if (command.RegisterHotKey)
-		//		{
-		//			string settingName = command.Name + "HotKey";
-		//			HotKeyController hotKeyController = _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
-		//			_hotKeyControllers.Add(hotKeyController);
-		//		}
-		//	}
-		//}
-
-
-
-		protected HotKeyController AddCommand(string name, string description, string win7Key, HotKey.HotKeyHandler handler, bool hotKey = true, bool magicWord = true)
-		{
-			Command command = new Command(name, description, win7Key, handler, hotKey, magicWord);
-			return AddCommand(command);
-		}
-
-		protected HotKeyController AddCommand(string name, string description, string win7Key, 
-			HotKey.HotKeyHandler handler, Command.CommandHandlerWithParameters handlerWithParameters, 
-			bool hotKey = true, bool magicWord = true)
-		{
-			Command command = new Command(name, description, win7Key, handler, handlerWithParameters, hotKey, magicWord);
-			return AddCommand(command);
-		}
-
-		protected HotKeyController AddCommand(Command command)
-		{
-			if (command.RegisterMagicWord)
-			{
-				_commands.Add(command);
-			}
-			if (command.RegisterHotKey)
-			{
-				string settingName = command.Name + "HotKey";
-				return _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
-			}
-			else
-			{
-				return null;
-			}
-		}
-		protected HotKeyController CreateHotKeyController(Command command)
-		{
-			string settingName = command.Name + "HotKey";
-			return _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
-		}
-
+		/// <summary>
+		/// Runs the given command with parameters
+		/// </summary>
+		/// <param name="commandName"></param>
+		/// <param name="parameters"></param>
+		/// <returns></returns>
 		public bool RunCommand(string commandName, string parameters)
 		{
 			bool commandRan = false;
@@ -210,5 +192,73 @@ namespace DMT.Modules
 			return null;
 		}
 
+		/// <summary>
+		/// Adds the command for this module
+		/// </summary>
+		/// <param name="name">Name of command</param>
+		/// <param name="description">Description of command</param>
+		/// <param name="win7Key">Windows 7 key</param>
+		/// <param name="handler">Handler to perform action</param>
+		/// <param name="hotKey">True if hot key is supported for command</param>
+		/// <param name="magicWord">True if magic word is supported for command</param>
+		/// <returns>Controller for the hot key</returns>
+		protected HotKeyController AddCommand(string name, string description, string win7Key, HotKey.HotKeyHandler handler, bool hotKey = true, bool magicWord = true)
+		{
+			Command command = new Command(name, description, win7Key, handler, hotKey, magicWord);
+			return AddCommand(command);
+		}
+
+		/// <summary>
+		/// Adds the command for this module
+		/// </summary>
+		/// <param name="name">Name of command</param>
+		/// <param name="description">Description of command</param>
+		/// <param name="win7Key">Windows 7 key</param>
+		/// <param name="handler">Handler to perform action</param>
+		/// <param name="handlerWithParameters">Handler that takes parameters to perform action</param>
+		/// <param name="hotKey">True if hot key is supported for command</param>
+		/// <param name="magicWord">True if magic word is supported for command</param>
+		/// <returns>Controller for the hot key</returns>
+		protected HotKeyController AddCommand(string name, string description, string win7Key,
+			HotKey.HotKeyHandler handler, Command.CommandHandlerWithParameters handlerWithParameters,
+			bool hotKey = true, bool magicWord = true)
+		{
+			Command command = new Command(name, description, win7Key, handler, handlerWithParameters, hotKey, magicWord);
+			return AddCommand(command);
+		}
+
+		/// <summary>
+		/// Adds the command for this module
+		/// </summary>
+		/// <param name="command">Command to add</param>
+		/// <returns>Controller for the hot key</returns>
+		protected HotKeyController AddCommand(Command command)
+		{
+			if (command.RegisterMagicWord)
+			{
+				_commands.Add(command);
+			}
+
+			if (command.RegisterHotKey)
+			{
+				string settingName = command.Name + "HotKey";
+				return _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// Creates the hot key controller
+		/// </summary>
+		/// <param name="command">Command we are creating the controller for</param>
+		/// <returns>Hot key controller</returns>
+		protected HotKeyController CreateHotKeyController(Command command)
+		{
+			string settingName = command.Name + "HotKey";
+			return _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
+		}
 	}
 }

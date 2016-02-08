@@ -17,19 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.WallpaperPlugin
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
 	/// Utility class to help plugins
 	/// </summary>
-	static public class ProviderHelper
+	public static class ProviderHelper
 	{
+		/// <summary>
+		/// Gets the values of the specified configuration variable as a string
+		/// </summary>
+		/// <param name="config">Configuration settings</param>
+		/// <param name="key">Name of configuration variable to get</param>
+		/// <param name="defaultValue">Default value if variable not set</param>
+		/// <returns>The variable value</returns>
 		public static string ConfigToString(Dictionary<string, string> config, string key, string defaultValue = "")
 		{
 			string value;
@@ -42,6 +49,13 @@ namespace DMT.Library.WallpaperPlugin
 			return defaultValue;
 		}
 
+		/// <summary>
+		/// Gets the values of the specified configuration variable as a boolean
+		/// </summary>
+		/// <param name="config">Configuration settings</param>
+		/// <param name="key">Name of configuration variable to get</param>
+		/// <param name="defaultValue">Default value if variable not set</param>
+		/// <returns>The variable value</returns>
 		public static bool ConfigToBool(Dictionary<string, string> config, string key, bool defaultValue = false)
 		{
 			string value;
@@ -58,6 +72,13 @@ namespace DMT.Library.WallpaperPlugin
 			return defaultValue;
 		}
 
+		/// <summary>
+		/// Gets the values of the specified configuration variable as an integer
+		/// </summary>
+		/// <param name="config">Configuration settings</param>
+		/// <param name="key">Name of configuration variable to get</param>
+		/// <param name="defaultValue">Default value if variable not set</param>
+		/// <returns>The variable value</returns>
 		public static int ConfigToInt(Dictionary<string, string> config, string key, int defaultValue = 0)
 		{
 			string value;

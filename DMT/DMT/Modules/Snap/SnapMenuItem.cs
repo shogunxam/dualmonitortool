@@ -17,38 +17,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Snap
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+	using System.Windows.Forms;
+
 	/// <summary>
 	/// Custom menu item for displaying a snap
 	/// </summary>
 	public class SnapMenuItem : ToolStripMenuItem
 	{
-		private Snap snap;
+		static Size _defaultSize = new Size();
+
 		/// <summary>
-		/// Readonly access to the Snap displayed in this menu item
+		/// Initialises a new instance of the <see cref="SnapMenuItem" /> class.
 		/// </summary>
-		public Snap Snap
-		{
-			get { return snap; }
-		}
-
-		static private Size defaultSize = new Size();
-
 		static SnapMenuItem()
 		{
 			// static ctor used to perform computations that only need to be performed once.
 			Size primaryScreenSize = Screen.PrimaryScreen.Bounds.Size;
 
-			defaultSize.Height = 150; // TODO determine suitable (configurable?) value
+			_defaultSize.Height = 150; // TODO determine suitable (configurable?) value
+
 			// scale width to keep aspect ratio same as primary screen
-			defaultSize.Width = (defaultSize.Height * primaryScreenSize.Width) / primaryScreenSize.Height;
+			_defaultSize.Width = (_defaultSize.Height * primaryScreenSize.Width) / primaryScreenSize.Height;
 		}
 
 		/// <summary>
@@ -57,18 +52,22 @@ namespace DMT.Modules.Snap
 		/// <param name="snap">The Snap to display in the menu item.</param>
 		public SnapMenuItem(Snap snap)
 		{
-			this.snap = snap;
+			Snap = snap;
 
-			//AutoSize = false;
-			this.Size = defaultSize;
+			this.Size = _defaultSize;
 			this.AutoSize = false;
 		}
+
+		/// <summary>
+		/// Gets or sets the snap displayed in this menu item
+		/// </summary>
+		public Snap Snap { get; set; }
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
 
-			if (snap != null)
+			if (Snap != null)
 			{
 				Graphics g = e.Graphics;
 				Rectangle r = this.ContentRectangle;
@@ -80,7 +79,7 @@ namespace DMT.Modules.Snap
 
 				// draw the image within the border we have just drawn
 				r.Inflate(-1, -1);
-				g.DrawImage(snap.Image, r);
+				g.DrawImage(Snap.Image, r);
 			}
 		}
 	}

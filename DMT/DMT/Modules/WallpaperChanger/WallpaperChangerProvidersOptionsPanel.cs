@@ -17,24 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.WallpaperPlugin;
-using DMT.Resources;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.WallpaperPlugin;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Options panel for the wallpaper changers providers
+	/// </summary>
 	partial class WallpaperChangerProvidersOptionsPanel : UserControl
 	{
 		WallpaperChangerModule _wallpaperChangerModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WallpaperChangerProvidersOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="wallpaperChangerModule">The wallpaper changer module</param>
 		public WallpaperChangerProvidersOptionsPanel(WallpaperChangerModule wallpaperChangerModule)
 		{
 			_wallpaperChangerModule = wallpaperChangerModule;
@@ -55,7 +63,7 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				string providerName = dlg.SelectedProviderName;
 				_wallpaperChangerModule.AddProvider(providerName);
-				//UpdateTimeToChange();
+				////UpdateTimeToChange();
 			}
 		}
 
@@ -80,7 +88,7 @@ namespace DMT.Modules.WallpaperChanger
 					// get the provider being deleted
 					string description = "?";
 					DataGridViewRow row = selectedRows[0];
-					Object rowObject = row.DataBoundItem;
+					object rowObject = row.DataBoundItem;
 					IImageProvider provider = rowObject as IImageProvider;
 					if (provider != null)
 					{
@@ -94,21 +102,17 @@ namespace DMT.Modules.WallpaperChanger
 					msg = string.Format(WallpaperStrings.ConfirmDelProviders, selectedRows.Count);
 				}
 
-				if (MessageBox.Show(msg,
-					CommonStrings.MyTitle,
-					MessageBoxButtons.YesNo,
-					MessageBoxIcon.Question,
-					MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+				if (MessageBox.Show(msg, CommonStrings.MyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
 				{
 					List<int> rowIndexesToDelete = new List<int>();
 					foreach (DataGridViewRow row in selectedRows)
 					{
 						rowIndexesToDelete.Add(row.Index);
 					}
+
 					_wallpaperChangerModule.DeleteProviders(rowIndexesToDelete);
 					dataGridView.Refresh();
-					//UpdateTimeToChange();
-
+					////UpdateTimeToChange();
 				}
 			}
 		}
@@ -137,10 +141,10 @@ namespace DMT.Modules.WallpaperChanger
 		void UpdateProviderButtons()
 		{
 			// can only edit if one and only one row is selected
-			buttonEdit.Enabled = (dataGridView.SelectedRows.Count == 1);
+			buttonEdit.Enabled = dataGridView.SelectedRows.Count == 1;
 
 			// can delete if one or more rows are selected
-			buttonDelete.Enabled = (dataGridView.SelectedRows.Count > 0);
+			buttonDelete.Enabled = dataGridView.SelectedRows.Count > 0;
 		}
 	}
 }

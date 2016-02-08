@@ -17,22 +17,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.HotKeys;
-using DMT.Modules;
-using DMT.Library.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.Logging;
-using Microsoft.Win32;
-using DMT.Library.Environment;
-using DMT.Library.Command;
-
 namespace DMT
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Command;
+	using DMT.Library.Environment;
+	using DMT.Library.HotKeys;
+	using DMT.Library.Logging;
+	using DMT.Library.Settings;
+	using DMT.Modules;
+
+	using Microsoft.Win32;
+
+	/// <summary>
+	/// Controls the modules within DMT
+	/// </summary>
 	class Controller
 	{
 		AppForm _appForm;
@@ -45,20 +50,32 @@ namespace DMT
 
 		BoolSetting _firstRunSetting;
 
-		public ILogger Logger { get { return _logger; } }
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="Controller" /> class.
+		/// </summary>
+		/// <param name="appForm">hidden DMT notification window</param>
 		public Controller(AppForm appForm)
 		{
 			_appForm = appForm;
 		}
 
-		
+		/// <summary>
+		/// Gets the application logger
+		/// </summary>
+		public ILogger Logger 
+		{ 
+			get { return _logger; } 
+		}
 
+		/// <summary>
+		/// Starts DMT and its modules.
+		/// </summary>
 		public void Start()
 		{
 			_settingsService = new SettingsRepository();
 			_hotKeyService = new HotKeyRepository(_appForm, _settingsService);
 			_localEnvironment = new LocalEnvironment();
+
 			// ModuleRepository provides both IModuleService and ICommandRunner
 			ModuleRepository moduleRepository = new ModuleRepository();
 			_moduleService = moduleRepository;
@@ -67,12 +84,8 @@ namespace DMT
 			_logger.LogInfo("Controller", "DMT Starting");
 
 			// temp code
-			System.OperatingSystem osInfo = System.Environment.OSVersion;
-			_logger.LogInfo("Controller", "O/S Version Major:{0}, Minor:{1}", osInfo.Version.Major, osInfo.Version.Minor);
-
-			//// catch Windows shutdown so we can clean up
-			//SystemEvents.SessionEnding += SystemEvents_SessionEnding;
-			//SystemEvents.SessionEnded += SystemEvents_SessionEnded;
+			System.OperatingSystem operatingSystem = System.Environment.OSVersion;
+			_logger.LogInfo("Controller", "O/S Version Major:{0}, Minor:{1}", operatingSystem.Version.Major, operatingSystem.Version.Minor);
 
 			// now add the modules
 			_moduleService.AddModule(new DMT.Modules.General.GeneralModule(_settingsService, _hotKeyService, _logger, _appForm));
@@ -93,21 +106,9 @@ namespace DMT
 			}
 		}
 
-		//void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
-		//{
-		//	_logger.LogInfo("Controller", "SessionEnding Called");
-		//	SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
-		//}
-
-		//void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
-		//{
-		//	_logger.LogInfo("Controller", "SessionEnded Called");
-		//	SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
-		//	_logger.LogInfo("Controller", "SessionEnded processing start");
-		//	Stop();
-		//	_logger.LogInfo("Controller", "SessionEnded processing end");
-		//}
-
+		/// <summary>
+		/// Called when the display resolution has changed
+		/// </summary>
 		public void DisplayResolutionChanged()
 		{
 			if (_moduleService != null)
@@ -116,11 +117,17 @@ namespace DMT
 			}
 		}
 
+		/// <summary>
+		/// Make sure that all settings have been written to disk.
+		/// </summary>
 		public void Flush()
 		{
 			_moduleService.FlushAllModules();
 		}
 
+		/// <summary>
+		/// Stops DMT and it's modules.
+		/// </summary>
 		public void Stop()
 		{
 			Flush();
@@ -132,11 +139,21 @@ namespace DMT
 			_hotKeyService.Stop();
 		}
 
+		/// <summary>
+		/// Creates the Options dialog.
+		/// </summary>
+		/// <returns>The options dialog</returns>
 		public OptionsForm CreateOptionsForm()
 		{
 			return new OptionsForm(_moduleService);
 		}
 
+		/// <summary>
+		/// Runs an internal command
+		/// </summary>
+		/// <param name="command">The command to run</param>
+		/// <param name="parameters">The parameters needed by the command</param>
+		/// <returns>True if successful</returns>
 		public bool RunInternalCommand(string command, string parameters)
 		{
 			return _commandRunner.RunInternalCommand(command, parameters);

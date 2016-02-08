@@ -17,21 +17,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Binding;
-using DMT.Library.Logging;
-using DMT.Library.Utils;
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
-using System.IO;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.ComponentModel;
+	using System.Drawing;
+	using System.IO;
+	using System.Text;
+
+	using DMT.Library.Binding;
+	using DMT.Library.Logging;
+	using DMT.Library.Utils;
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Repository used to get new images.
 	/// This is based around the list of providers that the user has selected/configured.
@@ -42,39 +43,17 @@ namespace DMT.Modules.WallpaperChanger
 		IProviderPersistence _providerPersistence;
 		ILogger _logger;
 
-		//static Random _random = new Random();
-
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ImageRepository" /> class.
+		/// </summary>
+		/// <param name="providerPersistence">Provides persistence</param>
+		/// <param name="logger">Application logger</param>
 		public ImageRepository(IProviderPersistence providerPersistence, ILogger logger)
 		{
 			_providerPersistence = providerPersistence;
 			_logger = logger;
 
 			LoadProviders();
-			//_providers.ListChanged += new ListChangedEventHandler(Providers_ListChanged);
-		}
-
-		//private void Providers_ListChanged(object sender, ListChangedEventArgs e)
-		//{
-		//}
-
-		/// <summary>
-		/// Savs the current list of providers together with their configuration
-		/// </summary>
-		/// <returns></returns>
-		public bool Save()
-		{
-			_providerPersistence.Save(_providers);
-			return true;
-		}
-
-		void LoadProviders()
-		{
-			Collection<IImageProvider> providers = _providerPersistence.Load();
-			foreach (IImageProvider provider in providers)
-			{
-				_providers.Add(provider);
-			}
 		}
 
 		/// <summary>
@@ -83,6 +62,16 @@ namespace DMT.Modules.WallpaperChanger
 		public BindingList<IImageProvider> DataSource
 		{
 			get { return _providers; }
+		}
+
+		/// <summary>
+		/// Saves the current list of providers together with their configuration
+		/// </summary>
+		/// <returns>True if saved successfully</returns>
+		public bool Save()
+		{
+			_providerPersistence.Save(_providers);
+			return true;
 		}
 
 		/// <summary>
@@ -97,8 +86,9 @@ namespace DMT.Modules.WallpaperChanger
 		/// <summary>
 		/// Gets a random image from the repository
 		/// </summary>
-		/// <param name="optimumSize">Optimum size for the image. - may be ignored by the provider</param>
-		/// <returns></returns>
+		/// <param name="optimumSize">Optimum size for the image. May be ignored by the provider</param>
+		/// <param name="screenIndex">Index of screen image is for</param>
+		/// <returns>Random image, or null if unable to return image</returns>
 		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			// first choose a provider
@@ -106,6 +96,7 @@ namespace DMT.Modules.WallpaperChanger
 			foreach (IImageProvider provider in _providers)
 			{
 				int weight = provider.Weight;
+
 				// ignore negative weights
 				if (weight > 0)
 				{
@@ -115,13 +106,12 @@ namespace DMT.Modules.WallpaperChanger
 
 			if (totalWeight > 0)
 			{
-				//Random random = new Random();
-				//int index = _random.Next(totalWeight);
 				int index = RNG.Next(totalWeight);
 
 				foreach (IImageProvider provider in _providers)
 				{
 					int weight = provider.Weight;
+
 					// ignore negative weights
 					if (weight > 0)
 					{
@@ -138,6 +128,15 @@ namespace DMT.Modules.WallpaperChanger
 
 			// no image found
 			return null;
+		}
+
+		void LoadProviders()
+		{
+			Collection<IImageProvider> providers = _providerPersistence.Load();
+			foreach (IImageProvider provider in providers)
+			{
+				_providers.Add(provider);
+			}
 		}
 
 		ProviderImage GetRandomImageFromProvider(Size optimumSize, int screenIndex, IImageProvider provider)

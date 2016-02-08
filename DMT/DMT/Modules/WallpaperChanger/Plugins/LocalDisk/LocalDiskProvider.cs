@@ -17,63 +17,112 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-//using System.ComponentModel.Composition;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//using DualMonitorTools.DualWallpaperChanger;
-using DMT.Library.WallpaperPlugin;
-using DMT.Library.Utils;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	using DMT.Library.Utils;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// An instance of a provider from the Local Disk plugin
 	/// </summary>
 	public class LocalDiskProvider : IImageProvider
 	{
-
 		LocalDiskConfig _config;
+		CandidateFilenames _monitor1Cache = new CandidateFilenames();
+		CandidateFilenames _monitor2Cache = new CandidateFilenames();
+		CandidateFilenames _monitor3Cache = new CandidateFilenames();
+		CandidateFilenames _monitor4Cache = new CandidateFilenames();
+		CandidateFilenames _portraitCache = new CandidateFilenames();
+		CandidateFilenames _defaultCache = new CandidateFilenames();
 
-		// these relate to the provider type
-		public string ProviderName { get { return LocalDiskPlugin.PluginName; } }
-		public Image ProviderImage { get { return LocalDiskPlugin.PluginImage; } }
-		public string Version { get { return LocalDiskPlugin.PluginVersion; } }
-
-		// these relate to the provider instance
-		public string Description { get { return _config.Description; } }
-		public int Weight { get { return _config.Weight; } }
-
-		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
-
-		//static Random _random = new Random();
-
-		//List<string> _candidateLandscapeFilenames = null;
-		//List<string> _candidatePortraitFilenames = null;
-		//string _lastLandscapeDirectory = null;
-		//string _lastPortraitDirectory = null;
-
-		CandidateFilenames Monitor1Cache = new CandidateFilenames();
-		CandidateFilenames Monitor2Cache = new CandidateFilenames();
-		CandidateFilenames Monitor3Cache = new CandidateFilenames();
-		CandidateFilenames Monitor4Cache = new CandidateFilenames();
-		CandidateFilenames PortraitCache = new CandidateFilenames();
-		CandidateFilenames DefaultCache = new CandidateFilenames();
-
-		bool _lastRecusrive = false;
-
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LocalDiskProvider" /> class.
+		/// </summary>
+		/// <param name="config">Configuration for the provider</param>
 		public LocalDiskProvider(Dictionary<string, string> config)
 		{
 			_config = new LocalDiskConfig(config);
 		}
 
+		/// <summary>
+		/// Gets the provider name - same for all instances of this class
+		/// </summary>
+		public string ProviderName
+		{
+			get
+			{
+				return LocalDiskPlugin.PluginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the provider image - same for all instances of this class
+		/// </summary>
+		public Image ProviderImage
+		{
+			get
+			{
+				return LocalDiskPlugin.PluginImage;
+			}
+		}
+
+		/// <summary>
+		/// Gets the provider version - same for all instances of this class
+		/// </summary>
+		public string Version
+		{
+			get
+			{
+				return LocalDiskPlugin.PluginVersion;
+			}
+		}
+
+		/// <summary>
+		/// Gets the description for this instance of the provider
+		/// </summary>
+		public string Description
+		{
+			get
+			{
+				return _config.Description;
+			}
+		}
+
+		/// <summary>
+		/// Gets the weight for this instance of the provider
+		/// </summary>
+		public int Weight
+		{
+			get
+			{
+				return _config.Weight;
+			}
+		}
+
+		/// <summary>
+		/// Gets the configuration 
+		/// </summary>
+		public Dictionary<string, string> Config
+		{
+			get
+			{
+				return _config.ToDictionary();
+			}
+		}
+
+		/// <summary>
+		/// Allows the user to update the configuration 
+		/// </summary>
+		/// <returns>New configuration, or null if no changes</returns>
 		public Dictionary<string, string> ShowUserOptions()
 		{
 			LocalDiskForm dlg = new LocalDiskForm(_config);
@@ -87,29 +136,22 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			return null;
 		}
 
+		/// <summary>
+		/// Returns a random image
+		/// </summary>
+		/// <param name="optimumSize">Optimum image size</param>
+		/// <param name="screenIndex">Screen index image is for</param>
+		/// <returns>A random image, or null if one can't be returned</returns>
 		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = null;
 
-			// if user has changed configuration, since we last built _candidateFilenames
- 			// we need to rebuild if
-			//if (_config.DefaultDirectory != _lastLandscapeDirectory 
-			//	|| _config.Recursive != _lastRecusrive)
-			//{
-			//	_candidateLandscapeFilenames = null;
-			//}
-			//if (_config.PortraitDirectory != _lastPortraitDirectory
-			//	|| _config.Recursive != _lastRecusrive)
-			//{
-			//	_candidatePortraitFilenames = null;
-			//}
-
-			Monitor1Cache.SetDirectory(_config.Monitor1Directory, _config.Recursive);
-			Monitor2Cache.SetDirectory(_config.Monitor2Directory, _config.Recursive);
-			Monitor3Cache.SetDirectory(_config.Monitor3Directory, _config.Recursive);
-			Monitor4Cache.SetDirectory(_config.Monitor4Directory, _config.Recursive);
-			PortraitCache.SetDirectory(_config.PortraitDirectory, _config.Recursive);
-			DefaultCache.SetDirectory(_config.DefaultDirectory, _config.Recursive);
+			_monitor1Cache.SetDirectory(_config.Monitor1Directory, _config.Recursive);
+			_monitor2Cache.SetDirectory(_config.Monitor2Directory, _config.Recursive);
+			_monitor3Cache.SetDirectory(_config.Monitor3Directory, _config.Recursive);
+			_monitor4Cache.SetDirectory(_config.Monitor4Directory, _config.Recursive);
+			_portraitCache.SetDirectory(_config.PortraitDirectory, _config.Recursive);
+			_defaultCache.SetDirectory(_config.DefaultDirectory, _config.Recursive);
 
 			if (_config.Rescan)
 			{
@@ -145,12 +187,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 
 		void ClearAllCaches()
 		{
-			Monitor1Cache.ClearCache();
-			Monitor2Cache.ClearCache();
-			Monitor3Cache.ClearCache();
-			Monitor4Cache.ClearCache();
-			PortraitCache.ClearCache();
-			DefaultCache.ClearCache();
+			_monitor1Cache.ClearCache();
+			_monitor2Cache.ClearCache();
+			_monitor3Cache.ClearCache();
+			_monitor4Cache.ClearCache();
+			_portraitCache.ClearCache();
+			_defaultCache.ClearCache();
 		}
 
 		string GetRandomImageFilename(Size optimumSize, int screenIndex)
@@ -165,16 +207,16 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 				switch (screenIndex)
 				{
 					case 0:
-						ret = Monitor1Cache.GetRandomImage();
+						ret = _monitor1Cache.GetRandomImage();
 						break;
 					case 1:
-						ret = Monitor2Cache.GetRandomImage();
+						ret = _monitor2Cache.GetRandomImage();
 						break;
 					case 2:
-						ret = Monitor3Cache.GetRandomImage();
+						ret = _monitor3Cache.GetRandomImage();
 						break;
 					case 3:
-						ret = Monitor4Cache.GetRandomImage();
+						ret = _monitor4Cache.GetRandomImage();
 						break;
 					default:
 						// leave ret as null
@@ -188,81 +230,17 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 				if (optimumSize.Height > optimumSize.Width)
 				{
 					// ideally want a portrait image
-					ret = PortraitCache.GetRandomImage();
+					ret = _portraitCache.GetRandomImage();
 				}
 			}
 
 			// landscape / default
 			if (ret == null)
 			{
-				ret = DefaultCache.GetRandomImage();
+				ret = _defaultCache.GetRandomImage();
 			}
 
 			return ret;
 		}
-
-		//List<string> GetCandidateFilenames(string baseDirectory, bool recursive)
-		//{
-		//	List<string> candidateFilenames = new List<string>();
-
-		//	if (!string.IsNullOrEmpty(baseDirectory))
-		//	{
-		//		AddCandidateFilenames(baseDirectory, recursive, candidateFilenames);
-		//	}
-
-		//	return candidateFilenames;
-		//}
-
-		//void AddCandidateFilenames(string baseDirectory, bool recursive, List<string> candidateFilenames)
-		//{
-		//	try
-		//	{
-		//		DirectoryInfo dir = new DirectoryInfo(baseDirectory);
-
-		//		FileSystemInfo[] infos = dir.GetFileSystemInfos();
-		//		foreach (FileSystemInfo info in infos)
-		//		{
-		//			if (info is FileInfo)
-		//			{
-		//				if (IsImageFile(info))
-		//				{
-		//					candidateFilenames.Add(info.FullName);
-		//				}
-		//			}
-		//			else if (info is DirectoryInfo)
-		//			{
-		//				if (recursive)
-		//				{
-		//					AddCandidateFilenames(info.FullName, recursive, candidateFilenames);
-		//				}
-		//			}
-		//		}
-		//	}
-		//	catch (Exception)
-		//	{
-		//		// ignore any i/o errors
-		//	}
-
-		//}
-
-		//bool IsImageFile(FileSystemInfo info)
-		//{
-		//	string extension = info.Extension.ToLower();
-		//	switch (extension)
-		//	{
-		//		case ".jpg": // drop into ".jpeg"
-		//		case ".jpeg":
-		//			return true;
-		//		case ".png":
-		//			return true;
-		//		case ".bmp":
-		//			return true;
-		//		case ".gif":
-		//			return true;
-		//	}
-
-		//	return false;
-		//}
-
 	}
 }

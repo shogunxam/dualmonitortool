@@ -1,20 +1,43 @@
-﻿using DMT.Library.Html;
-using DMT.Library.Utils;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2016  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
 
 namespace DMT.Modules.General
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Net;
+	using System.Text;
+	using System.Threading;
+	using System.Windows.Forms;
+
+	using DMT.Library.Html;
+	using DMT.Library.Utils;
+
+	/// <summary>
+	/// Dialog used when checking if a later version of DMT is available
+	/// </summary>
 	partial class CheckUpdatesForm : Form
 	{
 		const string LatestVersionFilename = "http://dualmonitortool.sourceforge.net/LatestVersion.xml";
@@ -23,10 +46,10 @@ namespace DMT.Modules.General
 
 		LatestVersion _latestVersion;
 
-		// delegate for when we have the atest version
-		delegate void ThreadCompletedDelegate(bool ok, string errMsg);
-
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="Controller" /> class.
+		/// </summary>
+		/// <param name="generalModule">General module</param>
 		public CheckUpdatesForm(GeneralModule generalModule)
 		{
 			_generalModule = generalModule;
@@ -39,6 +62,9 @@ namespace DMT.Modules.General
 
 			StartUpdateCheck();
 		}
+
+		// delegate for when we have the atest version
+		delegate void ThreadCompletedDelegate(bool ok, string errMsg);
 
 		void StartUpdateCheck()
 		{
@@ -55,6 +81,7 @@ namespace DMT.Modules.General
 			try
 			{
 				string url = LatestVersionFilename;
+
 				// stop this from being cached
 				url += "?_=" + DateTime.Now.Ticks.ToString();
 				LatestVersionFile laestVersionFile = new LatestVersionFile(url);
@@ -83,8 +110,10 @@ namespace DMT.Modules.General
 				if (_latestVersion.Version > _generalModule.Version)
 				{
 					labelStatus.Text = string.Format(Resources.GeneralStrings.LatestVersionAvailable, _latestVersion.Version.ToString());
+
 					// show button to visit the download page
 					buttonOpenDownload.Visible = true;
+
 					// if we were installed with msi, allow the user to upgrade using msi
 					if (_generalModule.IsMsiInstall)
 					{
@@ -98,12 +127,12 @@ namespace DMT.Modules.General
 			}
 			else
 			{
-				labelStatus.Text = String.Format(Resources.GeneralStrings.LatestVersionUnavailable, errMsg);
+				labelStatus.Text = string.Format(Resources.GeneralStrings.LatestVersionUnavailable, errMsg);
 			}
+
 			// change cancel button text from "Cancel" to "Close"
 			buttonCancel.Text = Resources.GeneralStrings.CloseButtonText;
 		}
-
 
 		private void buttonOpenDownload_Click(object sender, EventArgs e)
 		{
@@ -131,24 +160,14 @@ namespace DMT.Modules.General
 				{
 					if (!string.IsNullOrEmpty(_latestVersion.MsiInstaller))
 					{
-						//try
-						//{
-						//	InstallNewVersion();
-						//}
-						//catch (Exception ex)
-						//{
-						//	MessageBox.Show(ex.Message, Resources.CommonStrings.MyTitle);
-						//}
 						StartInstallNewVersion();
 					}
 				}
 			}
 		}
 
-
 		private void buttonCancel_Click(object sender, EventArgs e)
 		{
-
 		}
 
 		void StartInstallNewVersion()
@@ -184,8 +203,9 @@ namespace DMT.Modules.General
 				else
 				{
 					ok = false;
+
 					// This requires system.web from the full version of .Net 4.0
-					//errMsg = HttpWorkerRequest.GetStatusDescription(httpStatusCode);
+					// errMsg = HttpWorkerRequest.GetStatusDescription(httpStatusCode);
 					// for time being, just use enum name as msg
 					errMsg = httpStatusCode.ToString();
 				}
@@ -216,7 +236,7 @@ namespace DMT.Modules.General
 			}
 			else
 			{
-				labelStatus.Text = String.Format(Resources.GeneralStrings.LatestVersionUnavailable, errMsg);
+				labelStatus.Text = string.Format(Resources.GeneralStrings.LatestVersionUnavailable, errMsg);
 			}
 		}
 	}

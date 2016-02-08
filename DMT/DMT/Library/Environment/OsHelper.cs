@@ -17,12 +17,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Library.Environment
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
 	/// <summary>
 	/// Utility class to handle O/S specific issues
 	/// </summary>
@@ -37,17 +37,17 @@ namespace DMT.Library.Environment
 		//  6.3 => Win 8.1
 		//  6.4 => Win 10 Technical Preview build 9841
 		// 10.0 => Win 10
-		const int _vistaMajor = 6;
-		const int _vistaMinor = 0;
+		const int VistaMajor = 6;
+		const int VistaMinor = 0;
 
-		const int _win7Major = 6;
-		const int _win7Minor = 1;
+		const int Win7Major = 6;
+		const int Win7Minor = 1;
 
-		const int _win8Major = 6;
-		const int _win8Minor = 2;
+		const int Win8Major = 6;
+		const int Win8Minor = 2;
 
-		const int _win10Major = 10;
-		const int _win10Minor = 0;
+		const int Win10Major = 10;
+		const int Win10Minor = 0;
 
 		/// <summary>
 		/// Determine if we are running Windows Vista (or later)
@@ -55,7 +55,7 @@ namespace DMT.Library.Environment
 		/// <returns>true if this is Windows Vista or later</returns>
 		public static bool IsVistaOrLater()
 		{
-			return IsLaterThan(_vistaMajor, _vistaMinor);
+			return IsLaterThan(VistaMajor, VistaMinor);
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace DMT.Library.Environment
 		/// <returns>true if this is Windows 7 or later</returns>
 		public static bool IsWin7OrLater()
 		{
-			return IsLaterThan(_win7Major, _win7Minor);
+			return IsLaterThan(Win7Major, Win7Minor);
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace DMT.Library.Environment
 		/// <returns>true if this is Windows 8 or later</returns>
 		public static bool IsWin8OrLater()
 		{
-			return IsLaterThan(_win8Major, _win8Minor);
+			return IsLaterThan(Win8Major, Win8Minor);
 		}
 
 		/// <summary>
@@ -82,32 +82,31 @@ namespace DMT.Library.Environment
 		/// <returns>true if this is Windows 10 or later</returns>
 		public static bool IsWin10OrLater()
 		{
-			return IsLaterThan(_win10Major, _win10Minor);
+			return IsLaterThan(Win10Major, Win10Minor);
 		}
 
 		static bool IsLaterThan(int major, int minor)
 		{
 			bool isLater = false;
 
-			System.OperatingSystem osInfo = System.Environment.OSVersion;
+			System.OperatingSystem operatingSystemInfo = System.Environment.OSVersion;
 
-			if (osInfo.Platform == PlatformID.Win32NT)
+			if (operatingSystemInfo.Platform == PlatformID.Win32NT)
 			{
-				if (osInfo.Version.Major == major)
+				if (operatingSystemInfo.Version.Major == major)
 				{
-					if (osInfo.Version.Minor >= minor)
+					if (operatingSystemInfo.Version.Minor >= minor)
 					{
 						isLater = true;
 					}
 				}
-				else if (osInfo.Version.Major > major)
+				else if (operatingSystemInfo.Version.Major > major)
 				{
 					isLater = true;
 				}
 			}
 
 			return isLater;
-
 		}
 	}
 }

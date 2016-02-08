@@ -17,14 +17,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
 	/// Handles re-use of connections
 	/// </summary>
@@ -32,6 +32,11 @@ namespace DMT.Library.Html
 	{
 		List<HttpConnection> _connections = new List<HttpConnection>();
 
+		/// <summary>
+		/// Gets a connection that can be used to access the given uri
+		/// </summary>
+		/// <param name="uri">Uri that we need a connection for</param>
+		/// <returns>A connection that can be used</returns>
 		public HttpConnection GetConnection(Uri uri)
 		{
 			foreach (HttpConnection connection in _connections)

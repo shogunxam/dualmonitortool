@@ -17,28 +17,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
-using System.Reflection;
-
 namespace DMT.Library.Binding
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Reflection;
+	using System.Text;
+
 	/// <summary>
 	/// Compares property values of 2 objects. 
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">The type of the collection being compared</typeparam>
 	public class PropertyComparer<T> : IComparer<T>
 	{
 		PropertyInfo _propertyInfo;
 		ListSortDirection _sortDirection;
 
 		/// <summary>
-		/// Ctor takes the name of the property to compare and the sort direction.
+		/// Initialises a new instance of the <see cref="{PropertyComparer&lt;T&gt;}" /> class.
 		/// </summary>
-		/// <param name="propertyName"></param>
-		/// <param name="sortDirection"></param>
+		/// <param name="propertyName">The property to compare</param>
+		/// <param name="sortDirection">The sort direction</param>
 		public PropertyComparer(string propertyName, ListSortDirection sortDirection)
 		{
 			_propertyInfo = typeof(T).GetProperty(propertyName);
@@ -48,35 +48,36 @@ namespace DMT.Library.Binding
 		/// <summary>
 		/// implementation of IComparer.Compare()
 		/// </summary>
-		/// <param name="xRecord"></param>
-		/// <param name="yRecord"></param>
-		/// <returns></returns>
-		public int Compare(T xRecord, T yRecord)
+		/// <param name="firstRecord">First record</param>
+		/// <param name="secondRecord">Second record</param>
+		/// <returns>-1, 0 or +1 depending on the result of the comparison</returns>
+		public int Compare(T firstRecord, T secondRecord)
 		{
 			int ret = 0;
 
 			// get the values for the required property for these records
-			object xField = _propertyInfo.GetValue(xRecord, null);
-			object yField = _propertyInfo.GetValue(yRecord, null);
+			object firstRecordField = _propertyInfo.GetValue(firstRecord, null);
+			object secondRecordField = _propertyInfo.GetValue(secondRecord, null);
 
 			// if the field supports IComparable, then use this
-			if (xField is IComparable)
+			if (firstRecordField is IComparable)
 			{
-				ret = (xField as IComparable).CompareTo(yField);
+				ret = (firstRecordField as IComparable).CompareTo(secondRecordField);
 			}
-			else if (xField != null && yField != null)
+			else if (firstRecordField != null && secondRecordField != null)
 			{
 				// simple fallback
-				ret = xField.ToString().CompareTo(yField.ToString());
+				ret = firstRecordField.ToString().CompareTo(secondRecordField.ToString());
 			}
-			else if (xField != null && yField == null)
+			else if (firstRecordField != null && secondRecordField == null)
 			{
 				ret = 1;
 			}
-			else if (xField == null && yField != null)
+			else if (firstRecordField == null && secondRecordField != null)
 			{
 				ret = -1;
 			}
+
 			if (_sortDirection == ListSortDirection.Descending)
 			{
 				// reverse result

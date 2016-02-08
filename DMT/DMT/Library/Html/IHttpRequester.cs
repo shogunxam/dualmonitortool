@@ -17,23 +17,48 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Net;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	/// <summary>
+	/// Interface to a class that is able to perform HTTP requests
+	/// </summary>
 	public interface IHttpRequester
 	{
+		/// <summary>
+		/// Gets the last Uri that responded
+		/// </summary>
 		Uri LastResponseUri { get; }
-		//string GetPage(HttpConnection connection, Uri uri, string testPage);
-		//Image GetImage(HttpConnection connection, Uri uri);
+
+		/// <summary>
+		/// Gets the page
+		/// </summary>
+		/// <param name="uri">Location of page</param>
+		/// <param name="testPage">Page name - used for fake requests only</param>
+		/// <param name="repliedConnection">The connection that the response came in on</param>
+		/// <returns>The contents of the page</returns>
 		string GetPage(Uri uri, string testPage, out HttpConnection repliedConnection);
+
+		/// <summary>
+		/// Gets the image
+		/// </summary>
+		/// <param name="uri">Location of image</param>
+		/// <returns>The image</returns>
 		Image GetImage(Uri uri);
+
+		/// <summary>
+		/// Gets the binary data
+		/// </summary>
+		/// <param name="uri">Location of data</param>
+		/// <param name="data">Returned data</param>
+		/// <returns>HTTP status code</returns>
 		HttpStatusCode GetData(Uri uri, ref byte[] data);
 	}
 }

@@ -1,19 +1,42 @@
-﻿using DMT.Library.Transform;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2009-2015  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
 
 namespace DMT.Modules.Snap
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Drawing.Imaging;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows;
+	using System.Windows.Forms;
+
+	using DMT.Library.Transform;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Window that shows the snap
+	/// </summary>
 	partial class SnapForm : Form
 	{
 		SnapModule _snapModule;
@@ -23,7 +46,10 @@ namespace DMT.Modules.Snap
 		bool _maintainAspectRatio;
 		Point _lastMousePosn;	// used for detecting drag movements on the snap
 
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SnapForm" /> class.
+		/// </summary>
+		/// <param name="snapModule">Snap module</param>
 		public SnapForm(SnapModule snapModule)
 		{
 			_snapModule = snapModule;
@@ -40,20 +66,31 @@ namespace DMT.Modules.Snap
 			UpdateScaleMenuItems();
 		}
 
+		/// <summary>
+		/// Closes the snap window permanently.
+		/// Called when cleaning up.
+		/// </summary>
 		public void Terminate()
 		{
 			_terminate = true;
 			Close();
 		}
 
+		/// <summary>
+		/// Shows the specified image
+		/// </summary>
+		/// <param name="image">Image to show</param>
 		public void ShowImage(Image image)
 		{
 			pictureBox.Image = image;
-
-			//pictureBox.Location = new Point(0, 0);
-			//pictureBox.Size = image.Size;
 		}
 
+		/// <summary>
+		/// Change scaling of image shown in snap window
+		/// </summary>
+		/// <param name="expandSnap">If true, can expand the image to fit screen</param>
+		/// <param name="shrinkSnap">If true, can shrink the image to fit screen</param>
+		/// <param name="maintainAspectRatio">If true, aspect ratio is maintained</param>
 		public void SetScaling(bool expandSnap, bool shrinkSnap, bool maintainAspectRatio)
 		{
 			_expandSnap = expandSnap;
@@ -62,12 +99,17 @@ namespace DMT.Modules.Snap
 			UpdateScaleMenuItems();
 		}
 
+		/// <summary>
+		/// Shows the window at the specified location and makes sure it is visible
+		/// </summary>
+		/// <param name="rectangle">Location to display the window at</param>
 		public void ShowAt(Rectangle rectangle)
 		{
 			this.WindowState = FormWindowState.Normal;	// necessary, or Location won't work
 			this.StartPosition = FormStartPosition.Manual; // if we don't do this, on first display Windows will decide
 			this.Location = rectangle.Location;
 			this.Size = rectangle.Size;
+
 			// we also maximize it, so if moved by SwapScreen it will still occupy the whole screen 
 			// even if the monitor is a different size
 			this.WindowState = FormWindowState.Maximized;
@@ -78,6 +120,9 @@ namespace DMT.Modules.Snap
 			ReScalePictureBox();
 		}
 
+		/// <summary>
+		/// Hides the snap window
+		/// </summary>
 		public void HideSnap()
 		{
 			this.Visible = false;
@@ -129,6 +174,7 @@ namespace DMT.Modules.Snap
 
 			// we'll calculate the size of the drop down ourself
 			dropDown.AutoSize = false;
+
 			// TODO: we need a minimum height for the border?
 			// If this is zero, and there is one item in the menu,
 			// then .NET will display a down arrow which if clicked
@@ -140,8 +186,8 @@ namespace DMT.Modules.Snap
 			{
 				SnapMenuItem snapMenuItem = new SnapMenuItem(snap);
 				snapMenuItem.ToolTipText = SnapStrings.SnapMenuItemTooltip;
+
 				// insert items at begining, so topmost displayed item is latest snap
-				//snapsToolStripMenuItem.DropDownItems.Add(snapMenuItem);
 				dropDown.Items.Insert(0, snapMenuItem);
 				dropDown.Width = snapMenuItem.Width;	// All items are same width
 				dropDown.Height += snapMenuItem.Height;
@@ -192,6 +238,7 @@ namespace DMT.Modules.Snap
 			{
 				// request where to save file
 				SaveFileDialog dlg = new SaveFileDialog();
+
 				// TODO: allow other file formats?
 				dlg.Filter = "png files (*.png)|*.png";
 				if (dlg.ShowDialog() == DialogResult.OK)
@@ -242,7 +289,8 @@ namespace DMT.Modules.Snap
 				if (_snapModule.SnapHistory.Count > 1)
 				{
 					string msg = string.Format(SnapStrings.DeleteConfirm, _snapModule.SnapHistory.Count);
-					if (MessageBox.Show(msg,
+					if (MessageBox.Show(
+						msg,
 						CommonStrings.MyTitle,
 						MessageBoxButtons.YesNo,
 						MessageBoxIcon.Question,
@@ -261,7 +309,7 @@ namespace DMT.Modules.Snap
 
 				// we could ask the garbage collection to run here,
 				// but it is usually advised to let the GC run when it thinks is best
-				//GC.Collect();
+				// GC.Collect();
 
 				// no point in having the snap window visible
 				HideSnap();
@@ -290,7 +338,6 @@ namespace DMT.Modules.Snap
 
 			Size windowSize = this.Size;
 
-			// 
 			if (_expandSnap)
 			{
 				if (_maintainAspectRatio)
@@ -308,6 +355,7 @@ namespace DMT.Modules.Snap
 					{
 						targetSize.Width = windowSize.Width;
 					}
+
 					if (targetSize.Height < windowSize.Height)
 					{
 						targetSize.Height = windowSize.Height;
@@ -315,7 +363,6 @@ namespace DMT.Modules.Snap
 				}
 			}
 
-			//
 			if (_shrinkSnap)
 			{
 				if (_maintainAspectRatio)
@@ -333,12 +380,12 @@ namespace DMT.Modules.Snap
 					{
 						targetSize.Width = windowSize.Width;
 					}
+
 					if (targetSize.Height > windowSize.Height)
 					{
 						targetSize.Height = windowSize.Height;
 					}
 				}
-
 			}
 
 			pictureBox.Location = new Point(0, 0);
@@ -359,6 +406,7 @@ namespace DMT.Modules.Snap
 			base.OnMouseDown(e);
 
 			_lastMousePosn = pictureBox.PointToScreen(e.Location);
+
 			// no need/advantage to capture mouse?
 		}
 
@@ -378,6 +426,7 @@ namespace DMT.Modules.Snap
 
 					int newX = pictureBox.Location.X;
 					int newY = pictureBox.Location.Y;
+
 					// move the origin of the image (wrt the window)
 					newX += deltaX;
 					newY += deltaY;
@@ -391,6 +440,7 @@ namespace DMT.Modules.Snap
 					{
 						newX = this.Size.Width - pictureBox.Width;
 					}
+
 					if (newY > 0)
 					{
 						newY = 0;
@@ -410,8 +460,7 @@ namespace DMT.Modules.Snap
 			Size windowSize = this.Size;
 			Size picBoxSize = pictureBox.Size;
 
-			return (picBoxSize.Width > windowSize.Width || picBoxSize.Height > windowSize.Height);
+			return picBoxSize.Width > windowSize.Width || picBoxSize.Height > windowSize.Height;
 		}
-
 	}
 }

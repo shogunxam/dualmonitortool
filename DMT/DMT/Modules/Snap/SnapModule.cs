@@ -17,112 +17,154 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library;
-using DMT.Library.GuiUtils;
-using DMT.Library.HotKeys;
-using DMT.Library.Logging;
-using DMT.Library.PInvoke;
-using DMT.Library.Settings;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Snap
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Drawing.Imaging;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library;
+	using DMT.Library.GuiUtils;
+	using DMT.Library.HotKeys;
+	using DMT.Library.Logging;
+	using DMT.Library.PInvoke;
+	using DMT.Library.Settings;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Snap module
+	/// </summary>
 	class SnapModule : Module
 	{
-		//const string _moduleName = "Snap";
-
-		const int _defaultMaxSnaps = 8;
-		const bool _defaultAutoShowSnap = true;
-		const bool _defaultExpandSnap = false;
-		const bool _defaultShrinkSnap = false;
-		const bool _defaultMaintainAspectRatio = true;
+		const int DefaultMaxSnaps = 8;
+		const bool DefaultAutoShowSnap = true;
+		const bool DefaultExpandSnap = false;
+		const bool DefaultShrinkSnap = false;
+		const bool DefaultMaintainAspectRatio = true;
 
 		ISettingsService _settingsService;
-		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 		AppForm _appForm;
-
 		SnapForm _snapForm = null;
-		public SnapHistory SnapHistory { get; protected set; }
-
 		ToolStripMenuItem _showSnapToolStripMenuItem;
 
-		// hot keys
-		public HotKeyController TakeScreenSnapHotKeyController { get; protected set; }
-		public HotKeyController TakeWindowSnapHotKeyController { get; protected set; }
-		public HotKeyController ShowSnapHotKeyController { get; protected set; }
-
-		// settings
-		IntSetting MaxSnapsSetting { get; set; }
-		public int MaxSnaps
-		{
-			get { return MaxSnapsSetting.Value; }
-			set { MaxSnapsSetting.Value = value; }
-		}
-
-		BoolSetting AutoShowSnapSetting { get; set; }
-		public bool AutoShowSnap
-		{
-			get { return AutoShowSnapSetting.Value; }
-			set { AutoShowSnapSetting.Value = value; }
-		}
-
-		// ExpandSnap, ShrinkSnap and MaintainAspectRatio are the initial values used
-		// when we startup.
-		// Afer the window is created, it will use its own values which are distinct from these.
-		BoolSetting ExpandSnapSetting { get; set; }
-		public bool ExpandSnap
-		{
-			get { return ExpandSnapSetting.Value; }
-			set { ExpandSnapSetting.Value = value; }
-		}
-
-		BoolSetting ShrinkSnapSetting { get; set; }
-		public bool ShrinkSnap
-		{
-			get { return ShrinkSnapSetting.Value; }
-			set { ShrinkSnapSetting.Value = value; }
-		}
-
-		BoolSetting MaintainAspectRatioSetting { get; set; }
-		public bool MaintainAspectRatio
-		{
-			get { return MaintainAspectRatioSetting.Value; }
-			set { MaintainAspectRatioSetting.Value = value; }
-		}
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SnapModule" /> class.
+		/// </summary>
+		/// <param name="settingsService">Settings repository</param>
+		/// <param name="hotKeyService">Service for registering hot keys</param>
+		/// <param name="logger">Application logger</param>
+		/// <param name="appForm">Application (hidden) window</param>
 		public SnapModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILogger logger, AppForm appForm)
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			//_hotKeyService = hotKeyService;
 			_logger = logger;
 			_appForm = appForm;
 
 			ModuleName = "Snap";
 		}
 
+		/// <summary>
+		/// Gets the snap history
+		/// </summary>
+		public SnapHistory SnapHistory { get; private set; }
+
+		/// <summary>
+		/// Gets the hot key controller for the 'Take screen snap' hot key
+		/// </summary>
+		public HotKeyController TakeScreenSnapHotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets the hot key controller for the 'Take window snap' hot key
+		/// </summary>
+		public HotKeyController TakeWindowSnapHotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets the hot key controller for the 'Show snap window' hot key
+		/// </summary>
+		public HotKeyController ShowSnapHotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the maximum number of snaps to remember
+		/// </summary>
+		public int MaxSnaps
+		{
+			get { return MaxSnapsSetting.Value; }
+			set { MaxSnapsSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to automatically show a snap when taken
+		/// </summary>
+		public bool AutoShowSnap
+		{
+			get { return AutoShowSnapSetting.Value; }
+			set { AutoShowSnapSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to expand snap to fit screen if possible
+		/// </summary>
+		public bool ExpandSnap
+		{
+			get { return ExpandSnapSetting.Value; }
+			set { ExpandSnapSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to shrink snap to fir screen if possible
+		/// </summary>
+		public bool ShrinkSnap
+		{
+			get { return ShrinkSnapSetting.Value; }
+			set { ShrinkSnapSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to main aspect ratio of the snap
+		/// </summary>
+		public bool MaintainAspectRatio
+		{
+			get { return MaintainAspectRatioSetting.Value; }
+			set { MaintainAspectRatioSetting.Value = value; }
+		}
+
+		// settings
+		IntSetting MaxSnapsSetting { get; set; }
+
+		BoolSetting AutoShowSnapSetting { get; set; }
+
+		// ExpandSnap, ShrinkSnap and MaintainAspectRatio are the initial values used
+		// when we startup.
+		// Afer the window is created, it will use its own values which are distinct from these.
+		BoolSetting ExpandSnapSetting { get; set; }
+
+		BoolSetting ShrinkSnapSetting { get; set; }
+
+		BoolSetting MaintainAspectRatioSetting { get; set; }
+
+		/// <summary>
+		/// Start the snap module
+		/// </summary>
 		public override void Start()
 		{
 			// setup hot keys & commands for magic words
-			TakeScreenSnapHotKeyController = AddCommand("TakeSnap", SnapStrings.TakeSnapDescription, "", TakePrimaryScreenSnap);
-			TakeWindowSnapHotKeyController = AddCommand("TakeWinSnap", SnapStrings.TakeWinSnapDescription, "", TakeActiveWindowSnap);
-			ShowSnapHotKeyController = AddCommand("ShowSnap", SnapStrings.ShowSnapDescription, "", ToggleShowSnap);
+			TakeScreenSnapHotKeyController = AddCommand("TakeSnap", SnapStrings.TakeSnapDescription, string.Empty, TakePrimaryScreenSnap);
+			TakeWindowSnapHotKeyController = AddCommand("TakeWinSnap", SnapStrings.TakeWinSnapDescription, string.Empty, TakeActiveWindowSnap);
+			ShowSnapHotKeyController = AddCommand("ShowSnap", SnapStrings.ShowSnapDescription, string.Empty, ToggleShowSnap);
 
 			// settings
-			MaxSnapsSetting = new IntSetting(_settingsService, ModuleName, "MaxSnaps", _defaultMaxSnaps);
-			AutoShowSnapSetting = new BoolSetting(_settingsService, ModuleName, "AutoShowSnap", _defaultAutoShowSnap);
-			ExpandSnapSetting = new BoolSetting(_settingsService, ModuleName, "ExpandSnap", _defaultExpandSnap);
-			ShrinkSnapSetting = new BoolSetting(_settingsService, ModuleName, "ShrinkSnap", _defaultShrinkSnap);
-			MaintainAspectRatioSetting = new BoolSetting(_settingsService, ModuleName, "MaintainAspectRatio", _defaultMaintainAspectRatio);
+			MaxSnapsSetting = new IntSetting(_settingsService, ModuleName, "MaxSnaps", DefaultMaxSnaps);
+			AutoShowSnapSetting = new BoolSetting(_settingsService, ModuleName, "AutoShowSnap", DefaultAutoShowSnap);
+			ExpandSnapSetting = new BoolSetting(_settingsService, ModuleName, "ExpandSnap", DefaultExpandSnap);
+			ShrinkSnapSetting = new BoolSetting(_settingsService, ModuleName, "ShrinkSnap", DefaultShrinkSnap);
+			MaintainAspectRatioSetting = new BoolSetting(_settingsService, ModuleName, "MaintainAspectRatio", DefaultMaintainAspectRatio);
 
 			// history of snaps taken
 			SnapHistory = new SnapHistory(MaxSnaps);
@@ -135,6 +177,9 @@ namespace DMT.Modules.Snap
 			_appForm.AddMenuItem("-", null, null);
 		}
 
+		/// <summary>
+		/// Terminates the module
+		/// </summary>
 		public override void Terminate()
 		{
 			if (_snapForm != null)
@@ -143,6 +188,9 @@ namespace DMT.Modules.Snap
 			}
 		}
 
+		/// <summary>
+		/// Called to notify that the display resolution has changed
+		/// </summary>
 		public override void DisplayResolutionChanged()
 		{
 			// if resolution of secondary monitor changes, 
@@ -153,6 +201,10 @@ namespace DMT.Modules.Snap
 			}
 		}
 
+		/// <summary>
+		/// Gets the option nodes for the snap module
+		/// </summary>
+		/// <returns>Option nodes</returns>
 		public override ModuleOptionNode GetOptionNodes()
 		{
 			Image image = new Bitmap(Properties.Resources.DualSnap_16_16);
@@ -162,44 +214,65 @@ namespace DMT.Modules.Snap
 			return options;
 		}
 
-		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		//{
-		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
-		//}
-
+		/// <summary>
+		/// Take a snap of the primary screen
+		/// </summary>
 		public void TakePrimaryScreenSnap()
 		{
 			Rectangle r = Screen.PrimaryScreen.Bounds;
 
 			TakeSnap(r);
-
-			//Bitmap primaryScreenImage = new Bitmap(r.Width, r.Height, GetPixelFormat());
-			//using (Graphics g = Graphics.FromImage(primaryScreenImage))
-			//{
-			//	g.CopyFromScreen(r.Location, new Point(0, 0), r.Size, CopyPixelOperation.SourceCopy);
-			//}
-			//SnapForm snapForm = GetSnapForm();
-			//snapForm.ShowImage(primaryScreenImage);
-
-			//Snap snap = new Snap(primaryScreenImage);
-			//SnapHistory.Add(snap);
-
-			//if (AutoShowSnap)
-			//{
-			//	ShowLastSnap();
-			//}
 		}
 
+		/// <summary>
+		/// Take a snap of the active window
+		/// </summary>
 		public void TakeActiveWindowSnap()
 		{
-			IntPtr hWnd = Win32.GetForegroundWindow();
+			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (hWnd != null)
 			{
-				Win32.RECT rect;
-				if (Win32.GetWindowRect(hWnd, out rect))
+				NativeMethods.RECT rect;
+				if (NativeMethods.GetWindowRect(hWnd, out rect))
 				{
 					Rectangle r = ScreenHelper.RectToRectangle(ref rect);
 					TakeSnap(r);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Toggle the visibility of the snap window
+		/// </summary>
+		public void ToggleShowSnap()
+		{
+			SnapForm snapForm = GetSnapForm();
+			if (snapForm.Visible)
+			{
+				HideLastSnap();
+			}
+			else
+			{
+				ShowLastSnap();
+			}
+		}
+
+		/// <summary>
+		/// Show the last snap taken.
+		/// Dos nothing if no snaps available.
+		/// </summary>
+		public void ShowLastSnap()
+		{
+			// if we have a snap, then show it
+			if (SnapHistory.Count > 0)
+			{
+				// position window on second screen
+				Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
+				SnapForm snapForm = GetSnapForm();
+				snapForm.ShowAt(secondaryScreen.Bounds);
+				if (_showSnapToolStripMenuItem != null)
+				{
+					_showSnapToolStripMenuItem.Checked = true;
 				}
 			}
 		}
@@ -211,6 +284,7 @@ namespace DMT.Modules.Snap
 			{
 				g.CopyFromScreen(sourceRectangle.Location, new Point(0, 0), sourceRectangle.Size, CopyPixelOperation.SourceCopy);
 			}
+
 			SnapForm snapForm = GetSnapForm();
 			snapForm.ShowImage(snappedImage);
 
@@ -222,19 +296,6 @@ namespace DMT.Modules.Snap
 			SnapHistory.Add(snap);
 
 			if (AutoShowSnap || snapForm.Visible)
-			{
-				ShowLastSnap();
-			}
-		}
-
-		public void ToggleShowSnap()
-		{
-			SnapForm snapForm = GetSnapForm();
-			if (snapForm.Visible)
-			{
-				HideLastSnap();
-			}
-			else
 			{
 				ShowLastSnap();
 			}
@@ -259,22 +320,6 @@ namespace DMT.Modules.Snap
 			}
 		}
 
-		public void ShowLastSnap()
-		{
-			// if we have a snap, then show it
-			if (SnapHistory.Count > 0)
-			{
-				// position window on second screen
-				Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
-				SnapForm snapForm = GetSnapForm();
-				snapForm.ShowAt(secondaryScreen.Bounds);
-				if (_showSnapToolStripMenuItem != null)
-				{
-					_showSnapToolStripMenuItem.Checked = true;
-				}
-			}
-		}
-
 		void HideLastSnap()
 		{
 			SnapForm snapForm = GetSnapForm();
@@ -294,7 +339,6 @@ namespace DMT.Modules.Snap
 		{
 			ToggleShowSnap();
 		}
-
 
 		SnapForm GetSnapForm()
 		{

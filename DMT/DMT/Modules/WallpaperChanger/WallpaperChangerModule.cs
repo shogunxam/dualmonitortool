@@ -17,33 +17,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using DMT.Library.HotKeys;
-using DMT.Library.Logging;
-using DMT.Library.Settings;
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.Environment;
+	using DMT.Library.HotKeys;
+	using DMT.Library.Logging;
+	using DMT.Library.Settings;
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+	using DMT.Resources;
+
+	/// <summary>
+	/// The wallpaper changer module
+	/// </summary>
 	class WallpaperChangerModule : Module
 	{
-		//const string _moduleName = "WallpaperChanger";
-		const int _defaultIntervalHours = 1;
-		const int _defaultIntervalMinutes = 0;
+		const int DefaultIntervalHours = 1;
+		const int DefaultIntervalMinutes = 0;
 
 		ISettingsService _settingsService;
-		//IHotKeyService _hotKeyService;
 		ILogger _logger;
 		AppForm _appForm;
 
@@ -52,9 +54,6 @@ namespace DMT.Modules.WallpaperChanger
 		IProviderFactory _providerFactory;
 		IWallpaperCompositorFactory _wallpaperCompositorFactory;
 		IImageRepository _imageRepository;
-		Desktop _desktop;
-
-		public Desktop Desktop { get { return _desktop; } }
 
 		// for periodically updating the wallpaper
 		System.Timers.Timer _timer;
@@ -68,86 +67,18 @@ namespace DMT.Modules.WallpaperChanger
 
 		bool _started = false;
 
-		// delegate for when thread completed
-		public delegate void WallpaperUpdatedDelegate(bool ok, string errMsg);
-
-		// hotkey to change wallpaper now
-		public HotKeyController ChangeWallpaperHotKeyController { get; protected set; }
-
-		// settings
-		IntSetting IntervalHoursSetting { get; set; }
-		public int IntervalHours
-		{
-			get { return IntervalHoursSetting.Value; }
-			set { IntervalHoursSetting.Value = value; }
-		}
-
-		IntSetting IntervalMinutesSetting { get; set; }
-		public int IntervalMinutes
-		{
-			get { return IntervalMinutesSetting.Value; }
-			set { IntervalMinutesSetting.Value = value; }
-		}
-
-		BoolSetting ChangeOnResolutionChangeSetting { get; set; }
-		public bool ChangeOnResolutionChange
-		{
-			get { return ChangeOnResolutionChangeSetting.Value; }
-			set { ChangeOnResolutionChangeSetting.Value = value; }
-		}
-
-		BoolSetting ChangeOnStartupSetting { get; set; }
-		public bool ChangeOnStartup
-		{
-			get { return ChangeOnStartupSetting.Value; }
-			set { ChangeOnStartupSetting.Value = value; }
-		}
-
-		BoolSetting ChangePeriodicallySetting { get; set; }
-		public bool ChangePeriodically
-		{
-			get { return ChangePeriodicallySetting.Value; }
-			set 
-			{ 
-				ChangePeriodicallySetting.Value = value;
-				// will need to change time to next change
-				UpdateTimeToChange();
-			}
-		}
-
-		BoolSetting SmoothFadeSetting { get; set; }
-		public bool SmoothFade
-		{
-			get { return SmoothFadeSetting.Value; }
-			set { SmoothFadeSetting.Value = value; }
-		}
-
-		IntSetting BackgroundColourSetting { get; set; }
-		public Color BackgroundColour
-		{
-			get { return Color.FromArgb(BackgroundColourSetting.Value); }
-			set { BackgroundColourSetting.Value = value.ToArgb(); }
-		}
-
-		IntSetting FitSetting { get; set; }
-		public StretchType.Fit Fit
-		{
-			get { return (StretchType.Fit)FitSetting.Value; }
-			set { FitSetting.Value = (int)value; }
-		}
-
-		IntSetting MonitorMappingSetting { get; set; }
-		public SwitchType.ImageToMonitorMapping MonitorMapping
-		{
-			get { return (SwitchType.ImageToMonitorMapping)MonitorMappingSetting.Value; }
-			set { MonitorMappingSetting.Value = (int)value; }
-		}
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WallpaperChangerModule" /> class.
+		/// </summary>
+		/// <param name="settingsService">The settings service</param>
+		/// <param name="hotKeyService">The hotkey service</param>
+		/// <param name="localEnvironment">The local environment</param>
+		/// <param name="logger">Application logger</param>
+		/// <param name="appForm">Application (hidden) window</param>
 		public WallpaperChangerModule(ISettingsService settingsService, IHotKeyService hotKeyService, ILocalEnvironment localEnvironment, ILogger logger, AppForm appForm)
 			: base(hotKeyService)
 		{
 			_settingsService = settingsService;
-			//_hotKeyService = hotKeyService;
 			_localEnvironment = localEnvironment;
 			_logger = logger;
 			_appForm = appForm;
@@ -157,23 +88,150 @@ namespace DMT.Modules.WallpaperChanger
 			_providerPersistence = new ProviderPersistence(_providerFactory, _localEnvironment);
 			_wallpaperCompositorFactory = new WallpaperCompositorFactory();
 			_imageRepository = new ImageRepository(_providerPersistence, _logger);
-			_desktop = new Desktop(this, _localEnvironment, _imageRepository, _wallpaperCompositorFactory);
+			Desktop = new Desktop(this, _localEnvironment, _imageRepository, _wallpaperCompositorFactory);
 		}
 
+		/// <summary>
+		/// Delegate for when thread completed
+		/// </summary>
+		/// <param name="ok">True if thread completed successfully</param>
+		/// <param name="errMsg">Error message on failure</param>
+		public delegate void WallpaperUpdatedDelegate(bool ok, string errMsg);
 
+		/// <summary>
+		/// Gets or sets the desktop and the wallpapers on them
+		/// </summary>
+		public Desktop Desktop { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the hotkey to change the wallpaper
+		/// </summary>
+		public HotKeyController ChangeWallpaperHotKeyController { get; protected set; }
+
+		/// <summary>
+		/// Gets or sets the hours part of the interval between wallpaper changes
+		/// </summary>
+		public int IntervalHours
+		{
+			get { return IntervalHoursSetting.Value; }
+			set { IntervalHoursSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the minutes part of the interval between wallpaper changes
+		/// </summary>
+		public int IntervalMinutes
+		{
+			get { return IntervalMinutesSetting.Value; }
+			set { IntervalMinutesSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to update the wallpaper when the resolution changes
+		/// </summary>
+		public bool ChangeOnResolutionChange
+		{
+			get { return ChangeOnResolutionChangeSetting.Value; }
+			set { ChangeOnResolutionChangeSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to change the wallpaper on start up
+		/// </summary>
+		public bool ChangeOnStartup
+		{
+			get { return ChangeOnStartupSetting.Value; }
+			set { ChangeOnStartupSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to change the wallpaper periodically
+		/// </summary>
+		public bool ChangePeriodically
+		{
+			get 
+			{ 
+				return ChangePeriodicallySetting.Value; 
+			}
+
+			set 
+			{ 
+				ChangePeriodicallySetting.Value = value;
+
+				// will need to change time to next change
+				UpdateTimeToChange();
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to use a smooth fade (if available) when changing wallpaper
+		/// </summary>
+		public bool SmoothFade
+		{
+			get { return SmoothFadeSetting.Value; }
+			set { SmoothFadeSetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the background colour for wallpaper
+		/// (when image doesn't fill entire monitor)
+		/// </summary>
+		public Color BackgroundColour
+		{
+			get { return Color.FromArgb(BackgroundColourSetting.Value); }
+			set { BackgroundColourSetting.Value = value.ToArgb(); }
+		}
+
+		/// <summary>
+		/// Gets or sets the image fit type
+		/// </summary>
+		public StretchType.Fit Fit
+		{
+			get { return (StretchType.Fit)FitSetting.Value; }
+			set { FitSetting.Value = (int)value; }
+		}
+
+		/// <summary>
+		/// Gets or sets how multiple monitors are used
+		/// </summary>
+		public SwitchType.ImageToMonitorMapping MonitorMapping
+		{
+			get { return (SwitchType.ImageToMonitorMapping)MonitorMappingSetting.Value; }
+			set { MonitorMappingSetting.Value = (int)value; }
+		}
+
+		IntSetting IntervalHoursSetting { get; set; }
+
+		IntSetting IntervalMinutesSetting { get; set; }
+
+		BoolSetting ChangeOnResolutionChangeSetting { get; set; }
+
+		BoolSetting ChangeOnStartupSetting { get; set; }
+
+		BoolSetting ChangePeriodicallySetting { get; set; }
+
+		BoolSetting SmoothFadeSetting { get; set; }
+
+		IntSetting BackgroundColourSetting { get; set; }
+
+		IntSetting FitSetting { get; set; }
+
+		IntSetting MonitorMappingSetting { get; set; }
+
+		/// <summary>
+		/// Starts the wallpaper changer module
+		/// </summary>
 		public override void Start()
 		{
 			// hot keys
-			ChangeWallpaperHotKeyController = AddCommand("ChangeWallpaper", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
+			ChangeWallpaperHotKeyController = AddCommand("ChangeWallpaper", WallpaperStrings.ChangeWallpaperDescription, string.Empty, UpdateWallpaper);
+
 			// Pause available as a command only
-			AddCommand("PauseWallpaper", WallpaperStrings.PauseWallpaperDescription, "", PauseWallpaper, false, true);
-
-			//ChangeWallpaperHotKeyController = CreateHotKeyController("ChangeWallpaperHotKey", WallpaperStrings.ChangeWallpaperDescription, "", UpdateWallpaper);
-
+			AddCommand("PauseWallpaper", WallpaperStrings.PauseWallpaperDescription, string.Empty, PauseWallpaper, false, true);
 
 			// settings
-			IntervalHoursSetting = new IntSetting(_settingsService, ModuleName, "IntervalHours", _defaultIntervalHours);
-			IntervalMinutesSetting = new IntSetting(_settingsService, ModuleName, "IntervalMinutes", _defaultIntervalMinutes);
+			IntervalHoursSetting = new IntSetting(_settingsService, ModuleName, "IntervalHours", DefaultIntervalHours);
+			IntervalMinutesSetting = new IntSetting(_settingsService, ModuleName, "IntervalMinutes", DefaultIntervalMinutes);
 			ChangeOnStartupSetting = new BoolSetting(_settingsService, ModuleName, "ChangeOnStartup", false);
 			ChangeOnResolutionChangeSetting = new BoolSetting(_settingsService, ModuleName, "ChangeOnResolutionChange", false);
 			ChangePeriodicallySetting = new BoolSetting(_settingsService, ModuleName, "ChangePeriodically", false);
@@ -203,6 +261,10 @@ namespace DMT.Modules.WallpaperChanger
 			_started = true;
 		}
 
+		/// <summary>
+		/// Gets the option nodes used by this module for display in the options dialog
+		/// </summary>
+		/// <returns>Option nodes</returns>
 		public override ModuleOptionNode GetOptionNodes()
 		{
 			Image image = new Bitmap(Properties.Resources.DualWallpaper_16_16);
@@ -216,15 +278,16 @@ namespace DMT.Modules.WallpaperChanger
 			return options;
 		}
 
+		/// <summary>
+		/// Terminates the module
+		/// </summary>
 		public override void Terminate()
 		{
-			//if (_entryForm != null)
-			//{
-			//	_entryForm.Terminate();
-			//}
-
 		}
 
+		/// <summary>
+		/// Called when a display resolution change has been detected
+		/// </summary>
 		public override void DisplayResolutionChanged()
 		{
 			if (_started)
@@ -262,82 +325,17 @@ namespace DMT.Modules.WallpaperChanger
 		/// </summary>
 		public void UpdateWallpaper()
 		{
-			//_desktop.UpdateWallpaper();
-			//_minutesSinceLastChange = 0;
-			//UpdateTimeToChange();
-			//UpdateWallpaperPreview();
-
-
 			Thread t = new Thread(new ThreadStart(UpdateWallpaperThread));
 			t.IsBackground = true;
 			t.Start();
 		}
-
-		//void UpdateWallpaperThread()
-		//{
-		//	_desktop.UpdateWallpaper();
-
-		//	// inform UI that wallpaper has now been updated
-		//	WallpaperUpdatedEvent();
-		//}
-
-		//void WallpaperUpdatedEvent()
-		//{
-		//	if (_appForm.InvokeRequired)
-		//	{
-		//		_appForm.BeginInvoke(new Action(WallpaperUpdatedEvent));
-		//		return;
-		//	}
-		//	_minutesSinceLastChange = 0;
-		//	UpdateTimeToChange();
-		//	UpdateWallpaperPreview();
-		//}
-
-
-		void UpdateWallpaperThread()
-		{
-			bool ok = true;
-			string errMsg = null;
-
-			try
-			{
-				_desktop.UpdateWallpaper();
-			}
-			catch (Exception ex)
-			{
-				ok = false;
-				errMsg = ex.Message;
-			}
-
-			// inform UI that wallpaper has now been updated
-			WallpaperUpdatedEvent(ok, errMsg);
-		}
-
-		void WallpaperUpdatedEvent(bool ok, string errMsg)
-		{
-			if (_appForm.InvokeRequired)
-			{
-				_appForm.BeginInvoke(new WallpaperUpdatedDelegate(WallpaperUpdatedEvent), new object[] { ok, errMsg } );
-				return;
-			}
-			if (!ok)
-			{
-				_logger.LogError("WallpaperChanger", errMsg);
-				// note: we still allow the 'time to change' and preview to be updated
-			}
-			_minutesSinceLastChange = 0;
-			UpdateTimeToChange();
-			UpdateWallpaperPreview();
-		}
-
-
 
 		/// <summary>
 		/// Allows the user to add a new provider.
 		/// This will cause the providers config dialog to be displayed
 		/// </summary>
 		/// <param name="providerName">Name of provider</param>
-		/// <returns>true iff provider added</returns>
+		/// <returns>true if provider added</returns>
 		public bool AddProvider(string providerName)
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
@@ -353,6 +351,7 @@ namespace DMT.Modules.WallpaperChanger
 					return true;
 				}
 			}
+
 			return false;
 		}
 
@@ -361,7 +360,7 @@ namespace DMT.Modules.WallpaperChanger
 		/// This will cause the providers config dialog to be displayed
 		/// </summary>
 		/// <param name="rowIndex">Index of provider returned by GetProvidersDataSource()</param>
-		/// <returns>true iff provider config changes saved</returns>
+		/// <returns>true if provider config changes saved</returns>
 		public bool EditProvider(int rowIndex)
 		{
 			IImageProvider provider = _imageRepository.DataSource[rowIndex];
@@ -371,6 +370,7 @@ namespace DMT.Modules.WallpaperChanger
 				_imageRepository.Save();
 				return true;
 			}
+
 			return false;
 		}
 
@@ -386,12 +386,108 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				providers.Add(_imageRepository.DataSource[rowIndex]);
 			}
+
 			foreach (IImageProvider provider in providers)
 			{
 				_imageRepository.DataSource.Remove(provider);
 			}
+
 			_imageRepository.Save();
 			UpdateTimeToChange();
+		}
+
+		/// <summary>
+		/// Calculates and displays (where required) the time to the next wallpaper change
+		/// </summary>
+		public void UpdateTimeToChange()
+		{
+			string msgText;
+			Color msgColor = SystemColors.ControlText;
+
+			if (_imageRepository.DataSource == null || _imageRepository.DataSource.Count == 0)
+			{
+				msgText = WallpaperStrings.MsgNoProviders;
+				msgColor = Color.Red;
+			}
+			else if (_paused)
+			{
+				msgText = WallpaperStrings.MsgIsPaused;
+			}
+			else if (ChangePeriodically)
+			{
+				int period = GetMinutesBetweenChanges();
+				int timeLeft = period - _minutesSinceLastChange;
+
+				// never want to report less than 0 minutes
+				if (timeLeft < 1)
+				{
+					timeLeft = 1;
+				}
+
+				string formatString = (timeLeft <= 1) ? WallpaperStrings.MsgTimeToChange1 : WallpaperStrings.MsgTimeToChange2;
+				msgText = string.Format(formatString, timeLeft);
+			}
+			else
+			{
+				msgText = WallpaperStrings.MsgNoChanging;
+			}
+
+			if (_generalOptionsPanel != null)
+			{
+				_generalOptionsPanel.ShowNextChange(msgText, msgColor);
+			}
+
+			if (_propertiesOptionsPanel != null)
+			{
+				_propertiesOptionsPanel.ShowNextChange(msgText, msgColor);
+			}
+		}
+
+		void UpdateWallpaperPreview()
+		{
+			if (_propertiesOptionsPanel != null)
+			{
+				_propertiesOptionsPanel.ShowNewWallpaper();
+			}
+		}
+
+		void UpdateWallpaperThread()
+		{
+			bool ok = true;
+			string errMsg = null;
+
+			try
+			{
+				Desktop.UpdateWallpaper();
+			}
+			catch (Exception ex)
+			{
+				ok = false;
+				errMsg = ex.Message;
+			}
+
+			// inform UI that wallpaper has now been updated
+			WallpaperUpdatedEvent(ok, errMsg);
+		}
+
+		void WallpaperUpdatedEvent(bool ok, string errMsg)
+		{
+			if (_appForm.InvokeRequired)
+			{
+				_appForm.BeginInvoke(new WallpaperUpdatedDelegate(WallpaperUpdatedEvent), new object[] { ok, errMsg });
+				return;
+			}
+
+			if (!ok)
+			{
+				_logger.LogError("WallpaperChanger", errMsg);
+
+				// note: we still allow the 'time to change' and preview to be updated
+			}
+
+			_minutesSinceLastChange = 0;
+			UpdateTimeToChange();
+			UpdateWallpaperPreview();
 		}
 
 		void PauseWallpaper()
@@ -401,13 +497,9 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				_pauseToolStripMenuItem.Checked = _paused;
 			}
+
 			UpdateTimeToChange();
 		}
-
-		//HotKeyController CreateHotKeyController(string settingName, string description, string win7Key, HotKey.HotKeyHandler handler)
-		//{
-		//	return _hotKeyService.CreateHotKeyController(ModuleName, settingName, description, win7Key, handler);
-		//}
 
 		void changeWallpaperNowToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -437,65 +529,13 @@ namespace DMT.Modules.WallpaperChanger
 			}
 		}
 
-		public void UpdateTimeToChange()
-		{
-			string msgText;
-			Color msgColor = SystemColors.ControlText;
-
-			if (_imageRepository.DataSource == null || _imageRepository.DataSource.Count == 0)
-			{
-				msgText = WallpaperStrings.MsgNoProviders;
-				msgColor = Color.Red;
-			}
-			else if (_paused)
-			{
-				msgText = WallpaperStrings.MsgIsPaused;
-			}
-			else if (ChangePeriodically)
-			{
-				int period = GetMinutesBetweenChanges();
-				int timeLeft = period - _minutesSinceLastChange;
-				// never want to report less than 0 minutes
-				if (timeLeft < 1)
-				{
-					timeLeft = 1;
-				}
-				string formatString = (timeLeft <= 1) ? WallpaperStrings.MsgTimeToChange1 : WallpaperStrings.MsgTimeToChange2;
-				msgText = string.Format(formatString, timeLeft);
-			}
-			else
-			{
-				msgText = WallpaperStrings.MsgNoChanging;
-			}
-
-			if (_generalOptionsPanel != null)
-			{
-				_generalOptionsPanel.ShowNextChange(msgText, msgColor);
-			}
-
-
-			if (_propertiesOptionsPanel != null)
-			{
-				_propertiesOptionsPanel.ShowNextChange(msgText, msgColor);
-			}
-
-		}
-
-		void UpdateWallpaperPreview()
-		{
-			if (_propertiesOptionsPanel != null)
-			{
-				_propertiesOptionsPanel.ShowNewWallpaper();
-			}
-		}
-
 		int GetMinutesBetweenChanges()
 		{
 			int ret = IntervalHours * 60 + IntervalMinutes;
+
 			// Note: OK to return 0, as the timer only ticks once a minute,
 			// so when on timer, won't change more than once per minute
 			return ret;
 		}
-
 	}
 }

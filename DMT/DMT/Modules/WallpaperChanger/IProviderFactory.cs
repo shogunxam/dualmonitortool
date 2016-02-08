@@ -17,17 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
+	/// <summary>
+	/// Interface to an image provider factory
+	/// </summary>
 	public interface IProviderFactory
 	{
+		/// <summary>
+		/// Gets the list of available plugins
+		/// </summary>
+		/// <returns>List of plugins</returns>
 		List<IDWC_Plugin> GetAvailablePlugins();
+
+		/// <summary>
+		/// Creates a provider
+		/// </summary>
+		/// <param name="name">Name of provider</param>
+		/// <param name="dictionaryConfig">Configuration to use for provider</param>
+		/// <returns>Created provider</returns>
 		IImageProvider CreateProvider(string name, Dictionary<string, string> dictionaryConfig);
 	}
 }

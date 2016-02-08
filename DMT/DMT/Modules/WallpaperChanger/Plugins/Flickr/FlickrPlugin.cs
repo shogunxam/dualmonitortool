@@ -17,37 +17,87 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Settings;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+
+	using DMT.Library.Settings;
+	using DMT.Library.WallpaperPlugin;
+
+	/// <summary>
+	/// Flickr plugin
+	/// </summary>
 	public class FlickrPlugin : IDWC_Plugin
 	{
-		const string _pluginName = "flickr";
 		public const string PluginVersion = "0.0";
+		const string MyPluginName = "flickr";
 
 		ISettingsService _settingsService;
-
-		public static string PluginName { get { return _pluginName; } }
-		public static Image PluginImage { get { return Properties.Resources.FlickrPlugin; } }
-
-		public string Name { get { return PluginName; } }
-		public Image Image { get { return PluginImage; } }
-
 		StringSetting _apiKeySetting;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="FlickrPlugin" /> class.
+		/// </summary>
+		/// <param name="settingsService">Settings repository</param>
 		public FlickrPlugin(ISettingsService settingsService)
 		{
 			_settingsService = settingsService;
 			_apiKeySetting = new StringSetting(_settingsService, "WallpaperChanger", "FlickrApiKey");
 		}
 
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
+		public static string PluginName
+		{
+			get
+			{
+				return MyPluginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin image
+		/// </summary>
+		public static Image PluginImage
+		{
+			get
+			{
+				return Properties.Resources.FlickrPlugin;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin name
+		/// </summary>
+		public string Name
+		{
+			get
+			{
+				return PluginName;
+			}
+		}
+
+		/// <summary>
+		/// Gets the plugin image
+		/// </summary>
+		public Image Image
+		{
+			get
+			{
+				return PluginImage;
+			}
+		}
+
+		/// <summary>
+		/// Creates a provider from the plugin
+		/// </summary>
+		/// <param name="config">Configuration to use for the provider</param>
+		/// <returns>The image provider</returns>
 		public IImageProvider CreateProvider(Dictionary<string, string> config)
 		{
 			return new FlickrProvider(config, _apiKeySetting);

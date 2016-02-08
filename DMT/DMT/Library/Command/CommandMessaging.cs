@@ -17,39 +17,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.PInvoke;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-
 namespace DMT.Library.Command
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Runtime.InteropServices;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using DMT.Library.PInvoke;
+
 	/// <summary>
 	/// Allows commands to be sent to the running (GUI) version of DMT
 	/// </summary>
 	class CommandMessaging
 	{
-		public enum EMsgResult { OK, DmtNotFound, CmdUnknown };
-
+		/// <summary>
+		/// Message sent from command line DMT to DMT window
+		/// </summary>
 		public const int DmtCommandMessage = 0x7405;
 
-		//const string DmtCommandMessage = "DMT_COMMAND_MESSAGE";
+		/// <summary>
+		/// Result of command
+		/// </summary>
+		public enum EMsgResult
+		{
+			/// <summary>
+			/// Command found and run
+			/// </summary>
+			OK,
 
-		//uint _commandMessage = 0;
+			/// <summary>
+			/// Cold not find running instance of DMT
+			/// </summary>
+			DmtNotFound,
 
-		//public uint GetCommandMessage()
-		//{
-		//	if (_commandMessage == 0)
-		//	{
-		//		_commandMessage = Win32.RegisterWindowMessage(DmtCommandMessage);
-		//	}
+			/// <summary>
+			/// Command not recognised
+			/// </summary>
+			CmdUnknown
+		}
 
-		//	return _commandMessage;
-		//}
-
+		/// <summary>
+		/// Sends a command message to the GUI instance of DMT
+		/// </summary>
+		/// <param name="commandName">Command to send</param>
+		/// <returns>OK if command found and run</returns>
 		public EMsgResult SendCommandMessage(string commandName)
 		{
 			IntPtr hWnd = FindDmtHWnd();
@@ -61,23 +75,11 @@ namespace DMT.Library.Command
 
 			IntPtr wParam = IntPtr.Zero;
 
-			//// can't see how to get the lengh of the data?
-			//// Marshal.SizeOf(commandName) shouldn't work as it wouldn't know what encoding will be used
-			//IntPtr lpData = Marshal.StringToHGlobalUni(commandName);
-			//int cbData = ?
-
-			//// so do it the long way - doesn't work either
-			//byte[] commandAsBytes = Encoding.UTF8.GetBytes(commandName);
-			//IntPtr lpData = Marshal.AllocHGlobal(Marshal.SizeOf(commandAsBytes));
-			//Marshal.StructureToPtr(commandAsBytes, lpData, false);
-			//int cbData = Marshal.SizeOf(commandAsBytes);
-
 			// Using Ansi, we can calculate the length from the source
 			IntPtr lpData = Marshal.StringToHGlobalAnsi(commandName);
 			int cbData = commandName.Length + 1;
 
-
-			Win32.COPYDATASTRUCT cds;
+			NativeMethods.COPYDATASTRUCT cds;
 			cds.dwData = (IntPtr)DmtCommandMessage;
 			cds.cbData = cbData;
 			cds.lpData = lpData;
@@ -85,7 +87,7 @@ namespace DMT.Library.Command
 			IntPtr lParam = Marshal.AllocHGlobal(Marshal.SizeOf(cds));
 			Marshal.StructureToPtr(cds, lParam, false);
 
-			IntPtr result = Win32.SendMessage(hWnd, Win32.WM_COPYDATA, wParam, lParam);
+			IntPtr result = NativeMethods.SendMessage(hWnd, NativeMethods.WM_COPYDATA, wParam, lParam);
 
 			Marshal.FreeHGlobal(lParam);
 			Marshal.FreeHGlobal(lpData);
@@ -103,8 +105,7 @@ namespace DMT.Library.Command
 
 		IntPtr FindDmtHWnd()
 		{
-			return Win32.FindWindow(null, "DMT_GUI_WINDOW");
+			return NativeMethods.FindWindow(null, "DMT_GUI_WINDOW");
 		}
-
 	}
 }

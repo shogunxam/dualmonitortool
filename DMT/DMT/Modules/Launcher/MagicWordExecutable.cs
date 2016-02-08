@@ -17,28 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Drawing;
-using System.Web;
-using System.Windows.Forms;
-using DMT.Library;
-using DMT.Library.PInvoke;
-using System.Net;
-using DMT.Library.Html;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	using System.Net;
+	using System.Text;
+	using System.Web;
+	using System.Windows.Forms;
+
+	using DMT.Library;
+	using DMT.Library.Html;
+	using DMT.Library.PInvoke;
+
 	/// <summary>
-	/// Represents the executble and its environment for a particular instance
+	/// Represents the executable and its environment for a particular instance
 	/// of a magic word.
 	/// This handles finding the correct executable when the magic word specifies a
 	/// document/directory/url and performs any parameter substitution.
 	/// </summary>
 	public class MagicWordExecutable
 	{
+		static string _explorerPath = null;
+
 		MagicWord _magicWord;
 		ICommandRunner _commandRunner;
 		ParameterMap _map;
@@ -48,14 +51,14 @@ namespace DMT.Modules.Launcher
 		string _escapedCommandLine = null;
 		string _workingDirectory = null;
 
-		static string _explorerPath = null;
-
 		/// <summary>
-		/// ctor takes MagicWord and a ParameterMap, so that parameters
+		/// Initialises a new instance of the <see cref="MagicWordExecutable" /> class.
+		/// This takes MagicWord and a ParameterMap, so that parameters
 		/// can be shared when multiple MagicWords all have the same alias
 		/// and are to be started together.
 		/// </summary>
-		/// <param name="magicWord">The MagicWord thet we need executable details for</param>
+		/// <param name="magicWord">The MagicWord that we need executable details for</param>
+		/// <param name="commandRunner">Command runner</param>
 		/// <param name="map">The parameter map used to remember named parameters</param>
 		public MagicWordExecutable(MagicWord magicWord, ICommandRunner commandRunner, ParameterMap map)
 		{
@@ -64,6 +67,25 @@ namespace DMT.Modules.Launcher
 			_map = map;
 		}
 
+		// The full path to Windows Explorer
+		static string ExplorerPath
+		{
+			get
+			{
+				if (_explorerPath == null)
+				{
+					// TODO: is explorer always in WINDIR?
+					string winDir = Environment.GetEnvironmentVariable("WINDIR");
+					_explorerPath = Path.Combine(winDir, "explorer.exe");
+				}
+
+				return _explorerPath;
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this is an internal command
+		/// </summary>
 		public bool InternalCommand
 		{ 
 			get
@@ -72,13 +94,13 @@ namespace DMT.Modules.Launcher
 				{
 					GetExecutable();
 				}
+
 				return _internalCommand;
 			}
 		}
 
-
 		/// <summary>
-		/// Readonly full pathname to the executable that is going to be run.
+		/// Gets the full pathname to the executable that is going to be run.
 		/// This will be different to the filename of the MagicWord when the filename
 		/// represents a document/directory/url.
 		/// </summary>
@@ -90,12 +112,13 @@ namespace DMT.Modules.Launcher
 				{
 					GetExecutable();
 				}
+
 				return _executable;
 			}
 		}
 
 		/// <summary>
-		/// Readonly icon associated with the executable that would be run.
+		/// Gets the icon associated with the executable that would be run.
 		/// </summary>
 		public Icon Icon
 		{
@@ -105,6 +128,7 @@ namespace DMT.Modules.Launcher
 				{
 					GetExecutable();
 				}
+
 				Icon fileIcon = null;
 				try
 				{
@@ -120,12 +144,13 @@ namespace DMT.Modules.Launcher
 				catch (Exception)
 				{
 				}
+
 				return fileIcon;
 			}
 		}
 
 		/// <summary>
-		/// Readonly command line including executable and any parameters.
+		/// Gets the command line including executable and any parameters.
 		/// This will also expand any escapes asking the user to enter dynamic input
 		/// when required.
 		/// </summary>
@@ -142,12 +167,13 @@ namespace DMT.Modules.Launcher
 				{
 					_escapedCommandLine = ExpandEscapes(_commandLine);
 				}
+
 				return _escapedCommandLine;
 			}
 		}
 
 		/// <summary>
-		/// Readonly working(starting) directory for the executable.
+		/// Gets the working (starting) directory for the executable.
 		/// </summary>
 		public string WorkingDirectory
 		{
@@ -157,6 +183,7 @@ namespace DMT.Modules.Launcher
 				{
 					GetExecutable();
 				}
+
 				return _workingDirectory;
 			}
 		}
@@ -170,31 +197,16 @@ namespace DMT.Modules.Launcher
 		{
 			// find length of buffer required to hold associated application
 			uint pcchOut = 0;
-			Win32.AssocQueryString(Win32.ASSOCF.ASSOCF_VERIFY, Win32.ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
+			NativeMethods.AssocQueryString(NativeMethods.ASSOCF.ASSOCF_VERIFY, NativeMethods.ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, null, ref pcchOut);
 
 			// allocate the buffer
 			// pcchOut includes the '\0' terminator
 			StringBuilder sb = new StringBuilder((int)pcchOut);
 
 			// now get the app
-			Win32.AssocQueryString(Win32.ASSOCF.ASSOCF_VERIFY, Win32.ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
+			NativeMethods.AssocQueryString(NativeMethods.ASSOCF.ASSOCF_VERIFY, NativeMethods.ASSOCSTR.ASSOCSTR_EXECUTABLE, extension, null, sb, ref pcchOut);
 
 			return sb.ToString();
-		}
-
-		// The full path to Windows Explorer
-		static string ExplorerPath
-		{
-			get 
-			{
-				if (_explorerPath == null)
-				{
-					// TODO: is explorer always in WINDIR?
-					string winDir = Environment.GetEnvironmentVariable("WINDIR");
-					_explorerPath = Path.Combine(winDir, "explorer.exe");
-				}
-				return _explorerPath;
-			}
 		}
 
 		// Determines the type of MagicWord and finds corresponding executable,
@@ -222,6 +234,7 @@ namespace DMT.Modules.Launcher
 					else
 					{
 						_executable = GetAssociatedApp(extension);
+
 						// I can't see this documented anywhere, but if the extension belongs
 						// to something that can be run directly (.exe, .bat etc.) then "%1"
 						// seems to be returned
@@ -245,7 +258,6 @@ namespace DMT.Modules.Launcher
 				{
 					// assume it is a url to be opened by the browser
 					_executable = GetAssociatedApp(".htm");
-					//_commandLine = string.Format("\"{0}\" {1}", _executable, _magicWord.Filename);
 					_commandLine = string.Format("\"{0}\" \"{1}\"", _executable, _magicWord.Filename);
 				}
 
@@ -277,7 +289,7 @@ namespace DMT.Modules.Launcher
 		// This expands any escapes, requesting user input where required
 		string ExpandEscapes(string input)
 		{
-			string output = "";
+			string output = string.Empty;
 			int inputLengthTaken;
 
 			while (input.Length > 0)
@@ -337,7 +349,7 @@ namespace DMT.Modules.Launcher
 			string parameterName;
 
 			// first character of the parameter string is the parameter type
-			char parameterType = Char.ToUpper(parameter[0]);
+			char parameterType = char.ToUpper(parameter[0]);
 			
 			if (parameter.Length > 1)
 			{
@@ -359,6 +371,7 @@ namespace DMT.Modules.Launcher
 				ParameterInputForm dlg = new ParameterInputForm();
 				dlg.ParameterPrompt = parameterName;
 				dlg.ShowDialog();
+
 				// there is no cancel
 				parameterValue = dlg.ParameterValue;
 
@@ -368,11 +381,11 @@ namespace DMT.Modules.Launcher
 
 			if (parameterType == 'W')
 			{
-				//return HttpUtility.UrlEncode(parameterValue);
 				return HttpHelper.UrlEncode(parameterValue);
 			}
-			else // if (parameterType == 'I')
+			else 
 			{
+				// if (parameterType == 'I')
 				return parameterValue;
 			}
 		}

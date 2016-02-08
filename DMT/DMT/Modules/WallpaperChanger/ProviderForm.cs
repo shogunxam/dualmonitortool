@@ -17,26 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.WallpaperPlugin;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.WallpaperPlugin;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Dialog that lists all available provider types
+	/// </summary>
 	partial class ProviderForm : Form
 	{
 		WallpaperChangerModule _wallpaperChangerModule;
 
-		public string SelectedProviderName { get; set; }
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ProviderForm" /> class.
+		/// </summary>
+		/// <param name="wallpaperChangerModule">The wallpaper changer module</param>
 		public ProviderForm(WallpaperChangerModule wallpaperChangerModule)
 		{
 			_wallpaperChangerModule = wallpaperChangerModule;
@@ -45,6 +51,11 @@ namespace DMT.Modules.WallpaperChanger
 
 			InitializeProviders();
 		}
+
+		/// <summary>
+		/// Gets or sets the currently selected provider
+		/// </summary>
+		public string SelectedProviderName { get; set; }
 
 		private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
@@ -82,6 +93,5 @@ namespace DMT.Modules.WallpaperChanger
 
 			return false;
 		}
-
 	}
 }

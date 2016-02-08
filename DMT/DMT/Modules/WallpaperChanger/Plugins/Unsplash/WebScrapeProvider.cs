@@ -17,44 +17,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Html;
-using DMT.Library.Utils;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Drawing.Drawing2D;
+	using System.IO;
+	using System.Linq;
+	using System.Net;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	using DMT.Library.Html;
+	using DMT.Library.Utils;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// An instance of a provider from the unsplash plugin
 	/// </summary>
 	class WebScrapeProvider : IImageProvider
 	{
 		WebScrapeConfig _config;
-
-		// these relate to the provider type
-		public string ProviderName { get { return WebScrapePlugin.PluginName; } }
-		public Image ProviderImage { get { return WebScrapePlugin.PluginImage; } }
-		public string Version { get { return WebScrapePlugin.PluginVersion; } }
-
-		// these relate to the provider instance
-		public string Description { get { return _config.Description; } }
-		public int Weight { get { return _config.Weight; } }
-
-		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
-
-		//static Random _random = new Random();
-
 		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WebScrapeProvider" /> class.
+		/// </summary>
+		/// <param name="config">Configuration for unsplash scraper</param>
 		public WebScrapeProvider(Dictionary<string, string> config)
 		{
 			_config = new WebScrapeConfig(config);
@@ -63,6 +54,76 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			_httpRequester = new HttpRequester(_connectionManager);
 		}
 
+		/// <summary>
+		/// Gets the provider name - same for all instances of this class
+		/// </summary>
+		public string ProviderName 
+		{ 
+			get 
+			{ 
+				return WebScrapePlugin.PluginName; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the provider image - same for all instances of this class
+		/// </summary>
+		public Image ProviderImage 
+		{ 
+			get 
+			{ 
+				return WebScrapePlugin.PluginImage; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the provider version - same for all instances of this class
+		/// </summary>
+		public string Version 
+		{ 
+			get 
+			{ 
+				return WebScrapePlugin.PluginVersion; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the description for this instance of the provider
+		/// </summary>
+		public string Description 
+		{ 
+			get 
+			{ 
+				return _config.Description; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the weight for this instance of the provider
+		/// </summary>
+		public int Weight 
+		{ 
+			get 
+			{ 
+				return _config.Weight; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the configuration 
+		/// </summary>
+		public Dictionary<string, string> Config 
+		{ 
+			get 
+			{ 
+				return _config.ToDictionary(); 
+			} 
+		}
+
+		/// <summary>
+		/// Allows the user to update the configuration 
+		/// </summary>
+		/// <returns>New configuration, or null if no changes</returns>
 		public Dictionary<string, string> ShowUserOptions()
 		{
 			WebScrapeForm dlg = new WebScrapeForm(_config);
@@ -76,6 +137,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return null;
 		}
 
+		/// <summary>
+		/// Returns a random image
+		/// </summary>
+		/// <param name="optimumSize">Optimum image size</param>
+		/// <param name="screenIndex">Screen index image is for</param>
+		/// <returns>Random image</returns>
 		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = null;
@@ -109,7 +176,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			if (imageUrls.Count > 0)
 			{
 				// choose a random image
-				//int index = _random.Next(imageUrls.Count);
 				int index = RNG.Next(imageUrls.Count);
 				PhotoDetails photoDetails = imageUrls[index];
 
@@ -117,7 +183,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 				string photographerUrl = GetFullUrl(photoDetails.PhotographerUrl, randomPageConnection);
 				string photoUrl = GetFullUrl(photoDetails.PhotoDetailsUrl, randomPageConnection);
 
-				//string imageUrl = imageUrls[index].PhotoDetailsUrl;
 				string imageUrl = imageUrls[index].ImageUrl;
 				imageUrl = CleanImageUrl(imageUrl, optimumSize);
 				Image image = GetImage(imageUrl, randomPageConnection);
@@ -161,9 +226,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			int maxPages = ParseNumPagesOnPage(homePage);
 			if (maxPages > 0)
 			{
-				//int randomPage = _random.Next(1, maxPages + 1); // (inclusive, exclusive)
 				int randomPage = RNG.Next(1, maxPages + 1); // (inclusive, exclusive)
-				// don't ask for the first page again
+
+				// make sure we don't ask for the first page again
 				if (randomPage > 1)
 				{
 					url = string.Format("/?page={0}", randomPage);
@@ -300,12 +365,14 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 								{
 									photoDetails.PhotographerUrl = aHref;
 								}
+
 								photoDetails.PhotoDetailsUrl = photoDetailsUrl;
 								photoDetails.ImageUrl = photoUrl;
 								images.Add(photoDetails);
 								photoDetailsUrl = string.Empty;
 							}
 						}
+
 						aInnerText = string.Empty;
 						aHref = string.Empty;
 						inPhotoA = false;
@@ -344,9 +411,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 					{
 						divClass = element.GetAttribute("class");
 					}
+
 					if (element.GetElementName() == "a")
 					{
-						inAnchor = true; ;
+						inAnchor = true;
 					}
 				}
 				else if (htmlReader.NodeType == HtmlNodeType.EndElement)
@@ -356,6 +424,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 					{
 						divClass = string.Empty;
 					}
+
 					if (element.GetElementName() == "a")
 					{
 						inAnchor = false;
@@ -401,8 +470,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 		{
 			if (string.IsNullOrEmpty(relativeUrl))
 			{
-				return "";
+				return string.Empty;
 			}
+
 			Uri uri = GetFullUri(relativeUrl, parentConnection);
 			return uri.ToString();
 		}

@@ -17,74 +17,72 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library;
-using DMT.Library.Utils;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Settings
 {
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+
+	using DMT.Library;
+	using DMT.Library.Utils;
+
+	/// <summary>
+	/// Repository for holding the settings
+	/// </summary>
 	class SettingsRepository : ISettingsService
 	{
 		Dictionary<string, string> _settings;
 
-		//#region Singleton support
-		//// the single instance of this object
-		//static readonly SettingsRepository instance = new SettingsRepository();
-
-		//// Explicit static constructor to tell C# compiler
-		//// not to mark type as beforefieldinit
-		//static SettingsRepository()
-		//{
-		//}
-
-		//SettingsRepository()
-		//{
-		//	LoadSettings();
-		//}
-
-		//public static SettingsRepository Instance
-		//{
-		//	get
-		//	{
-		//		return instance;
-		//	}
-		//}
-		//#endregion
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SettingsRepository" /> class.
+		/// </summary>
 		public SettingsRepository()
 		{
 			LoadSettings();
 		}
 
-		void LoadSettings()
-		{
-			_settings = Load(GetSettingsFilename());
-		}
-
+		/// <summary>
+		/// Saves the current settings
+		/// </summary>
 		public void SaveSettings()
 		{
 			Save(_settings, GetSettingsFilename());
 		}
 
+		/// <summary>
+		/// Checks if the setting currently exists for the module
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <returns>True if it exists</returns>
 		public bool SettingExists(string moduleName, string settingName)
 		{
 			string value;
 			return _settings.TryGetValue(GetDictionaryName(moduleName, settingName), out value);
 		}
 
-
 		#region int settings
+		/// <summary>
+		/// Gets the setting value as an integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if setting doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		public int GetSettingAsInt(string moduleName, string settingName, int defaultValue = 0)
 		{
-		
 			return StringUtils.ToInt(GetSetting(moduleName, settingName), defaultValue);
 		}
 
+		/// <summary>
+		/// Sets the setting value as an integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="value">Value for the setting</param>
 		public void SetSetting(string moduleName, string settingName, int value)
 		{
 			SetSetting(moduleName, settingName, value.ToString());
@@ -92,11 +90,24 @@ namespace DMT.Library.Settings
 		#endregion
 
 		#region uint settings
+		/// <summary>
+		/// Gets the setting value as an unsigned integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if it doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		public uint GetSettingAsUInt(string moduleName, string settingName, uint defaultValue = 0)
 		{
 			return StringUtils.ToUInt(GetSetting(moduleName, settingName), defaultValue);
 		}
 
+		/// <summary>
+		/// Sets the setting value as an unsigned integer
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="value">Value for the setting</param>
 		public void SetSetting(string moduleName, string settingName, uint value)
 		{
 			SetSetting(moduleName, settingName, value.ToString());
@@ -104,11 +115,24 @@ namespace DMT.Library.Settings
 		#endregion
 
 		#region bool settings
+		/// <summary>
+		/// Gets the setting value as a boolean
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if it doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		public bool GetSettingAsBool(string moduleName, string settingName, bool defaultValue = false)
 		{
 			return StringUtils.ToBool(GetSetting(moduleName, settingName), defaultValue);
 		}
 
+		/// <summary>
+		/// Sets the setting value as a boolean
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="set">Value for the setting</param>
 		public void SetSetting(string moduleName, string settingName, bool set)
 		{
 			SetSetting(moduleName, settingName, set.ToString());
@@ -116,6 +140,13 @@ namespace DMT.Library.Settings
 		#endregion
 
 		#region string settings
+		/// <summary>
+		/// Gets the setting value as a string
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="defaultValue">Default value if it doesn't exist</param>
+		/// <returns>The value of the setting</returns>
 		public string GetSettingAsString(string moduleName, string settingName, string defaultValue)
 		{
 			string value;
@@ -123,39 +154,32 @@ namespace DMT.Library.Settings
 			{
 				return value;
 			}
+
 			return defaultValue;
 		}
 
+		/// <summary>
+		/// Gets the setting value as a string
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <returns>The value of the setting</returns>
 		public string GetSetting(string moduleName, string settingName)
 		{
-			return GetSettingAsString(moduleName, settingName, "");
+			return GetSettingAsString(moduleName, settingName, string.Empty);
 		}
 
+		/// <summary>
+		/// Sets the setting value as a string
+		/// </summary>
+		/// <param name="moduleName">Module name</param>
+		/// <param name="settingName">Setting name</param>
+		/// <param name="settingValue">Value for the setting</param>
 		public void SetSetting(string moduleName, string settingName, string settingValue)
 		{
 			_settings[GetDictionaryName(moduleName, settingName)] = settingValue;
 		}
 		#endregion
-
-		string GetDictionaryName(string moduleName, string settingName)
-		{
-			return moduleName + "__" + settingName;
-		}
-
-		string GetSettingsFilename()
-		{
-			return FileLocations.Instance.SettingsFilename;
-
-		}
-
-		//static void Save(Dictionary<string, string> settings, string filename)
-		//{
-		//	using (Stream stream = File.Open(filename, FileMode.Create))
-		//	{
-		//		SettingsWriter writer = new SettingsWriter();
-		//		writer.Write(settings, stream);
-		//	}
-		//}
 
 		static void Save(Dictionary<string, string> settings, string filename)
 		{
@@ -165,12 +189,13 @@ namespace DMT.Library.Settings
 				SettingsWriter writer = new SettingsWriter();
 				writer.Write(settings, stream);
 			}
+
 			newFile.CompleteWrite();
 		}
 
 		static Dictionary<string, string> Load(string filename)
 		{
-			Dictionary<string, string> settings = new Dictionary<string,string>();
+			Dictionary<string, string> settings = new Dictionary<string, string>();
 
 			try
 			{
@@ -188,6 +213,21 @@ namespace DMT.Library.Settings
 			}
 
 			return settings;
+		}
+
+		void LoadSettings()
+		{
+			_settings = Load(GetSettingsFilename());
+		}
+
+		string GetDictionaryName(string moduleName, string settingName)
+		{
+			return moduleName + "__" + settingName;
+		}
+
+		string GetSettingsFilename()
+		{
+			return FileLocations.Instance.SettingsFilename;
 		}
 	}
 }

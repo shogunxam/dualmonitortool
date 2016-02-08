@@ -17,20 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
 namespace DMT.Library.Environment
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+
 	/// <summary>
 	/// Represents a single monitor.
 	/// </summary>
  	public class Monitor
 	{
+		/// <summary>
+		/// Gets or sets the bounds for the monitor
+		/// </summary>
 		public Rectangle Bounds { get; set; }
+
+		/// <summary>
+		/// Gets or sets the working area for the monitor
+		/// </summary>
 		public Rectangle WorkingArea { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this is the primary monitor
+		/// </summary>
 		public bool Primary { get; set; }
 	}
 }

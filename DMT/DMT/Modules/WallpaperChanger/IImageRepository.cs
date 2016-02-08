@@ -17,20 +17,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Drawing;
+	using System.Text;
+
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
+	/// <summary>
+	/// Interface for an image repository
+	/// </summary>
 	public interface IImageRepository
 	{
+		/// <summary>
+		/// Gets the list of providers for use in a DataGrid
+		/// </summary>
 		BindingList<IImageProvider> DataSource { get; }
+
+		/// <summary>
+		/// Saves the current list of providers together with their configuration
+		/// </summary>
+		/// <returns>True if saved successfully</returns>
 		bool Save();
+
+		/// <summary>
+		/// Gets a random image from the repository
+		/// </summary>
+		/// <param name="optimumSize">Optimum size for the image. May be ignored by the provider</param>
+		/// <param name="screenIndex">Screen index image is for</param>
+		/// <returns>Random image, or null if unable to return image</returns>
 		ProviderImage GetRandomImage(Size optimumSize, int screenIndex);
 	}
 }

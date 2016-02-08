@@ -17,14 +17,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace DMT.Library.PInvoke
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Runtime.InteropServices;
+	using System.Text;
+
+	/// <summary>
+	/// Support for the active desktop
+	/// </summary>
 	static class ActiveDesktop
 	{
 		static readonly Guid CLSID_ActiveDesktop = new Guid("{75048700-EF1F-11D0-9888-006097DEACF9}");
@@ -104,7 +107,6 @@ namespace DMT.Library.PInvoke
 			WPSTYLE_STRETCH = 2,
 			WPSTYLE_MAX = 3
 		}
-
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WALLPAPEROPT
@@ -241,6 +243,5 @@ namespace DMT.Library.PInvoke
 			Type typeActiveDesktop = Type.GetTypeFromCLSID(CLSID_ActiveDesktop);
 			return (IActiveDesktop)Activator.CreateInstance(typeActiveDesktop);
 		}
-
 	}
 }

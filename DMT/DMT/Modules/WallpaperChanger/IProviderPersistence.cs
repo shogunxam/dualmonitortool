@@ -17,18 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.Text;
+
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
+	/// <summary>
+	/// Interface to class that persists a list of providers
+	/// </summary>
 	interface IProviderPersistence
 	{
+		/// <summary>
+		/// Loads the providers
+		/// </summary>
+		/// <returns>List of providers</returns>
 		Collection<IImageProvider> Load();
+
+		/// <summary>
+		/// Saves the providers
+		/// </summary>
+		/// <param name="providers">List of providers</param>
 		void Save(Collection<IImageProvider> providers);
 	}
 }

@@ -17,16 +17,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+
+	using DMT.Library.Environment;
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Represents the physical desktop.
 	/// Responsible for the top level of wallpaper generation.
@@ -40,20 +41,46 @@ namespace DMT.Modules.WallpaperChanger
 		IWallpaperCompositor _compositor = null;
 		Image _currentWallpaperImage = null;
 
-		public Image CurrentWallpaperImage { get { return _currentWallpaperImage; } }
-		public IWallpaperCompositor CurrentCompositor { get { return _compositor; } }
-
 		WallpaperChangerModule _wallpaperChangerModule;
 		ILocalEnvironment _localEnvironment;
 		IImageRepository _imageRepository;
 		IWallpaperCompositorFactory _compositorFactory;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="Desktop" /> class.
+		/// </summary>
+		/// <param name="wallpaperChangerModule">Wallpaper changer module</param>
+		/// <param name="monitorEnvironment">Local environment</param>
+		/// <param name="imageRepository">Repository to get images from</param>
+		/// <param name="compositorFactory">Wallpaper compositor</param>
 		public Desktop(WallpaperChangerModule wallpaperChangerModule, ILocalEnvironment monitorEnvironment, IImageRepository imageRepository, IWallpaperCompositorFactory compositorFactory)
 		{
 			_wallpaperChangerModule = wallpaperChangerModule;
 			_localEnvironment = monitorEnvironment;
 			_imageRepository = imageRepository;
 			_compositorFactory = compositorFactory;
+		}
+
+		/// <summary>
+		/// Gets the current wallpaper image
+		/// </summary>
+		public Image CurrentWallpaperImage 
+		{ 
+			get 
+			{ 
+				return _currentWallpaperImage; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the wallpaper compositor
+		/// </summary>
+		public IWallpaperCompositor CurrentCompositor 
+		{ 
+			get 
+			{ 
+				return _compositor; 
+			} 
 		}
 
 		/// <summary>
@@ -77,6 +104,11 @@ namespace DMT.Modules.WallpaperChanger
 			}
 		}
 
+		/// <summary>
+		/// Gets the provider image from the specified screen index
+		/// </summary>
+		/// <param name="screenIndex">Index of screen to get image from</param>
+		/// <returns>Provider image</returns>
 		public ProviderImage GetProviderImage(int screenIndex)
 		{
 			return GetRememberedImage(screenIndex);
@@ -84,7 +116,6 @@ namespace DMT.Modules.WallpaperChanger
 
 		void UpdateFullWallpaper(SwitchType.ImageToMonitorMapping monitorMapping, IWallpaperCompositor compositor)
 		{
-			//List<ProviderImage> generatedImages = new List<ProviderImage>();
 			List<int> selectedScreens = new List<int>();
 			StretchType stretchType = new StretchType(_wallpaperChangerModule.Fit);
 
@@ -100,7 +131,6 @@ namespace DMT.Modules.WallpaperChanger
 					if (sourceImage != null && sourceImage.Image != null)
 					{
 						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
-						//generatedImages.Add(sourceImage);
 						RememberImage(sourceImage, i);
 					}
 				}
@@ -116,11 +146,13 @@ namespace DMT.Modules.WallpaperChanger
 					{
 						optimumSize.Width = compositor.AllScreens[i].ScreenRect.Width;
 					}
+
 					if (compositor.AllScreens[i].ScreenRect.Height > optimumSize.Height)
 					{
 						optimumSize.Height = compositor.AllScreens[i].ScreenRect.Height;
 					}
 				}
+
 				ProviderImage sourceImage = GetRandomImage(optimumSize);
 				if (sourceImage != null && sourceImage.Image != null)
 				{
@@ -129,7 +161,7 @@ namespace DMT.Modules.WallpaperChanger
 					{
 						compositor.AddImage(sourceImage.Image, ScreenToList(i), stretchType.Type);
 					}
-					//generatedImages.Add(sourceImage);
+
 					RememberImage(sourceImage, 0);
 				}
 			}
@@ -142,25 +174,13 @@ namespace DMT.Modules.WallpaperChanger
 				{
 					selectedScreens = GetAllScreenIndexes(compositor);
 					compositor.AddImage(sourceImage.Image, selectedScreens, stretchType.Type); 
-					//generatedImages.Add(sourceImage);
 					RememberImage(sourceImage, 0);
 				}
 			}
 
-			//using (Image wallpaper = compositor.CreateWallpaperImage())
-			//{
-			//	WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
-			//	windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
-			//}
 			CreateWallpaperImage();
 			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, _currentWallpaperImage, _compositor.DesktopRect);
 			windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
-
-			//// must dispose of the images
-			//foreach (ProviderImage providerImage in generatedImages)
-			//{
-			//	providerImage.Dispose();
-			//}
 		}
 
 		void UpdatePartialWallpaper(SwitchType.ImageToMonitorMapping monitorMapping, IWallpaperCompositor compositor)
@@ -182,13 +202,13 @@ namespace DMT.Modules.WallpaperChanger
 							RememberImage(sourceImage, i);
 						}
 					}
+
 					// set so, the next screen we update will be the first
 					_lastScreenUpdated = compositor.AllScreens.Count - 1;
 				}
 				else
 				{
 					// just need the one image
-
 					_lastScreenUpdated++;
 					if (numScreens > 0)
 					{
@@ -205,22 +225,16 @@ namespace DMT.Modules.WallpaperChanger
 				// now add the required image for each screen to the compositor
 				for (int i = 0; i < numScreens; i++)
 				{
-					//compositor.AddImage(_previousImages[i], ScreenToList(i), stretchType.Type);
 					ProviderImage providerImage = GetRememberedImage(i);
+
 					// Should always have an image, but jic
 					if (providerImage != null)
 					{
 						compositor.AddImage(providerImage.Image, ScreenToList(i), stretchType.Type);
 					}
 				}
-
 			}
 
-			//using (Image wallpaper = compositor.CreateWallpaperImage())
-			//{
-			//	WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, wallpaper, compositor.DesktopRect);
-			//	windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
-			//}
 			CreateWallpaperImage();
 			WindowsWallpaper windowsWallpaper = new WindowsWallpaper(_localEnvironment, _currentWallpaperImage, _compositor.DesktopRect);
 			windowsWallpaper.SetWallpaper(_wallpaperChangerModule.SmoothFade);
@@ -234,6 +248,7 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				_currentWallpaperImage.Dispose();
 			}
+
 			_currentWallpaperImage = wallpaper;
 		}
 
@@ -245,10 +260,8 @@ namespace DMT.Modules.WallpaperChanger
 
 		ProviderImage GetRandomImage(Size optimumSize, int screenIndex = -1)
 		{
-			//return ImageRepository.Instance.GetRandomImage();
 			return _imageRepository.GetRandomImage(optimumSize, screenIndex);
 		}
-
 
 		List<int> ScreenToList(int screenIndex)
 		{
@@ -260,8 +273,6 @@ namespace DMT.Modules.WallpaperChanger
 		List<int> GetAllScreenIndexes(IWallpaperCompositor compositor)
 		{
 			List<int> allScreens = new List<int>();
-
-			
 
 			for (int i = 0; i < compositor.AllScreens.Count; i++)
 			{
@@ -289,6 +300,7 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				_currentImages[screenIndex].Dispose();
 			}
+
 			_currentImages[screenIndex] = providerImage;
 		}
 
@@ -303,6 +315,7 @@ namespace DMT.Modules.WallpaperChanger
 						providerImage.Dispose();
 					}
 				}
+
 				_currentImages = null;
 			}
 		}
@@ -331,6 +344,7 @@ namespace DMT.Modules.WallpaperChanger
 				{
 					return false;
 				}
+
 				// check none of these are empty slots
 				for (int n = 0; n < numMonitors; n++)
 				{
@@ -339,6 +353,7 @@ namespace DMT.Modules.WallpaperChanger
 						return false;
 					}
 				}
+
 				// have an active slot for each active monitor
 				return true;
 			}

@@ -17,24 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library.Wallpaper;
-using DMT.Library.HotKeys;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library.HotKeys;
+	using DMT.Library.Wallpaper;
+
+	/// <summary>
+	/// Options panel for the wallpaper changers general options
+	/// </summary>
 	partial class WallpaperChangerGeneralOptionsPanel : UserControl
 	{
 		WallpaperChangerModule _wallpaperChangerModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WallpaperChangerGeneralOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="wallpaperChangerModule">The wallpaper changer module</param>
 		public WallpaperChangerGeneralOptionsPanel(WallpaperChangerModule wallpaperChangerModule)
 		{
 			_wallpaperChangerModule = wallpaperChangerModule;
@@ -44,6 +52,11 @@ namespace DMT.Modules.WallpaperChanger
 			SetupHotKeys();
 		}
 
+		/// <summary>
+		/// This informs us that the time to the next change as changed
+		/// </summary>
+		/// <param name="nextChangeMsg">Message saying when next change is</param>
+		/// <param name="foreColor">Foreground colour to use for message</param>
 		public void ShowNextChange(string nextChangeMsg, Color foreColor)
 		{
 			if (labelNextChange != null)
@@ -89,6 +102,7 @@ namespace DMT.Modules.WallpaperChanger
 					selectedItem = stretchType;
 				}
 			}
+
 			if (selectedItem != null)
 			{
 				comboBoxFit.SelectedItem = selectedItem;
@@ -116,6 +130,7 @@ namespace DMT.Modules.WallpaperChanger
 					selectedItem = switchType;
 				}
 			}
+
 			if (selectedItem != null)
 			{
 				comboBoxMultiMonitor.SelectedItem = selectedItem;
@@ -211,7 +226,5 @@ namespace DMT.Modules.WallpaperChanger
 			numericUpDownHours.Enabled = enabled;
 			numericUpDownMinutes.Enabled = enabled;
 		}
-
-
 	}
 }

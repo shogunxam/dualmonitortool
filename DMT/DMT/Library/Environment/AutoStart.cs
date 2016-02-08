@@ -17,32 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-
-using Microsoft.Win32;
-
 namespace DMT.Library.Environment
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using Microsoft.Win32;
+
 	/// <summary>
 	/// Utility class to assist starting the current app when the user logs in.
 	/// </summary>
 	class AutoStart
 	{
-		const string runKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+		const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
 		/// <summary>
-		/// Checks if the application is set to autostart using one of the Run registry keys
+		/// Checks if the application is set to auto start using one of the Run registry keys
 		/// </summary>
 		/// <param name="keyName">Name used to identify this application</param>
-		/// <returns>true if application autostarts using a registry run key</returns>
+		/// <returns>true if application auto starts using a registry run key</returns>
 		public static bool IsAutoStart(string keyName)
 		{
 			bool ret = false;
 
-			RegistryKey key = Registry.CurrentUser.OpenSubKey(runKey);
+			RegistryKey key = Registry.CurrentUser.OpenSubKey(RunKey);
 			if (key != null)
 			{
 				object keyValue = key.GetValue(keyName);
@@ -50,6 +50,7 @@ namespace DMT.Library.Environment
 				{
 					ret = true;
 				}
+
 				// release any resources
 				key.Close();
 			}
@@ -58,25 +59,27 @@ namespace DMT.Library.Environment
 		}
 
 		/// <summary>
-		/// Sets the application to autostart using a registry run key
+		/// Sets the application to auto start using a registry run key
 		/// </summary>
 		/// <param name="keyName">Name used to identify this application</param>
 		public static void SetAutoStart(string keyName)
 		{
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(runKey);
+			RegistryKey key = Registry.CurrentUser.CreateSubKey(RunKey);
 			key.SetValue(keyName, Application.ExecutablePath);
+
 			// flush the changes and release any resources
 			key.Close();
 		}
 
 		/// <summary>
-		/// Stops the application from autostarting using a registry run key
+		/// Stops the application from auto starting using a registry run key
 		/// </summary>
 		/// <param name="keyName">Name used to identify this application</param>
 		public static void UnsetAutoStart(string keyName)
 		{
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(runKey);
+			RegistryKey key = Registry.CurrentUser.CreateSubKey(RunKey);
 			key.DeleteValue(keyName);
+
 			// flush the changes and release any resources
 			key.Close();
 		}

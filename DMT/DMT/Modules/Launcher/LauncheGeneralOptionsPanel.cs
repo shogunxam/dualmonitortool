@@ -17,22 +17,29 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Options panel for editing general launcher options
+	/// </summary>
 	partial class LauncheGeneralOptionsPanel : UserControl
 	{
 		LauncherModule _launcherModule;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="LauncheGeneralOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="launcherModule">Launcher module</param>
 		public LauncheGeneralOptionsPanel(LauncherModule launcherModule)
 		{
 			_launcherModule = launcherModule;

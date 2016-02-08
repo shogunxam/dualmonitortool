@@ -17,32 +17,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using DMT.Library;
-using DMT.Resources;
-using DMT.Library.GuiUtils;
-using DMT.Library.PInvoke;
-
 namespace DMT.Modules.Launcher
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Library;
+	using DMT.Library.GuiUtils;
+	using DMT.Library.PInvoke;
+	using DMT.Resources;
+
+	/// <summary>
+	/// A panel that allows a single starting position to be edited
+	/// </summary>
 	public partial class StartupPositionControl : UserControl
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="StartupPositionControl" /> class.
+		/// </summary>
 		public StartupPositionControl()
 		{
 			InitializeComponent();
 		}
+
 		/// <summary>
 		/// Initialises the control with the given starting position
 		/// </summary>
-		/// <param name="startupPosition"></param>
+		/// <param name="startupPosition">Required starting position</param>
 		public void InitControl(StartupPosition startupPosition)
 		{
 			InitShowWindowCombo(startupPosition);
@@ -58,7 +66,8 @@ namespace DMT.Modules.Launcher
 			}
 
 			// initialise the window picker
-			windowPicker.InitControl(Properties.Resources.TargetCursor,
+			windowPicker.InitControl(
+				Properties.Resources.TargetCursor,
 				Properties.Resources.WinNoCrossHairs,
 				Properties.Resources.WinCrossHairs);
 
@@ -67,47 +76,10 @@ namespace DMT.Modules.Launcher
 			UpdateEnableState();
 		}
 
-		private void InitShowWindowCombo(StartupPosition startupPosition)
-		{
-			int showCmd = Win32.SW_SHOWNORMAL;	// the default option
-			if (startupPosition != null)
-			{
-				showCmd = startupPosition.ShowCmd;
-			}
-
-			comboBoxWinType.Items.Clear();
-			comboBoxWinType.Items.Add(LauncherStrings.ShowNormal);
-			comboBoxWinType.Items.Add(LauncherStrings.ShowMaximised);
-			comboBoxWinType.Items.Add(LauncherStrings.ShowMinimised);
-
-			if (showCmd == Win32.SW_SHOWMINNOACTIVE)
-			{
-				comboBoxWinType.Text = LauncherStrings.ShowMinimised;
-			}
-			else if (showCmd == Win32.SW_SHOWMAXIMIZED)
-			{
-				comboBoxWinType.Text = LauncherStrings.ShowMaximised;
-			}
-			else
-			{
-				comboBoxWinType.Text = LauncherStrings.ShowNormal;
-			}
-		}
-
-		private void windowPicker_HoveredWindowChanged(IntPtr hWnd)
-		{
-			Win32.RECT rect;
-			if (Win32.GetWindowRect(hWnd, out rect))
-			{
-				Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
-				SetWindowRect(rectangle);
-			}
-		}
-
 		/// <summary>
 		/// Changes the displayed rectangle
 		/// </summary>
-		/// <param name="rectangle"></param>
+		/// <param name="rectangle">Rectangle to associate with this starting position</param>
 		public void SetWindowRect(Rectangle rectangle)
 		{
 			this.textBoxX.Text = rectangle.X.ToString();
@@ -117,8 +89,9 @@ namespace DMT.Modules.Launcher
 		}
 
 		/// <summary>
-		/// Fills in StartupPosition with the current position details.
+		/// Sets the starting position from what is in the dialog
 		/// </summary>
+		/// <param name="position">Class that we save the position to</param>
 		/// <returns>true (always)</returns>
 		public bool GetPosition(StartupPosition position)
 		{
@@ -148,18 +121,55 @@ namespace DMT.Modules.Launcher
 
 			if (comboBoxWinType.Text == LauncherStrings.ShowMinimised)
 			{
-				position.ShowCmd = Win32.SW_SHOWMINNOACTIVE;
+				position.ShowCmd = NativeMethods.SW_SHOWMINNOACTIVE;
 			}
 			else if (comboBoxWinType.Text == LauncherStrings.ShowMaximised)
 			{
-				position.ShowCmd = Win32.SW_SHOWMAXIMIZED;
+				position.ShowCmd = NativeMethods.SW_SHOWMAXIMIZED;
 			}
 			else
 			{
-				position.ShowCmd = Win32.SW_SHOWNORMAL;
+				position.ShowCmd = NativeMethods.SW_SHOWNORMAL;
 			}
 
 			return isValid;
+		}
+
+		void InitShowWindowCombo(StartupPosition startupPosition)
+		{
+			int showCmd = NativeMethods.SW_SHOWNORMAL;	// the default option
+			if (startupPosition != null)
+			{
+				showCmd = startupPosition.ShowCmd;
+			}
+
+			comboBoxWinType.Items.Clear();
+			comboBoxWinType.Items.Add(LauncherStrings.ShowNormal);
+			comboBoxWinType.Items.Add(LauncherStrings.ShowMaximised);
+			comboBoxWinType.Items.Add(LauncherStrings.ShowMinimised);
+
+			if (showCmd == NativeMethods.SW_SHOWMINNOACTIVE)
+			{
+				comboBoxWinType.Text = LauncherStrings.ShowMinimised;
+			}
+			else if (showCmd == NativeMethods.SW_SHOWMAXIMIZED)
+			{
+				comboBoxWinType.Text = LauncherStrings.ShowMaximised;
+			}
+			else
+			{
+				comboBoxWinType.Text = LauncherStrings.ShowNormal;
+			}
+		}
+
+		private void windowPicker_HoveredWindowChanged(IntPtr hWnd)
+		{
+			NativeMethods.RECT rect;
+			if (NativeMethods.GetWindowRect(hWnd, out rect))
+			{
+				Rectangle rectangle = ScreenHelper.RectToRectangle(ref rect);
+				SetWindowRect(rectangle);
+			}
 		}
 
 		private int TextBoxToInt(Control control, ref bool isValid)
@@ -177,6 +187,7 @@ namespace DMT.Modules.Launcher
 				{
 					control.Focus();
 				}
+
 				isValid = false;
 			}
 

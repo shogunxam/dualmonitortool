@@ -17,47 +17,55 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Reflection;
-
-using System.Diagnostics;
-
 namespace DMT.Library.Binding
 {
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Diagnostics;
+	using System.Reflection;
+	using System.Text;
+
 	/// <summary>
 	/// This is a sortable implementation of a BindingList
-	/// It is based on http://msdn.microsoft.com/en-us/library/aa480736.aspx
-	/// amd http://msdn.microsoft.com/en-us/library/ms993236.aspx
+	/// It is based on <see href="http://msdn.microsoft.com/en-us/library/aa480736.aspx" />
+	/// and <see href="http://msdn.microsoft.com/en-us/library/ms993236.aspx" />
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">Type of item in collection</typeparam>
 	public class SortableBindingList<T> : BindingList<T>
 	{
-		// indicate we support sorting
+		bool _isSortedCore;
+		ListSortDirection _sortDirectionCore;
+		PropertyDescriptor _sortPropertyCore;
+
+		/// <summary>
+		/// Gets a value indicating it sorting is supported
+		/// </summary>
 		protected override bool SupportsSortingCore
 		{
 			get { return true; }
 		}
 
-		bool _isSortedCore;
-		// indicate if currently sorted
+		/// <summary>
+		/// Gets a value indicating if the list is currently sorted
+		/// </summary>
 		protected override bool IsSortedCore
 		{
 			get { return _isSortedCore; }
 		}
 
-		ListSortDirection _sortDirectionCore;
-		// the direction of the sort
+		/// <summary>
+		/// Gets the current direction of the sort
+		/// </summary>
 		protected override ListSortDirection SortDirectionCore
 		{
 			get { return _sortDirectionCore; }
 		}
 
-		PropertyDescriptor _sortPropertyCore;
-		// the property name we are sorting on
+		/// <summary>
+		/// Gets the property that we are sorting on
+		/// </summary>
 		protected override PropertyDescriptor SortPropertyCore
 		{
 			get { return _sortPropertyCore; }
@@ -66,38 +74,17 @@ namespace DMT.Library.Binding
 		/// <summary>
 		/// Sort on the given property and direction
 		/// </summary>
-		/// <param name="property"></param>
-		/// <param name="sortDirection"></param>
+		/// <param name="property">Name of property to sort on</param>
+		/// <param name="sortDirection">Sort direction</param>
 		public void Sort(PropertyDescriptor property, ListSortDirection sortDirection)
 		{
 			ApplySortCore(property, ListSortDirection.Ascending);
 		}
 
-		protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection sortDirection)
-		{
-			_sortPropertyCore = property;
-			_sortDirectionCore = sortDirection;
-
-			if (property != null)
-			{
-				PropertyComparer<T> comparer = new PropertyComparer<T>(property.Name, sortDirection);
-
-				//
-				List<T> listItems = this.Items as List<T>;
-				listItems.Sort(comparer);
-
-				_isSortedCore = true;
-
-				// Raise the ListChanged event so bound controls refresh their
-				// values.
-				OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
-			}
-		}
-
 		/// <summary>
 		/// Inserts the records into the correct sorted position
 		/// </summary>
-		/// <param name="record"></param>
+		/// <param name="record">Record to insert</param>
 		public void Insert(T record)
 		{
 			// insert the record anywhere and then sort
@@ -117,35 +104,63 @@ namespace DMT.Library.Binding
 			}
 		}
 
+		/// <summary>
+		/// Performs the actual sorting
+		/// </summary>
+		/// <param name="property">Name of property to sort on</param>
+		/// <param name="sortDirection">Sort direction</param>
+		protected override void ApplySortCore(PropertyDescriptor property, ListSortDirection sortDirection)
+		{
+			_sortPropertyCore = property;
+			_sortDirectionCore = sortDirection;
+
+			if (property != null)
+			{
+				PropertyComparer<T> comparer = new PropertyComparer<T>(property.Name, sortDirection);
+
+				List<T> listItems = this.Items as List<T>;
+				listItems.Sort(comparer);
+
+				_isSortedCore = true;
+
+				// Raise the ListChanged event so bound controls refresh their
+				// values.
+				OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
+			}
+		}
+
+		/// <summary>
+		/// TODO: can this be removed?
+		/// </summary>
 		protected override void RemoveSortCore()
 		{
 			// don't think we need to support this
 		}
 
-		//public void RemoveSort()
-		//{
-		//    RemoveSortCore();
-		//}
-
+		/// <summary>
+		/// TODO: can this be removed?
+		/// </summary>
+		/// <param name="property">Property name</param>
+		/// <param name="key">Key to find</param>
+		/// <returns>Index of found key, or -1 if not found</returns>
 		protected override int FindCore(PropertyDescriptor property, object key)
 		{
 			// don't think we need to support this
 
-			//if (key != null)
-			//{
-			//    T item;
-			//    PropertyInfo propertyInfo = typeof(T).GetProperty(property.Name);
-			//    for (int i = 0; i < Count; i++)
-			//    {
-			//        item = Items[i] as T;
-			//        if (propertyInfo.GetValue(item, null).Equals(key))
-			//        {
-			//            return i;
-			//        }
-			//    }
-			//}
+			////if (key != null)
+			////{
+			////    T item;
+			////    PropertyInfo propertyInfo = typeof(T).GetProperty(property.Name);
+			////    for (int i = 0; i < Count; i++)
+			////    {
+			////        item = Items[i] as T;
+			////        if (propertyInfo.GetValue(item, null).Equals(key))
+			////        {
+			////            return i;
+			////        }
+			////    }
+			////}
 			return -1;
 		}
-
 	}
 }

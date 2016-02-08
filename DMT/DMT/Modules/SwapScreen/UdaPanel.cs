@@ -17,46 +17,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT.Modules.SwapScreen
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	/// <summary>
+	/// Panel to show user defined area
+	/// </summary>
 	partial class UdaPanel : UserControl
 	{
 		UdaController _udaController = null;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="UdaPanel" /> class.
+		/// </summary>
 		public UdaPanel()
 		{
 			InitializeComponent();
 		}
 
-		//public string Description
-		//{
-		//	get { return labelDescription.Text; }
-		//	set { labelDescription.Text = value; }
-		//}
-
-		//[Description("Description of hotkey"), Category("Data")]
-		//public string KeyCombo
-		//{
-		//	get { return labelDescription.Text; }
-		//	set { labelDescription.Text = value; }
-		//}
-
-		//KeyCombo _keyCombo;
-
-		//HotKey _hotKey;
-		//public HotKey HotKey { get; set; }
-
-
+		/// <summary>
+		/// Set the controller associated with the user defined area
+		/// </summary>
+		/// <param name="udaController">User defined area controller</param>
 		public void SetUdaController(UdaController udaController)
 		{
 			_udaController = udaController;

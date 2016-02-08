@@ -17,19 +17,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Modules;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
 namespace DMT
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Threading.Tasks;
+	using System.Windows.Forms;
+
+	using DMT.Modules;
+
+	/// <summary>
+	/// The options dialog
+	/// </summary>
 	partial class OptionsForm : Form
 	{
 		IModuleService _moduleService;
@@ -38,6 +42,10 @@ namespace DMT
 		ImageList _optionImageList = null;
 		Dictionary<Image, int> _imageMap = null;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="OptionsForm" /> class.
+		/// </summary>
+		/// <param name="moduleService">The service providing information on the modules</param>
 		public OptionsForm(IModuleService moduleService)
 		{
 			_moduleService = moduleService;
@@ -71,8 +79,7 @@ namespace DMT
 
 		void GetOptionNodes()
 		{
-			//_optionNodes = ModuleRepository.Instance.GetOptionNodes(this);
-			_optionNodes = _moduleService.GetOptionNodes(this);
+			_optionNodes = _moduleService.GetOptionNodes();
 		}
 
 		void FillTree()
@@ -80,10 +87,6 @@ namespace DMT
 			treeViewOptions.Nodes.Clear();
 			BuildOptionsImageList(_optionNodes);
 			AddOptionNodes(_optionNodes, treeViewOptions.Nodes);
-			//foreach (ModuleOptionNode optionNode in _optionNodes)
-			//{
-			//	AddOptionNode(optionNode);
-			//}
 		}
 
 		void BuildOptionsImageList(IEnumerable<ModuleOptionNode> optionNodes)
@@ -92,9 +95,9 @@ namespace DMT
 			_imageMap = new Dictionary<Image, int>();
 
 			// first add a blank image for when we don't want to display an image
+			// this gets added to the list, but no need to add it to the map
 			Image image = new Bitmap(Properties.Resources.blank_16_16);
 			_optionImageList.Images.Add(image);
-			// no need to add to map
 
 			foreach (ModuleOptionNode optionNode in optionNodes)
 			{
@@ -126,6 +129,7 @@ namespace DMT
 				{
 					_imageMap.TryGetValue(image, out imageIndex);
 				}
+
 				if (optionNode is ModuleOptionNodeLeaf)
 				{
 					ModuleOptionNodeLeaf optionLeaf = optionNode as ModuleOptionNodeLeaf;
@@ -183,6 +187,7 @@ namespace DMT
 						{
 							_currentPanel.Visible = false;
 						}
+
 						_currentPanel = panel;
 					}
 				}
@@ -205,6 +210,7 @@ namespace DMT
 						// something has gone wrong
 						return null;
 					}
+
 					curNode = curNode.Nodes[0];
 				}
 			}

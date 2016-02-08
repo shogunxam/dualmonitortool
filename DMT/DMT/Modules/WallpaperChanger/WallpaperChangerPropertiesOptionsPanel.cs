@@ -17,21 +17,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System.Diagnostics;
-using DMT.Resources;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel;
+	using System.Data;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.Linq;
+	using System.Text;
+	using System.Windows.Forms;
+
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Options panel for the wallpaper changers properties
+	/// </summary>
 	partial class WallpaperChangerPropertiesOptionsPanel : UserControl
 	{
 		WallpaperChangerModule _wallpaperChangerModule;
@@ -42,8 +46,10 @@ namespace DMT.Modules.WallpaperChanger
 		// that we will use to display a preview of the wallpaper
 		Rectangle _previewRect;
 
-
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WallpaperChangerPropertiesOptionsPanel" /> class.
+		/// </summary>
+		/// <param name="wallpaperChangerModule">The wallpaper changer module</param>
 		public WallpaperChangerPropertiesOptionsPanel(WallpaperChangerModule wallpaperChangerModule)
 		{
 			_wallpaperChangerModule = wallpaperChangerModule;
@@ -51,16 +57,23 @@ namespace DMT.Modules.WallpaperChanger
 			InitializeComponent();
 		}
 
-
+		/// <summary>
+		/// This informs us that the time to the next change as changed
+		/// </summary>
+		/// <param name="nextChangeMsg">Message saying when next change is</param>
+		/// <param name="foreColor">Foreground colour to use for message</param>
 		public void ShowNextChange(string nextChangeMsg, Color foreColor)
 		{
-			//if (labelNextChange != null)
-			//{
-			//	labelNextChange.Text = nextChangeMsg;
-			//	labelNextChange.ForeColor = foreColor;
-			//}
+			////if (labelNextChange != null)
+			////{
+			////	labelNextChange.Text = nextChangeMsg;
+			////	labelNextChange.ForeColor = foreColor;
+			////}
 		}
 
+		/// <summary>
+		/// Generate and show new wallpaper
+		/// </summary>
 		public void ShowNewWallpaper()
 		{
 			Image sourceImage = _wallpaperChangerModule.Desktop.CurrentWallpaperImage;
@@ -90,6 +103,7 @@ namespace DMT.Modules.WallpaperChanger
 				{
 					picPreview.Image.Dispose();
 				}
+
 				picPreview.Image = preview;
 			}
 		}
@@ -99,17 +113,17 @@ namespace DMT.Modules.WallpaperChanger
 			for (int screenIndex = 0; screenIndex < compositor.AllScreens.Count; screenIndex++)
 			{
 				string screenName = string.Format("{0}", screenIndex + 1);
-				//if (compositor.AllScreens[screenIndex].Primary)
-				//{
-				//	screenName += "P";
-				//}
+				////if (compositor.AllScreens[screenIndex].Primary)
+				////{
+				////	screenName += "P";
+				////}
 				DisplayMonitor(compositor, g, compositor.AllScreens[screenIndex].ScreenRect, screenIndex, screenName);
 			}
 		}
 
 		void DisplayMonitor(IWallpaperCompositor compositor, Graphics g, Rectangle screenRect, int screenIndex, string screenName)
 		{
-			//Rectangle previewRect = new Rectangle(new Point(0, 0), previewSize);
+			////Rectangle previewRect = new Rectangle(new Point(0, 0), previewSize);
 
 			// need to determine position of screen rect in the preview
 			Rectangle picBoxRect = new Rectangle(new Point(0, 0), _previewRect.Size);
@@ -128,6 +142,7 @@ namespace DMT.Modules.WallpaperChanger
 				borderPen2 = Pens.Yellow;
 				textBrush = Brushes.Yellow;
 			}
+
 			// leave outermost pixels of image visible
 			previewScreen.Inflate(-1, -1);
 			g.DrawRectangle(borderPen1, previewScreen);
@@ -159,10 +174,10 @@ namespace DMT.Modules.WallpaperChanger
 				ShowLink(linkLabelPhotographer, providerImage.Photographer, providerImage.PhotographerUrl);
 				ShowLink(linkLabelDetails, providerImage.MoreInfo, providerImage.MoreInfoUrl);
 
-				//linkLabelProvider.Text = providerImage.Provider;
-				//linkLabelSource.Text = providerImage.Source;
-				//linkLabelPhotographer.Text = providerImage.Photographer;
-				//linkLabelDetails.Text = providerImage.MoreInfo;
+				////linkLabelProvider.Text = providerImage.Provider;
+				////linkLabelSource.Text = providerImage.Source;
+				////linkLabelPhotographer.Text = providerImage.Photographer;
+				////linkLabelDetails.Text = providerImage.MoreInfo;
 			}
 		}
 
@@ -179,15 +194,14 @@ namespace DMT.Modules.WallpaperChanger
 		void ClearLink(LinkLabel linkLabel)
 		{
 			linkLabel.Links.Clear();
-			linkLabel.Text = "";
+			linkLabel.Text = string.Empty;
 		}
 
 		private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			ProcessStartInfo sInfo = new ProcessStartInfo(e.Link.LinkData.ToString());
-			Process.Start(sInfo);
+			ProcessStartInfo startInfo = new ProcessStartInfo(e.Link.LinkData.ToString());
+			Process.Start(startInfo);
 		}
-
 
 		private void WallpaperChangerPropertiesOptionsPanel_Load(object sender, EventArgs e)
 		{
@@ -231,10 +245,8 @@ namespace DMT.Modules.WallpaperChanger
 					}
 				}
 			}
+
 			return ret;
 		}
-
-
-
 	}
 }

@@ -17,19 +17,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Environment;
-using DMT.Library.Settings;
-using DMT.Library.Utils;
-using DMT.Library.Wallpaper;
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
-
 namespace DMT.Modules.WallpaperChanger
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.IO;
+	using System.Text;
+
+	using DMT.Library.Environment;
+	using DMT.Library.Settings;
+	using DMT.Library.Utils;
+	using DMT.Library.Wallpaper;
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Allows the users chosen and configured providers to be saved and retrieved from disk
 	/// </summary>
@@ -38,8 +39,11 @@ namespace DMT.Modules.WallpaperChanger
 		IProviderFactory _providerFactory;
 		ILocalEnvironment _localEnvironment;
 
-		//static string _persistenceFilename = "DualWallpaperChanger.xml";
-
+		/// <summary>
+		/// Initialises a new instance of the <see cref="ProviderPersistence" /> class.
+		/// </summary>
+		/// <param name="providerFactory">Factory to create providers</param>
+		/// <param name="localEnvironment">Local environment</param>
 		public ProviderPersistence(IProviderFactory providerFactory, ILocalEnvironment localEnvironment)
 		{
 			_providerFactory = providerFactory;
@@ -49,7 +53,7 @@ namespace DMT.Modules.WallpaperChanger
 		/// <summary>
 		/// Load the users providers from disk
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The image providers</returns>
 		public Collection<IImageProvider> Load()
 		{
 			Collection<IImageProvider> providers = null;
@@ -75,7 +79,7 @@ namespace DMT.Modules.WallpaperChanger
 		/// <summary>
 		/// Saves the users providers to disk
 		/// </summary>
-		/// <param name="providers"></param>
+		/// <param name="providers">The providers to save</param>
 		public void Save(Collection<IImageProvider> providers)
 		{
 			string filename = GetFullFilename();
@@ -86,6 +90,7 @@ namespace DMT.Modules.WallpaperChanger
 				ProviderWriter writer = new ProviderWriter();
 				writer.Write(providers, stream);
 			}
+
 			newFile.CompleteWrite();
 		}
 

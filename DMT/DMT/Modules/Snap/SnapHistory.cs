@@ -17,14 +17,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-
 namespace DMT.Modules.Snap
 {
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.Text;
+
 	/// <summary>
 	/// Remembers the last n snaps.
 	/// The maximum number of snaps remembered are specified in the constructor
@@ -33,37 +33,51 @@ namespace DMT.Modules.Snap
 	/// </summary>
 	public class SnapHistory : IEnumerable<Snap>
 	{
-		private int maxSnaps;
+		int _maxSnaps;
+
+		// list of snaps with the latest at the end
+		List<Snap> _snaps = new List<Snap>();
+
+		/// <summary>
+		/// Initialises a new instance of the <see cref="SnapHistory" /> class.
+		/// </summary>
+		/// <param name="maxSnaps">Maximum number of snaps to remember</param>
+		public SnapHistory(int maxSnaps)
+		{
+			_maxSnaps = maxSnaps;
+		}
+
 		/// <summary>
 		/// Gets or sets the maximum number of snaps that are remembered.
 		/// </summary>
 		public int MaxSnaps
 		{
-			get { return maxSnaps; }
+			get 
+			{ 
+				return _maxSnaps; 
+			}
+
 			set 
 			{
 				if (value >= 0)
 				{
-					maxSnaps = value;
+					_maxSnaps = value;
+
 					// remove excess snaps if applicable
-					if (snaps.Count > maxSnaps)
+					if (_snaps.Count > _maxSnaps)
 					{
-						snaps.RemoveRange(0, snaps.Count - maxSnaps);
+						_snaps.RemoveRange(0, _snaps.Count - _maxSnaps);
 					}
 				}
 			}
 		}
 
-		// the latest snap is always added at the end
-		private List<Snap> snaps = new List<Snap>();
-
 		/// <summary>
-		/// Constructs the SnapHistory
+		/// Gets the count of Snaps currently in the history.
 		/// </summary>
-		/// <param name="maxSnaps">Maximum number of snaps to remember</param>
-		public SnapHistory(int maxSnaps)
+		public int Count
 		{
-			this.maxSnaps = maxSnaps;
+			get { return _snaps.Count; }
 		}
 
 		/// <summary>
@@ -72,10 +86,10 @@ namespace DMT.Modules.Snap
 		/// <param name="snap">New Snap to remember.</param>
 		public void Add(Snap snap)
 		{
-			snaps.Add(snap);
-			if (snaps.Count > maxSnaps)
+			_snaps.Add(snap);
+			if (_snaps.Count > _maxSnaps)
 			{
-				snaps.RemoveAt(0);
+				_snaps.RemoveAt(0);
 			}
 		}
 
@@ -84,7 +98,7 @@ namespace DMT.Modules.Snap
 		/// </summary>
 		public void DeleteAll()
 		{
-			snaps.Clear();
+			_snaps.Clear();
 		}
 
 		/// <summary>
@@ -94,11 +108,11 @@ namespace DMT.Modules.Snap
 		/// <returns>true if a snap was deleted</returns>
 		public bool Delete(Image image)
 		{
-			foreach (Snap snap in snaps)
+			foreach (Snap snap in _snaps)
 			{
 				if (snap.Image == image)
 				{
-					snaps.Remove(snap);
+					_snaps.Remove(snap);
 					return true;
 				}
 			}
@@ -109,12 +123,12 @@ namespace DMT.Modules.Snap
 		/// <summary>
 		/// Returns the last snap available
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The last snap, or null if no snaps</returns>
 		public Snap LastSnap()
 		{
-			if (snaps.Count > 0)
+			if (_snaps.Count > 0)
 			{
-				return snaps[snaps.Count - 1];
+				return _snaps[_snaps.Count - 1];
 			}
 			else
 			{
@@ -125,28 +139,15 @@ namespace DMT.Modules.Snap
 		/// <summary>
 		/// Iterator starts with the oldest snap first.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Enumerator for the snaps</returns>
 		public IEnumerator<Snap> GetEnumerator()
 		{
-			return snaps.GetEnumerator();
+			return _snaps.GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
 		}
-
-		/// <summary>
-		/// Count of Snaps currently in the history.
-		/// </summary>
-		public int Count
-		{
-		    get { return snaps.Count; }
-		}
-
-		//public Snap this[int index]
-		//{
-		//    get { return snaps[index]; }
-		//}
 	}
 }

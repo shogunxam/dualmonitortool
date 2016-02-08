@@ -1,12 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2015  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
 
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+
+	/// <summary>
+	/// Utility class to help with HTML requests
+	/// </summary>
 	public static class HttpHelper
 	{
+		/// <summary>
+		/// Encode the given string  so it can be used as a valid url request
+		/// </summary>
+		/// <param name="s">string to encode</param>
+		/// <param name="urlEncoding">Not currently used</param>
+		/// <returns>String encoded as a valid url</returns>
 		public static string UrlEncode(string s, Encoding urlEncoding)
 		{
 			return UrlEncode(s);
@@ -18,12 +46,11 @@ namespace DMT.Library.Html
 		///  and the same as WebUtility.UrlEncode()
 		///  - but this function is only available in .NET 4.5 or later
 		/// </summary>
-		/// <param name="s"></param>
-		/// <returns></returns>
+		/// <param name="s">string to encode</param>
+		/// <returns>String encoded as a valid url</returns>
 		public static string UrlEncode(string s)
 		{
 			// could make use of Uri.EscapeDataString(), but lets do it the hard way
-
 			StringBuilder sb = new StringBuilder();
 			foreach (char ch in s)
 			{
@@ -51,7 +78,7 @@ namespace DMT.Library.Html
 				{
 					// TODO: what about chars that don't fit in 8 bits?
 					int n = (int)ch;
-					sb.Append(String.Format("%{0:x2}", (int)ch));
+					sb.Append(string.Format("%{0:x2}", (int)ch));
 				}
 			}
 

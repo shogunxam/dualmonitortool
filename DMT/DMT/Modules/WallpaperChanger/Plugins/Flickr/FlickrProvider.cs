@@ -17,53 +17,42 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.Html;
-using DMT.Library.Settings;
-using DMT.Library.Utils;
-using DMT.Library.WallpaperPlugin;
-using DMT.Resources;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Text;
+	using System.Xml;
+
+	using DMT.Library.Html;
+	using DMT.Library.Settings;
+	using DMT.Library.Utils;
+	using DMT.Library.WallpaperPlugin;
+	using DMT.Resources;
+
+	/// <summary>
+	/// Provider of images from Flickr
+	/// </summary>
 	class FlickrProvider : IImageProvider
 	{
 		// Flickr only returns the first 4000 hits (100 / page by default)
 		const int MaxFlickrHitPages = 40;
 
-		FlickrConfig _config;
-		StringSetting _apiKeySetting;
-
-		public string ApiKey
-		{
-			get { return _apiKeySetting.Value; }
-			set { _apiKeySetting.Value = value; }
-		}
-
 		const string FlickrHome = "www.flickr.com";
 
-		// these relate to the provider type
-		public string ProviderName { get { return FlickrPlugin.PluginName; } }
-		public Image ProviderImage { get { return FlickrPlugin.PluginImage; } }
-		public string Version { get { return FlickrPlugin.PluginVersion; } }
-
-		// these relate to the provider instance
-		public string Description { get { return _config.Description; } }
-		public int Weight { get { return _config.Weight; } }
-
-		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
-
-		//static Random _random = new Random();
-
+		FlickrConfig _config;
+		StringSetting _apiKeySetting;
 		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="FlickrProvider" /> class.
+		/// </summary>
+		/// <param name="config">Configuration for the provider</param>
+		/// <param name="apiKeySetting">Setting used to store configuration</param>
 		public FlickrProvider(Dictionary<string, string> config, StringSetting apiKeySetting)
 		{
 			_config = new FlickrConfig(config);
@@ -73,6 +62,85 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			_httpRequester = new HttpRequester(_connectionManager);
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the settings key
+		/// </summary>
+		public string ApiKey
+		{
+			get { return _apiKeySetting.Value; }
+			set { _apiKeySetting.Value = value; }
+		}
+
+		/// <summary>
+		/// Gets the provider name - same for all instances of this class
+		/// </summary>
+		public string ProviderName 
+		{ 
+			get 
+			{ 
+				return FlickrPlugin.PluginName; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the provider image - same for all instances of this class
+		/// </summary>
+		public Image ProviderImage 
+		{ 
+			get 
+			{ 
+				return FlickrPlugin.PluginImage; 
+			} 
+		}
+
+		/// <summary>
+		/// Gets the provider version - same for all instances of this class
+		/// </summary>
+		public string Version
+		{
+			get
+			{
+				return FlickrPlugin.PluginVersion;
+			}
+		}
+
+		/// <summary>
+		/// Gets the description for this instance of the provider
+		/// </summary>
+		public string Description
+		{
+			get
+			{
+				return _config.Description;
+			}
+		}
+
+		/// <summary>
+		/// Gets the weight for this instance of the provider
+		/// </summary>
+		public int Weight
+		{
+			get
+			{
+				return _config.Weight;
+			}
+		}
+
+		/// <summary>
+		/// Gets the configuration 
+		/// </summary>
+		public Dictionary<string, string> Config
+		{
+			get
+			{
+				return _config.ToDictionary();
+			}
+		}
+
+		/// <summary>
+		/// Allows the user to update the configuration 
+		/// </summary>
+		/// <returns>New configuration, or null if no changes</returns>
 		public Dictionary<string, string> ShowUserOptions()
 		{
 			FlickrForm dlg = new FlickrForm(_config, this);
@@ -88,6 +156,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return null;
 		}
 
+		/// <summary>
+		/// Returns a random image
+		/// </summary>
+		/// <param name="optimumSize">Optimum image size</param>
+		/// <param name="screenIndex">Screen index image is for</param>
+		/// <returns>Random image</returns>
 		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
 			ProviderImage providerImage = null;
@@ -110,7 +184,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 					{
 						numPages = MaxFlickrHitPages;
 					}
-					//int randomPage = _random.Next(1, numPages + 1);   // (inclusive, exclusive)
+
 					int randomPage = RNG.Next(1, numPages + 1);   // (inclusive, exclusive)
 					if (randomPage > 1)	// if 1, we already have that page
 					{
@@ -134,7 +208,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			// choose a photoid at random
 			if (photoIds.Count > 0)
 			{
-				//int rand = _random.Next(0, photoIds.Count);  // (inclusive, exclusive)
 				int rand = RNG.Next(0, photoIds.Count);  // (inclusive, exclusive)
 				string photoId = photoIds[rand];
 
@@ -179,6 +252,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			return providerImage;
 		}
 
+		/// <summary>
+		/// Validate the search criteria by performing a test search
+		/// </summary>
+		/// <param name="apiKey">Flickr API key</param>
+		/// <param name="config">Configuration being tested</param>
+		/// <returns>Result of search as a displayable message</returns>
 		public string Validate(string apiKey, FlickrConfig config)
 		{
 			string msg;
@@ -198,6 +277,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			{
 				msg = errMsg;
 			}
+
 			return msg;
 		}
 
@@ -293,6 +373,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 								photoId = xmlReader.Value;
 							}
 						}
+
 						if (!string.IsNullOrEmpty(photoId))
 						{
 							photoIds.Add(photoId);
@@ -333,7 +414,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		{
 			bool ret = false;
 			numHits = 0;
-			errMsg = "";
+			errMsg = string.Empty;
 
 			XmlReader xmlReader = XmlReader.Create(new StringReader(hitsPageData));
 			while (xmlReader.Read())
@@ -348,9 +429,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 							ret = true;
 						}
 					}
+
 					if (xmlReader.LocalName == "err")
 					{
-						errMsg = xmlReader.GetAttribute("msg") ?? "";
+						errMsg = xmlReader.GetAttribute("msg") ?? string.Empty;
 					}
 
 					if (xmlReader.LocalName == "photos")
@@ -385,7 +467,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 				{
 					if (xmlReader.LocalName == "size")
 					{
-						string label = "";
+						string label = string.Empty;
 						int width = 0;
 						int height = 0;
 						string source = null;
@@ -408,8 +490,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 								source = xmlReader.Value;
 							}
 						}
+
 						// don't want original, as this doesn't reflect any possible rotation of the image
-						//if (string.Compare(label, "Original", true) != 0)
+						////if (string.Compare(label, "Original", true) != 0)
 						{
 							if (IsBetterSize(width, height, optimumSize, bestWidth, bestHeight))
 							{
@@ -465,7 +548,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 
 		int ParsePhotoInfo(string photoInfoPageData, ProviderImage providerImage, out string userId)
 		{
-			userId = "";
+			userId = string.Empty;
 			int rotation = 0;
 
 			XmlReader xmlReader = XmlReader.Create(new StringReader(photoInfoPageData));
@@ -502,6 +585,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 								realName = xmlReader.Value;
 							}
 						}
+
 						providerImage.Photographer = ChooseName(userName, realName);
 					}
 					else if (xmlReader.LocalName == "title")
@@ -510,7 +594,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 					}
 					else if (xmlReader.LocalName == "url")
 					{
-						string urlType = "";
+						string urlType = string.Empty;
 						while (xmlReader.MoveToNextAttribute())
 						{
 							if (xmlReader.Name == "type")
@@ -518,6 +602,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 								urlType = xmlReader.Value;
 							}
 						}
+
 						if (string.Compare(urlType, "photopage", true) == 0)
 						{
 							providerImage.SourceUrl = ParseSimpleEntity(xmlReader);
@@ -533,12 +618,13 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		string ChooseName(string userName, string realName)
 		{
 			// let realName override userName
-			string name = "";
+			string name = string.Empty;
 
 			if (!string.IsNullOrEmpty(userName))
 			{
 				name = userName;
 			}
+
 			if (!string.IsNullOrEmpty(realName))
 			{
 				name = realName;
@@ -571,7 +657,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 
 		string ParseSimpleEntity(XmlReader xmlReader)
 		{
-			string entityValue = "";
+			string entityValue = string.Empty;
 
 			if (!xmlReader.IsEmptyElement)
 			{
@@ -593,7 +679,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			}
 
 			return entityValue;
-
 		}
 
 		void SkipEntity(XmlReader xmlReader, string entity)

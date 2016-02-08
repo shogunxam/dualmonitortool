@@ -17,27 +17,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace DMT.Library.Environment
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Text;
+
+	/// <summary>
+	/// Interface to get details of the local environment
+	/// </summary>
 	public interface ILocalEnvironment
 	{
 		/// <summary>
-		/// The current monitors
+		/// Gets the current monitors
 		/// </summary>
 		Monitors Monitors { get; }
 
 		/// <summary>
 		/// Are we running Windows 8 or later
 		/// </summary>
+		/// <returns>True if running Windows 8 or later</returns>
 		bool IsWin8OrLater();
 
 		/// <summary>
 		/// Are we running Windows 10 or later
 		/// </summary>
+		/// <returns>True if running Windows 10 or later</returns>
 		bool IsWin10OrLater();
 	}
 }

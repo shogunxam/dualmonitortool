@@ -17,24 +17,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using DMT.Library.WallpaperPlugin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Text;
+
+	using DMT.Library.WallpaperPlugin;
+
 	/// <summary>
 	/// Configuration required for each provider from the Unsplash plugin
 	/// </summary>
 	public class WebScrapeConfig
 	{
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WebScrapeConfig" /> class.
+		/// </summary>
 		public WebScrapeConfig()
 		{
 		}
 
+		/// <summary>
+		/// Initialises a new instance of the <see cref="WebScrapeConfig" /> class.
+		/// </summary>
+		/// <param name="configDictionary">Configuration dictionary</param>
 		public WebScrapeConfig(Dictionary<string, string> configDictionary)
 		{
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
@@ -42,10 +49,25 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			FirstPageOnly = ProviderHelper.ConfigToBool(configDictionary, "firstPageOnly", false);
 		}
 
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
 		public int Weight { get; set; }
+
+		/// <summary>
+		/// Gets or sets the description for this provider
+		/// </summary>
 		public string Description { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether only the first page should be looked at
+		/// </summary>
 		public bool FirstPageOnly { get; set; }
 
+		/// <summary>
+		/// Gets the configuration as a dictionary ready for saving to disk
+		/// </summary>
+		/// <returns>Dictionary representation of configuration</returns>
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();

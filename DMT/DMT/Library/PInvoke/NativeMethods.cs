@@ -17,19 +17,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace DMT.Library.PInvoke
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Runtime.InteropServices;
+	using System.Text;
+
 	/// <summary>
 	/// Definitions extracted from winuser.h
 	/// </summary>
-	static class Win32
+	static class NativeMethods
 	{
-
 		// flags for SystemParametersInfo(uiAction)
 		public static uint SPI_SETDESKWALLPAPER = 20;
 
@@ -176,7 +175,6 @@ namespace DMT.Library.PInvoke
 			public uint dwExtraInfo;
 		}
 
-
 		public struct POINT
 		{
 			public int x;
@@ -255,7 +253,6 @@ namespace DMT.Library.PInvoke
 		// delegate used by SetWindowsHookEx()
 		public delegate int HookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-
 		[DllImport("user32.dll")]
 		public static extern int AppendMenu(int hMenu, int uFlags, int uIDNewItem, string lpNewItem);
 
@@ -327,7 +324,7 @@ namespace DMT.Library.PInvoke
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GetWindowRect(IntPtr hwnd, out Win32.RECT lpRect);
+		public static extern bool GetWindowRect(IntPtr hwnd, out NativeMethods.RECT lpRect);
 
 		[DllImport("user32.dll")]
 		public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
@@ -384,7 +381,6 @@ namespace DMT.Library.PInvoke
 		public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
 		[DllImport("user32.dll")]
-		public static extern IntPtr WindowFromPoint(Win32.POINT point);
-
+		public static extern IntPtr WindowFromPoint(NativeMethods.POINT point);
 	}
 }

@@ -17,36 +17,50 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DMT.Library.Html
 {
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	using System.Linq;
+	using System.Net;
+	using System.Text;
+	using System.Threading.Tasks;
+
 	/// <summary>
 	/// Performs HTTP requests
 	/// </summary>
 	public class HttpRequester : IHttpRequester
 	{
-		public Uri LastResponseUri { get; protected set; }
-
-		IHttpConnectionManager _connectionManager;
-
 		const string UserAgent = "Dual Monitor Tools/2.1";
 
 		// max redirects for a single request, before we give up
-		const int MAX_REDIRECTS = 5;
+		const int MaxRedirects = 5;
 
+		IHttpConnectionManager _connectionManager;
+
+		/// <summary>
+		/// Initialises a new instance of the <see cref="HttpRequester" /> class.
+		/// </summary>
+		/// <param name="connectionManager">Connection manager to use</param>
 		public HttpRequester(IHttpConnectionManager connectionManager)
 		{
 			_connectionManager = connectionManager;
 		}
 
+		/// <summary>
+		/// Gets the last Uri that responded
+		/// </summary>
+		public Uri LastResponseUri { get; private set; }
+
+		/// <summary>
+		/// Gets the page
+		/// </summary>
+		/// <param name="uri">Location of page</param>
+		/// <param name="testPage">Page name - used for fake requests only</param>
+		/// <param name="repliedConnection">The connection that the response came in on</param>
+		/// <returns>The contents of the page</returns>
 		public string GetPage(Uri uri, string testPage, out HttpConnection repliedConnection)
 		{
 			string pageData = string.Empty;
@@ -63,6 +77,11 @@ namespace DMT.Library.Html
 			return pageData;
 		}
 
+		/// <summary>
+		/// Gets the image
+		/// </summary>
+		/// <param name="uri">Location of image</param>
+		/// <returns>The image</returns>
 		public Image GetImage(Uri uri)
 		{
 			Image image = null;
@@ -83,6 +102,12 @@ namespace DMT.Library.Html
 			return image;
 		}
 
+		/// <summary>
+		/// Gets the binary data
+		/// </summary>
+		/// <param name="uri">Location of data</param>
+		/// <param name="data">Returned data</param>
+		/// <returns>HTTP status code</returns>
 		public HttpStatusCode GetData(Uri uri, ref byte[] data)
 		{
 			data = null;
@@ -149,7 +174,6 @@ namespace DMT.Library.Html
 			cookieContainer.Add(connection.Cookies);
 			webRequest.CookieContainer = cookieContainer;
 
-
 			return webRequest;
 		}
 
@@ -163,19 +187,17 @@ namespace DMT.Library.Html
 				{
 					sb.Append("&");
 				}
-				//sb.Append(HttpUtility.UrlEncode(postParameter.Item1, urlEncoding));
+
 				sb.Append(HttpHelper.UrlEncode(postParameter.Item1, urlEncoding));
 				if (postParameter.Item2 != null)
 				{
 					sb.Append("=");
-					//sb.Append(HttpUtility.UrlEncode(postParameter.Item2, urlEncoding));
 					sb.Append(HttpHelper.UrlEncode(postParameter.Item2, urlEncoding));
 				}
 			}
 
 			return sb.ToString();
 		}
-
 		#endregion
 
 		#region Response handling
@@ -185,11 +207,10 @@ namespace DMT.Library.Html
 			HttpConnection curConnection = connection;
 			HttpWebResponse webResponse = null;
 
-			//responseData = connection.GetResponse(webRequest);
 			webResponse = CatchGetResponse(webRequest);
 
 			int redirectNum = 0;
-			if (IsARedirect(webResponse.StatusCode) && redirectNum < MAX_REDIRECTS)
+			if (IsARedirect(webResponse.StatusCode) && redirectNum < MaxRedirects)
 			{
 				redirectNum++;
 
@@ -199,9 +220,9 @@ namespace DMT.Library.Html
 				// save the uri of the page that actually reponded to us
 				curConnection.LastUri = webRequest.Address;
 
-
 				// create a new request to the redirected page
 				Uri uri = GetFullUri(webResponse.GetResponseHeader("Location"), curConnection);
+
 				// this may be on another host, so make sure we have the correct connection
 				curConnection = _connectionManager.GetConnection(uri);
 				HttpWebRequest redirectedWebRequest = CreateGetRequest(curConnection, uri);
@@ -240,6 +261,7 @@ namespace DMT.Library.Html
 				{
 					return (HttpWebResponse)ex.Response;
 				}
+
 				throw;
 			}
 		}
