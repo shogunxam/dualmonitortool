@@ -58,7 +58,7 @@ namespace DMT.Modules.WallpaperChanger
 		}
 
 		/// <summary>
-		/// This informs us that the time to the next change as changed
+		/// This informs us that the time to the next change has changed
 		/// </summary>
 		/// <param name="nextChangeMsg">Message saying when next change is</param>
 		/// <param name="foreColor">Foreground colour to use for message</param>
@@ -173,11 +173,6 @@ namespace DMT.Modules.WallpaperChanger
 				ShowLink(linkLabelSource, providerImage.Source, providerImage.SourceUrl);
 				ShowLink(linkLabelPhotographer, providerImage.Photographer, providerImage.PhotographerUrl);
 				ShowLink(linkLabelDetails, providerImage.MoreInfo, providerImage.MoreInfoUrl);
-
-				////linkLabelProvider.Text = providerImage.Provider;
-				////linkLabelSource.Text = providerImage.Source;
-				////linkLabelPhotographer.Text = providerImage.Photographer;
-				////linkLabelDetails.Text = providerImage.MoreInfo;
 			}
 		}
 

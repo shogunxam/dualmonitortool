@@ -104,6 +104,7 @@ namespace DMT.Library.PInvoke
 		public const uint XBUTTON2 = 0x0002;
 
 		// Windows messages
+		public const int WM_CLOSE = 0x0010;
 		public const int WM_COPYDATA = 0x004A;
 		public const int WM_KEYDOWN = 0x0100;
 		public const int WM_KEYUP = 0x0101;

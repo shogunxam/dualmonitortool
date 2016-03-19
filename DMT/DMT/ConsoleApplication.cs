@@ -25,6 +25,7 @@ namespace DMT
 	using System.Text;
 
 	using DMT.Library.Command;
+	using DMT.Library.PInvoke;
 
 	/// <summary>
 	/// Runs DMT as a console application.
@@ -63,6 +64,15 @@ namespace DMT
 			else if (_programOptions.ShowVersion)
 			{
 				ShowVersion();
+			}
+			else if (_programOptions.CloseGui)
+			{
+				IntPtr hWnd = NativeMethods.FindWindow(null, "DMT_GUI_WINDOW");
+
+				if (hWnd != IntPtr.Zero)
+				{
+					NativeMethods.SendMessage(hWnd, NativeMethods.WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+				}
 			}
 			else
 			{

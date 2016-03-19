@@ -198,11 +198,15 @@ namespace DMT
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShutDown();
+			LogInfo("exitToolStripMenuItem_Click");
+			//ShutDown();
+			this.Close();
 		}
 
 		private void AppForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			LogInfo("AppForm_FormClosing");
+			ShutDown();
 		}
 
 		// dynamically add any needed menu items to the context menu
@@ -249,7 +253,7 @@ namespace DMT
 		void ShutDown()
 		{
 			CleanUp();
-			this.Close();
+			//this.Close();
 			Application.Exit();
 		}
 

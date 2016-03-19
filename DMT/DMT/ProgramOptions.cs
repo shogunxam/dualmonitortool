@@ -60,6 +60,10 @@ namespace DMT
 						{
 							ShowVersion = true;
 						}
+						else if (arg[i] == 'x')
+						{
+							CloseGui = true;
+						}
 						else
 						{
 							Errors.Add(string.Format("Unrecognised option: \"{0}\"", arg[i]));
@@ -94,6 +98,11 @@ namespace DMT
 		/// Gets or sets a value indicating whether we just need to show version and exit
 		/// </summary>
 		public bool ShowVersion { get; protected set; }
+
+		/// <summary>
+		/// Gets a value indicating whether to close the gui
+		/// </summary>
+		public bool CloseGui { get; private set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether the command should be run by local instance of DMT

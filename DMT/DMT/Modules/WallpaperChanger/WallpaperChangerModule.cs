@@ -99,14 +99,14 @@ namespace DMT.Modules.WallpaperChanger
 		public delegate void WallpaperUpdatedDelegate(bool ok, string errMsg);
 
 		/// <summary>
-		/// Gets or sets the desktop and the wallpapers on them
+		/// Gets the desktop and the wallpapers on them
 		/// </summary>
-		public Desktop Desktop { get; protected set; }
+		public Desktop Desktop { get; private set; }
 
 		/// <summary>
-		/// Gets or sets the hotkey to change the wallpaper
+		/// Gets the hotkey to change the wallpaper
 		/// </summary>
-		public HotKeyController ChangeWallpaperHotKeyController { get; protected set; }
+		public HotKeyController ChangeWallpaperHotKeyController { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the hours part of the interval between wallpaper changes
