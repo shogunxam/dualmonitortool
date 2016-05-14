@@ -599,9 +599,18 @@ namespace DMT.Library.GuiUtils
 				{
 					// keep TLHC in next screen same as current screen (relative to the working araea)
 					Screen otherScreen = Screen.AllScreens[otherScreenIndex];
+					// When positioning windows, (0, 0) is the TLHC of the working area (of primary)
+					// even if the taskbar is on the left or top of the screen which is not necessarily
+					// the same position as the true pixel position of (0,0) which is always TLHC
+					// of primary monitor whether there is a task bar in that position or not.
+					// This means we need to use Bounds and not WorkingArea as Windows will do it's
+					// own adjustments.
+					//otherRect.Offset(
+					//	otherScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
+					//	otherScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
 					otherRect.Offset(
-						otherScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
-						otherScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
+						otherScreen.Bounds.Left - curScreen.Bounds.Left,
+						otherScreen.Bounds.Top - curScreen.Bounds.Top);
 				}
 			}
 
