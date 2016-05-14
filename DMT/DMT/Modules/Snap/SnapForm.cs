@@ -432,7 +432,7 @@ namespace DMT.Modules.Snap
 					newY += deltaY;
 
 					// make sure the new origin is within bounds
-					if (newX > 0)
+					if (newX > 0 || pictureBox.Width <= this.Size.Width)
 					{
 						newX = 0;
 					}
@@ -441,7 +441,7 @@ namespace DMT.Modules.Snap
 						newX = this.Size.Width - pictureBox.Width;
 					}
 
-					if (newY > 0)
+					if (newY > 0 || pictureBox.Height <= this.Size.Height)
 					{
 						newY = 0;
 					}
