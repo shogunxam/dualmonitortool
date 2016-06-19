@@ -103,6 +103,16 @@ namespace DMT.Library.PInvoke
 		public const uint XBUTTON1 = 0x0001;
 		public const uint XBUTTON2 = 0x0002;
 
+		// flags for GetDeviceCaps
+		public const int BITSPIXEL = 12;
+		public const int PLANES = 14;
+
+		// size of device name in MonitorInfoEx.DeviceName
+		const int CCHDEVICENAME = 32;
+
+		// flags for MONITORINFOEX.dwFlags
+		public const int MONITORINFOF_PRIMARY = 1;
+
 		// Windows messages
 		public const int WM_CLOSE = 0x0010;
 		public const int WM_COPYDATA = 0x004A;
@@ -167,6 +177,27 @@ namespace DMT.Library.PInvoke
 			public IntPtr lpData;
 		}
 
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		public struct MONITORINFOEX
+		{
+			public int cbSize;
+			public RECT rcMonitor;
+			public RECT rcWork;
+			public uint dwFlags;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME)]
+			public string szDevice;
+
+			public MONITORINFOEX(int dummy)
+			{
+				this.cbSize = 40 + 2 * CCHDEVICENAME;
+				this.rcMonitor = new RECT();
+				this.rcWork = new RECT();
+				this.dwFlags = 0;
+				this.szDevice = string.Empty;
+			}
+		}
+
+
 		public struct MSLLHOOKSTRUCT
 		{
 			public POINT pt;
@@ -174,6 +205,15 @@ namespace DMT.Library.PInvoke
 			public uint flags;
 			public uint time;
 			public uint dwExtraInfo;
+		}
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		public struct PHYSICAL_MONITOR
+		{
+			public IntPtr hPhysicalMonitor;
+
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szPhysicalMonitorDescription;
 		}
 
 		public struct POINT
@@ -248,6 +288,9 @@ namespace DMT.Library.PInvoke
 		//    public uint dwExtraInfo;
 		//}
 
+		// delegate used by EnumDisplayMonitors
+		public delegate bool EnumMonitorsDelegate(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
+
 		// deleagte used by EnumWindows()
 		public delegate bool EnumWindowsProc(IntPtr Wnd, uint lParam);
 
@@ -271,6 +314,10 @@ namespace DMT.Library.PInvoke
 		//[return: MarshalAs(UnmanagedType.Bool)]
 		//public static extern bool ClipCursor(ref RECT lpRect);
 
+		[DllImport("gdi32.dll")]
+		public static extern IntPtr CreateDC(string lpszDriver, string lpszDevice,
+		   string lpszOutput, IntPtr lpInitData);
+
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool CreateProcess(string lpApplicationName, string lpCommandLine,
@@ -278,6 +325,12 @@ namespace DMT.Library.PInvoke
 		bool bInheritHandles, uint dwCreationFlags, IntPtr lpEnvironment,
 		string lpCurrentDirectory, ref STARTUPINFO lpStartupInfo, out PROCESS_INFORMATION lpProcessInformation);
 
+		[DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
+		public static extern bool DeleteDC([In] IntPtr hdc);
+
+		[DllImport("user32.dll")]
+		public static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip,
+		   EnumMonitorsDelegate lpfnEnum, IntPtr dwData);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -298,14 +351,36 @@ namespace DMT.Library.PInvoke
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetDesktopWindow();
 
+		[DllImport("gdi32.dll")]
+		public static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetForegroundWindow();
 
 		[DllImport("kernel32.dll")]		// winbase.h
 		public static extern IntPtr GetModuleHandle(string lpModuleName);
 
+		[DllImport("dxva2.dll")]
+		public static extern bool GetMonitorBrightness(IntPtr hMonitor,
+			out uint pdwMinimumBrightness,
+			out uint pdwCurrentBrightness,
+			out uint pdwMaximumBrightness);
+
+		[DllImport("user32.dll", CharSet = CharSet.Auto)]
+		public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFOEX lpmi);
+
+		[DllImport("dxva2.dll", EntryPoint = "GetNumberOfPhysicalMonitorsFromHMONITOR")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetNumberOfPhysicalMonitorsFromHMONITOR(
+			IntPtr hMonitor, ref uint pdwNumberOfPhysicalMonitors);
+
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetParent(IntPtr hWnd);
+
+		[DllImport("dxva2.dll", EntryPoint = "GetPhysicalMonitorsFromHMONITOR")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetPhysicalMonitorsFromHMONITOR(
+			IntPtr hMonitor, uint dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetShellWindow();

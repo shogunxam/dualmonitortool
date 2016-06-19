@@ -140,6 +140,13 @@
     <Compile Include="Modules\General\CheckUpdatesForm.Designer.cs">
       <DependentUpon>CheckUpdatesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\General\GeneralPropertiesOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\General\GeneralPropertiesOptionsPanel.Designer.cs">
+      <DependentUpon>GeneralPropertiesOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\General\MonitorProperties.cs" />
     <Compile Include="Modules\ICommandRunner.cs" />
     <Compile Include="Modules\Launcher\InternalCommandForm.cs">
       <SubType>Form</SubType>
@@ -483,6 +490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\CheckUpdatesForm.resx">
       <DependentUpon>CheckUpdatesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\General\GeneralPropertiesOptionsPanel.resx">
+      <DependentUpon>GeneralPropertiesOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\GeneralOptionsPanel.resx">
       <DependentUpon>GeneralOptionsPanel.cs</DependentUpon>
