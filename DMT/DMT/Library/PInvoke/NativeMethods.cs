@@ -328,6 +328,11 @@ namespace DMT.Library.PInvoke
 		[DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
 		public static extern bool DeleteDC([In] IntPtr hdc);
 
+		[DllImport("dxva2.dll", EntryPoint = "DestroyPhysicalMonitors", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool DestroyPhysicalMonitors(
+			uint dwPhysicalMonitorArraySize, [Out] PHYSICAL_MONITOR[] pPhysicalMonitorArray);
+
 		[DllImport("user32.dll")]
 		public static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip,
 		   EnumMonitorsDelegate lpfnEnum, IntPtr dwData);

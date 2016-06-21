@@ -153,180 +153,229 @@ using DMT.Library.PInvoke;
 			}
 		}
 
-		public List<MonitorProperties> GetAllMonitorProperties()
+		//public List<MonitorProperties> GetAllMonitorProperties()
+		//{
+		//	List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();
+
+
+		//	NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+		//		delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeMethods.RECT lprcMonitor, IntPtr dwData)
+		//		{
+		//			IntPtr hdcScreen = hdcMonitor;
+
+		//			// get details from the virtual monitor
+		//			// it is assumed that if this virtual monitor maps to multiple physical monitors
+		//			// then this info is the same for all physical monitors
+
+
+		//			NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
+		//			NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
+
+		//			bool isPrimary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
+
+		//			//monitorProperties.DeviceName = new String(monitorInfo.szDevice);
+		//			StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
+		//			string deviceName = sb.ToString();
+		//			deviceName.TrimEnd('\0');
+
+		//			if (hdcScreen == IntPtr.Zero)
+		//			{
+		//				string s = null;
+		//				hdcScreen = NativeMethods.CreateDC(s, deviceName, s, IntPtr.Zero);
+		//			}
+		//			int bitsPerPixel = NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.BITSPIXEL);
+		//			bitsPerPixel *= NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.PLANES);
+
+		//			uint numPhysicalMonitors = 0;
+		//			NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
+		//			NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
+		//			if (NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors))
+		//			{
+
+		//				int monitorNumber = 1;
+
+		//				for (int i = 0; i < numPhysicalMonitors; i++)
+		//				{
+		//					MonitorProperties physicalMonitorProperties = new MonitorProperties();
+
+		//					physicalMonitorProperties.Number = monitorNumber++;
+		//					physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
+
+		//					IntPtr hPhysicalMonitor = physicalMonitors[i].hPhysicalMonitor;
+		//					physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
+
+		//					physicalMonitorProperties.NumPhysicalMonitors = 0;	// only applies to virtual monitors
+
+		//					// NO WORK - get from virtual?????????
+		//					NativeMethods.MONITORINFOEX physicalMonitorInfo = new NativeMethods.MONITORINFOEX(0);
+		//					NativeMethods.GetMonitorInfo(hPhysicalMonitor, ref physicalMonitorInfo);
+		//					physicalMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref physicalMonitorInfo.rcMonitor);
+		//					physicalMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref physicalMonitorInfo.rcWork);
+		//					physicalMonitorProperties.Primary = (physicalMonitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
+		//					//
+		//					physicalMonitorProperties.Primary = isPrimary;
+
+
+		//					physicalMonitorProperties.DeviceName = deviceName;
+
+		//					sb = new StringBuilder(physicalMonitors[i].szPhysicalMonitorDescription);
+		//					physicalMonitorProperties.Description = sb.ToString();
+
+		//					physicalMonitorProperties.BitsPerPixel = bitsPerPixel;
+
+
+		//					uint minBrightness;
+		//					uint maxBrightness;
+		//					uint curBrightness;
+		//					NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
+
+		//					physicalMonitorProperties.MinBrightness = minBrightness;
+		//					physicalMonitorProperties.MaxBrightness = maxBrightness;
+		//					physicalMonitorProperties.CurBrightness = curBrightness;
+
+		//					allMonitorProperties.Add(physicalMonitorProperties);
+		//				}
+		//			}
+
+		//			// release any resources used while looking at this virtual monitor
+		//			NativeMethods.DestroyPhysicalMonitors(numPhysicalMonitors, physicalMonitors);
+
+		//			if (hdcScreen != hdcMonitor)
+		//			{
+		//				NativeMethods.DeleteDC(hdcScreen);
+		//			}
+
+		//			return true;
+		//		}, IntPtr.Zero);
+
+
+		//	return allMonitorProperties;
+		//}
+
+		public List<MonitorProperties> GetAllMonitorProperties(bool showVirtual)
 		{
 			List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();
-
-			//Monitors monitors = _localEnvironment.Monitors;
-			//foreach (Monitor monitor in monitors)
-			//{
-			//	MonitorProperties monitorProperties = new MonitorProperties(monitor);
-			//	allMonitorProperties.Add(monitorProperties);
-			//}
-
-			//// could use _localEnvironment.Monitors, but we need more information than is available here
-			//foreach (Screen screen in Screen.AllScreens)
-			//{
-			//	MonitorProperties monitorProperties = new MonitorProperties();
-			//	monitorProperties.Bounds = screen.Bounds;
-			//	monitorProperties.WorkingArea = screen.WorkingArea;
-			//	monitorProperties.Primary = screen.Primary;
-
-			//	monitorProperties.DeviceName = screen.DeviceName;
-			//	monitorProperties.BitsPerPixel = screen.BitsPerPixel;
-
-			//	allMonitorProperties.Add(monitorProperties);
-			//}
-
+			int virtualMonitorNumber = 0;
+			int physicalMonitorNumber = 0;
 
 			NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
 				delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeMethods.RECT lprcMonitor, IntPtr dwData)
 				{
-					//Log("Found hMonitor: {0}, hDC: {1}, Rect: {2}", hMonitor, hdcMonitor, lprcMonitor);
+					// get details from the virtual monitor
+					// it is assumed that if this virtual monitor maps to multiple physical monitors
+					// then this info is the same for all physical monitors
 
-					IntPtr hdcScreen = hdcMonitor;
+					MonitorProperties virtualMonitorProperties = new MonitorProperties();
+					virtualMonitorProperties.VirtualNumber = ++virtualMonitorNumber;
+					virtualMonitorProperties.ChildNumber = 0;
+
+					AddVirtualMonitorProperties(hMonitor, hdcMonitor, virtualMonitorProperties);
 
 					uint numPhysicalMonitors = 0;
 					NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
-					//Log(" - which has: {0} physical monitor(s)", numPhysicalMonitors);
-
-					MonitorProperties virtualMonitorProperties = new MonitorProperties();
-					virtualMonitorProperties.Handle = (uint)hMonitor;
-					virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
 					virtualMonitorProperties.NumPhysicalMonitors = numPhysicalMonitors;
-					virtualMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref lprcMonitor);
 
-					NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
-					NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
-
-					virtualMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref monitorInfo.rcWork);
-					virtualMonitorProperties.Primary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
-
-					//monitorProperties.DeviceName = new String(monitorInfo.szDevice);
-					StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
-					virtualMonitorProperties.DeviceName = sb.ToString();
-					virtualMonitorProperties.DeviceName.TrimEnd('\0');
-
-					if (hdcScreen == IntPtr.Zero)
+					if (showVirtual)
 					{
-						string s = null;
-						hdcScreen = NativeMethods.CreateDC(s, virtualMonitorProperties.DeviceName, s, IntPtr.Zero);
+						allMonitorProperties.Add(virtualMonitorProperties);
 					}
-					virtualMonitorProperties.BitsPerPixel = NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.BITSPIXEL);
-					virtualMonitorProperties.BitsPerPixel *= NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.PLANES);
-
-					allMonitorProperties.Add(virtualMonitorProperties);
 
 					NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
-
-					NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors);
-					for (int i = 0; i < numPhysicalMonitors; i++)
+					if (NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors))
 					{
-						IntPtr hPhysicalMonitor = physicalMonitors[i].hPhysicalMonitor;
-						//Log(" - hPhysicalMonitor: {0}", hPhysicalMonitor);
+						for (int i = 0; i < numPhysicalMonitors; i++)
+						{
+							MonitorProperties physicalMonitorProperties = virtualMonitorProperties.Clone();
 
+							physicalMonitorProperties.ChildNumber = i + 1;
+							physicalMonitorProperties.PhysicalNumber = ++physicalMonitorNumber;
 
-						uint minBrightness;
-						uint maxBrightness;
-						uint curBrightness;
-						NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
-						//Log(" - Min: {0}, Cur: {1}, Max: {2}", minBrightness, curBrightness, maxBrightness);
+							AddPhysicalMonitorProperties(physicalMonitors[i], physicalMonitorProperties);
 
-						MonitorProperties physicalMonitorProperties = new MonitorProperties();
-						physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
-						physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
-
-
-						sb = new StringBuilder(physicalMonitors[i].szPhysicalMonitorDescription);
-						physicalMonitorProperties.DeviceName = sb.ToString();
-
-						NativeMethods.MONITORINFOEX physicalMonitorInfo = new NativeMethods.MONITORINFOEX(0);
-						NativeMethods.GetMonitorInfo(hMonitor, ref physicalMonitorInfo);
-						physicalMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref physicalMonitorInfo.rcMonitor);
-						physicalMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref physicalMonitorInfo.rcWork);
-						physicalMonitorProperties.Primary = (physicalMonitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
-
-
-						physicalMonitorProperties.MinBrightness = minBrightness;
-						physicalMonitorProperties.MaxBrightness = maxBrightness;
-						physicalMonitorProperties.CurBrightness = curBrightness;
-
-						allMonitorProperties.Add(physicalMonitorProperties);
+							allMonitorProperties.Add(physicalMonitorProperties);
+						}
 					}
 
-					if (hdcScreen != hdcMonitor)
-					{
-						NativeMethods.DeleteDC(hdcScreen);
-					}
+					// release any resources used while looking at this virtual monitor
+					NativeMethods.DestroyPhysicalMonitors(numPhysicalMonitors, physicalMonitors);
+
+					//if (hdcScreen != hdcMonitor)
+					//{
+					//	NativeMethods.DeleteDC(hdcScreen);
+					//}
 
 					return true;
 				}, IntPtr.Zero);
 
 
-
 			return allMonitorProperties;
 		}
 
-		//NativeMethods.EnumMonitorsDelegate EnumMonitorsCallback(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeMethods.RECT lprcMonitor, IntPtr dwData)
-		//{
-		//	uint numPhysicalMonitors = 0;
-		//	NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
-		//	//Log(" - which has: {0} physical monitor(s)", numPhysicalMonitors);
 
-		//	MonitorProperties virtualMonitorProperties = new MonitorProperties();
-		//	virtualMonitorProperties.Handle = (uint)hMonitor;
-		//	virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
-		//	virtualMonitorProperties.NumPhysicalMonitors = numPhysicalMonitors;
-		//	virtualMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref lprcMonitor);
-
-		//	NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
-		//	NativeMethods.GetMonitorInfo(hMonitor, ref monitorInfo);
-
-		//	virtualMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref monitorInfo.rcWork);
-		//	virtualMonitorProperties.Primary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
-
-		//	//monitorProperties.DeviceName = new String(monitorInfo.szDevice);
-		//	StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
-		//	virtualMonitorProperties.DeviceName = sb.ToString();
-		//	//monitorProperties.DeviceName.TrimEnd('\0');
-
-		//	virtualMonitorProperties.BitsPerPixel = NativeMethods.GetDeviceCaps(hdcMonitor, NativeMethods.BITSPIXEL);
-		//	virtualMonitorProperties.BitsPerPixel *= NativeMethods.GetDeviceCaps(hdcMonitor, NativeMethods.PLANES);
-
-		//	allMonitorProperties.Add(virtualMonitorProperties);
-
-		//	NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
-
-		//	NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors);
-		//	for (int i = 0; i < numPhysicalMonitors; i++)
-		//	{
-		//		IntPtr hPhysicalMonitor = physicalMonitors[i].hPhysicalMonitor;
-		//		//Log(" - hPhysicalMonitor: {0}", hPhysicalMonitor);
-
-		//		uint minBrightness;
-		//		uint maxBrightness;
-		//		uint curBrightness;
-		//		NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
-		//		//Log(" - Min: {0}, Cur: {1}, Max: {2}", minBrightness, curBrightness, maxBrightness);
-
-		//		MonitorProperties physicalMonitorProperties = new MonitorProperties();
-		//		physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
-		//		physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
-
-		//		physicalMonitorProperties.MinBrightness = minBrightness;
-		//		physicalMonitorProperties.MaxBrightness = maxBrightness;
-		//		physicalMonitorProperties.CurBrightness = curBrightness;
-
-		//		allMonitorProperties.Add(physicalMonitorProperties);
-		//	}
-
-		//	return true;
-		//}
-
-		MonitorProperties FindMonitor(List<MonitorProperties> allMonitorProperties, int monitor)
+		void AddVirtualMonitorProperties(IntPtr hVirtualMonitor, IntPtr hdcMonitor, MonitorProperties virtualMonitorProperties)
 		{
-			return allMonitorProperties[monitor];
+			IntPtr hdcScreen = hdcMonitor;
+
+			virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
+			virtualMonitorProperties.Handle = (uint)hVirtualMonitor;
+
+
+			NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
+			NativeMethods.GetMonitorInfo(hVirtualMonitor, ref monitorInfo);
+
+			virtualMonitorProperties.Primary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
+			virtualMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref monitorInfo.rcMonitor);
+			virtualMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref monitorInfo.rcWork);
+
+			//monitorProperties.DeviceName = new String(monitorInfo.szDevice);
+			StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
+			string deviceName = sb.ToString();
+			deviceName.TrimEnd('\0');
+			virtualMonitorProperties.DeviceName = deviceName;
+
+			if (hdcScreen == IntPtr.Zero)
+			{
+				string s = null;
+				hdcScreen = NativeMethods.CreateDC(s, deviceName, s, IntPtr.Zero);
+			}
+			int bitsPerPixel = NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.BITSPIXEL);
+			bitsPerPixel *= NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.PLANES);
+			virtualMonitorProperties.BitsPerPixel = bitsPerPixel;
+
+			if (hdcScreen != hdcMonitor)
+			{
+				NativeMethods.DeleteDC(hdcScreen);
+			}
 		}
+
+		void AddPhysicalMonitorProperties(NativeMethods.PHYSICAL_MONITOR physicalMonitor, MonitorProperties physicalMonitorProperties)
+		{
+			physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
+
+			IntPtr hPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
+			physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
+
+			physicalMonitorProperties.NumPhysicalMonitors = 0;	// only applies to virtual monitors
+
+			// TODO: how do we get physical monitor area ???
+
+			StringBuilder sb = new StringBuilder(physicalMonitor.szPhysicalMonitorDescription);
+			physicalMonitorProperties.Description = sb.ToString();
+
+			uint minBrightness;
+			uint maxBrightness;
+			uint curBrightness;
+			NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
+
+			physicalMonitorProperties.MinBrightness = minBrightness;
+			physicalMonitorProperties.MaxBrightness = maxBrightness;
+			physicalMonitorProperties.CurBrightness = curBrightness;
+		}
+
+		//MonitorProperties FindMonitor(List<MonitorProperties> allMonitorProperties, int monitor)
+		//{
+		//	return allMonitorProperties[monitor];
+		//}
 
 		/// <summary>
 		/// Starts the module up
@@ -353,7 +402,7 @@ using DMT.Library.PInvoke;
 			Image image = new Bitmap(Properties.Resources.DMT_16_16);
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", image, new GeneralRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new GeneralOptionsPanel(this)));
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Properties", image, new GeneralPropertiesOptionsPanel(this)));
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Monitors", image, new GeneralMonitorsOptionsPanel(this)));
 
 			return options;
 		}

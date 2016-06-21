@@ -17,7 +17,9 @@ namespace DMT.Modules.General
 			Physical = 2
 		}
 
-		public int Number { get; set; }
+		public int VirtualNumber { get; set; }	// 1+ each virtual monitor will be unique
+		public int ChildNumber { get; set; }	// 1+ number within current virtual set
+		public int PhysicalNumber { get; set; }	// 1+ each physical number will be uniqe
 
 		public EMonitorType MonitorType { get; set; }
 
@@ -41,6 +43,7 @@ namespace DMT.Modules.General
 		public bool Primary { get; set; }
 
 		public string DeviceName { get; set; }
+		public string Description { get; set; }
 		public int BitsPerPixel { get; set; }
 
 		public uint MinBrightness { get; set; }
@@ -57,6 +60,30 @@ namespace DMT.Modules.General
 			Bounds = monitor.Bounds;
 			WorkingArea = monitor.WorkingArea;
 			Primary = monitor.Primary;
+		}
+
+		public MonitorProperties Clone()
+		{
+			MonitorProperties clone = new MonitorProperties();
+
+			// clone all fields for now
+			clone.VirtualNumber = VirtualNumber;
+			clone.ChildNumber = ChildNumber;
+			clone.PhysicalNumber = PhysicalNumber;
+			clone.MonitorType = MonitorType;
+			clone.Handle = Handle;
+			clone.NumPhysicalMonitors = NumPhysicalMonitors;
+			clone.Bounds = Bounds;
+			clone.WorkingArea = WorkingArea;
+			clone.Primary = Primary;
+			clone.DeviceName = DeviceName;
+			clone.Description = Description;
+			clone.BitsPerPixel = BitsPerPixel;
+			clone.MinBrightness = MinBrightness;
+			clone.MaxBrightness = MaxBrightness;
+			clone.CurBrightness = CurBrightness;
+
+			return clone;
 		}
 	}
 }
