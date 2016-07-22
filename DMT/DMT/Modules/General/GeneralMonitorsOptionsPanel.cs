@@ -52,6 +52,11 @@ namespace DMT.Modules.General
 
 			InitGrid();
 
+			if (!generalModule.AllowShowVirtualMonitors)
+			{
+				// hide the "Show virtual monitors" checkbox
+				checkBoxShowVirtual.Visible = false;
+			}
 		}
 
 		void InitGrid()
@@ -80,7 +85,7 @@ namespace DMT.Modules.General
 			ShowCurrentInfo();
 		}
 
-		void ShowCurrentInfo()
+		public void ShowCurrentInfo()
 		{
 			bool showVirtualMonitors = checkBoxShowVirtual.Checked;
 			List<MonitorProperties> allMonitorProperties = _generalModule.GetAllMonitorProperties(showVirtualMonitors);
