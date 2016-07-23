@@ -53,6 +53,24 @@ namespace DMT.Library.Environment
 		}
 
 		/// <summary>
+		/// Are we running Windows Vista or later
+		/// </summary>
+		/// <returns>True if running Windows Vista or later</returns>
+		public bool IsVistaOrLater()
+		{
+			return OsHelper.IsVistaOrLater();
+		}
+
+		/// <summary>
+		/// Are we running Windows 7 or later
+		/// </summary>
+		/// <returns>True if running Windows 7 or later</returns>
+		public bool IsWin7OrLater()
+		{
+			return OsHelper.IsWin7OrLater();
+		}
+
+		/// <summary>
 		/// Are we running Windows 8 or later
 		/// </summary>
 		/// <returns>True if running Windows 8 or later</returns>

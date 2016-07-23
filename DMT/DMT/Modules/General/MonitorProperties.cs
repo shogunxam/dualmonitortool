@@ -7,6 +7,7 @@ using System.Text;
 
 namespace DMT.Modules.General
 {
+	[Obsolete]
 	public class MonitorProperties
 	{
 		[Flags]
@@ -16,6 +17,31 @@ namespace DMT.Modules.General
 			Virtual = 1,
 			Physical = 2
 		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this monitor is active
+		/// </summary>
+		public bool Active { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this is the primary monitor
+		/// </summary>
+		public bool Primary { get; set; }
+
+		public string FriendlyName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the bounds for the monitor
+		/// </summary>
+		public Rectangle Bounds { get; set; }
+
+		public string OutputTechnology { get; set; }
+		public int RotationDegrees { get; set; }
+
+		public int BitsPerPixel { get; set; }
+
+
+
 
 		public int VirtualNumber { get; set; }	// 1+ each virtual monitor will be unique
 		public int ChildNumber { get; set; }	// 1+ number within current virtual set
@@ -28,23 +54,14 @@ namespace DMT.Modules.General
 		public uint NumPhysicalMonitors { get; set; }
 
 		/// <summary>
-		/// Gets or sets the bounds for the monitor
-		/// </summary>
-		public Rectangle Bounds { get; set; }
-
-		/// <summary>
 		/// Gets or sets the working area for the monitor
 		/// </summary>
 		public Rectangle WorkingArea { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this is the primary monitor
-		/// </summary>
-		public bool Primary { get; set; }
+
 
 		public string DeviceName { get; set; }
 		public string Description { get; set; }
-		public int BitsPerPixel { get; set; }
 
 		public uint MinBrightness { get; set; }
 		public uint MaxBrightness { get; set; }

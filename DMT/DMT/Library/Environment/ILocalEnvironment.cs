@@ -34,6 +34,18 @@ namespace DMT.Library.Environment
 		Monitors Monitors { get; }
 
 		/// <summary>
+		/// Are we running Windows Vista or later
+		/// </summary>
+		/// <returns>True if running Windows Vista or later</returns>
+		bool IsVistaOrLater();
+
+		/// <summary>
+		/// Are we running Windows 7 or later
+		/// </summary>
+		/// <returns>True if running Windows 7 or later</returns>
+		bool IsWin7OrLater();
+
+		/// <summary>
 		/// Are we running Windows 8 or later
 		/// </summary>
 		/// <returns>True if running Windows 8 or later</returns>

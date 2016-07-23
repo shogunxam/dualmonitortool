@@ -43,17 +43,17 @@ namespace DMT
 		static void Main(string[] args)
 		{
 #if DEBUG
-			try
-			{
-				FileInfo file = new FileInfo(@"C:\Temp\dmt.log");
-				StreamWriter writer = file.AppendText();
-				writer.WriteLine(string.Format("{0}: {1}", DateTime.Now.ToString("HH:mm:ss"), "DMT loaded"));
-				writer.Close();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
+			//try
+			//{
+			//	FileInfo file = new FileInfo(@"C:\Temp\dmt.log");
+			//	StreamWriter writer = file.AppendText();
+			//	writer.WriteLine(string.Format("{0}: {1}", DateTime.Now.ToString("HH:mm:ss"), "DMT loaded"));
+			//	writer.Close();
+			//}
+			//catch (Exception ex)
+			//{
+			//	MessageBox.Show(ex.Message);
+			//}
 #endif
 
 			ProgramOptions programOptions = new ProgramOptions(args);

@@ -29,6 +29,8 @@ namespace DMT.Library.PInvoke
 	/// </summary>
 	static class NativeMethods
 	{
+		public const int ERROR_SUCCESS = 0;
+
 		// flags for SystemParametersInfo(uiAction)
 		public static uint SPI_SETDESKWALLPAPER = 20;
 

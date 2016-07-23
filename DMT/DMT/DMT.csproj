@@ -140,6 +140,8 @@
     <Compile Include="Modules\General\CheckUpdatesForm.Designer.cs">
       <DependentUpon>CheckUpdatesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\General\DisplayDevice.cs" />
+    <Compile Include="Modules\General\DisplayDevices.cs" />
     <Compile Include="Modules\General\GeneralMonitorsOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -147,6 +149,8 @@
       <DependentUpon>GeneralMonitorsOptionsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Modules\General\MonitorProperties.cs" />
+    <Compile Include="Modules\General\NativeDisplayHelper.cs" />
+    <Compile Include="Modules\General\NativeDisplayMethods.cs" />
     <Compile Include="Modules\ICommandRunner.cs" />
     <Compile Include="Modules\Launcher\InternalCommandForm.cs">
       <SubType>Form</SubType>

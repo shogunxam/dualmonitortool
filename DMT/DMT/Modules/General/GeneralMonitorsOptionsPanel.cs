@@ -52,33 +52,50 @@ namespace DMT.Modules.General
 
 			InitGrid();
 
-			if (!generalModule.AllowShowVirtualMonitors)
-			{
-				// hide the "Show virtual monitors" checkbox
-				checkBoxShowVirtual.Visible = false;
-			}
+			//if (!generalModule.AllowShowVirtualMonitors)
+			//{
+			//	// hide the "Show virtual monitors" checkbox
+			//	checkBoxShowAllMonitors.Visible = false;
+			//}
 		}
 
 		void InitGrid()
 		{
 			dataGridView.ColumnCount = 0;
-			dataGridView.RowCount = 12;
+			dataGridView.RowCount = 9;
 
 			int n = 0;
-			dataGridView.Rows[n++].HeaderCell.Value = "Type";
-			dataGridView.Rows[n++].HeaderCell.Value = "Number";
-			dataGridView.Rows[n++].HeaderCell.Value = "Is Primary";
-			dataGridView.Rows[n++].HeaderCell.Value = "Size";
-			dataGridView.Rows[n++].HeaderCell.Value = "Bits per pixel";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Position";
-			dataGridView.Rows[n++].HeaderCell.Value = "Area";
-			dataGridView.Rows[n++].HeaderCell.Value = "Working area";
-			dataGridView.Rows[n++].HeaderCell.Value = "Device name";
-			dataGridView.Rows[n++].HeaderCell.Value = "Description";
 
-			dataGridView.Rows[n++].HeaderCell.Value = "Brightness";
-			dataGridView.Rows[n++].HeaderCell.Value = "Min brightness";
-			dataGridView.Rows[n++].HeaderCell.Value = "Max brightness";
+			dataGridView.Rows[n++].HeaderCell.Value = "Is Active";
+			dataGridView.Rows[n++].HeaderCell.Value = "Is Primary";
+
+			//dataGridView.Rows[n++].HeaderCell.Value = "Adapter name";
+			dataGridView.Rows[n++].HeaderCell.Value = "Source name";
+			dataGridView.Rows[n++].HeaderCell.Value = "Target name";
+
+			dataGridView.Rows[n++].HeaderCell.Value = "Size";
+			dataGridView.Rows[n++].HeaderCell.Value = "Area";
+			dataGridView.Rows[n++].HeaderCell.Value = "Bits per Pixel";
+
+			dataGridView.Rows[n++].HeaderCell.Value = "Output Tech";
+			dataGridView.Rows[n++].HeaderCell.Value = "Rotation";
+
+
+
+			//dataGridView.Rows[n++].HeaderCell.Value = "Type";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Number";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Is Primary";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Size";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Bits per pixel";
+			////dataGridView.Rows[n++].HeaderCell.Value = "Position";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Area";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Working area";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Device name";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Description";
+
+			//dataGridView.Rows[n++].HeaderCell.Value = "Brightness";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Min brightness";
+			//dataGridView.Rows[n++].HeaderCell.Value = "Max brightness";
 
 			//dataGridView.Rows[n++].HeaderCell.Value = "Handle";
 
@@ -87,71 +104,172 @@ namespace DMT.Modules.General
 
 		public void ShowCurrentInfo()
 		{
-			bool showVirtualMonitors = checkBoxShowVirtual.Checked;
-			List<MonitorProperties> allMonitorProperties = _generalModule.GetAllMonitorProperties(showVirtualMonitors);
-
-			dataGridView.ColumnCount = allMonitorProperties.Count;
-
-			for (int col = 0; col < allMonitorProperties.Count; col++)
+			labelErrorMsg.Text = string.Empty;
+			try
 			{
-				MonitorProperties monitorProperties = allMonitorProperties[col];
+				//IList<DisplayDevice> allMonitorProperties = _generalModule.GetAllMonitorProperties();
+				DisplayDevices displayDevices = _generalModule.GetDisplayDevices();
+				IList<DisplayDevice> allMonitorProperties = displayDevices.Items;
 
-				dataGridView.Columns[col].Width = 128;
-				dataGridView.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-				string colHdr = "/";
-				string type = "Unknown";
-				int number = 0;
-				if ((monitorProperties.MonitorType & MonitorProperties.EMonitorType.Physical) != 0)
+				if (checkBoxShowAllMonitors.Checked)
 				{
-					type = "Physical";
-					number = monitorProperties.PhysicalNumber;
-					if (showVirtualMonitors)
-					{
-						colHdr = string.Format("{0}.{1}", monitorProperties.VirtualNumber, monitorProperties.ChildNumber);
-					}
-					else
-					{
-						colHdr = string.Format("{0}", monitorProperties.PhysicalNumber);
-					}
+					dataGridView.ColumnCount = displayDevices.Count();
 				}
-				else if ((monitorProperties.MonitorType & MonitorProperties.EMonitorType.Virtual) != 0)
+				else
 				{
-					type = "Virtual";
-					number = monitorProperties.VirtualNumber;
-					colHdr = string.Format("{0}", monitorProperties.VirtualNumber);
+					dataGridView.ColumnCount = displayDevices.ActiveCount();
 				}
 
-				dataGridView.Columns[col].HeaderCell.Value = colHdr;
+				for (int col = 0; col < allMonitorProperties.Count; col++)
+				{
+					DisplayDevice monitorProperties = allMonitorProperties[col];
 
-				int n = 0;
-				dataGridView.Rows[n++].Cells[col].Value = type;
-				dataGridView.Rows[n++].Cells[col].Value = number.ToString();
+					if (monitorProperties.IsActive || checkBoxShowAllMonitors.Checked)
+					{
 
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Primary ? "Yes" : "No";
-				dataGridView.Rows[n++].Cells[col].Value = string.Format("{0} * {1}", monitorProperties.Bounds.Width, monitorProperties.Bounds.Height);
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.BitsPerPixel.ToString();
-				//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1})", monitorProperties.Bounds.Left, monitorProperties.Bounds.Top);
-				dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})", 
-					monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
-					monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
-				dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
-					monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
-					monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
+						dataGridView.Columns[col].Width = 128;
+						dataGridView.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.CurBrightness.ToString();
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MinBrightness.ToString();
-				dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MaxBrightness.ToString();
+						string colHdr = (col + 1).ToString();
 
-				//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Handle.ToString("X");
+						dataGridView.Columns[col].HeaderCell.Value = colHdr;
+
+
+						int n = 0;
+						dataGridView.Rows[n++].Cells[col].Value = YesNoText(monitorProperties.IsActive);
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, YesNoText(monitorProperties.IsPrimary));
+
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.AdapterName;
+						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.SourceName;
+						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.FriendlyName;
+
+						string size = string.Format("{0} * {1}", monitorProperties.Bounds.Width, monitorProperties.Bounds.Height);
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, size);
+
+						string bounds = string.Format("({0}, {1}) - ({2}, {3})",
+							monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
+							monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, bounds);
+						//dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel == 0 ? "Unknown" : monitorProperties.BitsPerPixel.ToString());
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel.ToString());
+
+
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.OutputTechnology);
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.RotationDegrees.ToString());
+
+
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.BitsPerPixel.ToString();
+						////dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1})", monitorProperties.Bounds.Left, monitorProperties.Bounds.Top);
+						//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
+						//	monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
+						//	monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
+						//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
+						//	monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
+						//	monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
+
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.CurBrightness.ToString();
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MinBrightness.ToString();
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MaxBrightness.ToString();
+
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Handle.ToString("X");
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				// Shouldn't get here. but jic
+				labelErrorMsg.Text = ex.Message;
 			}
 		}
 
-		private void checkBoxShowVirtual_CheckedChanged(object sender, EventArgs e)
+		string YesNoText(bool flag)
+		{
+			return flag ? "Yes" : "No";
+		}
+
+		//string HideNonActive(MonitorProperties monitorProperties, string s)
+		string HideNonActive(DisplayDevice monitorProperties, string s)
+		{
+			if (monitorProperties.IsActive)
+			{
+				return s;
+			}
+
+			return string.Empty;
+		}
+
+
+		//public void ShowCurrentInfo()
+		//{
+		//	//bool showVirtualMonitors = checkBoxShowVirtual.Checked;
+		//	//List<MonitorProperties> allMonitorProperties = _generalModule.GetAllMonitorProperties(showVirtualMonitors);
+		//	List<MonitorProperties> allMonitorProperties = _generalModule.GetAllMonitorProperties();
+
+		//	dataGridView.ColumnCount = allMonitorProperties.Count;
+
+		//	for (int col = 0; col < allMonitorProperties.Count; col++)
+		//	{
+		//		MonitorProperties monitorProperties = allMonitorProperties[col];
+
+		//		dataGridView.Columns[col].Width = 128;
+		//		dataGridView.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+		//		string colHdr = "/";
+		//		string type = "Unknown";
+		//		int number = 0;
+		//		if ((monitorProperties.MonitorType & MonitorProperties.EMonitorType.Physical) != 0)
+		//		{
+		//			type = "Physical";
+		//			number = monitorProperties.PhysicalNumber;
+		//			//if (showVirtualMonitors)
+		//			//{
+		//			//	colHdr = string.Format("{0}.{1}", monitorProperties.VirtualNumber, monitorProperties.ChildNumber);
+		//			//}
+		//			//else
+		//			{
+		//				colHdr = string.Format("{0}", monitorProperties.PhysicalNumber);
+		//			}
+		//		}
+		//		else if ((monitorProperties.MonitorType & MonitorProperties.EMonitorType.Virtual) != 0)
+		//		{
+		//			type = "Virtual";
+		//			number = monitorProperties.VirtualNumber;
+		//			colHdr = string.Format("{0}", monitorProperties.VirtualNumber);
+		//		}
+
+		//		dataGridView.Columns[col].HeaderCell.Value = colHdr;
+
+		//		int n = 0;
+		//		dataGridView.Rows[n++].Cells[col].Value = type;
+		//		dataGridView.Rows[n++].Cells[col].Value = number.ToString();
+
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Primary ? "Yes" : "No";
+		//		dataGridView.Rows[n++].Cells[col].Value = string.Format("{0} * {1}", monitorProperties.Bounds.Width, monitorProperties.Bounds.Height);
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.BitsPerPixel.ToString();
+		//		//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1})", monitorProperties.Bounds.Left, monitorProperties.Bounds.Top);
+		//		dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})", 
+		//			monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
+		//			monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
+		//		dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
+		//			monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
+		//			monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
+
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.CurBrightness.ToString();
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MinBrightness.ToString();
+		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MaxBrightness.ToString();
+
+		//		//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Handle.ToString("X");
+		//	}
+		//}
+
+		private void checkBoxShowAll_CheckedChanged(object sender, EventArgs e)
 		{
 			ShowCurrentInfo();
+
 		}
 	}
 }

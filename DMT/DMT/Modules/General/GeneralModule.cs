@@ -166,155 +166,192 @@ namespace DMT.Modules.General
 			}
 		}
 
-		public bool AllowShowVirtualMonitors
+		//public bool AllowShowVirtualMonitors
+		//{
+		//	get
+		//	{
+		//		// we only need to allow the user to be able to select virtual monitors if running Vista or later
+		//		return _localEnvironment.IsVistaOrLater();
+		//	}
+		//}
+
+		public IList<DisplayDevice> GetAllMonitorProperties()
 		{
-			get
-			{
-				// we only need to allow the user to be able to select virtual monitors if running Vista or later
-				return _localEnvironment.IsVistaOrLater();
-			}
+			// TODO: any performance advantage in keeping this at the class level?
+			DisplayDevices displayDevices = new DisplayDevices();
+
+			return displayDevices.Items;
 		}
 
-		public List<MonitorProperties> GetAllMonitorProperties(bool showVirtual)
+		public DisplayDevices GetDisplayDevices()
 		{
-			List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();
-			int virtualMonitorNumber = 0;
-			int physicalMonitorNumber = 0;
+			DisplayDevices displayDevices = new DisplayDevices();
 
-			// these are the values we want to use for XP
-			bool showEnumDisplayMonitors = true;
-			bool showPhysicalMonitors = false;
-			bool makeVirtualPhysical = true;
-			if (_localEnvironment.IsVistaOrLater())
-			{
-				showEnumDisplayMonitors = showVirtual;
-				showPhysicalMonitors = true;
-				makeVirtualPhysical = false;
-			}
-
-			NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
-				delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeMethods.RECT lprcMonitor, IntPtr dwData)
-				{
-					// get details from the virtual monitor
-					// it is assumed that if this virtual monitor maps to multiple physical monitors
-					// then this info is the same for all physical monitors
-
-					MonitorProperties virtualMonitorProperties = new MonitorProperties();
-					virtualMonitorProperties.VirtualNumber = ++virtualMonitorNumber;
-					virtualMonitorProperties.ChildNumber = 0;
-
-					AddVirtualMonitorProperties(hMonitor, hdcMonitor, virtualMonitorProperties);
-
-					uint numPhysicalMonitors = 0;
-					NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
-					virtualMonitorProperties.NumPhysicalMonitors = numPhysicalMonitors;
-
-					if (showEnumDisplayMonitors)
-					{
-						// override the monitor type for backwards compatibility with XP
-						if (makeVirtualPhysical)
-						{
-							MakeVirtualPhysical(virtualMonitorProperties);
-						}
-						allMonitorProperties.Add(virtualMonitorProperties);
-					}
-
-					if (showPhysicalMonitors)
-					{
-						NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
-						if (NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors))
-						{
-							for (int i = 0; i < numPhysicalMonitors; i++)
-							{
-								MonitorProperties physicalMonitorProperties = virtualMonitorProperties.Clone();
-
-								physicalMonitorProperties.ChildNumber = i + 1;
-								physicalMonitorProperties.PhysicalNumber = ++physicalMonitorNumber;
-
-								AddPhysicalMonitorProperties(physicalMonitors[i], physicalMonitorProperties);
-
-								allMonitorProperties.Add(physicalMonitorProperties);
-							}
-						}
-
-						// release any resources used while looking at this virtual monitor
-						NativeMethods.DestroyPhysicalMonitors(numPhysicalMonitors, physicalMonitors);
-					}
-
-					return true;
-				}, IntPtr.Zero);
-
-
-			return allMonitorProperties;
+			return displayDevices;
 		}
 
-		void MakeVirtualPhysical(MonitorProperties virtualMonitorProperties)
-		{
-			// Hack for XP to make a virtual monitor look like a physical monitor
-			virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
-			virtualMonitorProperties.PhysicalNumber = virtualMonitorProperties.VirtualNumber;
-		}
+		//public List<MonitorProperties> GetAllMonitorProperties()
+		//{
+		//	List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();
+
+		//	// TODO: any performance advantage in keeping this at the class level?
+		//	DisplayDevices displayDevices = new DisplayDevices();
+
+		//	foreach (DisplayDevice displayDevice in displayDevices.Items)
+		//	{
+		//		MonitorProperties monitorProperties = new MonitorProperties();
+		//		monitorProperties.Active = displayDevice.IsActive;
+		//		monitorProperties.Primary = displayDevice.IsPrimary;
+		//		monitorProperties.FriendlyName = displayDevice.FriendlyName;
+		//		monitorProperties.Bounds = displayDevice.Bounds;
+		//		monitorProperties.OutputTechnology = displayDevice.OutputTechnology;
+		//		monitorProperties.RotationDegrees = displayDevice.RotationDegrees;
+		//		allMonitorProperties.Add(monitorProperties);
+		//	}
+
+		//	return allMonitorProperties;
+		//}
+
+		//public List<MonitorProperties> GetAllMonitorProperties(bool showVirtual)
+		//{
+		//	List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();
+		//	int virtualMonitorNumber = 0;
+		//	int physicalMonitorNumber = 0;
+
+		//	// these are the values we want to use for XP
+		//	bool showEnumDisplayMonitors = true;
+		//	bool showPhysicalMonitors = false;
+		//	bool makeVirtualPhysical = true;
+		//	if (_localEnvironment.IsVistaOrLater())
+		//	{
+		//		showEnumDisplayMonitors = showVirtual;
+		//		showPhysicalMonitors = true;
+		//		makeVirtualPhysical = false;
+		//	}
+
+		//	NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+		//		delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeMethods.RECT lprcMonitor, IntPtr dwData)
+		//		{
+		//			// get details from the virtual monitor
+		//			// it is assumed that if this virtual monitor maps to multiple physical monitors
+		//			// then this info is the same for all physical monitors
+
+		//			MonitorProperties virtualMonitorProperties = new MonitorProperties();
+		//			virtualMonitorProperties.VirtualNumber = ++virtualMonitorNumber;
+		//			virtualMonitorProperties.ChildNumber = 0;
+
+		//			AddVirtualMonitorProperties(hMonitor, hdcMonitor, virtualMonitorProperties);
+
+		//			uint numPhysicalMonitors = 0;
+		//			NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
+		//			virtualMonitorProperties.NumPhysicalMonitors = numPhysicalMonitors;
+
+		//			if (showEnumDisplayMonitors)
+		//			{
+		//				// override the monitor type for backwards compatibility with XP
+		//				if (makeVirtualPhysical)
+		//				{
+		//					MakeVirtualPhysical(virtualMonitorProperties);
+		//				}
+		//				allMonitorProperties.Add(virtualMonitorProperties);
+		//			}
+
+		//			if (showPhysicalMonitors)
+		//			{
+		//				NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
+		//				if (NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors))
+		//				{
+		//					for (int i = 0; i < numPhysicalMonitors; i++)
+		//					{
+		//						MonitorProperties physicalMonitorProperties = virtualMonitorProperties.Clone();
+
+		//						physicalMonitorProperties.ChildNumber = i + 1;
+		//						physicalMonitorProperties.PhysicalNumber = ++physicalMonitorNumber;
+
+		//						AddPhysicalMonitorProperties(physicalMonitors[i], physicalMonitorProperties);
+
+		//						allMonitorProperties.Add(physicalMonitorProperties);
+		//					}
+		//				}
+
+		//				// release any resources used while looking at this virtual monitor
+		//				NativeMethods.DestroyPhysicalMonitors(numPhysicalMonitors, physicalMonitors);
+		//			}
+
+		//			return true;
+		//		}, IntPtr.Zero);
 
 
-		void AddVirtualMonitorProperties(IntPtr hVirtualMonitor, IntPtr hdcMonitor, MonitorProperties virtualMonitorProperties)
-		{
-			IntPtr hdcScreen = hdcMonitor;
+		//	return allMonitorProperties;
+		//}
 
-			virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
-			virtualMonitorProperties.Handle = (uint)hVirtualMonitor;
+		//void MakeVirtualPhysical(MonitorProperties virtualMonitorProperties)
+		//{
+		//	// Hack for XP to make a virtual monitor look like a physical monitor
+		//	virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
+		//	virtualMonitorProperties.PhysicalNumber = virtualMonitorProperties.VirtualNumber;
+		//}
 
 
-			NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
-			NativeMethods.GetMonitorInfo(hVirtualMonitor, ref monitorInfo);
+		//void AddVirtualMonitorProperties(IntPtr hVirtualMonitor, IntPtr hdcMonitor, MonitorProperties virtualMonitorProperties)
+		//{
+		//	IntPtr hdcScreen = hdcMonitor;
 
-			virtualMonitorProperties.Primary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
-			virtualMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref monitorInfo.rcMonitor);
-			virtualMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref monitorInfo.rcWork);
+		//	virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
+		//	virtualMonitorProperties.Handle = (uint)hVirtualMonitor;
 
-			//monitorProperties.DeviceName = new String(monitorInfo.szDevice);
-			StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
-			string deviceName = sb.ToString();
-			deviceName.TrimEnd('\0');
-			virtualMonitorProperties.DeviceName = deviceName;
 
-			if (hdcScreen == IntPtr.Zero)
-			{
-				string s = null;
-				hdcScreen = NativeMethods.CreateDC(s, deviceName, s, IntPtr.Zero);
-			}
-			int bitsPerPixel = NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.BITSPIXEL);
-			bitsPerPixel *= NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.PLANES);
-			virtualMonitorProperties.BitsPerPixel = bitsPerPixel;
+		//	NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
+		//	NativeMethods.GetMonitorInfo(hVirtualMonitor, ref monitorInfo);
 
-			if (hdcScreen != hdcMonitor)
-			{
-				NativeMethods.DeleteDC(hdcScreen);
-			}
-		}
+		//	virtualMonitorProperties.Primary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
+		//	virtualMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref monitorInfo.rcMonitor);
+		//	virtualMonitorProperties.WorkingArea = ScreenHelper.RectToRectangle(ref monitorInfo.rcWork);
 
-		void AddPhysicalMonitorProperties(NativeMethods.PHYSICAL_MONITOR physicalMonitor, MonitorProperties physicalMonitorProperties)
-		{
-			physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
+		//	//monitorProperties.DeviceName = new String(monitorInfo.szDevice);
+		//	StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
+		//	string deviceName = sb.ToString();
+		//	deviceName.TrimEnd('\0');
+		//	virtualMonitorProperties.DeviceName = deviceName;
 
-			IntPtr hPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
-			physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
+		//	if (hdcScreen == IntPtr.Zero)
+		//	{
+		//		string s = null;
+		//		hdcScreen = NativeMethods.CreateDC(s, deviceName, s, IntPtr.Zero);
+		//	}
+		//	int bitsPerPixel = NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.BITSPIXEL);
+		//	bitsPerPixel *= NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.PLANES);
+		//	virtualMonitorProperties.BitsPerPixel = bitsPerPixel;
 
-			physicalMonitorProperties.NumPhysicalMonitors = 0;	// only applies to virtual monitors
+		//	if (hdcScreen != hdcMonitor)
+		//	{
+		//		NativeMethods.DeleteDC(hdcScreen);
+		//	}
+		//}
 
-			// TODO: how do we get physical monitor area ???
+		//void AddPhysicalMonitorProperties(NativeMethods.PHYSICAL_MONITOR physicalMonitor, MonitorProperties physicalMonitorProperties)
+		//{
+		//	physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
 
-			StringBuilder sb = new StringBuilder(physicalMonitor.szPhysicalMonitorDescription);
-			physicalMonitorProperties.Description = sb.ToString();
+		//	IntPtr hPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
+		//	physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
 
-			uint minBrightness;
-			uint maxBrightness;
-			uint curBrightness;
-			NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
+		//	physicalMonitorProperties.NumPhysicalMonitors = 0;	// only applies to virtual monitors
 
-			physicalMonitorProperties.MinBrightness = minBrightness;
-			physicalMonitorProperties.MaxBrightness = maxBrightness;
-			physicalMonitorProperties.CurBrightness = curBrightness;
-		}
+		//	// TODO: how do we get physical monitor area ???
+
+		//	StringBuilder sb = new StringBuilder(physicalMonitor.szPhysicalMonitorDescription);
+		//	physicalMonitorProperties.Description = sb.ToString();
+
+		//	uint minBrightness;
+		//	uint maxBrightness;
+		//	uint curBrightness;
+		//	NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
+
+		//	physicalMonitorProperties.MinBrightness = minBrightness;
+		//	physicalMonitorProperties.MaxBrightness = maxBrightness;
+		//	physicalMonitorProperties.CurBrightness = curBrightness;
+		//}
 
 		//MonitorProperties FindMonitor(List<MonitorProperties> allMonitorProperties, int monitor)
 		//{
@@ -347,8 +384,13 @@ namespace DMT.Modules.General
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", image, new GeneralRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new GeneralOptionsPanel(this)));
 
-			_generalMonitorsOptionsPanel = new GeneralMonitorsOptionsPanel(this);
-			options.Nodes.Add(new ModuleOptionNodeLeaf("Monitors", image, _generalMonitorsOptionsPanel));
+			// To simplify logic, we only support Win 7 or later
+			// if needed, limited support for XP/Vista could be added at a later date
+			if (_localEnvironment.IsWin7OrLater())
+			{
+				_generalMonitorsOptionsPanel = new GeneralMonitorsOptionsPanel(this);
+				options.Nodes.Add(new ModuleOptionNodeLeaf("Monitors", image, _generalMonitorsOptionsPanel));
+			}
 
 			return options;
 		}
