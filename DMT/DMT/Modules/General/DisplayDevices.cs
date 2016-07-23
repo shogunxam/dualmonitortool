@@ -1,6 +1,8 @@
-﻿using DMT.Library.PInvoke;
+﻿using DMT.Library.GuiUtils;
+using DMT.Library.PInvoke;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,7 +24,10 @@ namespace DMT.Modules.General
 
 		public DisplayDevices()
 		{
-			EnumMonitors();
+			GetDisplayConfig();
+
+			// force _displayDevices to be populated
+			GetAllDevices();
 		}
 
 
@@ -47,11 +52,43 @@ namespace DMT.Modules.General
 			}
 		}
 
+		public void MakePrimary(int monitorIndex)
+		{
+			if (monitorIndex >= 0 && monitorIndex < _displayDevices.Count)
+			{
+				// nothing to do if already is primary
+				if (!_displayDevices[monitorIndex].IsPrimary)
+				{
+					int pathIndex = _displayDevices[monitorIndex].PathIndex;
+					if (pathIndex >= 0 && pathIndex < _pathInfos.Length)
+					{
+						uint sourceModeIndex = _pathInfos[pathIndex].sourceInfo.modeInfoIdx;
+						if (sourceModeIndex >= 0 && sourceModeIndex < _modeInfos.Length)
+						{
+							// get current location of where this screen is
+							NativeDisplayMethods.POINTL position = _modeInfos[sourceModeIndex].sourceMode.position;
 
+							// and subtract it from all source modes
+							for (int modeIndex = 0; modeIndex < _modeInfos.Length; modeIndex++)
+							{
+								if (_modeInfos[modeIndex].infoType == NativeDisplayMethods.DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE)
+								{
+									_modeInfos[modeIndex].sourceMode.position.x -= position.x;
+									_modeInfos[modeIndex].sourceMode.position.y -= position.y;
+								}
+							}
 
+							ApplyDisplayConfig();
+						}
+					}
+				}
+			}
+		}
+
+		
 
 		// initialises the list of monitors
-		bool EnumMonitors()
+		bool GetDisplayConfig()
 		{
 			uint pathArraySize = 0;
 			uint modeArraySize = 0;
@@ -113,6 +150,26 @@ namespace DMT.Modules.General
 			return true;
 		}
 
+		bool ApplyDisplayConfig()
+		{
+			bool changesMade = false;
+
+			int err = NativeDisplayMethods.SetDisplayConfig(
+				(uint)_pathInfos.Length, _pathInfos,
+				(uint)_modeInfos.Length, _modeInfos,
+				NativeDisplayMethods.SDC_APPLY | NativeDisplayMethods.SDC_ALLOW_CHANGES | NativeDisplayMethods.SDC_USE_SUPPLIED_DISPLAY_CONFIG);
+			if (err == 0)
+			{
+				changesMade = true;
+			}
+			else
+			{
+				throw new ApplicationException(string.Format("SetDisplayConfig() error: {0}", err));
+			}
+
+			return changesMade;
+		}
+
 		List<DisplayDevice> GetAllDevices()
 		{
 			// rebuild list of devices we know about
@@ -128,6 +185,17 @@ namespace DMT.Modules.General
 			//	}
 			//}
 
+			// get main details from QueryDisplayConfig()
+			AddDisplayConfig();
+
+			// merge in further details from EnumDisplayMonitors()
+			MergeEnumDisplayMonitors();
+
+			return _displayDevices;
+		}
+
+		void AddDisplayConfig()
+		{
 			for (int pathIndex = 0; pathIndex < _pathInfos.Length; pathIndex++)
 			{
 				NativeDisplayMethods.DISPLAYCONFIG_PATH_INFO pathInfo = _pathInfos[pathIndex];
@@ -138,7 +206,7 @@ namespace DMT.Modules.General
 				DisplayDevice displayDevice = FindDevice(adapterId, outletId);
 				if (displayDevice == null)
 				{
-					displayDevice = new DisplayDevice(adapterId, outletId);
+					displayDevice = new DisplayDevice(pathIndex, adapterId, outletId);
 					_displayDevices.Add(displayDevice);
 				}
 
@@ -182,14 +250,134 @@ namespace DMT.Modules.General
 					}
 				}
 			}
+		}
+
+		void MergeEnumDisplayMonitors()
+		{
+			NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero,
+				delegate(IntPtr hMonitor, IntPtr hdcMonitor, ref NativeMethods.RECT lprcMonitor, IntPtr dwData)
+				{
+					// get details from the virtual monitor
+					// it is assumed that if this virtual monitor maps to multiple physical monitors
+					// then this info is the same for all physical monitors
+
+					DisplayDevice displayDevice = MergeVirtualMonitorProperties(hMonitor, hdcMonitor);
+
+					if (displayDevice != null)
+					{
+						uint numPhysicalMonitors = 0;
+						NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
+
+						// we just handle the simple case for now, 
+						// otherwise we will have difficulty mapping between the physical monitors
+						// and out display devices
+						if (numPhysicalMonitors == 1)
+						{
+							NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
+							if (NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors))
+							{
+								for (int i = 0; i < numPhysicalMonitors; i++)
+								{
+									MergePhysicalMonitorProperties(physicalMonitors[i], displayDevice);
+								}
+							}
+
+							// release any resources used while looking at this virtual monitor
+							// TODO: do we really need to call this if GetPhysicalMonitorsFromHMONITOR fails?
+							NativeMethods.DestroyPhysicalMonitors(numPhysicalMonitors, physicalMonitors);
+						}
+					}
+
+					return true;
+				}, IntPtr.Zero);
+		}
+
+		DisplayDevice MergeVirtualMonitorProperties(IntPtr hVirtualMonitor, IntPtr hdcMonitor)
+		{
+			NativeMethods.MONITORINFOEX monitorInfo = new NativeMethods.MONITORINFOEX(0);
+			NativeMethods.GetMonitorInfo(hVirtualMonitor, ref monitorInfo);
+
+			Rectangle bounds = ScreenHelper.RectToRectangle(ref monitorInfo.rcMonitor);
+
+			DisplayDevice displayDevice = FindMonitor(bounds);
+
+			if (displayDevice != null)
+			{
+				//IntPtr hdcScreen = hdcMonitor;
+
+				//virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
+				//virtualMonitorProperties.Handle = (uint)hVirtualMonitor;
 
 
 
-			return _displayDevices;
+				//virtualMonitorProperties.Primary = (monitorInfo.dwFlags & NativeMethods.MONITORINFOF_PRIMARY) != 0;
+				//virtualMonitorProperties.Bounds = ScreenHelper.RectToRectangle(ref monitorInfo.rcMonitor);
+				displayDevice.WorkingArea = ScreenHelper.RectToRectangle(ref monitorInfo.rcWork);
+
+				StringBuilder sb = new StringBuilder(monitorInfo.szDevice);
+				string deviceName = sb.ToString();
+				deviceName.TrimEnd('\0');
+				displayDevice.DeviceName = deviceName;
+
+				//if (hdcScreen == IntPtr.Zero)
+				//{
+				//	string s = null;
+				//	hdcScreen = NativeMethods.CreateDC(s, deviceName, s, IntPtr.Zero);
+				//}
+				//int bitsPerPixel = NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.BITSPIXEL);
+				//bitsPerPixel *= NativeMethods.GetDeviceCaps(hdcScreen, NativeMethods.PLANES);
+				//virtualMonitorProperties.BitsPerPixel = bitsPerPixel;
+
+				//if (hdcScreen != hdcMonitor)
+				//{
+				//	NativeMethods.DeleteDC(hdcScreen);
+				//}
+			}
+
+			return displayDevice;
+		}
+
+		DisplayDevice FindMonitor(Rectangle bounds)
+		{
+			foreach (DisplayDevice displayDevice in _displayDevices)
+			{
+				if (displayDevice.Bounds == bounds)
+				{
+					return displayDevice;
+				}
+			}
+
+			return null;
+		}
+
+		void MergePhysicalMonitorProperties(NativeMethods.PHYSICAL_MONITOR physicalMonitor, DisplayDevice displayDevice)
+		{
+
+			//physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
+
+			IntPtr hPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
+			//physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
+
+			//physicalMonitorProperties.NumPhysicalMonitors = 0;	// only applies to virtual monitors
+
+			// TODO: how do we get physical monitor area ???
+
+			StringBuilder sb = new StringBuilder(physicalMonitor.szPhysicalMonitorDescription);
+
+			displayDevice.Description = sb.ToString();
+
+			uint minBrightness;
+			uint maxBrightness;
+			uint curBrightness;
+			NativeMethods.GetMonitorBrightness(hPhysicalMonitor, out minBrightness, out curBrightness, out maxBrightness);
+
+			displayDevice.MinBrightness = minBrightness;
+			displayDevice.MaxBrightness = maxBrightness;
+			displayDevice.CurBrightness = curBrightness;
 		}
 
 		// see http://stackoverflow.com/questions/26404982/how-get-monitors-friendly-name-with-winapi
-		public static string MonitorFriendlyName(NativeDisplayMethods.LUID adapterId, uint targetId)
+		static string MonitorFriendlyName(NativeDisplayMethods.LUID adapterId, uint targetId)
 		{
 			NativeDisplayMethods.DISPLAYCONFIG_TARGET_DEVICE_NAME deviceName = new NativeDisplayMethods.DISPLAYCONFIG_TARGET_DEVICE_NAME();
 			deviceName.header.size = (uint)Marshal.SizeOf(typeof(NativeDisplayMethods.DISPLAYCONFIG_TARGET_DEVICE_NAME));
@@ -206,7 +394,7 @@ namespace DMT.Modules.General
 			return deviceName.monitorFriendlyDeviceName;
 		}
 
-		public static string SourceName(NativeDisplayMethods.LUID adapterId, uint outletId)
+		static string SourceName(NativeDisplayMethods.LUID adapterId, uint outletId)
 		{
 			NativeDisplayMethods.DISPLAYCONFIG_SOURCE_DEVICE_NAME deviceName = new NativeDisplayMethods.DISPLAYCONFIG_SOURCE_DEVICE_NAME();
 			deviceName.header.size = (uint)Marshal.SizeOf(typeof(NativeDisplayMethods.DISPLAYCONFIG_SOURCE_DEVICE_NAME));
@@ -223,7 +411,7 @@ namespace DMT.Modules.General
 		}
 
 
-		//public static string AdapterName(NativeDisplayMethods.LUID adapterId, uint outletId)
+		//static string AdapterName(NativeDisplayMethods.LUID adapterId, uint outletId)
 		//{
 		//	NativeDisplayMethods.DISPLAYCONFIG_ADAPTER_NAME deviceName = new NativeDisplayMethods.DISPLAYCONFIG_ADAPTER_NAME();
 		//	deviceName.header.size = (uint)Marshal.SizeOf(typeof(NativeDisplayMethods.DISPLAYCONFIG_ADAPTER_NAME));

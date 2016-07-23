@@ -62,7 +62,7 @@ namespace DMT.Modules.General
 		void InitGrid()
 		{
 			dataGridView.ColumnCount = 0;
-			dataGridView.RowCount = 9;
+			dataGridView.RowCount = 13;
 
 			int n = 0;
 
@@ -72,13 +72,17 @@ namespace DMT.Modules.General
 			//dataGridView.Rows[n++].HeaderCell.Value = "Adapter name";
 			dataGridView.Rows[n++].HeaderCell.Value = "Source name";
 			dataGridView.Rows[n++].HeaderCell.Value = "Target name";
+			dataGridView.Rows[n++].HeaderCell.Value = "Device name";
+			dataGridView.Rows[n++].HeaderCell.Value = "Description";
 
 			dataGridView.Rows[n++].HeaderCell.Value = "Size";
 			dataGridView.Rows[n++].HeaderCell.Value = "Area";
+			dataGridView.Rows[n++].HeaderCell.Value = "Woprking Area";
 			dataGridView.Rows[n++].HeaderCell.Value = "Bits per Pixel";
 
 			dataGridView.Rows[n++].HeaderCell.Value = "Output Tech";
 			dataGridView.Rows[n++].HeaderCell.Value = "Rotation";
+			dataGridView.Rows[n++].HeaderCell.Value = "Brightness";
 
 
 
@@ -142,6 +146,8 @@ namespace DMT.Modules.General
 						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.AdapterName;
 						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.SourceName;
 						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.FriendlyName;
+						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
+						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
 
 						string size = string.Format("{0} * {1}", monitorProperties.Bounds.Width, monitorProperties.Bounds.Height);
 						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, size);
@@ -150,12 +156,18 @@ namespace DMT.Modules.General
 							monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
 							monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
 						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, bounds);
+						string workingArea = string.Format("({0}, {1}) - ({2}, {3})",
+							monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
+							monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, workingArea);
+
 						//dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel == 0 ? "Unknown" : monitorProperties.BitsPerPixel.ToString());
 						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel.ToString());
 
 
 						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.OutputTechnology);
 						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.RotationDegrees.ToString());
+						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.CurBrightness.ToString());
 
 
 						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.BitsPerPixel.ToString();
@@ -270,6 +282,18 @@ namespace DMT.Modules.General
 		{
 			ShowCurrentInfo();
 
+		}
+
+		private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			int col = e.ColumnIndex;
+			int row = e.RowIndex;
+
+			if (row == 1)
+			{
+				// primary 
+				_generalModule.MakePrimary(col);
+			}
 		}
 	}
 }

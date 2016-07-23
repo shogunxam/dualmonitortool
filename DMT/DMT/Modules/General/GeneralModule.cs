@@ -190,6 +190,13 @@ namespace DMT.Modules.General
 			return displayDevices;
 		}
 
+		public void MakePrimary(int monitorIndex)	// 0 based
+		{
+			DisplayDevices displayDevices = new DisplayDevices();
+
+			displayDevices.MakePrimary(monitorIndex);
+		}
+
 		//public List<MonitorProperties> GetAllMonitorProperties()
 		//{
 		//	List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();
