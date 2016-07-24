@@ -134,6 +134,12 @@
     <Compile Include="Library\Wallpaper\WallpaperCompositorFactory.cs" />
     <Compile Include="Library\Wallpaper\WindowsWallpaper.cs" />
     <Compile Include="Modules\Command.cs" />
+    <Compile Include="Modules\General\BrightnessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\General\BrightnessForm.Designer.cs">
+      <DependentUpon>BrightnessForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\General\CheckUpdatesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -491,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Cursor\CursorRootOptionsPanel.resx">
       <DependentUpon>CursorRootOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\General\BrightnessForm.resx">
+      <DependentUpon>BrightnessForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\CheckUpdatesForm.resx">
       <DependentUpon>CheckUpdatesForm.cs</DependentUpon>

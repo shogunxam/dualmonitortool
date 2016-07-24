@@ -197,6 +197,13 @@ namespace DMT.Modules.General
 			displayDevices.MakePrimary(monitorIndex);
 		}
 
+		public void ChangeMonitorBrightness(int monitorIndex, uint brightness)
+		{
+			DisplayDevices displayDevices = new DisplayDevices();
+
+			displayDevices.ChangeMonitorBrightness(monitorIndex, brightness);
+		}
+
 		//public List<MonitorProperties> GetAllMonitorProperties()
 		//{
 		//	List<MonitorProperties> allMonitorProperties = new List<MonitorProperties>();

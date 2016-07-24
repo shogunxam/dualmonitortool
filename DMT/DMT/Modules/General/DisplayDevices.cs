@@ -85,6 +85,32 @@ namespace DMT.Modules.General
 			}
 		}
 
+		public void ChangeMonitorBrightness(int monitorIndex, uint brightness)
+		{
+			if (monitorIndex >= 0 && monitorIndex < _displayDevices.Count)
+			{
+				IntPtr hMonitor = _displayDevices[monitorIndex].MonitorHandle;
+
+				uint numPhysicalMonitors = 0;
+				NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref numPhysicalMonitors);
+
+				// we just handle the simple case for now, 
+				// otherwise we will have difficulty mapping between the physical monitors
+				// and out display devices
+				if (numPhysicalMonitors == 1)
+				{
+					NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];
+					if (NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, numPhysicalMonitors, physicalMonitors))
+					{
+						NativeDisplayMethods.SetMonitorBrightness(physicalMonitors[0].hPhysicalMonitor, brightness);
+					}
+
+					// release any resources used while looking at this virtual monitor
+					// TODO: do we really need to call this if GetPhysicalMonitorsFromHMONITOR fails?
+					NativeMethods.DestroyPhysicalMonitors(numPhysicalMonitors, physicalMonitors);
+				}
+			}
+		}
 		
 
 		// initialises the list of monitors
@@ -303,6 +329,7 @@ namespace DMT.Modules.General
 
 			if (displayDevice != null)
 			{
+				displayDevice.MonitorHandle = hVirtualMonitor;
 				//IntPtr hdcScreen = hdcMonitor;
 
 				//virtualMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Virtual;
@@ -356,6 +383,7 @@ namespace DMT.Modules.General
 			//physicalMonitorProperties.MonitorType = MonitorProperties.EMonitorType.Physical;
 
 			IntPtr hPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
+			//displayDevice.PhysicalMonitorHandle = hPhysicalMonitor;
 			//physicalMonitorProperties.Handle = (uint)hPhysicalMonitor;
 
 			//physicalMonitorProperties.NumPhysicalMonitors = 0;	// only applies to virtual monitors

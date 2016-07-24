@@ -279,5 +279,8 @@ namespace DMT.Modules.General
 			uint numPathArrayElements, DISPLAYCONFIG_PATH_INFO[] pPathInfoArray,
 			uint numModeInfoArrayElements, DISPLAYCONFIG_MODE_INFO[] pModeInfoArray,
 			uint Flags);
+
+		[DllImport("Dxva2.dll")]
+		public static extern bool SetMonitorBrightness(IntPtr hMonitor, uint dwNewBrightness);
 	}
 }

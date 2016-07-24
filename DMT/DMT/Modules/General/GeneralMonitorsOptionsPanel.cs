@@ -40,6 +40,20 @@ namespace DMT.Modules.General
 	{
 		GeneralModule _generalModule;
 
+		const int RowIdxIsActive = 0;
+		const int RowIdxIsPrimary = 1;
+		const int RowIdxSourceName = 2;
+		const int RowIdxTargetName = 3;
+		const int RowIdxDescription = 4;
+		const int RowIdxSize = 5;
+		const int RowIdxArea = 6;
+		const int RowIdxWorkingArea = 7;
+		const int RowIdxBpp = 8;
+		const int RowIdxOutputTech = 9;
+		const int RowIdxRotation = 10;
+		const int RowIdxBrightness = 11;
+		const int NumRows = 12;
+
 		/// <summary>
 		/// Initialises a new instance of the <see cref="GeneralOptionsPanel" /> class.
 		/// </summary>
@@ -62,46 +76,25 @@ namespace DMT.Modules.General
 		void InitGrid()
 		{
 			dataGridView.ColumnCount = 0;
-			dataGridView.RowCount = 13;
+			dataGridView.RowCount = NumRows;
 
-			int n = 0;
-
-			dataGridView.Rows[n++].HeaderCell.Value = "Is Active";
-			dataGridView.Rows[n++].HeaderCell.Value = "Is Primary";
+			dataGridView.Rows[RowIdxIsActive].HeaderCell.Value = "Is Active";
+			dataGridView.Rows[RowIdxIsPrimary].HeaderCell.Value = "Is Primary";
 
 			//dataGridView.Rows[n++].HeaderCell.Value = "Adapter name";
-			dataGridView.Rows[n++].HeaderCell.Value = "Source name";
-			dataGridView.Rows[n++].HeaderCell.Value = "Target name";
-			dataGridView.Rows[n++].HeaderCell.Value = "Device name";
-			dataGridView.Rows[n++].HeaderCell.Value = "Description";
-
-			dataGridView.Rows[n++].HeaderCell.Value = "Size";
-			dataGridView.Rows[n++].HeaderCell.Value = "Area";
-			dataGridView.Rows[n++].HeaderCell.Value = "Woprking Area";
-			dataGridView.Rows[n++].HeaderCell.Value = "Bits per Pixel";
-
-			dataGridView.Rows[n++].HeaderCell.Value = "Output Tech";
-			dataGridView.Rows[n++].HeaderCell.Value = "Rotation";
-			dataGridView.Rows[n++].HeaderCell.Value = "Brightness";
-
-
-
-			//dataGridView.Rows[n++].HeaderCell.Value = "Type";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Number";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Is Primary";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Size";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Bits per pixel";
-			////dataGridView.Rows[n++].HeaderCell.Value = "Position";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Area";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Working area";
+			dataGridView.Rows[RowIdxSourceName].HeaderCell.Value = "Source name";
+			dataGridView.Rows[RowIdxTargetName].HeaderCell.Value = "Target name";
 			//dataGridView.Rows[n++].HeaderCell.Value = "Device name";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Description";
+			dataGridView.Rows[RowIdxDescription].HeaderCell.Value = "Description";
 
-			//dataGridView.Rows[n++].HeaderCell.Value = "Brightness";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Min brightness";
-			//dataGridView.Rows[n++].HeaderCell.Value = "Max brightness";
+			dataGridView.Rows[RowIdxSize].HeaderCell.Value = "Size";
+			dataGridView.Rows[RowIdxArea].HeaderCell.Value = "Area";
+			dataGridView.Rows[RowIdxWorkingArea].HeaderCell.Value = "Woprking Area";
+			dataGridView.Rows[RowIdxBpp].HeaderCell.Value = "Bits per Pixel";
 
-			//dataGridView.Rows[n++].HeaderCell.Value = "Handle";
+			dataGridView.Rows[RowIdxOutputTech].HeaderCell.Value = "Output Tech";
+			dataGridView.Rows[RowIdxRotation].HeaderCell.Value = "Rotation";
+			dataGridView.Rows[RowIdxBrightness].HeaderCell.Value = "Brightness";
 
 			ShowCurrentInfo();
 		}
@@ -140,52 +133,34 @@ namespace DMT.Modules.General
 
 
 						int n = 0;
-						dataGridView.Rows[n++].Cells[col].Value = YesNoText(monitorProperties.IsActive);
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, YesNoText(monitorProperties.IsPrimary));
+						dataGridView.Rows[RowIdxIsActive].Cells[col].Value = YesNoText(monitorProperties.IsActive);
+						dataGridView.Rows[RowIdxIsPrimary].Cells[col].Value = HideNonActive(monitorProperties, YesNoText(monitorProperties.IsPrimary));
 
 						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.AdapterName;
-						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.SourceName;
-						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.FriendlyName;
-						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
-						dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
+						dataGridView.Rows[RowIdxSourceName].Cells[col].Value = monitorProperties.SourceName;
+						dataGridView.Rows[RowIdxTargetName].Cells[col].Value = monitorProperties.FriendlyName;
+						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
+						dataGridView.Rows[RowIdxDescription].Cells[col].Value = monitorProperties.Description;
 
 						string size = string.Format("{0} * {1}", monitorProperties.Bounds.Width, monitorProperties.Bounds.Height);
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, size);
+						dataGridView.Rows[RowIdxSize].Cells[col].Value = HideNonActive(monitorProperties, size);
 
 						string bounds = string.Format("({0}, {1}) - ({2}, {3})",
 							monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
 							monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, bounds);
+						dataGridView.Rows[RowIdxArea].Cells[col].Value = HideNonActive(monitorProperties, bounds);
 						string workingArea = string.Format("({0}, {1}) - ({2}, {3})",
 							monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
 							monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, workingArea);
+						dataGridView.Rows[RowIdxWorkingArea].Cells[col].Value = HideNonActive(monitorProperties, workingArea);
 
 						//dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel == 0 ? "Unknown" : monitorProperties.BitsPerPixel.ToString());
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel.ToString());
+						dataGridView.Rows[RowIdxBpp].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.BitsPerPixel.ToString());
 
 
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.OutputTechnology);
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.RotationDegrees.ToString());
-						dataGridView.Rows[n++].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.CurBrightness.ToString());
-
-
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.BitsPerPixel.ToString();
-						////dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1})", monitorProperties.Bounds.Left, monitorProperties.Bounds.Top);
-						//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
-						//	monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
-						//	monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
-						//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
-						//	monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
-						//	monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
-
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.CurBrightness.ToString();
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MinBrightness.ToString();
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MaxBrightness.ToString();
-
-						//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Handle.ToString("X");
+						dataGridView.Rows[RowIdxOutputTech].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.OutputTechnology);
+						dataGridView.Rows[RowIdxRotation].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.RotationDegrees.ToString());
+						dataGridView.Rows[RowIdxBrightness].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.CurBrightness.ToString());
 					}
 				}
 			}
@@ -281,7 +256,6 @@ namespace DMT.Modules.General
 		private void checkBoxShowAll_CheckedChanged(object sender, EventArgs e)
 		{
 			ShowCurrentInfo();
-
 		}
 
 		private void dataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -289,10 +263,27 @@ namespace DMT.Modules.General
 			int col = e.ColumnIndex;
 			int row = e.RowIndex;
 
-			if (row == 1)
+			if (row == RowIdxIsPrimary)
 			{
 				// primary 
 				_generalModule.MakePrimary(col);
+			}
+			else if (row == RowIdxBrightness)
+			{
+				DisplayDevices displayDevices = _generalModule.GetDisplayDevices();
+				if (col >= 0 && col < displayDevices.Items.Count)
+				{
+					DisplayDevice displayDevice = displayDevices.Items[col];
+
+					BrightnessForm dlg = new BrightnessForm(displayDevices, col, displayDevice.CurBrightness, displayDevice.MinBrightness, displayDevice.MaxBrightness);
+					if (dlg.ShowDialog(this) == DialogResult.OK)
+					{
+						// refresh grid in case brightness vale has been changed
+						// as we currently don't get notifications when this changes
+						ShowCurrentInfo();
+					}
+				}
+
 			}
 		}
 	}

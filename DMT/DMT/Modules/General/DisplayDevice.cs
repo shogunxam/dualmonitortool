@@ -10,6 +10,8 @@ namespace DMT.Modules.General
 	{
 		// links to where this information came from
 		public int PathIndex { get; private set; }
+		public IntPtr MonitorHandle { get; set; }
+		//public IntPtr PhysicalMonitorHandle { get; set; }
 
 
 		public NativeDisplayMethods.LUID AdapterId { get; private set; }
