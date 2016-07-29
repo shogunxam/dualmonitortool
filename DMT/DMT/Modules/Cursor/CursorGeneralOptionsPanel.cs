@@ -59,11 +59,11 @@ namespace DMT.Modules.Cursor
 			{
 				return CommonStrings.RControlKey;
 			}
-			else if (key == Keys.RControlKey)
+			else if (key == Keys.LShiftKey)
 			{
 				return CommonStrings.LShiftKey;
 			}
-			else if (key == Keys.LShiftKey)
+			else if (key == Keys.RShiftKey)
 			{
 				return CommonStrings.RShiftKey;
 			}
