@@ -61,6 +61,24 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Monitor Brightness.
+        /// </summary>
+        internal static string ChangeBrightnessDescription {
+            get {
+                return ResourceManager.GetString("ChangeBrightnessDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Primary Monitor.
+        /// </summary>
+        internal static string ChangePrimaryDescription {
+            get {
+                return ResourceManager.GetString("ChangePrimaryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string CloseButtonText {

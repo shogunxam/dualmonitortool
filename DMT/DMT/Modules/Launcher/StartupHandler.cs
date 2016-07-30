@@ -110,7 +110,8 @@ namespace DMT.Modules.Launcher
 
 			if (executable.InternalCommand)
 			{
-				_commandRunner.RunInternalCommand(executable.Executable, string.Empty);
+				//_commandRunner.RunInternalCommand(executable.Executable, string.Empty);
+				_commandRunner.RunInternalCommand(executable.Executable, executable.CommandLine);
 				ret = true;
 			}
 			else

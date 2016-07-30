@@ -217,6 +217,7 @@ namespace DMT.Modules.Launcher
 			{
 				_internalCommand = true;
 				_executable = _magicWord.Filename;
+				_commandLine = _magicWord.Parameters ?? string.Empty;
 			}
 			else
 			{

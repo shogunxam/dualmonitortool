@@ -15,9 +15,10 @@ namespace DMT.Modules.General
 
 		List<DisplayDevice> _displayDevices;
 
-
+		// Don't think the original's need to be kept any more?
 		NativeDisplayMethods.DISPLAYCONFIG_PATH_INFO[] _originalPathInfos;
 		NativeDisplayMethods.DISPLAYCONFIG_MODE_INFO[] _originalModeInfos;
+
 		NativeDisplayMethods.DISPLAYCONFIG_PATH_INFO[] _pathInfos;
 		NativeDisplayMethods.DISPLAYCONFIG_MODE_INFO[] _modeInfos;
 
@@ -96,7 +97,7 @@ namespace DMT.Modules.General
 
 				// we just handle the simple case for now, 
 				// otherwise we will have difficulty mapping between the physical monitors
-				// and out display devices
+				// and our display devices
 				if (numPhysicalMonitors == 1)
 				{
 					NativeMethods.PHYSICAL_MONITOR[] physicalMonitors = new NativeMethods.PHYSICAL_MONITOR[numPhysicalMonitors];

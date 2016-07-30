@@ -50,6 +50,8 @@
 			this.dataGridView.Size = new System.Drawing.Size(494, 296);
 			this.dataGridView.TabIndex = 0;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
+			this.dataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseEnter);
+			this.dataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellMouseLeave);
 			// 
 			// checkBoxShowAllMonitors
 			// 

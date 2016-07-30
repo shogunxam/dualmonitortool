@@ -54,6 +54,8 @@ namespace DMT.Modules.General
 		const int RowIdxBrightness = 11;
 		const int NumRows = 12;
 
+		static Color EditableCellColour = Color.LightYellow;
+
 		/// <summary>
 		/// Initialises a new instance of the <see cref="GeneralOptionsPanel" /> class.
 		/// </summary>
@@ -117,6 +119,9 @@ namespace DMT.Modules.General
 					dataGridView.ColumnCount = displayDevices.ActiveCount();
 				}
 
+				DataGridViewCellStyle editableStyle = new DataGridViewCellStyle();
+				editableStyle.BackColor = EditableCellColour;
+
 				for (int col = 0; col < allMonitorProperties.Count; col++)
 				{
 					DisplayDevice monitorProperties = allMonitorProperties[col];
@@ -131,8 +136,6 @@ namespace DMT.Modules.General
 
 						dataGridView.Columns[col].HeaderCell.Value = colHdr;
 
-
-						int n = 0;
 						dataGridView.Rows[RowIdxIsActive].Cells[col].Value = YesNoText(monitorProperties.IsActive);
 						dataGridView.Rows[RowIdxIsPrimary].Cells[col].Value = HideNonActive(monitorProperties, YesNoText(monitorProperties.IsPrimary));
 
@@ -161,6 +164,16 @@ namespace DMT.Modules.General
 						dataGridView.Rows[RowIdxOutputTech].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.OutputTechnology);
 						dataGridView.Rows[RowIdxRotation].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.RotationDegrees.ToString());
 						dataGridView.Rows[RowIdxBrightness].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.CurBrightness.ToString());
+
+						// change the background colours of those cells that are currently editable
+						if (monitorProperties.IsActive)
+						{
+							if (!monitorProperties.IsPrimary)
+							{
+								dataGridView.Rows[RowIdxIsPrimary].Cells[col].Style = editableStyle;
+							}
+							dataGridView.Rows[RowIdxBrightness].Cells[col].Style = editableStyle;
+						}
 					}
 				}
 			}
@@ -186,72 +199,6 @@ namespace DMT.Modules.General
 
 			return string.Empty;
 		}
-
-
-		//public void ShowCurrentInfo()
-		//{
-		//	//bool showVirtualMonitors = checkBoxShowVirtual.Checked;
-		//	//List<MonitorProperties> allMonitorProperties = _generalModule.GetAllMonitorProperties(showVirtualMonitors);
-		//	List<MonitorProperties> allMonitorProperties = _generalModule.GetAllMonitorProperties();
-
-		//	dataGridView.ColumnCount = allMonitorProperties.Count;
-
-		//	for (int col = 0; col < allMonitorProperties.Count; col++)
-		//	{
-		//		MonitorProperties monitorProperties = allMonitorProperties[col];
-
-		//		dataGridView.Columns[col].Width = 128;
-		//		dataGridView.Columns[col].SortMode = DataGridViewColumnSortMode.NotSortable;
-
-		//		string colHdr = "/";
-		//		string type = "Unknown";
-		//		int number = 0;
-		//		if ((monitorProperties.MonitorType & MonitorProperties.EMonitorType.Physical) != 0)
-		//		{
-		//			type = "Physical";
-		//			number = monitorProperties.PhysicalNumber;
-		//			//if (showVirtualMonitors)
-		//			//{
-		//			//	colHdr = string.Format("{0}.{1}", monitorProperties.VirtualNumber, monitorProperties.ChildNumber);
-		//			//}
-		//			//else
-		//			{
-		//				colHdr = string.Format("{0}", monitorProperties.PhysicalNumber);
-		//			}
-		//		}
-		//		else if ((monitorProperties.MonitorType & MonitorProperties.EMonitorType.Virtual) != 0)
-		//		{
-		//			type = "Virtual";
-		//			number = monitorProperties.VirtualNumber;
-		//			colHdr = string.Format("{0}", monitorProperties.VirtualNumber);
-		//		}
-
-		//		dataGridView.Columns[col].HeaderCell.Value = colHdr;
-
-		//		int n = 0;
-		//		dataGridView.Rows[n++].Cells[col].Value = type;
-		//		dataGridView.Rows[n++].Cells[col].Value = number.ToString();
-
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Primary ? "Yes" : "No";
-		//		dataGridView.Rows[n++].Cells[col].Value = string.Format("{0} * {1}", monitorProperties.Bounds.Width, monitorProperties.Bounds.Height);
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.BitsPerPixel.ToString();
-		//		//dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1})", monitorProperties.Bounds.Left, monitorProperties.Bounds.Top);
-		//		dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})", 
-		//			monitorProperties.Bounds.Left, monitorProperties.Bounds.Top,
-		//			monitorProperties.Bounds.Right - 1, monitorProperties.Bounds.Bottom - 1);
-		//		dataGridView.Rows[n++].Cells[col].Value = string.Format("({0}, {1}) - ({2}, {3})",
-		//			monitorProperties.WorkingArea.Left, monitorProperties.WorkingArea.Top,
-		//			monitorProperties.WorkingArea.Right - 1, monitorProperties.WorkingArea.Bottom - 1);
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.DeviceName;
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Description;
-
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.CurBrightness.ToString();
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MinBrightness.ToString();
-		//		dataGridView.Rows[n++].Cells[col].Value = monitorProperties.MaxBrightness.ToString();
-
-		//		//dataGridView.Rows[n++].Cells[col].Value = monitorProperties.Handle.ToString("X");
-		//	}
-		//}
 
 		private void checkBoxShowAll_CheckedChanged(object sender, EventArgs e)
 		{
@@ -285,6 +232,43 @@ namespace DMT.Modules.General
 				}
 
 			}
+		}
+
+		private void dataGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+		{
+			if (IsEditableCell(e))
+			{
+				dataGridView.Cursor = Cursors.Hand;
+			}
+		}
+
+		private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+		{
+			if (IsEditableCell(e))
+			{
+				dataGridView.Cursor = Cursors.Default;
+			}
+		}
+
+		bool IsEditableCell(DataGridViewCellEventArgs e)
+		{
+			if (e.RowIndex >= 0 && e.RowIndex < dataGridView.RowCount)
+			{
+				if (e.ColumnIndex >= 0 && e.ColumnIndex < dataGridView.ColumnCount)
+				{
+					// we could check if this cell should be editable, but would involve
+					// determining the primary monitor and checking if monitor is enabled etc.,
+					// but we cheat by checking the cell background colour, which we have already
+					// set if the cell is editable
+					DataGridViewCellStyle style = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style;
+					if (style.BackColor == EditableCellColour)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 	}
 }
