@@ -27,6 +27,8 @@ namespace DMT.Modules.General
 			trackBarBrightness.Maximum = (int)maxBrightness;
 			trackBarBrightness.Value = (int)curBrightness;
 
+			labelMinBrightness.Text = minBrightness.ToString();
+			labelMaxBrightness.Text = maxBrightness.ToString();
 			ShowCurBrightnessValue();
 		}
 
@@ -53,7 +55,7 @@ namespace DMT.Modules.General
 
 		void ShowCurBrightnessValue()
 		{
-			labelBrightness.Text = trackBarBrightness.Value.ToString();
+			labelCurBrightness.Text = trackBarBrightness.Value.ToString();
 		}
 	}
 }

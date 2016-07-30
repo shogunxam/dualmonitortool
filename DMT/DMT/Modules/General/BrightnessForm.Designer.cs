@@ -31,13 +31,15 @@
 			this.buttonOK = new System.Windows.Forms.Button();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.trackBarBrightness = new System.Windows.Forms.TrackBar();
-			this.labelBrightness = new System.Windows.Forms.Label();
+			this.labelCurBrightness = new System.Windows.Forms.Label();
+			this.labelMinBrightness = new System.Windows.Forms.Label();
+			this.labelMaxBrightness = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.trackBarBrightness)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(200, 95);
+			this.buttonOK.Location = new System.Drawing.Point(186, 95);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
 			this.buttonOK.TabIndex = 0;
@@ -47,6 +49,7 @@
 			// 
 			// buttonCancel
 			// 
+			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.buttonCancel.Location = new System.Drawing.Point(292, 95);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
@@ -57,28 +60,53 @@
 			// 
 			// trackBarBrightness
 			// 
-			this.trackBarBrightness.Location = new System.Drawing.Point(25, 26);
+			this.trackBarBrightness.Location = new System.Drawing.Point(63, 26);
 			this.trackBarBrightness.Name = "trackBarBrightness";
 			this.trackBarBrightness.Size = new System.Drawing.Size(425, 45);
 			this.trackBarBrightness.TabIndex = 2;
 			this.trackBarBrightness.Scroll += new System.EventHandler(this.trackBarBrightness_Scroll);
 			// 
-			// labelBrightness
+			// labelCurBrightness
 			// 
-			this.labelBrightness.Location = new System.Drawing.Point(456, 37);
-			this.labelBrightness.Name = "labelBrightness";
-			this.labelBrightness.Size = new System.Drawing.Size(51, 13);
-			this.labelBrightness.TabIndex = 3;
+			this.labelCurBrightness.Location = new System.Drawing.Point(250, 58);
+			this.labelCurBrightness.Name = "labelCurBrightness";
+			this.labelCurBrightness.Size = new System.Drawing.Size(48, 13);
+			this.labelCurBrightness.TabIndex = 3;
+			this.labelCurBrightness.Text = "cur";
+			this.labelCurBrightness.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// labelMinBrightness
+			// 
+			this.labelMinBrightness.Location = new System.Drawing.Point(12, 26);
+			this.labelMinBrightness.Name = "labelMinBrightness";
+			this.labelMinBrightness.Size = new System.Drawing.Size(48, 13);
+			this.labelMinBrightness.TabIndex = 4;
+			this.labelMinBrightness.Text = "min";
+			this.labelMinBrightness.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// labelMaxBrightness
+			// 
+			this.labelMaxBrightness.Location = new System.Drawing.Point(494, 26);
+			this.labelMaxBrightness.Name = "labelMaxBrightness";
+			this.labelMaxBrightness.Size = new System.Drawing.Size(49, 13);
+			this.labelMaxBrightness.TabIndex = 5;
+			this.labelMaxBrightness.Text = "max";
+			this.labelMaxBrightness.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// BrightnessForm
 			// 
+			this.AcceptButton = this.buttonOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(554, 137);
-			this.Controls.Add(this.labelBrightness);
+			this.CancelButton = this.buttonCancel;
+			this.ClientSize = new System.Drawing.Size(568, 135);
+			this.Controls.Add(this.labelMaxBrightness);
+			this.Controls.Add(this.labelMinBrightness);
+			this.Controls.Add(this.labelCurBrightness);
 			this.Controls.Add(this.trackBarBrightness);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonOK);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "BrightnessForm";
@@ -95,6 +123,8 @@
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.TrackBar trackBarBrightness;
-		private System.Windows.Forms.Label labelBrightness;
+		private System.Windows.Forms.Label labelCurBrightness;
+		private System.Windows.Forms.Label labelMinBrightness;
+		private System.Windows.Forms.Label labelMaxBrightness;
 	}
 }

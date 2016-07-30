@@ -210,8 +210,11 @@ namespace DMT.Modules.General
 		public override void Start()
 		{
 			AddCommand("Options", GeneralStrings.OptionsDescription, string.Empty, ShowOptions, false, true);
-			AddCommand("ChangePrimary", GeneralStrings.ChangePrimaryDescription, string.Empty, nop, ChangePrimary);
-			AddCommand("ChangeBrightness", GeneralStrings.ChangeBrightnessDescription, string.Empty, nop, ChangeBrightness);
+			if (_localEnvironment.IsWin7OrLater())
+			{
+				AddCommand("ChangePrimary", GeneralStrings.ChangePrimaryDescription, string.Empty, nop, ChangePrimary);
+				AddCommand("ChangeBrightness", GeneralStrings.ChangeBrightnessDescription, string.Empty, nop, ChangeBrightness);
+			}
 		}
 
 		/// <summary>

@@ -56,6 +56,9 @@ namespace DMT.Modules.General
 
 		static Color EditableCellColour = Color.LightYellow;
 
+		DataGridViewCellStyle _defaultCellStyle;
+		DataGridViewCellStyle _editableCellStyle;
+
 		/// <summary>
 		/// Initialises a new instance of the <see cref="GeneralOptionsPanel" /> class.
 		/// </summary>
@@ -65,6 +68,13 @@ namespace DMT.Modules.General
 			_generalModule = generalModule;
 
 			InitializeComponent();
+
+			// set the default cell style (for non-editable cells)
+			_editableCellStyle = new DataGridViewCellStyle();
+
+			// set default cell style for the editable cells
+			_editableCellStyle = new DataGridViewCellStyle();
+			_editableCellStyle.BackColor = EditableCellColour;
 
 			InitGrid();
 
@@ -165,15 +175,24 @@ namespace DMT.Modules.General
 						dataGridView.Rows[RowIdxRotation].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.RotationDegrees.ToString());
 						dataGridView.Rows[RowIdxBrightness].Cells[col].Value = HideNonActive(monitorProperties, monitorProperties.CurBrightness.ToString());
 
-						// change the background colours of those cells that are currently editable
-						if (monitorProperties.IsActive)
-						{
-							if (!monitorProperties.IsPrimary)
-							{
-								dataGridView.Rows[RowIdxIsPrimary].Cells[col].Style = editableStyle;
-							}
-							dataGridView.Rows[RowIdxBrightness].Cells[col].Style = editableStyle;
-						}
+						// Indicate which cells are currently editable
+						//if (monitorProperties.IsActive)
+						//{
+						//	if (!monitorProperties.IsPrimary)
+						//	{
+						//		//dataGridView.Rows[RowIdxIsPrimary].Cells[col].Style = editableStyle;
+						//		MakeCellEditable(dataGridView.Rows[RowIdxIsPrimary].Cells[col], this.contextMenuStripChangePrimary);
+						//	}
+						//	//dataGridView.Rows[RowIdxBrightness].Cells[col].Style = editableStyle;
+						//	MakeCellEditable(dataGridView.Rows[RowIdxBrightness].Cells[col], this.contextMenuStripChangeBrightness);
+						//}
+
+						MakeCellEditable(dataGridView.Rows[RowIdxIsPrimary].Cells[col], this.contextMenuStripChangePrimary,
+							monitorProperties.IsActive && !monitorProperties.IsPrimary);
+							//dataGridView.Rows[RowIdxBrightness].Cells[col].Style = editableStyle;
+						MakeCellEditable(dataGridView.Rows[RowIdxBrightness].Cells[col], this.contextMenuStripChangeBrightness,
+							monitorProperties.IsActive);
+
 					}
 				}
 			}
@@ -181,6 +200,20 @@ namespace DMT.Modules.General
 			{
 				// Shouldn't get here. but jic
 				labelErrorMsg.Text = ex.Message;
+			}
+		}
+
+		void MakeCellEditable(DataGridViewCell cell, ContextMenuStrip contextMenu, bool editable)
+		{
+			if (editable)
+			{
+				cell.Style = _editableCellStyle;
+				cell.ContextMenuStrip = contextMenu;
+			}
+			else
+			{
+				cell.Style = _defaultCellStyle;
+				cell.ContextMenuStrip = null;
 			}
 		}
 
@@ -217,11 +250,32 @@ namespace DMT.Modules.General
 			}
 			else if (row == RowIdxBrightness)
 			{
-				DisplayDevices displayDevices = _generalModule.GetDisplayDevices();
-				if (col >= 0 && col < displayDevices.Items.Count)
-				{
-					DisplayDevice displayDevice = displayDevices.Items[col];
+				//DisplayDevices displayDevices = _generalModule.GetDisplayDevices();
+				//if (col >= 0 && col < displayDevices.Items.Count)
+				//{
+				//	DisplayDevice displayDevice = displayDevices.Items[col];
 
+				//	BrightnessForm dlg = new BrightnessForm(displayDevices, col, displayDevice.CurBrightness, displayDevice.MinBrightness, displayDevice.MaxBrightness);
+				//	if (dlg.ShowDialog(this) == DialogResult.OK)
+				//	{
+				//		// refresh grid in case brightness vale has been changed
+				//		// as we currently don't get notifications when this changes
+				//		ShowCurrentInfo();
+				//	}
+				//}
+				ShowBrightnessDlg(col);
+			}
+		}
+
+		void ShowBrightnessDlg(int col)
+		{
+			DisplayDevices displayDevices = _generalModule.GetDisplayDevices();
+			if (col >= 0 && col < displayDevices.Items.Count)
+			{
+				DisplayDevice displayDevice = displayDevices.Items[col];
+				// can only change brightness for active monitors
+				if (displayDevice.IsActive)
+				{
 					BrightnessForm dlg = new BrightnessForm(displayDevices, col, displayDevice.CurBrightness, displayDevice.MinBrightness, displayDevice.MaxBrightness);
 					if (dlg.ShowDialog(this) == DialogResult.OK)
 					{
@@ -230,13 +284,28 @@ namespace DMT.Modules.General
 						ShowCurrentInfo();
 					}
 				}
+			}
+		}
 
+		private void dataGridView_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			// make sure cell gets selected when right clicked
+			// (we need this so that the context menu can determine cell it applies too)
+			if (IsLegalCell(e.ColumnIndex, e.RowIndex))
+			{
+				if (e.Button == System.Windows.Forms.MouseButtons.Right)
+				{
+					DataGridViewCell cell = (sender as DataGridView)[e.ColumnIndex, e.RowIndex];
+					dataGridView.ClearSelection();
+					dataGridView.CurrentCell = cell;
+					cell.Selected = true;
+				}
 			}
 		}
 
 		private void dataGridView_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
 		{
-			if (IsEditableCell(e))
+			if (IsEditableCell(e.ColumnIndex, e.RowIndex))
 			{
 				dataGridView.Cursor = Cursors.Hand;
 			}
@@ -244,31 +313,71 @@ namespace DMT.Modules.General
 
 		private void dataGridView_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
 		{
-			if (IsEditableCell(e))
+			if (IsEditableCell(e.ColumnIndex, e.RowIndex))
 			{
 				dataGridView.Cursor = Cursors.Default;
 			}
 		}
 
-		bool IsEditableCell(DataGridViewCellEventArgs e)
+		//bool IsEditableCell(DataGridViewCellEventArgs e)
+
+		bool IsEditableCell(int columnIndex, int rowIndex)
 		{
-			if (e.RowIndex >= 0 && e.RowIndex < dataGridView.RowCount)
+			if (IsLegalCell(columnIndex, rowIndex))
 			{
-				if (e.ColumnIndex >= 0 && e.ColumnIndex < dataGridView.ColumnCount)
+				// we could check if this cell should be editable, but would involve
+				// determining the primary monitor and checking if monitor is enabled etc.,
+				// but we cheat by checking the cell background colour, which we have already
+				// set if the cell is editable
+				DataGridViewCellStyle style = dataGridView.Rows[rowIndex].Cells[columnIndex].Style;
+				if (style.BackColor == EditableCellColour)
 				{
-					// we could check if this cell should be editable, but would involve
-					// determining the primary monitor and checking if monitor is enabled etc.,
-					// but we cheat by checking the cell background colour, which we have already
-					// set if the cell is editable
-					DataGridViewCellStyle style = dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style;
-					if (style.BackColor == EditableCellColour)
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 
 			return false;
+		}
+
+		bool IsLegalCell(int columnIndex, int rowIndex)
+		{
+			if (columnIndex >= 0 && columnIndex < dataGridView.ColumnCount)
+			{
+				if (rowIndex >= 0 && rowIndex < dataGridView.RowCount)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private void toolStripMenuItemChangePrimary_Click(object sender, EventArgs e)
+		{
+			int col = GetSelectedCol();
+			if (col >= 0)
+			{
+				_generalModule.MakePrimary(col);
+			}
+		}
+
+		private void toolStripMenuItemChangeBrightness_Click(object sender, EventArgs e)
+		{
+			int col = GetSelectedCol();
+			if (col >= 0)
+			{
+				ShowBrightnessDlg(col);
+			}
+		}
+
+		int GetSelectedCol()
+		{
+			if (dataGridView.SelectedCells.Count > 0)
+			{
+				return dataGridView.SelectedCells[0].ColumnIndex;
+			}
+
+			return -1;
 		}
 	}
 }

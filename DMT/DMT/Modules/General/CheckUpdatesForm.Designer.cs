@@ -83,6 +83,7 @@
 			this.Controls.Add(this.buttonInstall);
 			this.Controls.Add(this.buttonOpenDownload);
 			this.Controls.Add(this.labelStatus);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "CheckUpdatesForm";
