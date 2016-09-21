@@ -121,6 +121,7 @@ namespace DMT
 
 		void ShowUsage()
 		{
+			Console.WriteLine("");
 			Console.WriteLine("Usage: DMT [options] [commands]");
 			Console.WriteLine(" Without any options or commands, runs Dual Monitor Tools as a GUI application");
 			Console.WriteLine(" in the notification area");
@@ -129,12 +130,15 @@ namespace DMT
 			Console.WriteLine("Options:");
 			Console.WriteLine("  -?   show usage");
 			Console.WriteLine("  -v   show version");
+			Console.WriteLine("  -x   close down DMT running in the notification area");
 			Console.WriteLine();
 			Console.WriteLine("Commands:");
-			Console.WriteLine("  General:Options       Show Options");
-			Console.WriteLine("  Cursor:FreeCursor     Cursor free to move between screens");
-			Console.WriteLine("  Cursor:StickyCursor   Cursor movement between screens is sticky");
+			Console.WriteLine("  General:Options             Show Options");
+			Console.WriteLine("  \"General:ChangePrimary 2\"   Make screen 2 the primary screen");
+			Console.WriteLine("  Cursor:FreeCursor           Cursor free to move between screens");
+			Console.WriteLine("  Cursor:StickyCursor         Cursor movement between screens is sticky");
 			Console.WriteLine("  + many more");
+			Console.WriteLine("");
 		}
 
 		void ShowVersion()

@@ -37,6 +37,7 @@ namespace DMT.Library.WallpaperPlugin
 		public ProviderImage(Image image)
 		{
 			Image = image;
+			AutoRotate(Image);
 		}
 
 		~ProviderImage()
@@ -106,6 +107,49 @@ namespace DMT.Library.WallpaperPlugin
 				{
 					Image.Dispose();
 				}
+			}
+		}
+
+		void AutoRotate(Image image)
+		{
+			// see http://stackoverflow.com/questions/6222053/problem-reading-jpeg-metadata-orientation/38459903#38459903
+
+			const int exif_Orientation = 0x112;
+
+			if (Array.IndexOf(image.PropertyIdList, exif_Orientation) >= 0)
+			{
+				int orientation = (int)image.GetPropertyItem(exif_Orientation).Value[0];
+				switch (orientation)
+				{
+					case 1:
+						// correctly orientated
+						break;
+
+					case 2:
+						image.RotateFlip(RotateFlipType.RotateNoneFlipX);
+						break;
+					case 3:
+						image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+						break;
+					case 4:
+						image.RotateFlip(RotateFlipType.Rotate180FlipX);
+						break;
+					case 5:
+						image.RotateFlip(RotateFlipType.Rotate90FlipX);
+						break;
+					case 6:
+						image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+						break;
+					case 7:
+						image.RotateFlip(RotateFlipType.Rotate270FlipX);
+						break;
+					case 8:
+						image.RotateFlip(RotateFlipType.Rotate270FlipNone);
+						break;
+				}
+
+				// we shouldn't need to test this again, but remove it jic
+				image.RemovePropertyItem(exif_Orientation);
 			}
 		}
 	}
