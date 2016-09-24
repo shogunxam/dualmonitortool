@@ -137,6 +137,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return null;
 		}
 
+		// Unsplash has changed the interface again
+		// There is now an API, but (without further investigation) it doesn't look suitable for an open source application
+		// There is a very simple interface at https://source.unsplash.com/ which we can use for the time being
+#if OLD_CODE
 		/// <summary>
 		/// Returns a random image
 		/// </summary>
@@ -238,76 +242,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return url;
 		}
 
-#if OLD_CODE
-		IList<PhotoDetails> ParseImagesOnPage(string page)
-		{
-			List<PhotoDetails> images = new List<PhotoDetails>();
-
-			string aHref = string.Empty;
-			string aInnerText = string.Empty;
-			string photoUrl = string.Empty;
-			bool inH2 = false;
-
-			HtmlReader htmlReader = new HtmlReader(page);
-			while (htmlReader.Read())
-			{
-				if (htmlReader.NodeType == HtmlNodeType.Element)
-				{
-					HtmlElement element = new HtmlElement(htmlReader.Value);
-					if (element.GetElementName() == "h2")
-					{
-						inH2 = true;
-					}
-					else if (element.GetElementName() == "a")
-					{
-						aHref = element.GetAttribute("href");
-						string title = element.GetAttribute("title");
-						if (title != null && title.StartsWith("Download the high"))
-						{
-							photoUrl = aHref;
-						}
-					}
-				}
-				else if (htmlReader.NodeType == HtmlNodeType.EndElement)
-				{
-					HtmlElement element = new HtmlElement(htmlReader.Value);
-					if (element.GetElementName() == "a")
-					{
-						if (inH2)
-						{
-							// h2 now only used around author
-							if (!string.IsNullOrEmpty(photoUrl))
-							{
-								// should now have all the details we need
-								PhotoDetails photoDetails = new PhotoDetails();
-								photoDetails.Photographer = aInnerText;
-								if (!string.IsNullOrEmpty(aHref))
-								{
-									photoDetails.PhotographerUrl = aHref;
-								}
-								photoDetails.DownloadUrl = photoUrl;
-								images.Add(photoDetails);
-								photoUrl = string.Empty;
-							}
-						}
-						aInnerText = string.Empty;
-						aHref = string.Empty;
-					}
-					else if (element.GetElementName() == "h2")
-					{
-						inH2 = false;
-					}
-				}
-				else if (htmlReader.NodeType == HtmlNodeType.Text)
-				{
-					// NOTE: only remembers last text string
-					aInnerText = htmlReader.Value;
-				}
-			}
-
-			return images;
-		}
-#else
 
 		IList<PhotoDetails> ParseImagesOnPage(string page)
 		{
@@ -392,8 +326,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			return images;
 		}
 
-#endif
-
 		int ParseNumPagesOnPage(string page)
 		{
 			int maxPageNum = 0;
@@ -451,6 +383,48 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 			return maxPageNum;
 		}
+#else
+		/// <summary>
+		/// Returns a random image
+		/// </summary>
+		/// <param name="optimumSize">Optimum image size</param>
+		/// <param name="screenIndex">Screen index image is for</param>
+		/// <returns>Random image</returns>
+		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
+		{
+			ProviderImage providerImage = null;
+
+			string url = "https://source.unsplash.com/";
+
+			url += "random";
+
+			// we can also request images by category etc.
+			// TODO: add this in the next release
+
+			// we can also add required size
+			// TODO: again this can wait for the next release
+
+			Image image = GetImage(url, null);
+			if (image != null)
+			{
+				providerImage = new ProviderImage(image);
+				providerImage.Provider = ProviderName;
+				providerImage.ProviderUrl = "www.unsplash.com";
+
+				// for image source, return url that responded in case of 302's
+				Uri uri = _httpRequester.LastResponseUri;
+				providerImage.Source = uri.ToString();
+				providerImage.SourceUrl = uri.ToString();
+
+				// we don't get any photographer details using source.unsplash
+				//providerImage.Photographer = photoDetails.Photographer;
+				//providerImage.PhotographerUrl = photographerUrl;
+			}
+
+			return providerImage;
+		}
+
+#endif
 
 		string GetPage(string relativeUrl, HttpConnection parentConnection, string testPage, out HttpConnection repliedConnection)
 		{
