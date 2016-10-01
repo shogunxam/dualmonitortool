@@ -190,9 +190,9 @@ namespace DMT.Modules.General
 						MakeCellEditable(dataGridView.Rows[RowIdxIsPrimary].Cells[col], this.contextMenuStripChangePrimary,
 							monitorProperties.IsActive && !monitorProperties.IsPrimary);
 							//dataGridView.Rows[RowIdxBrightness].Cells[col].Style = editableStyle;
+						// if min brightness == max brightness, then we won't be able to change the brightness
 						MakeCellEditable(dataGridView.Rows[RowIdxBrightness].Cells[col], this.contextMenuStripChangeBrightness,
-							monitorProperties.IsActive);
-
+							monitorProperties.IsActive && monitorProperties.MinBrightness != monitorProperties.MaxBrightness);
 					}
 				}
 			}
@@ -276,12 +276,15 @@ namespace DMT.Modules.General
 				// can only change brightness for active monitors
 				if (displayDevice.IsActive)
 				{
-					BrightnessForm dlg = new BrightnessForm(displayDevices, col, displayDevice.CurBrightness, displayDevice.MinBrightness, displayDevice.MaxBrightness);
-					if (dlg.ShowDialog(this) == DialogResult.OK)
+					if (displayDevice.MinBrightness < displayDevice.MaxBrightness)
 					{
-						// refresh grid in case brightness vale has been changed
-						// as we currently don't get notifications when this changes
-						ShowCurrentInfo();
+						BrightnessForm dlg = new BrightnessForm(displayDevices, col, displayDevice.CurBrightness, displayDevice.MinBrightness, displayDevice.MaxBrightness);
+						if (dlg.ShowDialog(this) == DialogResult.OK)
+						{
+							// refresh grid in case brightness vale has been changed
+							// as we currently don't get notifications when this changes
+							ShowCurrentInfo();
+						}
 					}
 				}
 			}

@@ -40,6 +40,7 @@ namespace DisMon
 	/// </summary>
 	class DisMon7 : IDisMon
 	{
+		const int MaxQueryAttempts = 1;
 
 		// consts/structures extracted from WinGDI.h
 		private const int QDC_ALL_PATHS = 1;
@@ -57,6 +58,8 @@ namespace DisMon
 
 		// flags for DISPLAYCONFIG_MODE_INFO.infoType
 		private const int DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE = 1;
+
+		const int ERROR_INSUFFICIENT_BUFFER = 122;
 
 		// 20 bytes
 		[StructLayout(LayoutKind.Sequential,Pack = 1)]
@@ -216,26 +219,41 @@ namespace DisMon
 		// initialises the list of monitors
 		private void EnumMonitors()
 		{
-			uint pathArraySize;
-			uint modeArraySize;
+			uint pathArraySize = 0;
+			uint modeArraySize = 0;
+			DISPLAYCONFIG_PATH_INFO[] tempPathInfo = null;
+			DISPLAYCONFIG_MODE_INFO[] tempModeInfo = null;
 
-			int err = GetDisplayConfigBufferSizes(QDC_ALL_PATHS, out pathArraySize, out modeArraySize);
-			if (err != 0)
+			for (int attempt = 1; attempt <= 3; attempt++)
 			{
-				throw new ApplicationException(string.Format("GetDisplayConfigBufferSizes() error: {0}", err));
-			}
 
-			DISPLAYCONFIG_PATH_INFO[] tempPathInfo = new DISPLAYCONFIG_PATH_INFO[pathArraySize];
-			DISPLAYCONFIG_MODE_INFO[] tempModeInfo = new DISPLAYCONFIG_MODE_INFO[modeArraySize];
+				int err = GetDisplayConfigBufferSizes(QDC_ALL_PATHS, out pathArraySize, out modeArraySize);
+				if (err != 0)
+				{
+					throw new ApplicationException(string.Format("GetDisplayConfigBufferSizes() error: {0}", err));
+				}
 
-			IntPtr pCurrentTopologyId = IntPtr.Zero;
-			err = QueryDisplayConfig(QDC_ALL_PATHS,
-				ref pathArraySize, tempPathInfo,
-				ref modeArraySize, tempModeInfo,
-				pCurrentTopologyId);
-			if (err != 0)
-			{
-				throw new ApplicationException(string.Format("QueryDisplayConfig() error: {0}", err));
+				tempPathInfo = new DISPLAYCONFIG_PATH_INFO[pathArraySize];
+				tempModeInfo = new DISPLAYCONFIG_MODE_INFO[modeArraySize];
+
+				IntPtr pCurrentTopologyId = IntPtr.Zero;
+				err = QueryDisplayConfig(QDC_ALL_PATHS,
+					ref pathArraySize, tempPathInfo,
+					ref modeArraySize, tempModeInfo,
+					pCurrentTopologyId);
+
+				if (err == 0)
+				{
+					break;
+				}
+				else if (err == ERROR_INSUFFICIENT_BUFFER && attempt < MaxQueryAttempts)
+				{
+					// need to try again
+				}
+				else
+				{
+					throw new ApplicationException(string.Format("QueryDisplayConfig() error: {0}", err));
+				}
 			}
 
 			// save these structures so we can restore original state when required
@@ -459,39 +477,39 @@ namespace DisMon
 			for (int pathIdx = 0; pathIdx < pathInfos.Length; pathIdx++)
 			{
 				line = string.Format("PATH {0} flags:{1}", pathIdx, pathInfos[pathIdx].flags);
-				Console.WriteLine(line);
-				line = string.Format("source: {0}\t{1}\t{2}\t{3}",
+				System.Diagnostics.Debug.WriteLine(line);
+				line = string.Format("source: aId:{0}\tid:{1}\tmodeInfoIdx:{2}\tstatus:{3}",
 					pathInfos[pathIdx].sourceInfo.adapterId,
 					pathInfos[pathIdx].sourceInfo.id,
 					pathInfos[pathIdx].sourceInfo.modeInfoIdx,
 					pathInfos[pathIdx].sourceInfo.statusFlags);
-				Console.WriteLine(line);
-				line = string.Format("target: {0}\t{1}\t{2}\t{3}\t{4}\t{5}",
+				System.Diagnostics.Debug.WriteLine(line);
+				line = string.Format("target: aId:{0}\tid:{1}\tmodeInfoIdx:{2}\ttech:{3}\tavail:{4}\tstaus:{5}",
 					pathInfos[pathIdx].targetInfo.adapterId,
 					pathInfos[pathIdx].targetInfo.id,
 					pathInfos[pathIdx].targetInfo.modeInfoIdx,
 					pathInfos[pathIdx].targetInfo.outputTechnology,
 					pathInfos[pathIdx].targetInfo.targetAvailable,
 					pathInfos[pathIdx].targetInfo.statusFlags);
-				Console.WriteLine(line);
-				Console.WriteLine("");
+				System.Diagnostics.Debug.WriteLine(line);
+				System.Diagnostics.Debug.WriteLine("");
 			}
 
 			for (int modeIdx = 0; modeIdx < modeInfos.Length; modeIdx++)
 			{
 				line = string.Format("MODE {0} infoType:{1}", modeIdx, modeInfos[modeIdx].infoType);
-				Console.WriteLine(line);
+				System.Diagnostics.Debug.WriteLine(line);
 				line = string.Format("id:{0} adapterId:{1}", modeInfos[modeIdx].id, modeInfos[modeIdx].adapterId);
-				Console.WriteLine(line);
+				System.Diagnostics.Debug.WriteLine(line);
 				if (modeInfos[modeIdx].infoType == DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE)
 				{
-					line = string.Format("source: ({0},{1})\t{2}\t({3},{4})",
+					line = string.Format("source: ({0},{1})\tfmt:{2}\t({3},{4})",
 						modeInfos[modeIdx].sourceMode.width,
 						modeInfos[modeIdx].sourceMode.height,
 						modeInfos[modeIdx].sourceMode.pixelFormat,
 						modeInfos[modeIdx].sourceMode.position.x,
 						modeInfos[modeIdx].sourceMode.position.y);
-					Console.WriteLine(line);
+					System.Diagnostics.Debug.WriteLine(line);
 				}
 				else
 				{
@@ -501,9 +519,9 @@ namespace DisMon
 						modeInfos[modeIdx].sourceMode.padding3,
 						modeInfos[modeIdx].sourceMode.padding4,
 						modeInfos[modeIdx].sourceMode.padding5);
-					Console.WriteLine(line);
+					System.Diagnostics.Debug.WriteLine(line);
 				}
-				Console.WriteLine("");
+				System.Diagnostics.Debug.WriteLine("");
 			}
 #endif
 

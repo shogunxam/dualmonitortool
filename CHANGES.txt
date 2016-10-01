@@ -1,5 +1,17 @@
 Dual Monitor Tools
 
+Changes from 2.3 to 2.4
+========================
+
+DMT:General now shows information about monitors
+DMT:General can now change active monitor
+DMT:General can now change monitor brightness
+DMT can now be closed from the command line with -x option
+DMT:Cursor fix for remembering free movement key
+DMT:Snap fix for snaps that are smaller then secondary on one dimension only
+DMT:SwapScreen fix for 'Next Screen' when taskbar at left or top of monitor
+DMT:Wallpaper changer obeys exif orientation flag
+DMT:Wallpaper changer temporary fix for Unsplash images
 
 Changes from 2.2 to 2.3
 ========================

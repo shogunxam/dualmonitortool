@@ -38,6 +38,7 @@
 
 			<span class="MenuHdr">Tools</span>
 			<span class="CurPage">DMT</span>
+			<a href="dmt_general.html" class="MenuItem">DMT - General</a>
 			<a href="dmt_cursor.html" class="MenuItem">DMT - Cursor</a>
 			<a href="dmt_launcher.html" class="MenuItem">DMT - Launcher</a>
 			<a href="dmt_snap.html" class="MenuItem">DMT - Snap</a>
@@ -60,6 +61,7 @@
 
 <p>Provides support for the following modules:
 <ul>
+	<li><a href="dmt_general.html">General - show program and monitor configuration</a></li>
 	<li><a href="dmt_cursor.html">Cursor - restricts cursor movement between monitors</a></li>
 	<li><a href="dmt_launcher.html">Launcher - launches and position applications</a></li>
 	<li><a href="dmt_snap.html">Snap - takes snapshot of primary monitor</a></li>
@@ -75,20 +77,6 @@
 <p>Double click on the <img src="Images/dmt2_16_16.png" /> icon in the notification area to bring up the options.
 Alternatively, you can right click on the icon to bring up it's context menu.</p>
 
-<p class="SubHeading">'General' options</p>
-
-<img src="Images/dmt_general_general.png" alt="general options" />
-
-<p>This provides general options and shows the location of the configuration files that it uses.</p>
-
-<p class="SubHeading2">Start when Windows starts</p>
-
-<p>If you want DMT to start automatically when your computer boots,
-then just check the 'Start when Windows starts' option.</p>
-
-<p class="SubHeading2">Installed Version</p>
-
-<p>This will show the current version you have installed and whether it was installed from a msi installer or if it is a portable installation installed from a zip file.</p>
 
 <p class="SubHeading">'Run as Administrator'</p>
 
@@ -125,6 +113,12 @@ you would add the following command to the batch file:</p>
 
 <p>You may need to specify the full path to DMT.exe, if the location is not on your path.</p>
 
+<p>Some commands require a parameter.  If using as a Magic Word, put the parameter in the Parameters field.
+If running from the command line, include the parameter with a space between the command and it and all in double quotes.
+For example to make your second screen the primary screen you would run:</p>
+
+<p>DMT "DMT:General:ChangePrimary 2"</p>
+
 <p>The following commands are available:</p>
 <table>
 	<tr>
@@ -134,6 +128,22 @@ you would add the following command to the batch file:</p>
 	<tr>
 		<td>DMT:General:Options</td>
 		<td>Show options dialog.</td>
+	</tr>
+	<tr>
+		<td>DMT:General:ChangePrimary</td>
+		<td>Changes the primary screen.
+			This requires a parameter which is the numeric value of the screen you wish to become the primary screen.
+			You can find the number to use from the column heading in the Monitors options display
+		</td>
+	</tr>
+	<tr>
+		<td>DMT:General:ChangeBrightness</td>
+		<td>Changes the brightness for a particular screen.
+			This requires a parameter which consists of 2 numbers separated with a ':'.
+			The first number is the monitor number which you can find from the column heading in the Monitors options display.
+			The second is the desired brightness. This will need to be within the min and max allowed for the monitor 
+			which can also be found on the same screen by double clicking the corresponding brightness.
+		</td>
 	</tr>
 
 	<tr>
@@ -301,6 +311,19 @@ you would add the following command to the batch file:</p>
 
 <p>Note the command and the magic word are within a single set of double quotes.</p>
 
+<p class="SubHeading">Command line options</p>
+
+<p>In addition to running the above internal commands, the following options can be specified on the command line:</p>
+
+<dl>
+	<dt>-?</dt>
+	<dd>Show usage.</dd>
+	<dt>-v</dt>
+	<dd>Show version.</dd>
+	<dt>-x</dt>
+	<dd>Close down DMT if it is already running in the notification area.</dd>
+</dl>
+
 </div>
 
 </div>
@@ -308,7 +331,7 @@ you would add the following command to the batch file:</p>
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 12 Dec 2015
+		last updated 2 Aug 2016
 		</div>
 	</div>
 </div>
