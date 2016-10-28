@@ -107,7 +107,9 @@ namespace DMT.Library.Wallpaper
 			EnableActiveDesktop();
 			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
 			activeDesktop.SetWallpaper(path, 0);
-			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
+			//activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
+			// Using FORCE seems to cause some applications/windows to repaint themselves causing flicker
+			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL);
 		}
 
 		static void EnableActiveDesktop()
