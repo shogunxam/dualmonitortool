@@ -387,6 +387,15 @@
     </Compile>
     <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapePlugin.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Url\WebScrapeConfig.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Url\WebScrapeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Url\WebScrapeForm.Designer.cs">
+      <DependentUpon>WebScrapeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\WallpaperChanger\Plugins\Url\WebScrapePlugin.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\Url\WebScrapeProvider.cs" />
     <Compile Include="Modules\WallpaperChanger\ProviderFactory.cs" />
     <Compile Include="Modules\WallpaperChanger\ProviderForm.cs">
       <SubType>Form</SubType>
@@ -583,6 +592,9 @@
       <DependentUpon>RandomShapesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Unsplash\WebScrapeForm.resx">
+      <DependentUpon>WebScrapeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Url\WebScrapeForm.resx">
       <DependentUpon>WebScrapeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\ProviderForm.resx">
