@@ -32,6 +32,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 	public class WebScrapeConfig
 	{
 		/// <summary>
+		/// Types of image selection available with Unsplash
+		/// Note: Don't change existing numeric values, as these are saved in the config file
+		/// </summary>
+		public enum UnsplashType { Random = 0, Featured = 1, Category = 2, User = 3, LikedByUser = 4 };
+
+		/// <summary>
 		/// Initialises a new instance of the <see cref="WebScrapeConfig" /> class.
 		/// </summary>
 		public WebScrapeConfig()
@@ -47,6 +53,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Images from www.unsplash.com");
 			FirstPageOnly = ProviderHelper.ConfigToBool(configDictionary, "firstPageOnly", false);
+			Type = (UnsplashType)ProviderHelper.ConfigToInt(configDictionary, "type", (int)UnsplashType.Random);
+			Category = ProviderHelper.ConfigToString(configDictionary, "category", "");
+			User = ProviderHelper.ConfigToString(configDictionary, "user", "");
+			LikedByUser = ProviderHelper.ConfigToString(configDictionary, "likedByUser", "");
+			Filter = ProviderHelper.ConfigToString(configDictionary, "filter", "");
 		}
 
 		/// <summary>
@@ -61,8 +72,38 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 		/// <summary>
 		/// Gets or sets a value indicating whether only the first page should be looked at
+		/// 
+		/// Note: this is no longer used
 		/// </summary>
 		public bool FirstPageOnly { get; set; }
+
+		/// <summary>
+		/// Specifies how we are going tp restrict the image
+		/// </summary>
+		public UnsplashType Type { get; set; }
+
+		/// <summary>
+		/// Unsplash category to get images from
+		/// (Only used when UnsplashType = Category)
+		/// </summary>
+		public string Category { get; set; }
+
+		/// <summary>
+		/// Unsplash user to get images from
+		/// (Only when UnsplashType = User)
+		/// </summary>
+		public string User { get; set; }
+
+		/// <summary>
+		/// Unsplash user to get images from
+		/// (Only when UnsplashType = UserLike)
+		/// </summary>
+		public string LikedByUser { get; set; }
+
+		/// <summary>
+		/// Search term(s) to further limit images returned
+		/// </summary>
+		public string Filter { get; set; }
 
 		/// <summary>
 		/// Gets the configuration as a dictionary ready for saving to disk
@@ -74,6 +115,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
 			configDictionary["firstPageOnly"] = FirstPageOnly.ToString();
+			configDictionary["type"] = ((int)Type).ToString();
+			configDictionary["category"] = Category;
+			configDictionary["user"] = User;
+			configDictionary["likedByUser"] = LikedByUser;
+			configDictionary["filter"] = Filter;
 			return configDictionary;
 		}
 	}

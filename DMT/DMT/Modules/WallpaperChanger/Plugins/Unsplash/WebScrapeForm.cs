@@ -37,6 +37,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 	{
 		const string HomePageUrl = "www.unsplash.com";
 
+		static string[] AvailableCategories = { "buildings", "food", "nature", "people", "technology", "objects" };
+
 		/// <summary>
 		/// Initialises a new instance of the <see cref="WebScrapeForm" /> class.
 		/// </summary>
@@ -47,7 +49,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
-			checkBoxFirstPageOnly.Checked = config.FirstPageOnly;
+			textBoxUser.Text = config.User;
+			textBoxLikedByUser.Text = config.LikedByUser;
+			textBoxFilter.Text = config.Filter;
+
+			FillCategories(config.Category);
+			ShowSelectionType(config.Type);
 		}
 
 		/// <summary>
@@ -59,9 +66,93 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			WebScrapeConfig config = new WebScrapeConfig();
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
-			config.FirstPageOnly = checkBoxFirstPageOnly.Checked;
+			config.Type = GetSelectionType();
+			config.Category = GetCategory();
+			config.User = textBoxUser.Text;
+			config.LikedByUser = textBoxLikedByUser.Text;
+			config.Filter = textBoxFilter.Text;
 
 			return config;
+		}
+
+		void FillCategories(string selectedCategory)
+		{
+			comboBoxCategory.Items.AddRange(AvailableCategories);
+			if (AvailableCategories.Contains(selectedCategory))
+			{
+				comboBoxCategory.SelectedItem = selectedCategory;
+			}
+			else
+			{
+				comboBoxCategory.SelectedIndex = 0;
+			}
+		}
+
+		void ShowSelectionType(WebScrapeConfig.UnsplashType type)
+		{
+			bool enableCategoryCombo = false;
+			bool enableUserText = false;
+			bool enabbleUserLikeText = false;
+
+			switch (type)
+			{
+				case WebScrapeConfig.UnsplashType.Featured:
+					radioButtonFeatured.Checked = true;
+					break;
+
+				case WebScrapeConfig.UnsplashType.Category:
+					radioButtonCategory.Checked = true;
+					enableCategoryCombo = true;
+					break;
+
+				case WebScrapeConfig.UnsplashType.User:
+					radioButtonUser.Checked = true;
+					enableUserText = true;
+					break;
+
+				case WebScrapeConfig.UnsplashType.LikedByUser:
+					radioButtonUserLike.Checked = true;
+					enabbleUserLikeText = true;
+					break;
+
+				case WebScrapeConfig.UnsplashType.Random:
+				default:
+					radioButtonAll.Checked = true;
+					break;
+			}
+
+			comboBoxCategory.Enabled = enableCategoryCombo;
+			textBoxUser.Enabled = enableUserText;
+			textBoxLikedByUser.Enabled = enabbleUserLikeText;
+		}
+
+		WebScrapeConfig.UnsplashType GetSelectionType()
+		{
+			if (radioButtonFeatured.Checked)
+			{
+				return WebScrapeConfig.UnsplashType.Featured;
+			}
+			else if (radioButtonCategory.Checked)
+			{
+				return WebScrapeConfig.UnsplashType.Category;
+			}
+			else if (radioButtonUser.Checked)
+			{
+				return WebScrapeConfig.UnsplashType.User;
+			}
+			else if (radioButtonUserLike.Checked)
+			{
+				return WebScrapeConfig.UnsplashType.LikedByUser;
+			}
+			else
+			{
+				return WebScrapeConfig.UnsplashType.Random;
+			}
+		}
+
+		string GetCategory()
+		{
+			return (string)comboBoxCategory.SelectedItem;
 		}
 
 		private void WebScrapeForm_Load(object sender, EventArgs e)
@@ -81,6 +172,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 		{
 			DialogResult = DialogResult.OK;
 			Close();
+		}
+
+		private void OnRadioChange(object sender, EventArgs e)
+		{
+			WebScrapeConfig.UnsplashType type = GetSelectionType();
+			ShowSelectionType(type);
 		}
 	}
 }
