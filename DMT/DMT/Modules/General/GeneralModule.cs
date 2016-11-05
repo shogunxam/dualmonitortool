@@ -251,12 +251,6 @@ namespace DMT.Modules.General
 			_appForm.ShowOptions();
 		}
 
-		void nop()
-		{
-			// TODO: perhaps ChangePrimary/Brightness() when called with no parameters
-			// should somehow return the current value(s)?
-		}
-
 		void ChangePrimary(string parameters)
 		{
 			int monitorNum;

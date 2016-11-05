@@ -260,5 +260,15 @@ namespace DMT.Modules
 			string settingName = command.Name + "HotKey";
 			return _hotKeyService.CreateHotKeyController(ModuleName, settingName, command.Description, command.Win7Key, command.Handler);
 		}
+
+		/// <summary>
+		/// Dummy command function that does nothing
+		/// Used in command creation when you don't want the command to do anything
+		/// (Typically used for the parameterless command)
+		/// </summary>
+		protected void nop()
+		{
+		}
+
 	}
 }

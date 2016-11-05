@@ -198,6 +198,9 @@
   <data name="ShowDesktop4Win7" xml:space="preserve">
     <value />
   </data>
+  <data name="ShowDesktopDescription" xml:space="preserve">
+    <value>Show desktop</value>
+  </data>
   <data name="SnapDownDescription" xml:space="preserve">
     <value>Snap active window down</value>
   </data>

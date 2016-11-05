@@ -190,6 +190,9 @@ namespace DMT.Modules.SwapScreen
 			ShowDesktop3HotKeyController = AddCommand("ShowDesktop3", SwapScreenStrings.ShowDesktop3Description, SwapScreenStrings.ShowDesktop3Win7, ScreenHelper.ShowDesktop3);
 			ShowDesktop4HotKeyController = AddCommand("ShowDesktop4", SwapScreenStrings.ShowDesktop4Description, SwapScreenStrings.ShowDesktop4Win7, ScreenHelper.ShowDesktop4);
 
+			// Generic ShowDesktop for use by magic words with a parameter
+			AddCommand("ShowDesktop", SwapScreenStrings.ShowDesktopDescription, string.Empty, nop, ShowDesktop);
+
 			// User Defined Areas
 			UdaControllers = new List<UdaController>();
 			for (int idx = 0; idx < NumUdaControllers; idx++)
@@ -235,6 +238,16 @@ namespace DMT.Modules.SwapScreen
 			UdaController udaController = new UdaController(ModuleName, command, _settingsService, _hotKeyService);
 
 			return udaController;
+		}
+
+		void ShowDesktop(string parameters)
+		{
+			int desktopNum;
+			if (int.TryParse(parameters, out desktopNum))
+			{
+				// want zero based desktops
+				ScreenHelper.ShowDesktop(desktopNum - 1);
+			}
 		}
 	}
 }
