@@ -46,19 +46,20 @@
 			this.textBoxPortraitDirectory = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.textBoxMonitor1Directory = new System.Windows.Forms.TextBox();
-			this.buttonBrowseMonitor1 = new System.Windows.Forms.Button();
-			this.checkBoxAllowFileBrowse = new System.Windows.Forms.CheckBox();
-			this.buttonBrowseMonitor2 = new System.Windows.Forms.Button();
-			this.textBoxMonitor2Directory = new System.Windows.Forms.TextBox();
-			this.label7 = new System.Windows.Forms.Label();
-			this.buttonBrowseMonitor3 = new System.Windows.Forms.Button();
-			this.textBoxMonitor3Directory = new System.Windows.Forms.TextBox();
-			this.label8 = new System.Windows.Forms.Label();
 			this.buttonBrowseMonitor4 = new System.Windows.Forms.Button();
 			this.textBoxMonitor4Directory = new System.Windows.Forms.TextBox();
 			this.label9 = new System.Windows.Forms.Label();
+			this.buttonBrowseMonitor3 = new System.Windows.Forms.Button();
+			this.textBoxMonitor3Directory = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.buttonBrowseMonitor2 = new System.Windows.Forms.Button();
+			this.textBoxMonitor2Directory = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.checkBoxAllowFileBrowse = new System.Windows.Forms.CheckBox();
+			this.buttonBrowseMonitor1 = new System.Windows.Forms.Button();
+			this.textBoxMonitor1Directory = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.checkBoxCycle = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.groupBox1.SuspendLayout();
@@ -148,7 +149,7 @@
 			// buttonCancel
 			// 
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(368, 416);
+			this.buttonCancel.Location = new System.Drawing.Point(364, 457);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCancel.TabIndex = 26;
@@ -158,7 +159,7 @@
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(222, 416);
+			this.buttonOK.Location = new System.Drawing.Point(218, 457);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
 			this.buttonOK.TabIndex = 25;
@@ -175,6 +176,7 @@
 			this.checkBoxRescan.TabIndex = 23;
 			this.checkBoxRescan.Text = "Rescan folder(s) before getting each image";
 			this.checkBoxRescan.UseVisualStyleBackColor = true;
+			this.checkBoxRescan.CheckedChanged += new System.EventHandler(this.checkBoxRescan_CheckedChanged);
 			// 
 			// checkBoxRecursive
 			// 
@@ -240,67 +242,31 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Folder(s) to take images from (in priority order)";
 			// 
-			// label6
+			// buttonBrowseMonitor4
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 42);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(54, 13);
-			this.label6.TabIndex = 0;
-			this.label6.Text = "Monitor 1:";
+			this.buttonBrowseMonitor4.Location = new System.Drawing.Point(579, 115);
+			this.buttonBrowseMonitor4.Name = "buttonBrowseMonitor4";
+			this.buttonBrowseMonitor4.Size = new System.Drawing.Size(75, 23);
+			this.buttonBrowseMonitor4.TabIndex = 12;
+			this.buttonBrowseMonitor4.Text = "Browse...";
+			this.buttonBrowseMonitor4.UseVisualStyleBackColor = true;
+			this.buttonBrowseMonitor4.Click += new System.EventHandler(this.buttonBrowseMonitor4_Click);
 			// 
-			// textBoxMonitor1Directory
+			// textBoxMonitor4Directory
 			// 
-			this.textBoxMonitor1Directory.Location = new System.Drawing.Point(146, 39);
-			this.textBoxMonitor1Directory.Name = "textBoxMonitor1Directory";
-			this.textBoxMonitor1Directory.Size = new System.Drawing.Size(422, 20);
-			this.textBoxMonitor1Directory.TabIndex = 1;
+			this.textBoxMonitor4Directory.Location = new System.Drawing.Point(146, 117);
+			this.textBoxMonitor4Directory.Name = "textBoxMonitor4Directory";
+			this.textBoxMonitor4Directory.Size = new System.Drawing.Size(422, 20);
+			this.textBoxMonitor4Directory.TabIndex = 11;
 			// 
-			// buttonBrowseMonitor1
+			// label9
 			// 
-			this.buttonBrowseMonitor1.Location = new System.Drawing.Point(579, 37);
-			this.buttonBrowseMonitor1.Name = "buttonBrowseMonitor1";
-			this.buttonBrowseMonitor1.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowseMonitor1.TabIndex = 2;
-			this.buttonBrowseMonitor1.Text = "Browse...";
-			this.buttonBrowseMonitor1.UseVisualStyleBackColor = true;
-			this.buttonBrowseMonitor1.Click += new System.EventHandler(this.buttonBrowseMonitor1_Click);
-			// 
-			// checkBoxAllowFileBrowse
-			// 
-			this.checkBoxAllowFileBrowse.AutoSize = true;
-			this.checkBoxAllowFileBrowse.Location = new System.Drawing.Point(506, 13);
-			this.checkBoxAllowFileBrowse.Name = "checkBoxAllowFileBrowse";
-			this.checkBoxAllowFileBrowse.Size = new System.Drawing.Size(148, 17);
-			this.checkBoxAllowFileBrowse.TabIndex = 3;
-			this.checkBoxAllowFileBrowse.Text = "File Browse (experimental)";
-			this.checkBoxAllowFileBrowse.UseVisualStyleBackColor = true;
-			// 
-			// buttonBrowseMonitor2
-			// 
-			this.buttonBrowseMonitor2.Location = new System.Drawing.Point(579, 63);
-			this.buttonBrowseMonitor2.Name = "buttonBrowseMonitor2";
-			this.buttonBrowseMonitor2.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowseMonitor2.TabIndex = 6;
-			this.buttonBrowseMonitor2.Text = "Browse...";
-			this.buttonBrowseMonitor2.UseVisualStyleBackColor = true;
-			this.buttonBrowseMonitor2.Click += new System.EventHandler(this.buttonBrowseMonitor2_Click);
-			// 
-			// textBoxMonitor2Directory
-			// 
-			this.textBoxMonitor2Directory.Location = new System.Drawing.Point(146, 65);
-			this.textBoxMonitor2Directory.Name = "textBoxMonitor2Directory";
-			this.textBoxMonitor2Directory.Size = new System.Drawing.Size(422, 20);
-			this.textBoxMonitor2Directory.TabIndex = 5;
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(6, 68);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(54, 13);
-			this.label7.TabIndex = 4;
-			this.label7.Text = "Monitor 2:";
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(6, 120);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(54, 13);
+			this.label9.TabIndex = 10;
+			this.label9.Text = "Monitor 4:";
 			// 
 			// buttonBrowseMonitor3
 			// 
@@ -328,37 +294,85 @@
 			this.label8.TabIndex = 7;
 			this.label8.Text = "Monitor 3:";
 			// 
-			// buttonBrowseMonitor4
+			// buttonBrowseMonitor2
 			// 
-			this.buttonBrowseMonitor4.Location = new System.Drawing.Point(579, 115);
-			this.buttonBrowseMonitor4.Name = "buttonBrowseMonitor4";
-			this.buttonBrowseMonitor4.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowseMonitor4.TabIndex = 12;
-			this.buttonBrowseMonitor4.Text = "Browse...";
-			this.buttonBrowseMonitor4.UseVisualStyleBackColor = true;
-			this.buttonBrowseMonitor4.Click += new System.EventHandler(this.buttonBrowseMonitor4_Click);
+			this.buttonBrowseMonitor2.Location = new System.Drawing.Point(579, 63);
+			this.buttonBrowseMonitor2.Name = "buttonBrowseMonitor2";
+			this.buttonBrowseMonitor2.Size = new System.Drawing.Size(75, 23);
+			this.buttonBrowseMonitor2.TabIndex = 6;
+			this.buttonBrowseMonitor2.Text = "Browse...";
+			this.buttonBrowseMonitor2.UseVisualStyleBackColor = true;
+			this.buttonBrowseMonitor2.Click += new System.EventHandler(this.buttonBrowseMonitor2_Click);
 			// 
-			// textBoxMonitor4Directory
+			// textBoxMonitor2Directory
 			// 
-			this.textBoxMonitor4Directory.Location = new System.Drawing.Point(146, 117);
-			this.textBoxMonitor4Directory.Name = "textBoxMonitor4Directory";
-			this.textBoxMonitor4Directory.Size = new System.Drawing.Size(422, 20);
-			this.textBoxMonitor4Directory.TabIndex = 11;
+			this.textBoxMonitor2Directory.Location = new System.Drawing.Point(146, 65);
+			this.textBoxMonitor2Directory.Name = "textBoxMonitor2Directory";
+			this.textBoxMonitor2Directory.Size = new System.Drawing.Size(422, 20);
+			this.textBoxMonitor2Directory.TabIndex = 5;
 			// 
-			// label9
+			// label7
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 120);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(54, 13);
-			this.label9.TabIndex = 10;
-			this.label9.Text = "Monitor 4:";
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 68);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(54, 13);
+			this.label7.TabIndex = 4;
+			this.label7.Text = "Monitor 2:";
+			// 
+			// checkBoxAllowFileBrowse
+			// 
+			this.checkBoxAllowFileBrowse.AutoSize = true;
+			this.checkBoxAllowFileBrowse.Location = new System.Drawing.Point(506, 13);
+			this.checkBoxAllowFileBrowse.Name = "checkBoxAllowFileBrowse";
+			this.checkBoxAllowFileBrowse.Size = new System.Drawing.Size(148, 17);
+			this.checkBoxAllowFileBrowse.TabIndex = 3;
+			this.checkBoxAllowFileBrowse.Text = "File Browse (experimental)";
+			this.checkBoxAllowFileBrowse.UseVisualStyleBackColor = true;
+			// 
+			// buttonBrowseMonitor1
+			// 
+			this.buttonBrowseMonitor1.Location = new System.Drawing.Point(579, 37);
+			this.buttonBrowseMonitor1.Name = "buttonBrowseMonitor1";
+			this.buttonBrowseMonitor1.Size = new System.Drawing.Size(75, 23);
+			this.buttonBrowseMonitor1.TabIndex = 2;
+			this.buttonBrowseMonitor1.Text = "Browse...";
+			this.buttonBrowseMonitor1.UseVisualStyleBackColor = true;
+			this.buttonBrowseMonitor1.Click += new System.EventHandler(this.buttonBrowseMonitor1_Click);
+			// 
+			// textBoxMonitor1Directory
+			// 
+			this.textBoxMonitor1Directory.Location = new System.Drawing.Point(146, 39);
+			this.textBoxMonitor1Directory.Name = "textBoxMonitor1Directory";
+			this.textBoxMonitor1Directory.Size = new System.Drawing.Size(422, 20);
+			this.textBoxMonitor1Directory.TabIndex = 1;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(6, 42);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(54, 13);
+			this.label6.TabIndex = 0;
+			this.label6.Text = "Monitor 1:";
+			// 
+			// checkBoxCycle
+			// 
+			this.checkBoxCycle.AutoSize = true;
+			this.checkBoxCycle.Location = new System.Drawing.Point(12, 407);
+			this.checkBoxCycle.Name = "checkBoxCycle";
+			this.checkBoxCycle.Size = new System.Drawing.Size(369, 17);
+			this.checkBoxCycle.TabIndex = 32;
+			this.checkBoxCycle.Text = "Cycle through all images before repeating (mutually exclusive with above)";
+			this.checkBoxCycle.UseVisualStyleBackColor = true;
+			this.checkBoxCycle.CheckedChanged += new System.EventHandler(this.checkBoxCycle_CheckedChanged);
 			// 
 			// LocalDiskForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(692, 461);
+			this.ClientSize = new System.Drawing.Size(692, 492);
+			this.Controls.Add(this.checkBoxCycle);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.textBoxDescription);
 			this.Controls.Add(this.label2);
@@ -417,5 +431,6 @@
 		private System.Windows.Forms.TextBox textBoxMonitor2Directory;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.CheckBox checkBoxAllowFileBrowse;
+		private System.Windows.Forms.CheckBox checkBoxCycle;
 	}
 }

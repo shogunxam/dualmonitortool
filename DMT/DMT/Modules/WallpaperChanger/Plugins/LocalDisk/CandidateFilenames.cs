@@ -34,14 +34,16 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 	{
 		string _directory = null;
 		bool _recursive = false;
+		bool _cycle = false;
 		List<string> _filenames = null;
+		NumberCycler _filenameIndexCycler = null;
 
 		/// <summary>
 		/// Sets the directory to be searched
 		/// </summary>
 		/// <param name="directory">Directory to search</param>
 		/// <param name="recursive">True if to search recursively through sub directories</param>
-		public void SetDirectory(string directory, bool recursive)
+		public void SetDirectory(string directory, bool recursive, bool cycle)
 		{
 			// if Directory or recursive change, we must clear any cached filenames
 			if (directory != _directory)
@@ -54,6 +56,13 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			{
 				_recursive = recursive;
 				_filenames = null;
+			}
+
+			if (_cycle != cycle)
+			{
+				_cycle = cycle;
+				// reset the cycling
+				_filenameIndexCycler = null;
 			}
 		}
 
@@ -74,13 +83,32 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			if (_filenames == null)
 			{
 				_filenames = GetCandidateFilenames(_directory, _recursive);
+				_filenameIndexCycler = null;
 			}
 
 			if (_filenames.Count > 0)
 			{
-				// choose one at random
-				int index = RNG.Next(_filenames.Count);
-				return _filenames[index];
+				if (_cycle)
+				{
+					// need to cycle through all, but in a random order
+					if (_filenameIndexCycler == null || _filenameIndexCycler.Count == 0)
+					{
+						// need to start a new cycle
+						_filenameIndexCycler = new NumberCycler(0, _filenames.Count - 1);
+					}
+
+					int index = _filenameIndexCycler.NextRandom();
+					if (index >= 0 && index < _filenames.Count)
+					{
+						return _filenames[index];
+					}
+				}
+				else
+				{
+					// choose one at random independent of previously returned images
+					int index = RNG.Next(_filenames.Count);
+					return _filenames[index];
+				}
 			}
 
 			return null;

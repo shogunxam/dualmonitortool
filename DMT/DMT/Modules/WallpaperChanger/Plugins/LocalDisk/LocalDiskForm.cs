@@ -56,6 +56,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			textBoxDirectory.Text = config.DefaultDirectory;
 			checkBoxRecursive.Checked = config.Recursive;
 			checkBoxRescan.Checked = config.Rescan;
+			checkBoxCycle.Checked = config.Cycle;
 		}
 
 		/// <summary>
@@ -76,6 +77,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			config.DefaultDirectory = textBoxDirectory.Text;
 			config.Recursive = checkBoxRecursive.Checked;
 			config.Rescan = checkBoxRescan.Checked;
+			config.Cycle = checkBoxCycle.Checked;
 
 			return config;
 		}
@@ -214,6 +216,22 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			}
 
 			return ret;
+		}
+
+		private void checkBoxRescan_CheckedChanged(object sender, EventArgs e)
+		{
+			if (checkBoxRescan.Checked)
+			{
+				checkBoxCycle.Checked = false;
+			}
+		}
+
+		private void checkBoxCycle_CheckedChanged(object sender, EventArgs e)
+		{
+			if (checkBoxCycle.Checked)
+			{
+				checkBoxRescan.Checked = false;
+			}
 		}
 	}
 }

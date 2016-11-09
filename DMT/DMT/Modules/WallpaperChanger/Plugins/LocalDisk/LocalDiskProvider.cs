@@ -146,12 +146,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		{
 			ProviderImage providerImage = null;
 
-			_monitor1Cache.SetDirectory(_config.Monitor1Directory, _config.Recursive);
-			_monitor2Cache.SetDirectory(_config.Monitor2Directory, _config.Recursive);
-			_monitor3Cache.SetDirectory(_config.Monitor3Directory, _config.Recursive);
-			_monitor4Cache.SetDirectory(_config.Monitor4Directory, _config.Recursive);
-			_portraitCache.SetDirectory(_config.PortraitDirectory, _config.Recursive);
-			_defaultCache.SetDirectory(_config.DefaultDirectory, _config.Recursive);
+			_monitor1Cache.SetDirectory(_config.Monitor1Directory, _config.Recursive, _config.Cycle);
+			_monitor2Cache.SetDirectory(_config.Monitor2Directory, _config.Recursive, _config.Cycle);
+			_monitor3Cache.SetDirectory(_config.Monitor3Directory, _config.Recursive, _config.Cycle);
+			_monitor4Cache.SetDirectory(_config.Monitor4Directory, _config.Recursive, _config.Cycle);
+			_portraitCache.SetDirectory(_config.PortraitDirectory, _config.Recursive, _config.Cycle);
+			_defaultCache.SetDirectory(_config.DefaultDirectory, _config.Recursive, _config.Cycle);
 
 			if (_config.Rescan)
 			{

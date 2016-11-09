@@ -54,6 +54,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			DefaultDirectory = ProviderHelper.ConfigToString(configDictionary, "directory", @"C:\Windows\Web\Wallpaper");
 			Recursive = ProviderHelper.ConfigToBool(configDictionary, "recursive", true);
 			Rescan = ProviderHelper.ConfigToBool(configDictionary, "rescan", false);
+			Cycle = ProviderHelper.ConfigToBool(configDictionary, "cycle", false);
 		}
 
 		/// <summary>
@@ -109,6 +110,12 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		public bool Rescan { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether to cycle through all images in a random order
+		/// or if each image should be random (ignoring what was returned before) 
+		/// </summary>
+		public bool Cycle { get; set; }
+
+		/// <summary>
 		/// Gets the configuration as a dictionary ready for saving to disk
 		/// </summary>
 		/// <returns>Dictionary representation of configuration</returns>
@@ -125,6 +132,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			configDictionary["directory"] = DefaultDirectory;
 			configDictionary["recursive"] = Recursive.ToString();
 			configDictionary["rescan"] = Rescan.ToString();
+			configDictionary["cycle"] = Cycle.ToString();
 			return configDictionary;
 		}
 	}

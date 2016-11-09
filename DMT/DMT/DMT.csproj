@@ -368,6 +368,7 @@
     </Compile>
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskPlugin.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\LocalDiskProvider.cs" />
+    <Compile Include="Modules\WallpaperChanger\Plugins\LocalDisk\NumberCycler.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesConfig.cs" />
     <Compile Include="Modules\WallpaperChanger\Plugins\RandomShapes\RandomShapesForm.cs">
       <SubType>Form</SubType>
