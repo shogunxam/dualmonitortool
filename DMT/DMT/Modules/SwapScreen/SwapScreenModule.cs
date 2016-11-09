@@ -33,6 +33,7 @@ namespace DMT.Modules.SwapScreen
 	using DMT.Library.Logging;
 	using DMT.Library.Settings;
 	using DMT.Resources;
+	using System.Windows.Forms;
 
 	/// <summary>
 	/// Module for Swap Screen
@@ -160,6 +161,11 @@ namespace DMT.Modules.SwapScreen
 		/// Gets the controller for the 'show desktop on screen 4' hot key
 		/// </summary>
 		public HotKeyController ShowDesktop4HotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets the controller for the 'show desktop that cursor is on' hot key
+		/// </summary>
+		public HotKeyController ShowCursorDesktopHotKeyController { get; private set; }
 #endregion
 
 		/// <summary>
@@ -189,6 +195,8 @@ namespace DMT.Modules.SwapScreen
 			ShowDesktop2HotKeyController = AddCommand("ShowDesktop2", SwapScreenStrings.ShowDesktop2Description, SwapScreenStrings.ShowDesktop2Win7, ScreenHelper.ShowDesktop2);
 			ShowDesktop3HotKeyController = AddCommand("ShowDesktop3", SwapScreenStrings.ShowDesktop3Description, SwapScreenStrings.ShowDesktop3Win7, ScreenHelper.ShowDesktop3);
 			ShowDesktop4HotKeyController = AddCommand("ShowDesktop4", SwapScreenStrings.ShowDesktop4Description, SwapScreenStrings.ShowDesktop4Win7, ScreenHelper.ShowDesktop4);
+
+			ShowCursorDesktopHotKeyController = AddCommand("ShowCursorDesktop", SwapScreenStrings.ShowCursorDesktopDescription, SwapScreenStrings.ShowCursorDesktopWin7, ShowCursorDesktop);
 
 			// Generic ShowDesktop for use by magic words with a parameter
 			AddCommand("ShowDesktop", SwapScreenStrings.ShowDesktopDescription, string.Empty, nop, ShowDesktop);
@@ -248,6 +256,15 @@ namespace DMT.Modules.SwapScreen
 				// want zero based desktops
 				ScreenHelper.ShowDesktop(desktopNum - 1);
 			}
+		}
+
+		void ShowCursorDesktop()
+		{
+			Point oldCursorPosition = System.Windows.Forms.Cursor.Position;
+			Screen screen = Screen.FromPoint(System.Windows.Forms.Cursor.Position);
+			// zero based
+			int screenIndex = ScreenHelper.FindScreenIndex(screen);
+			ScreenHelper.ShowDesktop(screenIndex);
 		}
 	}
 }

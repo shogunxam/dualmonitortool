@@ -36,6 +36,7 @@
 			this.hotKeyPanelRotatePrev = new DMT.Library.HotKeys.HotKeyPanel();
 			this.hotKeyPanelRotateNext = new DMT.Library.HotKeys.HotKeyPanel();
 			this.hotKeyPanelMinimiseAllBut = new DMT.Library.HotKeys.HotKeyPanel();
+			this.hotKeyPanelShowCursorDesktop = new DMT.Library.HotKeys.HotKeyPanel();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -52,6 +53,7 @@
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Controls.Add(this.hotKeyPanelShowCursorDesktop);
 			this.groupBox1.Controls.Add(this.hotKeyPanelShowDesktop4);
 			this.groupBox1.Controls.Add(this.hotKeyPanelShowDesktop3);
 			this.groupBox1.Controls.Add(this.hotKeyPanelShowDesktop2);
@@ -114,6 +116,14 @@
 			this.hotKeyPanelMinimiseAllBut.Size = new System.Drawing.Size(465, 23);
 			this.hotKeyPanelMinimiseAllBut.TabIndex = 1;
 			// 
+			// hotKeyPanelShowCursorDesktop
+			// 
+			this.hotKeyPanelShowCursorDesktop.Description = "Description";
+			this.hotKeyPanelShowCursorDesktop.Location = new System.Drawing.Point(6, 222);
+			this.hotKeyPanelShowCursorDesktop.Name = "hotKeyPanelShowCursorDesktop";
+			this.hotKeyPanelShowCursorDesktop.Size = new System.Drawing.Size(465, 23);
+			this.hotKeyPanelShowCursorDesktop.TabIndex = 8;
+			// 
 			// SwapScreenOtherOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -136,5 +146,6 @@
 		private Library.HotKeys.HotKeyPanel hotKeyPanelRotatePrev;
 		private Library.HotKeys.HotKeyPanel hotKeyPanelRotateNext;
 		private Library.HotKeys.HotKeyPanel hotKeyPanelMinimiseAllBut;
+		private Library.HotKeys.HotKeyPanel hotKeyPanelShowCursorDesktop;
 	}
 }

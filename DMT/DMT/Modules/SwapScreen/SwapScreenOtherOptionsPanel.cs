@@ -60,6 +60,7 @@ namespace DMT.Modules.SwapScreen
 			SetupHotKey(hotKeyPanelShowDesktop2, _swapScreenModule.ShowDesktop2HotKeyController);
 			SetupHotKey(hotKeyPanelShowDesktop3, _swapScreenModule.ShowDesktop3HotKeyController);
 			SetupHotKey(hotKeyPanelShowDesktop4, _swapScreenModule.ShowDesktop4HotKeyController);
+			SetupHotKey(hotKeyPanelShowCursorDesktop, _swapScreenModule.ShowCursorDesktopHotKeyController);
 		}
 
 		void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)

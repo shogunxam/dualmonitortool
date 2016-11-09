@@ -232,6 +232,24 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show desktop that cursor is on.
+        /// </summary>
+        internal static string ShowCursorDesktopDescription {
+            get {
+                return ResourceManager.GetString("ShowCursorDesktopDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ShowCursorDesktopWin7 {
+            get {
+                return ResourceManager.GetString("ShowCursorDesktopWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show desktop 1.
         /// </summary>
         internal static string ShowDesktop1Description {
