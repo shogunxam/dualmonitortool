@@ -36,6 +36,7 @@ namespace DMT
 	using DMT.Resources;
 
 	using Microsoft.Win32;
+	using DMT.Library.Settings;
 
 	/// <summary>
 	/// Main (hidden) window.
@@ -124,7 +125,9 @@ namespace DMT
 
 				if (cds.dwData == (IntPtr)CommandMessaging.DmtCommandMessage)
 				{
-					string command = Marshal.PtrToStringAnsi(cds.lpData);
+					// message send from CLI instance to run a command
+					//string command = Marshal.PtrToStringAnsi(cds.lpData);
+					string command = Marshal.PtrToStringUni(cds.lpData);
 					string parameters = null;
 
 					// if there is a space in the command, the first such space separates the command from the parameters
@@ -141,11 +144,41 @@ namespace DMT
 						m.Result = (IntPtr)1;
 					}
 				}
+				else if (cds.dwData == (IntPtr)CommandMessaging.DmtQueryMessage)
+				{
+					// message sent from another app (screen saver) to query something
+					string query = Marshal.PtrToStringUni(cds.lpData);
+					string reply = null;
+					switch (query)
+					{
+						case "WallpaperFilename":
+							reply = FileLocations.Instance.WallpaperFilename;
+							break;
+
+						default:
+							// indicate an error
+							m.Result = (IntPtr)1;
+							break;
+					}
+
+					if (reply != null)
+					{
+						ReturnReply(m.WParam, query, reply);
+					}
+				}
 			}
 			else
 			{
 				base.WndProc(ref m);
 			}
+		}
+
+		void ReturnReply(IntPtr hWnd, string query, string reply)
+		{
+			// return the query in the reply in case we need it at some time in the future
+			string fullReply = query + ":" + reply;
+
+			CommandMessaging.SendString(hWnd, fullReply, CommandMessaging.DmtQueryReplyMessage);
 		}
 
 		void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)

@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2015 Gerald Evans
+// Copyright (C) 2015-2016 Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -39,6 +39,17 @@ namespace DMT.Library.Command
 		public const int DmtCommandMessage = 0x7405;
 
 		/// <summary>
+		/// Message sent from DmtWallpaper.scr to DMT window
+		/// </summary>
+		public const int DmtQueryMessage = 0x7406;
+
+		/// <summary>
+		/// Message sent from DMT window to DmtWallpaper.scr
+		/// </summary>
+		public const int DmtQueryReplyMessage = 0x7407;
+
+
+		/// <summary>
 		/// Result of command
 		/// </summary>
 		public enum EMsgResult
@@ -64,6 +75,44 @@ namespace DMT.Library.Command
 		/// </summary>
 		/// <param name="commandName">Command to send</param>
 		/// <returns>OK if command found and run</returns>
+		//public EMsgResult SendCommandMessage(string commandName)
+		//{
+		//	IntPtr hWnd = FindDmtHWnd();
+
+		//	if (hWnd == IntPtr.Zero)
+		//	{
+		//		return EMsgResult.DmtNotFound;
+		//	}
+
+		//	IntPtr wParam = IntPtr.Zero;
+
+		//	// Using Ansi, we can calculate the length from the source
+		//	IntPtr lpData = Marshal.StringToHGlobalAnsi(commandName);
+		//	int cbData = commandName.Length + 1;
+
+		//	NativeMethods.COPYDATASTRUCT cds;
+		//	cds.dwData = (IntPtr)DmtCommandMessage;
+		//	cds.cbData = cbData;
+		//	cds.lpData = lpData;
+
+		//	IntPtr lParam = Marshal.AllocHGlobal(Marshal.SizeOf(cds));
+		//	Marshal.StructureToPtr(cds, lParam, false);
+
+		//	IntPtr result = NativeMethods.SendMessage(hWnd, NativeMethods.WM_COPYDATA, wParam, lParam);
+
+		//	Marshal.FreeHGlobal(lParam);
+		//	Marshal.FreeHGlobal(lpData);
+
+		//	if (result == IntPtr.Zero)
+		//	{
+		//		return EMsgResult.OK;
+		//	}
+		//	else
+		//	{
+		//		// assume error is because command was unknown
+		//		return EMsgResult.CmdUnknown;
+		//	}
+		//}
 		public EMsgResult SendCommandMessage(string commandName)
 		{
 			IntPtr hWnd = FindDmtHWnd();
@@ -73,14 +122,29 @@ namespace DMT.Library.Command
 				return EMsgResult.DmtNotFound;
 			}
 
+			IntPtr result = SendString(hWnd, commandName, DmtCommandMessage);
+
+			if (result == IntPtr.Zero)
+			{
+				return EMsgResult.OK;
+			}
+			else
+			{
+				// assume error is because command was unknown
+				return EMsgResult.CmdUnknown;
+			}
+		}
+
+		public static IntPtr SendString(IntPtr hWnd, string s, int messageType)
+		{
 			IntPtr wParam = IntPtr.Zero;
 
-			// Using Ansi, we can calculate the length from the source
-			IntPtr lpData = Marshal.StringToHGlobalAnsi(commandName);
-			int cbData = commandName.Length + 1;
+			// Note: using Unicode now rather tha ANSI as used in versions prior to v2.5
+			IntPtr lpData = Marshal.StringToHGlobalUni(s);
+			int cbData = (s.Length + 1) * 2;
 
 			NativeMethods.COPYDATASTRUCT cds;
-			cds.dwData = (IntPtr)DmtCommandMessage;
+			cds.dwData = (IntPtr)messageType;
 			cds.cbData = cbData;
 			cds.lpData = lpData;
 
@@ -92,15 +156,7 @@ namespace DMT.Library.Command
 			Marshal.FreeHGlobal(lParam);
 			Marshal.FreeHGlobal(lpData);
 
-			if (result == IntPtr.Zero)
-			{
-				return EMsgResult.OK;
-			}
-			else
-			{
-				// assume error is because command was unknown
-				return EMsgResult.CmdUnknown;
-			}
+			return result;
 		}
 
 		IntPtr FindDmtHWnd()
