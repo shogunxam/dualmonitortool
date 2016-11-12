@@ -66,20 +66,21 @@ namespace DmtWallpaper
 			{
 				NativeMethods.COPYDATASTRUCT cds = (NativeMethods.COPYDATASTRUCT)m.GetLParam(typeof(NativeMethods.COPYDATASTRUCT));
 
-				if (cds.dwData == (IntPtr)CommandMessaging.DmtQueryReplyMessage)
-				{
-					string fullReply = Marshal.PtrToStringUni(cds.lpData);
-					int index = fullReply.IndexOf(':');
-					if (index >= 0)
-					{
-						string query = fullReply.Substring(0, index);
-						string reply = fullReply.Substring(index + 1);
-						if (query == "WallpaperFilename")
-						{
-							_wallpaperFilename = reply;
-						}
-					}
-				}
+				//if (cds.dwData == (IntPtr)CommandMessaging.DmtQueryReplyMessage)
+				//{
+				//	string fullReply = Marshal.PtrToStringUni(cds.lpData);
+				//	int index = fullReply.IndexOf(':');
+				//	if (index >= 0)
+				//	{
+				//		string query = fullReply.Substring(0, index);
+				//		string reply = fullReply.Substring(index + 1);
+				//		if (query == "WallpaperFilename")
+				//		{
+				//			_wallpaperFilename = reply;
+				//		}
+				//	}
+				//}
+				WallpaperFilenameHelper.HandleCopyData(cds);
 			}
 			else
 			{
@@ -90,7 +91,8 @@ namespace DmtWallpaper
 		void InitFileWatcher()
 		{
 			// get location where DMT saves its wallpaper
-			GetWallpaperFilename();
+			//GetWallpaperFilename();
+			_wallpaperFilename = WallpaperFilenameHelper.GetWallpaperFilename(Handle);
 			// _wallpaperFilename should be filled in
 			System.Console.WriteLine(_wallpaperFilename);
 
@@ -236,14 +238,14 @@ namespace DmtWallpaper
 			}
 		}
 
-		void GetWallpaperFilename()
-		{
-			// query the running DMT to get the location of the wallpaper
-			IntPtr hWndDmt = CommandMessaging.FindDmtHWnd();
-			if (hWndDmt != null)
-			{
-				CommandMessaging.SendString(Handle, hWndDmt, "WallpaperFilename", CommandMessaging.DmtQueryMessage);
-			}
-		}
+		//void GetWallpaperFilename()
+		//{
+		//	// query the running DMT to get the location of the wallpaper
+		//	IntPtr hWndDmt = CommandMessaging.FindDmtHWnd();
+		//	if (hWndDmt != null)
+		//	{
+		//		CommandMessaging.SendString(Handle, hWndDmt, "WallpaperFilename", CommandMessaging.DmtQueryMessage);
+		//	}
+		//}
 	}
 }

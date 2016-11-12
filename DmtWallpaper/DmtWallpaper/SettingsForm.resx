@@ -117,18 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="dual_96_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\dual_96_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MyTitle" xml:space="preserve">
-    <value>DMT Wallpaper Screen Saver</value>
-  </data>
-  <data name="gplv3-127x51" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gplv3-127x51.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="License" xml:space="preserve">
-    <value>This program comes with ABSOLUTELY NO WARRANTY.
-This is free software, and you are welcome to redistribute it under certain conditions; please see the file named COPYING.txt for details.</value>
-  </data>
 </root>

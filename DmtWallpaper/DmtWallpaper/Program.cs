@@ -48,8 +48,9 @@ namespace DmtWallpaper
 				Application.Run(new DmtWallpaperForm(options.HWnd));
 				break;
 
+				default:
 				case ProgramOptions.Mode.Configuration:
-					// TODO
+				Application.Run(new SettingsForm());
 				break;
 			}
 		}
