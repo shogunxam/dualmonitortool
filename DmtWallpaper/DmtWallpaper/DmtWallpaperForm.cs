@@ -23,11 +23,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DmtWallpaper
@@ -60,26 +58,12 @@ namespace DmtWallpaper
 			}
 		}
 
+#if QUERY_DMT_USING_COPYDATA
 		protected override void WndProc(ref Message m)
 		{
 			if (m.Msg == NativeMethods.WM_COPYDATA)
 			{
 				NativeMethods.COPYDATASTRUCT cds = (NativeMethods.COPYDATASTRUCT)m.GetLParam(typeof(NativeMethods.COPYDATASTRUCT));
-
-				//if (cds.dwData == (IntPtr)CommandMessaging.DmtQueryReplyMessage)
-				//{
-				//	string fullReply = Marshal.PtrToStringUni(cds.lpData);
-				//	int index = fullReply.IndexOf(':');
-				//	if (index >= 0)
-				//	{
-				//		string query = fullReply.Substring(0, index);
-				//		string reply = fullReply.Substring(index + 1);
-				//		if (query == "WallpaperFilename")
-				//		{
-				//			_wallpaperFilename = reply;
-				//		}
-				//	}
-				//}
 				WallpaperFilenameHelper.HandleCopyData(cds);
 			}
 			else
@@ -87,6 +71,7 @@ namespace DmtWallpaper
 				base.WndProc(ref m);
 			}
 		}
+#endif
 
 		void InitFileWatcher()
 		{
@@ -191,7 +176,16 @@ namespace DmtWallpaper
 			MemoryStream ms = new MemoryStream();
 			using (FileStream fs = File.OpenRead(_wallpaperFilename))
 			{
-				fs.CopyTo(ms);
+				// .NET 4.0 can use:
+				//fs.CopyTo(ms);
+				// but for earlier:
+				byte[] buffer = new byte[16 * 1024];
+				int bytesRead;
+
+				while ((bytesRead = fs.Read(buffer, 0, buffer.Length)) > 0)
+				{
+					ms.Write(buffer, 0, bytesRead);
+				}
 			}
 
 			return ms;

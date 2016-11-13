@@ -19,9 +19,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DmtWallpaper
 {
@@ -57,9 +55,14 @@ namespace DmtWallpaper
 
 						case 'c':
 							RunMode= Mode.Configuration;
-							ScanWindowHandle(arg.Substring(2));
+							//ScanWindowHandle(arg.Substring(2));
 							break;
 					}
+				}
+
+				if (args.Length > 1 && RunMode == Mode.Preview && HWnd == IntPtr.Zero)
+				{
+					ScanWindowHandle(args[1]);
 				}
 			}
 		}

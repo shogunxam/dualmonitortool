@@ -72,6 +72,7 @@
     <Compile Include="Library\Environment\LocalEnvironment.cs" />
     <Compile Include="Library\Environment\Monitor.cs" />
     <Compile Include="Library\Environment\Monitors.cs" />
+    <Compile Include="Library\Environment\DmtRegistry.cs" />
     <Compile Include="Library\GuiUtils\FileSelectionHelper.cs" />
     <Compile Include="Library\HotKeys\HotKey.cs" />
     <Compile Include="Library\HotKeys\HotKeyController.cs" />

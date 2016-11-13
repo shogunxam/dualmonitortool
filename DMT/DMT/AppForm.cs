@@ -125,7 +125,7 @@ namespace DMT
 
 				if (cds.dwData == (IntPtr)CommandMessaging.DmtCommandMessage)
 				{
-					// message send from CLI instance to run a command
+					// message sent from CLI instance to run a command
 					//string command = Marshal.PtrToStringAnsi(cds.lpData);
 					string command = Marshal.PtrToStringUni(cds.lpData);
 					string parameters = null;
@@ -144,6 +144,10 @@ namespace DMT
 						m.Result = (IntPtr)1;
 					}
 				}
+#if SUPPORT_QUERY_MESSAGE
+				// This was added so that the Screen saver could query the location of the wallpaper bitmap
+				// so it could be displayed as a screen saver, but the screen saver runs in a different
+				// desktop and can't communicate with our window.
 				else if (cds.dwData == (IntPtr)CommandMessaging.DmtQueryMessage)
 				{
 					// message sent from another app (screen saver) to query something
@@ -166,6 +170,7 @@ namespace DMT
 						ReturnReply(m.WParam, query, reply);
 					}
 				}
+#endif
 			}
 			else
 			{

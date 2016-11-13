@@ -143,6 +143,9 @@ namespace DMT.Library.Wallpaper
 				{
 					SetDesktopWallpaper(path);
 				}
+
+				// save the location of the wallpaper bitmap so that the screen saver can pick it up
+				DmtRegistry.SetDmtWallpaperFilename(path);
 			}
 			catch (Exception ex)
 			{

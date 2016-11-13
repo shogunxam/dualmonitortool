@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DmtWallpaper
@@ -76,6 +74,7 @@ namespace DmtWallpaper
 			}
 		}
 
+#if QUERY_DMT_USING_COPYDATA
 		protected override void WndProc(ref Message m)
 		{
 			if (m.Msg == NativeMethods.WM_COPYDATA)
@@ -88,6 +87,7 @@ namespace DmtWallpaper
 				base.WndProc(ref m);
 			}
 		}
+#endif
 
 		private void buttonClose_Click(object sender, EventArgs e)
 		{

@@ -1,25 +1,31 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DmtWallpaper
 {
 	static class WallpaperFilenameHelper
 	{
+		const string DmtKey = @"SOFTWARE\Dual Monitor Tools\DMT";
+		const string DmtWallpaperPathName = "DmtWallpaperPath";
+
 		static string _wallpaperFilename = null;
 
 		public static string GetWallpaperFilename(IntPtr hWnd)
 		{
 			if (_wallpaperFilename == null)
 			{
-				FindWallpaperFilename(hWnd);
+				FindWallpaperFilename();
 			}
 
 			return _wallpaperFilename;
 		}
+
+#if QUERY_DMT_USING_COPYDATA
+		// NOTE: COPYDATA will not work as the screensaver runs in a different desktop to DMT
+		// and can't send messages to its window
 
 		public static void HandleCopyData(NativeMethods.COPYDATASTRUCT cds)
 		{
@@ -49,5 +55,23 @@ namespace DmtWallpaper
 				CommandMessaging.SendString(hWnd, hWndDmt, "WallpaperFilename", CommandMessaging.DmtQueryMessage);
 			}
 		}
+#endif
+
+		static void FindWallpaperFilename()
+		{
+			RegistryKey key = Registry.CurrentUser.OpenSubKey(DmtKey);
+			if (key != null)
+			{
+				object keyValue = key.GetValue(DmtWallpaperPathName);
+				if (keyValue != null)
+				{
+					_wallpaperFilename = keyValue as string;
+				}
+
+				// release any resources
+				key.Close();
+			}
+		}
+
 	}
 }
