@@ -47,30 +47,36 @@ namespace DmtWallpaper
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.pictureBox = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+			this.components = new System.ComponentModel.Container();
+			this.blendTimer = new System.Windows.Forms.Timer(this.components);
+			this.imageBlender = new DmtWallpaper.ImageBlender();
 			this.SuspendLayout();
 			// 
-			// pictureBox
+			// blendTimer
 			// 
-			this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.blendTimer.Tick += new System.EventHandler(this.blendTimer_Tick);
+			// 
+			// imageBlender
+			// 
+			this.imageBlender.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.pictureBox.Location = new System.Drawing.Point(0, 0);
-			this.pictureBox.Name = "pictureBox";
-			this.pictureBox.Size = new System.Drawing.Size(284, 261);
-			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-			this.pictureBox.TabIndex = 0;
-			this.pictureBox.TabStop = false;
-			this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseClick);
-			this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+			this.imageBlender.Blend = 0F;
+			this.imageBlender.Location = new System.Drawing.Point(0, 0);
+			this.imageBlender.Name = "imageBlender";
+			this.imageBlender.Size = new System.Drawing.Size(200, 200);
+			this.imageBlender.TabIndex = 0;
+			this.imageBlender.Text = "imageBlender";
+			this.imageBlender.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageBlender_KeyDown);
+			this.imageBlender.MouseClick += new System.Windows.Forms.MouseEventHandler(this.imageBlender_MouseClick);
+			this.imageBlender.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageBlender_MouseMove);
 			// 
 			// DmtWallpaperForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Controls.Add(this.pictureBox);
+			this.ClientSize = new System.Drawing.Size(200, 200);
+			this.Controls.Add(this.imageBlender);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "DmtWallpaperForm";
 			this.ShowInTaskbar = false;
@@ -78,14 +84,15 @@ namespace DmtWallpaper
 			this.Text = "DMT Wallpaper Screen Saver";
 			this.Load += new System.EventHandler(this.DmtWallpaperForm_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DmtWallpaperForm_KeyDown);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.PictureBox pictureBox;
+		private ImageBlender imageBlender;
+		private System.Windows.Forms.Timer blendTimer;
+
 	}
 }
 

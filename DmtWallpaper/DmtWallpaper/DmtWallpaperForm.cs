@@ -34,11 +34,27 @@ namespace DmtWallpaper
 	{
 		const int AllowedMosueMovement = 5;
 
+		// To try and achieve a smoth fade between old and new image, we use
+		// a blend value that ranges between 0.0 which means just show the old image
+		// and 1.0 which means just show the new image
+		//
+		// There is no point in reducing the delay between steps to a very small value
+		// as the paint itself will take a considerable amout of time 
+		// say typically around 100ms on slowish hardware.
+		//
+		// Keeping the transition time short seems to give the best results.
+		//const float BlendStep = 0.251f;
+		//const int DelayBetweenBlendSteps = 125;
+		const float BlendStep = 0.201f;
+		const int DelayBetweenBlendSteps = 50;
+
 		IntPtr _hWnd;
 		bool FullScreenMode { get { return _hWnd == IntPtr.Zero; } }
 		Point _lastMouseLocation;
 		string _wallpaperFilename;
 		FileSystemWatcher _fileWatcher;
+
+		//bool _gettingWallpaper = false;
 
 		public DmtWallpaperForm(IntPtr hWnd)
 		{
@@ -86,14 +102,45 @@ namespace DmtWallpaper
 			_fileWatcher.Path = Path.GetDirectoryName(_wallpaperFilename);
 			_fileWatcher.Filter = Path.GetFileName(_wallpaperFilename);
 			_fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
-			_fileWatcher.Created += _fileWatcher_Changed;
+			_fileWatcher.SynchronizingObject = this;	// want callbacks on UI thread
+			//_fileWatcher.Created += _fileWatcher_Created;
 			_fileWatcher.Changed += _fileWatcher_Changed;
 			_fileWatcher.EnableRaisingEvents = true;
 		}
 
+		//void _fileWatcher_Created(object sender, FileSystemEventArgs e)
+		//{
+		//	System.Diagnostics.Debug.WriteLine("{0} _fileWatcher_Created _gettingWallpaper: {1}", DateTime.Now, _gettingWallpaper);
+		//	if (_gettingWallpaper)
+		//	{
+		//		// ignore events if still in process of getting wallpaper from last event
+		//	}
+		//	else
+		//	{
+		//		_gettingWallpaper = true;
+		//		ShowWallpaper();
+		//		_gettingWallpaper = false;
+		//	}
+		//}
+
+		DateTime lastChangedEventTime; 
 		void _fileWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			ShowWallpaper();
+			if (DateTime.Now > lastChangedEventTime.AddSeconds(5))
+			{
+				//System.Diagnostics.Debug.WriteLine("{0} _fileWatcher_Changed _gettingWallpaper: {1}", DateTime.Now, _gettingWallpaper);
+				//if (_gettingWallpaper)
+				//{
+				//	// ignore events if still in process of getting wallpaper from last event
+				//}
+				//else
+				//{
+				//	_gettingWallpaper = true;
+					ShowWallpaper();
+					lastChangedEventTime = DateTime.Now;
+				//	_gettingWallpaper = false;
+				//}
+			}
 		}
 
 		void InitFullScreenMode()
@@ -122,7 +169,31 @@ namespace DmtWallpaper
 			Size = previewRect.Size;
 		}
 
-		MemoryStream _curImageMemoryStream;
+		//MemoryStream _curImageMemoryStream;
+		//void ShowWallpaper()
+		//{
+		//	MemoryStream ms = LoadWallpaperWithRetry();
+		//	if (ms == null)
+		//	{
+		//		// couldn't get wallpaper
+		//		return;
+		//	}
+
+		//	MemoryStream oldImageMemoryStream = _curImageMemoryStream;
+		//	_curImageMemoryStream = ms;
+	
+		//	Image image = new Bitmap(ms);
+
+		//	pictureBox.Image = image;
+		//	if (oldImageMemoryStream != null)
+		//	{
+		//		oldImageMemoryStream.Dispose();
+		//	}
+		//}
+
+		MemoryStream _oldImageMemoryStream = null;
+		MemoryStream _newImageMemoryStream = null;
+		float _blend;
 		void ShowWallpaper()
 		{
 			MemoryStream ms = LoadWallpaperWithRetry();
@@ -132,16 +203,42 @@ namespace DmtWallpaper
 				return;
 			}
 
-			MemoryStream oldImageMemoryStream = _curImageMemoryStream;
-			_curImageMemoryStream = ms;
-	
-			Image image = new Bitmap(ms);
+			MemoryStream previousImageMemoryStream = _oldImageMemoryStream;
+			_oldImageMemoryStream = _newImageMemoryStream;
+			_newImageMemoryStream = ms;
 
-			pictureBox.Image = image;
-			if (oldImageMemoryStream != null)
+			Image oldImage = null;
+			if (_oldImageMemoryStream != null)
 			{
-				oldImageMemoryStream.Dispose();
+				oldImage = new Bitmap(_oldImageMemoryStream);
 			}
+
+			Image newImage = new Bitmap(_newImageMemoryStream);
+
+			_blend = BlendStep;
+			imageBlender.SetImages(oldImage, newImage, _blend);
+
+			if (previousImageMemoryStream != null)
+			{
+				previousImageMemoryStream.Dispose();
+			}
+
+			blendTimer.Interval = DelayBetweenBlendSteps;
+			//System.Diagnostics.Debug.WriteLine("{0} TICK start: {1}", DateTime.Now, _blend);
+			blendTimer.Start();
+		}
+
+		void blendTimer_Tick(object sender, EventArgs e)
+		{
+			//System.Diagnostics.Debug.WriteLine("{0} TICK _blend: {1}", DateTime.Now, _blend);
+			_blend += BlendStep;
+			if (_blend >= 1.0f)
+			{
+				_blend = 1.0f;
+				//System.Diagnostics.Debug.WriteLine("{0} TICK stop: {1}", DateTime.Now, _blend);
+				blendTimer.Stop();
+			}
+			imageBlender.Blend = _blend;
 		}
 
 		MemoryStream LoadWallpaperWithRetry()
@@ -206,7 +303,17 @@ namespace DmtWallpaper
 			UserActivity();
 		}
 
-		private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+		private void imageBlender_KeyDown(object sender, KeyEventArgs e)
+		{
+			UserActivity();
+		}
+
+		private void imageBlender_MouseClick(object sender, MouseEventArgs e)
+		{
+			UserActivity();
+		}
+
+		private void imageBlender_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (!_lastMouseLocation.IsEmpty)
 			{
@@ -217,11 +324,6 @@ namespace DmtWallpaper
 			}
 
 			_lastMouseLocation = e.Location;
-		}
-
-		private void pictureBox_MouseClick(object sender, MouseEventArgs e)
-		{
-			UserActivity();
 		}
 
 		void UserActivity()

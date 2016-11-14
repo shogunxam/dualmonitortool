@@ -52,6 +52,12 @@
     <Compile Include="DmtWallpaperForm.Designer.cs">
       <DependentUpon>DmtWallpaperForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ImageBlender.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageBlender.Designer.cs">
+      <DependentUpon>ImageBlender.cs</DependentUpon>
+    </Compile>
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramOptions.cs" />
