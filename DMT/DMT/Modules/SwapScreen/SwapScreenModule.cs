@@ -211,11 +211,20 @@ namespace DMT.Modules.SwapScreen
 			if (!_settingsService.SettingExists(ModuleName, UdaController.GetUdaMarkerSettingName()))
 			{
 				// no existing UDA settings, so generate some as a starting point for the user
-				UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+				//UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
 
-				// and make sure these new settings are saved
-				_settingsService.SaveSettings();
+				//// and make sure these new settings are saved
+				//_settingsService.SaveSettings();
+				ResetUdas();
 			}
+		}
+
+		public void ResetUdas()
+		{
+			UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+
+			// and make sure these new settings are saved
+			_settingsService.SaveSettings();
 		}
 
 		/// <summary>

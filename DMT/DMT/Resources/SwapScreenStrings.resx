@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmResetUdas" xml:space="preserve">
+    <value>This will reset the description and the position for all of your UDAs to suitable default values, but any hot keys that you have defined will be kept.  
+This is useful if your monitor count or resolutions have changed.
+
+Do you wish to continue?</value>
+  </data>
   <data name="CursorNextScreenDescription" xml:space="preserve">
     <value>Move cursor to next screen</value>
   </data>

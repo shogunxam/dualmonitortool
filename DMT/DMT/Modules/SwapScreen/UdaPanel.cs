@@ -52,8 +52,13 @@ namespace DMT.Modules.SwapScreen
 		{
 			_udaController = udaController;
 
-			labelDescription.Text = udaController.Description;
-			labelKeyCombo.Text = udaController.ToString();
+			UpdateDisplay();
+		}
+
+		public void UpdateDisplay()
+		{
+			labelDescription.Text = _udaController.Description;
+			labelKeyCombo.Text = _udaController.ToString();
 		}
 
 		private void buttonChange_Click(object sender, EventArgs e)
@@ -63,8 +68,7 @@ namespace DMT.Modules.SwapScreen
 			{
 				if (_udaController.Edit())
 				{
-					labelDescription.Text = _udaController.Description;
-					labelKeyCombo.Text = _udaController.ToString();
+					UpdateDisplay();
 				}
 			}
 		}

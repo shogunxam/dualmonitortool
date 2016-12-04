@@ -28,6 +28,7 @@ namespace DMT.Modules.SwapScreen
 	using System.Windows.Forms;
 
 	using DMT.Library.Environment;
+	using DMT.Library.HotKeys;
 
 	/// <summary>
 	/// Helper class for user defined areas
@@ -104,8 +105,20 @@ namespace DMT.Modules.SwapScreen
 			{
 				UdaController udaController = udaControllers[idx];
 
+				//uint keyCode = 0x0010030;	// Alt+0 - disabled
+				//keyCode += (uint)idx;
 				uint keyCode = 0x0010030;	// Alt+0 - disabled
-				keyCode += (uint)idx;
+				if (udaController.HotKey.HotKeyCombo.ToPropertyValue() == KeyCombo.DisabledComboValue)
+				{
+					// no hotkey has been assigned to this
+					keyCode = 0x0010030;	// Alt+0 - disabled
+					keyCode += (uint)idx;
+				}
+				else
+				{
+					// keep existing code
+					keyCode = udaController.HotKey.HotKeyCombo.ComboValue;
+				}
 
 				Rectangle rectangle = new Rectangle(left, right, width, height);
 

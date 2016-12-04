@@ -19,6 +19,7 @@
 
 namespace DMT.Modules.SwapScreen
 {
+	using DMT.Resources;
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
@@ -85,6 +86,27 @@ namespace DMT.Modules.SwapScreen
 			}
 
 			return null;
+		}
+
+		private void buttonResetUDA_Click(object sender, EventArgs e)
+		{
+			// get confirmation from user before updating their UDAs
+			if (MessageBox.Show(SwapScreenStrings.ConfirmResetUdas, CommonStrings.MyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+			{
+				_swapScreenModule.ResetUdas();
+				// Yes, this is horrible
+				// TODO: should this be done when generating the UDAs?
+				udaPanel1.UpdateDisplay();
+				udaPanel2.UpdateDisplay();
+				udaPanel3.UpdateDisplay();
+				udaPanel4.UpdateDisplay();
+				udaPanel5.UpdateDisplay();
+				udaPanel6.UpdateDisplay();
+				udaPanel7.UpdateDisplay();
+				udaPanel8.UpdateDisplay();
+				udaPanel9.UpdateDisplay();
+				udaPanel10.UpdateDisplay();
+			}
 		}
 	}
 }

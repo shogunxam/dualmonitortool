@@ -61,6 +61,18 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This will reset the description and the position for all of your UDAs to suitable default values, but any hot keys that you have defined will be kept.  
+        ///This is useful if your monitor count or resolutions have changed.
+        ///
+        ///Do you wish to continue?.
+        /// </summary>
+        internal static string ConfirmResetUdas {
+            get {
+                return ResourceManager.GetString("ConfirmResetUdas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move cursor to next screen.
         /// </summary>
         internal static string CursorNextScreenDescription {
