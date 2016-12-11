@@ -43,6 +43,9 @@ namespace DMT.Modules.SwapScreen
 		// Number of User Defined Areas
 		const int NumUdaControllers = 10;
 
+		// Maximum number of screens we support for 'Show Desktop'
+		const int MaxNumScreens = 16;
+
 		ISettingsService _settingsService;
 		ILocalEnvironment _localEnvironment;
 		ILogger _logger;
@@ -142,30 +145,41 @@ namespace DMT.Modules.SwapScreen
 		/// </summary>
 		public HotKeyController RotatePrevHotKeyController { get; private set; }
 
-		/// <summary>
-		/// Gets the controller for the 'show desktop on screen 1' hot key
-		/// </summary>
-		public HotKeyController ShowDesktop1HotKeyController { get; private set; }
+		///// <summary>
+		///// Gets the controller for the 'show desktop on screen 1' hot key
+		///// </summary>
+		//public HotKeyController ShowDesktop1HotKeyController { get; private set; }
 
-		/// <summary>
-		/// Gets the controller for the 'show desktop on screen 2' hot key
-		/// </summary>
-		public HotKeyController ShowDesktop2HotKeyController { get; private set; }
+		///// <summary>
+		///// Gets the controller for the 'show desktop on screen 2' hot key
+		///// </summary>
+		//public HotKeyController ShowDesktop2HotKeyController { get; private set; }
 
-		/// <summary>
-		/// Gets the controller for the 'show desktop on screen 3' hot key
-		/// </summary>
-		public HotKeyController ShowDesktop3HotKeyController { get; private set; }
+		///// <summary>
+		///// Gets the controller for the 'show desktop on screen 3' hot key
+		///// </summary>
+		//public HotKeyController ShowDesktop3HotKeyController { get; private set; }
 
-		/// <summary>
-		/// Gets the controller for the 'show desktop on screen 4' hot key
-		/// </summary>
-		public HotKeyController ShowDesktop4HotKeyController { get; private set; }
+		///// <summary>
+		///// Gets the controller for the 'show desktop on screen 4' hot key
+		///// </summary>
+		//public HotKeyController ShowDesktop4HotKeyController { get; private set; }
 
 		/// <summary>
 		/// Gets the controller for the 'show desktop that cursor is on' hot key
 		/// </summary>
 		public HotKeyController ShowCursorDesktopHotKeyController { get; private set; }
+
+		/// <summary>
+		/// Gets the maximum number of desktops that can be configured
+		/// </summary>
+		public int MaxConfigurableDesktops { get; private set; }
+
+		/// <summary>
+		/// Gets the controller array for the 'show desktop on screen n' hot keys
+		/// </summary>
+		public HotKeyController[] ShowDesktopHotKeyControllers { get; private set; }
+
 #endregion
 
 		/// <summary>
@@ -191,10 +205,28 @@ namespace DMT.Modules.SwapScreen
 			RotatePrevHotKeyController = AddCommand("RotatePrev", SwapScreenStrings.RotatePrevDescription, SwapScreenStrings.RotatePrevWin7, ScreenHelper.RotateScreensPrev);
 
 			// TODO: need a better way of handling n screens
-			ShowDesktop1HotKeyController = AddCommand("ShowDesktop1", SwapScreenStrings.ShowDesktop1Description, SwapScreenStrings.ShowDesktop1Win7, ScreenHelper.ShowDesktop1);
-			ShowDesktop2HotKeyController = AddCommand("ShowDesktop2", SwapScreenStrings.ShowDesktop2Description, SwapScreenStrings.ShowDesktop2Win7, ScreenHelper.ShowDesktop2);
-			ShowDesktop3HotKeyController = AddCommand("ShowDesktop3", SwapScreenStrings.ShowDesktop3Description, SwapScreenStrings.ShowDesktop3Win7, ScreenHelper.ShowDesktop3);
-			ShowDesktop4HotKeyController = AddCommand("ShowDesktop4", SwapScreenStrings.ShowDesktop4Description, SwapScreenStrings.ShowDesktop4Win7, ScreenHelper.ShowDesktop4);
+			//ShowDesktop1HotKeyController = AddCommand("ShowDesktop1", SwapScreenStrings.ShowDesktop1Description, SwapScreenStrings.ShowDesktop1Win7, ScreenHelper.ShowDesktop1);
+			//ShowDesktop2HotKeyController = AddCommand("ShowDesktop2", SwapScreenStrings.ShowDesktop2Description, SwapScreenStrings.ShowDesktop2Win7, ScreenHelper.ShowDesktop2);
+			//ShowDesktop3HotKeyController = AddCommand("ShowDesktop3", SwapScreenStrings.ShowDesktop3Description, SwapScreenStrings.ShowDesktop3Win7, ScreenHelper.ShowDesktop3);
+			//ShowDesktop4HotKeyController = AddCommand("ShowDesktop4", SwapScreenStrings.ShowDesktop4Description, SwapScreenStrings.ShowDesktop4Win7, ScreenHelper.ShowDesktop4);
+
+			MaxConfigurableDesktops = CalcMaxConfigurableDesktops();
+			//MaxConfigurableDesktops = 16;
+
+			ShowDesktopHotKeyControllers = new HotKeyController[MaxConfigurableDesktops];
+			for (int desktop = 0; desktop < MaxConfigurableDesktops; desktop++)
+			{
+				int desktop1 = desktop + 1;	// 1 based value
+				string name = "ShowDesktop" + desktop1.ToString();
+				string description = string.Format(SwapScreenStrings.ShowDesktopNDescription, desktop1);
+				string win7 = "";
+
+				// must create a new var for the closure
+				int closureVar = desktop;
+				HotKey.HotKeyHandler handler = delegate() { ScreenHelper.ShowDesktop(closureVar); };
+				ShowDesktopHotKeyControllers[desktop] = AddCommand(name, description, win7, handler);
+			}
+
 
 			ShowCursorDesktopHotKeyController = AddCommand("ShowCursorDesktop", SwapScreenStrings.ShowCursorDesktopDescription, SwapScreenStrings.ShowCursorDesktopWin7, ShowCursorDesktop);
 
@@ -256,6 +288,27 @@ namespace DMT.Modules.SwapScreen
 
 			return udaController;
 		}
+
+		int CalcMaxConfigurableDesktops()
+		{
+			// This is the maximum of
+			// the current number of screens
+			// and the most the user has configured hot keys for in the past
+			int ret = Screen.AllScreens.Length;
+
+			for (int desktop = ret; desktop < MaxNumScreens; desktop++)
+			{
+				string settingName = string.Format("ShowDesktop{0}HotKey", desktop + 1);
+
+				if (_settingsService.SettingExists(ModuleName, settingName))
+				{
+					ret = desktop + 1;
+				}
+			}
+
+			return ret;
+		}
+
 
 		void ShowDesktop(string parameters)
 		{

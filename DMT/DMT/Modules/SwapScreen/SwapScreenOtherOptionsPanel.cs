@@ -51,21 +51,45 @@ namespace DMT.Modules.SwapScreen
 			SetupHotKeys();
 		}
 
+		//void SetupHotKeys()
+		//{
+		//	SetupHotKey(hotKeyPanelMinimiseAllBut, _swapScreenModule.MinimiseAllButHotKeyController);
+		//	SetupHotKey(hotKeyPanelRotateNext, _swapScreenModule.RotateNextHotKeyController);
+		//	SetupHotKey(hotKeyPanelRotatePrev, _swapScreenModule.RotatePrevHotKeyController);
+		//	SetupHotKey(hotKeyPanelShowDesktop1, _swapScreenModule.ShowDesktop1HotKeyController);
+		//	SetupHotKey(hotKeyPanelShowDesktop2, _swapScreenModule.ShowDesktop2HotKeyController);
+		//	SetupHotKey(hotKeyPanelShowDesktop3, _swapScreenModule.ShowDesktop3HotKeyController);
+		//	SetupHotKey(hotKeyPanelShowDesktop4, _swapScreenModule.ShowDesktop4HotKeyController);
+		//	SetupHotKey(hotKeyPanelShowCursorDesktop, _swapScreenModule.ShowCursorDesktopHotKeyController);
+		//}
+
+
 		void SetupHotKeys()
 		{
-			SetupHotKey(hotKeyPanelMinimiseAllBut, _swapScreenModule.MinimiseAllButHotKeyController);
-			SetupHotKey(hotKeyPanelRotateNext, _swapScreenModule.RotateNextHotKeyController);
-			SetupHotKey(hotKeyPanelRotatePrev, _swapScreenModule.RotatePrevHotKeyController);
-			SetupHotKey(hotKeyPanelShowDesktop1, _swapScreenModule.ShowDesktop1HotKeyController);
-			SetupHotKey(hotKeyPanelShowDesktop2, _swapScreenModule.ShowDesktop2HotKeyController);
-			SetupHotKey(hotKeyPanelShowDesktop3, _swapScreenModule.ShowDesktop3HotKeyController);
-			SetupHotKey(hotKeyPanelShowDesktop4, _swapScreenModule.ShowDesktop4HotKeyController);
-			SetupHotKey(hotKeyPanelShowCursorDesktop, _swapScreenModule.ShowCursorDesktopHotKeyController);
+			List<HotKeyController> hotKeyControllers = new List<HotKeyController>();
+
+			hotKeyControllers.Add(_swapScreenModule.MinimiseAllButHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.RotateNextHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.RotatePrevHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.ShowCursorDesktopHotKeyController);
+
+			for (int desktop = 0; desktop < _swapScreenModule.MaxConfigurableDesktops; desktop++)
+			{
+				hotKeyControllers.Add(_swapScreenModule.ShowDesktopHotKeyControllers[desktop]);
+			}
+
+			//hotKeyControllers.Add(_swapScreenModule.ShowDesktop1HotKeyController);
+			//hotKeyControllers.Add(_swapScreenModule.ShowDesktop2HotKeyController);
+			//hotKeyControllers.Add(_swapScreenModule.ShowDesktop3HotKeyController);
+			//hotKeyControllers.Add(_swapScreenModule.ShowDesktop4HotKeyController);
+
+			scrollableHotKeysPanel.Init(hotKeyControllers);
 		}
 
-		void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
-		{
-			hotKeyPanel.SetHotKeyController(hotKeyController);
-		}
+
+		//void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
+		//{
+		//	hotKeyPanel.SetHotKeyController(hotKeyController);
+		//}
 	}
 }

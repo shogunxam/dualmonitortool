@@ -34,7 +34,7 @@ namespace DMT.Library.HotKeys
 	/// Hotkey itself with the form to edit it and the property
 	/// required to make its key combination persistent.
 	/// </summary>
-	class HotKeyController : IDisposable
+	public class HotKeyController : IDisposable
 	{
 		ISettingsService _settingsService;
 		string _moduleName;

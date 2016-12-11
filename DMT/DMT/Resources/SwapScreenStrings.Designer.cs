@@ -343,6 +343,24 @@ namespace DMT.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show desktop {0}.
+        /// </summary>
+        internal static string ShowDesktopNDescription {
+            get {
+                return ResourceManager.GetString("ShowDesktopNDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ShowDesktopNWin7 {
+            get {
+                return ResourceManager.GetString("ShowDesktopNWin7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Snap active window down.
         /// </summary>
         internal static string SnapDownDescription {
