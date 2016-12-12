@@ -38,7 +38,7 @@
 			this.groupBox1.Controls.Add(this.scrollableHotKeysPanel);
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(508, 317);
+			this.groupBox1.Size = new System.Drawing.Size(500, 316);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Hotkeys for other Windows";

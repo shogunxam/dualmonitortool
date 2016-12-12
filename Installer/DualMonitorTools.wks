@@ -5,7 +5,7 @@
 	         Name="Dual Monitor Tools"
 	         UpgradeCode="9aec1ab7-2dea-473d-80e4-d794a5176629"
 			 Language="1033" 
-			 Version="2.4.0.0" 
+			 Version="2.4.2.0" 
 	         Manufacturer="GNE">
 
 		<Package InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>
@@ -28,6 +28,7 @@
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="ApplicationMenuFolder" Name="Dual Monitor Tools" />
 			</Directory>
+			<Directory Id="SystemFolder" />
 		</Directory>
 
 
@@ -88,6 +89,14 @@
 		   </Component>
 		</DirectoryRef>
 
+		<DirectoryRef Id="SystemFolder">
+			 <Component Id="DmtWallpaper.scr" Guid="4dedd7c5-9d22-4376-83aa-296b9be19dd4">
+				<File Id="DmtWallpaper.scr" Name="DmtWallpaper.scr"
+					Source="..\DmtWallpaper\DmtWallpaper\bin\Release\DmtWallpaper.scr" Vital="yes" KeyPath="yes">
+				</File>
+			</Component>
+		</DirectoryRef>
+
 		<Feature Id="Complete" Level="1">
 			<ComponentRef Id="dmt.exe" />
 			<ComponentRef Id="DualWallpaper.exe" />
@@ -97,6 +106,7 @@
 			<ComponentRef Id="Readme.txt" />
 			<ComponentRef Id="Thanks.txt" />
 			<ComponentRef Id="DmtShortcut" />
+			<ComponentRef Id="DmtWallpaper.scr" />
 		</Feature>
 
 		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
@@ -105,7 +115,13 @@
 		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
+		<CustomAction Id="InstallScreenSaver" Directory="SystemFolder" ExeCommand="rundll32.exe desk.cpl,InstallScreenSaver DmtWallpaper.scr" Return="asyncNoWait" />
 		<CustomAction Id="StartAppOnExit" FileKey="dmt.exe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+
+		<InstallExecuteSequence>
+			<Custom Action="InstallScreenSaver" After="InstallFinalize">NOT Installed</Custom>
+		</InstallExecuteSequence>
+
 		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
 		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch DMT when setup exits." />
 		<UI>

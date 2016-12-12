@@ -36,41 +36,41 @@ namespace DMT.Library.GuiUtils
 		static IntPtr _lastSupersizeHwnd = (IntPtr)0;
 		static Rectangle _lastSupersizeRect = new Rectangle();
 
-		/// <summary>
-		/// Attempts to minimize all visible application windows on
-		/// the first screen.
-		/// </summary>
-		public static void ShowDesktop1()
-		{
-			ShowDesktop(0);
-		}
+		///// <summary>
+		///// Attempts to minimize all visible application windows on
+		///// the first screen.
+		///// </summary>
+		//public static void ShowDesktop1()
+		//{
+		//	ShowDesktop(0);
+		//}
 
-		/// <summary>
-		/// Attempts to minimize all visible application windows on
-		/// the second screen.
-		/// </summary>
-		public static void ShowDesktop2()
-		{
-			ShowDesktop(1);
-		}
+		///// <summary>
+		///// Attempts to minimize all visible application windows on
+		///// the second screen.
+		///// </summary>
+		//public static void ShowDesktop2()
+		//{
+		//	ShowDesktop(1);
+		//}
 
-		/// <summary>
-		/// Attempts to minimize all visible application windows on
-		/// the third screen.
-		/// </summary>
-		public static void ShowDesktop3()
-		{
-			ShowDesktop(2);
-		}
+		///// <summary>
+		///// Attempts to minimize all visible application windows on
+		///// the third screen.
+		///// </summary>
+		//public static void ShowDesktop3()
+		//{
+		//	ShowDesktop(2);
+		//}
 
-		/// <summary>
-		/// Attempts to minimize all visible application windows on
-		/// the fourth screen.
-		/// </summary>
-		public static void ShowDesktop4()
-		{
-			ShowDesktop(3);
-		}
+		///// <summary>
+		///// Attempts to minimize all visible application windows on
+		///// the fourth screen.
+		///// </summary>
+		//public static void ShowDesktop4()
+		//{
+		//	ShowDesktop(3);
+		//}
 
 		/// <summary>
 		/// Attempts to minimize all visible application windows on

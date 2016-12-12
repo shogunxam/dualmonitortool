@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\DMT\DMT\Library\Environment\DmtRegistry.cs">
+      <Link>Library\Environment\DmtRegistry.cs</Link>
+    </Compile>
     <Compile Include="..\..\DMT\DMT\Library\Environment\ILocalEnvironment.cs">
       <Link>Library\Environment\ILocalEnvironment.cs</Link>
     </Compile>

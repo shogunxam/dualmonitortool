@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.buttonResetUDA = new System.Windows.Forms.Button();
 			this.udaPanel10 = new DMT.Modules.SwapScreen.UdaPanel();
 			this.udaPanel9 = new DMT.Modules.SwapScreen.UdaPanel();
 			this.udaPanel8 = new DMT.Modules.SwapScreen.UdaPanel();
@@ -39,7 +40,6 @@
 			this.udaPanel3 = new DMT.Modules.SwapScreen.UdaPanel();
 			this.udaPanel2 = new DMT.Modules.SwapScreen.UdaPanel();
 			this.udaPanel1 = new DMT.Modules.SwapScreen.UdaPanel();
-			this.buttonResetUDA = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -56,12 +56,22 @@
 			this.groupBox1.Controls.Add(this.udaPanel3);
 			this.groupBox1.Controls.Add(this.udaPanel2);
 			this.groupBox1.Controls.Add(this.udaPanel1);
-			this.groupBox1.Location = new System.Drawing.Point(3, 3);
+			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(483, 351);
+			this.groupBox1.Size = new System.Drawing.Size(500, 351);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "User Defined Areas and associated HotKeys";
+			// 
+			// buttonResetUDA
+			// 
+			this.buttonResetUDA.Location = new System.Drawing.Point(6, 322);
+			this.buttonResetUDA.Name = "buttonResetUDA";
+			this.buttonResetUDA.Size = new System.Drawing.Size(465, 23);
+			this.buttonResetUDA.TabIndex = 10;
+			this.buttonResetUDA.Text = "Reset areas and descriptions to match current monitors";
+			this.buttonResetUDA.UseVisualStyleBackColor = true;
+			this.buttonResetUDA.Click += new System.EventHandler(this.buttonResetUDA_Click);
 			// 
 			// udaPanel10
 			// 
@@ -133,23 +143,13 @@
 			this.udaPanel1.Size = new System.Drawing.Size(465, 23);
 			this.udaPanel1.TabIndex = 0;
 			// 
-			// buttonResetUDA
-			// 
-			this.buttonResetUDA.Location = new System.Drawing.Point(6, 322);
-			this.buttonResetUDA.Name = "buttonResetUDA";
-			this.buttonResetUDA.Size = new System.Drawing.Size(465, 23);
-			this.buttonResetUDA.TabIndex = 10;
-			this.buttonResetUDA.Text = "Reset areas and descriptions to match current monitors";
-			this.buttonResetUDA.UseVisualStyleBackColor = true;
-			this.buttonResetUDA.Click += new System.EventHandler(this.buttonResetUDA_Click);
-			// 
 			// SwapScreenUdaOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.groupBox1);
 			this.Name = "SwapScreenUdaOptionsPanel";
-			this.Size = new System.Drawing.Size(492, 357);
+			this.Size = new System.Drawing.Size(510, 362);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

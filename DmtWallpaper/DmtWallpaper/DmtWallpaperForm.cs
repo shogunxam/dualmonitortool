@@ -62,15 +62,16 @@ namespace DmtWallpaper
 
 			InitializeComponent();
 
-			InitFileWatcher();
-
-			if (FullScreenMode)
+			if (InitFileWatcher())
 			{
-				InitFullScreenMode();
-			}
-			else
-			{
-				InitPreviewMode();
+				if (FullScreenMode)
+				{
+					InitFullScreenMode();
+				}
+				else
+				{
+					InitPreviewMode();
+				}
 			}
 		}
 
@@ -89,13 +90,20 @@ namespace DmtWallpaper
 		}
 #endif
 
-		void InitFileWatcher()
+		bool InitFileWatcher()
 		{
 			// get location where DMT saves its wallpaper
-			//GetWallpaperFilename();
 			_wallpaperFilename = WallpaperFilenameHelper.GetWallpaperFilename(Handle);
-			// _wallpaperFilename should be filled in
-			System.Console.WriteLine(_wallpaperFilename);
+			if (_wallpaperFilename == null)
+			{
+				// if we can't find the wallpaper filename
+				// then that probably means one of:
+				// 1) DMT is not running
+				// 2) The wallpaper changer in DMT is not active
+				// 3) DMT hasn't created a wallpaper yet
+				return false;
+			}
+			//System.Console.WriteLine(_wallpaperFilename);
 
 			// now setup a watcher to spot changes to this
 			_fileWatcher = new FileSystemWatcher();
@@ -106,6 +114,8 @@ namespace DmtWallpaper
 			//_fileWatcher.Created += _fileWatcher_Created;
 			_fileWatcher.Changed += _fileWatcher_Changed;
 			_fileWatcher.EnableRaisingEvents = true;
+
+			return true;
 		}
 
 		//void _fileWatcher_Created(object sender, FileSystemEventArgs e)

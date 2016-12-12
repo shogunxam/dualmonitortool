@@ -186,30 +186,6 @@ Do you wish to continue?</value>
   <data name="ShowCursorDesktopWin7" xml:space="preserve">
     <value />
   </data>
-  <data name="ShowDesktop1Description" xml:space="preserve">
-    <value>Show desktop 1</value>
-  </data>
-  <data name="ShowDesktop1Win7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShowDesktop2Description" xml:space="preserve">
-    <value>Show desktop 2</value>
-  </data>
-  <data name="ShowDesktop2Win7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShowDesktop3Description" xml:space="preserve">
-    <value>Show desktop 3</value>
-  </data>
-  <data name="ShowDesktop3Win7" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShowDesktop4Description" xml:space="preserve">
-    <value>Show desktop 4</value>
-  </data>
-  <data name="ShowDesktop4Win7" xml:space="preserve">
-    <value />
-  </data>
   <data name="ShowDesktopDescription" xml:space="preserve">
     <value>Show desktop</value>
   </data>

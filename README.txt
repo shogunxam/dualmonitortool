@@ -1,4 +1,4 @@
-Dual Monitor Tools v2.3
+Dual Monitor Tools v2.4
 -----------------------
 
 Dual Monitor Tools is a collection of tools for users running multiple
@@ -14,15 +14,18 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
 
-Changes in version 2.3
+Changes in version 2.4
 ----------------------
 
-Installer now available.
-DMT:SwapScreen fix for when swapping top 2 windows
-DMT:WallpaperChanger makes sure correct wallpaper mode used if using smooth
-changes
-DMT:Cursor fix for cursor not sticky after Ctrl-Alt-Del
-DMT no longer allows multiple instances of its GUI interface to be run
+DMT:General now shows information about monitors
+DMT:General can now change active monitor
+DMT:General can now change monitor brightness
+DMT can now be closed from the command line with -x option
+DMT:Cursor fix for remembering free movement key
+DMT:Snap fix for snaps that are smaller then secondary on one dimension only
+DMT:SwapScreen fix for 'Next Screen' when taskbar at left or top of monitor
+DMT:Wallpaper changer obeys exif orientation flag
+DMT:Wallpaper changer temporary fix for Unsplash images
 
 
 Requirements

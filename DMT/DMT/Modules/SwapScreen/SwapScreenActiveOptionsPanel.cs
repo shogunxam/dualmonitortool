@@ -53,21 +53,37 @@ namespace DMT.Modules.SwapScreen
 
 		void SetupHotKeys()
 		{
-			SetupHotKey(hotKeyPanelNextScreen, _swapScreenModule.NextScreenHotKeyController);
-			SetupHotKey(hotKeyPanelPrevScreen, _swapScreenModule.PrevScreenHotKeyController);
-			SetupHotKey(hotKeyPanelMinimise, _swapScreenModule.MinimiseHotKeyController);
-			SetupHotKey(hotKeyPanelMaximise, _swapScreenModule.MaximiseHotKeyController);
-			SetupHotKey(hotKeyPanelSupersize, _swapScreenModule.SupersizeHotKeyController);
-			SetupHotKey(hotKeyPanelSwapTop2, _swapScreenModule.SwapTop2HotKeyController);
-			SetupHotKey(hotKeyPanelSnapLeft, _swapScreenModule.SnapLeftHotKeyController);
-			SetupHotKey(hotKeyPanelSnapRight, _swapScreenModule.SnapRightHotKeyController);
-			SetupHotKey(hotKeyPanelSnapUp, _swapScreenModule.SnapUpHotKeyController);
-			SetupHotKey(hotKeyPanelSnapDown, _swapScreenModule.SnapDownHotKeyController);
+			//SetupHotKey(hotKeyPanelNextScreen, _swapScreenModule.NextScreenHotKeyController);
+			//SetupHotKey(hotKeyPanelPrevScreen, _swapScreenModule.PrevScreenHotKeyController);
+			//SetupHotKey(hotKeyPanelMinimise, _swapScreenModule.MinimiseHotKeyController);
+			//SetupHotKey(hotKeyPanelMaximise, _swapScreenModule.MaximiseHotKeyController);
+			//SetupHotKey(hotKeyPanelSupersize, _swapScreenModule.SupersizeHotKeyController);
+			//SetupHotKey(hotKeyPanelSwapTop2, _swapScreenModule.SwapTop2HotKeyController);
+			//SetupHotKey(hotKeyPanelSnapLeft, _swapScreenModule.SnapLeftHotKeyController);
+			//SetupHotKey(hotKeyPanelSnapRight, _swapScreenModule.SnapRightHotKeyController);
+			//SetupHotKey(hotKeyPanelSnapUp, _swapScreenModule.SnapUpHotKeyController);
+			//SetupHotKey(hotKeyPanelSnapDown, _swapScreenModule.SnapDownHotKeyController);
+
+			List<HotKeyController> hotKeyControllers = new List<HotKeyController>();
+
+			hotKeyControllers.Add(_swapScreenModule.NextScreenHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.PrevScreenHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.MinimiseHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.MaximiseHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.SupersizeHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.SwapTop2HotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.SnapLeftHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.SnapRightHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.SnapUpHotKeyController);
+			hotKeyControllers.Add(_swapScreenModule.SnapDownHotKeyController);
+
+			scrollableHotKeysPanel.Init(hotKeyControllers);
+
 		}
 
-		void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
-		{
-			hotKeyPanel.SetHotKeyController(hotKeyController);
-		}
+		//void SetupHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
+		//{
+		//	hotKeyPanel.SetHotKeyController(hotKeyController);
+		//}
 	}
 }

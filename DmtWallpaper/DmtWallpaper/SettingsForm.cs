@@ -23,7 +23,7 @@ namespace DmtWallpaper
 
 			if (wallpaperFilename == null)
 			{
-				textBoxFilename.Text = "DMT could not be found.  Please make sure it is running.";
+				textBoxFilename.Text = "DMT is either not running or not generating wallpaper.";
 			}
 			else
 			{

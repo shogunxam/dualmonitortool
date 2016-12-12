@@ -204,14 +204,7 @@ namespace DMT.Modules.SwapScreen
 			RotateNextHotKeyController = AddCommand("RotateNext", SwapScreenStrings.RotateNextDescription, SwapScreenStrings.RotateNextWin7, ScreenHelper.RotateScreensNext);
 			RotatePrevHotKeyController = AddCommand("RotatePrev", SwapScreenStrings.RotatePrevDescription, SwapScreenStrings.RotatePrevWin7, ScreenHelper.RotateScreensPrev);
 
-			// TODO: need a better way of handling n screens
-			//ShowDesktop1HotKeyController = AddCommand("ShowDesktop1", SwapScreenStrings.ShowDesktop1Description, SwapScreenStrings.ShowDesktop1Win7, ScreenHelper.ShowDesktop1);
-			//ShowDesktop2HotKeyController = AddCommand("ShowDesktop2", SwapScreenStrings.ShowDesktop2Description, SwapScreenStrings.ShowDesktop2Win7, ScreenHelper.ShowDesktop2);
-			//ShowDesktop3HotKeyController = AddCommand("ShowDesktop3", SwapScreenStrings.ShowDesktop3Description, SwapScreenStrings.ShowDesktop3Win7, ScreenHelper.ShowDesktop3);
-			//ShowDesktop4HotKeyController = AddCommand("ShowDesktop4", SwapScreenStrings.ShowDesktop4Description, SwapScreenStrings.ShowDesktop4Win7, ScreenHelper.ShowDesktop4);
-
 			MaxConfigurableDesktops = CalcMaxConfigurableDesktops();
-			//MaxConfigurableDesktops = 16;
 
 			ShowDesktopHotKeyControllers = new HotKeyController[MaxConfigurableDesktops];
 			for (int desktop = 0; desktop < MaxConfigurableDesktops; desktop++)
@@ -226,7 +219,6 @@ namespace DMT.Modules.SwapScreen
 				HotKey.HotKeyHandler handler = delegate() { ScreenHelper.ShowDesktop(closureVar); };
 				ShowDesktopHotKeyControllers[desktop] = AddCommand(name, description, win7, handler);
 			}
-
 
 			ShowCursorDesktopHotKeyController = AddCommand("ShowCursorDesktop", SwapScreenStrings.ShowCursorDesktopDescription, SwapScreenStrings.ShowCursorDesktopWin7, ShowCursorDesktop);
 
@@ -308,7 +300,6 @@ namespace DMT.Modules.SwapScreen
 
 			return ret;
 		}
-
 
 		void ShowDesktop(string parameters)
 		{
