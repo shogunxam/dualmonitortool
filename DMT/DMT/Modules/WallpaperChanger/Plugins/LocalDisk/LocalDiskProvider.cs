@@ -146,6 +146,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		{
 			ProviderImage providerImage = null;
 
+			// make sure caches reflect current settings
 			_monitor1Cache.SetDirectory(_config.Monitor1Directory, _config.Recursive, _config.Cycle);
 			_monitor2Cache.SetDirectory(_config.Monitor2Directory, _config.Recursive, _config.Cycle);
 			_monitor3Cache.SetDirectory(_config.Monitor3Directory, _config.Recursive, _config.Cycle);
@@ -202,6 +203,10 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			// check for image for a particular monitor
 			// Screen Index is zero based, 
 			// and will be -1 if want an image to cover multiple monitors 
+			//
+			// NOTE: Will also be -1 if only a single monitor,
+			// but the'Multi Monitor' option is one that could imply that
+			// the image is needed for multiple monitors
 			if (screenIndex >= 0)
 			{
 				switch (screenIndex)

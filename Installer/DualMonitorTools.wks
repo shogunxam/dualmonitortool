@@ -5,7 +5,7 @@
 	         Name="Dual Monitor Tools"
 	         UpgradeCode="9aec1ab7-2dea-473d-80e4-d794a5176629"
 			 Language="1033" 
-			 Version="2.4.2.0" 
+			 Version="2.5.0.0" 
 	         Manufacturer="GNE">
 
 		<Package InstallerVersion="200" Compressed="yes" InstallPrivileges="elevated" InstallScope="perMachine"/>
@@ -20,6 +20,8 @@
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     
 		<Media Id="1" Cabinet="DualMonitorTools.cab" EmbedCab="yes" />
+
+		<Property Id="DISABLEADVTSHORTCUTS" Value="1" />
 
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
@@ -36,11 +38,24 @@
 			 <Component Id="dmt.exe" Guid="ac8acb03-f948-40ce-9c35-297ff94c7c35">
 				<File Id="dmt.exe" Name="DMT.exe"
 					Source="..\DMT\DMT\bin\Release\DMT.exe" Vital="yes" KeyPath="yes">
+
+					<Shortcut Id="DmtStartMenuShortcut" Directory="ApplicationMenuFolder" 
+						 Name="DMT" 
+						 Description="DMT"
+						 Advertise="yes"/>
+
+
 				</File>
 			</Component>
 			 <Component Id="DualWallpaper.exe" Guid="eae2fdaa-172e-4321-987f-2ee40dd4cb26">
 				<File Id="DualWallpaper.exe" Name="DualWallpaper.exe"
 					  Source="..\DualWallpaper\DualWallpaper\bin\Release\DualWallpaper.exe" Vital="yes" KeyPath="yes">
+
+					<Shortcut Id="DualWallpaperShortcut" Directory="ApplicationMenuFolder" 
+						 Name="DualWallpaper" 
+						 Description="Dual Wallpaper"
+						 Advertise="yes"/>
+
 				</File>
 			</Component>
 			 <Component Id="FileLocations.xml" Guid="a652924f-b277-4a7c-8b78-fa1d6f9f43fe">
@@ -73,19 +88,11 @@
 
 		<DirectoryRef Id="ApplicationMenuFolder">
 			<Component Id="DmtShortcut" Guid="a33388cb-2ee0-42f0-a692-2db06400c0b5">
-				<Shortcut Id="DmtStartMenuShortcut" 
-					 Name="DMT" 
-				   Description="DMT"
-					Target="[#dmt.exe]"
-						  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
-				<Shortcut Id="DualWallpaperStartMenuShortcut" 
-					 Name="DualWallpaper" 
-				   Description="Dual Wallpaper"
-					Target="[#DualWallpaper.exe]"
-					WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
-
 				<RemoveFolder Id="ApplicationMenuFolder" On="uninstall"/>
 				<RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+			<Component Id="DualWallpaperShortcut" Guid="2bfc3fd6-0157-4b9b-9b03-0a3d81e5f0f2">
+				<RegistryValue Root="HKMU" Key="Software\[Manufacturer]\[ProductName]" Name="ScreenSaverInstalled" Type="integer" Value="1" KeyPath="yes"/>
 		   </Component>
 		</DirectoryRef>
 
@@ -93,34 +100,60 @@
 			 <Component Id="DmtWallpaper.scr" Guid="4dedd7c5-9d22-4376-83aa-296b9be19dd4">
 				<File Id="DmtWallpaper.scr" Name="DmtWallpaper.scr"
 					Source="..\DmtWallpaper\DmtWallpaper\bin\Release\DmtWallpaper.scr" Vital="yes" KeyPath="yes">
+
+
 				</File>
+				<!-- This doesn't always work as expected in a 32/64 environment
+
+				<Shortcut Id="DmtScreenSaverMenuShortcut" Directory="ApplicationMenuFolder" 
+					 Name="DMTScreenSaver" 
+					 Description="DMT"
+					 WorkingDirectory="SystemFolder"
+					 Target="[SystemFolder]rundll32.exe"
+					 Arguments=" desk.cpl,InstallScreenSaver DmtWallpaper.scr"
+					 />
+					 -->
+
 			</Component>
 		</DirectoryRef>
 
-		<Feature Id="Complete" Level="1">
+		<Feature Id="Complete" Title="DMT" Description="Dual Monitor Tools base module" Level="1">
 			<ComponentRef Id="dmt.exe" />
-			<ComponentRef Id="DualWallpaper.exe" />
 			<ComponentRef Id="FileLocations.xml" />
 			<ComponentRef Id="Changes.txt" />
 			<ComponentRef Id="Copying.txt" />
 			<ComponentRef Id="Readme.txt" />
 			<ComponentRef Id="Thanks.txt" />
 			<ComponentRef Id="DmtShortcut" />
-			<ComponentRef Id="DmtWallpaper.scr" />
+			<Feature Id="DualWallpaper" Title="Wallpaper creator" Description="Allows manual creation of wallpaper for multiple monitors" Level="1">
+				<ComponentRef Id="DualWallpaper.exe" />
+				<ComponentRef Id="DualWallpaperShortcut" />
+			</Feature>
+			<Feature Id="DmtWallpaper" Title="Screen saver" Description="Screen saver to show DMT wallpaper" Level="1">
+				<ComponentRef Id="DmtWallpaper.scr" />
+			</Feature>
 		</Feature>
 
 		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
+		<!--
 		<UIRef Id="WixUI_InstallDir" />
+		-->
+		<UIRef Id="WixUI_FeatureTree" />
+
 		<WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
 		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
 		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
 
+		<!--
 		<CustomAction Id="InstallScreenSaver" Directory="SystemFolder" ExeCommand="rundll32.exe desk.cpl,InstallScreenSaver DmtWallpaper.scr" Return="asyncNoWait" />
+		-->
 		<CustomAction Id="StartAppOnExit" FileKey="dmt.exe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 
+		<!--
 		<InstallExecuteSequence>
-			<Custom Action="InstallScreenSaver" After="InstallFinalize">NOT Installed</Custom>
+			<Custom Action="InstallScreenSaver" After="InstallFinalize"><![CDATA[&DmtWallpaper=3]]></Custom>
 		</InstallExecuteSequence>
+		-->
 
 		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
 		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch DMT when setup exits." />

@@ -1,31 +1,59 @@
-Dual Monitor Tools v2.4
+Dual Monitor Tools v2.5
 -----------------------
 
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.
 
-Currently the tools available are DMT and DualWallpaper.
+Currently the tools available are DMT.exe, DualWallpaper.exe and
+DmtWallpaper.scr.
 
-For users of the 1.* versions, DMT now provides all of the functionality
-of SwapScreen, DualLauncher, DualWallpaperChanger and DualSnap.
+DMT.exe is the main tool which will reside in the Windows Notification Area
+and contains the following modules:
+
+Cursor - Control movement of cursor between monitors.
+        The cursor can be locked to a monitor or made sticky, so extra
+        effort is required to move it between monitors.
+
+Launcher - Allows you to launch your favourite applications with a 
+        few key strokes and to position them at pre-configured
+        positions on any of your monitors.  All other DMT commands can
+        also be run this way.
+
+Snap -  Take snapshot of primary monitor and show on secondary.
+        Previous snapshots can be viewed, saved to a file or copied
+        to the clipboard.
+
+Swap Screen - Allows easy movement of windows between monitors,
+        and allows Windows to be moved to pre-defined positions.
+
+Wallpaper Changer - Changes wallpaper periodically using a variety of
+        sources and allows you to control how images are shown
+        across your monitors.
+
+
+DualWallpaper.exe allows the manual creation of wallpaper for multiple
+monitors.
+
+DmtWallpaper.scr works with DMT.exe to show your wallpaper when the screen
+saver is running.
 
 Dual Monitor Tools is free and has been released under the GPLv3 license.
 
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
 
-Changes in version 2.4
+Changes in version 2.5
 ----------------------
 
-DMT:General now shows information about monitors
-DMT:General can now change active monitor
-DMT:General can now change monitor brightness
-DMT can now be closed from the command line with -x option
-DMT:Cursor fix for remembering free movement key
-DMT:Snap fix for snaps that are smaller then secondary on one dimension only
-DMT:SwapScreen fix for 'Next Screen' when taskbar at left or top of monitor
-DMT:Wallpaper changer obeys exif orientation flag
-DMT:Wallpaper changer temporary fix for Unsplash images
+DMT:Wallpaper changer fixed flicker when using smooth changing
+DMT:SwapScreen added a parametised "ShowDesktop" command
+DMT:Wallpaper changer added a new URL image provider
+DMT:Wallpaper changer Unsplash image provider has more configuration
+DMT:Wallpaper changer new option to cycle though all local disk images before repeating
+DMT:SwapScreen new hotkey to show desktop that cursor is on
+DMT:SwapScreen option to reset the UDAs
+DMT:SwapScreen "ShowDesktop" now supports up to 16 monitors
+DmtWallpaper screen saver added
 
 
 Requirements
@@ -43,18 +71,28 @@ Installation
 There are 2 choices for installation:
 1) Use the msi installer - this is the simplest method and will make
 installing any future versions even easier.
-2) Portable install - this gives you the most flexibility and is the
-route to use if you are installing to a portable device.
+2) Portable install from a zip file - this gives you the most flexibility
+and is the route to use if you are installing to a portable device.
 
 
 Msi Installation for new users
 ------------------------------
 
-Just download DualMonitorTools-2.3.msi and run it.
+Just download DualMonitorTools-2.5.msi and run it.
 
 
-Msi installation for existing/portable users
---------------------------------------------
+Msi Installation upgrades
+-------------------------
+
+If you have previously installed DualMonitorTools using the Msi installer
+then you can just download DualMonitorTools-2.5.msi and run it.
+Alternatively, you can do this via the options in Dual Monitor Tools,
+by clicking the "Check for Updates" button in the "Dual Monitor
+Tools"->General page.
+
+
+Msi installation for existing install done from a zip file
+----------------------------------------------------------
 
 With a msi installation, the executable and configuration files will live
 in different locations, so there are some extra steps that you need to go
@@ -95,38 +133,6 @@ Portable installation
     to run the files as they were downloaded from the internet.
 
 
-TOOL - DMT
-----------
-
-This is the main tool, currently consisting of 5 modules offering the 
-following;
-
-Cursor - Control movement of cursor between monitors.
-        The cursor can be locked to a monitor or made sticky, so extra
-        effort is required to move it between monitors.
-
-Launcher - Allows you to launch your favourite applications with a 
-        few key strokes and to position them at pre-configured
-        positions on any of your monitors.  All other DMT commands can
-        also be run this way.
-
-Snap -  Take snapshot of primary monitor and show on secondary.
-        Previous snapshots can be viewed, saved to a file or copied
-        to the clipboard.
-
-Swap Screen - Allows easy movement of windows between monitors,
-        and allows Windows to be moved to pre-defined positions.
-
-Wallpaper Changer - Changes wallpaper periodically using a variety of
-        sources and allows you to control how images are shown
-        across your monitors.
-
-When run, it will reside in the Windows Notification Area.
-Double click this icon to see all of the options available.
-'Dual Monitor Tools'->'General' contains an option so start up
-DMT every time Windows starts.
-
-
 Hotkeys
 -------
 
@@ -159,31 +165,6 @@ so you won't normally have to type in the whole word.
 
 You can also assign the same Magic Word to multiple applications.
 When you enter the Magic Word, all of the applications will be started.
-
-
-Importing Magic Words
----------------------
-
-If you are a user of Dual Launcher, then you can import your existing
-Magic Words into DMT using the options on the 'Import / Export' page.
-Dual Launcher saves it's Magic Words using a path of the form:
-C:\Users\<Your login name>\AppData\Local\GNE\DualLauncher\DualLauncher.xml
-Just press 'Import XML; and select this file to import it.
-
-
-TOOL - DualWallpaper
---------------------
-
-Dual Wallpaper simplifies the process of using images as wallpaper on 
-multiple monitor setups
-
-You can have a single image which is spread across all of your monitors,
-or you can have different images on each monitor, or if you have enough
-monitors, you could say have an image spread across 2 of your monitors
-with another image displayed on the third monitor.
-
-It also correctly sets the wallpaper when your primary monitor is not
-your leftmost or topmost monitor.
 
 
 Portable Usage
@@ -220,6 +201,8 @@ Uninstall of msi installation
 -----------------------------
 
 You can uninstall from within Windows installed application list.
+Any saved settings will need to be removed manually by deleting
+the folder '%APPDATA%\Dual Monitor Tools'.
 
 
 Uninstall of portable installation

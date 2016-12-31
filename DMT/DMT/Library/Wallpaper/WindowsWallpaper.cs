@@ -135,7 +135,9 @@ namespace DMT.Library.Wallpaper
 				// make sure image is tiled (must do this for both normal and ActiveDesktop wallpaper)
 				SetTiledWallpaper();
 
-				if (useFade)
+				// XP doesn't support fade and attempting to use it results in the wallpaper not changing
+				// so we force fade off for XP
+				if (useFade && _localEnvironment.IsVistaOrLater())
 				{
 					SetActiveDesktopWallpaper(path);
 				}
