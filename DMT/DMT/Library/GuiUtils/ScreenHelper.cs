@@ -724,6 +724,8 @@ namespace DMT.Library.GuiUtils
 			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
+			// convert to screen coords
+			curRect = FromWorkspaceCoordinates(curRect);
 			uint oldShowCmd = windowPlacement.showCmd;
 
 			Screen curScreen = Screen.FromRectangle(curRect);
@@ -754,6 +756,9 @@ namespace DMT.Library.GuiUtils
 					newRect = new Rectangle(screenRect.Left + screenRect.Width / 2, screenRect.Top, newWidth, newHeight);
 				}
 
+				// adjust from screen coords to workspace coords
+				newRect = ToWorkspaceCoordinates(newRect);
+
 				if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 				{
 					// need to restore window before moving it
@@ -779,6 +784,8 @@ namespace DMT.Library.GuiUtils
 			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
 			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
+			// convert to screen coords
+			curRect = FromWorkspaceCoordinates(curRect);
 			uint oldShowCmd = windowPlacement.showCmd;
 
 			Screen curScreen = Screen.FromRectangle(curRect);
@@ -809,6 +816,9 @@ namespace DMT.Library.GuiUtils
 					newRect = new Rectangle(screenRect.Left, screenRect.Top + screenRect.Height / 2, newWidth, newHeight);
 				}
 
+				// adjust from screen coords to workspace coords
+				newRect = ToWorkspaceCoordinates(newRect);
+
 				if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 				{
 					// need to restore window before moving it
@@ -820,6 +830,36 @@ namespace DMT.Library.GuiUtils
 				windowPlacement.rcNormalPosition = RectangleToRect(ref newRect);
 				NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 			}
+		}
+
+		static Rectangle ToWorkspaceCoordinates(Rectangle screenRectangle)
+		{
+			// Workspace coordinates as used by GetWindowPlacement and SetWindowPlacement 
+			// place (0,0) after any toolbar
+
+			Screen curScreen = Screen.FromPoint(screenRectangle.Location);
+
+			int borderOffsetX = curScreen.WorkingArea.Left - curScreen.Bounds.Left;
+			int borderOffsetY = curScreen.WorkingArea.Top - curScreen.Bounds.Top;
+
+			return new Rectangle(screenRectangle.Left - borderOffsetX,
+				screenRectangle.Y - borderOffsetY,
+				screenRectangle.Width, screenRectangle.Height);
+		}
+
+		static Rectangle FromWorkspaceCoordinates(Rectangle screenRectangle)
+		{
+			// Workspace coordinates as used by GetWindowPlacement and SetWindowPlacement 
+			// place (0,0) after any toolbar
+
+			Screen curScreen = Screen.FromPoint(screenRectangle.Location);
+
+			int borderOffsetX = curScreen.WorkingArea.Left - curScreen.Bounds.Left;
+			int borderOffsetY = curScreen.WorkingArea.Top - curScreen.Bounds.Top;
+
+			return new Rectangle(screenRectangle.Left + borderOffsetX,
+				screenRectangle.Y + borderOffsetY,
+				screenRectangle.Width, screenRectangle.Height);
 		}
 
 		static int AdvanceHalfScreen(int curScreenIndex, int screenStart, int screenEnd, int winStart, int delta)
