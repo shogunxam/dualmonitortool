@@ -41,7 +41,7 @@ namespace DMT.Modules.SwapScreen
 	class SwapScreenModule : Module
 	{
 		// Number of User Defined Areas
-		const int NumUdaControllers = 10;
+		const int NumUdaControllers = 100;	// 10;
 
 		// Maximum number of screens we support for 'Show Desktop'
 		const int MaxNumScreens = 16;

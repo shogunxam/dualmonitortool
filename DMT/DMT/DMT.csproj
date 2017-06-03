@@ -171,6 +171,12 @@
     <Compile Include="Modules\Launcher\InternalCommandForm.Designer.cs">
       <DependentUpon>InternalCommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\SwapScreen\ScrollableUdasPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\ScrollableUdasPanel.Designer.cs">
+      <DependentUpon>ScrollableUdasPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\WallpaperChanger\Desktop.cs" />
     <Compile Include="Library\Wallpaper\StretchType.cs" />
     <Compile Include="Library\Wallpaper\SwitchType.cs" />
@@ -571,6 +577,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Snap\SnapGeneralOptionsPanel.resx">
       <DependentUpon>SnapGeneralOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\ScrollableUdasPanel.resx">
+      <DependentUpon>ScrollableUdasPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenActiveOptionsPanel.resx">
       <DependentUpon>SwapScreenActiveOptionsPanel.cs</DependentUpon>

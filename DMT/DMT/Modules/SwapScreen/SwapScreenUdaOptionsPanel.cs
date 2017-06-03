@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2015  Gerald Evans
+// Copyright (C) 2015-2017  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,41 +52,43 @@ namespace DMT.Modules.SwapScreen
 
 		void SetupUdas()
 		{
-			SetupUda(udaPanel1, 0);
-			SetupUda(udaPanel2, 1);
-			SetupUda(udaPanel3, 2);
-			SetupUda(udaPanel4, 3);
-			SetupUda(udaPanel5, 4);
-			SetupUda(udaPanel6, 5);
-			SetupUda(udaPanel7, 6);
-			SetupUda(udaPanel8, 7);
-			SetupUda(udaPanel9, 8);
-			SetupUda(udaPanel10, 9);
+			scrollableUdasPanel.Init(_swapScreenModule.UdaControllers);
+			//scroll
+			//SetupUda(udaPanel1, 0);
+			//SetupUda(udaPanel2, 1);
+			//SetupUda(udaPanel3, 2);
+			//SetupUda(udaPanel4, 3);
+			//SetupUda(udaPanel5, 4);
+			//SetupUda(udaPanel6, 5);
+			//SetupUda(udaPanel7, 6);
+			//SetupUda(udaPanel8, 7);
+			//SetupUda(udaPanel9, 8);
+			//SetupUda(udaPanel10, 9);
 		}
 
-		void SetupUda(UdaPanel udaPanel, int idx)
-		{
-			UdaController udaController = GetUdaController(idx);
-			if (udaController != null)
-			{
-				udaPanel.SetUdaController(udaController);
-			}
-			else
-			{
-				// TODO: what if udaController is null
-				throw new ApplicationException("Not enough UdaControllers");
-			}
-		}
+		//void SetupUda(UdaPanel udaPanel, int idx)
+		//{
+		//	UdaController udaController = GetUdaController(idx);
+		//	if (udaController != null)
+		//	{
+		//		udaPanel.SetUdaController(udaController);
+		//	}
+		//	else
+		//	{
+		//		// TODO: what if udaController is null
+		//		throw new ApplicationException("Not enough UdaControllers");
+		//	}
+		//}
 
-		UdaController GetUdaController(int idx)
-		{
-			if (idx < _swapScreenModule.UdaControllers.Count)
-			{
-				return _swapScreenModule.UdaControllers[idx];
-			}
+		//UdaController GetUdaController(int idx)
+		//{
+		//	if (idx < _swapScreenModule.UdaControllers.Count)
+		//	{
+		//		return _swapScreenModule.UdaControllers[idx];
+		//	}
 
-			return null;
-		}
+		//	return null;
+		//}
 
 		private void buttonResetUDA_Click(object sender, EventArgs e)
 		{
@@ -94,18 +96,20 @@ namespace DMT.Modules.SwapScreen
 			if (MessageBox.Show(SwapScreenStrings.ConfirmResetUdas, CommonStrings.MyTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
 			{
 				_swapScreenModule.ResetUdas();
+				scrollableUdasPanel.UpdateDisplay();
+
 				// Yes, this is horrible
 				// TODO: should this be done when generating the UDAs?
-				udaPanel1.UpdateDisplay();
-				udaPanel2.UpdateDisplay();
-				udaPanel3.UpdateDisplay();
-				udaPanel4.UpdateDisplay();
-				udaPanel5.UpdateDisplay();
-				udaPanel6.UpdateDisplay();
-				udaPanel7.UpdateDisplay();
-				udaPanel8.UpdateDisplay();
-				udaPanel9.UpdateDisplay();
-				udaPanel10.UpdateDisplay();
+				//udaPanel1.UpdateDisplay();
+				//udaPanel2.UpdateDisplay();
+				//udaPanel3.UpdateDisplay();
+				//udaPanel4.UpdateDisplay();
+				//udaPanel5.UpdateDisplay();
+				//udaPanel6.UpdateDisplay();
+				//udaPanel7.UpdateDisplay();
+				//udaPanel8.UpdateDisplay();
+				//udaPanel9.UpdateDisplay();
+				//udaPanel10.UpdateDisplay();
 			}
 		}
 	}
