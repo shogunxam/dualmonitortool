@@ -73,6 +73,7 @@
     <Compile Include="Library\Environment\Monitor.cs" />
     <Compile Include="Library\Environment\Monitors.cs" />
     <Compile Include="Library\Environment\DmtRegistry.cs" />
+    <Compile Include="Library\Extensions\RectangeExtensions.cs" />
     <Compile Include="Library\GuiUtils\FileSelectionHelper.cs" />
     <Compile Include="Library\HotKeys\HotKey.cs" />
     <Compile Include="Library\HotKeys\HotKeyController.cs" />
@@ -171,12 +172,15 @@
     <Compile Include="Modules\Launcher\InternalCommandForm.Designer.cs">
       <DependentUpon>InternalCommandForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\SwapScreen\IUdaGenerator.cs" />
     <Compile Include="Modules\SwapScreen\ScrollableUdasPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Modules\SwapScreen\ScrollableUdasPanel.Designer.cs">
       <DependentUpon>ScrollableUdasPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modules\SwapScreen\UdaGeneratorOld.cs" />
+    <Compile Include="Modules\SwapScreen\UdaGeneratorNumPad.cs" />
     <Compile Include="Modules\WallpaperChanger\Desktop.cs" />
     <Compile Include="Library\Wallpaper\StretchType.cs" />
     <Compile Include="Library\Wallpaper\SwitchType.cs" />
@@ -344,7 +348,6 @@
     <Compile Include="Modules\SwapScreen\UdaForm.Designer.cs">
       <DependentUpon>UdaForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\SwapScreen\UdaHelper.cs" />
     <Compile Include="Modules\SwapScreen\UdaPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -726,6 +729,7 @@
     <None Include="Resources\Launcher.ico" />
     <None Include="Resources\General.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.1\build\StyleCop.MSBuild.Targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -245,7 +245,12 @@ namespace DMT.Modules.SwapScreen
 
 		public void ResetUdas()
 		{
-			UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+			//UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+			// TODO: need factory
+			bool forceHotKeyRegeneration = true;
+			//IUdaGenerator udaGenerator = new UdaGeneratorOld();
+			IUdaGenerator udaGenerator = new UdaGeneratorNumPad(forceHotKeyRegeneration);
+			udaGenerator.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
 
 			// and make sure these new settings are saved
 			_settingsService.SaveSettings();

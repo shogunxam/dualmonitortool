@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2015  Gerald Evans
+// Copyright (C) 2015-2017  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,30 +17,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using DMT.Library.Environment;
+using DMT.Library.HotKeys;
+using DMT.Library.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
 namespace DMT.Modules.SwapScreen
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Drawing;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-	using System.Windows.Forms;
-
-	using DMT.Library.Environment;
-	using DMT.Library.HotKeys;
-
-	/// <summary>
-	/// Helper class for user defined areas
-	/// </summary>
-	static class UdaHelper
+	class UdaGeneratorOld : IUdaGenerator
 	{
 		/// <summary>
 		/// Genertaes default user defined areas
 		/// </summary>
 		/// <param name="udaControllers">Controllers for the user defined areas</param>
 		/// <param name="allMonitors">All monitors</param>
-		public static void GenerateDefaultUdas(List<UdaController> udaControllers, Monitors allMonitors)
+		public void GenerateDefaultUdas(List<UdaController> udaControllers, Monitors allMonitors)
 		{
 			int screens = Screen.AllScreens.Length;
 			int idx = 0;
@@ -48,17 +44,14 @@ namespace DMT.Modules.SwapScreen
 
 			// start with a supersized screen for idx = 0
 			// this ensures that for the full screens, idx will match the screen number
-			rect = allMonitors.WorkingArea;
-			SetDefaultUda(idx, rect.Left, rect.Top, rect.Width, rect.Height, "Super size", udaControllers);
+			SetDefaultUda(idx, allMonitors.WorkingArea, "Super size", udaControllers);
 			idx++;
 
 			// add full screens
 			for (int screen = 0; screen < Screen.AllScreens.Length; screen++)
 			{
-				rect = allMonitors[screen].WorkingArea;
-
 				string description = string.Format("Screen {0}", screen + 1);
-				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width, rect.Height, description, udaControllers);
+				SetDefaultUda(idx, allMonitors[screen].WorkingArea, description, udaControllers);
 				idx++;
 			}
 
@@ -68,11 +61,11 @@ namespace DMT.Modules.SwapScreen
 				rect = allMonitors[screen].WorkingArea;
 
 				string description = string.Format("Screen {0} - left half", screen + 1);
-				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width / 2, rect.Height, description, udaControllers);
+				SetDefaultUda(idx, rect.LeftHalf(), description, udaControllers);
 				idx++;
 
 				description = string.Format("Screen {0} - right half", screen + 1);
-				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top, rect.Width / 2, rect.Height, description, udaControllers);
+				SetDefaultUda(idx, rect.RightHalf(), description, udaControllers);
 				idx++;
 			}
 
@@ -82,24 +75,24 @@ namespace DMT.Modules.SwapScreen
 				rect = allMonitors[screen].WorkingArea;
 
 				string description = string.Format("Screen {0} - top left quadrant", screen + 1);
-				SetDefaultUda(idx, rect.Left, rect.Top, rect.Width / 2, rect.Height / 2, description, udaControllers);
+				SetDefaultUda(idx, rect.TopLeftQuadrant(), description, udaControllers);
 				idx++;
 
 				description = string.Format("Screen {0} - top right quadrant", screen + 1);
-				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top, rect.Width / 2, rect.Height / 2, description, udaControllers);
+				SetDefaultUda(idx, rect.TopRightQuadrant(), description, udaControllers);
 				idx++;
 
 				description = string.Format("Screen {0} - bottom left quadrant", screen + 1);
-				SetDefaultUda(idx, rect.Left, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height / 2, description, udaControllers);
+				SetDefaultUda(idx, rect.BottomLeftQuadrant(), description, udaControllers);
 				idx++;
 
 				description = string.Format("Screen {0} - bottom right quadrant", screen + 1);
-				SetDefaultUda(idx, rect.Left + rect.Width / 2, rect.Top + rect.Height / 2, rect.Width / 2, rect.Height / 2, description, udaControllers);
+				SetDefaultUda(idx, rect.BottomRightQuadrant(), description, udaControllers);
 				idx++;
 			}
 		}
 
-		static void SetDefaultUda(int idx, int left, int right, int width, int height, string description, List<UdaController> udaControllers)
+		void SetDefaultUda(int idx, Rectangle rectangle, string description, List<UdaController> udaControllers)
 		{
 			if (idx >= 0 && idx < udaControllers.Count)
 			{
@@ -119,8 +112,6 @@ namespace DMT.Modules.SwapScreen
 					// keep existing code
 					keyCode = udaController.HotKey.HotKeyCombo.ComboValue;
 				}
-
-				Rectangle rectangle = new Rectangle(left, right, width, height);
 
 				// update the controller for the new values
 				udaController.SetValues(keyCode, rectangle, description);

@@ -48,10 +48,10 @@ namespace DMT.Library.HotKeys
 		// 0x00040000 indicates if Shift is pressed,
 		// 0x00080000 indicates if Win is pressed,
 		// 0x01000000 indicates the key combo is disabled
-		const uint FlagAlt = 0x00010000;        // Win32.MOD_ALT << 16
-		const uint FlagControl = 0x00020000;    // Win32.MOD_CONTROL << 16
-		const uint FlagShift = 0x00040000;      // Win32.MOD_CONTROL << 16
-		const uint FlagWin = 0x00080000;       // Win32.MOD_WIN << 16
+		public const uint FlagAlt = 0x00010000;        // Win32.MOD_ALT << 16
+		public const uint FlagControl = 0x00020000;    // Win32.MOD_CONTROL << 16
+		public const uint FlagShift = 0x00040000;      // Win32.MOD_CONTROL << 16
+		public const uint FlagWin = 0x00080000;       // Win32.MOD_WIN << 16
 
 		// Unlike SwapScreen, as we don't need to worry about backwards compatibility,
 		// we set a flag to indicate the key is enabled, 
