@@ -54,14 +54,27 @@ namespace DMT.Library.HotKeys
 		public const uint FlagWin = 0x00080000;       // Win32.MOD_WIN << 16
 
 		// Unlike SwapScreen, as we don't need to worry about backwards compatibility,
-		// we set a flag to indicate the key is enabled, 
+		// we set a flag to indicate the key is enabled,
 		// rather than setting a flag to indicate disabled as SwapScreen did
-		const uint FlagEnabled = 0x01000000;
+		public const uint FlagEnabled = 0x01000000;
 
 		/// <summary>
 		/// Gets or sets the unsigned integer value used to fully represent this key combination
 		/// </summary>
-		public uint ComboValue { get; set; }
+		//public uint ComboValue { get; set; }
+
+		uint _comboValue;
+		public uint ComboValue
+		{
+			get { return _comboValue; }
+			set { _comboValue = value; }
+		}
+
+		public KeyCombo(uint comboValue = 0)
+		{
+			_comboValue = comboValue;
+		}
+
 
 		/// <summary>
 		/// Gets or sets a value indicating whether the key combination is enabled
@@ -195,41 +208,7 @@ namespace DMT.Library.HotKeys
 
 			if (Enabled)
 			{
-				ret = string.Empty;
-				if (WinMod)
-				{
-					ret += CommonStrings.WinModifierKey;	// "Win";
-				}
-
-				if (ControlMod)
-				{
-					if (ret.Length > 0)
-					{
-						ret += "+";
-					}
-
-					ret += CommonStrings.CtrlModifierKey;	// "Ctrl";
-				}
-
-				if (ShiftMod)
-				{
-					if (ret.Length > 0)
-					{
-						ret += "+";
-					}
-
-					ret += CommonStrings.ShiftModifierKey;	// "Shift";
-				}
-
-				if (AltMod)
-				{
-					if (ret.Length > 0)
-					{
-						ret += "+";
-					}
-
-					ret += CommonStrings.AltModifierKey;	// "Alt";
-				}
+				ret = GetModifierName();
 
 				if (ret.Length > 0)
 				{
@@ -241,6 +220,47 @@ namespace DMT.Library.HotKeys
 			else
 			{
 				ret = CommonStrings.DisabledHotKey;	// "--DISABLED--";
+			}
+
+			return ret;
+		}
+
+		public string GetModifierName()
+		{
+			string ret = string.Empty;
+			if (WinMod)
+			{
+				ret += CommonStrings.WinModifierKey;	// "Win";
+			}
+
+			if (ControlMod)
+			{
+				if (ret.Length > 0)
+				{
+					ret += "+";
+				}
+
+				ret += CommonStrings.CtrlModifierKey;	// "Ctrl";
+			}
+
+			if (ShiftMod)
+			{
+				if (ret.Length > 0)
+				{
+					ret += "+";
+				}
+
+				ret += CommonStrings.ShiftModifierKey;	// "Shift";
+			}
+
+			if (AltMod)
+			{
+				if (ret.Length > 0)
+				{
+					ret += "+";
+				}
+
+				ret += CommonStrings.AltModifierKey;	// "Alt";
 			}
 
 			return ret;

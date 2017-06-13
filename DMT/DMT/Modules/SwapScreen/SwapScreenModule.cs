@@ -34,6 +34,7 @@ namespace DMT.Modules.SwapScreen
 	using DMT.Library.Settings;
 	using DMT.Resources;
 	using System.Windows.Forms;
+	using DMT.Library.Utils;
 
 	/// <summary>
 	/// Module for Swap Screen
@@ -49,6 +50,8 @@ namespace DMT.Modules.SwapScreen
 		ISettingsService _settingsService;
 		ILocalEnvironment _localEnvironment;
 		ILogger _logger;
+
+		SwapScreenSdaOptionsPanel _sdaOptionsPanel;
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="SwapScreenModule" /> class.
@@ -120,12 +123,38 @@ namespace DMT.Modules.SwapScreen
 		public HotKeyController SnapDownHotKeyController { get; private set; }
 #endregion
 
-		#region User defined areas hot keys
+#region User and system defined areas hot keys
 
 		/// <summary>
 		/// Gets the controllers for the user defined areas hot keys
 		/// </summary>
 		public List<UdaController> UdaControllers { get; private set; }
+
+		/// <summary>
+		/// Gets the controllers for the system defined areas hot keys
+		/// </summary>
+		public List<SdaController> SdaControllers { get; private set; }
+
+		/// <summary>
+		/// Gets the last set of errors encountered when trying to register the system defined areas hot keys
+		/// </summary>
+		public List<string> SdaHotKeyErrors { get; private set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to enable the SDAs
+		/// </summary>
+		public bool EnableSdas
+		{
+			get { return EnableSdasSetting.Value; }
+			set { EnableSdasSetting.Value = value; }
+		}
+
+		public uint[] SdaModifiers
+		{
+			get { return ToModifierList(SdaModifiersSetting.Value); }
+			set { SdaModifiersSetting.Value = FromModifierList(value); }
+		}
+
 #endregion
 
 #region Other Windows hot keys
@@ -145,26 +174,6 @@ namespace DMT.Modules.SwapScreen
 		/// </summary>
 		public HotKeyController RotatePrevHotKeyController { get; private set; }
 
-		///// <summary>
-		///// Gets the controller for the 'show desktop on screen 1' hot key
-		///// </summary>
-		//public HotKeyController ShowDesktop1HotKeyController { get; private set; }
-
-		///// <summary>
-		///// Gets the controller for the 'show desktop on screen 2' hot key
-		///// </summary>
-		//public HotKeyController ShowDesktop2HotKeyController { get; private set; }
-
-		///// <summary>
-		///// Gets the controller for the 'show desktop on screen 3' hot key
-		///// </summary>
-		//public HotKeyController ShowDesktop3HotKeyController { get; private set; }
-
-		///// <summary>
-		///// Gets the controller for the 'show desktop on screen 4' hot key
-		///// </summary>
-		//public HotKeyController ShowDesktop4HotKeyController { get; private set; }
-
 		/// <summary>
 		/// Gets the controller for the 'show desktop that cursor is on' hot key
 		/// </summary>
@@ -181,6 +190,10 @@ namespace DMT.Modules.SwapScreen
 		public HotKeyController[] ShowDesktopHotKeyControllers { get; private set; }
 
 #endregion
+
+		BoolSetting EnableSdasSetting { get; set; }
+		StringSetting SdaModifiersSetting { get; set; }
+
 
 		/// <summary>
 		/// Starts the swap screen module
@@ -232,29 +245,60 @@ namespace DMT.Modules.SwapScreen
 				UdaControllers.Add(CreateUdaController(idx));
 			}
 
-			if (!_settingsService.SettingExists(ModuleName, UdaController.GetUdaMarkerSettingName()))
-			{
-				// no existing UDA settings, so generate some as a starting point for the user
-				//UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+			// UDAs are now completely user defined.
+			//if (!_settingsService.SettingExists(ModuleName, UdaController.GetUdaMarkerSettingName()))
+			//{
+			//	// no existing UDA settings, so generate some as a starting point for the user
+			//	ResetUdas();
+			//}
 
-				//// and make sure these new settings are saved
-				//_settingsService.SaveSettings();
-				ResetUdas();
-			}
+			// System Defined Areas
+			SdaControllers = new List<SdaController>();
+			// These will be initialised after all other hot keys have been registered
+
+			SdaHotKeyErrors = new List<string>();
+
+			EnableSdasSetting = new BoolSetting(_settingsService, ModuleName, "EnableSdas", false);
+			SdaModifiersSetting = new StringSetting(_settingsService, ModuleName, "SdaModifiers", "");
+
+
 		}
 
-		public void ResetUdas()
+		/// <summary>
+		/// Indicates all modules have started, and allows
+		/// us to register the SDAs without fear of grabbing a hotkey
+		/// that is used by another module
+		/// </summary>
+		public override void StartUpComplete()
 		{
-			//UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
-			// TODO: need factory
-			bool forceHotKeyRegeneration = true;
-			//IUdaGenerator udaGenerator = new UdaGeneratorOld();
-			IUdaGenerator udaGenerator = new UdaGeneratorNumPad(forceHotKeyRegeneration);
-			udaGenerator.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
-
-			// and make sure these new settings are saved
-			_settingsService.SaveSettings();
+			GenerateSDAs();
 		}
+
+		/// <summary>
+		/// Called when the display resolution changes
+		/// </summary>
+		public override void DisplayResolutionChanged()
+		{
+			// The number or resultion of the screens may have changed, 
+			// so regenerate the SDAs
+			// TODO: We could remember the old sizes so that we only
+			// regenerate the SDAs if the sizes has changed
+			GenerateSDAs();
+		}
+
+		//public void ResetUdas()
+		//{
+		//	//UdaHelper.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+		//	// TODO: need factory
+		//	bool forceHotKeyRegeneration = true;
+		//	bool enableHotKeys = true;
+		//	//IUdaGenerator udaGenerator = new UdaGeneratorOld();
+		//	ISdaGenerator udaGenerator = new SdaGeneratorNumPad(forceHotKeyRegeneration, enableHotKeys);
+		//	udaGenerator.GenerateDefaultUdas(UdaControllers, _localEnvironment.Monitors);
+
+		//	// and make sure these new settings are saved
+		//	_settingsService.SaveSettings();
+		//}
 
 		/// <summary>
 		/// Gets the option nodes for this module
@@ -265,6 +309,8 @@ namespace DMT.Modules.SwapScreen
 			Image image = new Bitmap(Properties.Resources.SwapScreen_16_16);
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Swap Screen", image, new SwapScreenRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Active Window", image, new SwapScreenActiveOptionsPanel(this)));
+			_sdaOptionsPanel = new SwapScreenSdaOptionsPanel(this);
+			options.Nodes.Add(new ModuleOptionNodeLeaf("System Defined Areas", image, _sdaOptionsPanel));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("User Defined Areas", image, new SwapScreenUdaOptionsPanel(this)));
 			options.Nodes.Add(new ModuleOptionNodeLeaf("Other Windows", image, new SwapScreenOtherOptionsPanel(this)));
 
@@ -324,5 +370,68 @@ namespace DMT.Modules.SwapScreen
 			int screenIndex = ScreenHelper.FindScreenIndex(screen);
 			ScreenHelper.ShowDesktop(screenIndex);
 		}
+
+		#region System Defined Areas
+		public void GenerateSDAs()
+		{
+			SdaHotKeyErrors.Clear();
+
+			// disable the existing SDAs first
+			foreach (SdaController sdaController in SdaControllers)
+			{
+				sdaController.Disable();
+			}
+
+			if (EnableSdas)
+			{
+				uint[] modifierList = ToModifierList(SdaModifiersSetting.Value);
+				ISdaGenerator sdaGenerator = new SdaGeneratorNumPad(this, modifierList);
+				sdaGenerator.GenerateSdas(SdaControllers, _localEnvironment.Monitors, SdaHotKeyErrors);
+			}
+
+			if (_sdaOptionsPanel != null)
+			{
+				_sdaOptionsPanel.ShowErrors();
+			}
+		}
+
+		public SdaController CreateSdaController(string commandName)
+		{
+			// set hotKey to false as the SdaGenerator will be responsible for registering it
+			Command command = new Command(commandName, string.Empty, string.Empty, null, false, true);
+			base.AddCommand(command);
+			SdaController sdaController = new SdaController(command, _hotKeyService);
+
+			return sdaController;
+		}
+
+		uint[] ToModifierList(string text)
+		{
+			string[] fields = text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+			uint[] modifiers = new uint[fields.Count()];
+			for (int n = 0; n < fields.Count(); n++)
+			{
+				modifiers[n] = StringUtils.GetFieldAsUInt(fields, n, 0);
+			}
+
+			return modifiers;
+		}
+
+		string FromModifierList(uint[] modifiers)
+		{
+			StringBuilder sb = new StringBuilder();
+			for (int n = 0; n < modifiers.Count(); n++)
+			{
+				if (n > 0)
+				{
+					sb.Append(",");
+				}
+				sb.Append(modifiers[n].ToString());
+			}
+
+			return sb.ToString();
+		}
+
+		#endregion
 	}
 }

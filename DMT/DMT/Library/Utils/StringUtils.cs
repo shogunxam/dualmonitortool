@@ -116,6 +116,18 @@ namespace DMT.Library.Utils
 			return string.Format("{0},{1},{2},{3}", r.X, r.Y, r.Width, r.Height);
 		}
 
+		public static uint GetFieldAsUInt(string[] fields, int fieldIndex, uint defaultValue)
+		{
+			uint ret = defaultValue;
+
+			if (fields.Length > fieldIndex)
+			{
+				ret = StringUtils.ToUInt(fields[fieldIndex]);
+			}
+
+			return ret;
+		}
+
 		static int GetFieldAsInt(string[] fields, int fieldIndex, int defaultValue)
 		{
 			int ret = defaultValue;

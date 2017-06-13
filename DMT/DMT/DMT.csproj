@@ -172,15 +172,22 @@
     <Compile Include="Modules\Launcher\InternalCommandForm.Designer.cs">
       <DependentUpon>InternalCommandForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\SwapScreen\IUdaGenerator.cs" />
+    <Compile Include="Modules\SwapScreen\ISdaGenerator.cs" />
     <Compile Include="Modules\SwapScreen\ScrollableUdasPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Modules\SwapScreen\ScrollableUdasPanel.Designer.cs">
       <DependentUpon>ScrollableUdasPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modules\SwapScreen\UdaGeneratorOld.cs" />
-    <Compile Include="Modules\SwapScreen\UdaGeneratorNumPad.cs" />
+    <Compile Include="Modules\SwapScreen\SdaController.cs" />
+    <Compile Include="Modules\SwapScreen\SdaGeneratorOld.cs" />
+    <Compile Include="Modules\SwapScreen\SdaGeneratorNumPad.cs" />
+    <Compile Include="Modules\SwapScreen\SwapScreenSdaOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\SwapScreen\SwapScreenSdaOptionsPanel.Designer.cs">
+      <DependentUpon>SwapScreenSdaOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\WallpaperChanger\Desktop.cs" />
     <Compile Include="Library\Wallpaper\StretchType.cs" />
     <Compile Include="Library\Wallpaper\SwitchType.cs" />
@@ -593,6 +600,9 @@
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenOtherOptionsPanel.resx">
       <DependentUpon>SwapScreenOtherOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\SwapScreen\SwapScreenSdaOptionsPanel.resx">
+      <DependentUpon>SwapScreenSdaOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\SwapScreen\SwapScreenUdaOptionsPanel.resx">
       <DependentUpon>SwapScreenUdaOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -721,6 +731,7 @@
     <Content Include="Resources\DualSnap_16_16.png" />
     <Content Include="Resources\DualWallpaper_16_16.png" />
     <None Include="Resources\FlickrPlugin.bmp" />
+    <None Include="Resources\NumPad1.png" />
     <Content Include="Resources\SwapScreen_16_16.png" />
     <None Include="Resources\Cursor.ico" />
     <None Include="Resources\SwapScreen.ico" />

@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2015  Gerald Evans
+// Copyright (C) 2015-2017  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -38,7 +38,10 @@ namespace DMT.Library.HotKeys
 		Form _appForm;
 		ISettingsService _settingsService;
 		int _nextId;
+
+		// TODO: see if we can just have a single list of HotKeys and not the controllers
 		List<HotKeyController> _hotKeyControllers = new List<HotKeyController>();
+		List<HotKey> _hotKeys = new List<HotKey>();
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="HotKeyRepository" /> class.
@@ -70,6 +73,23 @@ namespace DMT.Library.HotKeys
 		}
 
 		/// <summary>
+		/// Creates a new hot key
+		/// 
+		/// The key combination will be set at a later date
+		/// </summary>
+		/// <param name="handler">The handler for this hotkey</param>
+		/// <returns></returns>
+		public HotKey CreateHotKey(HotKey.HotKeyHandler handler)
+		{
+			HotKey hotKey = new HotKey(_appForm, _nextId);
+			_nextId++;
+			hotKey.HotKeyPressed += handler;
+			_hotKeys.Add(hotKey);
+
+			return hotKey;
+		}
+
+		/// <summary>
 		/// Stops and clears all hotkeys
 		/// </summary>
 		public void Stop()
@@ -80,6 +100,13 @@ namespace DMT.Library.HotKeys
 			}
 
 			_hotKeyControllers.Clear();
+
+			foreach (HotKey hotKey in _hotKeys)
+			{
+				hotKey.Dispose();
+			}
+
+			_hotKeys.Clear();
 		}
 	}
 }

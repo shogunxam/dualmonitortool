@@ -25,8 +25,8 @@ using System.Text;
 
 namespace DMT.Modules.SwapScreen
 {
-	interface IUdaGenerator
+	interface ISdaGenerator
 	{
-		void GenerateDefaultUdas(List<UdaController> udaControllers, Monitors allMonitors);
+		void GenerateSdas(List<SdaController> sdaControllers, Monitors allMonitors, List<string> registrationErrors);
 	}
 }

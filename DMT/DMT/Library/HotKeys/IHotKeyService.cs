@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2015  Gerald Evans
+// Copyright (C) 2015-2017  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -40,6 +40,8 @@ namespace DMT.Library.HotKeys
 		/// <param name="handler">Hotkey handler</param>
 		/// <returns>Controller for the hotkey</returns>
 		HotKeyController CreateHotKeyController(string moduleName, string settingName, string description, string win7Key, HotKey.HotKeyHandler handler);
+
+		HotKey CreateHotKey(HotKey.HotKeyHandler handler);
 
 		/// <summary>
 		/// Stops and clears all hotkeys
