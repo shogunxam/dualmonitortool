@@ -52,6 +52,11 @@ namespace DMT.Library.WallpaperPlugin
 		string Description { get; }
 
 		/// <summary>
+		/// Gets the enabled status for this provider
+		/// </summary>
+		bool Enabled { get; set;  }
+
+		/// <summary>
 		/// Gets the weight for this provider
 		/// </summary>
 		int Weight { get; }

@@ -46,6 +46,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		{
 			InitializeComponent();
 
+			checkBoxEnabled.Checked = config.Enabled;
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
 			textBoxMonitor1Directory.Text = config.Monitor1Directory;
@@ -67,6 +68,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		{
 			// ALT: could save original config and update it directly
 			LocalDiskConfig config = new LocalDiskConfig();
+			config.Enabled = checkBoxEnabled.Checked;
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
 			config.Monitor1Directory = textBoxMonitor1Directory.Text;

@@ -44,6 +44,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		/// <param name="configDictionary">Configuration as a dictionary</param>
 		public FlickrConfig(Dictionary<string, string> configDictionary)
 		{
+			Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Images from flickr");
 			Tags = ProviderHelper.ConfigToString(configDictionary, "tags", string.Empty);
@@ -53,6 +54,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			GroupId = ProviderHelper.ConfigToString(configDictionary, "groupId", string.Empty);
 			RandomPage = ProviderHelper.ConfigToBool(configDictionary, "randomPage", false);
 		}
+
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
+		public bool Enabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets the wight for this provider
@@ -101,6 +107,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+			configDictionary["enabled"] = Enabled.ToString();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
 			configDictionary["tags"] = Tags;

@@ -50,6 +50,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 
 			InitializeComponent();
 
+			checkBoxEnabled.Checked = config.Enabled;
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
 			textBoxTags.Text = config.Tags;
@@ -67,6 +68,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		public FlickrConfig GetConfig()
 		{
 			FlickrConfig config = new FlickrConfig();
+			config.Enabled = checkBoxEnabled.Checked;
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
 			config.Tags = textBoxTags.Text;

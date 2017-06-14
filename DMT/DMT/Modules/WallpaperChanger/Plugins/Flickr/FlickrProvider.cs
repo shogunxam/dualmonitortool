@@ -116,6 +116,21 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		}
 
 		/// <summary>
+		/// Gets the enabled state for this instance of the provider
+		/// </summary>
+		public bool Enabled
+		{
+			get
+			{
+				return _config.Enabled;
+			}
+			set
+			{
+				_config.Enabled = value;
+			}
+		}
+
+		/// <summary>
 		/// Gets the weight for this instance of the provider
 		/// </summary>
 		public int Weight

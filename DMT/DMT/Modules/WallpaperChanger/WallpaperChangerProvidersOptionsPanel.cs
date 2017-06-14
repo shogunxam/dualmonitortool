@@ -146,5 +146,30 @@ namespace DMT.Modules.WallpaperChanger
 			// can delete if one or more rows are selected
 			buttonDelete.Enabled = dataGridView.SelectedRows.Count > 0;
 		}
+
+		private void dataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+		{
+			// dataGridView_CellValueChanged() does not get called until afte the user has left the cell.
+			// This is all very well for a text field, but for a checkbox, we want the changes to take place 
+			// as soon as the checked state of the box changes, so we catch mouse up here and end editing.
+			// See http://geekswithblogs.net/FrostRed/archive/2008/09/07/125001.aspx for more details
+			if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+			{
+				BindingList<IImageProvider> providers = _wallpaperChangerModule.GetProvidersDataSource();
+				dataGridView.EndEdit();
+			}
+		}
+
+		private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.ColumnIndex == 0 && e.RowIndex >= 0)
+			{
+				// checkbox has been clicked
+				//BindingList<IImageProvider> providers = _wallpaperChangerModule.GetProvidersDataSource();
+				//bool enabled = providers[e.RowIndex].Enabled;
+
+				_wallpaperChangerModule.SaveProvidersConfiguration();
+			}
+		}
 	}
 }

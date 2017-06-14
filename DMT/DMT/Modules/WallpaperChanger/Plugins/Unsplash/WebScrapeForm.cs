@@ -47,6 +47,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 		{
 			InitializeComponent();
 
+			checkBoxEnabled.Checked = config.Enabled;
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
 			textBoxUser.Text = config.User;
@@ -64,6 +65,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 		public WebScrapeConfig GetConfig()
 		{
 			WebScrapeConfig config = new WebScrapeConfig();
+			config.Enabled = checkBoxEnabled.Checked;
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
 			config.Type = GetSelectionType();

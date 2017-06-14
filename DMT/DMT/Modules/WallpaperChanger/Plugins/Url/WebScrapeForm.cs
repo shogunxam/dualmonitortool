@@ -18,6 +18,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Url
 		{
 			InitializeComponent();
 
+			checkBoxEnabled.Checked = config.Enabled;
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
 			textBoxUrl.Text = config.Url;
@@ -31,6 +32,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Url
 		public WebScrapeConfig GetConfig()
 		{
 			WebScrapeConfig config = new WebScrapeConfig();
+			config.Enabled = checkBoxEnabled.Checked;
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
 			config.Url = textBoxUrl.Text;

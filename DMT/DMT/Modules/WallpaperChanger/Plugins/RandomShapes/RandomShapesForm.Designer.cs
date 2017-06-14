@@ -46,6 +46,7 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownRectangles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).BeginInit();
@@ -98,7 +99,7 @@
 			this.label4.Location = new System.Drawing.Point(107, 32);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(384, 13);
-			this.label4.TabIndex = 30;
+			this.label4.TabIndex = 0;
 			this.label4.Text = "Plugin for DualWallpaperChanger to create images composed of random shapes";
 			// 
 			// numericUpDownRectangles
@@ -111,7 +112,7 @@
             0});
 			this.numericUpDownRectangles.Name = "numericUpDownRectangles";
 			this.numericUpDownRectangles.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownRectangles.TabIndex = 36;
+			this.numericUpDownRectangles.TabIndex = 7;
 			// 
 			// buttonCancel
 			// 
@@ -119,7 +120,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(299, 310);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 42;
+			this.buttonCancel.TabIndex = 12;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
@@ -128,7 +129,7 @@
 			this.buttonOK.Location = new System.Drawing.Point(218, 310);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 41;
+			this.buttonOK.TabIndex = 11;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -138,7 +139,7 @@
 			this.textBoxDescription.Location = new System.Drawing.Point(110, 102);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(470, 20);
-			this.textBoxDescription.TabIndex = 34;
+			this.textBoxDescription.TabIndex = 5;
 			// 
 			// label2
 			// 
@@ -146,7 +147,7 @@
 			this.label2.Location = new System.Drawing.Point(9, 105);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63, 13);
-			this.label2.TabIndex = 33;
+			this.label2.TabIndex = 4;
 			this.label2.Text = "Description:";
 			// 
 			// numericUpDownWeight
@@ -159,7 +160,7 @@
             0});
 			this.numericUpDownWeight.Name = "numericUpDownWeight";
 			this.numericUpDownWeight.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownWeight.TabIndex = 32;
+			this.numericUpDownWeight.TabIndex = 2;
 			// 
 			// checkBoxUseGradients
 			// 
@@ -177,7 +178,7 @@
 			this.checkBoxRandomBackground.Location = new System.Drawing.Point(12, 168);
 			this.checkBoxRandomBackground.Name = "checkBoxRandomBackground";
 			this.checkBoxRandomBackground.Size = new System.Drawing.Size(158, 17);
-			this.checkBoxRandomBackground.TabIndex = 37;
+			this.checkBoxRandomBackground.TabIndex = 8;
 			this.checkBoxRandomBackground.Text = "Random background colour";
 			this.checkBoxRandomBackground.UseVisualStyleBackColor = true;
 			// 
@@ -188,7 +189,7 @@
 			this.groupBox2.Location = new System.Drawing.Point(327, 203);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(200, 83);
-			this.groupBox2.TabIndex = 39;
+			this.groupBox2.TabIndex = 10;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Paint style";
 			// 
@@ -199,7 +200,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(12, 203);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(200, 83);
-			this.groupBox1.TabIndex = 38;
+			this.groupBox1.TabIndex = 9;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Use following shapes";
 			// 
@@ -209,23 +210,34 @@
 			this.label3.Location = new System.Drawing.Point(9, 139);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(46, 13);
-			this.label3.TabIndex = 35;
+			this.label3.TabIndex = 6;
 			this.label3.Text = "Shapes:";
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(9, 78);
+			this.label1.Location = new System.Drawing.Point(12, 78);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 13);
-			this.label1.TabIndex = 31;
+			this.label1.TabIndex = 1;
 			this.label1.Text = "Weight:";
+			// 
+			// checkBoxEnabled
+			// 
+			this.checkBoxEnabled.AutoSize = true;
+			this.checkBoxEnabled.Location = new System.Drawing.Point(279, 77);
+			this.checkBoxEnabled.Name = "checkBoxEnabled";
+			this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
+			this.checkBoxEnabled.TabIndex = 3;
+			this.checkBoxEnabled.Text = "Enabled";
+			this.checkBoxEnabled.UseVisualStyleBackColor = true;
 			// 
 			// RandomShapesForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(644, 351);
+			this.Controls.Add(this.checkBoxEnabled);
 			this.Controls.Add(this.pictureBox);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.numericUpDownRectangles);
@@ -274,5 +286,6 @@
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.CheckBox checkBoxEnabled;
 	}
 }

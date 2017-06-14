@@ -95,9 +95,9 @@ namespace DMT.Modules.WallpaperChanger
 			int totalWeight = 0;
 			foreach (IImageProvider provider in _providers)
 			{
-				int weight = provider.Weight;
+				int weight = GetEffectiveWeight(provider);
 
-				// ignore negative weights
+				// ignore zero and negative weights
 				if (weight > 0)
 				{
 					totalWeight += weight;
@@ -110,9 +110,9 @@ namespace DMT.Modules.WallpaperChanger
 
 				foreach (IImageProvider provider in _providers)
 				{
-					int weight = provider.Weight;
+					int weight = GetEffectiveWeight(provider);
 
-					// ignore negative weights
+					// ignore zero and negative weights
 					if (weight > 0)
 					{
 						index -= weight;
@@ -128,6 +128,19 @@ namespace DMT.Modules.WallpaperChanger
 
 			// no image found
 			return null;
+		}
+
+		int GetEffectiveWeight(IImageProvider provider)
+		{
+			if (provider.Enabled)
+			{
+				return provider.Weight;
+			}
+			else
+			{
+				// it is disabled, so ignore the weight
+				return 0;
+			}
 		}
 
 		void LoadProviders()

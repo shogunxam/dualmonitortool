@@ -320,6 +320,11 @@ namespace DMT.Modules.WallpaperChanger
 			return _imageRepository.DataSource;
 		}
 
+		public void SaveProvidersConfiguration()
+		{
+			_imageRepository.Save();
+		}
+
 		/// <summary>
 		/// Generates a new wallpaper for the desktop
 		/// </summary>
@@ -346,7 +351,7 @@ namespace DMT.Modules.WallpaperChanger
 				if (configDictionary != null)
 				{
 					_imageRepository.DataSource.Add(provider);
-					_imageRepository.Save();
+					SaveProvidersConfiguration();
 					UpdateTimeToChange();
 					return true;
 				}
@@ -367,7 +372,7 @@ namespace DMT.Modules.WallpaperChanger
 			Dictionary<string, string> configDictionary = provider.ShowUserOptions();
 			if (configDictionary != null)
 			{
-				_imageRepository.Save();
+				SaveProvidersConfiguration();
 				return true;
 			}
 
@@ -392,7 +397,7 @@ namespace DMT.Modules.WallpaperChanger
 				_imageRepository.DataSource.Remove(provider);
 			}
 
-			_imageRepository.Save();
+			SaveProvidersConfiguration();
 			UpdateTimeToChange();
 		}
 

@@ -50,6 +50,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 		/// <param name="configDictionary">Configuration dictionary</param>
 		public WebScrapeConfig(Dictionary<string, string> configDictionary)
 		{
+			Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Images from www.unsplash.com");
 			FirstPageOnly = ProviderHelper.ConfigToBool(configDictionary, "firstPageOnly", false);
@@ -59,6 +60,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 			LikedByUser = ProviderHelper.ConfigToString(configDictionary, "likedByUser", "");
 			Filter = ProviderHelper.ConfigToString(configDictionary, "filter", "");
 		}
+
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
+		public bool Enabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets the wight for this provider
@@ -112,6 +118,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Unsplash
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+			configDictionary["enabled"] = Enabled.ToString();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
 			configDictionary["firstPageOnly"] = FirstPageOnly.ToString();

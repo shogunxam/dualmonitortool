@@ -42,6 +42,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 		{
 			InitializeComponent();
 
+			checkBoxEnabled.Checked = config.Enabled;
 			numericUpDownWeight.Value = config.Weight;
 			textBoxDescription.Text = config.Description;
 			numericUpDownRectangles.Value = config.ShapeCount;
@@ -60,6 +61,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 		{
 			// ALT: could save original config and update it directly
 			RandomShapesConfig config = new RandomShapesConfig();
+			config.Enabled = checkBoxEnabled.Checked;
 			config.Weight = (int)numericUpDownWeight.Value;
 			config.Description = textBoxDescription.Text;
 			config.ShapeCount = (int)numericUpDownRectangles.Value;

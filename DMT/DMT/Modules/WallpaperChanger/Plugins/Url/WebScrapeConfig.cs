@@ -44,11 +44,17 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Url
 		/// <param name="configDictionary">Configuration dictionary</param>
 		public WebScrapeConfig(Dictionary<string, string> configDictionary)
 		{
+			Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Images from a Url");
 			Url = ProviderHelper.ConfigToString(configDictionary, "url", "");
 			AllowEscapes = ProviderHelper.ConfigToBool(configDictionary, "allowEscapes", true);
 		}
+
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
+		public bool Enabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets the wight for this provider
@@ -77,6 +83,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Url
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+			configDictionary["enabled"] = Enabled.ToString();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
 			configDictionary["url"] = Url;

@@ -29,13 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.dataGridView = new System.Windows.Forms.DataGridView();
+			this.buttonDelete = new System.Windows.Forms.Button();
+			this.buttonEdit = new System.Windows.Forms.Button();
+			this.buttonAdd = new System.Windows.Forms.Button();
+			this.Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ProviderImage = new System.Windows.Forms.DataGridViewImageColumn();
 			this.ProviderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.buttonDelete = new System.Windows.Forms.Button();
-			this.buttonEdit = new System.Windows.Forms.Button();
-			this.buttonAdd = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -48,10 +49,10 @@
 			this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
 			this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Window;
 			this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Enabled,
             this.Weight,
             this.ProviderImage,
             this.ProviderName,
@@ -59,46 +60,15 @@
 			this.dataGridView.Location = new System.Drawing.Point(3, 3);
 			this.dataGridView.MultiSelect = false;
 			this.dataGridView.Name = "dataGridView";
-			this.dataGridView.ReadOnly = true;
 			this.dataGridView.RowHeadersVisible = false;
 			this.dataGridView.RowTemplate.Height = 56;
 			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridView.Size = new System.Drawing.Size(494, 276);
 			this.dataGridView.TabIndex = 1;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
+			this.dataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseUp);
+			this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-			// 
-			// Weight
-			// 
-			this.Weight.DataPropertyName = "Weight";
-			this.Weight.HeaderText = "Weight";
-			this.Weight.Name = "Weight";
-			this.Weight.ReadOnly = true;
-			this.Weight.Width = 66;
-			// 
-			// ProviderImage
-			// 
-			this.ProviderImage.DataPropertyName = "ProviderImage";
-			this.ProviderImage.HeaderText = "Provider";
-			this.ProviderImage.Name = "ProviderImage";
-			this.ProviderImage.ReadOnly = true;
-			this.ProviderImage.Width = 52;
-			// 
-			// ProviderName
-			// 
-			this.ProviderName.DataPropertyName = "ProviderName";
-			this.ProviderName.HeaderText = "Name";
-			this.ProviderName.Name = "ProviderName";
-			this.ProviderName.ReadOnly = true;
-			this.ProviderName.Width = 60;
-			// 
-			// Description
-			// 
-			this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.Description.DataPropertyName = "Description";
-			this.Description.HeaderText = "Description";
-			this.Description.Name = "Description";
-			this.Description.ReadOnly = true;
 			// 
 			// buttonDelete
 			// 
@@ -133,6 +103,42 @@
 			this.buttonAdd.UseVisualStyleBackColor = true;
 			this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
 			// 
+			// Enabled
+			// 
+			this.Enabled.DataPropertyName = "Enabled";
+			this.Enabled.HeaderText = "Enabled";
+			this.Enabled.Name = "Enabled";
+			this.Enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+			this.Enabled.Width = 60;
+			// 
+			// Weight
+			// 
+			this.Weight.DataPropertyName = "Weight";
+			this.Weight.HeaderText = "Weight";
+			this.Weight.Name = "Weight";
+			this.Weight.Width = 60;
+			// 
+			// ProviderImage
+			// 
+			this.ProviderImage.DataPropertyName = "ProviderImage";
+			this.ProviderImage.HeaderText = "Provider";
+			this.ProviderImage.Name = "ProviderImage";
+			this.ProviderImage.Width = 52;
+			// 
+			// ProviderName
+			// 
+			this.ProviderName.DataPropertyName = "ProviderName";
+			this.ProviderName.HeaderText = "Name";
+			this.ProviderName.Name = "ProviderName";
+			this.ProviderName.Width = 60;
+			// 
+			// Description
+			// 
+			this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.Description.DataPropertyName = "Description";
+			this.Description.HeaderText = "Description";
+			this.Description.Name = "Description";
+			// 
 			// WallpaperChangerProvidersOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -152,12 +158,13 @@
 		#endregion
 
 		private System.Windows.Forms.DataGridView dataGridView;
+		private System.Windows.Forms.Button buttonDelete;
+		private System.Windows.Forms.Button buttonEdit;
+		private System.Windows.Forms.Button buttonAdd;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn Enabled;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Weight;
 		private System.Windows.Forms.DataGridViewImageColumn ProviderImage;
 		private System.Windows.Forms.DataGridViewTextBoxColumn ProviderName;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-		private System.Windows.Forms.Button buttonDelete;
-		private System.Windows.Forms.Button buttonEdit;
-		private System.Windows.Forms.Button buttonAdd;
 	}
 }

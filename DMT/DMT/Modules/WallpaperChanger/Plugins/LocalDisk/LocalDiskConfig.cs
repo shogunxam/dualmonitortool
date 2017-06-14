@@ -44,6 +44,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		/// <param name="configDictionary">Configuration as a dictionary</param>
 		public LocalDiskConfig(Dictionary<string, string> configDictionary)
 		{
+			Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Windows Wallpaper from local disk");
 			Monitor1Directory = ProviderHelper.ConfigToString(configDictionary, "monitor1Directory", string.Empty);
@@ -56,6 +57,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			Rescan = ProviderHelper.ConfigToBool(configDictionary, "rescan", false);
 			Cycle = ProviderHelper.ConfigToBool(configDictionary, "cycle", false);
 		}
+
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
+		public bool Enabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets the wight for this provider
@@ -122,6 +128,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+			configDictionary["enabled"] = Enabled.ToString();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
 			configDictionary["monitor1Directory"] = Monitor1Directory;

@@ -44,6 +44,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 		/// <param name="configDictionary">Configuration as a dictionary</param>
 		public RandomShapesConfig(Dictionary<string, string> configDictionary)
 		{
+			Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
 			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
 			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Random shapes");
 			ShapeCount = ProviderHelper.ConfigToInt(configDictionary, "shapeCount", 20);
@@ -53,6 +54,11 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			UseGradients = ProviderHelper.ConfigToBool(configDictionary, "useGradients", true);
 			UseAlpha = ProviderHelper.ConfigToBool(configDictionary, "useAlpha", true);
 		}
+
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
+		public bool Enabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets the wight for this provider
@@ -101,6 +107,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 		public Dictionary<string, string> ToDictionary()
 		{
 			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+			configDictionary["enabled"] = Enabled.ToString();
 			configDictionary["weight"] = Weight.ToString();
 			configDictionary["description"] = Description;
 			configDictionary["shapeCount"] = ShapeCount.ToString();

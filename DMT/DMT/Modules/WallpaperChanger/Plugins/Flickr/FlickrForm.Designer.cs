@@ -70,6 +70,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxApiKey = new System.Windows.Forms.TextBox();
 			this.buttonTest = new System.Windows.Forms.Button();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
@@ -79,7 +80,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.linkLabel.Location = new System.Drawing.Point(109, 31);
 			this.linkLabel.Name = "linkLabel";
 			this.linkLabel.Size = new System.Drawing.Size(473, 13);
-			this.linkLabel.TabIndex = 25;
+			this.linkLabel.TabIndex = 0;
 			this.linkLabel.TabStop = true;
 			this.linkLabel.Text = "Image provider to get images from ";
 			this.linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
@@ -90,7 +91,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.checkBoxRandomPage.Location = new System.Drawing.Point(112, 258);
 			this.checkBoxRandomPage.Name = "checkBoxRandomPage";
 			this.checkBoxRandomPage.Size = new System.Drawing.Size(405, 17);
-			this.checkBoxRandomPage.TabIndex = 30;
+			this.checkBoxRandomPage.TabIndex = 15;
 			this.checkBoxRandomPage.Text = "Take image from random page (rather than page containing latest added photos)";
 			this.checkBoxRandomPage.UseVisualStyleBackColor = true;
 			// 
@@ -100,7 +101,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.buttonCancel.Location = new System.Drawing.Point(352, 350);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 32;
+			this.buttonCancel.TabIndex = 20;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
@@ -109,7 +110,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.buttonOK.Location = new System.Drawing.Point(206, 350);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 31;
+			this.buttonOK.TabIndex = 19;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -119,7 +120,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxDescription.Location = new System.Drawing.Point(112, 105);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(470, 20);
-			this.textBoxDescription.TabIndex = 29;
+			this.textBoxDescription.TabIndex = 5;
 			// 
 			// label2
 			// 
@@ -127,7 +128,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label2.Location = new System.Drawing.Point(11, 108);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63, 13);
-			this.label2.TabIndex = 28;
+			this.label2.TabIndex = 4;
 			this.label2.Text = "Description:";
 			// 
 			// numericUpDownWeight
@@ -140,7 +141,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
             0});
 			this.numericUpDownWeight.Name = "numericUpDownWeight";
 			this.numericUpDownWeight.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownWeight.TabIndex = 27;
+			this.numericUpDownWeight.TabIndex = 2;
 			// 
 			// label4
 			// 
@@ -148,7 +149,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label4.Location = new System.Drawing.Point(11, 81);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(44, 13);
-			this.label4.TabIndex = 26;
+			this.label4.TabIndex = 1;
 			this.label4.Text = "Weight:";
 			// 
 			// pictureBox1
@@ -166,7 +167,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label1.Location = new System.Drawing.Point(11, 134);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(34, 13);
-			this.label1.TabIndex = 34;
+			this.label1.TabIndex = 6;
 			this.label1.Text = "Tags:";
 			// 
 			// textBoxTags
@@ -174,7 +175,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxTags.Location = new System.Drawing.Point(112, 131);
 			this.textBoxTags.Name = "textBoxTags";
 			this.textBoxTags.Size = new System.Drawing.Size(470, 20);
-			this.textBoxTags.TabIndex = 35;
+			this.textBoxTags.TabIndex = 7;
 			this.toolTip.SetToolTip(this.textBoxTags, "Comma separated list of tags");
 			// 
 			// checkBoxTagMode
@@ -183,7 +184,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.checkBoxTagMode.Location = new System.Drawing.Point(112, 157);
 			this.checkBoxTagMode.Name = "checkBoxTagMode";
 			this.checkBoxTagMode.Size = new System.Drawing.Size(210, 17);
-			this.checkBoxTagMode.TabIndex = 36;
+			this.checkBoxTagMode.TabIndex = 8;
 			this.checkBoxTagMode.Text = "Photos must have all or the above tags";
 			this.checkBoxTagMode.UseVisualStyleBackColor = true;
 			// 
@@ -193,7 +194,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label3.Location = new System.Drawing.Point(11, 183);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(31, 13);
-			this.label3.TabIndex = 37;
+			this.label3.TabIndex = 9;
 			this.label3.Text = "Text:";
 			// 
 			// textBoxText
@@ -201,7 +202,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxText.Location = new System.Drawing.Point(112, 180);
 			this.textBoxText.Name = "textBoxText";
 			this.textBoxText.Size = new System.Drawing.Size(470, 20);
-			this.textBoxText.TabIndex = 38;
+			this.textBoxText.TabIndex = 10;
 			// 
 			// label5
 			// 
@@ -209,7 +210,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label5.Location = new System.Drawing.Point(11, 209);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(44, 13);
-			this.label5.TabIndex = 39;
+			this.label5.TabIndex = 11;
 			this.label5.Text = "User Id:";
 			// 
 			// textBoxUserId
@@ -217,7 +218,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxUserId.Location = new System.Drawing.Point(112, 206);
 			this.textBoxUserId.Name = "textBoxUserId";
 			this.textBoxUserId.Size = new System.Drawing.Size(470, 20);
-			this.textBoxUserId.TabIndex = 40;
+			this.textBoxUserId.TabIndex = 12;
 			// 
 			// label6
 			// 
@@ -225,7 +226,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label6.Location = new System.Drawing.Point(11, 235);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(51, 13);
-			this.label6.TabIndex = 41;
+			this.label6.TabIndex = 13;
 			this.label6.Text = "Group Id:";
 			// 
 			// textBoxGroupId
@@ -233,7 +234,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxGroupId.Location = new System.Drawing.Point(112, 232);
 			this.textBoxGroupId.Name = "textBoxGroupId";
 			this.textBoxGroupId.Size = new System.Drawing.Size(470, 20);
-			this.textBoxGroupId.TabIndex = 42;
+			this.textBoxGroupId.TabIndex = 14;
 			// 
 			// label7
 			// 
@@ -241,7 +242,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.label7.Location = new System.Drawing.Point(11, 284);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(48, 13);
-			this.label7.TabIndex = 43;
+			this.label7.TabIndex = 16;
 			this.label7.Text = "API Key:";
 			// 
 			// textBoxApiKey
@@ -249,7 +250,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.textBoxApiKey.Location = new System.Drawing.Point(112, 281);
 			this.textBoxApiKey.Name = "textBoxApiKey";
 			this.textBoxApiKey.Size = new System.Drawing.Size(470, 20);
-			this.textBoxApiKey.TabIndex = 44;
+			this.textBoxApiKey.TabIndex = 17;
 			this.toolTip.SetToolTip(this.textBoxApiKey, "This needs to be obtained from flickr");
 			// 
 			// buttonTest
@@ -257,10 +258,20 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.buttonTest.Location = new System.Drawing.Point(12, 350);
 			this.buttonTest.Name = "buttonTest";
 			this.buttonTest.Size = new System.Drawing.Size(128, 23);
-			this.buttonTest.TabIndex = 45;
+			this.buttonTest.TabIndex = 18;
 			this.buttonTest.Text = "Test Search Criteria";
 			this.buttonTest.UseVisualStyleBackColor = true;
 			this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+			// 
+			// checkBoxEnabled
+			// 
+			this.checkBoxEnabled.AutoSize = true;
+			this.checkBoxEnabled.Location = new System.Drawing.Point(261, 80);
+			this.checkBoxEnabled.Name = "checkBoxEnabled";
+			this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
+			this.checkBoxEnabled.TabIndex = 3;
+			this.checkBoxEnabled.Text = "Enabled";
+			this.checkBoxEnabled.UseVisualStyleBackColor = true;
 			// 
 			// FlickrForm
 			// 
@@ -269,6 +280,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(622, 385);
+			this.Controls.Add(this.checkBoxEnabled);
 			this.Controls.Add(this.buttonTest);
 			this.Controls.Add(this.textBoxApiKey);
 			this.Controls.Add(this.label7);
@@ -327,5 +339,6 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		public System.Windows.Forms.TextBox textBoxApiKey;
 		private System.Windows.Forms.Button buttonTest;
 		private System.Windows.Forms.ToolTip toolTip;
+		private System.Windows.Forms.CheckBox checkBoxEnabled;
 	}
 }

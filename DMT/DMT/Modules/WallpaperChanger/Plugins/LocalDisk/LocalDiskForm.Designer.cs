@@ -60,6 +60,7 @@
 			this.textBoxMonitor1Directory = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.checkBoxCycle = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWeight)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.groupBox1.SuspendLayout();
@@ -70,7 +71,7 @@
 			this.buttonBrowse.Location = new System.Drawing.Point(579, 167);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowse.TabIndex = 21;
+			this.buttonBrowse.TabIndex = 18;
 			this.buttonBrowse.Text = "Browse...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
 			this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
@@ -80,7 +81,7 @@
 			this.textBoxDirectory.Location = new System.Drawing.Point(146, 169);
 			this.textBoxDirectory.Name = "textBoxDirectory";
 			this.textBoxDirectory.Size = new System.Drawing.Size(422, 20);
-			this.textBoxDirectory.TabIndex = 20;
+			this.textBoxDirectory.TabIndex = 17;
 			// 
 			// label3
 			// 
@@ -88,7 +89,7 @@
 			this.label3.Location = new System.Drawing.Point(6, 172);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(44, 13);
-			this.label3.TabIndex = 19;
+			this.label3.TabIndex = 16;
 			this.label3.Text = "Default:";
 			// 
 			// textBoxDescription
@@ -96,7 +97,7 @@
 			this.textBoxDescription.Location = new System.Drawing.Point(158, 112);
 			this.textBoxDescription.Name = "textBoxDescription";
 			this.textBoxDescription.Size = new System.Drawing.Size(422, 20);
-			this.textBoxDescription.TabIndex = 18;
+			this.textBoxDescription.TabIndex = 5;
 			// 
 			// label2
 			// 
@@ -104,7 +105,7 @@
 			this.label2.Location = new System.Drawing.Point(9, 115);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(63, 13);
-			this.label2.TabIndex = 17;
+			this.label2.TabIndex = 4;
 			this.label2.Text = "Description:";
 			// 
 			// numericUpDownWeight
@@ -117,15 +118,15 @@
             0});
 			this.numericUpDownWeight.Name = "numericUpDownWeight";
 			this.numericUpDownWeight.Size = new System.Drawing.Size(120, 20);
-			this.numericUpDownWeight.TabIndex = 16;
+			this.numericUpDownWeight.TabIndex = 2;
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(9, 88);
+			this.label1.Location = new System.Drawing.Point(12, 89);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(44, 13);
-			this.label1.TabIndex = 15;
+			this.label1.TabIndex = 1;
 			this.label1.Text = "Weight:";
 			// 
 			// pictureBox1
@@ -143,7 +144,7 @@
 			this.label4.Location = new System.Drawing.Point(107, 30);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(237, 13);
-			this.label4.TabIndex = 14;
+			this.label4.TabIndex = 0;
 			this.label4.Text = "Image provider to get images stored on local disk";
 			// 
 			// buttonCancel
@@ -152,7 +153,7 @@
 			this.buttonCancel.Location = new System.Drawing.Point(364, 457);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 26;
+			this.buttonCancel.TabIndex = 11;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -162,7 +163,7 @@
 			this.buttonOK.Location = new System.Drawing.Point(218, 457);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
-			this.buttonOK.TabIndex = 25;
+			this.buttonOK.TabIndex = 10;
 			this.buttonOK.Text = "OK";
 			this.buttonOK.UseVisualStyleBackColor = true;
 			this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
@@ -173,7 +174,7 @@
 			this.checkBoxRescan.Location = new System.Drawing.Point(12, 384);
 			this.checkBoxRescan.Name = "checkBoxRescan";
 			this.checkBoxRescan.Size = new System.Drawing.Size(229, 17);
-			this.checkBoxRescan.TabIndex = 23;
+			this.checkBoxRescan.TabIndex = 8;
 			this.checkBoxRescan.Text = "Rescan folder(s) before getting each image";
 			this.checkBoxRescan.UseVisualStyleBackColor = true;
 			this.checkBoxRescan.CheckedChanged += new System.EventHandler(this.checkBoxRescan_CheckedChanged);
@@ -184,7 +185,7 @@
 			this.checkBoxRecursive.Location = new System.Drawing.Point(12, 361);
 			this.checkBoxRecursive.Name = "checkBoxRecursive";
 			this.checkBoxRecursive.Size = new System.Drawing.Size(115, 17);
-			this.checkBoxRecursive.TabIndex = 22;
+			this.checkBoxRecursive.TabIndex = 7;
 			this.checkBoxRecursive.Text = "Look in sub-folders";
 			this.checkBoxRecursive.UseVisualStyleBackColor = true;
 			// 
@@ -193,7 +194,7 @@
 			this.buttonBrowsePortrait.Location = new System.Drawing.Point(579, 141);
 			this.buttonBrowsePortrait.Name = "buttonBrowsePortrait";
 			this.buttonBrowsePortrait.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowsePortrait.TabIndex = 30;
+			this.buttonBrowsePortrait.TabIndex = 15;
 			this.buttonBrowsePortrait.Text = "Browse...";
 			this.buttonBrowsePortrait.UseVisualStyleBackColor = true;
 			this.buttonBrowsePortrait.Click += new System.EventHandler(this.buttonBrowsePortrait_Click);
@@ -203,7 +204,7 @@
 			this.textBoxPortraitDirectory.Location = new System.Drawing.Point(146, 144);
 			this.textBoxPortraitDirectory.Name = "textBoxPortraitDirectory";
 			this.textBoxPortraitDirectory.Size = new System.Drawing.Size(422, 20);
-			this.textBoxPortraitDirectory.TabIndex = 29;
+			this.textBoxPortraitDirectory.TabIndex = 14;
 			// 
 			// label5
 			// 
@@ -211,7 +212,7 @@
 			this.label5.Location = new System.Drawing.Point(6, 146);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(86, 13);
-			this.label5.TabIndex = 28;
+			this.label5.TabIndex = 13;
 			this.label5.Text = "Portrait Monitors:";
 			// 
 			// groupBox1
@@ -238,7 +239,7 @@
 			this.groupBox1.Location = new System.Drawing.Point(12, 138);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(668, 206);
-			this.groupBox1.TabIndex = 31;
+			this.groupBox1.TabIndex = 6;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Folder(s) to take images from (in priority order)";
 			// 
@@ -326,7 +327,7 @@
 			this.checkBoxAllowFileBrowse.Location = new System.Drawing.Point(506, 13);
 			this.checkBoxAllowFileBrowse.Name = "checkBoxAllowFileBrowse";
 			this.checkBoxAllowFileBrowse.Size = new System.Drawing.Size(148, 17);
-			this.checkBoxAllowFileBrowse.TabIndex = 3;
+			this.checkBoxAllowFileBrowse.TabIndex = 0;
 			this.checkBoxAllowFileBrowse.Text = "File Browse (experimental)";
 			this.checkBoxAllowFileBrowse.UseVisualStyleBackColor = true;
 			// 
@@ -335,7 +336,7 @@
 			this.buttonBrowseMonitor1.Location = new System.Drawing.Point(579, 37);
 			this.buttonBrowseMonitor1.Name = "buttonBrowseMonitor1";
 			this.buttonBrowseMonitor1.Size = new System.Drawing.Size(75, 23);
-			this.buttonBrowseMonitor1.TabIndex = 2;
+			this.buttonBrowseMonitor1.TabIndex = 3;
 			this.buttonBrowseMonitor1.Text = "Browse...";
 			this.buttonBrowseMonitor1.UseVisualStyleBackColor = true;
 			this.buttonBrowseMonitor1.Click += new System.EventHandler(this.buttonBrowseMonitor1_Click);
@@ -345,7 +346,7 @@
 			this.textBoxMonitor1Directory.Location = new System.Drawing.Point(146, 39);
 			this.textBoxMonitor1Directory.Name = "textBoxMonitor1Directory";
 			this.textBoxMonitor1Directory.Size = new System.Drawing.Size(422, 20);
-			this.textBoxMonitor1Directory.TabIndex = 1;
+			this.textBoxMonitor1Directory.TabIndex = 2;
 			// 
 			// label6
 			// 
@@ -353,7 +354,7 @@
 			this.label6.Location = new System.Drawing.Point(6, 42);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(54, 13);
-			this.label6.TabIndex = 0;
+			this.label6.TabIndex = 1;
 			this.label6.Text = "Monitor 1:";
 			// 
 			// checkBoxCycle
@@ -362,16 +363,27 @@
 			this.checkBoxCycle.Location = new System.Drawing.Point(12, 407);
 			this.checkBoxCycle.Name = "checkBoxCycle";
 			this.checkBoxCycle.Size = new System.Drawing.Size(369, 17);
-			this.checkBoxCycle.TabIndex = 32;
+			this.checkBoxCycle.TabIndex = 9;
 			this.checkBoxCycle.Text = "Cycle through all images before repeating (mutually exclusive with above)";
 			this.checkBoxCycle.UseVisualStyleBackColor = true;
 			this.checkBoxCycle.CheckedChanged += new System.EventHandler(this.checkBoxCycle_CheckedChanged);
+			// 
+			// checkBoxEnabled
+			// 
+			this.checkBoxEnabled.AutoSize = true;
+			this.checkBoxEnabled.Location = new System.Drawing.Point(316, 88);
+			this.checkBoxEnabled.Name = "checkBoxEnabled";
+			this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
+			this.checkBoxEnabled.TabIndex = 3;
+			this.checkBoxEnabled.Text = "Enabled";
+			this.checkBoxEnabled.UseVisualStyleBackColor = true;
 			// 
 			// LocalDiskForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(692, 492);
+			this.Controls.Add(this.checkBoxEnabled);
 			this.Controls.Add(this.checkBoxCycle);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.textBoxDescription);
@@ -432,5 +444,6 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.CheckBox checkBoxAllowFileBrowse;
 		private System.Windows.Forms.CheckBox checkBoxCycle;
+		private System.Windows.Forms.CheckBox checkBoxEnabled;
 	}
 }
