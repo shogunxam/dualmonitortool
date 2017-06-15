@@ -29,14 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.dataGridView = new System.Windows.Forms.DataGridView();
-			this.buttonDelete = new System.Windows.Forms.Button();
-			this.buttonEdit = new System.Windows.Forms.Button();
-			this.buttonAdd = new System.Windows.Forms.Button();
 			this.Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Weight = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.ProviderImage = new System.Windows.Forms.DataGridViewImageColumn();
 			this.ProviderName = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.buttonDelete = new System.Windows.Forms.Button();
+			this.buttonEdit = new System.Windows.Forms.Button();
+			this.buttonAdd = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -68,40 +68,8 @@
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseUp);
 			this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
+			this.dataGridView.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dataGridView_RowPrePaint);
 			this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-			// 
-			// buttonDelete
-			// 
-			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonDelete.Location = new System.Drawing.Point(166, 285);
-			this.buttonDelete.Name = "buttonDelete";
-			this.buttonDelete.Size = new System.Drawing.Size(75, 23);
-			this.buttonDelete.TabIndex = 6;
-			this.buttonDelete.Text = "Delete";
-			this.buttonDelete.UseVisualStyleBackColor = true;
-			this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-			// 
-			// buttonEdit
-			// 
-			this.buttonEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonEdit.Location = new System.Drawing.Point(85, 285);
-			this.buttonEdit.Name = "buttonEdit";
-			this.buttonEdit.Size = new System.Drawing.Size(75, 23);
-			this.buttonEdit.TabIndex = 5;
-			this.buttonEdit.Text = "Edit";
-			this.buttonEdit.UseVisualStyleBackColor = true;
-			this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
-			// 
-			// buttonAdd
-			// 
-			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAdd.Location = new System.Drawing.Point(4, 285);
-			this.buttonAdd.Name = "buttonAdd";
-			this.buttonAdd.Size = new System.Drawing.Size(75, 23);
-			this.buttonAdd.TabIndex = 4;
-			this.buttonAdd.Text = "Add";
-			this.buttonAdd.UseVisualStyleBackColor = true;
-			this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
 			// 
 			// Enabled
 			// 
@@ -138,6 +106,39 @@
 			this.Description.DataPropertyName = "Description";
 			this.Description.HeaderText = "Description";
 			this.Description.Name = "Description";
+			// 
+			// buttonDelete
+			// 
+			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonDelete.Location = new System.Drawing.Point(166, 285);
+			this.buttonDelete.Name = "buttonDelete";
+			this.buttonDelete.Size = new System.Drawing.Size(75, 23);
+			this.buttonDelete.TabIndex = 6;
+			this.buttonDelete.Text = "Delete";
+			this.buttonDelete.UseVisualStyleBackColor = true;
+			this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+			// 
+			// buttonEdit
+			// 
+			this.buttonEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonEdit.Location = new System.Drawing.Point(85, 285);
+			this.buttonEdit.Name = "buttonEdit";
+			this.buttonEdit.Size = new System.Drawing.Size(75, 23);
+			this.buttonEdit.TabIndex = 5;
+			this.buttonEdit.Text = "Edit";
+			this.buttonEdit.UseVisualStyleBackColor = true;
+			this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+			// 
+			// buttonAdd
+			// 
+			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonAdd.Location = new System.Drawing.Point(4, 285);
+			this.buttonAdd.Name = "buttonAdd";
+			this.buttonAdd.Size = new System.Drawing.Size(75, 23);
+			this.buttonAdd.TabIndex = 4;
+			this.buttonAdd.Text = "Add";
+			this.buttonAdd.UseVisualStyleBackColor = true;
+			this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
 			// 
 			// WallpaperChangerProvidersOptionsPanel
 			// 

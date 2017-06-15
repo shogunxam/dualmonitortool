@@ -171,5 +171,20 @@ namespace DMT.Modules.WallpaperChanger
 				_wallpaperChangerModule.SaveProvidersConfiguration();
 			}
 		}
+
+		private void dataGridView_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+		{
+			BindingList<IImageProvider> providers = _wallpaperChangerModule.GetProvidersDataSource();
+			if (e.RowIndex >= 0 && e.RowIndex < providers.Count)
+			{
+				IImageProvider provider = providers[e.RowIndex];
+				Color foreColor = SystemColors.GrayText;
+				if (provider.Enabled && provider.Weight > 0)
+				{
+					foreColor =  SystemColors.WindowText;
+				}
+				dataGridView.Rows[e.RowIndex].DefaultCellStyle.ForeColor = foreColor;
+			}
+		}
 	}
 }
