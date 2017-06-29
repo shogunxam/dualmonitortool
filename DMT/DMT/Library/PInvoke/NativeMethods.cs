@@ -206,7 +206,8 @@ namespace DMT.Library.PInvoke
 			public uint mouseData;
 			public uint flags;
 			public uint time;
-			public uint dwExtraInfo;
+			//public uint dwExtraInfo;
+			public IntPtr dwExtraInfo;
 		}
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]

@@ -94,5 +94,11 @@ namespace DMT.Modules.Cursor
 				Active = active;
 			}
 		}
+
+		public override string ToString()
+		{
+			return string.Format("Active: {0}, Limit: {1}, MinForce: {2}, TotalForce: {3}",
+				Active, Limit, MinForce, TotalForce);
+		}
 	}
 }
