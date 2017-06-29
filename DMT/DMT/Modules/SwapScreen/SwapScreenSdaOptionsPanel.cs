@@ -101,6 +101,7 @@ namespace DMT.Modules.SwapScreen
 			checkBoxEnable.Checked = _swapScreenModule.EnableSdas;
 			FillModifiersList();
 			ShowErrors();
+			UpdateButtonStates();
 			_loading = false;
 		}
 
@@ -150,6 +151,10 @@ namespace DMT.Modules.SwapScreen
 			{
 				listBoxModifiers.DoDragDrop(selectedItem, DragDropEffects.Move);
 			}
+
+			// SelectedIndexChanged doesn't seem to fire in this case
+			// so we force a check for changed selected \vsindex
+			UpdateButtonStates();
 		}
 
 		private void listBoxModifiers_DragOver(object sender, DragEventArgs e)
@@ -169,6 +174,10 @@ namespace DMT.Modules.SwapScreen
 			listBoxModifiers.Items.Remove(data);
 			listBoxModifiers.Items.Insert(index, data);
 
+			// select dropped item
+			listBoxModifiers.SelectedIndex = index;
+			UpdateButtonStates();
+
 			UseNewModifierOrder();
 		}
 
@@ -183,6 +192,71 @@ namespace DMT.Modules.SwapScreen
 
 			e.Graphics.DrawString(text, e.Font, myBrush, e.Bounds, StringFormat.GenericDefault);
 			e.DrawFocusRectangle();
+		}
+
+		private void buttonUp_Click(object sender, EventArgs e)
+		{
+			int selectedIndex = listBoxModifiers.SelectedIndex;
+			if (selectedIndex > 0)
+			{
+				// can move item up
+				object current = listBoxModifiers.Items[selectedIndex];
+				object previous = listBoxModifiers.Items[selectedIndex - 1];
+				// now swap
+				listBoxModifiers.Items[selectedIndex - 1] = current;
+				listBoxModifiers.Items[selectedIndex] = previous;
+				// and make sure moved item is selected
+				listBoxModifiers.SelectedIndex = selectedIndex - 1;
+
+				UseNewModifierOrder();
+			}
+		}
+
+		private void buttonDown_Click(object sender, EventArgs e)
+		{
+			int selectedIndex = listBoxModifiers.SelectedIndex;
+			if (selectedIndex >= 0 && selectedIndex < listBoxModifiers.Items.Count - 1)
+			{
+				// can move item down
+				object current = listBoxModifiers.Items[selectedIndex];
+				object next = listBoxModifiers.Items[selectedIndex + 1];
+				// now swap
+				listBoxModifiers.Items[selectedIndex + 1] = current;
+				listBoxModifiers.Items[selectedIndex] = next;
+				// and make sure moved item is selected
+				listBoxModifiers.SelectedIndex = selectedIndex + 1;
+
+				UseNewModifierOrder();
+			}
+		}
+
+		private void listBoxModifiers_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateButtonStates();
+		}
+
+		void UpdateButtonStates()
+		{
+			bool enableMoveUp = false;
+			bool enableMoveDown = false;
+
+			int selectedIndex = listBoxModifiers.SelectedIndex;
+
+			if (selectedIndex >= 0)
+			{
+				if (selectedIndex > 0)
+				{
+					enableMoveUp = true;
+				}
+
+				if (selectedIndex < listBoxModifiers.Items.Count - 1)
+				{
+					enableMoveDown = true;
+				}
+			}
+
+			buttonUp.Enabled = enableMoveUp;
+			buttonDown.Enabled = enableMoveDown;
 		}
 
 		void UseNewModifierOrder()

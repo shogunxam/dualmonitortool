@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SwapScreenSdaOptionsPanel));
 			this.checkBoxEnable = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.listBoxModifiers = new System.Windows.Forms.ListBox();
@@ -36,6 +37,8 @@
 			this.listBoxRegistrationErrors = new System.Windows.Forms.ListBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.label4 = new System.Windows.Forms.Label();
+			this.buttonUp = new System.Windows.Forms.Button();
+			this.buttonDown = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -69,18 +72,18 @@
 			this.listBoxModifiers.Size = new System.Drawing.Size(193, 134);
 			this.listBoxModifiers.TabIndex = 2;
 			this.listBoxModifiers.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxModifiers_DrawItem);
+			this.listBoxModifiers.SelectedIndexChanged += new System.EventHandler(this.listBoxModifiers_SelectedIndexChanged);
 			this.listBoxModifiers.DragDrop += new System.Windows.Forms.DragEventHandler(this.listBoxModifiers_DragDrop);
 			this.listBoxModifiers.DragOver += new System.Windows.Forms.DragEventHandler(this.listBoxModifiers_DragOver);
 			this.listBoxModifiers.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBoxModifiers_MouseDown);
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(211, 152);
+			this.label2.Location = new System.Drawing.Point(256, 136);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(258, 59);
+			this.label2.Size = new System.Drawing.Size(234, 105);
 			this.label2.TabIndex = 3;
-			this.label2.Text = "Each modifier key represents a single screen.  To change the modifier to use for " +
-    "a screen, drag and drop the key to the required position.";
+			this.label2.Text = resources.GetString("label2.Text");
 			// 
 			// label3
 			// 
@@ -118,10 +121,32 @@
     " you can move the active window to any full screen, half screen or quarter scree" +
     "n.";
 			// 
+			// buttonUp
+			// 
+			this.buttonUp.Image = ((System.Drawing.Image)(resources.GetObject("buttonUp.Image")));
+			this.buttonUp.Location = new System.Drawing.Point(205, 144);
+			this.buttonUp.Name = "buttonUp";
+			this.buttonUp.Size = new System.Drawing.Size(32, 32);
+			this.buttonUp.TabIndex = 8;
+			this.buttonUp.UseVisualStyleBackColor = true;
+			this.buttonUp.Click += new System.EventHandler(this.buttonUp_Click);
+			// 
+			// buttonDown
+			// 
+			this.buttonDown.Image = ((System.Drawing.Image)(resources.GetObject("buttonDown.Image")));
+			this.buttonDown.Location = new System.Drawing.Point(205, 182);
+			this.buttonDown.Name = "buttonDown";
+			this.buttonDown.Size = new System.Drawing.Size(32, 32);
+			this.buttonDown.TabIndex = 9;
+			this.buttonDown.UseVisualStyleBackColor = true;
+			this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
+			// 
 			// SwapScreenSdaOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.buttonDown);
+			this.Controls.Add(this.buttonUp);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.listBoxRegistrationErrors);
@@ -149,5 +174,7 @@
 		private System.Windows.Forms.ListBox listBoxRegistrationErrors;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Button buttonUp;
+		private System.Windows.Forms.Button buttonDown;
 	}
 }

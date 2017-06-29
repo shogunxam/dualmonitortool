@@ -117,4 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Each modifier key represents a single screen.  
+To change the modifier to use for a screen, select the required modifier key(s) and use the up and down buttons to move to required screen.
+You can also use drag and drop.</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttonUp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA61AAAOtQFjcZjIAAAATUlE
+        QVQ4T9WMSwoAIAgFvf+liyChz5hibRoY3DxHvqL0m6YF1DTXkTGQDl1HKKCGoWc1BD2uutDT6hF6sDSh
+        sSVCQ88NGnlO0CDqC0Qq8V9vkUdCqCoAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="buttonDown.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAYAAAA7bUf6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA61AAAOtQFjcZjIAAAAS0lE
+        QVQ4T73MMQ4AIAgEQf7/aQ0FhboIBuIk28FJp1FoQQdRBzqKQnTo5aJjryt62AvR014KPVpp9Gw9KQ+o
+        lhFVHlAtI6o88IvIBBW+b5HpaUq4AAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>

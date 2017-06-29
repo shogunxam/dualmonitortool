@@ -37,7 +37,7 @@ namespace DMT.Library.HotKeys
 		{
 			new VirtualKey(Keys.Back, "<Backspace>"),
 			new VirtualKey(Keys.Delete, "<Delete>"),
-			new VirtualKey(Keys.Divide, "<Divide>"),
+			//new VirtualKey(Keys.Divide, "<Divide>"), - this is the <Num/>
 			new VirtualKey(Keys.Down, "<Down>"),
 			new VirtualKey(Keys.End, "<End>"),
 			new VirtualKey(Keys.Enter, "<Enter>"),
