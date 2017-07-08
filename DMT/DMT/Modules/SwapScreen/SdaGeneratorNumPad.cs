@@ -36,21 +36,8 @@ namespace DMT.Modules.SwapScreen
 	{
 		SwapScreenModule _swapScreenModule;
 
-		//bool _forceHotKeyRegeneration;
-		//bool _enableHotKeys;
+		uint[] ScreenBaseKeyCode;
 
-		uint[] ScreenBaseKeyCode =
-		{
-			KeyCombo.FlagControl,
-			KeyCombo.FlagWin,
-			KeyCombo.FlagAlt
-		};
-
-		//public SdaGeneratorNumPad(bool forceHotKeyRegeneration, bool enableHotKeys)
-		//{
-		//	_forceHotKeyRegeneration = forceHotKeyRegeneration;
-		//	_enableHotKeys = enableHotKeys;
-		//}
 		public SdaGeneratorNumPad(SwapScreenModule swapScreenModule, uint[] modifierList)
 		{
 			_swapScreenModule = swapScreenModule;
@@ -62,9 +49,9 @@ namespace DMT.Modules.SwapScreen
 		}
 
 		/// <summary>
-		/// Genertaes default user defined areas
+		/// Genertaes default system defined areas
 		/// </summary>
-		/// <param name="sdaControllers">Controllers for the user defined areas</param>
+		/// <param name="sdaControllers">Controllers for the system defined areas</param>
 		/// <param name="allMonitors">All monitors</param>
 		public void GenerateSdas(List<SdaController> sdaControllers, Monitors allMonitors, List<string> registrationErrors)
 		{
@@ -167,10 +154,8 @@ namespace DMT.Modules.SwapScreen
 				comboValue = ScreenBaseKeyCode[screenIndex];
 				// and add the code for the required key on the numpad
 				comboValue += (uint)Keys.NumPad0 + (uint)keyIndex;
-				//if (_enableHotKeys)
-				{
-					comboValue |= KeyCombo.FlagEnabled;
-				}
+				// and we want it automatically enabled
+				comboValue |= KeyCombo.FlagEnabled;
 			}
 
 			// update the controller for the new values
@@ -181,12 +166,6 @@ namespace DMT.Modules.SwapScreen
 				keyCombo.ComboValue = comboValue;
 				string msg = string.Format("{0} for {1}", keyCombo.ToString(), description);
 				registrationErrors.Add(msg);
-
-				//// we couldn't set the hot key values - beacuse the hot key is already registered
-				//// so set the values, but with the hotkey disabled
-				//comboValue &= ~ KeyCombo.FlagEnabled;
-				//sdaController.SetValues(comboValue, rectangle);
-
 			}
 		}
 	}

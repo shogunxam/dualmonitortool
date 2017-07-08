@@ -40,22 +40,15 @@ namespace DMT.Modules.SwapScreen
 		{
 			_command = command;
 			_hotKeyService = hotKeyService;
+
+			// add our handler to the command
+			_command.Handler = HotKeyHandler;
+
 			HotKey = _hotKeyService.CreateHotKey(HotKeyHandler);
 		}
 
-		//public SdaController(Command command, Rectangle position, KeyCombo keyCombo, IHotKeyService hotKeyService)
-		//{
-		//	_command = command;
-		//	Position = position;
-		//	_hotKeyService = hotKeyService;
-
-		//	_command.Handler = HotKeyHandler;
-
-		//	HotKey = _hotKeyService.CreateHotKey(keyCombo, HotKeyHandler);
-		//}
-
 		/// <summary>
-		/// Gets or sets the location of the user defined area
+		/// Gets or sets the location of the system defined area
 		/// </summary>
 		public Rectangle Position { get; protected set; }
 
@@ -64,13 +57,12 @@ namespace DMT.Modules.SwapScreen
 		/// </summary>
 		public HotKey HotKey { get; protected set; }
 
-
 		/// <summary>
 		/// Updates values for the system defined area
 		/// </summary>
 		/// <param name="keyCode"> key code used by the hot key</param>
-		/// <param name="position">Location of the user defined area</param>
-		/// <returns>True if managed to set up the user defined area</returns>
+		/// <param name="position">Location of the system defined area</param>
+		/// <returns>True if managed to set up the system defined area</returns>
 		public bool SetValues(uint keyCode, Rectangle position)
 		{
 			KeyCombo keyCombo = new KeyCombo();
@@ -85,7 +77,7 @@ namespace DMT.Modules.SwapScreen
 		}
 
 		/// <summary>
-		/// Hot key handler for the user defined area
+		/// Hot key handler for the system defined area
 		/// </summary>
 		public void HotKeyHandler()
 		{
@@ -96,7 +88,6 @@ namespace DMT.Modules.SwapScreen
 		{
 			HotKey.UnRegisterHotKey();
 		}
-
 
 		void Dispose(bool disposing)
 		{

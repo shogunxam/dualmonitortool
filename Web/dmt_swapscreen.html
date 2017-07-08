@@ -121,14 +121,36 @@ only cycle through the half screens and not the normal size of the window.
 <p>Moves the active window to the next half screen (splitting each screen into 2 rows).
 </p>
 
+<p class="SubHeading">'System Defined Areas' options</p>
+
+<img src="Images/dmt_swapscreen_sda.png" alt="Active to SDA Window" />
+<p>These allow you to move the active window to a System Defined Area (SDA).</p>
+
+<p>A particular combination of the Shift, Ctrl, Win and Alt keys are used to identify each screen. You can adjust the combination to use for a particular screen by moving the lines up or down in the box shown in the center of the above screenshot.</p>
+
+<p>The numeric pad keys are then used to define 9 areas on each screen:
+<ul>
+	<li>&lt;Num 5&gt; - The full screen</li>
+	<li>&lt;Num 4&gt; and &lt;Num 6&gt; - The left and right screen halves</li>
+	<li>&lt;Num 8&gt; and &lt;Num 2&gt; - The top and bottom halves</li>
+	<li>&lt;Num 7&gt;, &lt;Num 9&gt;,&lt; &lt;Num 1&gt; and &lt;Num 3&gt; - the 4 screen quadrants</li>
+</ul>
+
+In addition &lt;Num 0&gt; when used with modifier keys for the first screen, will represent an area covering all of your monitors.
+</p>
+
+<p>So in the screenshot above, Ctrl+&lt;Num 7&gt; would move the active window to to top left quarter of the first screen, and Win+&lt;Num 3&gt; would move it to the bottom right quarter of the second screen.</p>
+
+<p>It is possible that Some key combinations may not be available, either because they are in use by other applications or by DMT itself for other functions.  If there are any that are not available, then they will reported in the area at the bottom of the screen.  If this happens, you can just try different modifier keys. </p>
+
 <p class="SubHeading">'User Defined Areas' options</p>
 
 <img src="Images/dmt_swapscreen_uda.png" alt="Active to UDA Window" />
 <p>These allow you to move the active window to a User Defined Area (UDA).</p>
 
-<p>When first run, 10 default UDA's are generated, but you may change the name, location, size and the hotkey for all of these.  If you wish to regenerate this list at a later date, say after you have added/removed monitors
-then press the "Reset areas and descriptions to match current monitors" button.</p>
+<p>You can specify up to 100 screen areas that you would like to be able to move the active window to with a hotkey.</p>
 
+<p>Unlike previous versions of DMT, there is now no automatic generation of UDAs as this functionality is now provided by SDAs.</p>
 
 <p class="SubHeading">'Other Windows' options</p>
 
@@ -180,7 +202,7 @@ to restore normal operation of the game, and in others it can mess the current g
 		<div id="footer-left">
 		</div>
 		<div id="footer-right">
-		last updated 30 Dec 2016
+		last updated 8 Jul 2017
 		</div>
 	</div>
 </div>

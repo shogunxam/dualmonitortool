@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <latestversion>
-	<version>2.4.0.0</version>
-	<downloadpage>http://sourceforge.net/projects/dualmonitortool/files/dualmonitortool/2.4/</downloadpage>
-	<msiinstaller>http://sourceforge.net/projects/dualmonitortool/files/dualmonitortool/2.4/DualMonitorTools-2.4.msi/download</msiinstaller>
-	<zipinstaller>http://sourceforge.net/projects/dualmonitortool/files/dualmonitortool/2.4/DualMonitorTools-2.4.zip/download</zipinstaller>
+	<version>2.5.0.0</version>
+	<downloadpage>http://sourceforge.net/projects/dualmonitortool/files/dualmonitortool/2.5/</downloadpage>
+	<msiinstaller>http://sourceforge.net/projects/dualmonitortool/files/dualmonitortool/2.5/DualMonitorTools-2.5.msi/download</msiinstaller>
+	<zipinstaller>http://sourceforge.net/projects/dualmonitortool/files/dualmonitortool/2.5/DualMonitorTools-2.5.zip/download</zipinstaller>
 </latestversion>

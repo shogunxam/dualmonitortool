@@ -1,5 +1,14 @@
 Dual Monitor Tools
 
+Changes from 2.5 to 2.6
+========================
+
+DMT:SwapScreen now allows up to 100 user defined areas
+DMT:SwapScreen added system defined areas for each screen/half/quarter
+DMT:SwapScreen fix for snap up/down/left/right when taskbar at (0, 0)
+DMT:Wallpaper changer can now enable/disable providers from grid
+DMT:Cursor fix for cursor sometimes passing to another screen when it shouldn't
+
 Changes from 2.4 to 2.5
 ========================
 
