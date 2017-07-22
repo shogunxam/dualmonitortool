@@ -108,6 +108,7 @@ namespace DMT
 
 		/// <summary>
 		/// Called when the display resolution has changed
+		/// Note: this isn't called if the taskbar moves
 		/// </summary>
 		public void DisplayResolutionChanged()
 		{

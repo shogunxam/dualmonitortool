@@ -163,7 +163,7 @@
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.picPreview);
 			this.Name = "WallpaperChangerPropertiesOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.Load += new System.EventHandler(this.WallpaperChangerPropertiesOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.picPreview)).EndInit();
 			this.groupBox1.ResumeLayout(false);

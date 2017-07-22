@@ -38,7 +38,7 @@
 			this.groupBox1.Controls.Add(this.scrollableUdasPanel);
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(500, 351);
+			this.groupBox1.Size = new System.Drawing.Size(500, 316);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "User Defined Areas and associated HotKeys";
@@ -56,7 +56,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.groupBox1);
 			this.Name = "SwapScreenUdaOptionsPanel";
-			this.Size = new System.Drawing.Size(510, 362);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

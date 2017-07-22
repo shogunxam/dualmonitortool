@@ -52,22 +52,23 @@ namespace DMT.Modules.SwapScreen
 
 		uint[] defaultSdaModifiers = 
 		{
+			// Shift key doesn't seem to work when used with the numpad (on Win 10)
+
 			KeyCombo.FlagControl,
 			KeyCombo.FlagWin,
 			KeyCombo.FlagAlt,
-			KeyCombo.FlagShift,
+			//KeyCombo.FlagShift, - doesn't tend to work
 
 			// add all 2 modifier combination
-			KeyCombo.FlagShift | KeyCombo.FlagControl,
-			KeyCombo.FlagShift | KeyCombo.FlagWin,
-			KeyCombo.FlagShift | KeyCombo.FlagAlt,
-
+			//KeyCombo.FlagShift | KeyCombo.FlagControl, - doesn't tend to work
+			//KeyCombo.FlagShift | KeyCombo.FlagWin, - doesn't tend to work
+			//KeyCombo.FlagShift | KeyCombo.FlagAlt, - doesn't tend to work
 			KeyCombo.FlagWin | KeyCombo.FlagControl,
 			KeyCombo.FlagWin | KeyCombo.FlagAlt,
+			KeyCombo.FlagControl | KeyCombo.FlagAlt,
 
-			KeyCombo.FlagControl | KeyCombo.FlagAlt
-
-			// could add 3 modifier combinations, but these are tricky to press
+			// add select 3 modifier combinations, but these are tricky to press
+			KeyCombo.FlagControl | KeyCombo.FlagWin | KeyCombo.FlagAlt
 
 		};
 

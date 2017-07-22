@@ -82,7 +82,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.pictureBox1);
 			this.Name = "CursorRootOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

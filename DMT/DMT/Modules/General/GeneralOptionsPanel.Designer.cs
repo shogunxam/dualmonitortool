@@ -249,7 +249,7 @@
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.checkBoxAutoStart);
 			this.Name = "GeneralOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

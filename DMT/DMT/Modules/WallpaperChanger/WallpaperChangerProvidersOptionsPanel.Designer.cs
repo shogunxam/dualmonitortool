@@ -63,7 +63,7 @@
 			this.dataGridView.RowHeadersVisible = false;
 			this.dataGridView.RowTemplate.Height = 56;
 			this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dataGridView.Size = new System.Drawing.Size(494, 276);
+			this.dataGridView.Size = new System.Drawing.Size(494, 318);
 			this.dataGridView.TabIndex = 1;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseUp);
@@ -110,7 +110,7 @@
 			// buttonDelete
 			// 
 			this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonDelete.Location = new System.Drawing.Point(166, 285);
+			this.buttonDelete.Location = new System.Drawing.Point(166, 330);
 			this.buttonDelete.Name = "buttonDelete";
 			this.buttonDelete.Size = new System.Drawing.Size(75, 23);
 			this.buttonDelete.TabIndex = 6;
@@ -121,7 +121,7 @@
 			// buttonEdit
 			// 
 			this.buttonEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonEdit.Location = new System.Drawing.Point(85, 285);
+			this.buttonEdit.Location = new System.Drawing.Point(85, 330);
 			this.buttonEdit.Name = "buttonEdit";
 			this.buttonEdit.Size = new System.Drawing.Size(75, 23);
 			this.buttonEdit.TabIndex = 5;
@@ -132,7 +132,7 @@
 			// buttonAdd
 			// 
 			this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.buttonAdd.Location = new System.Drawing.Point(4, 285);
+			this.buttonAdd.Location = new System.Drawing.Point(4, 330);
 			this.buttonAdd.Name = "buttonAdd";
 			this.buttonAdd.Size = new System.Drawing.Size(75, 23);
 			this.buttonAdd.TabIndex = 4;
@@ -149,7 +149,7 @@
 			this.Controls.Add(this.buttonAdd);
 			this.Controls.Add(this.dataGridView);
 			this.Name = "WallpaperChangerProvidersOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.Load += new System.EventHandler(this.WallpaperChangerProvidersOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
 			this.ResumeLayout(false);

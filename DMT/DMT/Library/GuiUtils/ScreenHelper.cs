@@ -370,10 +370,21 @@ namespace DMT.Library.GuiUtils
 		}
 
 		/// <summary>
-		/// Moves the active window to the given rectangle
+		/// Moves the active window to the given rectangle in system co-ords
 		/// </summary>
 		/// <param name="rectangle">Location to move window to</param>
-		public static void MoveActiveToRectangle(Rectangle rectangle)
+		public static void MoveActiveToAbsoluteRectangle(Rectangle rectangle)
+		{
+			Rectangle workspaceRectangle = ToWorkspaceCoordinates(rectangle);
+
+			MoveActiveToWorkspaceRectangle(workspaceRectangle);
+		}
+
+		/// <summary>
+		/// Moves the active window to the given rectangle in workspace co-ords
+		/// </summary>
+		/// <param name="rectangle">Location to move window to</param>
+		public static void MoveActiveToWorkspaceRectangle(Rectangle rectangle)
 		{
 			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))

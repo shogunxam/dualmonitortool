@@ -117,7 +117,7 @@
 			</Component>
 		</DirectoryRef>
 
-		<Feature Id="Complete" Title="DMT" Description="Dual Monitor Tools base module" Level="1">
+		<Feature Id="Complete" Title="DMT" Description="Dual Monitor Tools base module" Level="1" ConfigurableDirectory="APPLICATIONROOTDIRECTORY">
 			<ComponentRef Id="dmt.exe" />
 			<ComponentRef Id="FileLocations.xml" />
 			<ComponentRef Id="Changes.txt" />
@@ -134,8 +134,8 @@
 			</Feature>
 		</Feature>
 
-		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
 		<!--
+		<Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONROOTDIRECTORY" />
 		<UIRef Id="WixUI_InstallDir" />
 		-->
 		<UIRef Id="WixUI_FeatureTree" />

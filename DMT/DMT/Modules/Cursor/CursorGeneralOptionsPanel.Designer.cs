@@ -251,7 +251,7 @@
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.groupBox3);
 			this.Name = "CursorGeneralOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 367);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
 			this.groupBox3.ResumeLayout(false);

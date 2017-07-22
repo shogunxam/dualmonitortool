@@ -54,7 +54,7 @@
 			this.dataGridView.Name = "dataGridView";
 			this.dataGridView.ReadOnly = true;
 			this.dataGridView.RowHeadersWidth = 128;
-			this.dataGridView.Size = new System.Drawing.Size(494, 296);
+			this.dataGridView.Size = new System.Drawing.Size(494, 318);
 			this.dataGridView.TabIndex = 0;
 			this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
 			this.dataGridView.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseDown);
@@ -79,7 +79,7 @@
 			// 
 			this.checkBoxShowAllMonitors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkBoxShowAllMonitors.AutoSize = true;
-			this.checkBoxShowAllMonitors.Location = new System.Drawing.Point(3, 318);
+			this.checkBoxShowAllMonitors.Location = new System.Drawing.Point(3, 340);
 			this.checkBoxShowAllMonitors.Name = "checkBoxShowAllMonitors";
 			this.checkBoxShowAllMonitors.Size = new System.Drawing.Size(110, 17);
 			this.checkBoxShowAllMonitors.TabIndex = 1;
@@ -92,7 +92,7 @@
 			this.labelErrorMsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelErrorMsg.ForeColor = System.Drawing.Color.Red;
-			this.labelErrorMsg.Location = new System.Drawing.Point(148, 319);
+			this.labelErrorMsg.Location = new System.Drawing.Point(148, 341);
 			this.labelErrorMsg.Name = "labelErrorMsg";
 			this.labelErrorMsg.Size = new System.Drawing.Size(349, 13);
 			this.labelErrorMsg.TabIndex = 2;
@@ -102,7 +102,7 @@
 			this.contextMenuStripChangeBrightness.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemChangeBrightness});
 			this.contextMenuStripChangeBrightness.Name = "contextMenuStripChangeBrightness";
-			this.contextMenuStripChangeBrightness.Size = new System.Drawing.Size(220, 48);
+			this.contextMenuStripChangeBrightness.Size = new System.Drawing.Size(220, 26);
 			// 
 			// toolStripMenuItemChangeBrightness
 			// 
@@ -119,7 +119,7 @@
 			this.Controls.Add(this.checkBoxShowAllMonitors);
 			this.Controls.Add(this.dataGridView);
 			this.Name = "GeneralMonitorsOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
 			this.contextMenuStripChangePrimary.ResumeLayout(false);
 			this.contextMenuStripChangeBrightness.ResumeLayout(false);

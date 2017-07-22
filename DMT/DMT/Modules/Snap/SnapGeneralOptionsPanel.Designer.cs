@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.hotKeyPanelTakeWinSnap = new DMT.Library.HotKeys.HotKeyPanel();
 			this.hotKeyPanelShowSnap = new DMT.Library.HotKeys.HotKeyPanel();
 			this.hotKeyPanelTakeSnap = new DMT.Library.HotKeys.HotKeyPanel();
 			this.checkBoxShowSnap = new System.Windows.Forms.CheckBox();
@@ -37,7 +38,6 @@
 			this.checkBoxExpandSnap = new System.Windows.Forms.CheckBox();
 			this.checkBoxShrinkSnap = new System.Windows.Forms.CheckBox();
 			this.checkBoxMaintainAspectRatio = new System.Windows.Forms.CheckBox();
-			this.hotKeyPanelTakeWinSnap = new DMT.Library.HotKeys.HotKeyPanel();
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSnaps)).BeginInit();
 			this.SuspendLayout();
@@ -53,6 +53,14 @@
 			this.groupBox3.TabIndex = 12;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "HotKeys";
+			// 
+			// hotKeyPanelTakeWinSnap
+			// 
+			this.hotKeyPanelTakeWinSnap.Description = "Description";
+			this.hotKeyPanelTakeWinSnap.Location = new System.Drawing.Point(6, 48);
+			this.hotKeyPanelTakeWinSnap.Name = "hotKeyPanelTakeWinSnap";
+			this.hotKeyPanelTakeWinSnap.Size = new System.Drawing.Size(465, 23);
+			this.hotKeyPanelTakeWinSnap.TabIndex = 2;
 			// 
 			// hotKeyPanelShowSnap
 			// 
@@ -141,14 +149,6 @@
 			this.checkBoxMaintainAspectRatio.UseVisualStyleBackColor = true;
 			this.checkBoxMaintainAspectRatio.CheckedChanged += new System.EventHandler(this.checkBoxMaintainAspectRatio_CheckedChanged);
 			// 
-			// hotKeyPanelTakeWinSnap
-			// 
-			this.hotKeyPanelTakeWinSnap.Description = "Description";
-			this.hotKeyPanelTakeWinSnap.Location = new System.Drawing.Point(6, 48);
-			this.hotKeyPanelTakeWinSnap.Name = "hotKeyPanelTakeWinSnap";
-			this.hotKeyPanelTakeWinSnap.Size = new System.Drawing.Size(465, 23);
-			this.hotKeyPanelTakeWinSnap.TabIndex = 2;
-			// 
 			// SnapGeneralOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -161,7 +161,7 @@
 			this.Controls.Add(this.numericUpDownSnaps);
 			this.Controls.Add(this.label1);
 			this.Name = "SnapGeneralOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.Load += new System.EventHandler(this.SnapGeneralOptionsPanel_Load);
 			this.groupBox3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSnaps)).EndInit();

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DmtWallpaper")]
-[assembly: AssemblyDescription("Screnn saver to show DMT wallpaper")]
+[assembly: AssemblyDescription("Screen saver to show DMT wallpaper")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GNE")]
 [assembly: AssemblyProduct("FMT Wallpaper")]
-[assembly: AssemblyCopyright("Copyright ©  2016 Gerald Evans")]
+[assembly: AssemblyCopyright("Copyright ©  2016-2017 Gerald Evans")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.5.0.0")]
-[assembly: AssemblyFileVersion("2.5.0.0")]
+[assembly: AssemblyVersion("2.6.0.0")]
+[assembly: AssemblyFileVersion("2.6.0.0")]

@@ -55,7 +55,7 @@
 			this.Controls.Add(this.hotKeyPanelAddMagicWord);
 			this.Controls.Add(this.hotKeyPanelActivate);
 			this.Name = "LauncherHotKeysOptionsPanel";
-			this.Size = new System.Drawing.Size(695, 354);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.ResumeLayout(false);
 
 		}

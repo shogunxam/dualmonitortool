@@ -185,7 +185,7 @@
 			this.Controls.Add(this.numericUpDownIcons);
 			this.Controls.Add(this.checkBoxMru);
 			this.Name = "LauncheGeneralOptionsPanel";
-			this.Size = new System.Drawing.Size(554, 320);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.Load += new System.EventHandler(this.LauncherImportOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTimeout)).EndInit();
 			this.groupBox5.ResumeLayout(false);

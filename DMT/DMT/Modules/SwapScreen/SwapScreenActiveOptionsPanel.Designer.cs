@@ -56,7 +56,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.groupBox1);
 			this.Name = "SwapScreenActiveOptionsPanel";
-			this.Size = new System.Drawing.Size(524, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

@@ -69,7 +69,7 @@
 			this.listBoxModifiers.FormattingEnabled = true;
 			this.listBoxModifiers.Location = new System.Drawing.Point(6, 107);
 			this.listBoxModifiers.Name = "listBoxModifiers";
-			this.listBoxModifiers.Size = new System.Drawing.Size(193, 134);
+			this.listBoxModifiers.Size = new System.Drawing.Size(193, 121);
 			this.listBoxModifiers.TabIndex = 2;
 			this.listBoxModifiers.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxModifiers_DrawItem);
 			this.listBoxModifiers.SelectedIndexChanged += new System.EventHandler(this.listBoxModifiers_SelectedIndexChanged);
@@ -88,7 +88,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(3, 248);
+			this.label3.Location = new System.Drawing.Point(3, 243);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(208, 13);
 			this.label3.TabIndex = 4;
@@ -97,9 +97,9 @@
 			// listBoxRegistrationErrors
 			// 
 			this.listBoxRegistrationErrors.FormattingEnabled = true;
-			this.listBoxRegistrationErrors.Location = new System.Drawing.Point(6, 267);
+			this.listBoxRegistrationErrors.Location = new System.Drawing.Point(6, 263);
 			this.listBoxRegistrationErrors.Name = "listBoxRegistrationErrors";
-			this.listBoxRegistrationErrors.Size = new System.Drawing.Size(484, 82);
+			this.listBoxRegistrationErrors.Size = new System.Drawing.Size(484, 95);
 			this.listBoxRegistrationErrors.TabIndex = 5;
 			// 
 			// pictureBox1
@@ -156,7 +156,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.checkBoxEnable);
 			this.Name = "SwapScreenSdaOptionsPanel";
-			this.Size = new System.Drawing.Size(510, 362);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.Load += new System.EventHandler(this.SwapScreenSdaOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);

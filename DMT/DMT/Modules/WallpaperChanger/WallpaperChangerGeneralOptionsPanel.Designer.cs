@@ -267,7 +267,7 @@
 			this.Controls.Add(this.labelPeriod1);
 			this.Controls.Add(this.checkBoxChangeOnStart);
 			this.Name = "WallpaperChangerGeneralOptionsPanel";
-			this.Size = new System.Drawing.Size(500, 338);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.Load += new System.EventHandler(this.WallpaperChangerGeneralOptionsPanel_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBackgroundColour)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).EndInit();

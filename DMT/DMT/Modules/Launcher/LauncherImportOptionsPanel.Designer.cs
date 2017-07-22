@@ -118,7 +118,7 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonDeleteAll);
 			this.Name = "LauncherImportOptionsPanel";
-			this.Size = new System.Drawing.Size(490, 294);
+			this.Size = new System.Drawing.Size(500, 360);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			this.groupBox2.ResumeLayout(false);

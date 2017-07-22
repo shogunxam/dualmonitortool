@@ -180,7 +180,7 @@ namespace DMT.Modules.SwapScreen
 		/// </summary>
 		public void HotKeyHandler()
 		{
-			ScreenHelper.MoveActiveToRectangle(Position);
+			ScreenHelper.MoveActiveToWorkspaceRectangle(Position);
 		}
 
 		/// <summary>
