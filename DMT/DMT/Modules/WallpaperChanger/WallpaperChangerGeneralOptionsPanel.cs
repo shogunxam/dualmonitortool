@@ -75,7 +75,8 @@ namespace DMT.Modules.WallpaperChanger
 			numericUpDownHours.Value = (decimal)_wallpaperChangerModule.IntervalHours;
 			numericUpDownMinutes.Value = (decimal)_wallpaperChangerModule.IntervalMinutes;
 
-			FillFitComboBox();
+			//FillFitComboBox();
+			ShowFitMode();
 			FillMonitorMappingComboBox();
 
 			pictureBoxBackgroundColour.BackColor = _wallpaperChangerModule.BackgroundColour;
@@ -86,33 +87,42 @@ namespace DMT.Modules.WallpaperChanger
 			UpdatePeriodEnableStatus();
 		}
 
-		/// <summary>
-		/// Once only population of the "Fit" (stretch/shrink type) combo box
-		/// </summary>
-		void FillFitComboBox()
+		void ShowFitMode()
 		{
-			comboBoxFit.Items.Clear();
-			List<StretchType> allStretchTypes = StretchType.AllTypes();
-			StretchType selectedItem = null;
-			foreach (StretchType stretchType in allStretchTypes)
-			{
-				comboBoxFit.Items.Add(stretchType);
-				if (stretchType.Type == _wallpaperChangerModule.Fit)
-				{
-					selectedItem = stretchType;
-				}
-			}
-
-			if (selectedItem != null)
-			{
-				comboBoxFit.SelectedItem = selectedItem;
-			}
-			else
-			{
-				// select first item
-				comboBoxFit.SelectedIndex = 0;
-			}
+			StretchType.Fit fit = _wallpaperChangerModule.Fit;
+			checkBoxFitAspectRatio.Checked = fit.HasFlag(StretchType.Fit.MaintainAspectRatio);
+			checkBoxFitClip.Checked = fit.HasFlag(StretchType.Fit.ClipImage);
+			checkBoxFitEnlarge.Checked = fit.HasFlag(StretchType.Fit.AllowEnlarge);
+			checkBoxFitShrink.Checked = fit.HasFlag(StretchType.Fit.AllowShrink);
 		}
+
+		///// <summary>
+		///// Once only population of the "Fit" (stretch/shrink type) combo box
+		///// </summary>
+		//void FillFitComboBox()
+		//{
+		//	comboBoxFit.Items.Clear();
+		//	List<StretchType> allStretchTypes = StretchType.AllTypes();
+		//	StretchType selectedItem = null;
+		//	foreach (StretchType stretchType in allStretchTypes)
+		//	{
+		//		comboBoxFit.Items.Add(stretchType);
+		//		if (stretchType.Type == _wallpaperChangerModule.Fit)
+		//		{
+		//			selectedItem = stretchType;
+		//		}
+		//	}
+
+		//	if (selectedItem != null)
+		//	{
+		//		comboBoxFit.SelectedItem = selectedItem;
+		//	}
+		//	else
+		//	{
+		//		// select first item
+		//		comboBoxFit.SelectedIndex = 0;
+		//	}
+		//}
 
 		/// <summary>
 		/// Once only population of the "Multi Monitor" (mode) combo box
@@ -195,13 +205,37 @@ namespace DMT.Modules.WallpaperChanger
 			}
 		}
 
-		private void comboBoxFit_SelectedIndexChanged(object sender, EventArgs e)
+		//private void comboBoxFit_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	StretchType stretchType = comboBoxFit.SelectedItem as StretchType;
+		//	if (stretchType != null)
+		//	{
+		//		_wallpaperChangerModule.Fit = stretchType.Type;
+		//	}
+		//}
+
+
+		private void UpdateFitMode(object sender, EventArgs e)
 		{
-			StretchType stretchType = comboBoxFit.SelectedItem as StretchType;
-			if (stretchType != null)
+			StretchType.Fit newFit = StretchType.Fit.NewFit;
+			if (checkBoxFitAspectRatio.Checked)
 			{
-				_wallpaperChangerModule.Fit = stretchType.Type;
+				newFit |= StretchType.Fit.MaintainAspectRatio;
 			}
+			if (checkBoxFitClip.Checked)
+			{
+				newFit |= StretchType.Fit.ClipImage;
+			}
+			if (checkBoxFitEnlarge.Checked)
+			{
+				newFit |= StretchType.Fit.AllowEnlarge;
+			}
+			if (checkBoxFitShrink.Checked)
+			{
+				newFit |= StretchType.Fit.AllowShrink;
+			}
+
+			_wallpaperChangerModule.Fit = newFit;
 		}
 
 		private void pictureBoxBackgroundColour_Click(object sender, EventArgs e)

@@ -238,6 +238,7 @@ namespace DMT.Modules.WallpaperChanger
 			SmoothFadeSetting = new BoolSetting(_settingsService, ModuleName, "SmoothFade", false);
 			BackgroundColourSetting = new IntSetting(_settingsService, ModuleName, "BackgroundColour", Color.Black.ToArgb());
 			FitSetting = new IntSetting(_settingsService, ModuleName, "Fit", (int)StretchType.Fit.OverStretch);
+			UpgradeFitSetting();
 			MonitorMappingSetting = new IntSetting(_settingsService, ModuleName, "MonitorMapping", (int)SwitchType.ImageToMonitorMapping.OneToOneBig);
 
 			if (ChangeOnStartup)
@@ -445,6 +446,19 @@ namespace DMT.Modules.WallpaperChanger
 			if (_propertiesOptionsPanel != null)
 			{
 				_propertiesOptionsPanel.ShowNextChange(msgText, msgColor);
+			}
+		}
+
+		void UpgradeFitSetting()
+		{
+			// before v2.7, there were 4 distict values for the fit
+			// v2.7+ now uses 4 flags to control the image fitting
+			// so we upgrade the fit setting here for old users
+			StretchType.Fit oldFit = Fit;
+			StretchType.Fit newFit = ImageFitter.UpgradeFit(oldFit);
+			if (newFit != oldFit)
+			{
+				Fit = newFit;
 			}
 		}
 

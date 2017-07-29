@@ -65,104 +65,104 @@ namespace DMT.Library.Wallpaper
 		/// </summary>
 		public Color DesktopRectBackColor { get; set; }
 
-		/// <summary>
-		/// Gets the rectangle when a rectangle of a given size in centered in another rectangle
-		/// </summary>
-		/// <param name="sourceSize">Size of rectangle you want centered</param>
-		/// <param name="destRect">Destination area that you want it centered in</param>
-		/// <returns>The centered rectangle</returns>
-		public static Rectangle Center(Size sourceSize, Rectangle destRect)
-		{
-			Rectangle rect;
+		///// <summary>
+		///// Gets the rectangle when a rectangle of a given size in centered in another rectangle
+		///// </summary>
+		///// <param name="sourceSize">Size of rectangle you want centered</param>
+		///// <param name="destRect">Destination area that you want it centered in</param>
+		///// <returns>The centered rectangle</returns>
+		//public static Rectangle Center(Size sourceSize, Rectangle destRect)
+		//{
+		//	Rectangle rect;
 
-			// center of image gets mapped to center of destination
-			// so work out the movement involved in doing this
-			// remember image is at (0, 0)
-			int shiftX = destRect.Left + destRect.Width / 2 - sourceSize.Width / 2;
-			int shiftY = destRect.Top + destRect.Height / 2 - sourceSize.Height / 2;
+		//	// center of image gets mapped to center of destination
+		//	// so work out the movement involved in doing this
+		//	// remember image is at (0, 0)
+		//	int shiftX = destRect.Left + destRect.Width / 2 - sourceSize.Width / 2;
+		//	int shiftY = destRect.Top + destRect.Height / 2 - sourceSize.Height / 2;
 
-			rect = new Rectangle(shiftX, shiftY, sourceSize.Width, sourceSize.Height);
+		//	rect = new Rectangle(shiftX, shiftY, sourceSize.Width, sourceSize.Height);
 
-			return rect;
-		}
+		//	return rect;
+		//}
 
-		/// <summary>
-		/// Determines the destination rectangle to use to maintain the source aspect ratio
-		/// and to fill the destination as much as possible without clipping.
-		/// This may result in the need to add bars top and bottom, or left and right
-		/// to keep the aspect ratio constant.
-		/// </summary>
-		/// <param name="sourceSize">Size of source image</param>
-		/// <param name="destRect">Area we have available to display the image in</param>
-		/// <returns>rectangle for the under stretched image</returns>
-		public static Rectangle UnderStretch(Size sourceSize, Rectangle destRect)
-		{
-			Rectangle rect;
+		///// <summary>
+		///// Determines the destination rectangle to use to maintain the source aspect ratio
+		///// and to fill the destination as much as possible without clipping.
+		///// This may result in the need to add bars top and bottom, or left and right
+		///// to keep the aspect ratio constant.
+		///// </summary>
+		///// <param name="sourceSize">Size of source image</param>
+		///// <param name="destRect">Area we have available to display the image in</param>
+		///// <returns>rectangle for the under stretched image</returns>
+		//public static Rectangle UnderStretch(Size sourceSize, Rectangle destRect)
+		//{
+		//	Rectangle rect;
 
-			// check if we need to add either vertical or horizontal bars 
-			// either side of the image to keep the source aspect ratio
-			int widthFactor = destRect.Width * sourceSize.Height;
-			int heightFactor = destRect.Height * sourceSize.Width;
-			if (widthFactor > heightFactor)
-			{
-				// need to add vertical bars
-				int newWidth = (sourceSize.Width * destRect.Height) / sourceSize.Height;
-				int barSize = (destRect.Width - newWidth) / 2;
-				rect = new Rectangle(destRect.Left + barSize, destRect.Top, newWidth, destRect.Height);
-			}
-			else if (heightFactor > widthFactor)
-			{
-				// need to add horizontal bars
-				int newHeight = (sourceSize.Height * destRect.Width) / sourceSize.Width;
-				int barSize = (destRect.Height - newHeight) / 2;
-				rect = new Rectangle(destRect.Left, destRect.Top + barSize, destRect.Width, newHeight);
-			}
-			else
-			{
-				// perfect type with no need to add bars
-				rect = destRect;
-			}
+		//	// check if we need to add either vertical or horizontal bars 
+		//	// either side of the image to keep the source aspect ratio
+		//	int widthFactor = destRect.Width * sourceSize.Height;
+		//	int heightFactor = destRect.Height * sourceSize.Width;
+		//	if (widthFactor > heightFactor)
+		//	{
+		//		// need to add vertical bars
+		//		int newWidth = (sourceSize.Width * destRect.Height) / sourceSize.Height;
+		//		int barSize = (destRect.Width - newWidth) / 2;
+		//		rect = new Rectangle(destRect.Left + barSize, destRect.Top, newWidth, destRect.Height);
+		//	}
+		//	else if (heightFactor > widthFactor)
+		//	{
+		//		// need to add horizontal bars
+		//		int newHeight = (sourceSize.Height * destRect.Width) / sourceSize.Width;
+		//		int barSize = (destRect.Height - newHeight) / 2;
+		//		rect = new Rectangle(destRect.Left, destRect.Top + barSize, destRect.Width, newHeight);
+		//	}
+		//	else
+		//	{
+		//		// perfect type with no need to add bars
+		//		rect = destRect;
+		//	}
 
-			return rect;
-		}
+		//	return rect;
+		//}
 
-		/// <summary>
-		/// Determines the destination rectangle to use to maintain the source aspect ratio
-		/// and to fill the destination entirely, but keeping the clipping to a minimum.
-		/// </summary>
-		/// <param name="sourceSize">Size of source image</param>
-		/// <param name="destRect">Area we have available to display the image in</param>
-		/// <returns>rectangle for the over stretched image</returns>
-		public static Rectangle OverStretch(Size sourceSize, Rectangle destRect)
-		{
-			Rectangle rect;
+		///// <summary>
+		///// Determines the destination rectangle to use to maintain the source aspect ratio
+		///// and to fill the destination entirely, but keeping the clipping to a minimum.
+		///// </summary>
+		///// <param name="sourceSize">Size of source image</param>
+		///// <param name="destRect">Area we have available to display the image in</param>
+		///// <returns>rectangle for the over stretched image</returns>
+		//public static Rectangle OverStretch(Size sourceSize, Rectangle destRect)
+		//{
+		//	Rectangle rect;
 
-			// check which sides we need to clip 
-			// to keep the source aspect ratio
-			int widthFactor = destRect.Width * sourceSize.Height;
-			int heightFactor = destRect.Height * sourceSize.Width;
-			if (widthFactor > heightFactor)
-			{
-				// need to clip top and bottom
-				int newHeight = (sourceSize.Height * destRect.Width) / sourceSize.Width;
-				int clipSize = (newHeight - destRect.Height) / 2;
-				rect = new Rectangle(destRect.Left, destRect.Top - clipSize, destRect.Width, newHeight);
-			}
-			else if (heightFactor > widthFactor)
-			{
-				// need to clip srcLeft and srcRight
-				int newWidth = (sourceSize.Width * destRect.Height) / sourceSize.Height;
-				int clipSize = (newWidth - destRect.Width) / 2;
-				rect = new Rectangle(destRect.Left - clipSize, destRect.Top, newWidth, destRect.Height);
-			}
-			else
-			{
-				// perfect type with no need to add bars
-				rect = destRect;
-			}
+		//	// check which sides we need to clip 
+		//	// to keep the source aspect ratio
+		//	int widthFactor = destRect.Width * sourceSize.Height;
+		//	int heightFactor = destRect.Height * sourceSize.Width;
+		//	if (widthFactor > heightFactor)
+		//	{
+		//		// need to clip top and bottom
+		//		int newHeight = (sourceSize.Height * destRect.Width) / sourceSize.Width;
+		//		int clipSize = (newHeight - destRect.Height) / 2;
+		//		rect = new Rectangle(destRect.Left, destRect.Top - clipSize, destRect.Width, newHeight);
+		//	}
+		//	else if (heightFactor > widthFactor)
+		//	{
+		//		// need to clip srcLeft and srcRight
+		//		int newWidth = (sourceSize.Width * destRect.Height) / sourceSize.Height;
+		//		int clipSize = (newWidth - destRect.Width) / 2;
+		//		rect = new Rectangle(destRect.Left - clipSize, destRect.Top, newWidth, destRect.Height);
+		//	}
+		//	else
+		//	{
+		//		// perfect type with no need to add bars
+		//		rect = destRect;
+		//	}
 
-			return rect;
-		}
+		//	return rect;
+		//}
 
 		/// <summary>
 		/// Given the co-ordinates of a rectangle in different spaces,
@@ -338,33 +338,36 @@ namespace DMT.Library.Wallpaper
 
 		Rectangle GetvirtualDestRect(Image image, StretchType.Fit fit, Rectangle boundingRect)
 		{
-			Rectangle virtualDestRect = Rectangle.Empty;
+			//Rectangle virtualDestRect = Rectangle.Empty;
 
-			switch (fit)
-			{
-				case StretchType.Fit.Center:
-					virtualDestRect = Center(image.Size, boundingRect);
-					break;
+			//switch (fit)
+			//{
+			//	case StretchType.Fit.Center:
+			//		virtualDestRect = Center(image.Size, boundingRect);
+			//		break;
 
-				case StretchType.Fit.StretchToFit:
-					virtualDestRect = boundingRect;
-					break;
+			//	case StretchType.Fit.StretchToFit:
+			//		virtualDestRect = boundingRect;
+			//		break;
 
-				case StretchType.Fit.UnderStretch:
-					virtualDestRect = UnderStretch(image.Size, boundingRect);
-					break;
+			//	case StretchType.Fit.UnderStretch:
+			//		virtualDestRect = UnderStretch(image.Size, boundingRect);
+			//		break;
 
-				case StretchType.Fit.OverStretch:
-					virtualDestRect = OverStretch(image.Size, boundingRect);
-					break;
+			//	case StretchType.Fit.OverStretch:
+			//		virtualDestRect = OverStretch(image.Size, boundingRect);
+			//		break;
 
-				default:
-					Debug.Fail("Unknown type: " + fit.ToString());
-					break;
-			}
+			//	default:
+			//		Debug.Fail("Unknown type: " + fit.ToString());
+			//		break;
+			//}
 
-			return virtualDestRect;
+			//return virtualDestRect;
+
+			return ImageFitter.FitImage(image.Size, fit, boundingRect);
 		}
+
 
 		void Init()
 		{

@@ -43,6 +43,7 @@ namespace DMT.Library.Wallpaper
 		/// Enumeration specifying how to fit an image where the aspect ratio 
 		/// of the source and destination may be different
 		/// </summary>
+		[Flags]
 		public enum Fit
 		{
 			/// <summary>
@@ -70,7 +71,13 @@ namespace DMT.Library.Wallpaper
 			/// stretch both X and Y to fit exactly, 
 			/// which may result in the aspect ratio changing
 			/// </summary>
-			StretchToFit = 3
+			StretchToFit = 3,
+
+			NewFit = 0x08,
+			MaintainAspectRatio = 0x10,
+			AllowEnlarge = 0x20,
+			AllowShrink = 0x40,
+			ClipImage = 0x80
 		}
 
 		/// <summary>

@@ -34,7 +34,6 @@
 			this.comboBoxMultiMonitor = new System.Windows.Forms.ComboBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.comboBoxFit = new System.Windows.Forms.ComboBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.checkBoxChangePeriodically = new System.Windows.Forms.CheckBox();
 			this.labelPeriod3 = new System.Windows.Forms.Label();
@@ -47,6 +46,10 @@
 			this.hotKeyPanelChangeWallpaper = new DMT.Library.HotKeys.HotKeyPanel();
 			this.checkBoxFade = new System.Windows.Forms.CheckBox();
 			this.checkBoxChangeOnResolutionChange = new System.Windows.Forms.CheckBox();
+			this.checkBoxFitAspectRatio = new System.Windows.Forms.CheckBox();
+			this.checkBoxFitClip = new System.Windows.Forms.CheckBox();
+			this.checkBoxFitEnlarge = new System.Windows.Forms.CheckBox();
+			this.checkBoxFitShrink = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBackgroundColour)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinutes)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownHours)).BeginInit();
@@ -55,7 +58,7 @@
 			// 
 			// labelNextChange
 			// 
-			this.labelNextChange.Location = new System.Drawing.Point(161, 283);
+			this.labelNextChange.Location = new System.Drawing.Point(161, 312);
 			this.labelNextChange.Name = "labelNextChange";
 			this.labelNextChange.Size = new System.Drawing.Size(329, 41);
 			this.labelNextChange.TabIndex = 29;
@@ -63,7 +66,7 @@
 			// 
 			// buttonChangeWallpaper
 			// 
-			this.buttonChangeWallpaper.Location = new System.Drawing.Point(10, 278);
+			this.buttonChangeWallpaper.Location = new System.Drawing.Point(10, 307);
 			this.buttonChangeWallpaper.Name = "buttonChangeWallpaper";
 			this.buttonChangeWallpaper.Size = new System.Drawing.Size(145, 23);
 			this.buttonChangeWallpaper.TabIndex = 27;
@@ -75,7 +78,7 @@
 			// 
 			this.pictureBoxBackgroundColour.BackColor = System.Drawing.Color.Transparent;
 			this.pictureBoxBackgroundColour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pictureBoxBackgroundColour.Location = new System.Drawing.Point(114, 189);
+			this.pictureBoxBackgroundColour.Location = new System.Drawing.Point(114, 218);
 			this.pictureBoxBackgroundColour.Name = "pictureBoxBackgroundColour";
 			this.pictureBoxBackgroundColour.Size = new System.Drawing.Size(376, 21);
 			this.pictureBoxBackgroundColour.TabIndex = 28;
@@ -104,21 +107,11 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(7, 193);
+			this.label2.Location = new System.Drawing.Point(7, 222);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(101, 13);
 			this.label2.TabIndex = 26;
 			this.label2.Text = "Background Colour:";
-			// 
-			// comboBoxFit
-			// 
-			this.comboBoxFit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBoxFit.FormattingEnabled = true;
-			this.comboBoxFit.Location = new System.Drawing.Point(114, 162);
-			this.comboBoxFit.Name = "comboBoxFit";
-			this.comboBoxFit.Size = new System.Drawing.Size(376, 21);
-			this.comboBoxFit.TabIndex = 25;
-			this.comboBoxFit.SelectedIndexChanged += new System.EventHandler(this.comboBoxFit_SelectedIndexChanged);
 			// 
 			// label1
 			// 
@@ -207,7 +200,7 @@
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.hotKeyPanelChangeWallpaper);
-			this.groupBox1.Location = new System.Drawing.Point(10, 216);
+			this.groupBox1.Location = new System.Drawing.Point(10, 245);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(480, 56);
 			this.groupBox1.TabIndex = 30;
@@ -244,10 +237,58 @@
 			this.checkBoxChangeOnResolutionChange.UseVisualStyleBackColor = true;
 			this.checkBoxChangeOnResolutionChange.CheckedChanged += new System.EventHandler(this.checkBoxChangeOnResolutionChange_CheckedChanged);
 			// 
+			// checkBoxFitAspectRatio
+			// 
+			this.checkBoxFitAspectRatio.AutoSize = true;
+			this.checkBoxFitAspectRatio.Location = new System.Drawing.Point(114, 165);
+			this.checkBoxFitAspectRatio.Name = "checkBoxFitAspectRatio";
+			this.checkBoxFitAspectRatio.Size = new System.Drawing.Size(124, 17);
+			this.checkBoxFitAspectRatio.TabIndex = 33;
+			this.checkBoxFitAspectRatio.Text = "Maintain aspect ratio";
+			this.checkBoxFitAspectRatio.UseVisualStyleBackColor = true;
+			this.checkBoxFitAspectRatio.CheckedChanged += new System.EventHandler(this.UpdateFitMode);
+			// 
+			// checkBoxFitClip
+			// 
+			this.checkBoxFitClip.AutoSize = true;
+			this.checkBoxFitClip.Location = new System.Drawing.Point(114, 188);
+			this.checkBoxFitClip.Name = "checkBoxFitClip";
+			this.checkBoxFitClip.Size = new System.Drawing.Size(163, 17);
+			this.checkBoxFitClip.TabIndex = 34;
+			this.checkBoxFitClip.Text = "Avoid horizontal/vertical bars";
+			this.checkBoxFitClip.UseVisualStyleBackColor = true;
+			this.checkBoxFitClip.CheckedChanged += new System.EventHandler(this.UpdateFitMode);
+			// 
+			// checkBoxFitEnlarge
+			// 
+			this.checkBoxFitEnlarge.AutoSize = true;
+			this.checkBoxFitEnlarge.Location = new System.Drawing.Point(313, 165);
+			this.checkBoxFitEnlarge.Name = "checkBoxFitEnlarge";
+			this.checkBoxFitEnlarge.Size = new System.Drawing.Size(169, 17);
+			this.checkBoxFitEnlarge.TabIndex = 35;
+			this.checkBoxFitEnlarge.Text = "Expand image (if needed) to fit";
+			this.checkBoxFitEnlarge.UseVisualStyleBackColor = true;
+			this.checkBoxFitEnlarge.CheckedChanged += new System.EventHandler(this.UpdateFitMode);
+			// 
+			// checkBoxFitShrink
+			// 
+			this.checkBoxFitShrink.AutoSize = true;
+			this.checkBoxFitShrink.Location = new System.Drawing.Point(313, 188);
+			this.checkBoxFitShrink.Name = "checkBoxFitShrink";
+			this.checkBoxFitShrink.Size = new System.Drawing.Size(163, 17);
+			this.checkBoxFitShrink.TabIndex = 36;
+			this.checkBoxFitShrink.Text = "Shrink image (if needed) to fit";
+			this.checkBoxFitShrink.UseVisualStyleBackColor = true;
+			this.checkBoxFitShrink.CheckedChanged += new System.EventHandler(this.UpdateFitMode);
+			// 
 			// WallpaperChangerGeneralOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.checkBoxFitShrink);
+			this.Controls.Add(this.checkBoxFitEnlarge);
+			this.Controls.Add(this.checkBoxFitClip);
+			this.Controls.Add(this.checkBoxFitAspectRatio);
 			this.Controls.Add(this.checkBoxChangeOnResolutionChange);
 			this.Controls.Add(this.checkBoxFade);
 			this.Controls.Add(this.groupBox1);
@@ -257,7 +298,6 @@
 			this.Controls.Add(this.comboBoxMultiMonitor);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.comboBoxFit);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.checkBoxChangePeriodically);
 			this.Controls.Add(this.labelPeriod3);
@@ -286,7 +326,6 @@
 		private System.Windows.Forms.ComboBox comboBoxMultiMonitor;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox comboBoxFit;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.CheckBox checkBoxChangePeriodically;
 		private System.Windows.Forms.Label labelPeriod3;
@@ -299,5 +338,9 @@
 		private Library.HotKeys.HotKeyPanel hotKeyPanelChangeWallpaper;
 		private System.Windows.Forms.CheckBox checkBoxFade;
 		private System.Windows.Forms.CheckBox checkBoxChangeOnResolutionChange;
+		private System.Windows.Forms.CheckBox checkBoxFitAspectRatio;
+		private System.Windows.Forms.CheckBox checkBoxFitClip;
+		private System.Windows.Forms.CheckBox checkBoxFitEnlarge;
+		private System.Windows.Forms.CheckBox checkBoxFitShrink;
 	}
 }

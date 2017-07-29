@@ -136,6 +136,7 @@
     <Compile Include="Library\WallpaperPlugin\IDWC_Plugin.cs" />
     <Compile Include="Library\WallpaperPlugin\IImageProvider.cs" />
     <Compile Include="Library\WallpaperPlugin\ProviderHelper.cs" />
+    <Compile Include="Library\Wallpaper\ImageFitter.cs" />
     <Compile Include="Library\Wallpaper\IWallpaperCompositor.cs" />
     <Compile Include="Library\Wallpaper\IWallpaperCompositorFactory.cs" />
     <Compile Include="Library\Wallpaper\WallpaperCompositor.cs" />

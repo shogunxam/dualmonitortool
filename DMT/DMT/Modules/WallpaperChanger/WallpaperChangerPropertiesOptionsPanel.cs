@@ -82,7 +82,8 @@ namespace DMT.Modules.WallpaperChanger
 			{
 				Size sourceSize = sourceImage.Size;
 				Rectangle pictureBoxRect = new Rectangle(new Point(0, 0), picPreview.Size);
-				_previewRect = WallpaperCompositor.UnderStretch(sourceSize, pictureBoxRect);
+				//_previewRect = WallpaperCompositor.UnderStretch(sourceSize, pictureBoxRect);
+				_previewRect = ImageFitter.UnderStretch(sourceSize, pictureBoxRect);
 
 				Image preview = new Bitmap(_previewRect.Width, _previewRect.Height);
 
