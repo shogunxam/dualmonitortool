@@ -1,4 +1,23 @@
-﻿using NUnit.Framework;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2017  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,6 +55,7 @@ namespace DMT.UnitTests.Library.Wallpaper
 		// common rectangle sizes that we are going to use - values chosen to simplify testing
 
 		static Rectangle Screen1Rect = new Rectangle(0, 0, 2000, 1000);
+		static Rectangle Screen4Rect = new Rectangle(2000, 1000, 2000, 1000);	// 4 monitors in a square, origin at TLHC, and this is monitor at bottom right
 		static Size BigWideSize = new Size(5000, 2000);
 		static Size BigTallSize = new Size(3000, 2000);
 		static Size SmallWideImage = new Size(1000, 400);
@@ -306,6 +326,38 @@ namespace DMT.UnitTests.Library.Wallpaper
 		{
 			Size imageSize = TallSize;
 			Rectangle targetRect = Screen1Rect;
+
+			Rectangle actual = ImageFitter.FitImage(imageSize, fit, targetRect);
+			Assert.AreEqual(expectedRect, actual);
+		}
+
+
+		// test cases for when monitor not at x = 0 or y = 0
+		static object[] MonitorNotAtZeroZeroCases =
+		{
+			new object[] { Fit_08_____, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_18____A, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_28___E_, new Rectangle(2000, 1000, 2000, 1000) },
+			new object[] { Fit_38___EA, new Rectangle(2000, 1100, 2000, 800) },
+			new object[] { Fit_48__S__, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_58__S_A, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_68__SE_, new Rectangle(2000, 1000, 2000, 1000) },
+			new object[] { Fit_78__SEA, new Rectangle(2000, 1100, 2000, 800) },
+			new object[] { Fit_88_C___, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_98_C__A, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_A8_C_E_, new Rectangle(2000, 1000, 2000, 1000) },
+			new object[] { Fit_B8_C_EA, new Rectangle(1750, 1000, 2500, 1000) },
+			new object[] { Fit_C8_CS__, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_D8_CS_A, new Rectangle(2500, 1300, 1000, 400) },
+			new object[] { Fit_E8_CSE_, new Rectangle(2000, 1000, 2000, 1000) },
+			new object[] { Fit_F8_CSEA, new Rectangle(1750, 1000, 2500, 1000) },
+		};
+
+		[TestCaseSource("MonitorNotAtZeroZeroCases")]
+		public void MonitorNotAtZeroZero(StretchType.Fit fit, Rectangle expectedRect)
+		{
+			Size imageSize = SmallWideImage;
+			Rectangle targetRect = Screen4Rect;
 
 			Rectangle actual = ImageFitter.FitImage(imageSize, fit, targetRect);
 			Assert.AreEqual(expectedRect, actual);

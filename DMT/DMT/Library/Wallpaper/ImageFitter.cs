@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2017  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,7 +28,7 @@ namespace DMT.Library.Wallpaper
 {
 	static public class ImageFitter
 	{
-		enum ScaleDimension {  WidthPrimary, HeightPrimary, Equal};
+		enum ScaleDimension {  WidthBigest, HeightBigest, Equal};
 
 		public static StretchType.Fit UpgradeFit(StretchType.Fit oldFit)
 		{
@@ -40,7 +59,7 @@ namespace DMT.Library.Wallpaper
 			}
 		}
 
-		public static Rectangle OldFitImage(Size imageSize, StretchType.Fit fit, Rectangle targetRect)
+		static Rectangle OldFitImage(Size imageSize, StretchType.Fit fit, Rectangle targetRect)
 		{
 			Rectangle virtualDestRect = Rectangle.Empty;
 
@@ -118,9 +137,8 @@ namespace DMT.Library.Wallpaper
 					// default case if we can't scale
 					virtualDestRect = Center(imageSize, targetRect);
 
-					ScaleDimension scaleDimension = CompareScaleFactor(imageSize, targetRect);
-
-					bool useWidth = (scaleDimension == ScaleDimension.WidthPrimary);
+					ScaleDimension scaleDimension = GetBigestScaleDimension(imageSize, targetRect.Size);
+					bool useWidth = (scaleDimension == ScaleDimension.WidthBigest);
 					if (!clip)
 					{
 						useWidth = !useWidth;
@@ -167,12 +185,12 @@ namespace DMT.Library.Wallpaper
 					if (targetRect.Width > imageSize.Width)
 					{
 						width = targetRect.Width;
-						left = 0;
+						left = targetRect.Left;
 					}
 					if (targetRect.Height > imageSize.Height)
 					{
 						height = targetRect.Height;
-						top = 0;
+						top = targetRect.Top;
 					}
 				}
 
@@ -181,12 +199,12 @@ namespace DMT.Library.Wallpaper
 					if (targetRect.Width < imageSize.Width)
 					{
 						width = targetRect.Width;
-						left = 0;
+						left = targetRect.Left;
 					}
 					if (targetRect.Height < imageSize.Height)
 					{
 						height = targetRect.Height;
-						top = 0;
+						top = targetRect.Top;
 					}
 				}
 
@@ -246,16 +264,15 @@ namespace DMT.Library.Wallpaper
 
 			// check if we need to add either vertical or horizontal bars 
 			// either side of the image to keep the source aspect ratio
-			int widthFactor = targetRect.Width * sourceSize.Height;
-			int heightFactor = targetRect.Height * sourceSize.Width;
-			if (widthFactor > heightFactor)
+			ScaleDimension scaleDimension = GetBigestScaleDimension(sourceSize, targetRect.Size);
+			if (scaleDimension == ScaleDimension.WidthBigest)
 			{
 				// need to add vertical bars
 				int newWidth = (sourceSize.Width * targetRect.Height) / sourceSize.Height;
 				int barSize = (targetRect.Width - newWidth) / 2;
 				rect = new Rectangle(targetRect.Left + barSize, targetRect.Top, newWidth, targetRect.Height);
 			}
-			else if (heightFactor > widthFactor)
+			else if (scaleDimension == ScaleDimension.HeightBigest)
 			{
 				// need to add horizontal bars
 				int newHeight = (sourceSize.Height * targetRect.Width) / sourceSize.Width;
@@ -270,6 +287,7 @@ namespace DMT.Library.Wallpaper
 
 			return rect;
 		}
+
 		/// <summary>
 		/// Determines the destination rectangle to use to maintain the source aspect ratio
 		/// and to fill the destination entirely, but keeping the clipping to a minimum.
@@ -283,16 +301,15 @@ namespace DMT.Library.Wallpaper
 
 			// check which sides we need to clip 
 			// to keep the source aspect ratio
-			int widthFactor = targetRect.Width * sourceSize.Height;
-			int heightFactor = targetRect.Height * sourceSize.Width;
-			if (widthFactor > heightFactor)
+			ScaleDimension scaleDimension = GetBigestScaleDimension(sourceSize, targetRect.Size);
+			if (scaleDimension == ScaleDimension.WidthBigest)
 			{
 				// need to clip top and bottom
 				int newHeight = (sourceSize.Height * targetRect.Width) / sourceSize.Width;
 				int clipSize = (newHeight - targetRect.Height) / 2;
 				rect = new Rectangle(targetRect.Left, targetRect.Top - clipSize, targetRect.Width, newHeight);
 			}
-			else if (heightFactor > widthFactor)
+			else if (scaleDimension == ScaleDimension.HeightBigest)
 			{
 				// need to clip srcLeft and srcRight
 				int newWidth = (sourceSize.Width * targetRect.Height) / sourceSize.Height;
@@ -308,18 +325,23 @@ namespace DMT.Library.Wallpaper
 			return rect;
 		}
 
-		//  -1 width factor is largest, +1 => height factor is largest
-		static ScaleDimension CompareScaleFactor(Size sourceSize, Rectangle targetRect)
+		/// <summary>
+		/// Gets which dimension gets scaled the most when mapping from sourceSize to targetSize
+		/// </summary>
+		/// <param name="sourceSize"></param>
+		/// <param name="targetRect"></param>
+		/// <returns></returns>
+		static ScaleDimension GetBigestScaleDimension(Size sourceSize, Size targetSize)
 		{
-			int widthFactor = targetRect.Width * sourceSize.Height;
-			int heightFactor = targetRect.Height * sourceSize.Width;
+			int widthFactor = targetSize.Width * sourceSize.Height;
+			int heightFactor = targetSize.Height * sourceSize.Width;
 			if (widthFactor > heightFactor)
 			{
-				return ScaleDimension.WidthPrimary;
+				return ScaleDimension.WidthBigest;
 			}
 			else if (heightFactor > widthFactor)
 			{
-				return ScaleDimension.HeightPrimary;
+				return ScaleDimension.HeightBigest;
 			}
 			else
 			{
