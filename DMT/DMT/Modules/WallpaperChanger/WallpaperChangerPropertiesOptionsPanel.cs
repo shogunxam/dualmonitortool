@@ -167,6 +167,7 @@ namespace DMT.Modules.WallpaperChanger
 				ClearLink(linkLabelSource);
 				ClearLink(linkLabelPhotographer);
 				ClearLink(linkLabelDetails);
+				ClearLink(linkLabelSourceSize);
 			}
 			else
 			{
@@ -174,6 +175,12 @@ namespace DMT.Modules.WallpaperChanger
 				ShowLink(linkLabelSource, providerImage.Source, providerImage.SourceUrl);
 				ShowLink(linkLabelPhotographer, providerImage.Photographer, providerImage.PhotographerUrl);
 				ShowLink(linkLabelDetails, providerImage.MoreInfo, providerImage.MoreInfoUrl);
+				string imageDimensions = "";
+				if (providerImage.Image != null)
+				{
+					imageDimensions = string.Format("{0} * {1}", providerImage.Image.Width, providerImage.Image.Height);
+				}
+				ShowLink(linkLabelSourceSize, imageDimensions, null);
 			}
 		}
 

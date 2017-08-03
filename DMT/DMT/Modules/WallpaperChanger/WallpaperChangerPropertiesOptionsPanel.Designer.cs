@@ -31,6 +31,8 @@
 			this.components = new System.ComponentModel.Container();
 			this.picPreview = new System.Windows.Forms.PictureBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.linkLabelSourceSize = new System.Windows.Forms.LinkLabel();
+			this.label5 = new System.Windows.Forms.Label();
 			this.linkLabelProvider = new System.Windows.Forms.LinkLabel();
 			this.linkLabelDetails = new System.Windows.Forms.LinkLabel();
 			this.label4 = new System.Windows.Forms.Label();
@@ -60,6 +62,8 @@
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Controls.Add(this.linkLabelSourceSize);
+			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.linkLabelProvider);
 			this.groupBox1.Controls.Add(this.linkLabelDetails);
 			this.groupBox1.Controls.Add(this.label4);
@@ -70,10 +74,28 @@
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Location = new System.Drawing.Point(3, 191);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(494, 101);
+			this.groupBox1.Size = new System.Drawing.Size(494, 120);
 			this.groupBox1.TabIndex = 1;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Source Image Properties";
+			// 
+			// linkLabelSourceSize
+			// 
+			this.linkLabelSourceSize.AutoSize = true;
+			this.linkLabelSourceSize.Location = new System.Drawing.Point(127, 90);
+			this.linkLabelSourceSize.Name = "linkLabelSourceSize";
+			this.linkLabelSourceSize.Size = new System.Drawing.Size(0, 13);
+			this.linkLabelSourceSize.TabIndex = 10;
+			this.linkLabelSourceSize.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 90);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(67, 13);
+			this.label5.TabIndex = 9;
+			this.label5.Text = "Source Size:";
 			// 
 			// linkLabelProvider
 			// 
@@ -98,9 +120,9 @@
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(6, 72);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(71, 13);
+			this.label4.Size = new System.Drawing.Size(74, 13);
 			this.label4.TabIndex = 6;
-			this.label4.Text = "Image Details";
+			this.label4.Text = "Image Details:";
 			// 
 			// linkLabelPhotographer
 			// 
@@ -186,5 +208,7 @@
 		private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.LinkLabel linkLabelProvider;
 		private System.Windows.Forms.Label labelProperties;
+		private System.Windows.Forms.LinkLabel linkLabelSourceSize;
+		private System.Windows.Forms.Label label5;
 	}
 }
