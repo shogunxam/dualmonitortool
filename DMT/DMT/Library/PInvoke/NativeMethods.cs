@@ -131,6 +131,12 @@ namespace DMT.Library.PInvoke
 		public const int WM_XBUTTONUP = 0x020C;
 		public const int WM_HOTKEY = 0x0312;
 
+		public enum SystemMetric
+		{
+			SM_CXBORDER = 5,
+			SM_CYBORDER = 6
+		}
+
 		[Flags]
 		public enum ASSOCF
 		{
@@ -357,6 +363,10 @@ namespace DMT.Library.PInvoke
 		public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
 		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GetClientRect(IntPtr hwnd, out NativeMethods.RECT lpRect);
+
+		[DllImport("user32.dll")]
 		public static extern IntPtr GetDesktopWindow();
 
 		[DllImport("gdi32.dll")]
@@ -392,6 +402,9 @@ namespace DMT.Library.PInvoke
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr GetShellWindow();
+
+		[DllImport("user32.dll")]
+		public static extern int GetSystemMetrics(SystemMetric smIndex);
 
 		[DllImport("user32.dll")]
 		public static extern int GetSystemMenu(IntPtr hwnd, int bRevert);

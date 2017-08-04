@@ -373,22 +373,27 @@ namespace DMT.Library.GuiUtils
 		/// Moves the active window to the given rectangle in system co-ords
 		/// </summary>
 		/// <param name="rectangle">Location to move window to</param>
-		public static void MoveActiveToAbsoluteRectangle(Rectangle rectangle)
+		public static void MoveActiveToAbsoluteRectangle(Rectangle rectangle, bool pushBordersOut = false)
 		{
 			Rectangle workspaceRectangle = ToWorkspaceCoordinates(rectangle);
 
-			MoveActiveToWorkspaceRectangle(workspaceRectangle);
+			MoveActiveToWorkspaceRectangle(workspaceRectangle, pushBordersOut);
 		}
 
 		/// <summary>
 		/// Moves the active window to the given rectangle in workspace co-ords
 		/// </summary>
 		/// <param name="rectangle">Location to move window to</param>
-		public static void MoveActiveToWorkspaceRectangle(Rectangle rectangle)
+		public static void MoveActiveToWorkspaceRectangle(Rectangle rectangle, bool pushBordersOut = false)
 		{
 			IntPtr hWnd = NativeMethods.GetForegroundWindow();
 			if (!IsNullHandle(hWnd))
 			{
+				if (pushBordersOut)
+				{
+					rectangle = ExpandRectForTransprentBorder(hWnd, rectangle);
+				}
+
 				MoveWindow(hWnd, rectangle);
 			}
 		}
@@ -873,6 +878,45 @@ namespace DMT.Library.GuiUtils
 				screenRectangle.Width, screenRectangle.Height);
 		}
 
+		/// <summary>
+		/// We are normally called with a rectangle representing say half a screen.
+		/// But if the border is transparent, then it will look like we are not fillling the whole half of the screen.
+		/// So we expand the rectangle to push the borders out so they are on the outside of the original rectangle.
+		/// This way, yoy can half a window in each half screen with no gap between then,
+		/// even though there will be a transparent border from each window overlapping the other.
+		/// </summary>
+		/// <param name="hWnd"></param>
+		/// <returns></returns>
+		static Rectangle ExpandRectForTransprentBorder(IntPtr hWnd, Rectangle rectSource)
+		{
+			NativeMethods.RECT windowRect;
+			NativeMethods.RECT clientRect;
+
+			NativeMethods.GetWindowRect(hWnd, out windowRect);
+			NativeMethods.GetClientRect(hWnd, out clientRect);
+
+			// ClientRect will always start at (0, 0)
+			// Want width of a single border
+			int deltaX = (windowRect.right - windowRect.left - clientRect.right) / 2;
+			// no (transparent) at the top of a window above the caption bar
+			int deltaY = windowRect.bottom - windowRect.top - clientRect.bottom;
+
+			if (deltaX > 0)
+			{
+				// there is still a single line border which we need to keep 
+				int cxBorder = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXBORDER);
+				deltaX -= cxBorder;
+			}
+			if (deltaY > 0)
+			{
+				// there is still a single line border which we need to keep 
+				int cyBorder = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYBORDER);
+				deltaY -= cyBorder;
+			}
+
+			return new Rectangle(rectSource.Left - deltaX, rectSource.Top, rectSource.Width + 2 * deltaX, rectSource.Height + deltaY);
+		}
+
 		static int AdvanceHalfScreen(int curScreenIndex, int screenStart, int screenEnd, int winStart, int delta)
 		{
 			if (delta < 0)
@@ -905,7 +949,7 @@ namespace DMT.Library.GuiUtils
 
 		/// <summary>
 		/// Moves the window corresponding to the specified HWND
-		/// to the next screen.
+		/// to the given rectangle.
 		/// </summary>
 		/// <param name="hWnd">HWND of window to move.</param>
 		/// <param name="newRect">Rectangle the window is being moved too.</param>

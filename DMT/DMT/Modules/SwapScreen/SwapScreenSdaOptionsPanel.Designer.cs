@@ -39,13 +39,14 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.buttonUp = new System.Windows.Forms.Button();
 			this.buttonDown = new System.Windows.Forms.Button();
+			this.checkBoxBorderInside = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// checkBoxEnable
 			// 
 			this.checkBoxEnable.AutoSize = true;
-			this.checkBoxEnable.Location = new System.Drawing.Point(6, 84);
+			this.checkBoxEnable.Location = new System.Drawing.Point(6, 103);
 			this.checkBoxEnable.Name = "checkBoxEnable";
 			this.checkBoxEnable.Size = new System.Drawing.Size(166, 17);
 			this.checkBoxEnable.TabIndex = 0;
@@ -67,9 +68,9 @@
 			this.listBoxModifiers.AllowDrop = true;
 			this.listBoxModifiers.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
 			this.listBoxModifiers.FormattingEnabled = true;
-			this.listBoxModifiers.Location = new System.Drawing.Point(6, 107);
+			this.listBoxModifiers.Location = new System.Drawing.Point(6, 126);
 			this.listBoxModifiers.Name = "listBoxModifiers";
-			this.listBoxModifiers.Size = new System.Drawing.Size(193, 121);
+			this.listBoxModifiers.Size = new System.Drawing.Size(193, 108);
 			this.listBoxModifiers.TabIndex = 2;
 			this.listBoxModifiers.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxModifiers_DrawItem);
 			this.listBoxModifiers.SelectedIndexChanged += new System.EventHandler(this.listBoxModifiers_SelectedIndexChanged);
@@ -115,7 +116,7 @@
 			// 
 			this.label4.Location = new System.Drawing.Point(3, 23);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(317, 58);
+			this.label4.Size = new System.Drawing.Size(317, 46);
 			this.label4.TabIndex = 7;
 			this.label4.Text = "By using one of the screen modifier keys below together with the numeric key pad," +
     " you can move the active window to any full screen, half screen or quarter scree" +
@@ -124,7 +125,7 @@
 			// buttonUp
 			// 
 			this.buttonUp.Image = ((System.Drawing.Image)(resources.GetObject("buttonUp.Image")));
-			this.buttonUp.Location = new System.Drawing.Point(205, 144);
+			this.buttonUp.Location = new System.Drawing.Point(205, 136);
 			this.buttonUp.Name = "buttonUp";
 			this.buttonUp.Size = new System.Drawing.Size(32, 32);
 			this.buttonUp.TabIndex = 8;
@@ -134,17 +135,29 @@
 			// buttonDown
 			// 
 			this.buttonDown.Image = ((System.Drawing.Image)(resources.GetObject("buttonDown.Image")));
-			this.buttonDown.Location = new System.Drawing.Point(205, 182);
+			this.buttonDown.Location = new System.Drawing.Point(205, 193);
 			this.buttonDown.Name = "buttonDown";
 			this.buttonDown.Size = new System.Drawing.Size(32, 32);
 			this.buttonDown.TabIndex = 9;
 			this.buttonDown.UseVisualStyleBackColor = true;
 			this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
 			// 
+			// checkBoxBorderInside
+			// 
+			this.checkBoxBorderInside.AutoSize = true;
+			this.checkBoxBorderInside.Location = new System.Drawing.Point(6, 80);
+			this.checkBoxBorderInside.Name = "checkBoxBorderInside";
+			this.checkBoxBorderInside.Size = new System.Drawing.Size(162, 17);
+			this.checkBoxBorderInside.TabIndex = 10;
+			this.checkBoxBorderInside.Text = "Put borders on inside of SDA";
+			this.checkBoxBorderInside.UseVisualStyleBackColor = true;
+			this.checkBoxBorderInside.CheckedChanged += new System.EventHandler(this.checkBoxBorderInside_CheckedChanged);
+			// 
 			// SwapScreenSdaOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.checkBoxBorderInside);
 			this.Controls.Add(this.buttonDown);
 			this.Controls.Add(this.buttonUp);
 			this.Controls.Add(this.label4);
@@ -176,5 +189,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button buttonUp;
 		private System.Windows.Forms.Button buttonDown;
+		private System.Windows.Forms.CheckBox checkBoxBorderInside;
 	}
 }

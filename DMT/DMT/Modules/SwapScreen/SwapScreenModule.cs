@@ -149,6 +149,12 @@ namespace DMT.Modules.SwapScreen
 			set { EnableSdasSetting.Value = value; }
 		}
 
+		public bool BorderInsideSda
+		{
+			get { return BorderInsideSdaSetting.Value; }
+			set { BorderInsideSdaSetting.Value = value; }
+		}
+
 		public uint[] SdaModifiers
 		{
 			get { return ToModifierList(SdaModifiersSetting.Value); }
@@ -192,6 +198,7 @@ namespace DMT.Modules.SwapScreen
 #endregion
 
 		BoolSetting EnableSdasSetting { get; set; }
+		BoolSetting BorderInsideSdaSetting { get; set; }
 		StringSetting SdaModifiersSetting { get; set; }
 
 
@@ -259,9 +266,8 @@ namespace DMT.Modules.SwapScreen
 			SdaHotKeyErrors = new List<string>();
 
 			EnableSdasSetting = new BoolSetting(_settingsService, ModuleName, "EnableSdas", false);
+			BorderInsideSdaSetting = new BoolSetting(_settingsService, ModuleName, "BorderInsideSda", false);
 			SdaModifiersSetting = new StringSetting(_settingsService, ModuleName, "SdaModifiers", "");
-
-
 		}
 
 		/// <summary>
@@ -400,7 +406,7 @@ namespace DMT.Modules.SwapScreen
 			// set hotKey to false as the SdaGenerator will be responsible for registering it
 			Command command = new Command(commandName, string.Empty, string.Empty, null, false, true);
 			base.AddCommand(command);
-			SdaController sdaController = new SdaController(command, _hotKeyService);
+			SdaController sdaController = new SdaController(this, command, _hotKeyService);
 
 			return sdaController;
 		}

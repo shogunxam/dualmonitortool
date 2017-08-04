@@ -33,11 +33,13 @@ namespace DMT.Modules.SwapScreen
 	/// </summary>
 	class SdaController
 	{
+		SwapScreenModule _swapScreenModule;
 		Command _command;
 		IHotKeyService _hotKeyService;
 
-		public SdaController(Command command, IHotKeyService hotKeyService)
+		public SdaController(SwapScreenModule swapScreenModule, Command command, IHotKeyService hotKeyService)
 		{
+			_swapScreenModule = swapScreenModule;
 			_command = command;
 			_hotKeyService = hotKeyService;
 
@@ -81,8 +83,9 @@ namespace DMT.Modules.SwapScreen
 		/// </summary>
 		public void HotKeyHandler()
 		{
+			bool pushBordersOut = !_swapScreenModule.BorderInsideSda;
 			// The SDA areas are based on system co-ords not workspace co-ords
-			ScreenHelper.MoveActiveToAbsoluteRectangle(Position);
+			ScreenHelper.MoveActiveToAbsoluteRectangle(Position, pushBordersOut);
 		}
 
 		public void Disable()
