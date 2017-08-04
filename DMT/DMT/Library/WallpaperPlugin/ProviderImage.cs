@@ -24,6 +24,7 @@ namespace DMT.Library.WallpaperPlugin
 	using System.Drawing;
 	using System.Linq;
 	using System.Text;
+	using Utils;
 
 	/// <summary>
 	/// An image returned by a provider
@@ -114,17 +115,15 @@ namespace DMT.Library.WallpaperPlugin
 		{
 			// see http://stackoverflow.com/questions/6222053/problem-reading-jpeg-metadata-orientation/38459903#38459903
 
-			const int exif_Orientation = 0x112;
+			int orientation = image.GetExifOrientation();
 
-			if (Array.IndexOf(image.PropertyIdList, exif_Orientation) >= 0)
+			if (orientation > 0)
 			{
-				int orientation = (int)image.GetPropertyItem(exif_Orientation).Value[0];
 				switch (orientation)
 				{
 					case 1:
 						// correctly orientated
 						break;
-
 					case 2:
 						image.RotateFlip(RotateFlipType.RotateNoneFlipX);
 						break;
@@ -149,7 +148,7 @@ namespace DMT.Library.WallpaperPlugin
 				}
 
 				// we shouldn't need to test this again, but remove it jic
-				image.RemovePropertyItem(exif_Orientation);
+				image.RemoveExifOrientation();
 			}
 		}
 	}

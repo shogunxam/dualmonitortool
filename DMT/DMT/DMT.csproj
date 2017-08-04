@@ -122,6 +122,7 @@
     <Compile Include="Library\PInvoke\ActiveDesktop.cs" />
     <Compile Include="Library\Settings\StringSetting.cs" />
     <Compile Include="Library\Transform\ScaleHelper.cs" />
+    <Compile Include="Library\Utils\ImageExifExtensions.cs" />
     <Compile Include="Library\Utils\LatestVersion.cs" />
     <Compile Include="Library\Utils\LatestVersionFile.cs" />
     <Compile Include="Library\Utils\RNG.cs" />

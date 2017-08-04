@@ -184,6 +184,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 					providerImage.Provider = ProviderName;
 					providerImage.Source = filename;
 					providerImage.SourceUrl = filename;
+
+					providerImage.MoreInfo = providerImage.Image.GetExifDescription();
+					providerImage.Photographer = providerImage.Image.GetExifPhotographer();
 				}
 				catch (Exception)
 				{
