@@ -100,7 +100,7 @@ namespace DMT.Modules.SwapScreen
 		{
 			_loading = true;
 			checkBoxEnable.Checked = _swapScreenModule.EnableSdas;
-			checkBoxBorderInside.Checked = _swapScreenModule.BorderInsideSda;
+			checkBoxBorderOutside.Checked = _swapScreenModule.BorderOutsideSda;
 			FillModifiersList();
 			ShowErrors();
 			UpdateButtonStates();
@@ -117,9 +117,9 @@ namespace DMT.Modules.SwapScreen
 			}
 		}
 
-		private void checkBoxBorderInside_CheckedChanged(object sender, EventArgs e)
+		private void checkBoxBorderOutside_CheckedChanged(object sender, EventArgs e)
 		{
-			_swapScreenModule.BorderInsideSda = checkBoxBorderInside.Checked;
+			_swapScreenModule.BorderOutsideSda = checkBoxBorderOutside.Checked;
 		}
 
 		void FillModifiersList()

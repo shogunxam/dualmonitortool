@@ -83,9 +83,8 @@ namespace DMT.Modules.SwapScreen
 		/// </summary>
 		public void HotKeyHandler()
 		{
-			bool pushBordersOut = !_swapScreenModule.BorderInsideSda;
 			// The SDA areas are based on system co-ords not workspace co-ords
-			ScreenHelper.MoveActiveToAbsoluteRectangle(Position, pushBordersOut);
+			ScreenHelper.MoveActiveToAbsoluteRectangle(Position, _swapScreenModule.BorderOutsideSda);
 		}
 
 		public void Disable()

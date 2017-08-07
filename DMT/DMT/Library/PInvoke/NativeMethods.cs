@@ -134,7 +134,9 @@ namespace DMT.Library.PInvoke
 		public enum SystemMetric
 		{
 			SM_CXBORDER = 5,
-			SM_CYBORDER = 6
+			SM_CYBORDER = 6,
+			SM_CXFRAME = 32,
+			SM_CYFRAME = 33
 		}
 
 		[Flags]

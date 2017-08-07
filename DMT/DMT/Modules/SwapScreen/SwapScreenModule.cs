@@ -149,10 +149,10 @@ namespace DMT.Modules.SwapScreen
 			set { EnableSdasSetting.Value = value; }
 		}
 
-		public bool BorderInsideSda
+		public bool BorderOutsideSda
 		{
-			get { return BorderInsideSdaSetting.Value; }
-			set { BorderInsideSdaSetting.Value = value; }
+			get { return BorderOutsideSdaSetting.Value; }
+			set { BorderOutsideSdaSetting.Value = value; }
 		}
 
 		public uint[] SdaModifiers
@@ -198,7 +198,7 @@ namespace DMT.Modules.SwapScreen
 #endregion
 
 		BoolSetting EnableSdasSetting { get; set; }
-		BoolSetting BorderInsideSdaSetting { get; set; }
+		BoolSetting BorderOutsideSdaSetting { get; set; }
 		StringSetting SdaModifiersSetting { get; set; }
 
 
@@ -266,7 +266,9 @@ namespace DMT.Modules.SwapScreen
 			SdaHotKeyErrors = new List<string>();
 
 			EnableSdasSetting = new BoolSetting(_settingsService, ModuleName, "EnableSdas", false);
-			BorderInsideSdaSetting = new BoolSetting(_settingsService, ModuleName, "BorderInsideSda", false);
+			// if it looks like we have transparent borders, default to them being outside the SDA
+			bool defaultForBordersOutsideSda = _localEnvironment.IsWin8OrLater();
+			BorderOutsideSdaSetting = new BoolSetting(_settingsService, ModuleName, "BorderOutsideSda", defaultForBordersOutsideSda);
 			SdaModifiersSetting = new StringSetting(_settingsService, ModuleName, "SdaModifiers", "");
 		}
 

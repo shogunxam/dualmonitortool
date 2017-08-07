@@ -39,7 +39,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.buttonUp = new System.Windows.Forms.Button();
 			this.buttonDown = new System.Windows.Forms.Button();
-			this.checkBoxBorderInside = new System.Windows.Forms.CheckBox();
+			this.checkBoxBorderOutside = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -142,22 +142,22 @@
 			this.buttonDown.UseVisualStyleBackColor = true;
 			this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
 			// 
-			// checkBoxBorderInside
+			// checkBoxBorderOutside
 			// 
-			this.checkBoxBorderInside.AutoSize = true;
-			this.checkBoxBorderInside.Location = new System.Drawing.Point(6, 80);
-			this.checkBoxBorderInside.Name = "checkBoxBorderInside";
-			this.checkBoxBorderInside.Size = new System.Drawing.Size(162, 17);
-			this.checkBoxBorderInside.TabIndex = 10;
-			this.checkBoxBorderInside.Text = "Put borders on inside of SDA";
-			this.checkBoxBorderInside.UseVisualStyleBackColor = true;
-			this.checkBoxBorderInside.CheckedChanged += new System.EventHandler(this.checkBoxBorderInside_CheckedChanged);
+			this.checkBoxBorderOutside.AutoSize = true;
+			this.checkBoxBorderOutside.Location = new System.Drawing.Point(6, 80);
+			this.checkBoxBorderOutside.Name = "checkBoxBorderOutside";
+			this.checkBoxBorderOutside.Size = new System.Drawing.Size(169, 17);
+			this.checkBoxBorderOutside.TabIndex = 10;
+			this.checkBoxBorderOutside.Text = "Put borders on outside of SDA";
+			this.checkBoxBorderOutside.UseVisualStyleBackColor = true;
+			this.checkBoxBorderOutside.CheckedChanged += new System.EventHandler(this.checkBoxBorderOutside_CheckedChanged);
 			// 
 			// SwapScreenSdaOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.checkBoxBorderInside);
+			this.Controls.Add(this.checkBoxBorderOutside);
 			this.Controls.Add(this.buttonDown);
 			this.Controls.Add(this.buttonUp);
 			this.Controls.Add(this.label4);
@@ -189,6 +189,6 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button buttonUp;
 		private System.Windows.Forms.Button buttonDown;
-		private System.Windows.Forms.CheckBox checkBoxBorderInside;
+		private System.Windows.Forms.CheckBox checkBoxBorderOutside;
 	}
 }

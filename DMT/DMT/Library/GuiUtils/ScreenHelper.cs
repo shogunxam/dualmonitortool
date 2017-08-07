@@ -898,8 +898,14 @@ namespace DMT.Library.GuiUtils
 			// ClientRect will always start at (0, 0)
 			// Want width of a single border
 			int deltaX = (windowRect.right - windowRect.left - clientRect.right) / 2;
-			// no (transparent) at the top of a window above the caption bar
-			int deltaY = windowRect.bottom - windowRect.top - clientRect.bottom;
+
+			
+			// we assume borders are the same size on all sides of the window
+			// difficult to work out bottom border due to caption, menu and tool bars
+			int deltaY = deltaX;
+
+			//int deltaX = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXFRAME);
+			//int deltaY = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYFRAME);
 
 			if (deltaX > 0)
 			{
