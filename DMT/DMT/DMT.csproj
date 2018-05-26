@@ -117,6 +117,7 @@
     <Compile Include="Library\Html\HttpResponseData.cs" />
     <Compile Include="Library\Html\IHttpConnectionManager.cs" />
     <Compile Include="Library\Html\IHttpRequester.cs" />
+    <Compile Include="Library\Html\NetHelper.cs" />
     <Compile Include="Library\Logging\ILogger.cs" />
     <Compile Include="Library\Logging\Logger.cs" />
     <Compile Include="Library\PInvoke\ActiveDesktop.cs" />

@@ -53,6 +53,9 @@ namespace DMT
 		/// </summary>
 		public AppForm()
 		{
+			// make sure that TLS 1.2 is supported
+			DMT.Library.Html.NetHelper.InitServicePointManager();
+
 			InitializeComponent();
 
 			InitContextMenu();
