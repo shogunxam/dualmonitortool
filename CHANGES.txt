@@ -1,10 +1,12 @@
 Dual Monitor Tools
 
+
 Changes from 2.6 to 2.7
 ========================
 
 DMT:Wallpaper changer image fill method is more configurable
 DMT:Wallpaper changer properties show a few more details
+DMT:Wallpaper changer updated for change to Unsplash website
 DMT:SwapScreen SDA option to put (transparent) border on outside of SDA
 
 Changes from 2.5 to 2.6

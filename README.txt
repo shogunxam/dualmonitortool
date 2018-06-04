@@ -1,4 +1,4 @@
-Dual Monitor Tools v2.6
+Dual Monitor Tools v2.7
 -----------------------
 
 Dual Monitor Tools is a collection of tools for users running multiple
@@ -42,14 +42,14 @@ Dual Monitor Tools is free and has been released under the GPLv3 license.
 For further information on usage of the tools, visit http://dualmonitortool.sourceforge.net
 
 
-Changes in version 2.6
+Changes in version 2.7
 ----------------------
 
-DMT:SwapScreen now allows up to 100 user defined areas
-DMT:SwapScreen added system defined areas for each screen/half/quarter
-DMT:SwapScreen fix for snap up/down/left/right when taskbar at (0, 0)
-DMT:Wallpaper changer can now enable/disable providers from grid
-DMT:Cursor fix for cursor sometimes passing to another screen when it shouldn't
+DMT:SwapScreen option to put (transparent) border on outside of SDA
+DMT:Wallpaper changer shows original source image size in properties
+DMT:Wallpaper changer local images will use Exif data to show photographer/description 
+DMT:Wallpaper changer checkboxes used to specify how to fit image to monitor(s)
+DMT:Wallpaper changer updated for change to Unsplash website
 
 
 Requirements
@@ -74,14 +74,14 @@ and is the route to use if you are installing to a portable device.
 Msi Installation for new users
 ------------------------------
 
-Just download DualMonitorTools-2.6.msi and run it.
+Just download DualMonitorTools-2.7.msi and run it.
 
 
 Msi Installation upgrades
 -------------------------
 
 If you have previously installed DualMonitorTools using the Msi installer
-then you can just download DualMonitorTools-2.6.msi and run it.
+then you can just download DualMonitorTools-2.7.msi and run it.
 Alternatively, you can do this via the options in Dual Monitor Tools,
 by clicking the "Check for Updates" button in the "Dual Monitor
 Tools"->General page.
