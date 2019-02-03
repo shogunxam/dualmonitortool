@@ -101,7 +101,7 @@ namespace DMT.Modules.General
 
 			dataGridView.Rows[RowIdxSize].HeaderCell.Value = "Size";
 			dataGridView.Rows[RowIdxArea].HeaderCell.Value = "Area";
-			dataGridView.Rows[RowIdxWorkingArea].HeaderCell.Value = "Woprking Area";
+			dataGridView.Rows[RowIdxWorkingArea].HeaderCell.Value = "Working Area";
 			dataGridView.Rows[RowIdxBpp].HeaderCell.Value = "Bits per Pixel";
 
 			dataGridView.Rows[RowIdxOutputTech].HeaderCell.Value = "Output Tech";
