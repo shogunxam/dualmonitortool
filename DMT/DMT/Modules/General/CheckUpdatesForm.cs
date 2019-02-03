@@ -34,6 +34,7 @@ namespace DMT.Modules.General
 
 	using DMT.Library.Html;
 	using DMT.Library.Utils;
+	using Library.GuiUtils;
 
 	/// <summary>
 	/// Dialog used when checking if a later version of DMT is available
@@ -146,7 +147,7 @@ namespace DMT.Modules.General
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show(ex.Message, Resources.CommonStrings.MyTitle);
+						MsgDlg.Error(ex.Message);
 					}
 				}
 			}

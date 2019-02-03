@@ -37,6 +37,7 @@ namespace DMT
 
 	using Microsoft.Win32;
 	using DMT.Library.Settings;
+	using Library.GuiUtils;
 
 	/// <summary>
 	/// Main (hidden) window.
@@ -274,7 +275,7 @@ namespace DMT
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, CommonStrings.MyTitle);
+				MsgDlg.SystemError(ex.Message);
 			}
 		}
 

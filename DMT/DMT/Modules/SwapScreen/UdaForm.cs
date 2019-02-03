@@ -147,7 +147,7 @@ namespace DMT.Modules.SwapScreen
 
 			if (!isValid)
 			{
-				MessageBox.Show(SwapScreenStrings.InvalidPosition, CommonStrings.MyTitle);
+				MsgDlg.UserError(SwapScreenStrings.InvalidPosition);
 				return;
 			}
 
@@ -155,7 +155,7 @@ namespace DMT.Modules.SwapScreen
 			{
 				if (keyCombo.KeyCode == (Keys)0)
 				{
-					MessageBox.Show(CommonStrings.NoKey, CommonStrings.MyTitle);
+					MsgDlg.UserError(CommonStrings.NoKey);
 					return;
 				}
 			}
@@ -166,7 +166,7 @@ namespace DMT.Modules.SwapScreen
 			{
 				if (keyCombo.KeyCode == (Keys)0)
 				{
-					MessageBox.Show(CommonStrings.NoKey, CommonStrings.MyTitle);
+					MsgDlg.UserError(CommonStrings.NoKey);
 					return;
 				}
 			}
@@ -176,7 +176,7 @@ namespace DMT.Modules.SwapScreen
 			// TODO: need to tidy this up
 			if (!_udaController.SetValues(keyCombo.ComboValue, position, textBoxName.Text))
 			{
-				MessageBox.Show(CommonStrings.RegisterFail, CommonStrings.MyTitle);
+				MsgDlg.UserError(CommonStrings.RegisterFail);
 				return;
 			}
 

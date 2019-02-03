@@ -30,6 +30,7 @@ namespace DMT.Library.HotKeys
 	using System.Windows.Forms;
 
 	using DMT.Resources;
+	using GuiUtils;
 
 	/// <summary>
 	/// Dialog for editing a hotkey
@@ -98,7 +99,7 @@ namespace DMT.Library.HotKeys
 			{
 				if (keyCombo.KeyCode == (Keys)0)
 				{
-					MessageBox.Show(CommonStrings.NoKey, CommonStrings.MyTitle);
+					MsgDlg.UserError(CommonStrings.NoKey);
 					return;
 				}
 			}
@@ -106,7 +107,7 @@ namespace DMT.Library.HotKeys
 			// attempt to register this hotkey
 			if (!_hotKey.RegisterHotKey(keyCombo))
 			{
-				MessageBox.Show(CommonStrings.RegisterFail, CommonStrings.MyTitle);
+				MsgDlg.UserError(CommonStrings.RegisterFail);
 				return;
 			}
 

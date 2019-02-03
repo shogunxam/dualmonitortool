@@ -19,6 +19,7 @@
 
 namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 {
+	using Library.GuiUtils;
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
@@ -83,7 +84,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.RandomShapes
 			// TODO: validation
 			if (!checkBoxRectangles.Checked && !checkBoxEllipses.Checked)
 			{
-				MessageBox.Show("At least one of 'Rectangles' or 'Ellipses' must be selected", this.Text);
+				MsgDlg.UserError("At least one of 'Rectangles' or 'Ellipses' must be selected");
 				return;
 			}
 

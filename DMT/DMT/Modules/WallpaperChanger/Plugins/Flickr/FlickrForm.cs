@@ -30,7 +30,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 	using System.Windows.Forms;
 
 	using DMT.Library.Settings;
-	
+	using Library.GuiUtils;
+
 	/// <summary>
 	/// This is used to edit the configuration of a Flickr provider.
 	/// </summary>
@@ -118,7 +119,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			}
 
 			string msg = _flickrProvider.Validate(apiKey, config);
-			MessageBox.Show(msg);
+			MsgDlg.UserError(msg);
 		}
 
 		void ShowNoApiKeyMsg()

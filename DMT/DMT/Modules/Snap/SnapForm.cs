@@ -33,6 +33,7 @@ namespace DMT.Modules.Snap
 
 	using DMT.Library.Transform;
 	using DMT.Resources;
+	using Library.GuiUtils;
 
 	/// <summary>
 	/// Window that shows the snap
@@ -249,7 +250,7 @@ namespace DMT.Modules.Snap
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show(ex.Message, CommonStrings.MyTitle);
+						MsgDlg.UserError(ex.Message);
 					}
 				}
 			}

@@ -31,6 +31,7 @@ namespace DMT.Modules.WallpaperChanger
 
 	using DMT.Library.WallpaperPlugin;
 	using DMT.Resources;
+	using Library.GuiUtils;
 
 	/// <summary>
 	/// Dialog that lists all available provider types
@@ -61,7 +62,7 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			if (!AcceptSelectedProvider())
 			{
-				MessageBox.Show(WallpaperStrings.PleaseSelectProvider, this.Text);
+				MsgDlg.UserError(WallpaperStrings.PleaseSelectProvider);
 			}
 		}
 
@@ -69,7 +70,7 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			if (!AcceptSelectedProvider())
 			{
-				MessageBox.Show(WallpaperStrings.PleaseSelectProvider, this.Text);
+				MsgDlg.UserError(WallpaperStrings.PleaseSelectProvider);
 			}
 		}
 

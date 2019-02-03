@@ -281,7 +281,7 @@ namespace DMT.Modules.Launcher
 			if (!isValid)
 			{
 				this.DialogResult = DialogResult.None;
-				MessageBox.Show(LauncherStrings.InvalidCoOrd, CommonStrings.MyTitle);
+				MsgDlg.UserError(LauncherStrings.InvalidCoOrd);
 				return false;
 			}
 
@@ -289,7 +289,7 @@ namespace DMT.Modules.Launcher
 			{
 				this.DialogResult = DialogResult.None;
 				textBoxAlias.Focus();
-				MessageBox.Show(LauncherStrings.NoAlias, CommonStrings.MyTitle);
+				MsgDlg.UserError(LauncherStrings.NoAlias);
 				return false;
 			}
 
@@ -297,7 +297,7 @@ namespace DMT.Modules.Launcher
 			{
 				this.DialogResult = DialogResult.None;
 				textBoxFilename.Focus();
-				MessageBox.Show(LauncherStrings.NoFilename, CommonStrings.MyTitle);
+				MsgDlg.UserError(LauncherStrings.NoFilename);
 				return false;
 			}
 

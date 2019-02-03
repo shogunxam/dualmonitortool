@@ -32,6 +32,8 @@ namespace DMT.Library.Wallpaper
 	using DMT.Library.PInvoke;
 	using DMT.Library.Settings;
 	using Microsoft.Win32;
+	using Resources;
+	using GuiUtils;
 
 	/// <summary>
 	/// This handles Windows specific aspects of wallpaper.
@@ -130,29 +132,68 @@ namespace DMT.Library.Wallpaper
 
 			try
 			{
-				wallpaper.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
-
-				// make sure image is tiled (must do this for both normal and ActiveDesktop wallpaper)
-				SetTiledWallpaper();
-
-				// XP doesn't support fade and attempting to use it results in the wallpaper not changing
-				// so we force fade off for XP
-				if (useFade && _localEnvironment.IsVistaOrLater())
+				if (SaveWindowsWallpaperImage(wallpaper, path))
 				{
-					SetActiveDesktopWallpaper(path);
+					// make sure image is tiled (must do this for both normal and ActiveDesktop wallpaper)
+					SetTiledWallpaper();
+
+					// XP doesn't support fade and attempting to use it results in the wallpaper not changing
+					// so we force fade off for XP
+					if (useFade && _localEnvironment.IsVistaOrLater())
+					{
+						SetActiveDesktopWallpaper(path);
+					}
+					else
+					{
+						SetDesktopWallpaper(path);
+					}
+
+					// save the location of the wallpaper bitmap so that the screen saver can pick it up
+					DmtRegistry.SetDmtWallpaperFilename(path);
 				}
 				else
 				{
-					SetDesktopWallpaper(path);
+					MsgDlg.SystemError("Faled to save Windows wallpaper to: " + path);
 				}
-
-				// save the location of the wallpaper bitmap so that the screen saver can pick it up
-				DmtRegistry.SetDmtWallpaperFilename(path);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MsgDlg.SystemError("Set wallpaper: " + ex.Message);
 			}
+		}
+
+		bool SaveWindowsWallpaperImage(Image wallpaperImage, string path)
+		{
+			// There seems to be an issue, where sometimes the Windows wallpaper can not be saved at startup
+			// seems to be a permission problem!?
+			// so we allow multiple attempts at this with a delay betwen each.
+			int maxAttempts = 3;
+
+			for (int attempt = 1; attempt <= maxAttempts; attempt++)
+			{
+				try
+				{
+					wallpaperImage.Save(path, System.Drawing.Imaging.ImageFormat.Bmp);
+
+					//if (attempt > 1)
+					//{
+					//	string msg = string.Format("Windows wallpaper saved to {0} on attempt {1}", path, attempt);
+					//	MessageBox.Show(msg, CommonStrings.MyTitle);
+					//}
+
+					return true;
+				}
+				catch (Exception ex)
+				{
+					//MessageBox.Show("wallpaper.Save(" + path + ") : " + ex.Message, CommonStrings.MyTitle);
+					//throw;
+				}
+
+				// add a short(ish) delay before retrying
+				Thread.Sleep(1000);
+			}
+
+			return false;
 		}
 
 		void SetTiledWallpaper()
@@ -187,7 +228,7 @@ namespace DMT.Library.Wallpaper
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message);
+				MsgDlg.SystemError("Save wallpaper: " + ex.Message);
 			}
 		}
 
