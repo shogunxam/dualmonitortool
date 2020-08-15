@@ -245,7 +245,7 @@ namespace DMT.Modules.Launcher
 		private bool MoveIfMatch(StartupProcess pendingMove, IntPtr hWnd)
 		{
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			ScreenHelper.GetWindowPlacement(hWnd, ref windowPlacement);
 
 			Rectangle vitrualDesktopRect = ScreenHelper.GetVitrualDesktopRect();
 

@@ -1,7 +1,7 @@
 #region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009-2015  Gerald Evans
+// Copyright (C) 2009-2020  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -79,6 +79,9 @@ namespace DMT.Library.GuiUtils
 		/// <param name="screenIndex">Zero based index of screen to show.</param>
 		public static void ShowDesktop(int screenIndex)
 		{
+			// TODO: should this be configurable? or safe to assume most people use transparent borders?
+			bool ignoreBorders = true;	// ignore the (transparent) border when performing intersections
+
 			if (screenIndex < 0 || screenIndex >= Screen.AllScreens.Length)
 			{
 				return;
@@ -91,8 +94,16 @@ namespace DMT.Library.GuiUtils
 			foreach (IntPtr hWnd in hWndList)
 			{
 				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+				GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
+
+				if (ignoreBorders)
+				{
+					// shrink the rect to ignore the borders
+					int borderSize = CalcBorderSize(hWnd);
+					windowRectangle.Inflate(-borderSize, -borderSize);
+				}
+
 				if (windowRectangle.IntersectsWith(curScreen.Bounds))
 				{
 					// this window does exist (maybe partially) on this screen
@@ -171,7 +182,7 @@ namespace DMT.Library.GuiUtils
 		{
 			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			GetWindowPlacement(hWnd, ref windowPlacement);
 
 			// check if the window is already minimised
 			if ((style & NativeMethods.WS_MINIMIZE) == 0)
@@ -195,7 +206,7 @@ namespace DMT.Library.GuiUtils
 		public static void MinimiseWindow(IntPtr hWnd)
 		{
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			GetWindowPlacement(hWnd, ref windowPlacement);
 			windowPlacement.showCmd = NativeMethods.SW_SHOWMINIMIZED;
 			NativeMethods.SetWindowPlacement(hWnd, ref windowPlacement);
 		}
@@ -223,7 +234,7 @@ namespace DMT.Library.GuiUtils
 			if ((style & NativeMethods.WS_MAXIMIZEBOX) != 0)
 			{
 				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+				GetWindowPlacement(hWnd, ref windowPlacement);
 
 				// check if the window is already maximised
 				if ((style & NativeMethods.WS_MAXIMIZE) == 0)
@@ -271,7 +282,7 @@ namespace DMT.Library.GuiUtils
 				// is on the left side of the left most screen when screens positioned as left and right.
 				Rectangle vitrualWorkingRect = GetVitrualWorkingRect();
 				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+				GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 
 				if (hWnd == _lastSupersizeHwnd && curRect == vitrualWorkingRect)
@@ -431,7 +442,7 @@ namespace DMT.Library.GuiUtils
 		}
 		#endregion
 
-		#region Private Helpers
+		#region Public Helpers
 		/// <summary>
 		/// Converts a Win32 RECT to a Rectangle.
 		/// </summary>
@@ -456,6 +467,15 @@ namespace DMT.Library.GuiUtils
 			return rect;
 		}
 
+		public static void GetWindowPlacement(IntPtr hWnd, ref NativeMethods.WINDOWPLACEMENT windowPlacement)
+		{
+			// make sure we set  WINDOWPLACEMENT length before calling GetWindowPlacement()
+			windowPlacement.length = 44; // 11 ints
+			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+		}
+		#endregion Public Helpers
+
+		#region Private Helpers
 		/// <summary>
 		/// Gets a list of all windows that we think should be allowed
 		/// to be moved between screens.
@@ -463,7 +483,6 @@ namespace DMT.Library.GuiUtils
 		/// <returns>List of HWND's belonging to application windows.</returns>
 		static List<IntPtr> GetVisibleApplicationWindows()
 		{
-			// TODO: rewrite using IsCandidateForMoving()
 			List<IntPtr> hWndList = new List<IntPtr>();
 			IntPtr hWndShell = NativeMethods.GetShellWindow();
 			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
@@ -471,36 +490,10 @@ namespace DMT.Library.GuiUtils
 			// use anonymous method to simplify access to the windows list
 			NativeMethods.EnumWindowsProc windowVisiter = delegate(IntPtr hWnd, uint lParam)
 			{
-				if (hWnd == hWndShell)
+				if (IsCandidateForMoving(hWnd, hWndShell, vitrualDesktopRect))
 				{
-					// ignore the shell (Program Manager) window
-				}
-				else if (!NativeMethods.IsWindowVisible(hWnd))
-				{
-					// ignore any windows without WS_VISIBLE
-				}
-				else
-				{
-					NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-					NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
-					Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
-					if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
-					{
-						// window has been deliberately positioned offscreen, so leave alone
-					}
-					else
-					{
-						int exStyle = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_EXSTYLE);
-						if ((exStyle & NativeMethods.WS_EX_TOOLWINDOW) != 0)
-						{
-							// This is a tool window - leave alone
-						}
-						else
-						{
-							// we should be able to move this window without any ill effect
-							hWndList.Add(hWnd);
-						}
-					}
+					// we should be able to move this window without any ill effect
+					hWndList.Add(hWnd);
 				}
 
 				return true;
@@ -512,9 +505,17 @@ namespace DMT.Library.GuiUtils
 
 		static bool IsCandidateForMoving(IntPtr hWnd)
 		{
+			IntPtr hWndShell = NativeMethods.GetShellWindow();
+			Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
+
+			return IsCandidateForMoving(hWnd, hWndShell, vitrualDesktopRect);
+		}
+
+		static bool IsCandidateForMoving(IntPtr hWnd, IntPtr hWndShell, Rectangle vitrualDesktopRect)
+		{
 			bool isCandidate = false;
 
-			if (hWnd == NativeMethods.GetShellWindow())
+			if (hWnd == hWndShell)
 			{
 				// ignore the shell (Program Manager) window
 			}
@@ -525,9 +526,8 @@ namespace DMT.Library.GuiUtils
 			else
 			{
 				NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-				NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+				GetWindowPlacement(hWnd, ref windowPlacement);
 				Rectangle windowRectangle = RectToRectangle(ref windowPlacement.rcNormalPosition);
-				Rectangle vitrualDesktopRect = GetVitrualDesktopRect();
 				if (!windowRectangle.IntersectsWith(vitrualDesktopRect))
 				{
 					// window has been deliberately positioned offscreen, so leave alone
@@ -549,6 +549,7 @@ namespace DMT.Library.GuiUtils
 
 			return isCandidate;
 		}
+
 
 		/// <summary>
 		/// Get the bounding rectangle that covers the working area of all screens
@@ -703,7 +704,7 @@ namespace DMT.Library.GuiUtils
 		static void MoveWindowToNext(IntPtr hWnd, int deltaScreenIndex)
 		{
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			GetWindowPlacement(hWnd, ref windowPlacement);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			Rectangle newRect = TransfromRectToOtherScreen(ref curRect, deltaScreenIndex);
 			uint oldShowCmd = windowPlacement.showCmd;
@@ -737,7 +738,7 @@ namespace DMT.Library.GuiUtils
 		static void SnapWindowLeftRight(IntPtr hWnd, int delta)
 		{
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			GetWindowPlacement(hWnd, ref windowPlacement);
 			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			// convert to screen coords
@@ -797,7 +798,7 @@ namespace DMT.Library.GuiUtils
 		static void SnapWindowUpDown(IntPtr hWnd, int delta)
 		{
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			GetWindowPlacement(hWnd, ref windowPlacement);
 			int style = NativeMethods.GetWindowLong(hWnd, NativeMethods.GWL_STYLE);
 			Rectangle curRect = RectToRectangle(ref windowPlacement.rcNormalPosition);
 			// convert to screen coords
@@ -882,30 +883,18 @@ namespace DMT.Library.GuiUtils
 		/// We are normally called with a rectangle representing say half a screen.
 		/// But if the border is transparent, then it will look like we are not fillling the whole half of the screen.
 		/// So we expand the rectangle to push the borders out so they are on the outside of the original rectangle.
-		/// This way, yoy can half a window in each half screen with no gap between then,
+		/// This way, you can have a window in each half screen with no gap between then,
 		/// even though there will be a transparent border from each window overlapping the other.
 		/// </summary>
 		/// <param name="hWnd"></param>
 		/// <returns></returns>
 		static Rectangle ExpandRectForTransprentBorder(IntPtr hWnd, Rectangle rectSource)
 		{
-			NativeMethods.RECT windowRect;
-			NativeMethods.RECT clientRect;
-
-			NativeMethods.GetWindowRect(hWnd, out windowRect);
-			NativeMethods.GetClientRect(hWnd, out clientRect);
-
-			// ClientRect will always start at (0, 0)
-			// Want width of a single border
-			int deltaX = (windowRect.right - windowRect.left - clientRect.right) / 2;
-
+			int deltaX = CalcBorderSize(hWnd);
 			
 			// we assume borders are the same size on all sides of the window
 			// difficult to work out bottom border due to caption, menu and tool bars
 			int deltaY = deltaX;
-
-			//int deltaX = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CXFRAME);
-			//int deltaY = NativeMethods.GetSystemMetrics(NativeMethods.SystemMetric.SM_CYFRAME);
 
 			if (deltaX > 0)
 			{
@@ -921,6 +910,27 @@ namespace DMT.Library.GuiUtils
 			}
 
 			return new Rectangle(rectSource.Left - deltaX, rectSource.Top, rectSource.Width + 2 * deltaX, rectSource.Height + deltaY);
+		}
+
+		/// <summary>
+		/// Caclulates the size of the border for given window.
+		/// This assumes the border thickness is the same on all edges of the window.
+		/// </summary>
+		/// <param name="hWnd"></param>
+		/// <returns>thivkness of single border</returns>
+		static int CalcBorderSize(IntPtr hWnd)
+		{
+			NativeMethods.RECT windowRect;
+			NativeMethods.RECT clientRect;
+
+			NativeMethods.GetWindowRect(hWnd, out windowRect);
+			NativeMethods.GetClientRect(hWnd, out clientRect);
+
+			// ClientRect will always start at (0, 0)
+			// Want width of a single border
+			int borderWidth = (windowRect.right - windowRect.left - clientRect.right) / 2;
+
+			return borderWidth;
 		}
 
 		static int AdvanceHalfScreen(int curScreenIndex, int screenStart, int screenEnd, int winStart, int delta)
@@ -962,7 +972,7 @@ namespace DMT.Library.GuiUtils
 		static void MoveWindow(IntPtr hWnd, Rectangle newRect)
 		{
 			NativeMethods.WINDOWPLACEMENT windowPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref windowPlacement);
+			GetWindowPlacement(hWnd, ref windowPlacement);
 			uint oldShowCmd = windowPlacement.showCmd;
 			if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 			{
@@ -990,9 +1000,9 @@ namespace DMT.Library.GuiUtils
 		{
 			// get the current window positions
 			NativeMethods.WINDOWPLACEMENT topPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWndTop, ref topPlacement);
+			GetWindowPlacement(hWndTop, ref topPlacement);
 			NativeMethods.WINDOWPLACEMENT nextPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWndNext, ref nextPlacement);
+			GetWindowPlacement(hWndNext, ref nextPlacement);
 
 			// swap the positions
 			MoveWindowToPlacement(hWndTop, nextPlacement);
@@ -1002,7 +1012,7 @@ namespace DMT.Library.GuiUtils
 		static void MoveWindowToPlacement(IntPtr hWnd, NativeMethods.WINDOWPLACEMENT windowPlacement)
 		{
 			NativeMethods.WINDOWPLACEMENT oldPlacement = new NativeMethods.WINDOWPLACEMENT();
-			NativeMethods.GetWindowPlacement(hWnd, ref oldPlacement);
+			GetWindowPlacement(hWnd, ref oldPlacement);
 			uint oldShowCmd = oldPlacement.showCmd;
 			if (oldShowCmd == NativeMethods.SW_SHOWMINIMIZED || oldShowCmd == NativeMethods.SW_SHOWMAXIMIZED)
 			{

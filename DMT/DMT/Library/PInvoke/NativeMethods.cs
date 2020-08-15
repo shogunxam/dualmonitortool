@@ -288,6 +288,25 @@ namespace DMT.Library.PInvoke
 			public POINT ptMinPosition;
 			public POINT ptMaxPosition;
 			public RECT rcNormalPosition;
+
+			// let the caller set the length instead of doing it in here
+			//public WINDOWPLACEMENT(int dummy)
+			//{
+			//	length = 44; // 11 ints
+			//	flags = 0;
+			//	showCmd = 0;
+
+			//	ptMinPosition.x = 0;
+			//	ptMinPosition.y = 0;
+
+			//	ptMaxPosition.x = 0;
+			//	ptMaxPosition.y = 0;
+
+			//	rcNormalPosition.left = 0;
+			//	rcNormalPosition.right = 0;
+			//	rcNormalPosition.top = 0;
+			//	rcNormalPosition.bottom = 0;
+			//}
 		}
 
 		//public class KBDLLHOOKSTRUCT
