@@ -181,7 +181,8 @@ namespace DMT.Modules.Launcher
 			else
 			{
 				// just position ourselves at the center of the primary screen
-				Rectangle screenRect = Screen.PrimaryScreen.Bounds;
+				//Rectangle screenRect = Screen.PrimaryScreen.Bounds;
+				Rectangle screenRect = Monitor.AllMonitors.PrimaryMonitor.Bounds;
 				this.Location = new Point((screenRect.Width - Size.Width) / 2, (screenRect.Height - Size.Height) / 2);
 			}
 		}
@@ -205,7 +206,8 @@ namespace DMT.Modules.Launcher
 			////return false;
 
 			// find closest screen
-			Screen screen = Screen.FromRectangle(rectangle);
+			//Screen screen = Screen.FromRectangle(rectangle);
+			Monitor screen = Monitor.AllMonitors.FromRectangle(rectangle);
 			if (!screen.WorkingArea.IntersectsWith(rectangle))
 			{
 				return false;

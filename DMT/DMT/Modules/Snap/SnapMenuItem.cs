@@ -19,6 +19,7 @@
 
 namespace DMT.Modules.Snap
 {
+	using DMT.Library.Environment;
 	using System;
 	using System.Collections.Generic;
 	using System.Drawing;
@@ -38,7 +39,8 @@ namespace DMT.Modules.Snap
 		static SnapMenuItem()
 		{
 			// static ctor used to perform computations that only need to be performed once.
-			Size primaryScreenSize = Screen.PrimaryScreen.Bounds.Size;
+			//Size primaryScreenSize = Screen.PrimaryScreen.Bounds.Size;
+			Size primaryScreenSize = Monitor.AllMonitors.PrimaryMonitor.Bounds.Size;
 
 			_defaultSize.Height = 150; // TODO determine suitable (configurable?) value
 

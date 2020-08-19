@@ -112,6 +112,9 @@ namespace DMT
 		/// </summary>
 		public void DisplayResolutionChanged()
 		{
+			// 
+			Monitor.ReBuild(Monitor.EOrderType.DotNet);
+
 			if (_moduleService != null)
 			{
 				_moduleService.DisplayResolutionChanged();

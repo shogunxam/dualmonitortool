@@ -72,9 +72,9 @@
     <Compile Include="Library\Command\MagicCommand.cs" />
     <Compile Include="Library\Environment\ILocalEnvironment.cs" />
     <Compile Include="Library\Environment\LocalEnvironment.cs" />
+    <Compile Include="Library\Environment\DmtRegistry.cs" />
     <Compile Include="Library\Environment\Monitor.cs" />
     <Compile Include="Library\Environment\Monitors.cs" />
-    <Compile Include="Library\Environment\DmtRegistry.cs" />
     <Compile Include="Library\Extensions\RectangeExtensions.cs" />
     <Compile Include="Library\GuiUtils\MsgDlg.cs" />
     <Compile Include="Library\GuiUtils\FileSelectionHelper.cs" />

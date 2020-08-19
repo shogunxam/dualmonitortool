@@ -35,6 +35,7 @@ namespace DMT.Modules.Snap
 	using DMT.Library.PInvoke;
 	using DMT.Library.Settings;
 	using DMT.Resources;
+	using DMT.Library.Environment;
 
 	/// <summary>
 	/// Snap module
@@ -219,7 +220,8 @@ namespace DMT.Modules.Snap
 		/// </summary>
 		public void TakePrimaryScreenSnap()
 		{
-			Rectangle r = Screen.PrimaryScreen.Bounds;
+			//Rectangle r = Screen.PrimaryScreen.Bounds;
+			Rectangle r = Monitor.AllMonitors.PrimaryMonitor.Bounds;
 
 			TakeSnap(r);
 		}
@@ -267,7 +269,8 @@ namespace DMT.Modules.Snap
 			if (SnapHistory.Count > 0)
 			{
 				// position window on second screen
-				Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
+				//Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
+				Monitor secondaryScreen = ScreenHelper.NextScreen(Monitor.AllMonitors.PrimaryMonitor);
 				SnapForm snapForm = GetSnapForm();
 				snapForm.ShowAt(secondaryScreen.Bounds);
 				if (_showSnapToolStripMenuItem != null)
@@ -303,7 +306,8 @@ namespace DMT.Modules.Snap
 
 		PixelFormat GetPixelFormat()
 		{
-			switch (Screen.PrimaryScreen.BitsPerPixel)
+			//switch (Screen.PrimaryScreen.BitsPerPixel)
+			switch (Monitor.AllMonitors.PrimaryMonitor.Screen.BitsPerPixel)
 			{
 				case 8:
 				case 16:

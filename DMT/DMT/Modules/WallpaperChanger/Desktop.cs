@@ -89,7 +89,8 @@ namespace DMT.Modules.WallpaperChanger
 		public void UpdateWallpaper()
 		{
 			// Need to create a new compositor each time as the screens (count/sizes) may have changed
-			_compositor = _compositorFactory.Create(_localEnvironment.Monitors);
+			//_compositor = _compositorFactory.Create(_localEnvironment.Monitors);
+			_compositor = _compositorFactory.Create(Monitor.AllMonitors);
 			_compositor.DesktopRectBackColor = _wallpaperChangerModule.BackgroundColour;
 
 			SwitchType.ImageToMonitorMapping monitorMapping = _wallpaperChangerModule.MonitorMapping;

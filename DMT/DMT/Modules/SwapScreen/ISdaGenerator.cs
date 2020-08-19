@@ -27,6 +27,7 @@ namespace DMT.Modules.SwapScreen
 {
 	interface ISdaGenerator
 	{
+		//void GenerateSdas(List<SdaController> sdaControllers, Monitors allMonitors, List<string> registrationErrors);
 		void GenerateSdas(List<SdaController> sdaControllers, Monitors allMonitors, List<string> registrationErrors);
 	}
 }

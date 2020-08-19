@@ -254,12 +254,12 @@ namespace DMT
 		// dynamically add any needed menu items to the context menu
 		void InitContextMenu()
 		{
-			// add a 'Show Desktop n' for each known screen
-			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
-			{
-				// This is no longer needed?
-				////AddShowDesktopMenuItem(screenIndex);
-			}
+			//// add a 'Show Desktop n' for each known screen
+			//for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			//{
+			//	// This is no longer needed?
+			//	////AddShowDesktopMenuItem(screenIndex);
+			//}
 		}
 
 		private void notifyIcon_DoubleClick(object sender, EventArgs e)

@@ -36,6 +36,7 @@ namespace DMT.Modules.Cursor
 	using DMT.Library.Settings;
 	using DMT.Library.Transform;
 	using DMT.Resources;
+	using DMT.Library.Environment;
 
 	/// <summary>
 	/// Module for handling mouse/cursor related features
@@ -441,7 +442,8 @@ namespace DMT.Modules.Cursor
 			bool wasLocked = CursorLocked;
 
 			// find primary monitor
-			Screen primaryScreen = Screen.PrimaryScreen;
+			//Screen primaryScreen = Screen.PrimaryScreen;
+			Monitor primaryScreen = Monitor.AllMonitors.PrimaryMonitor;
 			Point newCursorPosition = new Point(primaryScreen.Bounds.Width / 2, primaryScreen.Bounds.Height / 2);
 			if (wasLocked)
 			{
@@ -584,7 +586,8 @@ namespace DMT.Modules.Cursor
 					}
 
 					// check in case returning to (or is already on) primary screen and user wants this to happen freely
-					bool freelyReturnToPrimary = PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y);
+					//bool freelyReturnToPrimary = PrimaryReturnUnhindered && Screen.PrimaryScreen.Bounds.Contains(x, y);
+					bool freelyReturnToPrimary = PrimaryReturnUnhindered && Monitor.AllMonitors.PrimaryMonitor.Bounds.Contains(x, y);
 
 					if (touchEvent || freelyReturnToPrimary)
 					{
@@ -757,15 +760,17 @@ namespace DMT.Modules.Cursor
 			bool wasLocked = CursorLocked;
 
 			Point oldCursorPosition = System.Windows.Forms.Cursor.Position;
-			Screen curScreen = Screen.FromPoint(oldCursorPosition);
-			int curScreenIndex = ScreenHelper.FindScreenIndex(curScreen);
+			//Screen curScreen = Screen.FromPoint(oldCursorPosition);
+			//int curScreenIndex = ScreenHelper.FindScreenIndex(curScreen);
+			int curScreenIndex = Monitor.AllMonitors.MonitorIndexFromPoint(oldCursorPosition);
+			Monitor curScreen = Monitor.AllMonitors[curScreenIndex];
 			int newScreenIndex = ScreenHelper.DeltaScreenIndex(curScreenIndex, deltaScreenIndex);
 			if (newScreenIndex != curScreenIndex)
 			{
 				// want to position the cursor on this new screen in a position
 				// that is relative to the position it was on the old screen.
-				Debug.Assert(newScreenIndex >= 0 && newScreenIndex < Screen.AllScreens.Length, "Invalid screen index");
-				Screen newScreen = Screen.AllScreens[newScreenIndex];
+				Debug.Assert(newScreenIndex >= 0 && newScreenIndex < Monitor.AllMonitors.Count, "Invalid screen index");
+				Monitor newScreen = Monitor.AllMonitors[newScreenIndex];
 
 				Scaler scaleX = new Scaler(curScreen.Bounds.Left, curScreen.Bounds.Right, newScreen.Bounds.Left, newScreen.Bounds.Right);
 				Scaler scaleY = new Scaler(curScreen.Bounds.Top, curScreen.Bounds.Bottom, newScreen.Bounds.Top, newScreen.Bounds.Bottom);
@@ -798,7 +803,8 @@ namespace DMT.Modules.Cursor
 		// Note: no locking is currently employed so need to be carefull of the order in which things are done
 		private void ReBuildBarriers(Point pt)
 		{
-			Screen curScreen = Screen.FromPoint(pt);
+			//Screen curScreen = Screen.FromPoint(pt);
+			Monitor curScreen = Monitor.AllMonitors.FromPoint(pt);
 
 			// We use the virtualDesktopRect to determine if it is
 			// possible for the mouse to move over each of the borders

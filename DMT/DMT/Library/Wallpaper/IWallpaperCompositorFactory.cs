@@ -35,6 +35,7 @@ namespace DMT.Library.Wallpaper
 		/// </summary>
 		/// <param name="monitors">Monitors to create the compositor for</param>
 		/// <returns>A wallpaper compositor</returns>
+		//IWallpaperCompositor Create(Monitors monitors);
 		IWallpaperCompositor Create(Monitors monitors);
 	}
 }

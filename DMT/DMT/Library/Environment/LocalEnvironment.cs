@@ -33,24 +33,24 @@ namespace DMT.Library.Environment
 		/// <summary>
 		/// Gets the current monitors
 		/// </summary>
-		public Monitors Monitors
-		{
-			get
-			{
-				// this can change with time, so do not cache
-				Monitors monitors = new Monitors();
-				foreach (Screen screen in Screen.AllScreens)
-				{
-					Monitor monitor = new Monitor();
-					monitor.Bounds = screen.Bounds;
-					monitor.WorkingArea = screen.WorkingArea;
-					monitor.Primary = screen.Primary;
-					monitors.Add(monitor);
-				}
+		//public Monitors Monitors
+		//{
+		//	get
+		//	{
+		//		// this can change with time, so do not cache
+		//		Monitors monitors = new Monitors();
+		//		foreach (Screen screen in Screen.AllScreens)
+		//		{
+		//			Monitor monitor = new Monitor();
+		//			monitor.Bounds = screen.Bounds;
+		//			monitor.WorkingArea = screen.WorkingArea;
+		//			monitor.Primary = screen.Primary;
+		//			monitors.Add(monitor);
+		//		}
 
-				return monitors;
-			}
-		}
+		//		return monitors;
+		//	}
+		//}
 
 		/// <summary>
 		/// Are we running Windows Vista or later

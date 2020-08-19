@@ -27,6 +27,7 @@ namespace DMT.Library.GuiUtils
 	using System.Windows.Forms;
 
 	using DMT.Library.PInvoke;
+	using DMT.Library.Environment;
 
 	/// <summary>
 	/// Utility class to help in handling multiple screens.
@@ -82,12 +83,14 @@ namespace DMT.Library.GuiUtils
 			// TODO: should this be configurable? or safe to assume most people use transparent borders?
 			bool ignoreBorders = true;	// ignore the (transparent) border when performing intersections
 
-			if (screenIndex < 0 || screenIndex >= Screen.AllScreens.Length)
+			//if (screenIndex < 0 || screenIndex >= Screen.AllScreens.Length)
+			if (screenIndex < 0 || screenIndex >= Monitor.AllMonitors.Count)
 			{
 				return;
 			}
 
-			Screen curScreen = Screen.AllScreens[screenIndex];
+			//Screen curScreen = Screen.AllScreens[screenIndex];
+			Screen curScreen = Monitor.AllMonitors[screenIndex].Screen;
 			List<IntPtr> hWndList = GetVisibleApplicationWindows();
 
 			// for each visible application window...
@@ -557,20 +560,22 @@ namespace DMT.Library.GuiUtils
 		/// <returns>Bounding rectangle</returns>
 		public static Rectangle GetVitrualWorkingRect()
 		{
-			Rectangle boundingRect = new Rectangle();
-			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
-			{
-				if (screenIndex == 0)
-				{
-					boundingRect = Screen.AllScreens[screenIndex].WorkingArea;
-				}
-				else
-				{
-					boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].WorkingArea);
-				}
-			}
+			//Rectangle boundingRect = new Rectangle();
+			//for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			//{
+			//	if (screenIndex == 0)
+			//	{
+			//		boundingRect = Screen.AllScreens[screenIndex].WorkingArea;
+			//	}
+			//	else
+			//	{
+			//		boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].WorkingArea);
+			//	}
+			//}
 
-			return boundingRect;
+			//return boundingRect;
+
+			return Monitor.AllMonitors.WorkingArea;
 		}
 
 		/// <summary>
@@ -579,20 +584,22 @@ namespace DMT.Library.GuiUtils
 		/// <returns>Virtual desktop rectangle</returns>
 		public static Rectangle GetVitrualDesktopRect()
 		{
-			Rectangle boundingRect = new Rectangle();
-			for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
-			{
-				if (screenIndex == 0)
-				{
-					boundingRect = Screen.AllScreens[screenIndex].Bounds;
-				}
-				else
-				{
-					boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].Bounds);
-				}
-			}
+			//Rectangle boundingRect = new Rectangle();
+			//for (int screenIndex = 0; screenIndex < Screen.AllScreens.Length; screenIndex++)
+			//{
+			//	if (screenIndex == 0)
+			//	{
+			//		boundingRect = Screen.AllScreens[screenIndex].Bounds;
+			//	}
+			//	else
+			//	{
+			//		boundingRect = Rectangle.Union(boundingRect, Screen.AllScreens[screenIndex].Bounds);
+			//	}
+			//}
 
-			return boundingRect;
+			//return boundingRect;
+
+			return Monitor.AllMonitors.Bounds;
 		}
 
 		/// <summary>
@@ -602,20 +609,51 @@ namespace DMT.Library.GuiUtils
 		/// <param name="curRect">Rectangle to be moved</param>
 		/// <param name="deltaScreenIndex">+1 for next screen -1 for previous screen</param>
 		/// <returns>Rectangle on target screen</returns>
+		//static Rectangle TransfromRectToOtherScreen(ref Rectangle curRect, int deltaScreenIndex)
+		//{
+		//	Rectangle otherRect = new Rectangle();
+		//	otherRect = curRect;
+
+		//	Screen curScreen = Screen.FromRectangle(curRect);
+		//	int curScreenIndex = FindScreenIndex(curScreen);
+		//	if (curScreenIndex >= 0)
+		//	{
+		//		int otherScreenIndex = DeltaScreenIndex(curScreenIndex, deltaScreenIndex);
+		//		if (otherScreenIndex != curScreenIndex)
+		//		{
+		//			// keep TLHC in next screen same as current screen (relative to the working araea)
+		//			Screen otherScreen = Screen.AllScreens[otherScreenIndex];
+		//			// When positioning windows, (0, 0) is the TLHC of the working area (of primary)
+		//			// even if the taskbar is on the left or top of the screen which is not necessarily
+		//			// the same position as the true pixel position of (0,0) which is always TLHC
+		//			// of primary monitor whether there is a task bar in that position or not.
+		//			// This means we need to use Bounds and not WorkingArea as Windows will do it's
+		//			// own adjustments.
+		//			//otherRect.Offset(
+		//			//	otherScreen.WorkingArea.Left - curScreen.WorkingArea.Left,
+		//			//	otherScreen.WorkingArea.Top - curScreen.WorkingArea.Top);
+		//			otherRect.Offset(
+		//				otherScreen.Bounds.Left - curScreen.Bounds.Left,
+		//				otherScreen.Bounds.Top - curScreen.Bounds.Top);
+		//		}
+		//	}
+
+		//	return otherRect;
+		//}
 		static Rectangle TransfromRectToOtherScreen(ref Rectangle curRect, int deltaScreenIndex)
 		{
 			Rectangle otherRect = new Rectangle();
 			otherRect = curRect;
 
-			Screen curScreen = Screen.FromRectangle(curRect);
-			int curScreenIndex = FindScreenIndex(curScreen);
+			int curScreenIndex = Monitor.AllMonitors.MonitorIndexFromRectangle(curRect);
+			Monitor curScreen = Monitor.AllMonitors[curScreenIndex];
 			if (curScreenIndex >= 0)
 			{
 				int otherScreenIndex = DeltaScreenIndex(curScreenIndex, deltaScreenIndex);
 				if (otherScreenIndex != curScreenIndex)
 				{
 					// keep TLHC in next screen same as current screen (relative to the working araea)
-					Screen otherScreen = Screen.AllScreens[otherScreenIndex];
+					Monitor otherScreen = Monitor.AllMonitors[otherScreenIndex];
 					// When positioning windows, (0, 0) is the TLHC of the working area (of primary)
 					// even if the taskbar is on the left or top of the screen which is not necessarily
 					// the same position as the true pixel position of (0,0) which is always TLHC
@@ -642,10 +680,10 @@ namespace DMT.Library.GuiUtils
 		/// <returns>Target screen index</returns>
 		public static int DeltaScreenIndex(int screenIndex, int deltaScreenIndex)
 		{
-			int newScreenIndex = (screenIndex + deltaScreenIndex) % Screen.AllScreens.Length;
+			int newScreenIndex = (screenIndex + deltaScreenIndex) % Monitor.AllMonitors.Count;
 			if (newScreenIndex < 0)
 			{
-				newScreenIndex += Screen.AllScreens.Length;
+				newScreenIndex += Monitor.AllMonitors.Count;
 			}
 
 			return newScreenIndex;
@@ -656,44 +694,44 @@ namespace DMT.Library.GuiUtils
 		/// </summary>
 		/// <param name="curScreen">Current screen</param>
 		/// <returns>Next screen after specified screen</returns>
-		public static Screen NextScreen(Screen curScreen)
+		public static Monitor NextScreen(Monitor curScreen)
 		{
-			int curScreenIndex = FindScreenIndex(curScreen);
+			int curScreenIndex = Monitor.AllMonitors.FindMonitorIndex(curScreen);
 			if (curScreenIndex < 0)
 			{
 				// shouldn't happen
-				return Screen.PrimaryScreen;
+				return Monitor.AllMonitors.PrimaryMonitor;
 			}
 
-			int nextScreenIndex = (curScreenIndex + 1) % Screen.AllScreens.Length;
-			return Screen.AllScreens[nextScreenIndex];
+			int nextScreenIndex = (curScreenIndex + 1) % Monitor.AllMonitors.Count;
+			return Monitor.AllMonitors[nextScreenIndex];
 		}
 
-		/// <summary>
-		/// Finds the index within Screen.AllScreens[] that the passed screen is on.
-		/// </summary>
-		/// <param name="screen">The screen whose index we are trying to find</param>
-		/// <returns>Zero based screen index, or -1 if screen not found</returns>
-		public static int FindScreenIndex(Screen screen)
-		{
-			int screenIndex = -1;
-			for (int i = 0; i < Screen.AllScreens.Length; i++)
-			{
-				// We cannnot compare the screen objects as Screen.FromRectangle()
-				// creates a new instance of the screen, rather than returning the
-				// one in the AllScreens array.
-				// Also comparing the DeviceName does not always seem to work,
-				// as have seen corrupt names (on XP SP3 with Catalyst 9.1).
-				// So we just compare the Bounds rectangle.
-				if (screen.Bounds == Screen.AllScreens[i].Bounds)
-				{
-					screenIndex = i;
-					break;
-				}
-			}
+		///// <summary>
+		///// Finds the index within Screen.AllScreens[] that the passed screen is on.
+		///// </summary>
+		///// <param name="screen">The screen whose index we are trying to find</param>
+		///// <returns>Zero based screen index, or -1 if screen not found</returns>
+		//public static int FindScreenIndex(Screen screen)
+		//{
+		//	int screenIndex = -1;
+		//	for (int i = 0; i < Screen.AllScreens.Length; i++)
+		//	{
+		//		// We cannnot compare the screen objects as Screen.FromRectangle()
+		//		// creates a new instance of the screen, rather than returning the
+		//		// one in the AllScreens array.
+		//		// Also comparing the DeviceName does not always seem to work,
+		//		// as have seen corrupt names (on XP SP3 with Catalyst 9.1).
+		//		// So we just compare the Bounds rectangle.
+		//		if (screen.Bounds == Screen.AllScreens[i].Bounds)
+		//		{
+		//			screenIndex = i;
+		//			break;
+		//		}
+		//	}
 
-			return screenIndex;
-		}
+		//	return screenIndex;
+		//}
 
 		/// <summary>
 		/// Moves the window corresponding to the specified HWND
@@ -745,13 +783,16 @@ namespace DMT.Library.GuiUtils
 			curRect = FromWorkspaceCoordinates(curRect);
 			uint oldShowCmd = windowPlacement.showCmd;
 
-			Screen curScreen = Screen.FromRectangle(curRect);
-			int curScreenIndex = FindScreenIndex(curScreen);
+			//Screen curScreen = Screen.FromRectangle(curRect);
+			//int curScreenIndex = FindScreenIndex(curScreen);
+			int curScreenIndex = Monitor.AllMonitors.MonitorIndexFromRectangle(curRect);
+			Monitor curScreen = Monitor.AllMonitors[curScreenIndex];
 			if (curScreenIndex >= 0)
 			{
 				int newHalf = AdvanceHalfScreen(curScreenIndex, curScreen.WorkingArea.Left, curScreen.WorkingArea.Right, curRect.Left, delta);
 				int newScreenIndex = newHalf / 2;
-				Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
+				//Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
+				Rectangle screenRect = Monitor.AllMonitors[newScreenIndex].WorkingArea;
 				Rectangle newRect;
 				int newWidth = screenRect.Width / 2;
 				int newHeight = screenRect.Height;
@@ -805,13 +846,16 @@ namespace DMT.Library.GuiUtils
 			curRect = FromWorkspaceCoordinates(curRect);
 			uint oldShowCmd = windowPlacement.showCmd;
 
-			Screen curScreen = Screen.FromRectangle(curRect);
-			int curScreenIndex = FindScreenIndex(curScreen);
+			//Screen curScreen = Screen.FromRectangle(curRect);
+			//int curScreenIndex = FindScreenIndex(curScreen);
+			int curScreenIndex = Monitor.AllMonitors.MonitorIndexFromRectangle(curRect);
+			Monitor curScreen = Monitor.AllMonitors[curScreenIndex];
 			if (curScreenIndex >= 0)
 			{
 				int newHalf = AdvanceHalfScreen(curScreenIndex, curScreen.WorkingArea.Top, curScreen.WorkingArea.Bottom, curRect.Top, delta);
 				int newScreenIndex = newHalf / 2;
-				Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
+				//Rectangle screenRect = Screen.AllScreens[newScreenIndex].WorkingArea;
+				Rectangle screenRect = Monitor.AllMonitors[newScreenIndex].WorkingArea;
 				Rectangle newRect;
 				int newWidth = screenRect.Width;
 				int newHeight = screenRect.Height / 2;
@@ -854,7 +898,8 @@ namespace DMT.Library.GuiUtils
 			// Workspace coordinates as used by GetWindowPlacement and SetWindowPlacement 
 			// place (0,0) after any toolbar
 
-			Screen curScreen = Screen.FromPoint(screenRectangle.Location);
+			//Screen curScreen = Screen.FromPoint(screenRectangle.Location);
+			Monitor curScreen = Monitor.AllMonitors.FromPoint(screenRectangle.Location);
 
 			int borderOffsetX = curScreen.WorkingArea.Left - curScreen.Bounds.Left;
 			int borderOffsetY = curScreen.WorkingArea.Top - curScreen.Bounds.Top;
@@ -869,7 +914,8 @@ namespace DMT.Library.GuiUtils
 			// Workspace coordinates as used by GetWindowPlacement and SetWindowPlacement 
 			// place (0,0) after any toolbar
 
-			Screen curScreen = Screen.FromPoint(screenRectangle.Location);
+			//Screen curScreen = Screen.FromPoint(screenRectangle.Location);
+			Monitor curScreen = Monitor.AllMonitors.FromPoint(screenRectangle.Location);
 
 			int borderOffsetX = curScreen.WorkingArea.Left - curScreen.Bounds.Left;
 			int borderOffsetY = curScreen.WorkingArea.Top - curScreen.Bounds.Top;

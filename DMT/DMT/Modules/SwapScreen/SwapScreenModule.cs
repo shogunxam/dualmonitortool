@@ -345,7 +345,8 @@ namespace DMT.Modules.SwapScreen
 			// This is the maximum of
 			// the current number of screens
 			// and the most the user has configured hot keys for in the past
-			int ret = Screen.AllScreens.Length;
+			//int ret = Screen.AllScreens.Length;
+			int ret = Monitor.AllMonitors.Count;
 
 			for (int desktop = ret; desktop < MaxNumScreens; desktop++)
 			{
@@ -373,9 +374,11 @@ namespace DMT.Modules.SwapScreen
 		void ShowCursorDesktop()
 		{
 			Point oldCursorPosition = System.Windows.Forms.Cursor.Position;
-			Screen screen = Screen.FromPoint(System.Windows.Forms.Cursor.Position);
+			//Screen screen = Screen.FromPoint(System.Windows.Forms.Cursor.Position);
 			// zero based
-			int screenIndex = ScreenHelper.FindScreenIndex(screen);
+			//int screenIndex = ScreenHelper.FindScreenIndex(screen);
+			int screenIndex = Monitor.AllMonitors.MonitorIndexFromPoint(System.Windows.Forms.Cursor.Position);
+			Monitor screen = Monitor.AllMonitors[screenIndex];
 			ScreenHelper.ShowDesktop(screenIndex);
 		}
 
@@ -394,7 +397,8 @@ namespace DMT.Modules.SwapScreen
 			{
 				uint[] modifierList = ToModifierList(SdaModifiersSetting.Value);
 				ISdaGenerator sdaGenerator = new SdaGeneratorNumPad(this, modifierList);
-				sdaGenerator.GenerateSdas(SdaControllers, _localEnvironment.Monitors, SdaHotKeyErrors);
+				//sdaGenerator.GenerateSdas(SdaControllers, _localEnvironment.Monitors, SdaHotKeyErrors);
+				sdaGenerator.GenerateSdas(SdaControllers, Monitor.AllMonitors, SdaHotKeyErrors);
 			}
 
 			if (_sdaOptionsPanel != null)

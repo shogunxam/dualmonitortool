@@ -28,10 +28,10 @@ namespace DMT.Library.Environment
 	/// </summary>
 	public interface ILocalEnvironment
 	{
-		/// <summary>
-		/// Gets the current monitors
-		/// </summary>
-		Monitors Monitors { get; }
+		///// <summary>
+		///// Gets the current monitors
+		///// </summary>
+		//Monitors Monitors { get; }
 
 		/// <summary>
 		/// Are we running Windows Vista or later
