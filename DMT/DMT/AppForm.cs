@@ -116,6 +116,18 @@ namespace DMT
 		}
 
 		/// <summary>
+		/// Triggers processing to be performed when monitor ordering changes
+		/// (A bit tacky putting this in the window, but avoids having to pass the controller to the module that want's to fire this)
+		/// </summary>
+		public void MonitorOrderingChanged()
+		{
+			if (_controller != null)
+			{
+				_controller.MonitorOrderingChanged();
+			}
+		}
+
+		/// <summary>
 		/// Window procedure
 		/// We use this to detect requests from command line instances 
 		/// that want to run a command.

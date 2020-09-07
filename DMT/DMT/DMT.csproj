@@ -162,6 +162,12 @@
     </Compile>
     <Compile Include="Modules\General\DisplayDevice.cs" />
     <Compile Include="Modules\General\DisplayDevices.cs" />
+    <Compile Include="Modules\General\GeneralMonitorOrderingOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\General\GeneralMonitorOrderingOptionsPanel.Designer.cs">
+      <DependentUpon>GeneralMonitorOrderingOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\General\GeneralMonitorsOptionsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -545,6 +551,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\CheckUpdatesForm.resx">
       <DependentUpon>CheckUpdatesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\General\GeneralMonitorOrderingOptionsPanel.resx">
+      <DependentUpon>GeneralMonitorOrderingOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\General\GeneralMonitorsOptionsPanel.resx">
       <DependentUpon>GeneralMonitorsOptionsPanel.cs</DependentUpon>

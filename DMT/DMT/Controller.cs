@@ -113,10 +113,22 @@ namespace DMT
 		public void DisplayResolutionChanged()
 		{
 			// 
-			Monitor.ReBuild(Monitor.EOrderType.DotNet);
+			Monitor.ReBuild();
 
 			if (_moduleService != null)
 			{
+				_moduleService.DisplayResolutionChanged();
+			}
+		}
+
+		public void MonitorOrderingChanged()
+		{
+			// TODO: check if this has probably already been called?
+			//Monitor.ReBuild();
+
+			if (_moduleService != null)
+			{
+				// DisplayResolutionChanged also handles ordering change 
 				_moduleService.DisplayResolutionChanged();
 			}
 		}

@@ -49,12 +49,17 @@ namespace DMT.Modules.General
 		const string Installed6432KeyName = @"SOFTWARE\WOW6432Node\GNE\Dual Monitor Tools";
 		const string InstalledValueName = "installed";
 
+		//public enum EMonitorOrder { DotNet = 0, LeftRight = 1 };
+
 		ISettingsService _settingsService;
 		ILocalEnvironment _localEnvironment;
 		ILogger _logger;
 		AppForm _appForm;
 
+		GeneralMonitorOrderingOptionsPanel _generalMonitorOrderingOptionsPanel;
 		GeneralMonitorsOptionsPanel _generalMonitorsOptionsPanel;
+
+		IntSetting MonitorOrderSetting { get; set; }
 
 		/// <summary>
 		/// Initialises a new instance of the <see cref="GeneralModule" /> class.
@@ -155,11 +160,37 @@ namespace DMT.Modules.General
 			}
 		}
 
+		public Monitor.EMonitorOrder MonitorOrder 
+		{ 
+			get
+			{
+				return (Monitor.EMonitorOrder)MonitorOrderSetting.Value;
+			}
+			
+			set
+			{
+				MonitorOrderSetting.Value = (int)value;
+				Monitor.MonitorOrder = value;
+				//if (_generalMonitorOrderingOptionsPanel != null)
+				//{
+				//	_generalMonitorOrderingOptionsPanel.ShowCurrentLayout();
+				//}
+
+				// this will inform all modules that the ordering has changed
+				_appForm.MonitorOrderingChanged();
+			}
+		}
+
 		/// <summary>
 		/// Called when the display resolution or monitor layout changes
 		/// </summary>
 		public override void DisplayResolutionChanged()
 		{
+			if (_generalMonitorOrderingOptionsPanel != null)
+			{
+				_generalMonitorOrderingOptionsPanel.ShowCurrentLayout();
+			}
+
 			if (_generalMonitorsOptionsPanel != null)
 			{
 				_generalMonitorsOptionsPanel.ShowCurrentInfo();
@@ -209,12 +240,19 @@ namespace DMT.Modules.General
 		/// </summary>
 		public override void Start()
 		{
+			// hot keys / commands
 			AddCommand("Options", GeneralStrings.OptionsDescription, string.Empty, ShowOptions, false, true);
 			if (_localEnvironment.IsWin7OrLater())
 			{
 				AddCommand("ChangePrimary", GeneralStrings.ChangePrimaryDescription, string.Empty, nop, ChangePrimary);
 				AddCommand("ChangeBrightness", GeneralStrings.ChangeBrightnessDescription, string.Empty, nop, ChangeBrightness);
 			}
+
+			// settings
+			MonitorOrderSetting = new IntSetting(_settingsService, ModuleName, "MonitorOrder", (int)Monitor.EMonitorOrder.LeftRight);
+
+			// set the monitor order now, so can be used by the other modules
+			Monitor.MonitorOrder = (Monitor.EMonitorOrder)MonitorOrderSetting.Value;
 		}
 
 		/// <summary>
@@ -234,6 +272,9 @@ namespace DMT.Modules.General
 			Image image = new Bitmap(Properties.Resources.DMT_16_16);
 			ModuleOptionNodeBranch options = new ModuleOptionNodeBranch("Dual Monitor Tools", image, new GeneralRootOptionsPanel());
 			options.Nodes.Add(new ModuleOptionNodeLeaf("General", image, new GeneralOptionsPanel(this)));
+
+			_generalMonitorOrderingOptionsPanel = new GeneralMonitorOrderingOptionsPanel(this);
+			options.Nodes.Add(new ModuleOptionNodeLeaf("Monitor Order", image, _generalMonitorOrderingOptionsPanel));
 
 			// To simplify logic, we only support Win 7 or later
 			// if needed, limited support for XP/Vista could be added at a later date
