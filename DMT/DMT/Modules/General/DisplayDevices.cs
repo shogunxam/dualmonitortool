@@ -1,4 +1,24 @@
-﻿using DMT.Library.GuiUtils;
+﻿#region copyright
+// This file is part of Dual Monitor Tools which is a set of tools to assist
+// users with multiple monitor setups.
+// Copyright (C) 2016-2020  Gerald Evans
+// 
+// Dual Monitor Tools is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using DMT.Library.Environment;
+using DMT.Library.GuiUtils;
 using DMT.Library.PInvoke;
 using System;
 using System.Collections.Generic;
@@ -112,9 +132,9 @@ namespace DMT.Modules.General
 				}
 			}
 		}
-		
 
-		// initialises the list of monitors
+
+		// initialises _pathInfos and _modeInfos
 		bool GetDisplayConfig()
 		{
 			uint pathArraySize = 0;
@@ -197,6 +217,7 @@ namespace DMT.Modules.General
 			return changesMade;
 		}
 
+		// create and fill in _displayDevices
 		List<DisplayDevice> GetAllDevices()
 		{
 			// rebuild list of devices we know about
@@ -214,6 +235,8 @@ namespace DMT.Modules.General
 
 			// get main details from QueryDisplayConfig()
 			AddDisplayConfig();
+
+			ReOrderDevices();
 
 			// merge in further details from EnumDisplayMonitors()
 			MergeEnumDisplayMonitors();
@@ -277,6 +300,36 @@ namespace DMT.Modules.General
 					}
 				}
 			}
+		}
+
+		// hack to get devices in same order as Monitor.AllMonitors
+		// TODO: general logic can be cleaned to reduce allocs/copying
+		void ReOrderDevices()
+		{
+			List<DisplayDevice> orderedDevices = new List<DisplayDevice>();
+
+			Monitors allMonitors = Monitor.AllMonitors;
+
+			foreach (Monitor monitor in allMonitors)
+			{
+				DisplayDevice displayDevice = FindDevice(monitor.Bounds);
+				if (displayDevice != null)
+				{
+					orderedDevices.Add(displayDevice);
+				}
+			}
+
+			// now add in any devices not matching our monitors
+			foreach (DisplayDevice displayDevice in _displayDevices)
+			{
+				if (!orderedDevices.Contains(displayDevice))
+				{
+					orderedDevices.Add(displayDevice);
+				}
+			}
+
+			// now use the ordered devices
+			_displayDevices = orderedDevices;
 		}
 
 		void MergeEnumDisplayMonitors()
@@ -469,6 +522,20 @@ namespace DMT.Modules.General
 
 			return null;
 		}
+
+		DisplayDevice FindDevice(Rectangle bounds)
+		{
+			foreach (DisplayDevice displayDevice in _displayDevices)
+			{
+				if (displayDevice.Bounds == bounds)
+				{
+					return displayDevice;
+				}
+			}
+
+			return null;
+		}
+
 
 		int CountMonitors(NativeDisplayMethods.DISPLAYCONFIG_MODE_INFO[] modeInfos)
 		{

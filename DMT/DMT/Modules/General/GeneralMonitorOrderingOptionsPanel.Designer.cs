@@ -32,6 +32,7 @@
 			this.groupBoxOrder = new System.Windows.Forms.GroupBox();
 			this.radioButtonDotNet = new System.Windows.Forms.RadioButton();
 			this.radioButtonLeftRight = new System.Windows.Forms.RadioButton();
+			this.label1 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
 			this.groupBoxOrder.SuspendLayout();
 			this.SuspendLayout();
@@ -80,10 +81,20 @@
 			this.radioButtonLeftRight.UseVisualStyleBackColor = true;
 			this.radioButtonLeftRight.CheckedChanged += new System.EventHandler(this.radioButtonLeftRight_CheckedChanged);
 			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(6, 268);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(491, 34);
+			this.label1.TabIndex = 3;
+			this.label1.Text = "Note: This monitor ordering is only used by DMT itself for the Monitors grid, mov" +
+    "ing windows between monitors and wallpaper generation.";
+			// 
 			// GeneralMonitorOrderingOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.label1);
 			this.Controls.Add(this.groupBoxOrder);
 			this.Controls.Add(this.picPreview);
 			this.Name = "GeneralMonitorOrderingOptionsPanel";
@@ -101,5 +112,6 @@
 		private System.Windows.Forms.GroupBox groupBoxOrder;
 		private System.Windows.Forms.RadioButton radioButtonDotNet;
 		private System.Windows.Forms.RadioButton radioButtonLeftRight;
+		private System.Windows.Forms.Label label1;
 	}
 }
