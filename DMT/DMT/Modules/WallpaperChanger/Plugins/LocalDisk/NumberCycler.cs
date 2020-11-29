@@ -59,7 +59,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.LocalDisk
 			if (_cycleListLength > 0)
 			{
 				int lastIndex = _cycleListLength - 1;
-				int rndIndex = RNG.Next(0, lastIndex);
+				int rndIndex = RNG.Next(0, _cycleListLength); // lastIndex);  // (inclusive, exclusive)
 
 				// take item at this index
 				ret = _cycleList[rndIndex];
