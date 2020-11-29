@@ -17,6 +17,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+//#define USE_DEDICATED_THREAD
+
 namespace DMT.Library.Wallpaper
 {
 	using System;
@@ -104,27 +106,6 @@ namespace DMT.Library.Wallpaper
 			}
 		}
 
-		static void SetActiveDesktopWallpaperThread(string path)
-		{
-			EnableActiveDesktop();
-			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
-			activeDesktop.SetWallpaper(path, 0);
-			//activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
-			// Using FORCE seems to cause some applications/windows to repaint themselves causing flicker
-			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL);
-		}
-
-		static void EnableActiveDesktop()
-		{
-			IntPtr hWndProgman = NativeMethods.FindWindow("Progman", null);
-			uint msg = 0x52C;	// TODO: need a const in Win32
-			IntPtr wParam = IntPtr.Zero;
-			IntPtr lParam = IntPtr.Zero;
-			uint fuFlags = 0; // SMTO_NORMAL // TODO: need a const in Win32
-			uint uTimeout = 500;	// in ms
-			IntPtr lpdwResult = IntPtr.Zero;
-			NativeMethods.SendMessageTimeout(hWndProgman, msg, wParam, lParam, fuFlags, uTimeout, out lpdwResult);
-		}
 
 		void SetWallpaper(Image wallpaper, bool useFade)
 		{
@@ -211,14 +192,98 @@ namespace DMT.Library.Wallpaper
 			NativeMethods.SystemParametersInfo(NativeMethods.SPI_SETDESKWALLPAPER, 0, path, NativeMethods.SPIF_UPDATEINIFILE | NativeMethods.SPIF_SENDWININICHANGE);
 		}
 
+		/*
+		 * This section tries to find a solution to the performance issue in Active Desktop 
+		 * after a large number of smooth wallpaper changes have been performed
+		 */
+
+#if USE_DEDICATED_THREAD
+		/*
+		 * This uses a single thread to perform all active desktop wallpaper changes.
+		 * This means we can grab the Active Desktop COM object once and hold on to it.
+		 *
+		 * Note: this didn't fix the issue
+		 */
+		static Thread _activeDesktopWallpaperThread = null;
+		static string _wallpaperForActiveDesktop;
+		static EventWaitHandle _newWallpaperAvailable;
+
 		void SetActiveDesktopWallpaper(string path)
 		{
-			Thread thread = new Thread(() => SetActiveDesktopWallpaperThread(path));
+			if (_activeDesktopWallpaperThread == null)
+			{
+				_newWallpaperAvailable = new EventWaitHandle(false, EventResetMode.AutoReset);
+				_activeDesktopWallpaperThread = new Thread(() => ActiveDesktopWallpaperThread());
+				_activeDesktopWallpaperThread.SetApartmentState(ApartmentState.STA);
+				_activeDesktopWallpaperThread.Start();
+			}
+
+			_wallpaperForActiveDesktop = path;
+			_newWallpaperAvailable.Set();
+		}
+
+		// TODO: need a way to kill this thread when DMT exits
+		static void ActiveDesktopWallpaperThread()
+		{
+			EnableActiveDesktop();
+
+			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
+
+			// now sleep until we are told new wallpaper is available
+			for (; ; )
+			{
+				_newWallpaperAvailable.WaitOne();
+
+				// we assume it is safe to pick this up
+				string path = _wallpaperForActiveDesktop;
+				activeDesktop.SetWallpaper(path, 0);
+				activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL);
+			}
+		}
+#else
+		/*
+		 * original code - creates a new thread for every wallpaper change
+		 */
+		void SetActiveDesktopWallpaper(string path)
+		{
+			Thread thread = new Thread(() => ActiveDesktopWallpaperThread(path));
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
 
 			// don't see any need to wait for the thread to complete
 		}
+
+		static void ActiveDesktopWallpaperThread(string path)
+		{
+			EnableActiveDesktop();
+
+			ActiveDesktop.IActiveDesktop activeDesktop = ActiveDesktop.GetActiveDesktop();
+
+			//string path = _wallpaperForActiveDesktop;
+			activeDesktop.SetWallpaper(path, 0);
+			//activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL | ActiveDesktop.AD_Apply.FORCE);
+			// Using FORCE seems to cause some applications/windows to repaint themselves causing flicker
+			activeDesktop.ApplyChanges(ActiveDesktop.AD_Apply.ALL);
+
+			// GNE 14/11/20 - following shouldn't be needed and didn't help
+			//int x = System.Runtime.InteropServices.Marshal.ReleaseComObject(activeDesktop);
+			//System.Console.WriteLine("x: {0}", x);
+		}
+
+#endif
+
+		static void EnableActiveDesktop()
+		{
+			IntPtr hWndProgman = NativeMethods.FindWindow("Progman", null);
+			uint msg = 0x52C;	// TODO: need a const in Win32
+			IntPtr wParam = IntPtr.Zero;
+			IntPtr lParam = IntPtr.Zero;
+			uint fuFlags = 0; // SMTO_NORMAL // TODO: need a const in Win32
+			uint uTimeout = 500;	// in ms
+			IntPtr lpdwResult = IntPtr.Zero;
+			NativeMethods.SendMessageTimeout(hWndProgman, msg, wParam, lParam, fuFlags, uTimeout, out lpdwResult);
+		}
+
 
 		private void SaveWallpaper(Image wallpaper, string fnm)
 		{
