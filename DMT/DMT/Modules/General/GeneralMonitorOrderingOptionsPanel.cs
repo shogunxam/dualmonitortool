@@ -34,6 +34,8 @@ namespace DMT.Modules.General
 	{
 		GeneralModule _generalModule;
 
+		bool _ignoreOrderingEvent = false;
+
 		public GeneralMonitorOrderingOptionsPanel(GeneralModule generalModule)
 		{
 			_generalModule = generalModule;
@@ -53,16 +55,27 @@ namespace DMT.Modules.General
 
 		void UpdateOrderingButtons()
 		{
-			switch (_generalModule.MonitorOrder) //(Monitor.MonitorOrder)
-			{
-				case Monitor.EMonitorOrder.DotNet:
-					radioButtonDotNet.Checked = true;
-					break;
+			// we don't want setting the checkboxes for display to fire the event
+			// as that could result in the wallpaper changing
+			_ignoreOrderingEvent = true;
 
-				case Monitor.EMonitorOrder.LeftRight: // default case
-				default:
-					radioButtonLeftRight.Checked = true;
-					break;
+			try
+			{
+				switch (_generalModule.MonitorOrder) //(Monitor.MonitorOrder)
+				{
+					case Monitor.EMonitorOrder.DotNet:
+						radioButtonDotNet.Checked = true;
+						break;
+
+					case Monitor.EMonitorOrder.LeftRight: // default case
+					default:
+						radioButtonLeftRight.Checked = true;
+						break;
+				}
+			}
+			finally
+			{
+				_ignoreOrderingEvent = false;
 			}
 		}
 
@@ -151,12 +164,15 @@ namespace DMT.Modules.General
 
 		void UpdateOrdering(object sender)
 		{
-			RadioButton rb = sender as RadioButton;
-			if (rb != null)
+			if (!_ignoreOrderingEvent)
 			{
-				if (rb.Checked)
+				RadioButton rb = sender as RadioButton;
+				if (rb != null)
 				{
-					UpdateOrdering();
+					if (rb.Checked)
+					{
+						UpdateOrdering();
+					}
 				}
 			}
 		}
