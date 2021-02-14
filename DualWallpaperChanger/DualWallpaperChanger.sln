@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWC_Library_Tests", "DWC_Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWC_Unsplash", "DWC_Unsplash\DWC_Unsplash.csproj", "{53624B70-74FD-489B-A996-33952C6B4EA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWC_Bing", "DWC_Bing\DWC_Bing.csproj", "{6A09D963-6F5D-4E74-9150-0A050006624E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{53624B70-74FD-489B-A996-33952C6B4EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53624B70-74FD-489B-A996-33952C6B4EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53624B70-74FD-489B-A996-33952C6B4EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A09D963-6F5D-4E74-9150-0A050006624E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A09D963-6F5D-4E74-9150-0A050006624E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A09D963-6F5D-4E74-9150-0A050006624E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A09D963-6F5D-4E74-9150-0A050006624E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

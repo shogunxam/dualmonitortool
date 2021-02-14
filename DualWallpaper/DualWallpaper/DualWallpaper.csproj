@@ -67,6 +67,19 @@
     <Compile Include="..\..\DMT\DMT\Library\Environment\OsHelper.cs">
       <Link>Library\Environment\OsHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\GuiUtils\FileSelectionHelper.cs">
+      <Link>Library\GuiUtils\FileSelectionHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\GuiUtils\MsgDlg.cs">
+      <Link>Library\GuiUtils\MsgDlg.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\GuiUtils\ScreenHelper.cs">
+      <Link>Library\GuiUtils\ScreenHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\DMT\DMT\Library\GuiUtils\WindowPicker.cs">
+      <Link>Library\GuiUtils\WindowPicker.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="..\..\DMT\DMT\Library\PInvoke\ActiveDesktop.cs">
       <Link>Library\PInvoke\ActiveDesktop.cs</Link>
     </Compile>
@@ -85,6 +98,9 @@
     <Compile Include="..\..\DMT\DMT\Library\Wallpaper\WindowsWallpaper.cs">
       <Link>Library\Wallpaper\WindowsWallpaper.cs</Link>
     </Compile>
+    <Compile Include="..\..\DMT\DMT\Resources\CommonStrings.Designer.cs">
+      <Link>Resources\CommonStrings.Designer.cs</Link>
+    </Compile>
     <Compile Include="AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +118,9 @@
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="..\..\DMT\DMT\Resources\CommonStrings.resx">
+      <Link>Resources\CommonStrings.resx</Link>
+    </EmbeddedResource>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -138,6 +157,7 @@
     <Content Include="DualWallpaper.ico" />
     <Content Include="Library\_README.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -193,6 +193,9 @@
   <data name="UnsplashPlugin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PluginImage2.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BingPlugin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PluginImage3.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="dual_96_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dual_96_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

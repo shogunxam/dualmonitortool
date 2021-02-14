@@ -82,6 +82,7 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			_plugins = new List<IDWC_Plugin>();
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.LocalDisk.LocalDiskPlugin());
+            _plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Bing.BingPlugin());
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.RandomShapes.RandomShapesPlugin());
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Unsplash.WebScrapePlugin());
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Flickr.FlickrPlugin(_settingsService));
