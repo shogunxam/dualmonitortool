@@ -1,5 +1,8 @@
-Dual Monitor Tools v2.7
------------------------
+Dual Monitor Tools (mod) v2.7.1
+-------------------------------
+-------------------------------------------------------------------------
+This is not the official version of the program released by Gerald Evans.
+-------------------------------------------------------------------------
 
 Dual Monitor Tools is a collection of tools for users running multiple
 monitor setups on Windows.

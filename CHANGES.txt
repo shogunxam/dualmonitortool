@@ -1,8 +1,11 @@
-Dual Monitor Tools
+Dual Monitor Tools (mod)
 
 
 Changes from 2.7 to 2.7.1
 ========================
+This is not the official version of the program released by Gerald Evans.
+Based on his work I made the following changes:
+
 DMT:WallpaperChanger Bing added as an image provider
 
 Changes from 2.6 to 2.7
