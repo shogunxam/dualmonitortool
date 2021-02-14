@@ -1,6 +1,10 @@
 Dual Monitor Tools
 
 
+Changes from 2.7 to 2.7.1
+========================
+DMT:WallpaperChanger Bing added as an image provider
+
 Changes from 2.6 to 2.7
 ========================
 
