@@ -246,9 +246,10 @@ namespace DMT.Library.Wallpaper
 		 */
 		void SetActiveDesktopWallpaper(string path)
 		{
-			Thread thread = new Thread(() => ActiveDesktopWallpaperThread(path));
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
+			ActiveDesktopWallpaperThread(path);
+			//Thread thread = new Thread(() => ActiveDesktopWallpaperThread(path));
+			//thread.SetApartmentState(ApartmentState.STA);
+			//thread.Start();
 
 			// don't see any need to wait for the thread to complete
 		}
