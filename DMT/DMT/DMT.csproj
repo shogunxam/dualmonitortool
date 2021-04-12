@@ -148,6 +148,18 @@
     <Compile Include="Library\Wallpaper\WallpaperCompositorFactory.cs" />
     <Compile Include="Library\Wallpaper\WindowsWallpaper.cs" />
     <Compile Include="Modules\Command.cs" />
+    <Compile Include="Modules\Cursor\CursorDeadSpaceOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorDeadSpaceOptionsPanel.Designer.cs">
+      <DependentUpon>CursorDeadSpaceOptionsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorStickyOptionsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Modules\Cursor\CursorStickyOptionsPanel.Designer.cs">
+      <DependentUpon>CursorStickyOptionsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modules\General\BrightnessForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -539,6 +551,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Library\HotKeys\ScrollableHotKeysPanel.resx">
       <DependentUpon>ScrollableHotKeysPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Cursor\CursorDeadSpaceOptionsPanel.resx">
+      <DependentUpon>CursorDeadSpaceOptionsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\Cursor\CursorStickyOptionsPanel.resx">
+      <DependentUpon>CursorStickyOptionsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Modules\Cursor\CursorGeneralOptionsPanel.resx">
       <DependentUpon>CursorGeneralOptionsPanel.cs</DependentUpon>
