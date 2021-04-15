@@ -86,6 +86,7 @@ namespace DMT.Modules.WallpaperChanger
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Unsplash.WebScrapePlugin());
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Flickr.FlickrPlugin(_settingsService));
 			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Url.WebScrapePlugin());
+			_plugins.Add(new DMT.Modules.WallpaperChanger.Plugins.Bing.BingPlugin());
 		}
 	}
 }
