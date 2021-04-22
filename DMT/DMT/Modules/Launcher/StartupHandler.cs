@@ -78,44 +78,43 @@ namespace DMT.Modules.Launcher
 		{
 			bool ret = false;
 
-			NativeMethods.STARTUPINFO si = new NativeMethods.STARTUPINFO();
-			si.cb = (uint)Marshal.SizeOf(si);
-
-			if (startPosition != null)
-			{
-				if (startPosition.EnablePosition)
-				{
-					si.dwX = (uint)startPosition.Position.Left;
-					si.dwY = (uint)startPosition.Position.Top;
-					si.dwXSize = (uint)startPosition.Position.Width;
-					si.dwYSize = (uint)startPosition.Position.Height;
-					si.dwFlags |= NativeMethods.STARTF_USEPOSITION | NativeMethods.STARTF_USESIZE;
-
-					// TODO: this doesn't always work
-					// si.wShowWindow = Win32.SW_HIDE;
-					// and this can result in it being maximised on wrong screen
-					// si.wShowWindow = (short)startPosition.ShowCmd;
-					// si.dwFlags |= STARTF_USESHOWWINDOW;
-				}
-			}
-
-			// want to start the thread suspended so we can get its pid as
-			// soon as possible
-			uint dwCreationFlags = NativeMethods.NORMAL_PRIORITY_CLASS | NativeMethods.CREATE_SUSPENDED;
-
-			NativeMethods.PROCESS_INFORMATION pi = new NativeMethods.PROCESS_INFORMATION();
-
 			// get the executable environment for the application
 			MagicWordExecutable executable = new MagicWordExecutable(magicWord, _commandRunner, map);
 
 			if (executable.InternalCommand)
 			{
-				//_commandRunner.RunInternalCommand(executable.Executable, string.Empty);
 				_commandRunner.RunInternalCommand(executable.Executable, executable.CommandLine);
 				ret = true;
 			}
 			else
 			{
+				NativeMethods.STARTUPINFO si = new NativeMethods.STARTUPINFO();
+				si.cb = (uint)Marshal.SizeOf(si);
+
+				if (startPosition != null)
+				{
+					if (startPosition.EnablePosition)
+					{
+						si.dwX = (uint)startPosition.Position.Left;
+						si.dwY = (uint)startPosition.Position.Top;
+						si.dwXSize = (uint)startPosition.Position.Width;
+						si.dwYSize = (uint)startPosition.Position.Height;
+						si.dwFlags |= NativeMethods.STARTF_USEPOSITION | NativeMethods.STARTF_USESIZE;
+
+						// TODO: this doesn't always work
+						// si.wShowWindow = Win32.SW_HIDE;
+						// and this can result in it being maximised on wrong screen
+						// si.wShowWindow = (short)startPosition.ShowCmd;
+						// si.dwFlags |= STARTF_USESHOWWINDOW;
+					}
+				}
+
+				// want to start the thread suspended so we can get its pid as
+				// soon as possible
+				uint dwCreationFlags = NativeMethods.NORMAL_PRIORITY_CLASS | NativeMethods.CREATE_SUSPENDED;
+
+				NativeMethods.PROCESS_INFORMATION pi = new NativeMethods.PROCESS_INFORMATION();
+
 				if (NativeMethods.CreateProcess(
 					executable.Executable, 
 					executable.CommandLine, 
