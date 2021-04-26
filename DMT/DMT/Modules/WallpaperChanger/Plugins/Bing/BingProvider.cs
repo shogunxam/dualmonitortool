@@ -38,10 +38,17 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 	class BingProvider : IImageProvider
 	{
 		const string BaseUrl = "https://www.bing.com";
+		const int MaxCacheAge = 3600; // in seconds
 
 		BingConfig _config;
 		HttpConnectionManager _connectionManager;
 		HttpRequester _httpRequester;
+
+		// Bing only updates it's image once a day, so we try and prevent 
+		// repeated requests for the same image
+		BingImage _cachedBingImage;
+		string _cachedMarket;	// description/image? may change if this changes
+		DateTime _cacheTime;
 
 		// these relate to the provider type
 		public string ProviderName { get { return BingPlugin.PluginName; } }
@@ -61,6 +68,9 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 
 			_connectionManager = new HttpConnectionManager();
 			_httpRequester = new HttpRequester(_connectionManager);
+
+			// clear cache
+			_cachedBingImage = null;
 		}
 
 		public Dictionary<string, string> ShowUserOptions()
@@ -82,7 +92,19 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 #if ORIGINAL_IMPLEMENTATION
 			BingImage bingImg = GetImage().Result;
 #else
-			BingImage bingImg = GetImage();
+			// check if cache needs refilling
+			if (_cachedBingImage == null || _cachedMarket != _config.Market || DateTime.Now > _cacheTime.AddSeconds(MaxCacheAge))
+			{
+				// need to (re-)get the bing image
+				if (_cachedBingImage != null && _cachedBingImage.Img != null)
+				{
+					_cachedBingImage.Img.Dispose();
+				}
+				_cachedBingImage = GetImage();
+				_cachedMarket = _config.Market;
+				_cacheTime = DateTime.Now;
+			}
+			BingImage bingImg = _cachedBingImage.Clone();
 #endif
 			if (bingImg != null && bingImg.Img != null)
 			{
@@ -201,5 +223,13 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 		public string CopyrightLink { get; set; }
 		public string Url;
 		public string UrlBase;
+
+		public BingImage Clone()
+		{
+			// we want a deep clone as we don't have control over when .Dispose will be called
+			// so we don't use .Clone as this shares the image data between the clones
+			Image clonedImage = new Bitmap(Img);
+			return new BingImage(clonedImage, Copyright, CopyrightLink, UrlBase, Url);
+		}
 	}
 }

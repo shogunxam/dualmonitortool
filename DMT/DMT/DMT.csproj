@@ -655,6 +655,9 @@
     <EmbeddedResource Include="Modules\SwapScreen\UdaPanel.resx">
       <DependentUpon>UdaPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Bing\BingForm.resx">
+      <DependentUpon>BingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modules\WallpaperChanger\Plugins\Flickr\FlickrForm.resx">
       <DependentUpon>FlickrForm.cs</DependentUpon>
     </EmbeddedResource>

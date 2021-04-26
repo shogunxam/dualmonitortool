@@ -62,6 +62,8 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BingForm));
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonOK = new System.Windows.Forms.Button();
@@ -266,6 +268,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 			this.Controls.Add(this.numericUpDownWeight);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.pictureBox1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "BingForm";
