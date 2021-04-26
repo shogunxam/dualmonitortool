@@ -41,7 +41,7 @@
 			this.treeViewOptions.HideSelection = false;
 			this.treeViewOptions.Location = new System.Drawing.Point(12, 10);
 			this.treeViewOptions.Name = "treeViewOptions";
-			this.treeViewOptions.Size = new System.Drawing.Size(231, 360);
+			this.treeViewOptions.Size = new System.Drawing.Size(231, 400);
 			this.treeViewOptions.TabIndex = 0;
 			this.treeViewOptions.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewOptions_AfterSelect);
 			// 
@@ -52,14 +52,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panelPlaceholder.Location = new System.Drawing.Point(260, 10);
 			this.panelPlaceholder.Name = "panelPlaceholder";
-			this.panelPlaceholder.Size = new System.Drawing.Size(500, 360);
+			this.panelPlaceholder.Size = new System.Drawing.Size(500, 400);
 			this.panelPlaceholder.TabIndex = 1;
 			this.panelPlaceholder.Visible = false;
 			// 
 			// buttonClose
 			// 
 			this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonClose.Location = new System.Drawing.Point(680, 380);
+			this.buttonClose.Location = new System.Drawing.Point(680, 420);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 23);
 			this.buttonClose.TabIndex = 2;
@@ -71,7 +71,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(767, 415);
+			this.ClientSize = new System.Drawing.Size(767, 455);
 			this.Controls.Add(this.buttonClose);
 			this.Controls.Add(this.panelPlaceholder);
 			this.Controls.Add(this.treeViewOptions);
