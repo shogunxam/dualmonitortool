@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAIYAAABaBAMAAACPqzP2AAAABGdBTUEAALGPC/xhBQAAABtQTFRF////
+        /wAA+RERGRkZBwcH7Dg4wMDA50ZG/9/f7pCdBgAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAGlJREFUWMPt
+        2EENgDAQRNGxABYqYQkG6gEDJCuBM9Ix0JZt03Ag/wt4550VjbYkK7T1GYcXOjEwMDBeW6+6kS1W9rqx
+        eyzDwMDAwMDAwMDAwPjcmHHzR2ttj2jsOQwMjGFjwg9Wt/6e9ACys5Si3oexMwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>If you monitor layout is like this example, then if your cursor is on the right hand monitor, you will not be able to move the cursor leftwards through the red areas.  This makes it easy for the cursor to get stuck on a monitor which can be particularly problematic if you can't see the monitor.</value>
+  </data>
 </root>
