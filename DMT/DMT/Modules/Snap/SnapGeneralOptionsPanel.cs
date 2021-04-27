@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2009-2015  Gerald Evans
+// Copyright (C) 2009-2021  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ namespace DMT.Modules.Snap
 	using System.Windows.Forms;
 
 	using DMT.Library.HotKeys;
+	using DMT.Library.Environment;
 
 	/// <summary>
 	/// Options panel for the snap general options
@@ -49,11 +50,15 @@ namespace DMT.Modules.Snap
 			InitializeComponent();
 
 			SetupHotKeys();
+
+			numericUpDownMonitor.Minimum = 1;
+			numericUpDownMonitor.Maximum = Monitor.AllMonitors.Count;
 		}
 
 		private void SnapGeneralOptionsPanel_Load(object sender, EventArgs e)
 		{
 			numericUpDownSnaps.Value = (decimal)_snapModule.MaxSnaps;
+			numericUpDownMonitor.Value = (decimal)_snapModule.ShowSnapsOn;
 			checkBoxShowSnap.Checked = _snapModule.AutoShowSnap;
 			checkBoxExpandSnap.Checked = _snapModule.ExpandSnap;
 			checkBoxShrinkSnap.Checked = _snapModule.ShrinkSnap;
@@ -62,7 +67,12 @@ namespace DMT.Modules.Snap
 
 		private void numericUpDownSnaps_ValueChanged(object sender, EventArgs e)
 		{
-			_snapModule.MaxSnaps = (int)_snapModule.MaxSnaps;
+			_snapModule.MaxSnaps = (int)numericUpDownSnaps.Value;
+		}
+
+		private void numericUpDownMonitor_ValueChanged(object sender, EventArgs e)
+		{
+			_snapModule.ShowSnapsOn = (int)numericUpDownMonitor.Value;
 		}
 
 		private void checkBoxShowSnap_CheckedChanged(object sender, EventArgs e)

@@ -38,8 +38,11 @@
 			this.checkBoxExpandSnap = new System.Windows.Forms.CheckBox();
 			this.checkBoxShrinkSnap = new System.Windows.Forms.CheckBox();
 			this.checkBoxMaintainAspectRatio = new System.Windows.Forms.CheckBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.numericUpDownMonitor = new System.Windows.Forms.NumericUpDown();
 			this.groupBox3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSnaps)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMonitor)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBox3
@@ -81,11 +84,11 @@
 			// checkBoxShowSnap
 			// 
 			this.checkBoxShowSnap.AutoSize = true;
-			this.checkBoxShowSnap.Location = new System.Drawing.Point(3, 173);
+			this.checkBoxShowSnap.Location = new System.Drawing.Point(3, 216);
 			this.checkBoxShowSnap.Name = "checkBoxShowSnap";
-			this.checkBoxShowSnap.Size = new System.Drawing.Size(226, 17);
+			this.checkBoxShowSnap.Size = new System.Drawing.Size(138, 17);
 			this.checkBoxShowSnap.TabIndex = 11;
-			this.checkBoxShowSnap.Text = "Show snap on second screen when taken";
+			this.checkBoxShowSnap.Text = "Show snap when taken";
 			this.checkBoxShowSnap.UseVisualStyleBackColor = true;
 			this.checkBoxShowSnap.CheckedChanged += new System.EventHandler(this.checkBoxShowSnap_CheckedChanged);
 			// 
@@ -119,7 +122,7 @@
 			// checkBoxExpandSnap
 			// 
 			this.checkBoxExpandSnap.AutoSize = true;
-			this.checkBoxExpandSnap.Location = new System.Drawing.Point(3, 196);
+			this.checkBoxExpandSnap.Location = new System.Drawing.Point(3, 239);
 			this.checkBoxExpandSnap.Name = "checkBoxExpandSnap";
 			this.checkBoxExpandSnap.Size = new System.Drawing.Size(147, 17);
 			this.checkBoxExpandSnap.TabIndex = 13;
@@ -130,7 +133,7 @@
 			// checkBoxShrinkSnap
 			// 
 			this.checkBoxShrinkSnap.AutoSize = true;
-			this.checkBoxShrinkSnap.Location = new System.Drawing.Point(3, 219);
+			this.checkBoxShrinkSnap.Location = new System.Drawing.Point(3, 262);
 			this.checkBoxShrinkSnap.Name = "checkBoxShrinkSnap";
 			this.checkBoxShrinkSnap.Size = new System.Drawing.Size(140, 17);
 			this.checkBoxShrinkSnap.TabIndex = 14;
@@ -141,7 +144,7 @@
 			// checkBoxMaintainAspectRatio
 			// 
 			this.checkBoxMaintainAspectRatio.AutoSize = true;
-			this.checkBoxMaintainAspectRatio.Location = new System.Drawing.Point(3, 242);
+			this.checkBoxMaintainAspectRatio.Location = new System.Drawing.Point(3, 285);
 			this.checkBoxMaintainAspectRatio.Name = "checkBoxMaintainAspectRatio";
 			this.checkBoxMaintainAspectRatio.Size = new System.Drawing.Size(124, 17);
 			this.checkBoxMaintainAspectRatio.TabIndex = 15;
@@ -149,10 +152,29 @@
 			this.checkBoxMaintainAspectRatio.UseVisualStyleBackColor = true;
 			this.checkBoxMaintainAspectRatio.CheckedChanged += new System.EventHandler(this.checkBoxMaintainAspectRatio_CheckedChanged);
 			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(0, 177);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(112, 13);
+			this.label2.TabIndex = 16;
+			this.label2.Text = "Show snap on monitor";
+			// 
+			// numericUpDownMonitor
+			// 
+			this.numericUpDownMonitor.Location = new System.Drawing.Point(125, 175);
+			this.numericUpDownMonitor.Name = "numericUpDownMonitor";
+			this.numericUpDownMonitor.Size = new System.Drawing.Size(68, 20);
+			this.numericUpDownMonitor.TabIndex = 17;
+			this.numericUpDownMonitor.ValueChanged += new System.EventHandler(this.numericUpDownMonitor_ValueChanged);
+			// 
 			// SnapGeneralOptionsPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.numericUpDownMonitor);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.checkBoxMaintainAspectRatio);
 			this.Controls.Add(this.checkBoxShrinkSnap);
 			this.Controls.Add(this.checkBoxExpandSnap);
@@ -165,6 +187,7 @@
 			this.Load += new System.EventHandler(this.SnapGeneralOptionsPanel_Load);
 			this.groupBox3.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSnaps)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMonitor)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -182,5 +205,7 @@
 		private System.Windows.Forms.CheckBox checkBoxShrinkSnap;
 		private System.Windows.Forms.CheckBox checkBoxMaintainAspectRatio;
 		private Library.HotKeys.HotKeyPanel hotKeyPanelTakeWinSnap;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.NumericUpDown numericUpDownMonitor;
 	}
 }

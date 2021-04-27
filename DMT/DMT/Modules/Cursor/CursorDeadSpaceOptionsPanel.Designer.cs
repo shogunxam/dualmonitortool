@@ -56,7 +56,7 @@
 			this.label3.Size = new System.Drawing.Size(494, 36);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "These options allow you to move the cursor through such borders and the cursor wi" +
-    "ll jump to the nearesr valid position on the adjoining mointor in the direction " +
+    "ll jump to the nearest valid position on the adjoining mointor in the direction " +
     "that the cursor is being moved.";
 			// 
 			// label4

@@ -101,6 +101,15 @@ namespace DMT.Modules.Snap
 		}
 
 		/// <summary>
+		/// Gets or sets the monitor number (1 based) to show the snaps on
+		/// </summary>
+		public int ShowSnapsOn
+		{
+			get { return ShowSnapsOnSetting.Value; }
+			set { ShowSnapsOnSetting.Value = value; }
+		}
+
+		/// <summary>
 		/// Gets or sets a value indicating whether to automatically show a snap when taken
 		/// </summary>
 		public bool AutoShowSnap
@@ -139,6 +148,8 @@ namespace DMT.Modules.Snap
 		// settings
 		IntSetting MaxSnapsSetting { get; set; }
 
+		IntSetting ShowSnapsOnSetting { get; set; }
+
 		BoolSetting AutoShowSnapSetting { get; set; }
 
 		// ExpandSnap, ShrinkSnap and MaintainAspectRatio are the initial values used
@@ -162,6 +173,9 @@ namespace DMT.Modules.Snap
 
 			// settings
 			MaxSnapsSetting = new IntSetting(_settingsService, ModuleName, "MaxSnaps", DefaultMaxSnaps);
+			// by default snaps are shown on monitor after primary
+			int defaultShowSnapsOn = Monitor.AllMonitors.FindMonitorIndex(ScreenHelper.NextScreen(Monitor.AllMonitors.PrimaryMonitor)) + 1;
+			ShowSnapsOnSetting = new IntSetting(_settingsService, ModuleName, "ShowSnapsOn", defaultShowSnapsOn);
 			AutoShowSnapSetting = new BoolSetting(_settingsService, ModuleName, "AutoShowSnap", DefaultAutoShowSnap);
 			ExpandSnapSetting = new BoolSetting(_settingsService, ModuleName, "ExpandSnap", DefaultExpandSnap);
 			ShrinkSnapSetting = new BoolSetting(_settingsService, ModuleName, "ShrinkSnap", DefaultShrinkSnap);
@@ -261,18 +275,23 @@ namespace DMT.Modules.Snap
 
 		/// <summary>
 		/// Show the last snap taken.
-		/// Dos nothing if no snaps available.
+		/// Does nothing if no snaps available.
 		/// </summary>
 		public void ShowLastSnap()
 		{
 			// if we have a snap, then show it
 			if (SnapHistory.Count > 0)
 			{
-				// position window on second screen
-				//Screen secondaryScreen = ScreenHelper.NextScreen(Screen.PrimaryScreen);
-				Monitor secondaryScreen = ScreenHelper.NextScreen(Monitor.AllMonitors.PrimaryMonitor);
+				// position window on required monitor
+				int snapMonitorIndex = ShowSnapsOn - 1; // number -> index
+				if (snapMonitorIndex < 0 || snapMonitorIndex >= Monitor.AllMonitors.Count)
+				{
+					// invalid index - revert to monitor after primary
+					snapMonitorIndex = Monitor.AllMonitors.FindMonitorIndex(ScreenHelper.NextScreen(Monitor.AllMonitors.PrimaryMonitor));
+				}
+				Monitor snapMonitor = Monitor.AllMonitors[snapMonitorIndex];
 				SnapForm snapForm = GetSnapForm();
-				snapForm.ShowAt(secondaryScreen.Bounds);
+				snapForm.ShowAt(snapMonitor.Bounds);
 				if (_showSnapToolStripMenuItem != null)
 				{
 					_showSnapToolStripMenuItem.Checked = true;
