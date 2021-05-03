@@ -220,7 +220,7 @@ Do you wish to continue?</value>
     <value />
   </data>
   <data name="SupersizeDescription" xml:space="preserve">
-    <value>Supersize the avtive window</value>
+    <value>Supersize the active window</value>
   </data>
   <data name="SupersizeWin7" xml:space="preserve">
     <value />
