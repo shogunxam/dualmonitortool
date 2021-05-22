@@ -40,10 +40,10 @@
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(25, 100);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(412, 13);
+			this.label3.Size = new System.Drawing.Size(409, 13);
 			this.label3.TabIndex = 7;
-			this.label3.Text = "Settings to control copying the image on the primary monitor to the secondarty mo" +
-    "nitor.";
+			this.label3.Text = "Settings to control copying the image on the primary monitor to the secondary mon" +
+    "itor.";
 			// 
 			// label2
 			// 

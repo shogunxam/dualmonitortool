@@ -333,6 +333,7 @@ namespace DMT.Modules.WallpaperChanger
 		{
 			Thread t = new Thread(new ThreadStart(UpdateWallpaperThread));
 			t.IsBackground = true;
+			t.SetApartmentState(ApartmentState.STA);
 			t.Start();
 		}
 

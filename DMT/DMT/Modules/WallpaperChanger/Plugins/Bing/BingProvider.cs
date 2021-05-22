@@ -20,43 +20,61 @@
 namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 {
 
-    using DMT.Library.Html;
-    using DMT.Library.WallpaperPlugin;
-    using System;
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Net.Http;
-    using System.Runtime.Serialization;
-    using System.Runtime.Serialization.Json;
-    using System.Threading.Tasks;
+	using DMT.Library.Html;
+	using DMT.Library.WallpaperPlugin;
+	using System;
+	using System.Collections.Generic;
+	using System.Drawing;
+	using System.IO;
+	//using System.Net.Http;
+	using System.Runtime.Serialization;
+	using System.Runtime.Serialization.Json;
+	using System.Text;
+	using System.Threading.Tasks;
 
-    /// <summary>
-    /// An instance of a provider from the unsplash plugin
-    /// </summary>
-    class BingProvider : IImageProvider
-    {
-        BingConfig _config;
+	/// <summary>
+	/// An instance of a provider from the unsplash plugin
+	/// </summary>
+	class BingProvider : IImageProvider
+	{
+		const string BaseUrl = "https://www.bing.com";
+		const int MaxCacheAge = 3600; // in seconds
+
+		BingConfig _config;
+		HttpConnectionManager _connectionManager;
+		HttpRequester _httpRequester;
+
+		// Bing only updates it's image once a day, so we try and prevent 
+		// repeated requests for the same image
+		BingImage _cachedBingImage;
+		string _cachedMarket;	// description/image? may change if this changes
+		DateTime _cacheTime;
+
+		// these relate to the provider type
+		public string ProviderName { get { return BingPlugin.PluginName; } }
+		public Image ProviderImage { get { return BingPlugin.PluginImage; } }
+		public string Version { get { return BingPlugin.PluginVersion; } }
+
+		// these relate to the provider instance
+		public string Description { get { return _config.Description; } }
+		public int Weight { get { return _config.Weight; } }
+
+		public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
 
 
-        // these relate to the provider type
-        public string ProviderName { get { return BingPlugin.PluginName; } }
-        public Image ProviderImage { get { return BingPlugin.PluginImage; } }
-        public string Version { get { return BingPlugin.PluginVersion; } }
+		public BingProvider(Dictionary<string, string> config)
+		{
+			_config = new BingConfig(config);
 
-        // these relate to the provider instance
-        public string Description { get { return _config.Description; } }
-        public int Weight { get { return _config.Weight; } }
+			_connectionManager = new HttpConnectionManager();
+			_httpRequester = new HttpRequester(_connectionManager);
 
-        public Dictionary<string, string> Config { get { return _config.ToDictionary(); } }
+			// clear cache
+			_cachedBingImage = null;
+		}
 
-
-        public BingProvider(Dictionary<string, string> config)
-        {
-            _config = new BingConfig(config);
-        }
-
-        public Dictionary<string, string> ShowUserOptions()
-        {
+		public Dictionary<string, string> ShowUserOptions()
+		{
 			BingForm dlg = new BingForm(_config);
 			if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
@@ -68,102 +86,150 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 			return null;
 		}
 
-        public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
+		public ProviderImage GetRandomImage(Size optimumSize, int screenIndex)
 		{
-            ProviderImage providerImage = null;
-            BingImage bingImg = GetImage().Result;
-            if (bingImg.Img != null)
-            {
-                {
-                    providerImage = new ProviderImage(bingImg.Img);
-                    providerImage.Provider = ProviderName;
-                    providerImage.ProviderUrl = bingImg.UrlBase;
+			ProviderImage providerImage = null;
+#if ORIGINAL_IMPLEMENTATION
+			BingImage bingImg = GetImage().Result;
+#else
+			// check if cache needs refilling
+			if (_cachedBingImage == null || _cachedMarket != _config.Market || DateTime.Now > _cacheTime.AddSeconds(MaxCacheAge))
+			{
+				// need to (re-)get the bing image
+				if (_cachedBingImage != null && _cachedBingImage.Img != null)
+				{
+					_cachedBingImage.Img.Dispose();
+				}
+				_cachedBingImage = GetImage();
+				_cachedMarket = _config.Market;
+				_cacheTime = DateTime.Now;
+			}
+			BingImage bingImg = _cachedBingImage.Clone();
+#endif
+			if (bingImg != null && bingImg.Img != null)
+			{
+				{
+					providerImage = new ProviderImage(bingImg.Img);
+					providerImage.Provider = ProviderName;
+					providerImage.ProviderUrl = bingImg.UrlBase;
 
-                    // for image source, return url that responded in case of 302's
-                    providerImage.Source = bingImg.Url;
-                    providerImage.SourceUrl = bingImg.Url;
-                    char[] delimires = { '(', ')' };
-                    string[] values = bingImg.Copyright.Split(delimires);
+					// for image source, return url that responded in case of 302's
+					providerImage.Source = bingImg.Url;
+					providerImage.SourceUrl = bingImg.Url;
+					char[] delimires = { '(', ')' };
+					string[] values = bingImg.Copyright.Split(delimires);
 
-                    //Copyright and image details
-                    providerImage.MoreInfo = values[0];
-                    providerImage.Photographer = values[1];
-                    providerImage.MoreInfoUrl = bingImg.CopyrightLink;
-        }
-            }
-            return providerImage;
+					//Copyright and image details
+					providerImage.MoreInfo = values[0];
+					providerImage.Photographer = values[1];
+					providerImage.MoreInfoUrl = bingImg.CopyrightLink;
+				}
+			}
+			return providerImage;
 		}
 
-        /// <summary>
-        /// Gets the enabled state for this instance of the provider
-        /// </summary>
-        public bool Enabled
-        {
-            get
-            {
-                return _config.Enabled;
-            }
-            set
-            {
-                _config.Enabled = value;
-            }
-        }
+		/// <summary>
+		/// Gets the enabled state for this instance of the provider
+		/// </summary>
+		public bool Enabled
+		{
+			get
+			{
+				return _config.Enabled;
+			}
+			set
+			{
+				_config.Enabled = value;
+			}
+		}
 
+#if ORIGINAL_IMPLEMENTATION
+		private async Task<BingImage> GetImage()
+		{
+			string baseUri = "https://www.bing.com";
+			using (var client = new HttpClient())
+			{
+				using (var jsonStream = await client.GetStreamAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=" + _config.Market).ConfigureAwait(continueOnCapturedContext: false))
+				{
+					var ser = new DataContractJsonSerializer(typeof(Result));
+					var res = (Result)ser.ReadObject(jsonStream);
+					using (var imgStream = await client.GetStreamAsync(new Uri(baseUri + res.images[0].URL)))
+					{
+						return new BingImage(Image.FromStream(imgStream), res.images[0].Copyright, res.images[0].CopyrightLink, baseUri, baseUri + res.images[0].URL);
+					}
+				}
+			}
+		}
+#else
+		// implementation that only needs .NET 4.0 so can run on XP
+		BingImage GetImage()
+		{
+			string url = "http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=" + _config.Market;
+			Uri uri = new Uri(url);
+			HttpConnection repliedConnection;
+			string jsonString = _httpRequester.GetPage(uri, "dummyResult", out repliedConnection);
+			
+			using (Stream jsonStream = new MemoryStream(Encoding.UTF8.GetBytes(jsonString)))
+			{
+				DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Result));
+				Result res = (Result)ser.ReadObject(jsonStream);
+				if (res != null && res.images != null && res.images.Length > 0 && res.images[0] != null)
+				{
+					Uri imageUri = new Uri(new Uri(BaseUrl), res.images[0].URL);
+					Image image = _httpRequester.GetImage(imageUri);
+					return new BingImage(image, res.images[0].Copyright, res.images[0].CopyrightLink, BaseUrl, BaseUrl + res.images[0].URL);
+				}
+			}
 
-        private async Task<BingImage> GetImage()
-        {
-            string baseUri = "https://www.bing.com";
-            using (var client = new HttpClient())
-            {
-                using (var jsonStream = await client.GetStreamAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt="+_config.Market).ConfigureAwait(continueOnCapturedContext: false))
-                {
-                    var ser = new DataContractJsonSerializer(typeof(Result));
-                    var res = (Result)ser.ReadObject(jsonStream);
-                    using (var imgStream = await client.GetStreamAsync(new Uri(baseUri + res.images[0].URL)))
-                    {
-                        return new BingImage(Image.FromStream(imgStream), res.images[0].Copyright, res.images[0].CopyrightLink, baseUri, baseUri + res.images[0].URL);
-                    }
-                }
-            }
-        }
+			return null;
+		}
+#endif
 
-        [DataContract]
-        private class Result
-        {
-            [DataMember(Name = "images")]
-            public ResultImage[] images { get; set; }
-        }
+		[DataContract]
+		private class Result
+		{
+			[DataMember(Name = "images")]
+			public ResultImage[] images { get; set; }
+		}
 
-        [DataContract]
-        private class ResultImage
-        {
-            [DataMember(Name = "enddate")]
-            public string EndDate { get; set; }
-            [DataMember(Name = "url")]
-            public string URL { get; set; }
-            [DataMember(Name = "urlbase")]
-            public string URLBase { get; set; }
-            [DataMember(Name = "copyright")]
-            public string Copyright { get; set; }
-            [DataMember(Name = "copyrightlink")]
-            public string CopyrightLink { get; set; }
-        }
-    }
+		[DataContract]
+		private class ResultImage
+		{
+			[DataMember(Name = "enddate")]
+			public string EndDate { get; set; }
+			[DataMember(Name = "url")]
+			public string URL { get; set; }
+			[DataMember(Name = "urlbase")]
+			public string URLBase { get; set; }
+			[DataMember(Name = "copyright")]
+			public string Copyright { get; set; }
+			[DataMember(Name = "copyrightlink")]
+			public string CopyrightLink { get; set; }
+		}
+	}
 
-    public class BingImage
-    {
-        public BingImage(Image img, string copyright, string copyrightLink, string urlBase = null, string url = null)
-        {
-            Img = img;
-            Copyright = copyright;
-            CopyrightLink = copyrightLink;
-            Url = url;
-            UrlBase = urlBase;
-        }
-        public Image Img { get; set; }
-        public string Copyright { get; set; }
-        public string CopyrightLink { get; set; }
-        public string Url;
-        public string UrlBase;
-    }
+	public class BingImage
+	{
+		public BingImage(Image img, string copyright, string copyrightLink, string urlBase = null, string url = null)
+		{
+			Img = img;
+			Copyright = copyright;
+			CopyrightLink = copyrightLink;
+			Url = url;
+			UrlBase = urlBase;
+		}
+		public Image Img { get; set; }
+		public string Copyright { get; set; }
+		public string CopyrightLink { get; set; }
+		public string Url;
+		public string UrlBase;
+
+		public BingImage Clone()
+		{
+			// we want a deep clone as we don't have control over when .Dispose will be called
+			// so we don't use .Clone as this shares the image data between the clones
+			Image clonedImage = new Bitmap(Img);
+			return new BingImage(clonedImage, Copyright, CopyrightLink, UrlBase, Url);
+		}
+	}
 }

@@ -19,41 +19,41 @@
 
 namespace DMT.Modules.WallpaperChanger.Plugins.Bing
 {
-    using DMT.Library.WallpaperPlugin;
-    using System.Collections.Generic;
-    /// <summary>
-    /// Configuration required for each provider from the Unsplash plugin
-    /// </summary>
-    public class BingConfig
-    {
-        public BingConfig()
-        {
-        }
+	using DMT.Library.WallpaperPlugin;
+	using System.Collections.Generic;
+	/// <summary>
+	/// Configuration required for each provider from the Bing plugin
+	/// </summary>
+	public class BingConfig
+	{
+		public BingConfig()
+		{
+		}
 
-        public BingConfig(Dictionary<string, string> configDictionary)
-        {
-            Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
-            Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
-            Description = ProviderHelper.ConfigToString(configDictionary, "description", "Images from www.bing.com");
-            Market = ProviderHelper.ConfigToString(configDictionary, "market", @"en-WW");
-        }
+		public BingConfig(Dictionary<string, string> configDictionary)
+		{
+			Enabled = ProviderHelper.ConfigToBool(configDictionary, "enabled", true);
+			Weight = ProviderHelper.ConfigToInt(configDictionary, "weight", 10);
+			Description = ProviderHelper.ConfigToString(configDictionary, "description", "Images from www.bing.com");
+			Market = ProviderHelper.ConfigToString(configDictionary, "market", @"en-WW");
+		}
 
-        /// <summary>
-        /// Gets or sets the wight for this provider
-        /// </summary>
-        public bool Enabled { get; set; }
-        public int Weight { get; set; }
-        public string Description { get; set; }
-        public string Market { get; set; }
+		/// <summary>
+		/// Gets or sets the wight for this provider
+		/// </summary>
+		public bool Enabled { get; set; }
+		public int Weight { get; set; }
+		public string Description { get; set; }
+		public string Market { get; set; }
 
-        public Dictionary<string, string> ToDictionary()
-        {
-            Dictionary<string, string> configDictionary = new Dictionary<string, string>();
-            configDictionary["enabled"] = Enabled.ToString();
-            configDictionary["weight"] = Weight.ToString();
-            configDictionary["description"] = Description;
-            configDictionary["market"] = Market;
-            return configDictionary;
-        }
-    }
+		public Dictionary<string, string> ToDictionary()
+		{
+			Dictionary<string, string> configDictionary = new Dictionary<string, string>();
+			configDictionary["enabled"] = Enabled.ToString();
+			configDictionary["weight"] = Weight.ToString();
+			configDictionary["description"] = Description;
+			configDictionary["market"] = Market;
+			return configDictionary;
+		}
+	}
 }

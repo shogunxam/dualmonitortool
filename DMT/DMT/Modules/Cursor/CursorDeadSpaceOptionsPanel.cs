@@ -1,7 +1,7 @@
 ﻿#region copyright
 // This file is part of Dual Monitor Tools which is a set of tools to assist
 // users with multiple monitor setups.
-// Copyright (C) 2015  Gerald Evans
+// Copyright (C) 2021  Gerald Evans
 // 
 // Dual Monitor Tools is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,57 +17,53 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
 namespace DMT.Modules.Cursor
 {
-	using System;
-	using System.Collections.Generic;
-	using System.ComponentModel;
-	using System.Data;
-	using System.Drawing;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-	using System.Windows.Forms;
-
-	using DMT.Library.HotKeys;
-	using DMT.Resources;
 
 	/// <summary>
-	/// General options panel for the cursor module
+	/// Dead space options panel for the cursor module
 	/// </summary>
-	partial class CursorGeneralOptionsPanel : UserControl
+	partial class CursorDeadSpaceOptionsPanel : UserControl
 	{
 		CursorModule _cursorModule;
 
 		/// <summary>
-		/// Initialises a new instance of the <see cref="CursorGeneralOptionsPanel" /> class.
+		/// Initialises a new instance of the <see cref="CursorDeadSpaceOptionsPanel" /> class.
 		/// </summary>
 		/// <param name="cursorModule">The cursor module</param>
-		public CursorGeneralOptionsPanel(CursorModule cursorModule)
+		public CursorDeadSpaceOptionsPanel(CursorModule cursorModule)
 		{
 			_cursorModule = cursorModule;
 
 			InitializeComponent();
 
-			InitHotKeys();
+			// no hot keys (yet)
 			InitOtherOptions();
-		}
-
-
-		void InitHotKeys()
-		{
-			InitHotKey(hotKeyPanelCursorNextScreen,  _cursorModule.CursorNextScreenHotKeyController);
-			InitHotKey(hotKeyPanelCursorPrevScreen, _cursorModule .CursorPrevScreenHotKeyController);
-			InitHotKey(hotKeyPanelCursorToPrimaryScreen, _cursorModule.CursorToPrimaryScreenHotKeyController);
-		}
-
-		void InitHotKey(HotKeyPanel hotKeyPanel, HotKeyController hotKeyController)
-		{
-			hotKeyPanel.SetHotKeyController(hotKeyController);
 		}
 
 		void InitOtherOptions()
 		{
+			checkBoxDeadSpaceXJump.Checked = _cursorModule.AllowDeadSpaceXJump;
+			checkBoxDeadSpaceYJump.Checked = _cursorModule.AllowDeadSpaceYJump;
+		}
+
+		private void checkBoxDeadSpaceXJump_CheckedChanged(object sender, EventArgs e)
+		{
+			_cursorModule.AllowDeadSpaceXJump = checkBoxDeadSpaceXJump.Checked;
+		}
+
+		private void checkBoxDeadSpaceYJump_CheckedChanged(object sender, EventArgs e)
+		{
+			_cursorModule.AllowDeadSpaceYJump = checkBoxDeadSpaceYJump.Checked;
 		}
 	}
 }

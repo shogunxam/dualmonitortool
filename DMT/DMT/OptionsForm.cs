@@ -57,6 +57,10 @@ namespace DMT
 			GetOptionNodes();
 			FillTree();
 			treeViewOptions.ExpandAll();
+
+			// make sure first item is selected and visible
+			// (without this it shows the bottom of the tree)
+			treeViewOptions.SelectedNode = treeViewOptions.Nodes[0];
 		}
 
 		private void OptionsForm_SizeChanged(object sender, EventArgs e)

@@ -48,6 +48,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlickrForm));
 			this.linkLabel = new System.Windows.Forms.LinkLabel();
 			this.checkBoxRandomPage = new System.Windows.Forms.CheckBox();
 			this.buttonCancel = new System.Windows.Forms.Button();
@@ -302,6 +303,7 @@ namespace DMT.Modules.WallpaperChanger.Plugins.Flickr
 			this.Controls.Add(this.numericUpDownWeight);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.pictureBox1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FlickrForm";
